@@ -64,7 +64,6 @@ public class SpecimenTest extends BaseSeleniumWebTest
         {
             // swallow any failures.
         }
-        try { deleteFolder(PROJECT_NAME, FOLDER_NAME); } catch (Throwable e) {}
         try { deleteProject(PROJECT_NAME); } catch (Throwable e) {}
     }
 
@@ -127,15 +126,15 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selenium.waitForPageToLoad("30000");
         selenium.select("providerActor", "label=IRB");
         selenium.type("providerDescription", "Providing IRB Approval");
-        selenium.click("//tr[2]/td[3]/input");
+        selenium.click("//input[@name='providerDescription']/../../td/input[@value='Add Requirement']");
         selenium.waitForPageToLoad("30000");
         selenium.select("receiverActor", "label=IRB");
         selenium.type("receiverDescription", "Receiving IRB Approval");
-        selenium.click("//tr[2]/td[3]/input");
+        selenium.click("//input[@name='receiverDescription']/../../td/input[@value='Add Requirement']");
         selenium.waitForPageToLoad("30000");
         selenium.select("generalActor", "label=SLG");
         selenium.type("generalDescription", "SLG Approval");
-        selenium.click("//tr[2]/td[3]/input");
+        selenium.click("//input[@name='generalDescription']/../../td/input[@value='Add Requirement']");
         selenium.waitForPageToLoad("30000");
         selenium.click("link=Manage Study");
         selenium.waitForPageToLoad("30000");
