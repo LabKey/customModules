@@ -20,7 +20,7 @@ import org.apache.commons.lang.time.FastDateFormat;
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
 
-import java.io.*;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -263,7 +263,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Setup");
         setFormElement("path", _studyDataRoot);
         submit();
-        clickNavButton("View Status");
+        clickLinkWithText("Pipeline");
 
         log("Starting import of specimen archive " + archivePath);
         File copiedArchive = new File(new File(getLabKeyRoot() + ARCHIVE_TEMP_DIR), FastDateFormat.getInstance("MMddHHmmss").format(new Date()) + ".specimens");
