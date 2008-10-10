@@ -126,15 +126,15 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selenium.waitForPageToLoad("30000");
         selenium.select("providerActor", "label=IRB");
         selenium.type("providerDescription", "Providing IRB Approval");
-        selenium.click("//input[@name='providerDescription']/../.." + Locator.navSubmitButton("Add Requirement").getPath());
+        selenium.click("//input[@name='providerDescription']/../.." + Locator.navButton("Add Requirement").getPath());
         selenium.waitForPageToLoad("30000");
         selenium.select("receiverActor", "label=IRB");
         selenium.type("receiverDescription", "Receiving IRB Approval");
-        selenium.click("//input[@name='receiverDescription']/../.." + Locator.navSubmitButton("Add Requirement").getPath());
+        selenium.click("//input[@name='receiverDescription']/../.." + Locator.navButton("Add Requirement").getPath());
         selenium.waitForPageToLoad("30000");
         selenium.select("generalActor", "label=SLG");
         selenium.type("generalDescription", "SLG Approval");
-        selenium.click("//input[@name='generalDescription']/../.." + Locator.navSubmitButton("Add Requirement").getPath());
+        selenium.click("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath());
         selenium.waitForPageToLoad("30000");
         selenium.click("link=Manage Study");
         selenium.waitForPageToLoad("30000");
