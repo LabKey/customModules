@@ -53,17 +53,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
     protected void doCleanup() throws Exception
     {
         _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
-        try
-        {
-            File tempDir = new File(getLabKeyRoot() + ARCHIVE_TEMP_DIR);
-            for (File file : tempDir.listFiles())
-                file.delete();
-            tempDir.delete();
-        }
-        catch (Exception e)
-        {
-            // swallow any failures.
-        }
+        File tempDir = new File(getLabKeyRoot() + ARCHIVE_TEMP_DIR);
+        for (File file : tempDir.listFiles())
+            file.delete();
+        tempDir.delete();
+
         try { deleteProject(PROJECT_NAME); } catch (Throwable e) {}
     }
 
