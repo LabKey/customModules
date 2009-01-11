@@ -183,11 +183,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selenium.click(".toggle");
         clickNavButton("Request Options", 0);
         clickLinkWithText("Add To Existing Request", false);
-        sleep(5000);
+        waitForText("Add 8 Vials to Request", 30000);
         clickNavButton("Add 8 Vials to Request", 0);
-        sleep(5000);
+        waitForText("successfully added to request", 30000);
         clickNavButton("OK", 0);
-        sleep(5000);
+        waitForText("Request Options", 30000);
         clickNavButton("Request Options", 0);
         clickLinkWithText("View Existing Requests");
         clickNavButton("Details");
