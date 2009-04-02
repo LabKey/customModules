@@ -69,7 +69,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         createProject(PROJECT_NAME);
         createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "Study", null);
         clickNavButton("Create Study");
-        click(Locator.checkboxByNameAndValue("simpleRepository", "false", true));
+        click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickNavButton("Create Study");
         clickLinkWithText("My Study");
         importSpecimenArchive(SPECIMEN_ARCHIVE);
