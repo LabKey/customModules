@@ -273,8 +273,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         clickNavButton("Process and Import Data");
         String tempDirShortName = ARCHIVE_TEMP_DIR.substring(ARCHIVE_TEMP_DIR.lastIndexOf('/') + 1);
-        clickLinkWithText(tempDirShortName);
-        clickNavButton("Import specimen data");
+        waitAndClick(Locator.fileTreeByName(tempDirShortName));
+        waitAndClickNavButton("Import specimen data");
         clickNavButton("Start Import");
 
         // Unfortunately isLinkWithTextPresent also picks up the "Errors" link in the header.
