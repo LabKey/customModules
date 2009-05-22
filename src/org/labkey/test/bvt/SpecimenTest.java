@@ -16,12 +16,10 @@
 
 package org.labkey.test.bvt;
 
-import org.apache.commons.lang.time.FastDateFormat;
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
 
 import java.io.File;
-import java.util.Date;
 
 /**
  * User: brittp
@@ -36,7 +34,6 @@ public class SpecimenTest extends BaseSeleniumWebTest
     private static final String ARCHIVE_TEMP_DIR = "/sampledata/study/drt_temp";
     private static final int MAX_WAIT_SECONDS = 4*60;
     private String _studyDataRoot = null;
-    private int _completedSpecimenImports = 0;
 
 
     public String getAssociatedModuleDirectory()
@@ -72,7 +69,14 @@ public class SpecimenTest extends BaseSeleniumWebTest
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickNavButton("Create Study");
         clickLinkWithText("My Study");
-        importSpecimenArchive(SPECIMEN_ARCHIVE);
+
+        clickLinkWithText("Data Pipeline");
+        clickNavButton("Setup");
+        setFormElement("path", _studyDataRoot);
+        submit();
+        clickLinkWithText("Pipeline");
+
+        importSpecimenArchive(new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), ARCHIVE_TEMP_DIR), FOLDER_NAME, 0);
 
         // specimen management setup
         selenium.click("link=My Study Study");
@@ -254,52 +258,5 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Request Options", 0);
         clickLinkWithText("Create New Request");
         clickNavButton("Cancel");
-    }
-
-
-    protected void importSpecimenArchive(String archivePath)
-    {
-        clickLinkWithText("Data Pipeline");
-        clickNavButton("Setup");
-        setFormElement("path", _studyDataRoot);
-        submit();
-        clickLinkWithText("Pipeline");
-
-        log("Starting import of specimen archive " + archivePath);
-        File copiedArchive = new File(new File(getLabKeyRoot() + ARCHIVE_TEMP_DIR), FastDateFormat.getInstance("MMddHHmmss").format(new Date()) + ".specimens");
-        File specimenArchive = new File(getLabKeyRoot() + archivePath);
-        // copy the file into its own directory
-        copyFile(specimenArchive, copiedArchive);
-
-        clickNavButton("Process and Import Data");
-        String tempDirShortName = ARCHIVE_TEMP_DIR.substring(ARCHIVE_TEMP_DIR.lastIndexOf('/') + 1);
-        waitAndClick(Locator.fileTreeByName(tempDirShortName));
-        waitAndClickNavButton("Import specimen data");
-        clickNavButton("Start Import");
-
-        // Unfortunately isLinkWithTextPresent also picks up the "Errors" link in the header.
-        startTimer();
-        while (countLinksWithText("COMPLETE") == 0 && !isLinkPresentWithText("ERROR") && elapsedSeconds() < MAX_WAIT_SECONDS)
-        {
-            log("Waiting for specimen import...");
-            sleep(1000);
-            refresh();
-        }
-        // Unfortunately assertNotLinkWithText also picks up the "Errors" link in the header.
-        assertLinkNotPresentWithText("ERROR");  // Must be surrounded by an anchor tag.
-        assertLinkPresentWithTextCount("COMPLETE", 1);
-        _completedSpecimenImports++;
-        copiedArchive.delete();
-    }
-
-    long start = 0;
-    private void startTimer()
-    {
-        start = System.currentTimeMillis();
-    }
-
-    private int elapsedSeconds()
-    {
-        return (int)((System.currentTimeMillis() - start) / 1000);
     }
 }
