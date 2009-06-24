@@ -238,7 +238,6 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selenium.click("link=Originating Location Specimen Lists");
         selenium.waitForPageToLoad("30000");
         assertTextPresent("KCMC, Moshi, Tanzania");
-        fail();
         clickNavButton("Cancel");
         selenium.click("link=Providing Location Specimen Lists");
         selenium.waitForPageToLoad("30000");
