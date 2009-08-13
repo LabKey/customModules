@@ -30,9 +30,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
     protected static final String FOLDER_NAME = "My Study";
-    private static final String SPECIMEN_ARCHIVE = "/sampledata/study/sample_a.specimens";
-    private static final String ARCHIVE_TEMP_DIR = "/sampledata/study/drt_temp";
-    private static final int MAX_WAIT_SECONDS = 4*60;
+    private static final String SPECIMEN_ARCHIVE = "/sampledata/study/specimens/sample_a.specimens";
+    private static final String SPECIMEN_TEMP_DIR = "/sampledata/study/drt_temp";
     private String _studyDataRoot = null;
 
 
@@ -50,7 +49,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
     protected void doCleanup() throws Exception
     {
         _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
-        File tempDir = new File(getLabKeyRoot() + ARCHIVE_TEMP_DIR);
+        File tempDir = new File(getLabKeyRoot() + SPECIMEN_TEMP_DIR);
         for (File file : tempDir.listFiles())
             file.delete();
         tempDir.delete();
@@ -76,7 +75,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         submit();
         clickLinkWithText("Pipeline");
 
-        importSpecimenArchive(new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), ARCHIVE_TEMP_DIR), FOLDER_NAME, 0);
+        importSpecimenArchive(new File(_studyDataRoot), new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), SPECIMEN_TEMP_DIR), FOLDER_NAME, 0);
 
         // specimen management setup
         selenium.click("link=My Study Study");
