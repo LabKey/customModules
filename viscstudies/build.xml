@@ -1,0 +1,30 @@
+<project name="viscstudies" basedir="." default="deploy">
+
+  <property name="project.root" value="../../.."/>
+  <property name="deploy.modules.dir" value="${project.root}/build/deploy/modules"/>
+  <property name="staging.modules.dir" value="${project.root}/build/staging/modules"/>
+  <property  name="assembledModule" value="${staging.modules.dir}/viscstudies.module"/>
+
+  <target name="build">
+      <uptodate property="moduleUpToDate" targetfile="${assembledModule}">
+          <srcfiles dir="${basedir}/viscstudies" />
+      </uptodate>
+      <antcall target="sub_build"/>
+  </target>
+
+
+    <target  name="sub_build" unless="moduleUpToDate">
+        <jar jarfile="${assembledModule}">
+          <fileset dir="viscstudies">
+            <include name="**/*"/>
+          </fileset>
+        </jar>
+    </target>
+
+  <target name="deploy" depends="build">
+      <copy todir="${deploy.modules.dir}" >
+          <fileset file="${assembledModule}"/>
+      </copy>
+  </target>
+
+</project>

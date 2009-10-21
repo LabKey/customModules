@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="moduleBean" class="org.labkey.api.module.SimpleModule">
+        <constructor-arg index="0"><value type="java.lang.String">viscstudies</value> </constructor-arg>
+        <property name="name" value="viscstudies"/>
+        <property name="version" value="0.1"/>
+        <property name="requiredServerVersion" value="9.2"/>
+    </bean>
+</beans>

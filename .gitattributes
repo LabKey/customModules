@@ -1,1 +1,10 @@
 * text=auto !eol
+viscstudies/build.xml -text
+viscstudies/viscstudies.iml -text
+viscstudies/viscstudies.ipr -text
+viscstudies/viscstudies.iws -text
+viscstudies/viscstudies/config/module.xml -text
+viscstudies/viscstudies/views/studydesigns.html -text
+viscstudies/viscstudies/web/viscstudies/study.js -text
+viscstudies/viscstudies/web/viscstudies/syringe2.jpg -text
+viscstudies/viscstudies/web/viscstudies/syringeSmall.gif -text
