@@ -50,10 +50,12 @@ public class SpecimenTest extends BaseSeleniumWebTest
     {
         _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
         File tempDir = new File(getLabKeyRoot() + SPECIMEN_TEMP_DIR);
-        for (File file : tempDir.listFiles())
-            file.delete();
-        tempDir.delete();
-
+        if (tempDir.exists())
+        {
+            for (File file : tempDir.listFiles())
+                file.delete();
+            tempDir.delete();
+        }
         try { deleteProject(PROJECT_NAME); } catch (Throwable e) {}
     }
 
