@@ -140,9 +140,9 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selenium.click("link=Manage New Request Form");
         selenium.waitForPageToLoad("30000");
         clickNavButton("Add New Input", 0);
-        selenium.type("document.forms[0].title[3]", "Last One");
-        selenium.type("document.forms[0].helpText[3]", "A test input");
-        selenium.click("document.forms[0].required[3]");
+        selenium.type("//descendant::input[@name='title'][4]", "Last One");
+        selenium.type("//descendant::input[@name='helpText'][4]", "A test input");
+        selenium.click("//descendant::input[@name='required'][4]");
         clickNavButton("Save");
         selenium.waitForPageToLoad("30000");
         selenium.click("link=My Study Study");
