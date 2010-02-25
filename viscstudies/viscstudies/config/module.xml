@@ -6,7 +6,7 @@
     <bean id="moduleBean" class="org.labkey.api.module.SimpleModule">
         <constructor-arg index="0"><value type="java.lang.String">viscstudies</value> </constructor-arg>
         <property name="name" value="viscstudies"/>
-        <property name="version" value="0.1"/>
+        <property name="version" value="10.09"/>
         <property name="requiredServerVersion" value="9.2"/>
     </bean>
 </beans>
