@@ -18,6 +18,8 @@ package org.labkey.test.bvt;
 
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
+import org.labkey.test.util.ExtHelper;
+import org.labkey.test.util.PasswordUtil;
 
 import java.io.File;
 
@@ -33,6 +35,10 @@ public class SpecimenTest extends BaseSeleniumWebTest
     private static final String SPECIMEN_ARCHIVE = "/sampledata/study/specimens/sample_a.specimens";
     private static final String SPECIMEN_TEMP_DIR = "/sampledata/study/drt_temp";
     private String _studyDataRoot = null;
+    private static final String STUDY_NAME = "My Study Study";
+    private static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Repository)";
+    private static final String USER1 = "user1@specimen.test";
+    private static final String USER2 = "user2@specimen.test";
 
 
     public String getAssociatedModuleDirectory()
@@ -65,6 +71,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
         _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
 
         createProject(PROJECT_NAME);
+        enableModule(PROJECT_NAME, "Dumbster");
+        addWebPart("Mail Record");
+        uncheckCheckbox("emailRecordOn");
+        checkCheckbox("emailRecordOn");
+
         createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "Study", null);
         clickNavButton("Create Study");
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
@@ -80,98 +91,80 @@ public class SpecimenTest extends BaseSeleniumWebTest
         importer.importAndWaitForComplete();
 
         // specimen management setup
-        selenium.click("link=My Study Study");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Manage Statuses");
-        selenium.waitForPageToLoad("30000");
-        selenium.type("newLabel", "New Request");
+        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText("Manage Statuses");
+        setFormElement("newLabel", "New Request");
         clickNavButton("Save");
-        selenium.waitForPageToLoad("30000");
-        selenium.type("newLabel", "Processing");
+        setFormElement("newLabel", "Processing");
         clickNavButton("Save");
-        selenium.waitForPageToLoad("30000");
-        selenium.type("newLabel", "Completed");
-        selenium.click("newFinalState");
+        setFormElement("newLabel", "Completed");
+        checkCheckbox("newFinalState");
         clickNavButton("Save");
-        selenium.waitForPageToLoad("30000");
-        selenium.type("newLabel", "Rejected");
-        selenium.click("newFinalState");
-        selenium.click("newSpecimensLocked");
+        setFormElement("newLabel", "Rejected");
+        checkCheckbox("newFinalState");
+        uncheckCheckbox("newSpecimensLocked");
         clickNavButton("Done");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Manage Actors and Groups");
-        selenium.waitForPageToLoad("30000");
-        selenium.type("newLabel", "SLG");
-        selenium.select("newPerSite", "label=One Per Study");
+
+        clickLinkWithText("Manage Actors and Groups");
+        setFormElement("newLabel", "SLG");
+        selectOptionByText("newPerSite", "One Per Study");
         clickNavButton("Save");
-        selenium.waitForPageToLoad("30000");
-        selenium.type("newLabel", "IRB");
-        selenium.select("newPerSite", "label=Multiple Per Study (Location Affiliated)");
-        clickNavButton("Save");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Update Members");
-        selenium.waitForPageToLoad("30000");
+        clickLinkWithText("Update Members");
+        setText("names", USER2);
+        uncheckCheckbox("sendEmail");
         clickNavButton("Update Members");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("//a[contains(@href, 'manageActors.view?showMemberSites')]");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=My Study Study");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Manage Default Requirements");
-        selenium.waitForPageToLoad("30000");
-        selenium.select("originatorActor", "label=IRB");
-        selenium.type("originatorDescription", "Originating IRB Approval");
-        clickNavButton("Add Requirement");
-        selenium.waitForPageToLoad("30000");
-        selenium.select("providerActor", "label=IRB");
-        selenium.type("providerDescription", "Providing IRB Approval");
-        selenium.click("//input[@name='providerDescription']/../.." + Locator.navButton("Add Requirement").getPath());
-        selenium.waitForPageToLoad("30000");
-        selenium.select("receiverActor", "label=IRB");
-        selenium.type("receiverDescription", "Receiving IRB Approval");
-        selenium.click("//input[@name='receiverDescription']/../.." + Locator.navButton("Add Requirement").getPath());
-        selenium.waitForPageToLoad("30000");
-        selenium.select("generalActor", "label=SLG");
-        selenium.type("generalDescription", "SLG Approval");
-        selenium.click("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath());
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Manage Study");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Manage New Request Form");
-        selenium.waitForPageToLoad("30000");
-        clickNavButton("Add New Input", 0);
-        selenium.type("//descendant::input[@name='title'][4]", "Last One");
-        selenium.type("//descendant::input[@name='helpText'][4]", "A test input");
-        selenium.click("//descendant::input[@name='required'][4]");
+        setFormElement("newLabel", "IRB");
+        selectOptionByText("newPerSite", "Multiple Per Study (Location Affiliated)");
         clickNavButton("Save");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=My Study Study");
-        selenium.waitForPageToLoad("30000");
+        clickLinkWithText("Update Members", 1);
+        clickLinkWithText(DESTINATION_SITE);
+        setText("names", USER1);
+        uncheckCheckbox("sendEmail");
+        clickLinkWithText("Update Members");
+        clickLinkWithText(STUDY_NAME);
+
+        clickLinkWithText("Manage Default Requirements");
+        selectOptionByText("originatorActor", "IRB");
+        setFormElement("originatorDescription", "Originating IRB Approval");
+        clickNavButton("Add Requirement");
+        selectOptionByText("providerActor", "IRB");
+        setFormElement("providerDescription", "Providing IRB Approval");
+        clickLink(Locator.xpath("//input[@name='providerDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
+        selectOptionByText("receiverActor", "IRB");
+        setFormElement("receiverDescription", "Receiving IRB Approval");
+        clickLink(Locator.xpath("//input[@name='receiverDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
+        selectOptionByText("generalActor", "SLG");
+        setFormElement("generalDescription", "SLG Approval");
+        clickLink(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
+        clickLinkWithText("Manage Study");
+        
+        clickLinkWithText("Manage New Request Form");
+        clickNavButton("Add New Input", 0);
+        setFormElement("//descendant::input[@name='title'][4]", "Last One");
+        setFormElement("//descendant::input[@name='helpText'][4]", "A test input");
+        click(Locator.xpath("//descendant::input[@name='required'][4]"));
+        clickNavButton("Save");
+        clickLinkWithText(STUDY_NAME);
 
         // create request
-        selenium.click("link=Plasma, Unknown Processing");
-        selenium.waitForPageToLoad("30000");
-        selenium.click(".toggle");
-        clickNavButton("Request Options", 0);
-        clickLinkWithText("Create New Request");
-        selenium.waitForPageToLoad("30000");
-        selenium.select("destinationSite", "label=Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
-        selenium.type("input0", "Assay Plan");
-        selenium.type("input2", "Comments");
-        selenium.type("input1", "Shipping");
+        clickLinkWithText("Plasma, Unknown Processing");
+        checkCheckbox(".toggle");
+        clickMenuButton("Request Options", "Create New Request");
+        selectOptionByText("destinationSite", "Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
+        setFormElement("input0", "Assay Plan");
+        setFormElement("input2", "Comments");
+        setFormElement("input1", "Shipping");
         clickNavButton("Create and View Details");
-        selenium.waitForPageToLoad("30000");
         assertTextPresent("Please provide all required input.");
-        selenium.type("input3", "sample last one input");
+        setFormElement("input3", "sample last one input");
         clickNavButton("Create and View Details");
-        selenium.waitForPageToLoad("30000");
         assertTextPresent("sample last one input");
         assertTextPresent("IRB");
         assertTextPresent("KCMC, Moshi, Tanzania");
         assertTextPresent("Originating IRB Approval");
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
         assertTextPresent("Providing IRB Approval");
-        assertTextPresent("Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
+        assertTextPresent(DESTINATION_SITE);
         assertTextPresent("Receiving IRB Approval");
         assertTextPresent("SLG");
         assertTextPresent("SLG Approval");
@@ -179,31 +172,25 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // verify that the swab specimen isn't present yet
         assertTextNotPresent("DAA07YGW-01");
         assertTextNotPresent("Complete");
-        selenium.click("link=My Study Study");
-        selenium.waitForPageToLoad("30000");
+        clickLinkWithText(STUDY_NAME);
 
         // add additional specimens
-        selenium.click("link=Swab");
-        selenium.waitForPageToLoad("30000");
-        selenium.click(".toggle");
-        clickNavButton("Request Options", 0);
-        clickLinkWithText("Add To Existing Request", false);
-        sleep(15000);
+        clickLinkWithText("Swab");
+        checkCheckbox(".toggle");
+        clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
+        ExtHelper.waitForExtDialog(this, "Request Vial", WAIT_FOR_JAVASCRIPT);
         clickNavButton("Add 8 Vials to Request", 0);
-        sleep(15000);
+        ExtHelper.waitForExtDialog(this, "Success", WAIT_FOR_JAVASCRIPT * 5);
         clickNavButton("OK", 0);
-        sleep(15000);
-        clickNavButton("Request Options", 0);
-        clickLinkWithText("View Existing Requests");
+        clickMenuButton("Request Options", "View Existing Requests");
         clickNavButton("Details");
-        selenium.waitForPageToLoad("30000");
         assertTextPresent("sample last one input");
         assertTextPresent("IRB");
         assertTextPresent("KCMC, Moshi, Tanzania");
         assertTextPresent("Originating IRB Approval");
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
         assertTextPresent("Providing IRB Approval");
-        assertTextPresent("Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
+        assertTextPresent(DESTINATION_SITE);
         assertTextPresent("Receiving IRB Approval");
         assertTextPresent("SLG");
         assertTextPresent("SLG Approval");
@@ -219,44 +206,64 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent("New Request");
 
         // modify request
-        selenium.select("newActor", "label=SLG");
-        selenium.type("newDescription", "Other SLG Approval");
+        selectOptionByText("newActor", "SLG");
+        setFormElement("newDescription", "Other SLG Approval");
         clickNavButton("Add Requirement");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("//a[contains(@href, 'manageRequirement.view')]");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("complete");
+        clickLinkWithText("Details");
+        checkCheckbox("complete");
+        checkCheckbox("notificationIdPairs");
+        checkCheckbox("notificationIdPairs", 1);
         clickNavButton("Save Changes and Send Notifications");
-        selenium.waitForPageToLoad("30000");
         assertTextPresent("Complete");
 
         // verify views
-        selenium.click("link=View History");
-        selenium.waitForPageToLoad("30000");
+        clickLinkWithText("View History");
         assertTextPresent("Request submitted for processing.");
-        selenium.click("link=View Request");
-        selenium.waitForPageToLoad("30000");
-        selenium.click("link=Originating Location Specimen Lists");
-        selenium.waitForPageToLoad("30000");
+        assertTextPresent("Notification Sent", 2);  assertTextPresent(USER1); assertTextPresent(USER2);
+        clickLinkWithText("View Request");
+        clickLinkWithText("Originating Location Specimen Lists");
         assertTextPresent("KCMC, Moshi, Tanzania");
-        clickNavButton("Cancel");
-        selenium.click("link=Providing Location Specimen Lists");
-        selenium.waitForPageToLoad("30000");
+        checkCheckbox("notify");
+        checkCheckbox("notify", 4);
+        checkCheckbox("sendXls");
+        checkCheckbox("sendTsv");
+        clickNavButton("Send Email");
+        clickLinkWithText("Providing Location Specimen Lists");
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
         clickNavButton("Cancel");
         // cancel request
-        selenium.click("link=Update Status");
-        selenium.waitForPageToLoad("30000");
-        selenium.select("status", "label=Not Yet Submitted");
+        clickLinkWithText("Update Status");
+        selectOptionByText("status", "Not Yet Submitted");
         clickNavButton("Save Changes and Send Notifications");
         clickNavButton("Cancel Request");
         assertTrue(selenium.getConfirmation().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
-        clickLinkWithText("My Study Study");
+        clickLinkWithText(STUDY_NAME);
         clickLinkWithText("Swab");
-        selenium.click(".toggle");
-        clickNavButton("Request Options", 0);
-        clickLinkWithText("Create New Request");
+        checkCheckbox(".toggle");
+        clickMenuButton("Request Options", "Create New Request");
         clickNavButton("Cancel");
+
+        log("Check notification emails");
+        clickLinkWithText(PROJECT_NAME);
+        assertTextPresent("Specimen Request Notification", 4);
+        assertTextPresent(USER1, 2);
+        assertTextPresent(USER2, 2);
+
+        log("Check for correct data in notification emails");
+        if ( getTableCellText("dataregion_EmailRecord", 3, 0).equals(USER1))
+        {
+            clickLinkContainingText("Specimen Request Notification", 1, false);
+            assertTextNotPresent("Swab");
+            clickLinkContainingText("Specimen Request Notification", false);
+            assertTextPresent("Swab");
+        }
+        else
+        {
+            clickLinkContainingText("Specimen Request Notification", false);
+            assertTextNotPresent("Swab");
+            clickLinkContainingText("Specimen Request Notification", 1, false);
+            assertTextPresent("Swab");
+        }
     }
 }
