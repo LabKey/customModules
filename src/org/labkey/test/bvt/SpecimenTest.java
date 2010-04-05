@@ -251,7 +251,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent(USER2, 2);
 
         log("Check for correct data in notification emails");
-        if ( getTableCellText("dataregion_EmailRecord", 3, 1).equals(USER1))
+        if ( getTableCellText("dataregion_EmailRecord", 3, 0).equals(USER1))
         {
             clickLinkContainingText("Specimen Request Notification", 1, false);
             assertTextNotPresent("Swab");
