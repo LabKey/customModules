@@ -39,6 +39,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
     private static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Repository)";
     private static final String USER1 = "user1@specimen.test";
     private static final String USER2 = "user2@specimen.test";
+    private String SPECIMEN1 = "";
+    private String SPECIMEN2 = "";
 
 
     public String getAssociatedModuleDirectory()
@@ -110,7 +112,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selectOptionByText("newPerSite", "One Per Study");
         clickNavButton("Save");
         clickLinkWithText("Update Members");
-        setText("names", USER2);
+        setText("names", USER1);
         uncheckCheckbox("sendEmail");
         clickNavButton("Update Members");
         setFormElement("newLabel", "IRB");
@@ -118,7 +120,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Save");
         clickLinkWithText("Update Members", 1);
         clickLinkWithText(DESTINATION_SITE);
-        setText("names", USER1);
+        setText("names", USER2);
         uncheckCheckbox("sendEmail");
         clickLinkWithText("Update Members");
         clickLinkWithText(STUDY_NAME);
@@ -219,12 +221,16 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // verify views
         clickLinkWithText("View History");
         assertTextPresent("Request submitted for processing.");
-        assertTextPresent("Notification Sent", 2);  assertTextPresent(USER1); assertTextPresent(USER2);
+        assertTextPresent("Notification Sent", 2);
+        assertTextPresent(USER1);
+        assertTextPresent(USER2);
         clickLinkWithText("View Request");
         clickLinkWithText("Originating Location Specimen Lists");
         assertTextPresent("KCMC, Moshi, Tanzania");
         checkCheckbox("notify");
+        SPECIMEN1 = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
         checkCheckbox("notify", 4);
+        SPECIMEN2 = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
         checkCheckbox("sendXls");
         checkCheckbox("sendTsv");
         clickNavButton("Send Email");
@@ -253,17 +259,19 @@ public class SpecimenTest extends BaseSeleniumWebTest
         log("Check for correct data in notification emails");
         if ( getTableCellText("dataregion_EmailRecord", 3, 0).equals(USER1))
         {
-            clickLinkContainingText("Specimen Request Notification", 1, false);
-            assertTextNotPresent("Swab");
             clickLinkContainingText("Specimen Request Notification", false);
-            assertTextPresent("Swab");
+            assertTextPresent(SPECIMEN1);
+            assertTextNotPresent(SPECIMEN2);
+            clickLinkContainingText("Specimen Request Notification", 1, false);
+            assertTextPresent(SPECIMEN2);
         }
         else
         {
             clickLinkContainingText("Specimen Request Notification", false);
-            assertTextNotPresent("Swab");
+            assertTextPresent(SPECIMEN2);
+            assertTextNotPresent(SPECIMEN1);
             clickLinkContainingText("Specimen Request Notification", 1, false);
-            assertTextPresent("Swab");
+            assertTextPresent(SPECIMEN1);
         }
     }
 }
