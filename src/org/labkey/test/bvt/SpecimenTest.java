@@ -181,6 +181,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
         ExtHelper.waitForExtDialog(this, "Request Vial", WAIT_FOR_JAVASCRIPT);
+        sleep(10000); //TODO: Determine which specific element to wait for.
         clickNavButton("Add 8 Vials to Request", 0);
         ExtHelper.waitForExtDialog(this, "Success", WAIT_FOR_JAVASCRIPT * 5);
         clickNavButton("OK", 0);
