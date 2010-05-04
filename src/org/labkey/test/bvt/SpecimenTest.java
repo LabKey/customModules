@@ -203,8 +203,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // submit request
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
-        clickNavButton("Submit Request");
-        assertTrue(selenium.getConfirmation().matches("^Once a request is submitted, its specimen list may no longer be modified\\.  Continue[\\s\\S]$"));
+        clickNavButton("Submit Request", 0);
+        assertTrue(getConfirmationAndWait().matches("^Once a request is submitted, its specimen list may no longer be modified\\.  Continue[\\s\\S]$"));
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
 
@@ -243,7 +243,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selectOptionByText("status", "Not Yet Submitted");
         clickNavButton("Save Changes and Send Notifications");
         clickNavButton("Cancel Request");
-        assertTrue(selenium.getConfirmation().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
+        assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
         clickLinkWithText(STUDY_NAME);
         clickLinkWithText("Swab");
