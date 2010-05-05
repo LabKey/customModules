@@ -242,7 +242,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("Update Status");
         selectOptionByText("status", "Not Yet Submitted");
         clickNavButton("Save Changes and Send Notifications");
-        clickNavButton("Cancel Request");
+        clickNavButton("Cancel Request", 0);
         assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
         clickLinkWithText(STUDY_NAME);
