@@ -84,7 +84,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Create Study");
         clickLinkWithText("My Study");
 
-        clickLinkWithText("Data Pipeline");
+        clickLinkWithText("Manage Files");
         clickNavButton("Setup");
         setPipelineRoot(_studyDataRoot);
         clickLinkWithText("Pipeline");
