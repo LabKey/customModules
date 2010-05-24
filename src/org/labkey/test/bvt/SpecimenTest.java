@@ -84,10 +84,9 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Create Study");
         clickLinkWithText("My Study");
 
-        clickLinkWithText("Manage Files");
-        clickNavButton("Setup");
         setPipelineRoot(_studyDataRoot);
-        clickLinkWithText("Pipeline");
+        clickLinkWithText("My Study");
+        clickLinkWithText("Manage Files");
 
         SpecimenImporter importer = new SpecimenImporter(new File(_studyDataRoot), new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), SPECIMEN_TEMP_DIR), FOLDER_NAME, 1);
         importer.importAndWaitForComplete();
