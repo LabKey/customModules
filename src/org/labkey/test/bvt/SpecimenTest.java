@@ -252,9 +252,9 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         log("Check notification emails");
         clickLinkWithText(PROJECT_NAME);
-        assertTextPresent("Specimen Request Notification", 4);
-        assertTextPresent(USER1, 2);
-        assertTextPresent(USER2, 2);
+        assertTextPresent("Specimen Request Notification", 8);
+        assertTextPresent(USER1, 4);
+        assertTextPresent(USER2, 4);
 
         log("Check for correct data in notification emails");
         if ( getTableCellText("dataregion_EmailRecord", 3, 0).equals(USER1))
