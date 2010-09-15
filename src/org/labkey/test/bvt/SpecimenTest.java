@@ -45,7 +45,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
     public String getAssociatedModuleDirectory()
     {
-        return "study";
+        return "server/modules/study";
     }
 
     @Override
