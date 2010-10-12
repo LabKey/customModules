@@ -39,6 +39,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
     private static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Repository)";
     private static final String USER1 = "user1@specimen.test";
     private static final String USER2 = "user2@specimen.test";
+    private static final String REQUESTABILITY_QUERY = "RequestabilityRule";
+    private static final String UNREQUESTABLE_SAMPLE = "BAA07XNP-02";
     private String SPECIMEN1 = "";
     private String SPECIMEN2 = "";
 
@@ -82,6 +84,44 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Create Study");
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickNavButton("Create Study");
+
+        // Create custom query to test requestability rules.
+        goToSchemaBrowser();
+        selectQuery("study", "SpecimenDetail");
+        clickButton("Create New Query");
+        setFormElement("ff_newQueryName", REQUESTABILITY_QUERY);
+        clickLinkWithText("Create and Edit Source");
+        toggleQueryEditors();
+        setFormElement("ff_queryText",
+                "SELECT \n" +
+                "SpecimenDetail.GlobalUniqueId AS GlobalUniqueId\n" +
+                "FROM SpecimenDetail\n" +
+                "WHERE SpecimenDetail.GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
+        clickNavButton("Save");
+
+        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText("Manage Study");
+        clickLinkWithText("Manage Requestability Rules");
+        // Verify that LOCKED_IN_REQUEST is the last rule
+        assertElementPresent(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
+        mouseDown(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
+        // Verify that LOCKED_IN_REQUEST rule cannot be moved or deleted
+        assertElementPresent(Locator.xpath("//table[@id='btn_deleteEngine' and contains(@class, 'x-item-disabled')]"));
+        assertElementPresent(Locator.xpath("//table[@id='btn_moveUp' and contains(@class, 'x-item-disabled')]"));
+        assertElementPresent(Locator.xpath("//table[@id='btn_moveDown' and contains(@class, 'x-item-disabled')]"));
+        mouseDown(Locator.xpath("//div[contains(@class, 'x-grid3-col-numberer') and text()='2']"));
+        assertElementPresent(Locator.xpath("//table[@id='btn_deleteEngine' and not(contains(@class, 'x-item-disabled'))]"));
+        assertElementPresent(Locator.xpath("//table[@id='btn_moveUp' and not(contains(@class, 'x-item-disabled'))]"));
+        assertElementPresent(Locator.xpath("//table[@id='btn_moveDown' and contains(@class, 'x-item-disabled')]"));
+        clickButton("Add Rule", 0);
+        click(Locator.menuItem("Custom Query"));
+        ExtHelper.selectComboBoxItem(this, Locator.xpath("//div[@id='x-form-el-userQuery_schema']"), "study" );
+        ExtHelper.selectComboBoxItem(this, Locator.xpath("//div[@id='x-form-el-userQuery_query']"), REQUESTABILITY_QUERY );
+        ExtHelper.selectComboBoxItem(this, Locator.xpath("//div[@id='x-form-el-userQuery_action']"), "Unavailable" );
+        clickButton("Submit",0);
+        clickButton("Save");
+        
+
         clickLinkWithText("My Study");
 
         setPipelineRoot(_studyDataRoot);
@@ -149,6 +189,10 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         // create request
         clickLinkWithText("Plasma, Unknown Processing");
+        // Verify unavailable sample
+        assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
+        assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'an administrator has overridden its availability status.')]"));
+        assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'Unavailable based on Custom Query: study." + REQUESTABILITY_QUERY + ".')]"));
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
         selectOptionByText("destinationSite", "Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
@@ -170,6 +214,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent("SLG");
         assertTextPresent("SLG Approval");
         assertTextPresent("BAA07XNP-01");
+        assertTextNotPresent(UNREQUESTABLE_SAMPLE);
         // verify that the swab specimen isn't present yet
         assertTextNotPresent("DAA07YGW-01");
         assertTextNotPresent("Complete");
