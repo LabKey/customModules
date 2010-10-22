@@ -14,8 +14,8 @@ function getStudyDesigns(config)
     Ext.Ajax.request({
         url : LABKEY.ActionURL.buildURL('study-designer', 'getStudyDesigns', config.containerPath, params),
         method : 'GET',
-        success: LABKEY.Utils.getCallbackWrapper(config.successCallback, config.scope),
-        failure: LABKEY.Utils.getCallbackWrapper(config.errorCallback, config.scope, true)
+        success: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnSuccess(config), config.scope),
+        failure: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnFailure(config), config.scope, true)
     });
 
     LABKEY.Security.getUserPermissions({userId:LABKEY.Security.currentUser.id,
