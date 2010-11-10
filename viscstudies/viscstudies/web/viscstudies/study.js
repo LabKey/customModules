@@ -158,18 +158,18 @@ function graphicalVaccinationSummary(design)
     var ZERO_OFFSET = 150;
     var imgSrc = LABKEY.contextPath + "/viscstudies/syringeSmall.gif";
     var left = Ext.get("result").getLeft();
-    html += "<div style='height:20'><span style='position:absolute;white-space:nowrap;width:150;overflow:hidden'><b>Week</b></span>";
+    html += "<div style='height:20px'><span style='position:absolute;white-space:nowrap;width:150px;overflow:hidden'><b>Week</b></span>";
     for (var tpi = 0; tpi < timepoints.length; tpi++)
     {
         var week = Math.round(timepoints[tpi].days / 7);
          var iconLeft = left + ZERO_OFFSET + (week * 7 * PIXELS_PER_DAY )- (IMG_WIDTH /2);
-        html += "<span style='position:absolute;left:" + iconLeft + "'>" + week + "</span>";
+        html += "<span style='position:absolute;left:" + iconLeft + "px'>" + week + "</span>";
     }
     html += "</div>";
 
     for (var ci = 0; ci < design.cohorts.length; ci++)
     {
-        html += "<div style='height:20'><span style='position:absolute;white-space:nowrap;width:150;overflow:hidden'><b>" + h(design.cohorts[ci].name) + "</b> (" + design.cohorts[ci].count  + ")" + "</span>";
+        html += "<div style='height:20px'><span style='position:absolute;white-space:nowrap;width:150px;overflow:hidden'><b>" + h(design.cohorts[ci].name) + "</b> (" + design.cohorts[ci].count  + ")" + "</span>";
         for (var tpi = 0; tpi < timepoints.length; tpi++)
         {
             var vaccination = findVaccination(design, design.cohorts[ci], timepoints[tpi]);
@@ -181,8 +181,8 @@ function graphicalVaccinationSummary(design)
                 if (vaccination.adjuvants)
                     components = components.concat(vaccination.adjuvants);
                 var iconLeft = left + ZERO_OFFSET + (vaccination.timepoint.days * PIXELS_PER_DAY )- (IMG_WIDTH /2);
-                html += "<span style='position:absolute;left:" + iconLeft + "'><img src='" + imgSrc + "' title='" + vaccination.timepoint.days + " days, " + h(components.join(" | ")) + "'>"
-                        + "<div style='display:inline;position:absolute;height:12px;background:white;width:500;left:" + (IMG_WIDTH) + "'>" +  components.join(" | ") + "</div>" 
+                html += "<span style='position:absolute;left:" + iconLeft + "px'><img src='" + imgSrc + "' title='" + vaccination.timepoint.days + " days, " + h(components.join(" | ")) + "'>"
+                        + "<div style='display:inline;position:absolute;height:12px;background:white;width:500px;left:" + (IMG_WIDTH) + "px'>" +  components.join(" | ") + "</div>"
                         +"</span>";
             }
         }
