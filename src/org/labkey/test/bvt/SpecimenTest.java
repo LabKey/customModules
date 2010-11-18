@@ -283,7 +283,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
         clickNavButton("Cancel");
         // cancel request
-        clickLinkWithText("Update Status");
+        clickLinkWithText("Update Request");
         selectOptionByText("status", "Not Yet Submitted");
         clickNavButton("Save Changes and Send Notifications");
         clickNavButton("Cancel Request", 0);
