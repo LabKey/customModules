@@ -75,10 +75,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
         _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
 
         createProject(PROJECT_NAME);
-        enableModule(PROJECT_NAME, "Dumbster");
-        addWebPart("Mail Record");
-        uncheckCheckbox("emailRecordOn");
-        checkCheckbox("emailRecordOn");
+
+        enableEmailRecorder();
 
         createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "Study", null);
         clickNavButton("Create Study");
@@ -296,7 +294,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Cancel");
 
         log("Check notification emails");
-        clickLinkWithText(PROJECT_NAME);
+        goToModule("Dumbster");
         assertTextPresent("Specimen Request Notification", 8);
         assertTextPresent(USER1, 4);
         assertTextPresent(USER2, 4);
