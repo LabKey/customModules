@@ -89,13 +89,14 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickButton("Create New Query");
         setFormElement("ff_newQueryName", REQUESTABILITY_QUERY);
         clickLinkWithText("Create and Edit Source");
-        toggleQueryEditors();
-        setFormElement("ff_queryText",
+        toggleSQLQueryEditor();
+        setFormElement("queryText",
                 "SELECT \n" +
                 "SpecimenDetail.GlobalUniqueId AS GlobalUniqueId\n" +
                 "FROM SpecimenDetail\n" +
                 "WHERE SpecimenDetail.GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
-        clickNavButton("Save");
+        clickButton("Save", 0);
+        waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
         clickLinkWithText(STUDY_NAME);
         clickLinkWithText("Manage Study");
