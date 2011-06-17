@@ -41,8 +41,6 @@ public class SpecimenTest extends BaseSeleniumWebTest
     private static final String USER2 = "user2@specimen.test";
     private static final String REQUESTABILITY_QUERY = "RequestabilityRule";
     private static final String UNREQUESTABLE_SAMPLE = "BAA07XNP-02";
-    private String SPECIMEN1 = "";
-    private String SPECIMEN2 = "";
 
 
     public String getAssociatedModuleDirectory()
@@ -129,6 +127,25 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         SpecimenImporter importer = new SpecimenImporter(new File(_studyDataRoot), new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), SPECIMEN_TEMP_DIR), FOLDER_NAME, 1);
         importer.importAndWaitForComplete();
+
+        // Field check for Tube Type column (including conflict)
+        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText("By Vial");
+        setFilter("SpecimenDetail", "PrimaryType", "Is Blank");
+        // Verify that there's only one vial of unknown type:
+        assertLinkPresentWithTextCount("[history]", 1);
+        // There's a conflict in TubeType for this vial's events; verify that no TubeType is populated at the vial level
+        assertTextNotPresent("Cryovial");
+        clickLinkWithText("[history]");
+        // This vial has three events, each of which list a different tube type:
+        assertTextPresent("15ml Cryovial");
+        assertTextPresent("20ml Cryovial");
+        assertTextPresent("25ml Cryovial");
+        clickLinkWithText("Specimen Overview");
+        clickLinkWithText("Tear Flo Strips");
+        // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
+        assertLinkPresentWithTextCount("[history]", 3);
+        assertTextPresent("15ml Cryovial", 3);
 
         // specimen management setup
         clickLinkWithText(STUDY_NAME);
@@ -272,9 +289,9 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("Originating Location Specimen Lists");
         assertTextPresent("KCMC, Moshi, Tanzania");
         checkCheckbox("notify");
-        SPECIMEN1 = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
+        String specimen1 = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
         checkCheckbox("notify", 4);
-        SPECIMEN2 = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
+        String specimen2 = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
         checkCheckbox("sendXls");
         checkCheckbox("sendTsv");
         clickNavButton("Send Email");
@@ -304,18 +321,18 @@ public class SpecimenTest extends BaseSeleniumWebTest
         if ( getTableCellText("dataregion_EmailRecord", 2, 0).equals(USER1))
         {
             clickLinkContainingText("Specimen Request Notification", false);
-            assertTextPresent(SPECIMEN1);
-            assertTextNotPresent(SPECIMEN2);
+            assertTextPresent(specimen1);
+            assertTextNotPresent(specimen2);
             clickLinkContainingText("Specimen Request Notification", 1, false);
-            assertTextPresent(SPECIMEN2);
+            assertTextPresent(specimen2);
         }
         else
         {
             clickLinkContainingText("Specimen Request Notification", false);
-            assertTextPresent(SPECIMEN2);
-            assertTextNotPresent(SPECIMEN1);
+            assertTextPresent(specimen2);
+            assertTextNotPresent(specimen1);
             clickLinkContainingText("Specimen Request Notification", 1, false);
-            assertTextPresent(SPECIMEN1);
+            assertTextPresent(specimen1);
         }
     }
 }
