@@ -86,9 +86,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selectQuery("study", "SpecimenDetail");
         clickButton("Create New Query");
         setFormElement("ff_newQueryName", REQUESTABILITY_QUERY);
-        clickLinkWithText("Create and Edit Source");
-        toggleSQLQueryEditor();
-        setFormElement("queryText",
+        clickLinkWithText("Create and Edit Source");        
+        setQueryEditorValue("queryText",
                 "SELECT \n" +
                 "SpecimenDetail.GlobalUniqueId AS GlobalUniqueId\n" +
                 "FROM SpecimenDetail\n" +
