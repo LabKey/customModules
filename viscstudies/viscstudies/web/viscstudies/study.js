@@ -31,8 +31,6 @@ function getStudyDesigns(config)
                     }
                 }
             }
-            //Since export not currently working for non-users hide the link
-            //document.getElementById('exportLink').style.display = "none";
         }
     });
 }
@@ -520,18 +518,6 @@ function generateDesignSpreadsheet() {
 
         return immunogenName + " (no description found)";
     }
-}
-
-
-function showNabData()
-{
-    var studyNames = [];
-    for (var i = 0; i < _selectedStudies.length; i++)
-        studyNames.push(_selectedStudies[i].studyDefinition.name);
-
-    var queryName = _isViscUser ? "NabCombined" : "NabCombinedGuest";
-    var url = LABKEY.ActionURL.buildURL("query", "exportRowsExcel", null, {"query.queryName":queryName, "schemaName":"study","query.studyName~in":studyNames.join(";")});
-    window.open(url, "_blank");
 }
 
 function updateSummary(facet)
