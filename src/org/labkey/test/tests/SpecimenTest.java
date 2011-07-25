@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.labkey.test.bvt;
+package org.labkey.test.tests;
 
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
