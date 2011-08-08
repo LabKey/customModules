@@ -19,7 +19,6 @@ package org.labkey.test.tests;
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
 import org.labkey.test.util.ExtHelper;
-import org.labkey.test.util.PasswordUtil;
 
 import java.io.File;
 
@@ -41,6 +40,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
     private static final String USER2 = "user2@specimen.test";
     private static final String REQUESTABILITY_QUERY = "RequestabilityRule";
     private static final String UNREQUESTABLE_SAMPLE = "BAA07XNP-02";
+    private static final String[] PTIDS = {"999320396","999320812"};
 
 
     public String getAssociatedModuleDirectory()
@@ -132,6 +132,16 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         SpecimenImporter importer = new SpecimenImporter(new File(_studyDataRoot), new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), SPECIMEN_TEMP_DIR), FOLDER_NAME, 1);
         importer.importAndWaitForComplete();
+
+        clickLinkWithText("My Study");
+        clickLinkWithText("Manage Study");
+        clickLinkWithText("Manage Participant Groups");
+        log("Set up participant groups");
+        clickNavButton("Create", 0);
+        ExtHelper.waitForExtDialog(this, "Define Participant Group");
+        setFormElement("categoryLabel", "Category1");
+        setFormElement("categoryIdentifiers", PTIDS[0] + "," + PTIDS[1]);
+        ExtHelper.clickExtButton(this, "Define Participant Group", "Save", 0);
 
         // Field check for Tube Type column (including conflict)
         clickLinkWithText(STUDY_NAME);
@@ -315,6 +325,31 @@ public class SpecimenTest extends BaseSeleniumWebTest
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
         clickNavButton("Cancel");
+
+        log("check reports by participant group");
+        clickLinkWithText("My Study");
+        clickLinkWithText("Blood (Whole)");
+        clickLinkWithText("Reports");
+        clickNavButton("View"); // Summary Report
+        //Verify by vial count
+        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 38);
+        selectOptionByText("participantGroupFilter", "Category1");
+        clickNavButton("Refresh");
+        assertElementNotPresent(Locator.xpath("//a[number(text()) > 6]"));
+        assertElementPresent(Locator.xpath("//a[number(text()) <= 6]"), 8);
+        selectOptionByText("participantGroupFilter", "All Groups");
+        clickNavButton("Refresh");
+        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 38);
+        //Verify by ptid list
+        checkCheckbox("viewPtidList");
+        uncheckCheckbox("viewVialCount");
+        clickNavButton("Refresh");
+        assertLinkPresentWithTextCount(PTIDS[0], 3);
+        assertLinkPresentWithTextCount(PTIDS[1], 5);
+        selectOptionByText("participantGroupFilter", "Category1");
+        clickNavButton("Refresh");
+        assertLinkPresentWithTextCount(PTIDS[0], 3);
+        assertLinkPresentWithTextCount(PTIDS[1], 5);
 
         log("Check notification emails");
         goToModule("Dumbster");
