@@ -1,4 +1,24 @@
 * text=auto !eol
+hvtnFlow/build.xml -text
+hvtnFlow/hvtnFlow.iml -text
+hvtnFlow/module.properties -text
+hvtnFlow/module.template.xml -text
+hvtnFlow/src/config/module.xml -text
+hvtnFlow/src/queries/flow/AnalysisPlan001.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan002.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan003.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan004.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan006.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan007.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan009.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlanBase.query.xml -text
+hvtnFlow/src/queries/flow/AnalysisPlanBase.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlanTemplate.query.xml -text
+hvtnFlow/src/queries/flow/AnalysisPlanTemplate.sql -text
+hvtnFlow/src/queries/flow/PassFail.query.xml -text
+hvtnFlow/src/queries/flow/PassFail.sql -text
+hvtnFlow/src/queries/flow/PassFailDetails.query.xml -text
+hvtnFlow/src/queries/flow/PassFailDetails.sql -text
 viscstudies/build.xml -text
 viscstudies/viscstudies.iml -text
 viscstudies/viscstudies.ipr -text

@@ -1,0 +1,62 @@
+<query xmlns="http://labkey.org/data/xml/query" hidden="true">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="SCHARP" tableDbType="NOT_IN_DB">
+                <columns>
+
+                    <column columnName="Sample">
+                        <fk>
+                            <fkFolderPath></fkFolderPath>
+                            <fkTable>_SampleInclude</fkTable>
+                            <fkColumnName>Sample</fkColumnName>
+                        </fk>
+                    </column>
+
+                    <column columnName="SAMP_ORD">
+                        <columnTitle>SAMP_ORD</columnTitle>
+                    </column>
+
+                    <column columnName="PLT_TEMPLATE">
+                        <columnTitle>PLT_TEMPLATE</columnTitle>
+                    </column>
+
+                    <column columnName="WELL_ID">
+                        <columnTitle>WELL_ID</columnTitle>
+                    </column>
+
+                    <column columnName="VISITNO">
+                        <formatString>0.0</formatString>
+                    </column>
+
+                    <column columnName="PROTOCOL">
+                        <formatString>000.###</formatString>
+                    </column>
+
+                    <column columnName="PREFZCT">
+                        <formatString>0.0</formatString>
+                    </column>
+
+                    <column columnName="AnalysisResults">
+                        <fk>
+                            <fkFolderPath></fkFolderPath>
+                            <fkTable>AnalysisResults</fkTable>
+                            <fkColumnName>FCSAnalysis</fkColumnName>
+                        </fk>
+                    </column>
+
+                    <column columnName="DRAWDT">
+                        <formatString>MM/dd/yyyy</formatString>
+                    </column>
+
+                    <column columnName="TESTDT">
+                        <formatString>MM/dd/yyyy</formatString>
+                    </column>
+
+                    <column columnName="MODDT">
+                        <formatString>MM/dd/yyyy</formatString>
+                    </column>
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
