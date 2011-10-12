@@ -11,7 +11,9 @@ hvtnFlow/src/queries/flow/AnalysisPlan003.sql -text
 hvtnFlow/src/queries/flow/AnalysisPlan004.sql -text
 hvtnFlow/src/queries/flow/AnalysisPlan006.sql -text
 hvtnFlow/src/queries/flow/AnalysisPlan007.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan008.sql -text
 hvtnFlow/src/queries/flow/AnalysisPlan009.sql -text
+hvtnFlow/src/queries/flow/AnalysisPlan024.sql -text
 hvtnFlow/src/queries/flow/AnalysisPlanBase.query.xml -text
 hvtnFlow/src/queries/flow/AnalysisPlanBase.sql -text
 hvtnFlow/src/queries/flow/AnalysisPlanTemplate.query.xml -text
