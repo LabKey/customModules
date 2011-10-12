@@ -1,4 +1,5 @@
 * text=auto !eol
+hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/build.xml -text
 hvtnFlow/hvtnFlow.iml -text
 hvtnFlow/module.properties -text
