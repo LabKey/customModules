@@ -1,0 +1,27 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="EXPERIMENT NAME"/>
+        <column name="SampleOrder"/>
+        <column name="Sample/PTID"/>
+        <column name="Sample/VISITNO"/>
+        <column name="FCSAnalysis/FCSFile/Keyword/STIM"/>
+        <column name="FCSAnalysis/FCSFile/Keyword/Replicate"/>
+        <column name="CD4_Count"/>
+        <column name="CD8_Count"/>
+        <column name="CD4_Resp"/>
+        <column name="CD8_Resp"/>
+        <column name="negctrl"/>
+        <column name="sebctrl"/>
+        <column name="LO_SEB"/>
+        <column name="sebctrl"/>
+        <column name="sebctrl"/>
+        <column name="FCSAnalysis/FCSFile/Keyword/PLATE NAME"/>
+        <column name="FCSAnalysis/Flag"/>
+        <column name="FCSAnalysis/Sample/Flag"/>
+        <column name="FCSAnalysis/FCSFile/Flag"/>
+    </columns>
+    <sorts>
+        <sort column="Run"/>
+        <sort column="SampleOrder"/>
+    </sorts>
+</customView>

@@ -1,0 +1,22 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Key"/>
+<!--        <column name="Sample/PTID"/>
+        <column name="Sample/VISITNO"/>
+        <column name="SAMPLE/ASSAY ID"/> -->
+        <column name="Verdict"/>
+        <column name="Run"/>
+        <column name="EXPERIMENT NAME"/>
+        <column name="SampleOrder"/>
+        <column name="Sample"/>
+        <column name="FileCount"/>
+        <column name="negctl_CD4_Resp"/>
+        <column name="negctl_CD8_Resp"/>
+        <column name="sebctl_CD4_Resp"/>
+        <column name="sebctl_CD8_Resp"/>
+    </columns>
+    <sorts>
+        <sort column="Run"/>
+        <sort column="SampleOrder"/>
+    </sorts>
+</customView>

@@ -21,8 +21,6 @@ SELECT
   CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_Count END AS negctrl_CD8_Count,
   CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_Resp_Count END AS negctrl_CD4_Resp_Count,
   CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_Resp_Count END AS negctrl_CD8_Resp_Count,
---  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_Resp END AS negctrl_CD4_Resp,
---  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_Resp END AS negctrl_CD8_Resp,
   CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD4_Resp END AS sebctrl_CD4_Resp,
   CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD8_Resp END AS sebctrl_CD8_Resp,
   B.Run.Name||'-' ||B."EXPERIMENT NAME"||'-'||B.SampleOrder AS Key,

@@ -2,39 +2,50 @@
 EXPLAIN THIS HERE
 
  */
-SELECT Min(D.Key) AS Key,
-CASE WHEN (Count(D.LO_CD4) = 0 AND
- COUNT(D.LO_CD8) = 0 AND
- COUNT(D.LO_SEB) = 0 AND
- SUM(D.negctrl_CD4_Resp_Count)/SUM(D.negctrl_CD4_Count) <= 0.001 AND
- SUM(D.negctrl_CD8_Resp_Count)/SUM(D.negctrl_CD8_Count) <= 0.001) THEN 'PASS' ELSE
- (
- CASE WHEN (Count(D.LO_CD4) > 0) THEN 'LO_CD4 ' ELSE '' END ||
- CASE WHEN (Count(D.LO_CD8) > 0) THEN 'LO_CD8 ' ELSE '' END ||
- CASE WHEN (Count(D.LO_SEB) > 0) THEN 'LO_SEB ' ELSE '' END ||
- CASE WHEN (COUNT(D.negctrl_CD4_Resp_Count) = 0) THEN 'NO_BKG' ELSE '' END ||
- CASE WHEN (SUM(D.negctrl_CD4_Resp_Count)/SUM(D.negctrl_CD4_Count) > 0.001 OR SUM(D.negctrl_CD8_Resp_Count)/SUM(D.negctrl_CD8_Count) > 0.001) THEN 'HI_BKG' ELSE '' END
- ) END AS Verdict,
-D.Run,
-D."EXPERIMENT NAME",
-D.SampleOrder,
-Min(D.Sample) AS Sample,
-Count(D.FCSAnalysis) AS FileCount,
-100.0*SUM(D.negctrl_CD4_Resp_Count)/SUM(D.negctrl_CD4_Count) AS negctrl_CD4_Resp,
-100.0*SUM(D.negctrl_CD8_Resp_Count)/SUM(D.negctrl_CD8_Count) AS negctrl_CD8_Resp,
-MIN(D.sebctrl_CD4_Resp) AS sebctrl_CD4_Resp,
-MIN(D.sebctrl_CD8_Resp) AS sebctrl_CD8_Resp,
-FROM PassFailDetails AS D
-GROUP BY D.Run, D."EXPERIMENT NAME", D.SampleOrder
 
-
--- (
---   SELECT
---     FCSAnalysis, Stim CD4_Count, CD8_Count, CD4_Resp_Count, CD8_Resp_Count,
---     CD4_Resp, CD8_Resp, Run, "EXPERIMENT NAME", SampleOrder, Sample,
---     LO_CD4, LO_CD8, LO_SEB,
---     negctrl_CD4_Resp_Count, negctrl_CD8_Resp_Count,
---     sebctrl_CD4_Resp, sebctrl_CD8_Resp,
---     Key
---   FROM PassFailDetails AS PFD
--- ) AS D
+SELECT
+  Key,
+  CASE
+    WHEN (LO_CD4 IS NULL AND
+      LO_CD8 IS NULL AND
+      LO_SEB IS NULL AND
+      NO_BKG IS NULL AND
+      negctrl_CD4_Resp <= 0.1 AND negctrl_CD8_Resp <= 0.1)
+      THEN 'PASS'
+    ELSE
+      (COALESCE(LO_CD4, '') ||
+      COALESCE(LO_CD8, '') ||
+      COALESCE(LO_SEB, '') ||
+      COALESCE(NO_BKG, '') ||
+      CASE WHEN (negctrl_CD4_Resp > 0.1 OR negctrl_CD4_Resp > 0.1) THEN 'HI_BKG ' ELSE '' END)
+    END AS Verdict,
+  Run,
+  "EXPERIMENT NAME",
+  SampleOrder,
+  Sample,
+  FileCount,
+  negctrl_CD4_Resp,
+  negctrl_CD8_Resp,
+  sebctrl_CD4_Resp,
+  sebctrl_CD8_Resp,
+FROM
+(
+  -- to make this easier to read, we separate out the aggregates from the verdict expressions
+  SELECT
+    Min(Key) AS Key,
+    CASE WHEN (COUNT(LO_CD4) > 0) THEN 'LO_CD4 ' END AS LO_CD4,
+    CASE WHEN (COUNT(LO_CD8) > 0) THEN 'LO_CD8 ' END AS LO_CD8,
+    CASE WHEN (COUNT(LO_SEB) > 0) THEN 'LO_SEB ' END AS LO_SEB,
+    CASE WHEN (COUNT(negctrl_CD4_Resp_Count) = 0) THEN 'NO_BKG ' END AS NO_BKG,
+    100*SUM(negctrl_CD4_Resp_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_Resp,
+    100*SUM(negctrl_CD8_Resp_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_Resp,
+    Run,
+    "EXPERIMENT NAME",
+    SampleOrder,
+    Min(Sample) AS Sample,
+    Count(FCSAnalysis) AS FileCount,
+    MIN(sebctrl_CD4_Resp) AS sebctrl_CD4_Resp,
+    MIN(sebctrl_CD8_Resp) AS sebctrl_CD8_Resp,
+  FROM PassFailDetails
+  GROUP BY Run, "EXPERIMENT NAME", SampleOrder
+) D
