@@ -3,6 +3,18 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="PassFailDetails2" tableDbType="NOT_IN_DB">
                 <columns>
+                    <column columnName="CD4_Resp">
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="CD8_Resp">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
                     <column columnName="negctrl_CD4_Resp">
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>

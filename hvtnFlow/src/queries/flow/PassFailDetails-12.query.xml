@@ -1,0 +1,111 @@
+<query xmlns="http://labkey.org/data/xml/query" hidden="true">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="PassFailDetails-12" tableDbType="NOT_IN_DB">
+                <columns>
+                    <column columnName="sebctrl_CD4_IL2_Freq">
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD4_IFNg_Freq">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD4_CD154_Freq">
+
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD4_TNFa_Freq">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD8_IL2_Freq">
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD8_IFNg_Freq">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD8_CD154_Freq">
+
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="sebctrl_CD8_TNFa_Freq">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD4_IL2_Count">
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD4_IFNg_Count">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD4_CD154_Count">
+
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD4_TNFa_Count">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD8_IL2_Count">
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD8_IFNg_Count">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD8_CD154_Count">
+
+                        <formatString>#,##0.00</formatString>
+                        <datatype>DOUBLE</datatype>
+                        <isHidden>true</isHidden>
+                    </column>
+
+                    <column columnName="negctrl_CD8_TNFa_Count">
+                        <datatype>DOUBLE</datatype>
+                        <formatString>#,##0.00</formatString>
+                        <isHidden>true</isHidden>
+                    </column>
+
+
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

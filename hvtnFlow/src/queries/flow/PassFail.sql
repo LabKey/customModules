@@ -1,6 +1,5 @@
 /*
-EXPLAIN THIS HERE
-
+ * TODO EXPLAIN THIS HERE
  */
 
 SELECT
@@ -26,8 +25,8 @@ SELECT
   FileCount,
   negctrl_CD4_Resp,
   negctrl_CD8_Resp,
-  sebctrl_CD4_Resp,
-  sebctrl_CD8_Resp,
+  CAST(sebctrl_CD4_Resp AS DOUBLE) AS sebctrl_CD4_Resp,
+  CAST(sebctrl_CD8_Resp AS DOUBLE) AS sebctrl_CD8_Resp
 FROM
 (
   -- to make this easier to read, we separate out the aggregates from the verdict expressions
@@ -36,6 +35,7 @@ FROM
     CASE WHEN (COUNT(LO_CD4) > 0) THEN 'LO_CD4 ' END AS LO_CD4,
     CASE WHEN (COUNT(LO_CD8) > 0) THEN 'LO_CD8 ' END AS LO_CD8,
     CASE WHEN (COUNT(LO_SEB) > 0) THEN 'LO_SEB ' END AS LO_SEB,
+    --negctrl_CD4_Resp_Count and negctrl_CD8_Resp_Count should both be NULL or both NOT NULL
     CASE WHEN (COUNT(negctrl_CD4_Resp_Count) = 0) THEN 'NO_BKG ' END AS NO_BKG,
     100*SUM(negctrl_CD4_Resp_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_Resp,
     100*SUM(negctrl_CD8_Resp_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_Resp,

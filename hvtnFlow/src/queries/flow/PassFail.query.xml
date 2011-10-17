@@ -8,21 +8,53 @@
                     <column columnName="negctrl_CD4_Resp">
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>
+                        <conditionalFormats>
+                            <conditionalFormat>
+                                <filters>
+                                    <filter operator="gt" value="0.1"/>
+                                </filters>
+                                <textColor>FF0000</textColor>
+                            </conditionalFormat>
+                        </conditionalFormats>
                     </column>
 
                     <column columnName="negctrl_CD8_Resp">
                         <datatype>DOUBLE</datatype>
                         <formatString>#,##0.00</formatString>
+                        <conditionalFormats>
+                            <conditionalFormat>
+                                <filters>
+                                    <filter operator="gt" value="0.1"/>
+                                </filters>
+                                <textColor>FF0000</textColor>
+                            </conditionalFormat>
+                        </conditionalFormats>
                     </column>
 
                     <column columnName="sebctrl_CD4_Resp">
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>
+                        <conditionalFormats>
+                            <conditionalFormat>
+                                <filters>
+                                    <filter operator="lt" value="1.2"/>
+                                </filters>
+                                <textColor>FF0000</textColor>
+                            </conditionalFormat>
+                        </conditionalFormats>
                     </column>
 
                     <column columnName="sebctrl_CD8_Resp">
                         <datatype>DOUBLE</datatype>
                         <formatString>#,##0.00</formatString>
+                        <conditionalFormats>
+                            <conditionalFormat>
+                                <filters>
+                                    <filter operator="lt" value="1.2"/>
+                                </filters>
+                                <textColor>FF0000</textColor>
+                            </conditionalFormat>
+                        </conditionalFormats>
                     </column>
                 </columns>
             </table>
