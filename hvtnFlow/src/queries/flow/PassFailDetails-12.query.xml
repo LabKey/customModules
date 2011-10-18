@@ -16,7 +16,6 @@
                     </column>
 
                     <column columnName="sebctrl_CD4_CD154_Freq">
-
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>
                         <isHidden>true</isHidden>
@@ -102,8 +101,6 @@
                         <formatString>#,##0.00</formatString>
                         <isHidden>true</isHidden>
                     </column>
-
-
                 </columns>
             </table>
         </tables>

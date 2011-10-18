@@ -65,15 +65,17 @@ FROM
     CASE WHEN (COUNT(LO_CD4) > 0) THEN 'LO_CD4 ' END AS LO_CD4,
     CASE WHEN (COUNT(LO_CD8) > 0) THEN 'LO_CD8 ' END AS LO_CD8,
     CASE WHEN (COUNT(LO_SEB) > 0) THEN 'LO_SEB ' END AS LO_SEB,
+    -- negctrl_CD4_Resp_Count and negctrl_CD8_Resp_Count should both be NULL or both NOT NULL
+    -- that's why we don't need to COUNT both of them
     CASE WHEN (COUNT(negctrl_CD4_IL2_Count) = 0) THEN 'NO_BKG ' END AS NO_BKG,
 
     100*SUM(negctrl_CD4_IL2_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_IL2_Freq,
-    100*SUM(negctrl_CD4_IFNg_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD4_IFNg_Freq,
+    100*SUM(negctrl_CD4_IFNg_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_IFNg_Freq,
     100*SUM(negctrl_CD4_CD154_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_CD154_Freq,
-    100*SUM(negctrl_CD4_TNFa_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD4_TNFa_Freq,
-    100*SUM(negctrl_CD8_IL2_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD8_IL2_Freq,
+    100*SUM(negctrl_CD4_TNFa_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_TNFa_Freq,
+    100*SUM(negctrl_CD8_IL2_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_IL2_Freq,
     100*SUM(negctrl_CD8_IFNg_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_IFNg_Freq,
-    100*SUM(negctrl_CD8_CD154_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD8_CD154_Freq,
+    100*SUM(negctrl_CD8_CD154_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_CD154_Freq,
     100*SUM(negctrl_CD8_TNFa_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_TNFa_Freq,
 
     MIN(sebctrl_CD4_IL2_Freq) AS sebctrl_CD4_IL2_Freq,
