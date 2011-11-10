@@ -18,16 +18,13 @@ package org.labkey.viscstudies;
 
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
-import org.labkey.api.data.DbSchema;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.ModuleLoader;
-import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.WebPartFactory;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 public class ViscStudiesModule extends DefaultModule
 {
@@ -53,7 +50,6 @@ public class ViscStudiesModule extends DefaultModule
 
     protected void init()
     {
-        addController("viscstudies", ViscStudiesController.class);
     }
 
     public void startup(ModuleContext moduleContext)

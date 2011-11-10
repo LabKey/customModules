@@ -25,7 +25,6 @@ import org.labkey.api.view.FolderTab;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
-import org.springframework.web.servlet.mvc.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +37,9 @@ public class ViscStudyFolderTabs
 {
     public static abstract class BasePage extends FolderTab.PortalPage
     {
-       public BasePage(String pageId, String caption, Class<? extends Controller> clazz)
+       public BasePage(String pageId, String caption)
        {
-           super(pageId, caption, clazz);
+           super(pageId, caption);
        }
 
         @Override
@@ -57,7 +56,7 @@ public class ViscStudyFolderTabs
 
         protected OverviewPage(String caption)
         {
-            super(PAGE_ID, caption, ViscStudiesController.BeginAction.class);
+            super(PAGE_ID, caption);
         }
 
         @Override
@@ -82,7 +81,7 @@ public class ViscStudyFolderTabs
 
         protected VaccineDesignPage(String caption)
         {
-            super(PAGE_ID, caption, ViscStudiesController.BeginAction.class);
+            super(PAGE_ID, caption);
         }
 
         @Override
@@ -105,7 +104,7 @@ public class ViscStudyFolderTabs
 
         protected ImmunizationsPage(String caption)
         {
-            super(PAGE_ID, caption, ViscStudiesController.BeginAction.class);
+            super(PAGE_ID, caption);
         }
 
         @Override
@@ -128,7 +127,7 @@ public class ViscStudyFolderTabs
 
         protected AssaysPage(String caption)
         {
-            super(PAGE_ID, caption, ViscStudiesController.BeginAction.class);
+            super(PAGE_ID, caption);
         }
 
         @Override
@@ -151,7 +150,7 @@ public class ViscStudyFolderTabs
 
         protected DataAnalysisPage(String caption)
         {
-            super(PAGE_ID, caption, ViscStudiesController.BeginAction.class);
+            super(PAGE_ID, caption);
         }
 
         @Override

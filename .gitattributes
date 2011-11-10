@@ -34,7 +34,6 @@ viscstudies/build.xml -text
 viscstudies/module.properties -text
 viscstudies/resources/views/studydesigns.html -text
 viscstudies/src/org/labkey/viscstudies/ViscStudiesContainerListener.java -text
-viscstudies/src/org/labkey/viscstudies/ViscStudiesController.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudiesManager.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudiesModule.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderTabs.java -text
