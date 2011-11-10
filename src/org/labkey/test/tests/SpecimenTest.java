@@ -145,6 +145,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         // Field check for Tube Type column (including conflict)
         clickLinkWithText(STUDY_NAME);
+        addWebPart("Specimens");
         clickLinkWithText("By Vial");
         setFilter("SpecimenDetail", "PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
@@ -208,7 +209,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selectOptionByText("generalActor", "SLG");
         setFormElement("generalDescription", "SLG Approval");
         clickLink(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
-        clickLinkWithText("Manage Study");
+        clickTab("Manage");
         
         clickLinkWithText("Manage New Request Form");
         clickNavButton("Add New Input", 0);
