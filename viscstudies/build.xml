@@ -18,7 +18,6 @@
             <isset property="env.LABKEY_ROOT"/>
         </condition>
 
-        <echoproperties></echoproperties>
         <fail unless="labkey.root"
               message="LABKEY_ROOT must be set as an environment variable, or -Dlabkey.root must be supplied on the ant command line" />
 

@@ -15,6 +15,8 @@
  */
 package org.labkey.viscstudies;
 
+import org.labkey.api.data.ContainerManager;
+import org.labkey.api.portal.ProjectUrls;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
@@ -50,28 +52,26 @@ public class ViscStudyFolderTabs
         }
     }
 
-    public static class OverviewPage extends BasePage
+    public static class OverviewPage extends FolderTab
     {
-        public static final String PAGE_ID = "study.OVERVIEW";
-
-        protected OverviewPage(String caption)
+        public OverviewPage(String caption)
         {
-            super(PAGE_ID, caption);
+            super(caption);
         }
 
         @Override
-        public List<Portal.WebPart> createWebParts()
+        public ActionURL getURL(ViewContext context)
         {
-            List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
-            parts.add(Portal.getPortalPart("Study Overview").createWebPart());
-            return parts;
+            return PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(context.getContainer());
         }
 
         @Override
-        public boolean isVisible(ViewContext context)
+        public boolean isSelectedPage(ViewContext viewContext)
         {
-            Study study = StudyService.get().getStudy(context.getContainer());
-            return (study != null);
+            // Actual container we use doesn't matter, we just care about the controller and action names
+            ActionURL defaultURL = PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(ContainerManager.getHomeContainer());
+            ActionURL currentURL = viewContext.getActionURL();
+            return currentURL.getPageFlow().equalsIgnoreCase(defaultURL.getPageFlow()) && currentURL.getAction().equalsIgnoreCase(defaultURL.getAction()) && currentURL.getParameter("pageId") == null;
         }
     }
 
@@ -82,12 +82,6 @@ public class ViscStudyFolderTabs
         protected VaccineDesignPage(String caption)
         {
             super(PAGE_ID, caption);
-        }
-
-        @Override
-        public boolean isSelectedPage(ActionURL currentURL)
-        {
-            return super.isSelectedPage(currentURL);
         }
 
         @Override
@@ -108,12 +102,6 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public boolean isSelectedPage(ActionURL currentURL)
-        {
-            return super.isSelectedPage(currentURL);
-        }
-
-        @Override
         public List<Portal.WebPart> createWebParts()
         {
             List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
@@ -128,12 +116,6 @@ public class ViscStudyFolderTabs
         protected AssaysPage(String caption)
         {
             super(PAGE_ID, caption);
-        }
-
-        @Override
-        public boolean isSelectedPage(ActionURL currentURL)
-        {
-            return super.isSelectedPage(currentURL);
         }
 
         @Override
@@ -154,9 +136,10 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public boolean isSelectedPage(ActionURL currentURL)
+        public boolean isSelectedPage(ViewContext viewContext)
         {
-            return super.isSelectedPage(currentURL) ||
+            ActionURL currentURL = viewContext.getActionURL();
+            return super.isSelectedPage(viewContext) ||
                     currentURL.getPageFlow().equalsIgnoreCase("study-reports") ||
                     currentURL.getPageFlow().equalsIgnoreCase("dataset") ||
                     currentURL.getAction().equalsIgnoreCase("dataset") ||
@@ -198,8 +181,9 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public boolean isSelectedPage(ActionURL currentURL)
+        public boolean isSelectedPage(ViewContext viewContext)
         {
+            ActionURL currentURL = viewContext.getActionURL();
             return currentURL.getPageFlow().equalsIgnoreCase("study-definition") ||
                     currentURL.getPageFlow().equalsIgnoreCase("cohort") ||
                     currentURL.getPageFlow().equalsIgnoreCase("study-properties");

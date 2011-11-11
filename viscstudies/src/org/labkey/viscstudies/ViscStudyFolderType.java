@@ -47,11 +47,11 @@ import java.util.List;
 public class ViscStudyFolderType extends MultiPortalFolderType
 {
     private static final List<FolderTab> PAGES = Arrays.asList(
-            new ViscStudyFolderTabs.DataAnalysisPage("Assay Data"),
-            new ViscStudyFolderTabs.AssaysPage("Assays"),
-            new ViscStudyFolderTabs.ImmunizationsPage("Immunizations"),
-            new ViscStudyFolderTabs.VaccineDesignPage("Vaccine Design"),
             new ViscStudyFolderTabs.OverviewPage("Overview"),
+            new ViscStudyFolderTabs.VaccineDesignPage("Vaccine Design"),
+            new ViscStudyFolderTabs.ImmunizationsPage("Immunizations"),
+            new ViscStudyFolderTabs.AssaysPage("Assays"),
+            new ViscStudyFolderTabs.DataAnalysisPage("Data"),
             new ViscStudyFolderTabs.ManagePage("Manage")
     );
 
@@ -59,7 +59,7 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     public ViscStudyFolderType(Module module)
     {
         super("CAVD Study", "A folder type to store vaccine studies performed for the Gates Foundation-funded CAVD",
-                                Collections.<Portal.WebPart>emptyList(),
+                Arrays.asList(Portal.getPortalPart("Study Overview").createWebPart()),
                 null,
                 getDefaultModuleSet(module, getModule("Experiment"), getModule("Study"), getModule("Pipeline")),
                 getModule("Study"));
@@ -68,7 +68,7 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     @Override
     public ActionURL getStartURL(Container c, User user)
     {
-        return PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(c, ViscStudyFolderTabs.OverviewPage.PAGE_ID);
+        return PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(c);
     }
 
     protected String getFolderTitle(ViewContext ctx)
