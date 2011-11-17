@@ -1,4 +1,4 @@
-<query xmlns="http://labkey.org/data/xml/query" hidden="true">
+<query xmlns="http://labkey.org/data/xml/query" hidden="false">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="PassFailDetails-12" tableDbType="NOT_IN_DB">
