@@ -75,7 +75,33 @@ public class ViscStudyFolderTabs
         }
     }
 
-    public static class VaccineDesignPage extends BasePage
+    public static abstract class VaccineProtocolPage extends FolderTab
+    {
+
+        protected VaccineProtocolPage(String name, String caption)
+        {
+            super(name, caption);
+        }
+
+        protected abstract String getPanelName();
+
+        @Override
+        public boolean isSelectedPage(ViewContext viewContext)
+        {
+            ActionURL url = viewContext.getActionURL();
+            return url.getPageFlow().equalsIgnoreCase("study-designer") && url.getAction().equalsIgnoreCase("designer") && getPanelName().equals(url.getParameter("panel"));
+        }
+
+        @Override
+        public ActionURL getURL(ViewContext viewContext)
+        {
+            ActionURL actionURL = new ActionURL("study-designer", "designer", viewContext.getContainer());
+            actionURL.addParameter("panel", getPanelName());
+            return actionURL;
+        }
+    }
+
+    public static class VaccineDesignPage extends VaccineProtocolPage
     {
         public static final String PAGE_ID = "viscstudy.VACCINE_DESIGN";
 
@@ -85,14 +111,13 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public List<Portal.WebPart> createWebParts()
+        protected String getPanelName()
         {
-            List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
-            return parts;
+            return "VACCINE";
         }
     }
 
-    public static class ImmunizationsPage extends BasePage
+    public static class ImmunizationsPage extends VaccineProtocolPage
     {
         public static final String PAGE_ID = "viscstudy.IMMUNIZATIONS";
 
@@ -102,14 +127,13 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public List<Portal.WebPart> createWebParts()
+        protected String getPanelName()
         {
-            List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
-            return parts;
+            return "IMMUNIZATIONS";
         }
     }
 
-    public static class AssaysPage extends BasePage
+    public static class AssaysPage extends VaccineProtocolPage
     {
         public static final String PAGE_ID = "viscstudy.ASSAYS";
 
@@ -119,10 +143,9 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public List<Portal.WebPart> createWebParts()
+        protected String getPanelName()
         {
-            List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
-            return parts;
+            return "ASSAYS";
         }
     }
 

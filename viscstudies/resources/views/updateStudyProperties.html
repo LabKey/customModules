@@ -1,0 +1,93 @@
+<script type="text/javascript">
+    var _studyDesigns = null;
+    var _studiesByContainer = {};
+    var _updates = [];
+
+    LABKEY.NavTrail.setTrail("Update Study Information");
+    function getStudyDesigns(config)
+    {
+        var params = {includeSubfolders:config.includeSubfolders};
+        Ext.Ajax.request({
+            url : LABKEY.ActionURL.buildURL('study-designer', 'getStudyDesigns', config.containerPath, params),
+            method : 'GET',
+            success: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnSuccess(config), config.scope),
+            failure: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnFailure(config), config.scope, true)
+        });
+
+    }
+
+        Ext.onReady(function() {
+            getStudyDesigns({successCallback:initStudyDesigns, includeSubfolders:true });
+        });
+
+        function initStudyDesigns(result) {
+            console.log(result);
+            _studyDesigns = result.studyDesigns;
+            LABKEY.Query.selectRows({schemaName:"study", queryName:"studyProperties", columns:"*",  containerFilter:LABKEY.Query.containerFilter.currentAndSubfolders,
+            success:initUpdateStudies, failure:function(err) {
+                    console.log(err);
+                    alert("Failed to load studies, see an administrator");
+                }});
+        }
+
+    function initUpdateStudies(result)
+    {
+        Ext.each(result.rows, function (study){
+             _studiesByContainer[study["Container"]] = study;
+        });
+
+        var html = "The following studies will be updated.<ul>"
+        Ext.each(_studyDesigns, function(design) {
+            if (design.active)
+            {
+                var study = _studiesByContainer[design.container.id];
+                html += "<li id='" + design.container.id + "'>" + study.Label + ": " + design.container.path + "</li>";
+                _updates.push({design:design, study:_studiesByContainer[design.container.id]});
+            }
+        });
+        html += "</ul>";
+
+        Ext.get("updateList").update(html);
+        console.log(_updates);
+    }
+
+    //Since this is multi-container, need to do seperate update statements.
+    //Theoretically should be able to do many of these async, but
+    //update one at a time for a little more predictability.
+    function doUpdates()
+    {
+        var nextUpdate = 0;
+        function doNextUpdate() {
+            if (nextUpdate > _updates.length)
+                return;
+            var update = _updates[nextUpdate];
+            var def = update.design.studyDefinition;
+            var row = {LSID:update.study.LSID, Description: def.description, studyGrant: def.grantName, Investigator:def.investigator}
+            if ("Species" in update.study)
+                row["Species"] = def.animalSpecies;
+
+            LABKEY.Query.updateRows({queryName:"studyProperties", containerPath: update.design.container.path, schemaName:"study", rows:[row], success: handleSuccess, failure: handleFailure});
+        }
+
+        function handleSuccess(res) {
+            var update = _updates[nextUpdate];
+            Ext.get(update.study.Container).insertHtml('beforeEnd', " - Update Complete");
+            nextUpdate++;
+            doNextUpdate();
+        }
+
+        function handleFailure(res) {
+            var update = _updates[nextUpdate];
+            Ext.get(update.study.Container).insertHtml('beforeEnd', " - Update Failed");
+            console.log("Failure: ", res);
+            nextUpdate++;
+            doNextUpdate();
+        }
+
+        doNextUpdate();
+
+
+    }
+</script>
+<div id="updateList"></div>
+<button id="updateButton" onclick="doUpdates();">Update</button>

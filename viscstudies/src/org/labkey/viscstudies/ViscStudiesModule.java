@@ -50,6 +50,7 @@ public class ViscStudiesModule extends DefaultModule
 
     protected void init()
     {
+        addController("viscstudies", ViscStudiesController.class);
     }
 
     public void startup(ModuleContext moduleContext)
@@ -57,8 +58,6 @@ public class ViscStudiesModule extends DefaultModule
         // add a container listener so we'll know when our container is deleted:
         ContainerManager.addContainerListener(new ViscStudiesContainerListener());
         ModuleLoader.getInstance().registerFolderType(this, new ViscStudyFolderType(this));
-
-
     }
 
     @Override

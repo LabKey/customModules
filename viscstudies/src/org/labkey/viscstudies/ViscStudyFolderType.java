@@ -59,8 +59,8 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     public ViscStudyFolderType(Module module)
     {
         super("CAVD Study", "A folder type to store vaccine studies performed for the Gates Foundation-funded CAVD",
-                Arrays.asList(Portal.getPortalPart("Study Overview").createWebPart()),
                 null,
+                Arrays.asList(Portal.getPortalPart("Study Protocol Summary").createWebPart()),
                 getDefaultModuleSet(module, getModule("Experiment"), getModule("Study"), getModule("Pipeline")),
                 getModule("Study"));
     }
