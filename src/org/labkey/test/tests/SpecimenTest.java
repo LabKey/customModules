@@ -146,7 +146,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // Field check for Tube Type column (including conflict)
         clickLinkWithText(STUDY_NAME);
         addWebPart("Specimens");
-        clickLinkWithText("By Vial");
+        clickLinkWithText("By Individual Vial");
         setFilter("SpecimenDetail", "PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
         assertLinkPresentWithTextCount("[history]", 1);
@@ -158,6 +158,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent("20ml Cryovial");
         assertTextPresent("25ml Cryovial");
         clickLinkWithText("Specimen Overview");
+        clickLinkWithText("Vials by Derivative", false);
         clickLinkWithText("Tear Flo Strips");
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
@@ -165,7 +166,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         // specimen management setup
         clickLinkWithText(STUDY_NAME);
-        clickLinkWithText("Manage Statuses");
+        clickLinkWithText("Manage Study");
+        clickLinkWithText("Manage Request Statuses");
         setFormElement("newLabel", "New Request");
         clickNavButton("Save");
         setFormElement("newLabel", "Processing");
@@ -196,6 +198,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("Update Members");
         clickLinkWithText(STUDY_NAME);
 
+        clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Default Requirements");
         selectOptionByText("originatorActor", "IRB");
         setFormElement("originatorDescription", "Originating IRB Approval");
@@ -220,6 +223,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText(STUDY_NAME);
 
         // create request
+        clickLinkWithText("Specimen Data");
+        clickLinkWithText("Vials by Derivative", false);
         clickLinkWithText("Plasma, Unknown Processing");
         // Verify unavailable sample
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
@@ -253,6 +258,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText(STUDY_NAME);
 
         // add additional specimens
+        clickLinkWithText("Specimen Data");
+        clickLinkWithText("Vials by Derivative", false);
         clickLinkWithText("Swab");
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
@@ -322,6 +329,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
         clickLinkWithText(STUDY_NAME);
+        clickLinkWithText("Specimen Data");
+        clickLinkWithText("Vials by Derivative", false);
         clickLinkWithText("Swab");
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
@@ -329,6 +338,8 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         log("check reports by participant group");
         clickLinkWithText("My Study");
+        clickLinkWithText("Specimen Data");
+        clickLinkWithText("Vials by Primary Type", false);
         clickLinkWithText("Blood (Whole)");
         clickLinkWithText("Reports");
         clickNavButton("View"); // Summary Report
