@@ -159,7 +159,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent("25ml Cryovial");
         clickLinkWithText("Specimen Overview");
         clickLinkWithText("Vials by Derivative", false);
-        clickLinkWithText("Tear Flo Strips");
+        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Tear Flo Strips"), WAIT_FOR_PAGE);
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
         assertTextPresent("15ml Cryovial", 3);
@@ -225,7 +225,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // create request
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Derivative", false);
-        clickLinkWithText("Plasma, Unknown Processing");
+        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
         // Verify unavailable sample
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'This vial is unavailable because it was found in the set called \"" + REQUESTABILITY_QUERY + "\".')]"));
@@ -260,7 +260,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // add additional specimens
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Derivative", false);
-        clickLinkWithText("Swab");
+        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
         ExtHelper.waitForExtDialog(this, "Request Vial", WAIT_FOR_JAVASCRIPT);
@@ -331,7 +331,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText(STUDY_NAME);
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Derivative", false);
-        clickLinkWithText("Swab");
+        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
         clickNavButton("Cancel");
@@ -340,7 +340,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("My Study");
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Primary Type", false);
-        clickLinkWithText("Blood (Whole)");
+        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Blood (Whole)"), WAIT_FOR_PAGE);
         clickLinkWithText("Reports");
         clickNavButton("View"); // Summary Report
         //Verify by vial count
