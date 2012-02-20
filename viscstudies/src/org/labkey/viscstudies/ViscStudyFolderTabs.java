@@ -185,7 +185,7 @@ public class ViscStudyFolderTabs
         public boolean isVisible(ViewContext context)
         {
             Study study = StudyService.get().getStudy(context.getContainer());
-            return (study != null);
+            return (study != null && study.isEmptyStudy() == false);
         }
     }
 

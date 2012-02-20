@@ -16,26 +16,21 @@
 package org.labkey.viscstudies;
 
 import org.labkey.api.data.Container;
-import org.labkey.api.module.DefaultFolderType;
 import org.labkey.api.module.Module;
-import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.MultiPortalFolderType;
 import org.labkey.api.portal.ProjectUrls;
 import org.labkey.api.security.User;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
+import org.labkey.api.study.TimepointType;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.FolderTab;
-import org.labkey.api.view.NavTree;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
-import org.labkey.api.view.template.AppBar;
-import org.labkey.api.view.template.PageConfig;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -81,5 +76,25 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     public List<FolderTab> getDefaultTabs()
     {
         return PAGES;
+    }
+
+    @Override
+    public void configureContainer(Container c, User user)
+    {
+        super.configureContainer(c, user);
+        //Create Study here
+        try
+        {
+            StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE);
+
+        }
+        catch (SQLException e)
+        {
+
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 }
