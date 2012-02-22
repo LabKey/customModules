@@ -344,14 +344,14 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("Reports");
         clickNavButton("View"); // Summary Report
         //Verify by vial count
-        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 38);
+        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
         selectOptionByText("participantGroupFilter", "Category1");
         clickNavButton("Refresh");
         assertElementNotPresent(Locator.xpath("//a[number(text()) > 6]"));
         assertElementPresent(Locator.xpath("//a[number(text()) <= 6]"), 8);
         selectOptionByText("participantGroupFilter", "All Groups");
         clickNavButton("Refresh");
-        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 38);
+        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
         //Verify by ptid list
         checkCheckbox("viewPtidList");
         uncheckCheckbox("viewVialCount");
