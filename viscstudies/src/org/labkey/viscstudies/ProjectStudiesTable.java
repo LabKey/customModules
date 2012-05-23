@@ -6,6 +6,7 @@ import org.labkey.api.data.ContainerFilterable;
 import org.labkey.api.data.DisplayColumn;
 import org.labkey.api.data.DisplayColumnFactory;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.exp.PropertyColumn;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.FilteredTable;
@@ -33,7 +34,15 @@ public class ProjectStudiesTable extends FilteredTable
         ((ContainerFilterable)studyTable).setContainerFilter(containerFilter);
         applyContainerFilter(containerFilter);
 
-        wrapAllColumns(true);
+        for (ColumnInfo col : getRealTable().getColumns())
+        {
+            // Don't bother with the extra property columns that are specific to a single study 
+            if (!(col instanceof PropertyColumn))
+            {
+                ColumnInfo newCol = addWrapColumn(col);
+                newCol.setHidden(col.isHidden());
+            }
+        }
         setDescription("Contains one row per study in the current project. Includes a Dataset Status column that shows all the datasets with their status");
 
         // Tweak the label column
