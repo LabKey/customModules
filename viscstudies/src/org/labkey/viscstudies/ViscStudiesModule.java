@@ -21,6 +21,8 @@ import org.labkey.api.data.ContainerManager;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.ModuleLoader;
+import org.labkey.api.query.DefaultSchema;
+import org.labkey.api.query.QuerySchema;
 import org.labkey.api.view.WebPartFactory;
 
 import java.util.Collection;
@@ -51,6 +53,14 @@ public class ViscStudiesModule extends DefaultModule
     protected void init()
     {
         addController("viscstudies", ViscStudiesController.class);
+
+        DefaultSchema.registerProvider(ViscStudySchema.NAME, new DefaultSchema.SchemaProvider()
+        {
+            public QuerySchema getSchema(DefaultSchema schema)
+            {
+                return new ViscStudySchema(schema.getUser(), schema.getContainer());
+            }
+        });
     }
 
     public void startup(ModuleContext moduleContext)
