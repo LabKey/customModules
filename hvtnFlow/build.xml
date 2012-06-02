@@ -1,50 +1,30 @@
-<project name="hvtnFlow" basedir="." default="deploy">
+<project name="hvtnFlow" basedir="." default="build">
 
-  <property environment="env"/>
-  <property name="project.root" value="../../.."/>
-  <property name="staging.modules.dir" value="${project.root}/build/staging/modules"/>
-  <property name="deploy.modules.dir" value="${project.root}/build/deploy/modules"/>
+    <property environment="env"/>
 
-  <property name="module.name" value="hvtnFlow"/>
-  <property name="module.file" value="hvtnFlow.module"/>
-  <property name="module.src.dir" value="${basedir}/src"/>
+    <property name="module.name" value="hvtnFlow"/>
 
-  <target name="init">
-    <ant target="query_svn_number" dir="${project.root}/server" inheritall="false"/>
-    <tstamp>
-      <format property="buildtime" pattern="MMMM d yyyy, h:mm aa" />
-    </tstamp>
-  </target>
+    <target name="init">
+        <fail unless="module.name"
+              message="module.name must be set in build.xml"/>
+        <condition property="module.name.isempty" value="true">
+            <equals arg1="${module.name}" arg2="" />
+        </condition>
+        <fail if="module.name.isempty" message="module.name must be set in build.xml" />
 
-  <target name="module.properties" depends="init">
-    <mkdir dir="${module.src.dir}/config"/>
-    <copy tofile="${module.src.dir}/config/module.xml" file="${basedir}/module.template.xml" overwrite="true">
-      <filterset begintoken="@@" endtoken="@@">
-        <filtersfile file="${basedir}/module.properties" />
-        <filtersfile file="${project.root}/build/svn.properties"/>
-        <filter token="RequiredServerVersion" value="${RequiredServerVersion}" />
-        <filter token="ModuleDependencies" value="" />
-        <filter token="BuildTime" value="${buildtime}" />
-        <filter token="BuildOS" value="${os.name}" />
-        <filter token="BuildUser" value="${user.name}" />
-        <filter token="BuildPath" value="${deploy.modules.dir}/${module.name}" />
-        <filter token="SourcePath" value="${basedir}/src" />
-        <filter token="URL" value="Not built from a Subversion source tree" />
-        <filter token="Revision" value="Not built from a Subversion source tree" />
-      </filterset>
-    </copy>
-  </target>
+        <property name="labkey.root" value="../../../" />
+        <property name="server.dir" value="${labkey.root}/server" />
+    </target>
 
-  <target name="stage" depends="module.properties">
-    <jar jarfile="${staging.modules.dir}/${module.file}">
-      <fileset dir="${module.src.dir}">
-        <include name="**/*"/>
-      </fileset>
-    </jar>
-  </target>
-
-  <target name="deploy" depends="stage">
-    <copy todir="${deploy.modules.dir}" file="${staging.modules.dir}/${module.file}" />
-  </target>
+    <target name="build"
+            depends="init"
+            description="Builds local module only.  Deploys local module into LabKey installation.">
+        <ant dir="${server.dir}"
+             target="sub_build_module"
+             inheritall="false">
+            <property name="moduleDir" value="${basedir}"/>
+            <property name="moduleName" value="${module.name}"/>
+        </ant>
+    </target>
 
 </project>
