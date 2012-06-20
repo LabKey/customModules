@@ -18,7 +18,9 @@ package org.labkey.test.tests;
 
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExtHelper;
+import org.labkey.test.util.PasswordUtil;
 
 import java.io.File;
 
@@ -33,6 +35,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
     protected static final String FOLDER_NAME = "My Study";
     private static final String SPECIMEN_ARCHIVE = "/sampledata/study/specimens/sample_a.specimens";
     private static final String SPECIMEN_TEMP_DIR = "/sampledata/study/drt_temp";
+    public static final String SPECIMEN_DETAIL = "SpecimenDetail";
     private String _studyDataRoot = null;
     private static final String STUDY_NAME = "My Study Study";
     private static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Repository)";
@@ -89,15 +92,15 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         // Create custom query to test requestability rules.
         goToSchemaBrowser();
-        selectQuery("study", "SpecimenDetail");
+        selectQuery("study", SPECIMEN_DETAIL);
         clickButton("Create New Query");
         setFormElement("ff_newQueryName", REQUESTABILITY_QUERY);
         clickLinkWithText("Create and Edit Source");        
         setQueryEditorValue("queryText",
                 "SELECT \n" +
-                "SpecimenDetail.GlobalUniqueId AS GlobalUniqueId\n" +
-                "FROM SpecimenDetail\n" +
-                "WHERE SpecimenDetail.GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
+                SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
+                "FROM " + SPECIMEN_DETAIL + "\n" +
+                "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
         clickButton("Save", 0);
         waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
@@ -147,7 +150,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText(STUDY_NAME);
         addWebPart("Specimens");
         clickLinkWithText("By Individual Vial");
-        setFilter("SpecimenDetail", "PrimaryType", "Is Blank");
+        setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
         assertLinkPresentWithTextCount("[history]", 1);
         // There's a conflict in TubeType for this vial's events; verify that no TubeType is populated at the vial level
@@ -341,6 +344,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Primary Type", false);
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Blood (Whole)"), WAIT_FOR_PAGE);
+        pushLocation();
         clickLinkWithText("Reports");
         clickNavButton("View"); // Summary Report
         //Verify by vial count
@@ -386,5 +390,31 @@ public class SpecimenTest extends BaseSeleniumWebTest
             clickLinkContainingText("Specimen Request Notification", 1, false);
             assertTextPresent(specimen1);
         }
+
+        exportSpecimenTest();
+    }
+
+    private void exportSpecimenTest()
+    {
+        popLocation();
+        addUrlParameter("&exportType=excelWebQuery");
+        assertTextPresent("org.labkey.study.query.SpecimenRequestDisplayColumn");
+        goBack();
+
+
+        goToAuditLog();
+        selectOptionByText("view", "Query events");
+        waitForPageToLoad();
+
+        DataRegionTable auditTable =  new DataRegionTable("audit", this);
+        String[][] columnAndValues = new String[][] {{"Created By", PasswordUtil.getUsername()},
+                {"Project", PROJECT_NAME}, {"Container", FOLDER_NAME}, {"SchemaName", "study"},
+                {"QueryName", SPECIMEN_DETAIL}, {"Comment", "Exported to Excel Web Query data"}};
+        for(String[] columnAndValue : columnAndValues)
+        {
+            log("Checking column: "+ columnAndValue[0]);
+            assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
+        }
+        //To change body of created methods use File | Settings | File Templates.
     }
 }
