@@ -1,0 +1,16 @@
+<ns:tables xmlns:ns="http://labkey.org/data/xml">
+  <ns:table tableName="SequestSearchRuns" tableDbType="NOT_IN_DB">
+     <ns:columns>
+      <ns:column columnName="WrappedMS2Details" wrappedColumnName="MS2Details">
+        <ns:measure>false</ns:measure>
+        <ns:dimension>true</ns:dimension>
+        <ns:columnTitle>Qualified Peptide Counts</ns:columnTitle>
+        <ns:fk>
+          <ns:fkDbSchema>ms2</ns:fkDbSchema>
+          <ns:fkTable>SequestQualifiedPeptideCountsPerRun</ns:fkTable>
+          <ns:fkColumnName>MS2Run</ns:fkColumnName>
+        </ns:fk>
+      </ns:column>
+    </ns:columns>
+  </ns:table>
+</ns:tables>

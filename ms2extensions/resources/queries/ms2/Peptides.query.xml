@@ -1,0 +1,23 @@
+<ns:tables xmlns:ns="http://labkey.org/data/xml">
+  <ns:table tableName="Peptides" tableDbType="NOT_IN_DB">
+    <ns:columns>
+      <ns:column columnName="XTandemChgFilt" wrappedColumnName="RowId">
+	<ns:columnTitle>XTandem Chg Filt</ns:columnTitle>
+	<ns:fk>
+		<ns:fkTable>XTandemChargeQueryColumns</ns:fkTable>
+		<ns:fkColumnName>RowId</ns:fkColumnName>
+		<ns:fkDbSchema>ms2</ns:fkDbSchema>
+	</ns:fk>
+      </ns:column>      
+      <ns:column columnName="SequestChgFilt" wrappedColumnName="RowId">
+	<ns:columnTitle>Sequest Chg Filt</ns:columnTitle>
+	<ns:fk>
+		<ns:fkTable>SequestChargeQueryColumns</ns:fkTable>
+		<ns:fkColumnName>RowId</ns:fkColumnName>
+		<ns:fkDbSchema>ms2</ns:fkDbSchema>
+	</ns:fk>
+      </ns:column>      
+    </ns:columns>
+  </ns:table>
+</ns:tables>
+

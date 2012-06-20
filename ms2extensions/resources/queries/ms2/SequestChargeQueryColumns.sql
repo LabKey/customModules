@@ -1,0 +1,6 @@
+SELECT  P.RowId
+, CASE WHEN P.Charge=1 THEN P.Xcorr ELSE 999999 END AS XCorrChgFilt1
+, CASE WHEN P.Charge=2 THEN P.Xcorr ELSE 999999 END AS XCorrChgFilt2
+, CASE WHEN P.Charge=3 THEN P.Xcorr ELSE 999999 END AS XCorrChgFilt3
+, CASE WHEN P.Charge=4 THEN P.Xcorr ELSE 999999 END AS XCorrChgFilt4	
+FROM SequestPeptides P 
