@@ -18,11 +18,16 @@ package org.labkey.test.tests;
 
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
+import org.labkey.test.util.ComponentQuery;
 import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ExtHelper;
 import org.labkey.test.util.PasswordUtil;
+import org.labkey.test.util.ext4cmp.Ext4CmpRef;
+import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * User: brittp
@@ -392,6 +397,37 @@ public class SpecimenTest extends BaseSeleniumWebTest
         }
 
         exportSpecimenTest();
+        searchTest();
+    }
+
+    private void searchTest()
+    {
+        goToProjectHome();
+        clickLinkContainingText(FOLDER_NAME);
+        clickTab("Specimen Data");
+        waitForPageToLoad();
+        waitForExt4();
+        Ext4FieldRef additiveType = Ext4FieldRef.getForLabel(this, "Additive Type");
+        additiveType.setValue("Heparin");
+        Ext4FieldRef.getForLabel(this, "Participant").setValue("999320812");
+        clickButtonContainingText("Search");
+        assertTextNotPresent("Serum Separator");
+        assertTextPresent("(ParticipantId = 999320812) AND (AdditiveType = Heparin)");
+        goBack();
+        waitForExt4();
+        additiveType.setValue(new String[] {"Heparin", "Ammounium Heparin"});
+        clickButtonContainingText("Search");
+        assertTextPresent("ONE OF");
+        goBack();
+        waitForExt4();
+        additiveType.setValue(new String[] {"Ammonium Heparin","Cell Preparation Tube Heparin","Cell Preparation Tube SCI","Citrate Phosphate Dextrose","EDTA","Fetal Fibronectin Buffer","Guanidine Isothiocyanate (GITC)","Heparin","Liquid Potassium EDTA","Liquid Sodium EDTA","Lithium Heparin","Lithium Heparin and Gel for Plasma","None","Normal Saline","Optimum Cutting Temperature Medium","Orasure Collection Container","Other","PAXgene Blood RNA tube","Phosphate Buffered Saline","Plasma Preparation Tube","PLP Fixative","Port-a-cul Transport Tube","Potassium EDTA","RNA Later","Serum Separator","Sodium Citrate","Sodium EDTA","Sodium Fluoride","Sodium Fluoride/Potassium Oxalate","Sodium Heparin","Sodium Polyanetholesulfonate","Spray Dried Potassium EDTA","Spray Dried Sodium EDTA","Thrombin","Tissue Freezing Medium","Unknown Additive","Viral Transport Media"});
+        clickButtonContainingText("Search");
+        assertTextPresent("IS NOT ANY OF ");
+    }
+
+    private void waitForExt4()
+    {
+        sleep(2000); //TODO:  this needs something better
     }
 
     private void exportSpecimenTest()
