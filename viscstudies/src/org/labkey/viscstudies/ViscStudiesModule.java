@@ -63,7 +63,7 @@ public class ViscStudiesModule extends DefaultModule
         });
     }
 
-    public void startup(ModuleContext moduleContext)
+    public void doStartup(ModuleContext moduleContext)
     {
         // add a container listener so we'll know when our container is deleted:
         ContainerManager.addContainerListener(new ViscStudiesContainerListener());
