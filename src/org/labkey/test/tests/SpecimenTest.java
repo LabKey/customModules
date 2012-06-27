@@ -230,7 +230,62 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Save");
         clickLinkWithText(STUDY_NAME);
 
+        // Test "Configure Defaults for Actor Notification"
+        log("Check Configure Defaults for Actor Notification");
+        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText("Manage");
+        clickLinkWithText("Manage Notifications");
+        assertTextPresent("Default Email Recipients");
+        checkRadioButton("defaultEmailNotify", "All");
+        clickNavButton("Save");
+
+        // Test Upload Specimen List from file/paste
+        log("Check Upload Specimen List from file");
+        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText("Specimen Data");
+        clickLinkWithText("Create New Request");
+        selectOptionByText("destinationSite", "Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
+        setFormElement("input0", "Assay Plan");
+        setFormElement("input2", "Comments");
+        setFormElement("input1", "Shipping");
+        setFormElement("input3", "Last one");
+        clickNavButton("Create and View Details");
+        clickLinkWithText("Upload Specimen Ids");
+        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // add specimen
+        clickNavButton("Submit");    // Submit button
+
+        clickLinkWithText("Upload Specimen Ids");
+        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // try to add again
+        clickNavButton("Submit", 0);    // Submit button
+        waitForText("Specimen AAA07XK5-01 not available", 20000);
+        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-02");     // try to add one that doesn't exist
+        clickNavButton("Submit", 0);    // Submit button
+        waitForText("Specimen AAA07XK5-02 not available", 20000);
+        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03");     // add different one
+        clickNavButton("Submit");    // Submit button
+
+        // Check each Actor's Details for "Default Actor Notification" feature;
+        // In Details, for each actor the ether Notify checkbox should be set or disabled, because we set Notifications to All
+        List<Locator> detailsLinks = findAllMatches(Locator.xpath("//td[a='Details']/a"));
+        for (Locator link : detailsLinks)
+        {
+            clickLink(link);
+            List<Locator> allCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']"));
+            List<Locator> checkedCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
+            List<Locator> disabledCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
+            assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes.size() == checkedCheckBoxes.size() + disabledCheckBoxes.size());
+            clickNavButton("Cancel");
+        }
+
+        assertTextPresent("Associated Specimens");
+        assertTextPresent("AAA07XK5-01", "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
+
+
+        clickNavButton("Cancel Request");
+        assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
+
         // create request
+        clickLinkWithText(STUDY_NAME);
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Derivative", false);
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
