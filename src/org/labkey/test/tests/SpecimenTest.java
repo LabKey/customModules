@@ -147,7 +147,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         log("Set up participant groups");
         clickNavButton("Create", 0);
         ExtHelper.waitForExtDialog(this, "Define Participant Group");
-        setFormElement("categoryLabel", "Category1");
+        setFormElement("groupLabel", "Category1");
         setFormElement("categoryIdentifiers", PTIDS[0] + "," + PTIDS[1]);
         ExtHelper.clickExtButton(this, "Define Participant Group", "Save", 0);
 
