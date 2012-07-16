@@ -498,7 +498,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         waitForPageToLoad();
 
         DataRegionTable auditTable =  new DataRegionTable("audit", this);
-        String[][] columnAndValues = new String[][] {{"Created By", PasswordUtil.getUsername()},
+        String[][] columnAndValues = new String[][] {{"Created By", getDisplayName()},
                 {"Project", PROJECT_NAME}, {"Container", FOLDER_NAME}, {"SchemaName", "study"},
                 {"QueryName", SPECIMEN_DETAIL}, {"Comment", "Exported to Excel Web Query data"}};
         for(String[] columnAndValue : columnAndValues)
