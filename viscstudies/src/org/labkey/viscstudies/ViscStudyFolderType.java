@@ -16,6 +16,7 @@
 package org.labkey.viscstudies;
 
 import org.labkey.api.data.Container;
+import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.MultiPortalFolderType;
 import org.labkey.api.portal.ProjectUrls;
@@ -87,16 +88,17 @@ public class ViscStudyFolderType extends MultiPortalFolderType
         //Create Study here
         try
         {
-            StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE);
+            if (null == StudyService.get().getStudy(c))
+                StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE);
 
         }
         catch (SQLException e)
         {
-
+            throw new RuntimeSQLException(e);
         }
         catch (Exception e)
         {
-
+            throw new RuntimeException(e);
         }
     }
 
