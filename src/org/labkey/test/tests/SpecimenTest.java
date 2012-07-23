@@ -86,7 +86,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
     {
         _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
 
-        createProject(PROJECT_NAME);
+        _containerHelper.createProject(PROJECT_NAME, null);
 
         enableEmailRecorder();
 
