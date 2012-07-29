@@ -56,27 +56,38 @@ FROM
     COALESCE(A.Statistic('S/Lv/L/3+/4+:Count'),
              A.Statistic('S/Lv/L/3+/Excl/4+:Count'),
              A.Statistic('S/Exclude/Lv/L/3+/4+:Count'),
-             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD4+:Count')) AS CD4_Count,
+             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD4+:Count'),
+             A.Statistic('S/Exclude/14-/Lv/L/3+/4+:Count')) AS CD4_Count,
+
     COALESCE(A.Statistic('S/Lv/L/3+/8+:Count'),
              A.Statistic('S/Lv/L/3+/Excl/8+:Count'),
              A.Statistic('S/Exclude/Lv/L/3+/8+:Count'),
-             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD8+:Count')) AS CD8_Count,
+             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD8+:Count'),
+             A.Statistic('S/Exclude/14-/Lv/L/3+/8+:Count')) AS CD8_Count,
+
     COALESCE(A.Statistic('S/Lv/L/3+/4+/(IFNg+|IL2+):Count'),
              A.Statistic('S/Lv/L/3+/Excl/4+/(IFNg+|IL2+):Count'),
              A.Statistic('S/Exclude/Lv/L/3+/4+/(IFNg+|IL2+):Count'),
-             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD4+/(IFNg+|IL2+):Count')) AS CD4_Resp_Count,
+             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD4+/(IFNg+|IL2+):Count'),
+             A.Statistic('S/Exclude/14-/Lv/L/3+/4+/(IFNg+|IL2+):Count')) AS CD4_Resp_Count,
+
     COALESCE(A.Statistic('S/Lv/L/3+/8+/(IFNg+|IL2+):Count'),
              A.Statistic('S/Lv/L/3+/Excl/8+/(IFNg+|IL2+):Count'),
              A.Statistic('S/Exclude/Lv/L/3+/8+/(IFNg+|IL2+):Count'),
-             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD8+/(IFNg+|IL2+):Count')) AS CD8_Resp_Count,
+             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD8+/(IFNg+|IL2+):Count'),
+             A.Statistic('S/Exclude/14-/Lv/L/3+/8+/(IFNg+|IL2+):Count')) AS CD8_Resp_Count,
+
     COALESCE(A.Statistic('S/Lv/L/3+/4+/(IFNg+|IL2+):Freq_Of_Parent'),
              A.Statistic('S/Lv/L/3+/Excl/4+/(IFNg+|IL2+):Freq_Of_Parent'),
              A.Statistic('S/Exclude/Lv/L/3+/4+/(IFNg+|IL2+):Freq_Of_Parent'),
-             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD4+/(IFNg+|IL2+):Freq_Of_Parent')) AS CD4_Resp,
+             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD4+/(IFNg+|IL2+):Freq_Of_Parent'),
+             A.Statistic('S/Exclude/14-/Lv/L/3+/4+/(IFNg+|IL2+):Freq_Of_Parent')) AS CD4_Resp,
+
     COALESCE(A.Statistic('S/Lv/L/3+/8+/(IFNg+|IL2+):Freq_Of_Parent'),
              A.Statistic('S/Lv/L/3+/Excl/8+/(IFNg+|IL2+):Freq_Of_Parent'),
              A.Statistic('S/Exclude/Lv/L/3+/8+/(IFNg+|IL2+):Freq_Of_Parent'),
-             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD8+/(IFNg+|IL2+):Freq_Of_Parent')) AS CD8_Resp,
+             A.Statistic('S/Exclude/Lv/CD14-/L/CD3+/CD8+/(IFNg+|IL2+):Freq_Of_Parent'),
+             A.Statistic('S/Exclude/14-/Lv/L/3+/8+/(IFNg+|IL2+):Freq_Of_Parent')) AS CD8_Resp,
   FROM FCSAnalyses AS A
   WHERE A.FCSFile.Keyword.Stim NOT IN ('PBS','Comp')
 ) AS B

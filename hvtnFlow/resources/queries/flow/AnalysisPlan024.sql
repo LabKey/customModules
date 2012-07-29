@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 SELECT 
-A._sample.property.NETWORK as NETWORK,
---A.NETWORK, 
+--A._sample.property.NETWORK as NETWORK,
+A.NETWORK, 
 A.PROTOCOL,
 A.LABID,
 A.ASSAYID,
 A.SPECROLE,
 A.PTID,
-A._sample.property.PTIDTYPE as PTIDTYPE,
---A.PTIDTYPE,
+--A._sample.property.PTIDTYPE as PTIDTYPE,
+A.PTIDTYPE,
 A.CTRSAMPNAME,
 A.STDY_DESC,
 A.VISITNO,

@@ -28,10 +28,12 @@ SELECT
         negctrl_CD4_IL2_Freq <= 0.1 AND
         negctrl_CD4_IFNg_Freq <= 0.1 AND
         negctrl_CD4_CD154_Freq <= 0.1 AND
+        negctrl_CD4_CD107a_Freq <= 0.1 AND
         negctrl_CD4_TNFa_Freq <= 0.1 AND
         negctrl_CD8_IL2_Freq <= 0.1 AND
         negctrl_CD8_IFNg_Freq <= 0.1 AND
         negctrl_CD8_CD154_Freq <= 0.1 AND
+        negctrl_CD8_CD107a_Freq <= 0.1 AND
         negctrl_CD8_TNFa_Freq <= 0.1
         )
       THEN 'PASS'
@@ -44,10 +46,12 @@ SELECT
         negctrl_CD4_IL2_Freq > 0.1 OR
         negctrl_CD4_IFNg_Freq > 0.1 OR
         negctrl_CD4_CD154_Freq > 0.1 OR
+        negctrl_CD4_CD107a_Freq > 0.1 OR
         negctrl_CD4_TNFa_Freq > 0.1 OR
         negctrl_CD8_IL2_Freq > 0.1 OR
         negctrl_CD8_IFNg_Freq > 0.1 OR
         negctrl_CD8_CD154_Freq > 0.1 OR
+        negctrl_CD8_CD107a_Freq > 0.1 OR
         negctrl_CD8_TNFa_Freq > 0.1) THEN 'HI_BKG ' ELSE '' END)
     END AS Verdict,
   Run,
@@ -58,19 +62,25 @@ SELECT
   negctrl_CD4_IL2_Freq,
   negctrl_CD4_IFNg_Freq,
   negctrl_CD4_CD154_Freq,
+  negctrl_CD4_CD107a_Freq,
   negctrl_CD4_TNFa_Freq,
+
   negctrl_CD8_IL2_Freq,
   negctrl_CD8_IFNg_Freq,
   negctrl_CD8_CD154_Freq,
+  negctrl_CD8_CD107a_Freq,
   negctrl_CD8_TNFa_Freq,
 
   sebctrl_CD4_IL2_Freq,
   sebctrl_CD4_IFNg_Freq,
   sebctrl_CD4_CD154_Freq,
+  sebctrl_CD4_CD107a_Freq,
   sebctrl_CD4_TNFa_Freq,
+
   sebctrl_CD8_IL2_Freq,
   sebctrl_CD8_IFNg_Freq,
   sebctrl_CD8_CD154_Freq,
+  sebctrl_CD8_CD107a_Freq,
   sebctrl_CD8_TNFa_Freq
 FROM
 (
@@ -87,19 +97,25 @@ FROM
     100*SUM(negctrl_CD4_IL2_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_IL2_Freq,
     100*SUM(negctrl_CD4_IFNg_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_IFNg_Freq,
     100*SUM(negctrl_CD4_CD154_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_CD154_Freq,
+    100*SUM(negctrl_CD4_CD107a_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_CD107a_Freq,
     100*SUM(negctrl_CD4_TNFa_Count)/SUM(negctrl_CD4_Count) AS negctrl_CD4_TNFa_Freq,
+
     100*SUM(negctrl_CD8_IL2_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_IL2_Freq,
     100*SUM(negctrl_CD8_IFNg_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_IFNg_Freq,
     100*SUM(negctrl_CD8_CD154_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_CD154_Freq,
+    100*SUM(negctrl_CD8_CD107a_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_CD107a_Freq,
     100*SUM(negctrl_CD8_TNFa_Count)/SUM(negctrl_CD8_Count) AS negctrl_CD8_TNFa_Freq,
 
     CAST(MIN(sebctrl_CD4_IL2_Freq) AS DOUBLE) AS sebctrl_CD4_IL2_Freq,
     CAST(MIN(sebctrl_CD4_IFNg_Freq) AS DOUBLE) AS sebctrl_CD4_IFNg_Freq,
     CAST(MIN(sebctrl_CD4_CD154_Freq) AS DOUBLE) AS sebctrl_CD4_CD154_Freq,
+    CAST(MIN(sebctrl_CD4_CD107a_Freq) AS DOUBLE) AS sebctrl_CD4_CD107a_Freq,
     CAST(MIN(sebctrl_CD4_TNFa_Freq) AS DOUBLE) AS sebctrl_CD4_TNFa_Freq,
+
     CAST(MIN(sebctrl_CD8_IL2_Freq) AS DOUBLE) AS sebctrl_CD8_IL2_Freq,
     CAST(MIN(sebctrl_CD8_IFNg_Freq) AS DOUBLE) AS sebctrl_CD8_IFNg_Freq,
     CAST(MIN(sebctrl_CD8_CD154_Freq) AS DOUBLE) AS sebctrl_CD8_CD154_Freq,
+    CAST(MIN(sebctrl_CD8_CD107a_Freq) AS DOUBLE) AS sebctrl_CD8_CD107a_Freq,
     CAST(MIN(sebctrl_CD8_TNFa_Freq) AS DOUBLE) AS sebctrl_CD8_TNFa_Freq,
 
     Run,
