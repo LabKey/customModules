@@ -16,6 +16,7 @@
 
 package org.labkey.test.tests;
 
+import org.junit.Assert;
 import org.labkey.test.BaseSeleniumWebTest;
 import org.labkey.test.Locator;
 import org.labkey.test.util.ComponentQuery;
@@ -273,7 +274,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
             List<Locator> allCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']"));
             List<Locator> checkedCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
             List<Locator> disabledCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
-            assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes.size() == checkedCheckBoxes.size() + disabledCheckBoxes.size());
+            Assert.assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes.size() == checkedCheckBoxes.size() + disabledCheckBoxes.size());
             clickNavButton("Cancel");
         }
 
@@ -282,7 +283,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
 
         clickNavButton("Cancel Request");
-        assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
+        Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
 
         // create request
         clickLinkWithText(STUDY_NAME);
@@ -350,7 +351,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
         clickNavButton("Submit Request", 0);
-        assertTrue(getConfirmationAndWait().matches("^Once a request is submitted, its specimen list may no longer be modified\\.  Continue[\\s\\S]$"));
+        Assert.assertTrue(getConfirmationAndWait().matches("^Once a request is submitted, its specimen list may no longer be modified\\.  Continue[\\s\\S]$"));
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
 
@@ -389,7 +390,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         selectOptionByText("status", "Not Yet Submitted");
         clickNavButton("Save Changes and Send Notifications");
         clickNavButton("Cancel Request", 0);
-        assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
+        Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
         clickLinkWithText(STUDY_NAME);
         clickLinkWithText("Specimen Data");
@@ -504,7 +505,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         for(String[] columnAndValue : columnAndValues)
         {
             log("Checking column: "+ columnAndValue[0]);
-            assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
+            Assert.assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
         }
         //To change body of created methods use File | Settings | File Templates.
     }
