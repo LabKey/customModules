@@ -33,16 +33,13 @@ hvtnFlow/resources/queries/flow/PassFailDetails/.qview.xml -text
 ms2extensions/module.properties -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text
-ms2extensions/resources/queries/ms2/PeptidesFilter.query.xml -text
 ms2extensions/resources/queries/ms2/SequestChargeQueryColumns.query.xml -text
 ms2extensions/resources/queries/ms2/SequestChargeQueryColumns.sql -text
-ms2extensions/resources/queries/ms2/SequestPeptides.query.xml -text
 ms2extensions/resources/queries/ms2/SequestQualifiedPeptideCountsPerRun.query.xml -text
 ms2extensions/resources/queries/ms2/SequestQualifiedPeptideCountsPerRun.sql -text
 ms2extensions/resources/queries/ms2/SequestSearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/XTandemChargeQueryColumns.query.xml -text
 ms2extensions/resources/queries/ms2/XTandemChargeQueryColumns.sql -text
-ms2extensions/resources/queries/ms2/XTandemPeptides.query.xml -text
 ms2extensions/resources/queries/ms2/XTandemQualifiedPeptideCountsPerRun.query.xml -text
 ms2extensions/resources/queries/ms2/XTandemQualifiedPeptideCountsPerRun.sql -text
 ms2extensions/resources/queries/ms2/XTandemSearchRuns.query.xml -text
