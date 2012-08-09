@@ -89,7 +89,7 @@ public class ViscStudyFolderTabs
         public boolean isSelectedPage(ViewContext viewContext)
         {
             ActionURL url = viewContext.getActionURL();
-            return url.getPageFlow().equalsIgnoreCase("study-designer") && url.getAction().equalsIgnoreCase("designer") && getPanelName().equals(url.getParameter("panel"));
+            return url.getController().equalsIgnoreCase("study-designer") && url.getAction().equalsIgnoreCase("designer") && getPanelName().equals(url.getParameter("panel"));
         }
 
         @Override
