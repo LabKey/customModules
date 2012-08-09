@@ -295,6 +295,12 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'This vial is unavailable because it was found in the set called \"" + REQUESTABILITY_QUERY + "\".')]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
         checkCheckbox(".toggle");
+
+        clickMenuButton("Page Size", "Show All");
+        clickLinkContainingText("history");
+        assertTextPresent("Vial History");
+        goBack();
+
         clickMenuButton("Request Options", "Create New Request");
         selectOptionByText("destinationSite", "Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
         setFormElement("input0", "Assay Plan");
