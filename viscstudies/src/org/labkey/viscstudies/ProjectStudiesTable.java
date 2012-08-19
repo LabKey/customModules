@@ -74,7 +74,6 @@ public class ProjectStudiesTable extends FilteredTable
         {
             studyScheduleURL = DetailsURL.fromString("/study/studySchedule.view");
         }
-        studyScheduleURL.setContainerContext(new ContainerContext.FieldKeyContext(FieldKey.fromParts("Container")));
         labelColumn.setURL(studyScheduleURL);
         setDetailsURL(studyScheduleURL);
             
