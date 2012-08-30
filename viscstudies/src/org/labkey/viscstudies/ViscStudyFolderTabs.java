@@ -15,6 +15,8 @@
  */
 package org.labkey.viscstudies;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.portal.ProjectUrls;
 import org.labkey.api.security.permissions.AdminPermission;
@@ -78,7 +80,7 @@ public class ViscStudyFolderTabs
     public static abstract class VaccineProtocolPage extends FolderTab
     {
 
-        protected VaccineProtocolPage(String name, String caption)
+        protected VaccineProtocolPage(@NotNull String name, @Nullable String caption)
         {
             super(name, caption);
         }
