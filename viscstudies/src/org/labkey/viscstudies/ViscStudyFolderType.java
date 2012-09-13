@@ -63,12 +63,6 @@ public class ViscStudyFolderType extends MultiPortalFolderType
                 getModule("Study"));
     }
 
-    @Override
-    public ActionURL getStartURL(Container c, User user)
-    {
-        return PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(c);
-    }
-
     protected String getFolderTitle(ViewContext ctx)
     {
         Study study = StudyService.get().getStudy(ctx.getContainer());

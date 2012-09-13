@@ -17,8 +17,10 @@ package org.labkey.viscstudies;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.portal.ProjectUrls;
+import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
@@ -47,9 +49,9 @@ public class ViscStudyFolderTabs
        }
 
         @Override
-        public boolean isVisible(ViewContext context)
+        public boolean isVisible(Container c, User user)
         {
-            Study study = StudyService.get().getStudy(context.getContainer());
+            Study study = StudyService.get().getStudy(c);
             return (study != null);
         }
     }
@@ -62,9 +64,9 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public ActionURL getURL(ViewContext context)
+        public ActionURL getURL(Container container, User user)
         {
-            return PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(context.getContainer());
+            return PageFlowUtil.urlProvider(ProjectUrls.class).getBeginURL(container);
         }
 
         @Override
@@ -95,9 +97,9 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public ActionURL getURL(ViewContext viewContext)
+        public ActionURL getURL(Container container, User user)
         {
-            ActionURL actionURL = new ActionURL("study-designer", "designer", viewContext.getContainer());
+            ActionURL actionURL = new ActionURL("study-designer", "designer", container);
             actionURL.addParameter("panel", getPanelName());
             return actionURL;
         }
@@ -184,9 +186,9 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public boolean isVisible(ViewContext context)
+        public boolean isVisible(Container c, User user)
         {
-            Study study = StudyService.get().getStudy(context.getContainer());
+            Study study = StudyService.get().getStudy(c);
             return (study != null && study.isEmptyStudy() == false);
         }
     }
@@ -200,9 +202,9 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public ActionURL getURL(ViewContext context)
+        public ActionURL getURL(Container container, User user)
         {
-            return PageFlowUtil.urlProvider(StudyUrls.class).getManageStudyURL(context.getContainer());
+            return PageFlowUtil.urlProvider(StudyUrls.class).getManageStudyURL(container);
         }
 
         @Override
@@ -215,12 +217,12 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        public boolean isVisible(ViewContext context)
+        public boolean isVisible(Container c, User user)
         {
-            if (!context.getContainer().hasPermission(context.getUser(), AdminPermission.class))
+            if (!c.hasPermission(user, AdminPermission.class))
                 return false;
 
-            Study study = StudyService.get().getStudy(context.getContainer());
+            Study study = StudyService.get().getStudy(c);
             return (study != null);
         }
     }
