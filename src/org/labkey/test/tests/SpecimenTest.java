@@ -18,16 +18,19 @@ package org.labkey.test.tests;
 
 import org.junit.Assert;
 import org.labkey.test.BaseSeleniumWebTest;
+import org.apache.http.HttpException;
+import org.apache.http.HttpStatus;
+import org.apache.james.mime4j.field.datetime.DateTime;
 import org.labkey.test.Locator;
-import org.labkey.test.util.ComponentQuery;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
-import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ExtHelper;
 import org.labkey.test.util.PasswordUtil;
-import org.labkey.test.util.ext4cmp.Ext4CmpRef;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 
-import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,21 +38,17 @@ import java.util.List;
  * Date: Mar 9, 2006
  * Time: 1:54:57 PM
  */
-public class SpecimenTest extends BaseSeleniumWebTest
+public class SpecimenTest extends StudyBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
-    protected static final String FOLDER_NAME = "My Study";
-    private static final String SPECIMEN_ARCHIVE = "/sampledata/study/specimens/sample_a.specimens";
-    private static final String SPECIMEN_TEMP_DIR = "/sampledata/study/drt_temp";
     public static final String SPECIMEN_DETAIL = "SpecimenDetail";
-    private String _studyDataRoot = null;
-    private static final String STUDY_NAME = "My Study Study";
     private static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Repository)";
     private static final String USER1 = "user1@specimen.test";
     private static final String USER2 = "user2@specimen.test";
     private static final String REQUESTABILITY_QUERY = "RequestabilityRule";
     private static final String UNREQUESTABLE_SAMPLE = "BAA07XNP-02";
     private static final String[] PTIDS = {"999320396","999320812"};
+    private int _requestId;
 
 
     public String getAssociatedModuleDirectory()
@@ -69,33 +68,34 @@ public class SpecimenTest extends BaseSeleniumWebTest
         return true;
     }
 
-    protected void doCleanup() throws Exception
+    @Override
+    protected void doCreateSteps()
     {
-        _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
-        File tempDir = new File(getLabKeyRoot() + SPECIMEN_TEMP_DIR);
-        if (tempDir.exists())
-        {
-            for (File file : tempDir.listFiles())
-                file.delete();
-            tempDir.delete();
-        }
-        try { deleteProject(PROJECT_NAME); } catch (Throwable e) {}
-    }
-
-
-    protected void doTestSteps()
-    {
-        _studyDataRoot = getLabKeyRoot() + "/sampledata/study";
-
-        _containerHelper.createProject(PROJECT_NAME, null);
-
         enableEmailRecorder();
+        initializeFolder();
 
-        createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "Study", null);
         clickNavButton("Create Study");
+        setFormElement(Locator.name("label"), getStudyLabel());
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickNavButton("Create Study");
 
+        setPipelineRoot(getPipelinePath());
+
+        setupRequestabilityRules();
+        startSpecimenImport(1);
+        waitForSpecimenImport();
+        createParticipantGroups();
+        checkTubeType();
+        setupSpecimenManagement();
+        setupActorsAndGroups();
+        setupDefaultRequirements();
+        setupRequestForm();
+        setupActorNotification();
+        uploadSpecimensFromFile();
+    }
+
+    private void setupRequestabilityRules()
+    {
         // Create custom query to test requestability rules.
         goToSchemaBrowser();
         selectQuery("study", SPECIMEN_DETAIL);
@@ -110,7 +110,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickButton("Save", 0);
         waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
         clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Requestability Rules");
         // Verify that LOCKED_IN_REQUEST is the last rule
@@ -131,18 +131,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
         ExtHelper.selectComboBoxItem(this, Locator.xpath("//div[@id='x-form-el-userQuery_action']"), "Unavailable" );
         clickButton("Submit",0);
         clickButton("Save");
-        
+    }
 
-        clickLinkWithText("My Study");
-
-        setPipelineRoot(_studyDataRoot);
-        clickLinkWithText("My Study");
-        clickLinkWithText("Manage Files");
-
-        SpecimenImporter importer = new SpecimenImporter(new File(_studyDataRoot), new File(getLabKeyRoot(), SPECIMEN_ARCHIVE), new File(getLabKeyRoot(), SPECIMEN_TEMP_DIR), FOLDER_NAME, 1);
-        importer.importAndWaitForComplete();
-
-        clickLinkWithText("My Study");
+    private void createParticipantGroups()
+    {
+        clickLinkWithText(getFolderName());
         clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Participant Groups");
         log("Set up participant groups");
@@ -151,9 +144,12 @@ public class SpecimenTest extends BaseSeleniumWebTest
         setFormElement("groupLabel", "Category1");
         setFormElement("categoryIdentifiers", PTIDS[0] + "," + PTIDS[1]);
         ExtHelper.clickExtButton(this, "Define Participant Group", "Save", 0);
+    }
 
+    private void checkTubeType()
+    {
         // Field check for Tube Type column (including conflict)
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
         addWebPart("Specimens");
         clickLinkWithText("By Individual Vial");
         setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
@@ -172,9 +168,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
         assertTextPresent("15ml Cryovial", 3);
+    }
 
-        // specimen management setup
-        clickLinkWithText(STUDY_NAME);
+    private void setupSpecimenManagement()
+    {
+        clickLinkWithText(getStudyLabel());
         clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Request Statuses");
         setFormElement("newLabel", "New Request");
@@ -188,7 +186,10 @@ public class SpecimenTest extends BaseSeleniumWebTest
         checkCheckbox("newFinalState");
         uncheckCheckbox("newSpecimensLocked");
         clickNavButton("Done");
+    }
 
+    private void setupActorsAndGroups()
+    {
         clickLinkWithText("Manage Actors and Groups");
         setFormElement("newLabel", "SLG");
         selectOptionByText("newPerSite", "One Per Study");
@@ -205,8 +206,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
         setText("names", USER2);
         uncheckCheckbox("sendEmail");
         clickLinkWithText("Update Members");
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
+    }
 
+    private void setupDefaultRequirements()
+    {
         clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Default Requirements");
         selectOptionByText("originatorActor", "IRB");
@@ -222,27 +226,34 @@ public class SpecimenTest extends BaseSeleniumWebTest
         setFormElement("generalDescription", "SLG Approval");
         clickLink(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
         clickTab("Manage");
-        
+    }
+
+    private void setupRequestForm()
+    {
         clickLinkWithText("Manage New Request Form");
         clickNavButton("Add New Input", 0);
         setFormElement("//descendant::input[@name='title'][4]", "Last One");
         setFormElement("//descendant::input[@name='helpText'][4]", "A test input");
         click(Locator.xpath("//descendant::input[@name='required'][4]"));
         clickNavButton("Save");
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
+    }
 
-        // Test "Configure Defaults for Actor Notification"
+    private void setupActorNotification()
+    {
         log("Check Configure Defaults for Actor Notification");
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
         clickLinkWithText("Manage");
         clickLinkWithText("Manage Notifications");
         assertTextPresent("Default Email Recipients");
         checkRadioButton("defaultEmailNotify", "All");
         clickNavButton("Save");
+    }
 
-        // Test Upload Specimen List from file/paste
+    private void uploadSpecimensFromFile()
+    {
         log("Check Upload Specimen List from file");
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Create New Request");
         selectOptionByText("destinationSite", "Aurum Health KOSH Lab, Orkney, South Africa (Repository)");
@@ -264,7 +275,23 @@ public class SpecimenTest extends BaseSeleniumWebTest
         waitForText("Specimen AAA07XK5-02 not available", 20000);
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03");     // add different one
         clickNavButton("Submit");    // Submit button
+    }
 
+    @Override
+    protected void doVerifySteps()
+    {
+        verifyActorDetails();
+        createRequest();
+        verifyViews();
+        verifyNotificationEmails();
+        verifyRequestCancel();
+        verifyReports();
+        exportSpecimenTest();
+        searchTest();
+    }
+
+    private void verifyActorDetails()
+    {
         // Check each Actor's Details for "Default Actor Notification" feature;
         // In Details, for each actor the ether Notify checkbox should be set or disabled, because we set Notifications to All
         List<Locator> detailsLinks = findAllMatches(Locator.xpath("//td[a='Details']/a"));
@@ -284,9 +311,11 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         clickNavButton("Cancel Request");
         Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
+    }
 
-        // create request
-        clickLinkWithText(STUDY_NAME);
+    private void createRequest()
+    {
+        clickLinkWithText(getStudyLabel());
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Derivative", false);
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
@@ -325,7 +354,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         // verify that the swab specimen isn't present yet
         assertTextNotPresent("DAA07YGW-01");
         assertTextNotPresent("Complete");
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
 
         // add additional specimens
         clickLinkWithText("Specimen Data");
@@ -334,7 +363,7 @@ public class SpecimenTest extends BaseSeleniumWebTest
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
         ExtHelper.waitForExtDialog(this, "Request Vial", WAIT_FOR_JAVASCRIPT);
-        sleep(10000); //TODO: Determine which specific element to wait for.
+        waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
         clickNavButton("Add 8 Vials to Request", 0);
         ExtHelper.waitForExtDialog(this, "Success", WAIT_FOR_JAVASCRIPT * 5);
         clickNavButton("OK", 0);
@@ -371,8 +400,10 @@ public class SpecimenTest extends BaseSeleniumWebTest
         checkCheckbox("notificationIdPairs", 1);
         clickNavButton("Save Changes and Send Notifications");
         assertTextPresent("Complete");
+    }
 
-        // verify views
+    private void verifyViews()
+    {
         clickLinkWithText("View History");
         assertTextPresent("Request submitted for processing.");
         assertTextPresent("Notification Sent", 2);
@@ -382,32 +413,118 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickLinkWithText("Originating Location Specimen Lists");
         assertTextPresent("KCMC, Moshi, Tanzania");
         checkCheckbox("notify");
-        String specimen1 = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
+        _specimen1 = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
         checkCheckbox("notify", 4);
-        String specimen2 = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
+        _specimen2 = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
         checkCheckbox("sendXls");
         checkCheckbox("sendTsv");
         clickNavButton("Send Email");
+        _requestId = Integer.parseInt(getUrlParam(getURL().toString(), "id", false));
         clickLinkWithText("Providing Location Specimen Lists");
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
         clickNavButton("Cancel");
-        // cancel request
+    }
+
+    private String _specimen1;
+    private String _specimen2;
+    private final static String ATTACHMENT1 = "KCMC_Moshi_Ta_to_Aurum_Health_.tsv";
+    private final static String ATTACHMENT2 = "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls"; // Params: date(yyyy-MM-dd)
+    private final String NOTIFICATION_TEMPLATE = // Params: Study Name, requestId, Study Name, requestId, Username, Date(yyyy-MM-dd)
+            "%s: Specimen Request Notification \n" +
+            " \n" +
+            " Specimen request #%s was updated in %s. \n" +
+            " \n" +
+            " \n" +
+            " Request Details Specimen Request %s Destination Aurum Health KOSH Lab, Orkney, South Africa (Repository) Status New Request Modified by %s Action Originating location notification of specimen shipment to Aurum Health KOSH Lab, Orkney, South Africa (Repository) Attachments KCMC_Moshi_Ta_to_Aurum_Health_.tsv \n" +
+            " KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls \n" +
+            " Assay Plan:\n" +
+            " Assay Plan\n" +
+            " \n" +
+            " Shipping Information:\n" +
+            " Shipping\n" +
+            " \n" +
+            " Comments:\n" +
+            " Comments\n" +
+            " \n" +
+            " Last One:\n" +
+            " sample last one input \n" +
+            " Specimen List (Request Link)\n" +
+            "\n" +
+            " \n" +
+            "   ; Participant Id Global Unique Id Visit Description Visit Volume Volume Units Primary Type Derivative Type Additive Type Derivative Type2 Sub Additive Derivative Draw Timestamp Clinic Processing Location First Processed By Initials Sal Receipt Date Class Id Protocol Number Primary Volume Primary Volume Units Total Cell Count Tube Type Comments Locked In Request Requestable Site Name Site Ldms Code At Repository Available Availability Reason Quality Control Flag Quality Control Comments Collection Cohort Vial Count Locked In Request Count At Repository Count Available Count Expected Available Count 1 999320824 BAA07XNP-01 Vst 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-23 10:05:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-23 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 1 2 0 1 2 999320087 CAA07XN8-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2005-12-22 12:50:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-22 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 3 999320706 DAA07YGW-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-05 10:00:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-05 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 4 999320898 FAA07XLJ-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2005-12-20 12:05:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-20 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 5 999320264 FAA07YSC-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-13 12:10:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-13 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 6 999320520 FAA07YXY-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 7 999320498 JAA07YJB-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-05 09:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 8 999320476 JAA07YSQ-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-11 10:20:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 9 999320980 KAA07YV1-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-17 08:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-17 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0 10 999320520 KAA07YY0-01 Vst 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0 11 999320520 KAA07YY0-02 Vst 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0";
+    private void verifyNotificationEmails()
+    {
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String notification = String.format(NOTIFICATION_TEMPLATE, getStudyLabel(), _requestId, getStudyLabel(), _requestId, PasswordUtil.getUsername(), date);
+
+        log("Check notification emails");
+        goToModule("Dumbster");
+        assertTextPresent("Specimen Request Notification", 8);
+        assertTextPresent(USER1, 4);
+        assertTextPresent(USER2, 4);
+
+        log("Check for correct data in notification emails");
+        if (getTableCellText("dataregion_EmailRecord", 2, 0).equals(USER1))
+        {
+            clickLinkContainingText("Specimen Request Notification", false);
+            assertTextPresent(_specimen1);
+            assertTextNotPresent(_specimen2);
+            clickLinkContainingText("Specimen Request Notification", 1, false);
+            assertTextPresent(_specimen2);
+        }
+        else
+        {
+            clickLinkContainingText("Specimen Request Notification", false);
+            assertTextPresent(_specimen2);
+            assertTextNotPresent(_specimen1);
+            clickLinkContainingText("Specimen Request Notification", 1, false);
+            assertTextPresent(_specimen1);
+        }
+
+        DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
+        assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(1, "Message"));
+        String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
+        String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
+
+        try
+        {
+            assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
+            assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
+        }
+        catch (HttpException e)
+        {
+            Assert.fail("Failed to get HTTP client: "+e.getMessage());
+        }
+        catch (IOException e)
+        {
+            Assert.fail("Failed to perform HTTP GET: "+e.getMessage());
+        }
+
+        clickLinkWithText("Request Link");
+        assertTextPresent("Specimen Request " + _requestId);
+    }
+
+    private void verifyRequestCancel()
+    {
         clickLinkWithText("Update Request");
         selectOptionByText("status", "Not Yet Submitted");
         clickNavButton("Save Changes and Send Notifications");
         clickNavButton("Cancel Request", 0);
         Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
-        clickLinkWithText(STUDY_NAME);
+        clickLinkWithText(getStudyLabel());
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Derivative", false);
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
         clickNavButton("Cancel");
+    }
 
+    private void verifyReports()
+    {
         log("check reports by participant group");
-        clickLinkWithText("My Study");
+        clickLinkWithText(getFolderName());
         clickLinkWithText("Specimen Data");
         clickLinkWithText("Vials by Primary Type", false);
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Blood (Whole)"), WAIT_FOR_PAGE);
@@ -433,42 +550,15 @@ public class SpecimenTest extends BaseSeleniumWebTest
         clickNavButton("Refresh");
         assertLinkPresentWithTextCount(PTIDS[0], 3);
         assertLinkPresentWithTextCount(PTIDS[1], 5);
-
-        log("Check notification emails");
-        goToModule("Dumbster");
-        assertTextPresent("Specimen Request Notification", 8);
-        assertTextPresent(USER1, 4);
-        assertTextPresent(USER2, 4);
-
-        log("Check for correct data in notification emails");
-        if ( getTableCellText("dataregion_EmailRecord", 2, 0).equals(USER1))
-        {
-            clickLinkContainingText("Specimen Request Notification", false);
-            assertTextPresent(specimen1);
-            assertTextNotPresent(specimen2);
-            clickLinkContainingText("Specimen Request Notification", 1, false);
-            assertTextPresent(specimen2);
-        }
-        else
-        {
-            clickLinkContainingText("Specimen Request Notification", false);
-            assertTextPresent(specimen2);
-            assertTextNotPresent(specimen1);
-            clickLinkContainingText("Specimen Request Notification", 1, false);
-            assertTextPresent(specimen1);
-        }
-
-        exportSpecimenTest();
-        searchTest();
     }
 
     private void searchTest()
     {
         goToProjectHome();
-        clickLinkContainingText(FOLDER_NAME);
+        clickLinkContainingText(getFolderName());
         clickTab("Specimen Data");
         waitForPageToLoad();
-        waitForExt4();
+        waitForVialSearch();
         Ext4FieldRef additiveType = Ext4FieldRef.getForLabel(this, "Additive Type");
         additiveType.setValue("Heparin");
         Ext4FieldRef.getForLabel(this, "Participant").setValue("999320812");
@@ -476,20 +566,20 @@ public class SpecimenTest extends BaseSeleniumWebTest
         assertTextNotPresent("Serum Separator");
         assertTextPresent("(ParticipantId = 999320812) AND (AdditiveType = Heparin)");
         goBack();
-        waitForExt4();
+        waitForVialSearch();
         additiveType.setValue(new String[] {"Heparin", "Ammounium Heparin"});
         clickButtonContainingText("Search");
         assertTextPresent("ONE OF");
         goBack();
-        waitForExt4();
+        waitForVialSearch();
         additiveType.setValue(new String[] {"Ammonium Heparin","Cell Preparation Tube Heparin","Cell Preparation Tube SCI","Citrate Phosphate Dextrose","EDTA","Fetal Fibronectin Buffer","Guanidine Isothiocyanate (GITC)","Heparin","Liquid Potassium EDTA","Liquid Sodium EDTA","Lithium Heparin","Lithium Heparin and Gel for Plasma","None","Normal Saline","Optimum Cutting Temperature Medium","Orasure Collection Container","Other","PAXgene Blood RNA tube","Phosphate Buffered Saline","Plasma Preparation Tube","PLP Fixative","Port-a-cul Transport Tube","Potassium EDTA","RNA Later","Serum Separator","Sodium Citrate","Sodium EDTA","Sodium Fluoride","Sodium Fluoride/Potassium Oxalate","Sodium Heparin","Sodium Polyanetholesulfonate","Spray Dried Potassium EDTA","Spray Dried Sodium EDTA","Thrombin","Tissue Freezing Medium","Unknown Additive","Viral Transport Media"});
         clickButtonContainingText("Search");
         assertTextPresent("IS NOT ANY OF ");
     }
 
-    private void waitForExt4()
+    private void waitForVialSearch()
     {
-        sleep(2000); //TODO:  this needs something better
+        waitForElement(Locator.css(".specimenSearchLoaded"));
     }
 
     private void exportSpecimenTest()
@@ -506,13 +596,12 @@ public class SpecimenTest extends BaseSeleniumWebTest
 
         DataRegionTable auditTable =  new DataRegionTable("audit", this);
         String[][] columnAndValues = new String[][] {{"Created By", getDisplayName()},
-                {"Project", PROJECT_NAME}, {"Container", FOLDER_NAME}, {"SchemaName", "study"},
+                {"Project", PROJECT_NAME}, {"Container", getFolderName()}, {"SchemaName", "study"},
                 {"QueryName", SPECIMEN_DETAIL}, {"Comment", "Exported to Excel Web Query data"}};
         for(String[] columnAndValue : columnAndValues)
         {
             log("Checking column: "+ columnAndValue[0]);
             Assert.assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
         }
-        //To change body of created methods use File | Settings | File Templates.
     }
 }
