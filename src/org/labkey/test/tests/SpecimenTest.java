@@ -17,10 +17,8 @@
 package org.labkey.test.tests;
 
 import org.junit.Assert;
-import org.labkey.test.BaseSeleniumWebTest;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
-import org.apache.james.mime4j.field.datetime.DateTime;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
@@ -74,10 +72,10 @@ public class SpecimenTest extends StudyBaseTest
         enableEmailRecorder();
         initializeFolder();
 
-        clickNavButton("Create Study");
+        clickButton("Create Study");
         setFormElement(Locator.name("label"), getStudyLabel());
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
-        clickNavButton("Create Study");
+        clickButton("Create Study");
 
         setPipelineRoot(getPipelinePath());
 
@@ -139,7 +137,7 @@ public class SpecimenTest extends StudyBaseTest
         clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Participant Groups");
         log("Set up participant groups");
-        clickNavButton("Create", 0);
+        clickButton("Create", 0);
         ExtHelper.waitForExtDialog(this, "Define Participant Group");
         setFormElement("groupLabel", "Category1");
         setFormElement("categoryIdentifiers", PTIDS[0] + "," + PTIDS[1]);
@@ -176,16 +174,16 @@ public class SpecimenTest extends StudyBaseTest
         clickLinkWithText("Manage Study");
         clickLinkWithText("Manage Request Statuses");
         setFormElement("newLabel", "New Request");
-        clickNavButton("Save");
+        clickButton("Save");
         setFormElement("newLabel", "Processing");
-        clickNavButton("Save");
+        clickButton("Save");
         setFormElement("newLabel", "Completed");
         checkCheckbox("newFinalState");
-        clickNavButton("Save");
+        clickButton("Save");
         setFormElement("newLabel", "Rejected");
         checkCheckbox("newFinalState");
         uncheckCheckbox("newSpecimensLocked");
-        clickNavButton("Done");
+        clickButton("Done");
     }
 
     private void setupActorsAndGroups()
@@ -193,14 +191,14 @@ public class SpecimenTest extends StudyBaseTest
         clickLinkWithText("Manage Actors and Groups");
         setFormElement("newLabel", "SLG");
         selectOptionByText("newPerSite", "One Per Study");
-        clickNavButton("Save");
+        clickButton("Save");
         clickLinkWithText("Update Members");
         setText("names", USER1);
         uncheckCheckbox("sendEmail");
-        clickNavButton("Update Members");
+        clickButton("Update Members");
         setFormElement("newLabel", "IRB");
         selectOptionByText("newPerSite", "Multiple Per Study (Location Affiliated)");
-        clickNavButton("Save");
+        clickButton("Save");
         clickLinkWithText("Update Members", 1);
         clickLinkWithText(DESTINATION_SITE);
         setText("names", USER2);
@@ -215,7 +213,7 @@ public class SpecimenTest extends StudyBaseTest
         clickLinkWithText("Manage Default Requirements");
         selectOptionByText("originatorActor", "IRB");
         setFormElement("originatorDescription", "Originating IRB Approval");
-        clickNavButton("Add Requirement");
+        clickButton("Add Requirement");
         selectOptionByText("providerActor", "IRB");
         setFormElement("providerDescription", "Providing IRB Approval");
         clickLink(Locator.xpath("//input[@name='providerDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
@@ -231,11 +229,11 @@ public class SpecimenTest extends StudyBaseTest
     private void setupRequestForm()
     {
         clickLinkWithText("Manage New Request Form");
-        clickNavButton("Add New Input", 0);
+        clickButton("Add New Input", 0);
         setFormElement("//descendant::input[@name='title'][4]", "Last One");
         setFormElement("//descendant::input[@name='helpText'][4]", "A test input");
         click(Locator.xpath("//descendant::input[@name='required'][4]"));
-        clickNavButton("Save");
+        clickButton("Save");
         clickLinkWithText(getStudyLabel());
     }
 
@@ -247,7 +245,7 @@ public class SpecimenTest extends StudyBaseTest
         clickLinkWithText("Manage Notifications");
         assertTextPresent("Default Email Recipients");
         checkRadioButton("defaultEmailNotify", "All");
-        clickNavButton("Save");
+        clickButton("Save");
     }
 
     private void uploadSpecimensFromFile()
@@ -261,20 +259,20 @@ public class SpecimenTest extends StudyBaseTest
         setFormElement("input2", "Comments");
         setFormElement("input1", "Shipping");
         setFormElement("input3", "Last one");
-        clickNavButton("Create and View Details");
+        clickButton("Create and View Details");
         clickLinkWithText("Upload Specimen Ids");
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // add specimen
-        clickNavButton("Submit");    // Submit button
+        clickButton("Submit");    // Submit button
 
         clickLinkWithText("Upload Specimen Ids");
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // try to add again
-        clickNavButton("Submit", 0);    // Submit button
+        clickButton("Submit", 0);    // Submit button
         waitForText("Specimen AAA07XK5-01 not available", 20000);
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-02");     // try to add one that doesn't exist
-        clickNavButton("Submit", 0);    // Submit button
+        clickButton("Submit", 0);    // Submit button
         waitForText("Specimen AAA07XK5-02 not available", 20000);
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03");     // add different one
-        clickNavButton("Submit");    // Submit button
+        clickButton("Submit");    // Submit button
     }
 
     @Override
@@ -302,14 +300,14 @@ public class SpecimenTest extends StudyBaseTest
             List<Locator> checkedCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
             List<Locator> disabledCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
             Assert.assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes.size() == checkedCheckBoxes.size() + disabledCheckBoxes.size());
-            clickNavButton("Cancel");
+            clickButton("Cancel");
         }
 
         assertTextPresent("Associated Specimens");
         assertTextPresent("AAA07XK5-01", "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
 
 
-        clickNavButton("Cancel Request");
+        clickButton("Cancel Request");
         Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
     }
 
@@ -335,10 +333,10 @@ public class SpecimenTest extends StudyBaseTest
         setFormElement("input0", "Assay Plan");
         setFormElement("input2", "Comments");
         setFormElement("input1", "Shipping");
-        clickNavButton("Create and View Details");
+        clickButton("Create and View Details");
         assertTextPresent("Please provide all required input.");
         setFormElement("input3", "sample last one input");
-        clickNavButton("Create and View Details");
+        clickButton("Create and View Details");
         assertTextPresent("sample last one input");
         assertTextPresent("IRB");
         assertTextPresent("KCMC, Moshi, Tanzania");
@@ -364,11 +362,11 @@ public class SpecimenTest extends StudyBaseTest
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
         ExtHelper.waitForExtDialog(this, "Request Vial", WAIT_FOR_JAVASCRIPT);
         waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
-        clickNavButton("Add 8 Vials to Request", 0);
+        clickButton("Add 8 Vials to Request", 0);
         ExtHelper.waitForExtDialog(this, "Success", WAIT_FOR_JAVASCRIPT * 5);
-        clickNavButton("OK", 0);
+        clickButton("OK", 0);
         clickMenuButton("Request Options", "View Existing Requests");
-        clickNavButton("Details");
+        clickButton("Details");
         assertTextPresent("sample last one input");
         assertTextPresent("IRB");
         assertTextPresent("KCMC, Moshi, Tanzania");
@@ -385,7 +383,7 @@ public class SpecimenTest extends StudyBaseTest
         // submit request
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
-        clickNavButton("Submit Request", 0);
+        clickButton("Submit Request", 0);
         Assert.assertTrue(getConfirmationAndWait().matches("^Once a request is submitted, its specimen list may no longer be modified\\.  Continue[\\s\\S]$"));
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
@@ -393,12 +391,12 @@ public class SpecimenTest extends StudyBaseTest
         // modify request
         selectOptionByText("newActor", "SLG");
         setFormElement("newDescription", "Other SLG Approval");
-        clickNavButton("Add Requirement");
+        clickButton("Add Requirement");
         clickLinkWithText("Details");
         checkCheckbox("complete");
         checkCheckbox("notificationIdPairs");
         checkCheckbox("notificationIdPairs", 1);
-        clickNavButton("Save Changes and Send Notifications");
+        clickButton("Save Changes and Send Notifications");
         assertTextPresent("Complete");
     }
 
@@ -418,11 +416,11 @@ public class SpecimenTest extends StudyBaseTest
         _specimen2 = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
         checkCheckbox("sendXls");
         checkCheckbox("sendTsv");
-        clickNavButton("Send Email");
+        clickButton("Send Email");
         _requestId = Integer.parseInt(getUrlParam(getURL().toString(), "id", false));
         clickLinkWithText("Providing Location Specimen Lists");
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
-        clickNavButton("Cancel");
+        clickButton("Cancel");
     }
 
     private String _specimen1;
@@ -508,8 +506,8 @@ public class SpecimenTest extends StudyBaseTest
     {
         clickLinkWithText("Update Request");
         selectOptionByText("status", "Not Yet Submitted");
-        clickNavButton("Save Changes and Send Notifications");
-        clickNavButton("Cancel Request", 0);
+        clickButton("Save Changes and Send Notifications");
+        clickButton("Cancel Request", 0);
         Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
         assertTextPresent("No data to show.");
         clickLinkWithText(getStudyLabel());
@@ -518,7 +516,7 @@ public class SpecimenTest extends StudyBaseTest
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
-        clickNavButton("Cancel");
+        clickButton("Cancel");
     }
 
     private void verifyReports()
@@ -530,24 +528,24 @@ public class SpecimenTest extends StudyBaseTest
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Blood (Whole)"), WAIT_FOR_PAGE);
         pushLocation();
         clickLinkWithText("Reports");
-        clickNavButton("View"); // Summary Report
+        clickButton("View"); // Summary Report
         //Verify by vial count
         assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
         selectOptionByText("participantGroupFilter", "Category1");
-        clickNavButton("Refresh");
+        clickButton("Refresh");
         assertElementNotPresent(Locator.xpath("//a[number(text()) > 6]"));
         assertElementPresent(Locator.xpath("//a[number(text()) <= 6]"), 8);
         selectOptionByText("participantGroupFilter", "All Groups");
-        clickNavButton("Refresh");
+        clickButton("Refresh");
         assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
         //Verify by ptid list
         checkCheckbox("viewPtidList");
         uncheckCheckbox("viewVialCount");
-        clickNavButton("Refresh");
+        clickButton("Refresh");
         assertLinkPresentWithTextCount(PTIDS[0], 3);
         assertLinkPresentWithTextCount(PTIDS[1], 5);
         selectOptionByText("participantGroupFilter", "Category1");
-        clickNavButton("Refresh");
+        clickButton("Refresh");
         assertLinkPresentWithTextCount(PTIDS[0], 3);
         assertLinkPresentWithTextCount(PTIDS[1], 5);
     }
