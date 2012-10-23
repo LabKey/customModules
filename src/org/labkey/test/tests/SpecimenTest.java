@@ -82,7 +82,7 @@ public class SpecimenTest extends StudyBaseTest
         setupRequestabilityRules();
         startSpecimenImport(1);
         waitForSpecimenImport();
-        createParticipantGroups();
+        _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
         checkTubeType();
         setupSpecimenManagement();
         setupActorsAndGroups();
@@ -142,20 +142,6 @@ public class SpecimenTest extends StudyBaseTest
         _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_action']"), "Unavailable" );
         clickButton("Submit",0);
         clickButton("Save");
-    }
-
-    private void createParticipantGroups()
-    {
-        _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
-//        clickLinkWithText(getFolderName());
-//        clickLinkWithText("Manage Study");
-//        clickLinkWithText("Manage Participant Groups");
-//        log("Set up participant groups");
-//        clickButton("Create", 0);
-//        _extHelper.waitForExtDialog("Define Participant Group");
-//        setFormElement("groupLabel", "Category1");
-//        setFormElement("categoryIdentifiers", PTIDS[0] + "," + PTIDS[1]);
-//        _extHelper.clickExtButton("Define Participant Group", "Save", 0);
     }
 
     private void checkTubeType()
