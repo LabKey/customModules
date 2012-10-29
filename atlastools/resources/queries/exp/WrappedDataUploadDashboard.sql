@@ -3,6 +3,8 @@ SELECT
 FolderId,
 Path,
 EntityId,
+IntervalBegin,
+IntervalEnd,
 AssayDesignName,
 AssayDesignId,
 SUM(Uploaded) AS Uploaded,
