@@ -1,0 +1,9 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Run/Folder"/>
+        <column name="Run/Protocol"/>
+        <column name="Run"/>
+        <column name="RunGroup"/>
+        <column name="Created"/>
+    </columns>
+</customView>

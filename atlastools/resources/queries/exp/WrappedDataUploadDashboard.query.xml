@@ -15,12 +15,12 @@
                   <column columnName="Uploaded">
                       <url>/assay/assayRuns.view?rowId=${AssayDesignId}&amp;Runs.Folder%2FRowId~eq=${FolderId}&amp;Runs.Created~dategte=${IntervalBegin}&amp;Runs.Created~datelt=${IntervalEnd}&amp;Runs.containerFilterName=CurrentAndSubfolders</url>
                   </column>
-                  <!--<column columnName="Approved">-->
-                      <!--<url>/assay/assayRuns.view?rowId=${AssayDesignId}&amp;Runs.RunGroupToggle%2FApproved~eq=1</url>-->
-                  <!--</column>-->
-                  <!--<column columnName="Processing">-->
-                      <!--<url>/assay/assayRuns.view?rowId=${AssayDesignId}&amp;Runs.RunGroupToggle%2FProcessing~eq=1</url>-->
-                  <!--</column>-->
+                  <column columnName="Approved">
+                      <url>/query/executeQuery.view?schemaName=exp&amp;query.queryName=RunGroupMap&amp;query.viewName=Data Upload Dashboard Runs&amp;query.containerFilterName=CurrentAndSubfolders&amp;query.Run%2FProtocol%2FRowId~eq=${AssayDesignId}&amp;query.Run%2FFolder%2FRowId~eq=${FolderId}&amp;query.RunGroup%2FName~eq=Approved&amp;query.Created~dategte=${IntervalBegin}&amp;query.Created~datelt=${IntervalEnd}</url>
+                  </column>
+                  <column columnName="Processing">
+                      <url>/query/executeQuery.view?schemaName=exp&amp;query.queryName=RunGroupMap&amp;query.viewName=Data Upload Dashboard Runs&amp;query.containerFilterName=CurrentAndSubfolders&amp;query.Run%2FProtocol%2FRowId~eq=${AssayDesignId}&amp;query.Run%2FFolder%2FRowId~eq=${FolderId}&amp;query.RunGroup%2FName~eq=Processing&amp;query.Created~dategte=${IntervalBegin}&amp;query.Created~datelt=${IntervalEnd}</url>
+                  </column>
               </columns>
           </table>
       </tables>
