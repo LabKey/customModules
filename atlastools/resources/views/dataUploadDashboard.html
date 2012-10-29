@@ -1,0 +1,93 @@
+<p>This page shows rolled up information about the assay runs that have been Upload or moved into the following run groups: Approved, Processing.</p>
+<div id='intervalForm'></div>
+
+<script type="text/javascript">
+Ext4.onReady(function(){
+    var intervalForm = Ext4.create('Ext.form.FormPanel', {
+        renderTo: 'intervalForm',
+        border: true,
+        width: 420,
+        bodyPadding: 10,
+        itemId: 'intervalFormId',
+        name: 'intervalFormId',
+        items: [{
+            xtype: 'radio',
+            labelAlign: 'top',
+            fieldLabel: 'Show runs that have been uploaded, approved, or processed',
+            boxLabel: 'in the last 7 days',
+            name: 'interval',
+            inputValue: '1',
+            checked: true
+        },{
+            xtype: 'radio',
+            hideLabel: true,
+            boxLabel: 'in the last 30 days',
+            name: 'interval',
+            inputValue: '2'
+        },{
+            xtype: 'fieldcontainer',
+            hideLabel: true,
+            layout: 'hbox',
+            items: [{
+                xtype: 'radio',
+                boxLabel: 'between&nbsp;&nbsp;&nbsp;',
+                name: 'interval',
+                inputValue: '3'
+            },{
+                xtype: 'datefield',
+                name: 'startdate',
+                width: 120
+            },{
+                xtype: 'displayfield',
+                value: '&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;'
+            },{
+                xtype: 'datefield',
+                name: 'enddate',
+                width: 120
+            }]
+        }],
+        buttonAlign: 'left',
+        buttons: [
+            {
+                formBind: true,
+                text: 'Submit',
+                handler: function(){
+                    var values = this.up('form').getForm().getValues();
+                    var startDate = new Date();
+                    var endDate = new Date();
+                    endDate.setDate(endDate.getDate() + 1); // since we are using <= for our end date
+
+                    if (values.interval == "1")
+                    {
+                        startDate.setDate(endDate.getDate() - 7);
+                    }
+                    else if (values.interval == "2")
+                    {
+                        startDate.setDate(endDate.getDate() - 30);
+                    }
+                    else
+                    {
+                        if (values.startdate == null || values.enddate == null || values.startdate == "" || values.enddate == "")
+                        {
+                            alert("Start/End Date Missing");
+                            return;
+                        }
+
+                        startDate = new Date(values.startdate);
+                        endDate = new Date(values.enddate);
+                    }
+
+                    window.location = LABKEY.ActionURL.buildURL('query', 'executeQuery', null, {
+                        "query.param.IntervalBegin": startDate.format("m/d/Y"),
+                        "query.param.IntervalEnd": endDate.format("m/d/Y"),
+                        "query.queryName": "WrappedDataUploadDashboard",
+                        schemaName: "exp",
+                        "query.containerFilterName": "CurrentAndSubfolders"
+                    });
+
+                }
+            }
+        ]
+    });
+});
+</script>

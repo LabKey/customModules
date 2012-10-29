@@ -1,4 +1,11 @@
 * text=auto !eol
+atlastools/atlastools.iml -text
+atlastools/build.xml -text
+atlastools/module.properties -text
+atlastools/resources/queries/exp/BaseDataUploadDashboard.sql -text
+atlastools/resources/queries/exp/WrappedDataUploadDashboard.sql -text
+atlastools/resources/views/dataUploadDashboard.html -text
+atlastools/resources/views/dataUploadDashboard.view.xml -text
 hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/README.txt -text
 hvtnFlow/build.xml -text
