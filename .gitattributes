@@ -6,6 +6,7 @@ atlastools/resources/queries/exp/BaseDataUploadDashboard.sql -text
 atlastools/resources/queries/exp/RunGroupMap/Data[!!-~]Upload[!!-~]Dashboard[!!-~]Runs.qview.xml -text
 atlastools/resources/queries/exp/WrappedDataUploadDashboard.query.xml -text
 atlastools/resources/queries/exp/WrappedDataUploadDashboard.sql -text
+atlastools/resources/views/Data[!!-~]Upload[!!-~]Dashboard.webpart.xml -text
 atlastools/resources/views/dataUploadDashboard.html -text
 atlastools/resources/views/dataUploadDashboard.view.xml -text
 hvtnFlow/AnalysisPlans.txt -text
