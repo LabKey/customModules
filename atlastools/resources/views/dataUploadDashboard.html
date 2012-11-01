@@ -6,7 +6,7 @@ Ext4.onReady(function(){
     var intervalForm = Ext4.create('Ext.form.FormPanel', {
         renderTo: 'intervalForm',
         border: true,
-        width: 420,
+        width: 450,
         bodyPadding: 10,
         itemId: 'intervalFormId',
         name: 'intervalFormId',
@@ -30,7 +30,7 @@ Ext4.onReady(function(){
             layout: 'hbox',
             items: [{
                 xtype: 'radio',
-                boxLabel: 'between&nbsp;&nbsp;&nbsp;',
+                boxLabel: 'on or after&nbsp;&nbsp;',
                 name: 'interval',
                 inputValue: '3'
             },{
@@ -39,7 +39,7 @@ Ext4.onReady(function(){
                 width: 120
             },{
                 xtype: 'displayfield',
-                value: '&nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp;'
+                value: '&nbsp;&nbsp;and before&nbsp;&nbsp;'
             },{
                 xtype: 'datefield',
                 name: 'enddate',
@@ -69,12 +69,18 @@ Ext4.onReady(function(){
                     {
                         if (values.startdate == null || values.enddate == null || values.startdate == "" || values.enddate == "")
                         {
-                            alert("Start/End Date Missing");
+                            alert("Start/End date missing");
                             return;
                         }
 
                         startDate = new Date(values.startdate);
                         endDate = new Date(values.enddate);
+
+                        if (endDate <= startDate)
+                        {
+                            alert("End date must be after start date");
+                            return;
+                        }
                     }
 
                     window.location = LABKEY.ActionURL.buildURL('query', 'executeQuery', null, {

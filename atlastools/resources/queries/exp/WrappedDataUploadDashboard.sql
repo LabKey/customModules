@@ -26,4 +26,5 @@ FROM (
 	LEFT JOIN RunGroupMap AS processing ON Runs.RowId = processing.Run AND processing.RunGroup.Name = 'Processing'
 	WHERE Protocol.RowId IN (SELECT RowId FROM Project.assay.AssayList)
 ) AS Base
+WHERE Uploaded <> 0 OR Approved <> 0 OR Processing <> 0
 GROUP BY FolderId, Path, EntityId, AssayDesignName, AssayDesignId
