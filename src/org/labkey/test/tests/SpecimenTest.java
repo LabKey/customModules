@@ -467,7 +467,7 @@ public class SpecimenTest extends StudyBaseTest
             clickLinkContainingText("Specimen Request Notification", 1, false);
             assertTextPresent(_specimen_KCMC);
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
-            assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(1, "Message"));
+            Assert.assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(1, "Message"));
         }
         else
         {
@@ -477,7 +477,7 @@ public class SpecimenTest extends StudyBaseTest
             clickLinkContainingText("Specimen Request Notification", 1, false);
             assertTextPresent(_specimen_McMichael);
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
-            assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(0, "Message"));
+            Assert.assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(0, "Message"));
         }
 
         String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
@@ -485,8 +485,8 @@ public class SpecimenTest extends StudyBaseTest
 
         try
         {
-            assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
-            assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
+            Assert.assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
+            Assert.assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
         }
         catch (HttpException e)
         {
