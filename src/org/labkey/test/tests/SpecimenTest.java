@@ -122,10 +122,10 @@ public class SpecimenTest extends StudyBaseTest
         waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
         clickLinkWithText(getStudyLabel());
-        clickLinkWithText("Manage Study");
-        clickLinkWithText("Manage Requestability Rules");
+        waitAndClick(Locator.linkWithText("Manage Study"));
+        waitAndClick(Locator.linkWithText("Manage Requestability Rules"));
         // Verify that LOCKED_IN_REQUEST is the last rule
-        assertElementPresent(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
+        waitForElement(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
         mouseDown(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
         // Verify that LOCKED_IN_REQUEST rule cannot be moved or deleted
         assertElementPresent(Locator.xpath("//table[@id='btn_deleteEngine' and contains(@class, 'x-item-disabled')]"));
