@@ -168,23 +168,6 @@ public class SpecimenTest extends StudyBaseTest
         assertTextPresent("15ml Cryovial", 3);
     }
 
-    private void setupSpecimenManagement()
-    {
-        clickLinkWithText(getStudyLabel());
-        clickLinkWithText("Manage Study");
-        clickLinkWithText("Manage Request Statuses");
-        setFormElement("newLabel", "New Request");
-        clickButton("Save");
-        setFormElement("newLabel", "Processing");
-        clickButton("Save");
-        setFormElement("newLabel", "Completed");
-        checkCheckbox("newFinalState");
-        clickButton("Save");
-        setFormElement("newLabel", "Rejected");
-        checkCheckbox("newFinalState");
-        uncheckCheckbox("newSpecimensLocked");
-        clickButton("Done");
-    }
 
     private void setupActorsAndGroups()
     {
@@ -367,6 +350,7 @@ public class SpecimenTest extends StudyBaseTest
         assertTextPresent("BAA07XNP-01");
         assertTextPresent("DAA07YGW-01");
 
+        verifyCreateStudyFromVial();
         // submit request
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
@@ -385,6 +369,12 @@ public class SpecimenTest extends StudyBaseTest
         checkCheckbox("notificationIdPairs", 1);
         clickButton("Save Changes and Send Notifications");
         assertTextPresent("Complete");
+    }
+
+    private void verifyCreateStudyFromVial()
+    {
+        clickButton("Create Study", WAIT_FOR_EXT_MASK_TO_APPEAR);
+        clickButton("Next", WAIT_FOR_EXT_MASK_TO_APPEAR);
     }
 
     private void verifyViews()
