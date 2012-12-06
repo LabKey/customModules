@@ -23,6 +23,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExtHelper;
+import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 
@@ -98,6 +99,7 @@ public class SpecimenTest extends StudyBaseTest
         verifyActorDetails();
         createRequest();
         verifyViews();
+        verifyAdditionalRequestFields();
         verifyNotificationEmails();
         verifyRequestCancel();
         verifyReports();
@@ -407,6 +409,71 @@ public class SpecimenTest extends StudyBaseTest
         _requestId = Integer.parseInt(getUrlParam(getURL().toString(), "id", false));
         clickLinkWithText("Providing Location Specimen Lists");
         assertTextPresent("Contract Lab Services, Johannesburg, South Africa (Repository)");
+        clickButton("Cancel");
+    }
+
+    @LogMethod
+    private void verifyAdditionalRequestFields()
+    {
+        log("verifying addtional freezer fields from the exports");
+        clickLinkWithText("Originating Location Specimen Lists");
+        addUrlParameter("exportAsWebPage=true");
+        refresh();
+
+        pushLocation();
+        clickLinkContainingText("Export to text file");
+
+        // verify the additional columns
+        assertTextPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1", "Fr Level2");
+        popLocation();
+
+        // customize the locationSpecimenListTable then make sure changes are propogated to the exported lists
+        log("customizing the locationSpecimenList default view");
+        pushLocation();
+        goToSchemaBrowser();
+        selectQuery("study", "LocationSpecimenList");
+        waitForText("view data");
+        clickLinkContainingText("view data");
+
+        _customizeViewsHelper.openCustomizeViewPanel();
+        _customizeViewsHelper.removeCustomizeViewColumn("Freezer");
+        _customizeViewsHelper.removeCustomizeViewColumn("Fr_Container");
+        _customizeViewsHelper.removeCustomizeViewColumn("Fr_Position");
+        _customizeViewsHelper.removeCustomizeViewColumn("Fr_Level1");
+        _customizeViewsHelper.saveCustomView();
+        popLocation();
+
+        log("verifying column changes");
+        clickLinkWithText(getStudyLabel());
+        clickLinkWithText("Specimen Data");
+        Locator requests = Locator.xpath("//a[text() = 'View Current Requests']");
+        waitForElement(requests);
+        clickAndWait(requests, defaultWaitForPage);
+
+        clickButton("Details");
+        clickLinkWithText("Originating Location Specimen Lists");
+        addUrlParameter("exportAsWebPage=true");
+        refresh();
+        pushLocation();
+        clickLinkContainingText("Export to text file");
+
+        // verify the additional columns
+        assertTextNotPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1");
+        assertTextPresent("Fr Level2");
+        popLocation();
+
+        clickButton("Cancel");
+        clickLinkWithText("Providing Location Specimen Lists");
+        addUrlParameter("exportAsWebPage=true");
+        refresh();
+        pushLocation();
+        clickLinkContainingText("Export to text file");
+
+        // verify the additional columns
+        assertTextNotPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1");
+        assertTextPresent("Fr Level2");
+        popLocation();
+
         clickButton("Cancel");
     }
 
