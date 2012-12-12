@@ -352,7 +352,6 @@ public class SpecimenTest extends StudyBaseTest
         assertTextPresent("BAA07XNP-01");
         assertTextPresent("DAA07YGW-01");
 
-        verifyCreateStudyFromVial();
         // submit request
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
@@ -373,11 +372,6 @@ public class SpecimenTest extends StudyBaseTest
         assertTextPresent("Complete");
     }
 
-    private void verifyCreateStudyFromVial()
-    {
-        clickButton("Create Study", WAIT_FOR_EXT_MASK_TO_APPEAR);
-        clickButton("Next", WAIT_FOR_EXT_MASK_TO_APPEAR);
-    }
 
     private void verifyViews()
     {
