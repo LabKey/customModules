@@ -40,6 +40,13 @@ hvtnFlow/resources/queries/flow/PassFailDetails-12.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails.query.xml -text
 hvtnFlow/resources/queries/flow/PassFailDetails.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails/.qview.xml -text
+icemr/build.xml -text
+icemr/module.properties -text
+icemr/resources/assay/Diagnostics/config.xml -text
+icemr/resources/assay/Diagnostics/domains/batch.xml -text
+icemr/resources/assay/Diagnostics/domains/result.xml -text
+icemr/resources/assay/Diagnostics/domains/run.xml -text
+icemr/resources/assay/Diagnostics/views/upload.html -text
 ms2extensions/module.properties -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text
