@@ -1,0 +1,5 @@
+<webpart xmlns="http://labkey.org/data/xml/webpart" title="Add Diagnostics">
+    <view name="AddDiagnostics"/>
+</webpart>
+
+

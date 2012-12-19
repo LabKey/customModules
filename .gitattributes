@@ -47,6 +47,8 @@ icemr/resources/assay/Diagnostics/domains/batch.xml -text
 icemr/resources/assay/Diagnostics/domains/result.xml -text
 icemr/resources/assay/Diagnostics/domains/run.xml -text
 icemr/resources/assay/Diagnostics/views/upload.html -text
+icemr/resources/views/Add[!!-~]Diagnostics.webpart.xml -text
+icemr/resources/views/AddDiagnostics.html -text
 ms2extensions/module.properties -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text
