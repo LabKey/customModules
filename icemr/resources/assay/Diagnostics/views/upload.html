@@ -1,293 +1,242 @@
-<table>
-    <tr>
-        <td class='labkey-form-label'>Batch Name:</td>
-        <td>
-            <div id='batch_name_div'>
-        <span class='extContainer x-form-field-wrap'>
-          <input id='batch_name_input' type='text' value='' cols='40'>
-        </span>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class='labkey-form-label'>Created:</td>
-        <td>
-            <span id='batch_createdBy_span'></span><br>
-            <span id='batch_created_span'></span>
-        </td>
-    </tr>
-    <tr>
-        <td class='labkey-form-label'>Modified:</td>
-        <td>
-            <span id='batch_modifiedBy_span'></span><br>
-            <span id='batch_modified_span'></span>
-        </td>
-    </tr>
-</table>
-
-
-<form id='upload-run-form' enctype='multipart/form-data' method='POST'>
-    <div id='upload-run-button'></div>
-</form>
-
+<div id="error-div"></div>
+<div id="upload-diagnostic-div" style="width: 301px; float: left;"></div>
+<br/>
 <div id='runs_div'></div>
 
-<p>
-    <a href='javascript:done()' class='labkey-button'>
-        <span>Done</span>
-    </a>
-</p>
-
 <script type="text/javascript">
-    LABKEY.requiresScript("FileUploadField.js");
-</script>
-<script type="text/javascript">
+//
+// these names must match result.xml for the ICEMR diagnostics assay
+//
+var _idDate = 'date';
+var _idTime = 'time';
+var _idId = 'id';
+var _idProtocol = 'processingprotocol';
+var _idInitP = 'initparasitemia';
+var _idPD = 'parasitedensity';
+var _idInitG = 'initgametocytemia';
+var _idGD = 'gametocytedensity';
+var _idHemoglobin = 'patienthemoglobin';
+var _idHematocrit = 'hematocrit';
+var _idThick = 'thickbloodsmear';
+var _idThin = 'thinbloodsmear';
+var _idRDT = 'rdt';
+var _idFreezer = 'freezerproid';
 
-function done()
-{
-    var url = LABKEY.ActionURL.buildURL("assay", "assayRuns", LABKEY.ActionURL.getContainer(), LABKEY.ActionURL.getParameters());
-    window.location = url;
-}
+var _idAllFields = [_idDate, _idTime, _idId, _idProtocol, _idInitP, _idPD, _idInitG, _idGD,
+    _idHemoglobin, _idHematocrit, _idThick, _idThin, _idRDT, _idFreezer];
 
-function saveBatch()
+function submitDiagnostic()
 {
-    if (!LABKEY.dirty) return;
+    if (!validateForm())
+        return;
+
+    var formCmp = Ext4.getCmp('upload-diagnostic-form');
+    var fields = formCmp.getForm().getFields();
+    var row = {};
+
+    for (var idx = 0; idx < _idAllFields.length; idx++)
+    {
+        var f = _idAllFields[idx];
+        row[f] = fields.get(f).getValue();
+    }
+
+    var run = new LABKEY.Exp.Run();
+    //run.name = '[New]';
+    run.dataRows = [];
+    run.dataRows.push(row);
+
+    LABKEY.page.batch.runs = [];
+    LABKEY.page.batch.runs.push(run);
+    LABKEY.setDirty(true);
 
     LABKEY.Experiment.saveBatch({
         assayId : LABKEY.page.assay.id,
         batch : LABKEY.page.batch,
         successCallback : function (batch, response)
         {
-            LABKEY.page.batch = batch;
-            renderBatch();
-            LABKEY.setDirty(false);
-            Ext.Msg.hide();
+            Ext4.Msg.show({
+                title : "Diagnostic",
+                msg:  "Successfully uploaded result for patient id:  " + fields.get(_idId).getValue(),
+                width : 300,
+                buttons: Ext4.Msg.OK,
+                multiline: false,
+                fn : goBack,
+                icon: Ext4.Msg.INFO
+            });
         },
         failureCallback : function (error, format)
         {
-            Ext.Msg.hide();
-            Ext.Msg.alert("Failure when communicating with the server: " + error.exception);
+            Ext4.Msg.hide();
+            Ext4.Msg.alert("Failure when communicating with the server: " + error.exception);
         }
     });
 }
 
-function init()
+function goBack()
 {
-    new Ext.form.TextField({
-        enableKeyEvents: true,
-        listeners: {
-            'keydown': function (field, evt)
-            {
-                if (field.isDirty())
-                {
-                    LABKEY.page.batch.name = field.getValue();
-                    LABKEY.setDirty(true);
-                }
-            },
-            'specialkey': function (field, evt)
-            {
-                if (evt.getKey() == Ext.EventObject.ENTER)
-                {
-                    LABKEY.page.batch.name = field.getValue();
-                    LABKEY.setDirty(true);
-                }
-            },
-            'change': function (field, newValue, oldValue)
-            {
-                LABKEY.page.batch.name = newValue;
-                LABKEY.setDirty(true);
-            }
-        },
-        applyTo: 'batch_name_input',
-        id: 'batch_name_field',
-        width: 200
-    });
-
-    var form = new Ext.form.BasicForm(
-        Ext.get("upload-run-form"), {
-        fileUpload: true,
-        frame: false,
-        url: LABKEY.ActionURL.buildURL("assay", "assayFileUpload"),
-        listeners: {
-            "actioncomplete" : function (f, action)
-            {
-                handleDataUpload(f, action);
-            },
-            "actionfailed" : function (f, action)
-            {
-                handleDataUpload(f, action);
-            }
-        }
-    });
-
-    var uploadField = new Ext.form.FileUploadField({
-        id: "upload-run-field",
-        renderTo: "upload-run-button",
-        buttonText: "Add Excel file...",
-        buttonOnly: true,
-        buttonCfg: {
-            cls: "labkey-button"
-        },
-        listeners: {
-            "fileselected": function (fb, v)
-            {
-                form.submit();
-            }
-        }
-    });
-
-    renderBatch();
+    window.history.back();
 }
 
-function trim(stringToTrim) {
-    return stringToTrim.replace(/^\s+|\s+$/g,"");
+function validateForm()
+{
+    // clear out error messages.
+    handleError("", true);
+
+    var form = Ext4.getCmp('upload-diagnostic-form');
+    if(form.getForm().isValid())
+        return true;
+    else
+        handleError("Errors in your submission. See below.");
+    return false;
 }
 
-function equalsIgnoresCase(str1, str2)
+function handleError(msg, reset)
 {
-    return str1.toLowerCase() == str2.toLowerCase();
-}
-
-function renderBatch()
-{
-    var batch = LABKEY.page.batch;
-    Ext.getCmp('batch_name_field').setValue(batch.name);
-    Ext.fly('batch_created_span').update(batch.created);
-    Ext.fly('batch_createdBy_span').update(batch.createdBy);
-    Ext.fly('batch_modified_span').update(batch.modified);
-    Ext.fly('batch_modifiedBy_span').update(batch.modifiedBy);
-
-    renderRunsWebPart();
-}
-
-var webpart = null;
-
-function renderRunsWebPart()
-{
-    // fetch the runs webpart only after the batch has been saved once
-    if (LABKEY.page.batch.id)
+    var errorEl = document.getElementById('error-div');
+    if(!(reset))
     {
-        var partConfig = {};
-        partConfig.viewProtocolId = LABKEY.page.assay.id;
-        partConfig[LABKEY.page.assay.name + " Runs.Batch/RowId~eq"] = LABKEY.page.batch.id;
-
-        webpart = new LABKEY.WebPart({
-            partName: 'Assay Runs',
-            renderTo: 'runs_div',
-            frame: 'none',
-            partConfig: partConfig
-        });
-    }
-
-    if (webpart) webpart.render();
-}
-
-function handleDataUpload(f, action)
-{
-    if (!action || !action.result)
-    {
-        Ext.Msg.alert("Upload Failed", "Something went horribly wrong when uploading.");
-        return;
-    }
-    if (!action.result.id)
-    {
-        Ext.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
-        return;
-    }
-
-    Ext.Msg.wait("Uploading...");
-
-    var data = new LABKEY.Exp.Data(action.result);
-
-    var run = new LABKEY.Exp.Run();
-    run.name = data.name || "[New]";
-    run.dataInputs = [ data ];
-
-    if (!data.content)
-    {
-        // fetch the contents of the uploaded file.
-        // Using 'jsonTSVExtended' will ensure date formats
-        // found in the excel document are applied.
-        data.getContent({
-            format: 'jsonTSVExtended',
-            successCallback: function (content, format)
-            {
-                data.content = content;
-                handleRunContent(run, content);
-            },
-            failureCallback: function (error, format)
-            {
-                Ext.Msg.hide();
-                Ext.Msg.alert("Upload Failed", "An error occurred while fetching the contents of the data file: " + error.exception);
-            }
-        });
+        errorEl.innerHTML += "<span style='color:red;'>> " + msg + "<br/></span>";
+        Ext4.Msg.hide();
     }
     else
     {
-        Ext.Msg.hide();
+        errorEl.innerHTML = "";
     }
 }
 
-function handleRunContent(run, content)
-{
-    if (!content)
-    {
-        Ext.Msg.hide();
-        Ext.Msg.alert("Upload Failed", "The data file has no content");
-        return;
-    }
-    if (!content.sheets || content.sheets.length == 0)
-    {
-        // expected the data file to be parsed as jsonTSV
-        Ext.Msg.hide();
-        Ext.Msg.alert("Upload Failed", "The data file has no sheets of data");
-        return;
-    }
 
-    var sheet = content.sheets[0];
-    // If there's a sheet named "Data" , use that instead
-    for (var index = 0; index < content.sheets.length; index++)
-    {
-        if (content.sheets[index].name == "Data")
-            sheet = content.sheets[index];
-    }
+Ext.onReady(function() {
+    Ext4.QuickTips.init();
 
-    var data = sheet.data;
-    if (!data.length)
-    {
-        Ext.Msg.alert("Upload Failed", "The data file contains no rows");
-        return;
-    }
+    var speciesData = [['Pf'], ['Pv'], ['mixed'], ['negative']];
+    var defaultSpeciesData = 'Pf';
+    var defaultDate = new Date();
 
-    // convert the data from into an array of map objects
-    run.dataRows = [];
-    for (var i = 1; i < data.length; i++) {
-      var row = data[i];
-      var participantid = row[0];
-      var date = row[1];
-      var m1 = row[2];
-      var stim = row[3]
-      var weight = row[4];
+    var fp = new Ext4.FormPanel({
+        renderTo: 'upload-diagnostic-div',
+        id      : 'upload-diagnostic-form',
+        defaults: {
+            validationEvent: false,
+            width : 290,
+            allowBlank : false,
+            style : { margin: '2 0 2 0' }
+        },
+        method : 'POST',
+        enctype :'multipart/form-data',
+        border : false,
+        stateful : false,
+        autoHeight : true,
+        frame : true,
+        items : [
+            {
+                xtype      : 'datefield',
+                id         : _idDate,
+                value      : defaultDate,
+                fieldLabel : 'Measurement Date'
+            },{
+                xtype      : 'timefield',
+                id         : _idTime,
+                value      : defaultDate.getHours(),
+                fieldLabel : 'Measurement Time'
+            },{
+                xtype      : 'textfield',
+                id         : _idId,
+                fieldLabel : 'Patient ID'
+            },{
+                xtype      : 'numberfield',
+                id         : _idProtocol,
+                fieldLabel : 'Processing Protocol'
+            },{
+                xtype      : 'numberfield',
+                id         : _idInitP,
+                fieldLabel : 'Initial Parasitemia (%)'
+            },{
+                xtype      : 'numberfield',
+                id         : _idPD,
+                fieldLabel : 'Parasite Density (parasites/uL)'
+            },{
+                xtype      : 'numberfield',
+                id         : _idInitG,
+                fieldLabel : 'Initial Gametocytemia (%)'
+            },{
+                xtype      : 'numberfield',
+                id         : _idGD,
+                fieldLabel : 'Gametocyte Density (gametocytes/uL'
+            },{
+                xtype      : 'numberfield',
+                id         : _idHemoglobin,
+                fieldLabel : 'Patient Hemoglobin (g/dL)'
+            },{
+                xtype      : 'numberfield',
+                id         : _idHematocrit,
+                fieldLabel : 'Hematocrit (%)'
+            },{
+                xtype      : 'combo',
+                id         : _idThick,
+                fieldLabel : 'Thick blood smear species identification',
+                value      : defaultSpeciesData,
+                store           : new Ext4.data.SimpleStore({
+                    fields : ['thick'],
+                    data   : speciesData
+                }),
+                displayField : 'thick',
+                valueField   : 'thick',
+                triggerAction   : 'all',
+                forceSelection : true,
+                mode : 'local'
+            },{
+                xtype      : 'combo',
+                id         : _idThin,
+                fieldLabel : 'Thin blood smear species identification',
+                value      : defaultSpeciesData,
+                store           : new Ext4.data.SimpleStore({
+                    fields : ['thin'],
+                    data   : speciesData
+                }),
+                displayField : 'thin',
+                valueField   : 'thin',
+                triggerAction   : 'all',
+                forceSelection : true,
+                mode : 'local'
+            },{
+                xtype      : 'combo',
+                id         : _idRDT,
+                fieldLabel : 'RDT species identification',
+                value      : defaultSpeciesData,
+                store           : new Ext4.data.SimpleStore({
+                    fields : ['rdt'],
+                    data   : speciesData
+                }),
+                displayField : 'rdt',
+                valueField   : 'rdt',
+                triggerAction   : 'all',
+                forceSelection : true,
+                mode : 'local'
+            },{
+                xtype      : 'textfield',
+                id         : _idFreezer,
+                fieldLabel : 'FreezerPro ID'
+            },{
+                xtype : 'fieldcontainer',
+                layout : {
+                    type : 'hbox',
+                    pack : 'end',
+                    defaultMargins : '2'
+                },
+                items : [
+                    {
+                        xtype   : 'button',
+                        text    : 'Submit',
+                        handler : submitDiagnostic
+                    }, {
+                        xtype   : 'button',
+                        text    : 'Cancel',
+                        handler : goBack
+                    }]
+            }
+        ]
+    });
+});
 
-      // skip any rows missing required data
-      if (!participantid || !date || !m1 || !stim || !weight)
-        continue;
 
-      run.dataRows.push({
-          "ParticipantId": participantid.value,
-          "Date": date.formattedValue, // use the excel formatted value
-          "M1": m1.value,
-          "Stim": stim.value == "y",   // convert Stim to a boolean
-          "Weight": weight.value
-      });
-    }
-
-    LABKEY.page.batch.runs = LABKEY.page.batch.runs || [];
-    LABKEY.page.batch.runs.push(run);
-
-    LABKEY.setDirty(true);
-    saveBatch();
-}
-
-init();
 </script>

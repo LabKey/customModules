@@ -53,7 +53,7 @@
         <exp:Name>PatientHemoglobin</exp:Name>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
-        <exp:Label>Pateint Hemoglobin</exp:Label>
+        <exp:Label>Patient Hemoglobin</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>Hematocrit</exp:Name>
