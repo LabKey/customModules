@@ -9,6 +9,7 @@
 //
 var _idDate = 'date';
 var _idTime = 'time';
+var _idScientist = 'scientist'
 var _idId = 'id';
 var _idProtocol = 'processingprotocol';
 var _idInitP = 'initparasitemia';
@@ -22,7 +23,7 @@ var _idThin = 'thinbloodsmear';
 var _idRDT = 'rdt';
 var _idFreezer = 'freezerproid';
 
-var _idAllFields = [_idDate, _idTime, _idId, _idProtocol, _idInitP, _idPD, _idInitG, _idGD,
+var _idAllFields = [_idDate, _idTime, _idScientist, _idId, _idProtocol, _idInitP, _idPD, _idInitG, _idGD,
     _idHemoglobin, _idHematocrit, _idThick, _idThin, _idRDT, _idFreezer];
 
 function submitDiagnostic()
@@ -111,6 +112,7 @@ Ext.onReady(function() {
     var speciesData = [['Pf'], ['Pv'], ['mixed'], ['negative']];
     var defaultSpeciesData = 'Pf';
     var defaultDate = new Date();
+    var defaultProtocol = 1;
 
     var fp = new Ext4.FormPanel({
         renderTo: 'upload-diagnostic-div',
@@ -140,11 +142,16 @@ Ext.onReady(function() {
                 fieldLabel : 'Measurement Time'
             },{
                 xtype      : 'textfield',
+                id         : _idScientist,
+                fieldLabel : 'Scientist Name'
+            },{
+                xtype      : 'textfield',
                 id         : _idId,
                 fieldLabel : 'Patient ID'
             },{
                 xtype      : 'numberfield',
                 id         : _idProtocol,
+                value      : defaultProtocol,
                 fieldLabel : 'Processing Protocol'
             },{
                 xtype      : 'numberfield',
@@ -161,7 +168,7 @@ Ext.onReady(function() {
             },{
                 xtype      : 'numberfield',
                 id         : _idGD,
-                fieldLabel : 'Gametocyte Density (gametocytes/uL'
+                fieldLabel : 'Gametocyte Density (gametocytes/uL)'
             },{
                 xtype      : 'numberfield',
                 id         : _idHemoglobin,
