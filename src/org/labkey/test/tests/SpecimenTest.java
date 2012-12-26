@@ -26,6 +26,7 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -47,6 +48,7 @@ public class SpecimenTest extends StudyBaseTestWD
     private static final String USER2 = "user2@specimen.test";
     private static final String REQUESTABILITY_QUERY = "RequestabilityRule";
     private static final String UNREQUESTABLE_SAMPLE = "BAA07XNP-02";
+    private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
     private static final String[] PTIDS = {"999320396","999320812"};
     private int _requestId;
 
@@ -106,6 +108,7 @@ public class SpecimenTest extends StudyBaseTestWD
         verifyReports();
         exportSpecimenTest();
         verifyRequestingLocationRestriction();
+        verifySpecimenTableAttachments();
         searchTest();
     }
 
@@ -126,7 +129,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickButton("Save", 0);
         waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickAndWait(Locator.linkWithText(getFolderName()));
         waitAndClick(Locator.linkWithText("Manage Study"));
         waitAndClick(Locator.linkWithText("Manage Requestability Rules"));
         // Verify that LOCKED_IN_REQUEST is the last rule
@@ -373,6 +376,12 @@ public class SpecimenTest extends StudyBaseTestWD
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
 
+        // Add request attachment
+        click(Locator.linkWithText("Update Request"));
+        setFormElement(Locator.name("formFiles[0]"), REQUEST_ATTACHMENT);
+        clickButton("Save Changes and Send Notifications");
+        waitForElement(Locator.linkWithText(" " + REQUEST_ATTACHMENT.getName()));
+
         // modify request
         selectOptionByText(Locator.name("newActor"), "SLG");
         setFormElement(Locator.name("newDescription"), "Other SLG Approval");
@@ -382,7 +391,7 @@ public class SpecimenTest extends StudyBaseTestWD
         checkCheckbox("notificationIdPairs");
         checkCheckbox("notificationIdPairs", 1);
         clickButton("Save Changes and Send Notifications");
-        assertTextPresent("Complete");
+        waitForElement(Locator.css(".labkey-message").withText("Complete"));
     }
 
     @LogMethod
@@ -514,18 +523,18 @@ public class SpecimenTest extends StudyBaseTestWD
             "sample last one input\n" +
             "Specimen List (Request Link)\n" +
             "\n" +
-            "  Participant Id Global Unique Id Visit Description Visit Volume Volume Units Primary Type Derivative Type Additive Type Derivative Type2 Sub Additive Derivative Draw Timestamp Clinic Processing Location First Processed By Initials Sal Receipt Date Class Id Protocol Number Primary Volume Primary Volume Units Total Cell Count Tube Type Comments Locked In Request Requestable Site Name Site Ldms Code At Repository Available Availability Reason Quality Control Flag Quality Control Comments Collection Cohort Vial Count Locked In Request Count At Repository Count Available Count Expected Available Count\n" +
-            "1 999320824 BAA07XNP-01 Vst 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-23 10:05:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-23 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 1 2 0 1\n" +
-            "2 999320087 CAA07XN8-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2005-12-22 12:50:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-22 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "3 999320706 DAA07YGW-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-05 10:00:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-05 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "4 999320898 FAA07XLJ-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2005-12-20 12:05:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-20 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "5 999320264 FAA07YSC-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-13 12:10:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-13 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "6 999320520 FAA07YXY-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "7 999320498 JAA07YJB-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-05 09:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "8 999320476 JAA07YSQ-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-11 10:20:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "9 999320980 KAA07YV1-01 Vst 1.0 ML Vaginal Swab Swab None N/A 2006-01-17 08:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-17 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
-            "10 999320520 KAA07YY0-01 Vst 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0\n" +
-            "11 999320520 KAA07YY0-02 Vst 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0";
+            "  Participant Id Global Unique Id Visit Description Sequence Num Visit Volume Volume Units Primary Type Derivative Type Additive Type Derivative Type2 Sub Additive Derivative Draw Timestamp Clinic Processing Location First Processed By Initials Sal Receipt Date Class Id Protocol Number Primary Volume Primary Volume Units Total Cell Count Tube Type Comments Locked In Request Requestable Site Name Site Ldms Code At Repository Available Availability Reason Quality Control Flag Quality Control Comments Collection Cohort Vial Count Locked In Request Count At Repository Count Available Count Expected Available Count\n" +
+            "1 999320824 BAA07XNP-01 Vst 501.0 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-23 10:05:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-23 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 1 2 0 1\n" +
+            "2 999320087 CAA07XN8-01 Vst 301.0 1.0 ML Vaginal Swab Swab None N/A 2005-12-22 12:50:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-22 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "3 999320706 DAA07YGW-01 Vst 301.0 1.0 ML Vaginal Swab Swab None N/A 2006-01-05 10:00:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-05 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "4 999320898 FAA07XLJ-01 Vst 301.0 1.0 ML Vaginal Swab Swab None N/A 2005-12-20 12:05:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-20 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "5 999320264 FAA07YSC-01 Vst 201.0 1.0 ML Vaginal Swab Swab None N/A 2006-01-13 12:10:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-13 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "6 999320520 FAA07YXY-01 Vst 501.0 1.0 ML Vaginal Swab Swab None N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "7 999320498 JAA07YJB-01 Vst 501.0 1.0 ML Vaginal Swab Swab None N/A 2006-01-05 09:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "8 999320476 JAA07YSQ-01 Vst 301.0 1.0 ML Vaginal Swab Swab None N/A 2006-01-11 10:20:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "9 999320980 KAA07YV1-01 Vst 301.0 1.0 ML Vaginal Swab Swab None N/A 2006-01-17 08:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-17 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 1 1 1 0 0\n" +
+            "10 999320520 KAA07YY0-01 Vst 501.0 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0\n" +
+            "11 999320520 KAA07YY0-02 Vst 501.0 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0";
     @LogMethod
     private void verifyNotificationEmails()
     {
@@ -650,6 +659,67 @@ public class SpecimenTest extends StudyBaseTestWD
         enableAndVerifyRequestingLocationTypes(StudyLocationType.SAL);
         enableAndVerifyRequestingLocationTypes(StudyLocationType.REPOSITORY, StudyLocationType.CLINIC);
         enableAndVerifyRequestingLocationTypes(StudyLocationType.values());
+    }
+
+    @LogMethod
+    private void verifySpecimenTableAttachments()
+    {
+        clickFolder(getProjectName());
+        clickFolder(getFolderName());
+
+        log("Setup Excel specimen attachment");
+        clickAndWait(Locator.linkWithText("Manage"));
+        clickAndWait(Locator.linkWithText("Manage Notifications"));
+        checkCheckbox(Locator.checkboxById("newRequestNotifyCheckbox"));
+        setFormElement(Locator.id("newRequestNotify"), PasswordUtil.getUsername());
+        checkRadioButton(Locator.radioButtonByNameAndValue("specimensAttachment", "ExcelAttachment"));
+        clickButton("Save");
+
+        log("Create request with excel specimen attachment");
+        clickTab("Specimen Data");
+        clickAndWait(Locator.linkWithText("Urine"));
+        checkDataRegionCheckbox("SpecimenDetail", 0);
+        _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
+        selectOptionByText(Locator.name("destinationSite"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input1"), "Shipping");
+        setFormElement(Locator.id("input3"), "Comments");
+        clickButton("Create and View Details");
+        clickButton("Submit Request", 0);
+        getConfirmationAndWait();
+        waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
+
+        log("Setup text specimen attachment");
+        clickAndWait(Locator.linkWithText("Manage"));
+        clickAndWait(Locator.linkWithText("Manage Notifications"));
+        checkRadioButton(Locator.radioButtonByNameAndValue("specimensAttachment", "TextAttachment"));
+        clickButton("Save");
+
+        log("Create request with text specimen attachment");
+        clickTab("Specimen Data");
+        clickAndWait(Locator.linkWithText("Urine"));
+        checkDataRegionCheckbox("SpecimenDetail", 1);
+        _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
+        selectOptionByText(Locator.name("destinationSite"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input1"), "Shipping");
+        setFormElement(Locator.id("input3"), "Comments");
+        clickButton("Create and View Details");
+        clickButton("Submit Request", 0);
+        getConfirmationAndWait();
+        waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
+
+        log("Verify specimen list attachments");
+        goToModule("Dumbster");
+
+        click(Locator.linkContainingText("Specimen Request Notification"));
+        waitForElement(Locator.linkWithText("SpecimenDetail.tsv"));
+        click(Locator.linkContainingText("Specimen Request Notification").index(1));
+        waitForElement(Locator.linkWithText("SpecimenDetail.xls"));
+
+        // Each notification should be have only the specimen request details, no specimen list
+        assertElementPresent(Locator.css("#email_body_1 > table"), 1);
+        assertElementPresent(Locator.css("#email_body_2 > table"), 1);
     }
 
     /**
