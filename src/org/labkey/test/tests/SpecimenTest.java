@@ -593,8 +593,8 @@ public class SpecimenTest extends StudyBaseTestWD
         selectOptionByText(Locator.name("status"), "Not Yet Submitted");
         clickButton("Save Changes and Send Notifications");
         clickButton("Cancel Request", 0);
-        Assert.assertTrue(getConfirmationAndWait().matches("^Canceling will permanently delete this pending request\\.  Continue[\\s\\S]$"));
-        assertTextPresent("No data to show.");
+        assertAlert("Canceling will permanently delete this pending request.  Continue?");
+        waitForText("No data to show.");
         clickAndWait(Locator.linkWithText(getStudyLabel()));
         clickAndWait(Locator.linkWithText("Specimen Data"));
         click(Locator.linkWithText("Vials by Derivative"));
