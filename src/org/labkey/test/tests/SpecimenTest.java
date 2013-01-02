@@ -378,6 +378,7 @@ public class SpecimenTest extends StudyBaseTestWD
 
         // Add request attachment
         click(Locator.linkWithText("Update Request"));
+        waitForElement(Locator.name("formFiles[0]"));
         setFormElement(Locator.name("formFiles[0]"), REQUEST_ATTACHMENT);
         clickButton("Save Changes and Send Notifications");
         waitForElement(Locator.linkWithText(" " + REQUEST_ATTACHMENT.getName()));
