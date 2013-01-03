@@ -25,6 +25,7 @@ import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
 import java.io.IOException;
@@ -557,6 +558,7 @@ public class SpecimenTest extends StudyBaseTestWD
             Assert.assertTrue(bodyText.contains(_specimen_McMichael));
             Assert.assertTrue(!bodyText.contains(_specimen_KCMC));
             click(Locator.linkContainingText("Specimen Request Notification").index(1));
+            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_2").findElement(_driver)));
             bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_KCMC));
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
@@ -569,6 +571,7 @@ public class SpecimenTest extends StudyBaseTestWD
             Assert.assertTrue(bodyText.contains(_specimen_KCMC));
             Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
             click(Locator.linkContainingText("Specimen Request Notification").index(1));
+            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_2").findElement(_driver)));
             bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_McMichael));
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
