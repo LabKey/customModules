@@ -42,7 +42,7 @@ function submitDiagnostic()
     }
 
     var run = new LABKEY.Exp.Run();
-    //run.name = '[New]';
+    run.name = row[_idId];
     run.dataRows = [];
     run.dataRows.push(row);
 
@@ -105,7 +105,6 @@ function handleError(msg, reset)
     }
 }
 
-
 Ext.onReady(function() {
     Ext4.QuickTips.init();
 
@@ -117,11 +116,14 @@ Ext.onReady(function() {
     var fp = new Ext4.FormPanel({
         renderTo: 'upload-diagnostic-div',
         id      : 'upload-diagnostic-form',
+        width : 300,
         defaults: {
             validationEvent: false,
-            width : 290,
+            width : 280,
             allowBlank : false,
-            style : { margin: '2 0 2 0' }
+            style : { margin: '2 0 2 0' },
+            labelAlign : 'left',
+            labelWidth : 140
         },
         method : 'POST',
         enctype :'multipart/form-data',
@@ -140,14 +142,16 @@ Ext.onReady(function() {
                 id         : _idTime,
                 value      : defaultDate.getHours(),
                 fieldLabel : 'Measurement Time'
-            },{
+            }
+            ,{
                 xtype      : 'textfield',
                 id         : _idScientist,
-                fieldLabel : 'Scientist Name'
+                fieldLabel : 'Scientist'
             },{
                 xtype      : 'textfield',
                 id         : _idId,
-                fieldLabel : 'Patient ID'
+                helpPopup  : 'Patient ID',
+                fieldLabel : 'Patient'
             },{
                 xtype      : 'numberfield',
                 id         : _idProtocol,
@@ -156,31 +160,38 @@ Ext.onReady(function() {
             },{
                 xtype      : 'numberfield',
                 id         : _idInitP,
-                fieldLabel : 'Initial Parasitemia (%)'
+                helpPopup  : 'Initial Parasitemia percentage',
+                fieldLabel : 'Initial Parasitemia'
             },{
                 xtype      : 'numberfield',
                 id         : _idPD,
-                fieldLabel : 'Parasite Density (parasites/uL)'
+                helpPopup  : 'Parasite Density (parasites/uL)',
+                fieldLabel : 'Parasite Density'
             },{
                 xtype      : 'numberfield',
                 id         : _idInitG,
-                fieldLabel : 'Initial Gametocytemia (%)'
+                helpPopup  : 'Initial Gametocytemia percentage',
+                fieldLabel : 'Initial Gametocytemia'
             },{
                 xtype      : 'numberfield',
                 id         : _idGD,
-                fieldLabel : 'Gametocyte Density (gametocytes/uL)'
+                helpPopup  : 'Gametocyte Density (gametocytes/uL)',
+                fieldLabel : 'Gametocyte Density'
             },{
                 xtype      : 'numberfield',
                 id         : _idHemoglobin,
-                fieldLabel : 'Patient Hemoglobin (g/dL)'
+                helpPopup  : 'Patient Hemoglobin (g/dL)',
+                fieldLabel : 'Hemoglobin'
             },{
                 xtype      : 'numberfield',
                 id         : _idHematocrit,
-                fieldLabel : 'Hematocrit (%)'
+                helpPopup  : 'Hematocrit percentage',
+                fieldLabel : 'Hematocrit'
             },{
                 xtype      : 'combo',
                 id         : _idThick,
-                fieldLabel : 'Thick blood smear species identification',
+                helpPopup  : 'Thick blood smear species identification',
+                fieldLabel : 'Thick blood',
                 value      : defaultSpeciesData,
                 store           : new Ext4.data.SimpleStore({
                     fields : ['thick'],
@@ -194,7 +205,8 @@ Ext.onReady(function() {
             },{
                 xtype      : 'combo',
                 id         : _idThin,
-                fieldLabel : 'Thin blood smear species identification',
+                helpPopup  : 'Thin blood smear species identification',
+                fieldLabel : 'Thin blood',
                 value      : defaultSpeciesData,
                 store           : new Ext4.data.SimpleStore({
                     fields : ['thin'],
@@ -208,7 +220,8 @@ Ext.onReady(function() {
             },{
                 xtype      : 'combo',
                 id         : _idRDT,
-                fieldLabel : 'RDT species identification',
+                helpPopup  : 'RDT species identification',
+                fieldLabel : 'RDT',
                 value      : defaultSpeciesData,
                 store           : new Ext4.data.SimpleStore({
                     fields : ['rdt'],
@@ -222,6 +235,7 @@ Ext.onReady(function() {
             },{
                 xtype      : 'textfield',
                 id         : _idFreezer,
+                helpPopup  : 'Add all FreezerPro IDs for this sample',
                 fieldLabel : 'FreezerPro ID'
             },{
                 xtype : 'fieldcontainer',
@@ -244,6 +258,4 @@ Ext.onReady(function() {
         ]
     });
 });
-
-
 </script>

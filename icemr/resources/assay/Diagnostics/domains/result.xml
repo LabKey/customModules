@@ -12,6 +12,7 @@
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#dateTime</exp:RangeURI>
         <exp:Label>Measurement Time</exp:Label>
+        <exp:Format>h:mm a</exp:Format>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>Scientist</exp:Name>
