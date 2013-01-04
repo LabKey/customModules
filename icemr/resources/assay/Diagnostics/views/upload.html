@@ -55,15 +55,18 @@ function submitDiagnostic()
         batch : LABKEY.page.batch,
         successCallback : function (batch, response)
         {
+            /*
             Ext4.Msg.show({
                 title : "Diagnostic",
                 msg:  "Successfully uploaded result for patient id:  " + fields.get(_idId).getValue(),
                 width : 300,
                 buttons: Ext4.Msg.OK,
                 multiline: false,
-                fn : goBack,
+                fn : showRuns,
                 icon: Ext4.Msg.INFO
             });
+            */
+            showRuns();
         },
         failureCallback : function (error, format)
         {
@@ -76,6 +79,12 @@ function submitDiagnostic()
 function goBack()
 {
     window.history.back();
+}
+
+function showRuns()
+{
+    window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
+                {rowId:LABKEY.page.assay.id});
 }
 
 function validateForm()
