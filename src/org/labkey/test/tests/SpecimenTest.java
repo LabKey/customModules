@@ -554,6 +554,7 @@ public class SpecimenTest extends StudyBaseTestWD
         if (getTableCellText("dataregion_EmailRecord", 2, 0).equals(USER1))
         {
             click(Locator.linkContainingText("Specimen Request Notification"));
+            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_1").findElement(_driver)));
             String bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_McMichael));
             Assert.assertTrue(!bodyText.contains(_specimen_KCMC));
@@ -567,6 +568,7 @@ public class SpecimenTest extends StudyBaseTestWD
         else
         {
             click(Locator.linkContainingText("Specimen Request Notification"));
+            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_1").findElement(_driver)));
             String bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_KCMC));
             Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
