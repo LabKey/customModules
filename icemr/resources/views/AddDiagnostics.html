@@ -5,7 +5,8 @@
     <title></title>
 </head>
 <body>
-<a id='test'>Go to my assay</a>
+<p><strong>Welcome to the Diagnostics Assay!</strong></p>
+<a id='test'>Upload data</a>
 <script>
     function successFn(assays) {
         document.getElementById('test').href =
@@ -16,7 +17,7 @@
     }
 
     Ext.onReady(function() {
-        LABKEY.Assay.getByName({name:'Diagnostics', success:successFn});
+        LABKEY.Assay.getByName({name:'Diagnostics Assay', success:successFn});
     });
 </script>
 </body>
