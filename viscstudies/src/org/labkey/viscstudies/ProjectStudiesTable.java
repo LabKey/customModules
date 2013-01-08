@@ -25,7 +25,6 @@ import org.labkey.api.exp.PropertyColumn;
 import org.labkey.api.query.DetailsURL;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.FilteredTable;
-import org.labkey.api.util.ContainerContext;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HttpView;
 
@@ -39,11 +38,12 @@ import java.util.List;
  * User: jeckels
  * Date: May 22, 2012
  */
-public class ProjectStudiesTable extends FilteredTable
+public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
 {
     public ProjectStudiesTable(ViscStudySchema schema, TableInfo studyTable)
     {
-        super(studyTable, schema.getContainer().getProject() == null ? schema.getContainer() : schema.getContainer().getProject());
+        // Pretend that the project is our base container
+        super(studyTable, schema.getContainer().getProject() == null ? schema : new ViscStudySchema(schema.getUser(), schema.getContainer().getProject()));
         // Set the ContainerFilter to show everything from the project
         ContainerFilter containerFilter = new ContainerFilter.CurrentAndSubfolders(schema.getUser());
         ((ContainerFilterable)studyTable).setContainerFilter(containerFilter);
