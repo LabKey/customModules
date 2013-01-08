@@ -252,7 +252,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickAndWait(Locator.linkWithText("Specimen Data"));
         waitAndClick(Locator.linkWithText("Specimen Requests")); // expand node in Specimens webpart
         clickAndWait(Locator.linkWithText("Create New Request"));
-        selectOptionByText(Locator.name("destinationSite"), DESTINATION_SITE);
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
         setFormElement(Locator.id("input1"), "Shipping");
@@ -318,7 +318,7 @@ public class SpecimenTest extends StudyBaseTestWD
         goBack();
 
         clickMenuButton("Request Options", "Create New Request");
-        selectOptionByText(Locator.name("destinationSite"), DESTINATION_SITE);
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
         setFormElement(Locator.id("input1"), "Shipping");
@@ -686,7 +686,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickAndWait(Locator.linkWithText("Urine"));
         checkDataRegionCheckbox("SpecimenDetail", 0);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
-        selectOptionByText(Locator.name("destinationSite"), DESTINATION_SITE);
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input1"), "Shipping");
         setFormElement(Locator.id("input3"), "Comments");
@@ -706,7 +706,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickAndWait(Locator.linkWithText("Urine"));
         checkDataRegionCheckbox("SpecimenDetail", 1);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
-        selectOptionByText(Locator.name("destinationSite"), DESTINATION_SITE);
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input1"), "Shipping");
         setFormElement(Locator.id("input3"), "Comments");
@@ -772,13 +772,13 @@ public class SpecimenTest extends StudyBaseTestWD
         {
             if (Arrays.asList(types).contains(type))
             {
-                assertElementPresent(Locator.xpath("id('destinationSite')/option").containing(type.toString()), type.siteCount());
+                assertElementPresent(Locator.xpath("id('destinationLocation')/option").containing(type.toString()), type.siteCount());
                 expectedLocationCount += additionalLocations;
                 additionalLocations = additionalLocations / 2; // Each additional Location type adds less unique locations
             }
         }
 
-        assertElementPresent(Locator.css("#destinationSite option"), expectedLocationCount + 1); // +1 for blank select option
+        assertElementPresent(Locator.css("#destinationLocation option"), expectedLocationCount + 1); // +1 for blank select option
 
         clickButton("Cancel", 0);
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Specimen Requests"));
