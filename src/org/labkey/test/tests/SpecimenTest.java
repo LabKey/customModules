@@ -16,15 +16,20 @@
 
 package org.labkey.test.tests;
 
+import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
@@ -554,12 +559,12 @@ public class SpecimenTest extends StudyBaseTestWD
         if (getTableCellText("dataregion_EmailRecord", 2, 0).equals(USER1))
         {
             click(Locator.linkContainingText("Specimen Request Notification"));
-            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_1").findElement(_driver)));
+            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(1));
             String bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_McMichael));
             Assert.assertTrue(!bodyText.contains(_specimen_KCMC));
             click(Locator.linkContainingText("Specimen Request Notification").index(1));
-            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_2").findElement(_driver)));
+            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(2));
             bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_KCMC));
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
@@ -568,12 +573,12 @@ public class SpecimenTest extends StudyBaseTestWD
         else
         {
             click(Locator.linkContainingText("Specimen Request Notification"));
-            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_1").findElement(_driver)));
+            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(1));
             String bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_KCMC));
             Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
             click(Locator.linkContainingText("Specimen Request Notification").index(1));
-            _shortWait.until(ExpectedConditions.visibilityOf(Locator.id("email_body_2").findElement(_driver)));
+            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(2));
             bodyText = getBodyText();
             Assert.assertTrue(bodyText.contains(_specimen_McMichael));
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
