@@ -378,7 +378,7 @@ public class SpecimenTest extends StudyBaseTestWD
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
         clickButton("Submit Request", 0);
-        Assert.assertTrue(getConfirmationAndWait().matches("^Once a request is submitted, its specimen list may no longer be modified\\.  Continue[\\s\\S]$"));
+        assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
 
@@ -697,7 +697,7 @@ public class SpecimenTest extends StudyBaseTestWD
         setFormElement(Locator.id("input3"), "Comments");
         clickButton("Create and View Details");
         clickButton("Submit Request", 0);
-        getConfirmationAndWait();
+        getAlert();
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
         log("Setup text specimen attachment");
@@ -717,7 +717,7 @@ public class SpecimenTest extends StudyBaseTestWD
         setFormElement(Locator.id("input3"), "Comments");
         clickButton("Create and View Details");
         clickButton("Submit Request", 0);
-        getConfirmationAndWait();
+        getAlert();
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
         log("Verify specimen list attachments");
