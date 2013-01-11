@@ -16,10 +16,9 @@
 
 package org.labkey.test.tests;
 
-import org.jetbrains.annotations.Nullable;
-import org.junit.Assert;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
+import org.junit.Assert;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
@@ -27,10 +26,6 @@ import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
 import java.io.IOException;
