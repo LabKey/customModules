@@ -1,0 +1,30 @@
+LABKEY Admin:  To setup your ICEMR assay you need to do the following:
+
+1) Create new project
+2) Pick the ICEMR project type and pick your settings
+3) After completing project creation you should see the Assay List, Sample Sets, and Add Diagnostics web parts
+4) Create a new Assay Design
+5) Pick the "ICEMR Adaptation" type
+6) Name it whatever you want (i.e. "Adaptation Assay") and save
+7) Create a new Assay Design
+8) Pick the "ICEMR Diagnostics" type
+9) Name it "Diagnostics Assay".  Note that this assay design must be named "Diagnostics Assay"
+10) Import a Sample Set
+11) Name it "Flasks".  Note this name must be "Flasks"
+11) paste the contents of <LABKEY_ROOT>/server/customModules/ICEMR/resources/samples/flask.txt into the "Sample Set Data"
+12) under "Id Columns" pick "SampleID" for #1 and then save the sample set
+13) Since we pasted in a row of data, remove it.  Check the first ro in the Sample Set Contents and delete.
+14) Now click "Edit Fields" in the Sample Set Properties (of Sample Set Flasks)
+15) Select "Import Fields"
+16) paste the contents of <LABKEY_ROOT>/server/customModules/ICEMR/resources/samples/flaskFields.txt into dialog
+17) Save - at this point you should have the correct metadata for the flask samples.
+
+Verify your setup
+1) Go back to your ICEMR Project Folder
+2) click the "Upload data" link in the Add Diagnostics webpart
+3) You should see a form entitled "Data Import" with all the diagnostic fields in it
+4) Go back to your ICEMR Project Folder
+5) click "Adaptation Assay" in the Assay List
+6) click "Import Data" you should see a "Data Import Form" with the Flask Properties and Flask fields in it.
+
+
