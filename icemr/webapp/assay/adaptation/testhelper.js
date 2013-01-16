@@ -1,0 +1,44 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: Dax
+ * Date: 1/10/13
+ * Time: 1:24 PM
+ * To change this template use File | Settings | File Templates.
+ */
+Ext.namespace("LABKEY.icemr.test");
+
+//
+// now that you got rid of your id for field names you are completely broken
+// add a bunch-o-special case code here (including ids, i guess)
+//
+LABKEY.icemr.test.flaskId = 1;
+LABKEY.icemr.test.patientId = 1010001;
+
+function generateExperimentData(experiment)
+{
+    experiment['StartDate'] = new Date();
+    experiment['PatientID'] = LABKEY.icemr.test.patientId;
+    experiment['ExperimentID'] = 'adaptation';
+    LABKEY.icemr.test.patientId++;
+}
+
+function generateFlaskData(experiment, flask)
+{
+    flask['PatientID'] = experiment['PatientID'];
+    flask['SampleID'] = experiment['PatientID'] + LABKEY.icemr.test.flaskId;
+    flask['Scientist'] = "Hayflick";
+    flask['Stage'] = LABKEY.icemr.adaptation.stageOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.stageOptions.length)][0];
+    flask['Parasitemia'] = Math.floor(Math.random() * 100);
+    flask['Gametocytemia'] = Math.floor(Math.random() * 100);
+    flask['PatientpRBCs'] = LABKEY.icemr.adaptation.pRBCOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.pRBCOptions.length)][0];
+    flask['Hematocrit'] = Math.floor(Math.random() * 100);
+    flask['CultureMedia'] = LABKEY.icemr.adaptation.cultureMediaOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.cultureMediaOptions.length)][0];
+    if (flask['CultureMedia'] == 'serum')
+        flask['SerumBatchID'] = 1;
+    else
+        flask['AlbumaxBatchID'] = 1;
+    flask['FoldIncrease'] = 4;
+    flask['AdaptationCriteria'] = 2;
+    flask['Comments'] = "this is a comment for flask " + LABKEY.icemr.test.flaskId;
+    LABKEY.icemr.test.flaskId++;
+}

@@ -1,30 +1,13 @@
 <div id="error-div"></div>
-<div id="upload-diagnostic-div" style="width: 301px; float: left;"></div>
-<br/>
-<div id='runs_div'></div>
-
+<div id="upload-diagnostic-div"></div>
 <script type="text/javascript">
-//
-// these names must match result.xml for the ICEMR diagnostics assay
-//
-var _idDate = 'date';
-var _idTime = 'time';
-var _idScientist = 'scientist'
-var _idId = 'id';
-var _idProtocol = 'processingprotocol';
-var _idInitP = 'initparasitemia';
-var _idPD = 'parasitedensity';
-var _idInitG = 'initgametocytemia';
-var _idGD = 'gametocytedensity';
-var _idHemoglobin = 'patienthemoglobin';
-var _idHematocrit = 'hematocrit';
-var _idThick = 'thickbloodsmear';
-var _idThin = 'thinbloodsmear';
-var _idRDT = 'rdt';
-var _idFreezer = 'freezerproid';
 
-var _idAllFields = [_idDate, _idTime, _idScientist, _idId, _idProtocol, _idInitP, _idPD, _idInitG, _idGD,
-    _idHemoglobin, _idHematocrit, _idThick, _idThin, _idRDT, _idFreezer];
+LABKEY.requiresScript("assay/validation.js");
+LABKEY.requiresScript("assay/schemaHelper.js");
+//
+// setup when we get the field configs from the schemaHelper
+//
+var _fieldNames = [];
 
 function submitDiagnostic()
 {
@@ -35,14 +18,15 @@ function submitDiagnostic()
     var fields = formCmp.getForm().getFields();
     var row = {};
 
-    for (var idx = 0; idx < _idAllFields.length; idx++)
+    for (var idx = 0; idx < _fieldNames.length; idx++)
     {
-        var f = _idAllFields[idx];
+        var f = _fieldNames[idx];
         row[f] = fields.get(f).getValue();
     }
 
     var run = new LABKEY.Exp.Run();
-    run.name = row[_idId];
+
+    run.name = row[LABKEY.icemr.diagnostics.participant];
     run.dataRows = [];
     run.dataRows.push(row);
 
@@ -55,17 +39,6 @@ function submitDiagnostic()
         batch : LABKEY.page.batch,
         successCallback : function (batch, response)
         {
-            /*
-            Ext4.Msg.show({
-                title : "Diagnostic",
-                msg:  "Successfully uploaded result for patient id:  " + fields.get(_idId).getValue(),
-                width : 300,
-                buttons: Ext4.Msg.OK,
-                multiline: false,
-                fn : showRuns,
-                icon: Ext4.Msg.INFO
-            });
-            */
             showRuns();
         },
         failureCallback : function (error, format)
@@ -114,61 +87,95 @@ function handleError(msg, reset)
     }
 }
 
-Ext.onReady(function() {
-    Ext4.QuickTips.init();
+function onFieldConfigsReady(runConfigs, resultConfigs)
+{
+    //
+    // fixup our field configs
+    //
 
-    //
-    // setup initial values
-    //
-    var speciesData = [['Pf'], ['Pv'], ['mixed'], ['negative']];
-    var defaultSpeciesData = 'Pf';
+    // undone: but these fields in schema?
     var defaultDate = new Date();
-    var defaultProtocol = 1;
+
+    for (var i = 0; i < resultConfigs.length; i++)
+    {
+        var config = resultConfigs[i];
+        var name = config.name.toLowerCase();
+
+        //
+        // handle combos
+        //
+        if (name == LABKEY.icemr.diagnostics.thick ||
+            name == LABKEY.icemr.diagnostics.thin ||
+            name == LABKEY.icemr.diagnostics.RDT)
+        {
+            setComboConfig(config, LABKEY.icemr.diagnostics.speciesOptions)
+        }
+
+        //
+        // show the time picker for measurement time
+        //
+        if (name == LABKEY.icemr.diagnostics.time)
+        {
+            config.xtype = 'timefield';
+            config.value = '12:00 PM';
+        }
+
+        if (name == LABKEY.icemr.diagnostics.date)
+        {
+            config.value = defaultDate;
+        }
+
+        if (name == LABKEY.icemr.diagnostics.hemoglobin)
+        {
+            //
+            // this is the only field that is a double
+            // but not a percentage so ensure validation
+            // is correct
+            //
+            config.vtype = 'doubleNumber';
+
+        }
+
+        // push the original name (not lowercased)
+        _fieldNames.push(config.name);
+    }
 
     //
-    // numeric field validation
+    // push our button configs on to the end now
     //
-    Ext4.apply(Ext4.form.field.VTypes, {
-        intNumber : function (val, field)
-        {
-            var n = parseInt(val, 10);
-            return ( n >=0 && (n == parseFloat(val, 10)) );
-       },
-       intNumberText : 'The value must be a positive integer'
-    });
-
-    Ext4.apply(Ext4.form.field.VTypes,{
-        doubleNumber: function (val, field)
-        {
-            var d = parseFloat(val, 10);
-            return (d >= 0);
+    resultConfigs.push({
+        xtype : 'fieldcontainer',
+        layout : {
+            type : 'hbox',
+            pack : 'end',
+            defaultMargins : '2'
         },
-        doubleNumberText: 'The value must be positive'
+        items : [
+            {
+                xtype   : 'button',
+                text    : 'Submit',
+                handler : submitDiagnostic
+            }, {
+                xtype   : 'button',
+                text    : 'Cancel',
+                handler : goBack
+            }]
     });
 
-    Ext4.apply(Ext4.form.field.VTypes, {
-        percentNumber : function (val, field)
-        {
-            var d = parseFloat(val,10);
-            return (d >=0 && d <= 100);
-        },
-        percentNumberText : 'The value must be between 0 and 100'
-    });
-
-    //
+        //
     // create our form
     //
     var fp = new Ext4.FormPanel({
         renderTo: 'upload-diagnostic-div',
         id      : 'upload-diagnostic-form',
-        width : 300,
+        width : 350,
         defaults: {
             validationEvent: false,
-            width : 280,
+            width : 300,
             allowBlank : false,
             style : { margin: '2 0 2 0' },
             labelAlign : 'left',
-            labelWidth : 140
+            labelWidth : 150
         },
         method : 'POST',
         enctype :'multipart/form-data',
@@ -176,138 +183,15 @@ Ext.onReady(function() {
         stateful : false,
         autoHeight : true,
         frame : true,
-        items : [
-            {
-                xtype      : 'datefield',
-                id         : _idDate,
-                value      : defaultDate,
-                fieldLabel : 'Measurement Date'
-            },{
-                xtype      : 'timefield',
-                id         : _idTime,
-                value      : defaultDate.getHours(),
-                fieldLabel : 'Measurement Time'
-            }
-            ,{
-                xtype      : 'textfield',
-                id         : _idScientist,
-                fieldLabel : 'Scientist'
-            },{
-                xtype      : 'textfield',
-                id         : _idId,
-                helpPopup  : 'Patient ID',
-                fieldLabel : 'Patient'
-            },{
-                xtype      : 'numberfield',
-                id         : _idProtocol,
-                value      : defaultProtocol,
-                vtype      : 'intNumber',
-                fieldLabel : 'Processing Protocol'
-            },{
-                xtype      : 'numberfield',
-                id         : _idInitP,
-                vtype      : 'percentNumber',
-                helpPopup  : 'Initial Parasitemia percentage',
-                fieldLabel : 'Initial Parasitemia'
-            },{
-                xtype      : 'numberfield',
-                id         : _idPD,
-                helpPopup  : 'Parasite Density (parasites/uL)',
-                vtype      : 'intNumber',
-                fieldLabel : 'Parasite Density'
-            },{
-                xtype      : 'numberfield',
-                id         : _idInitG,
-                helpPopup  : 'Initial Gametocytemia percentage',
-                vtype      : 'percentNumber',
-                fieldLabel : 'Initial Gametocytemia'
-            },{
-                xtype      : 'numberfield',
-                id         : _idGD,
-                helpPopup  : 'Gametocyte Density (gametocytes/uL)',
-                vtype      : 'intNumber',
-                fieldLabel : 'Gametocyte Density'
-            },{
-                xtype      : 'numberfield',
-                id         : _idHemoglobin,
-                helpPopup  : 'Patient Hemoglobin (g/dL)',
-                vtype      : 'doubleNumber',
-                fieldLabel : 'Hemoglobin'
-            },{
-                xtype      : 'numberfield',
-                id         : _idHematocrit,
-                helpPopup  : 'Hematocrit percentage',
-                vtype      : 'percentNumber',
-                fieldLabel : 'Hematocrit'
-            },{
-                xtype      : 'combo',
-                id         : _idThick,
-                helpPopup  : 'Thick blood smear species identification',
-                fieldLabel : 'Thick blood',
-                value      : defaultSpeciesData,
-                store           : new Ext4.data.SimpleStore({
-                    fields : ['thick'],
-                    data   : speciesData
-                }),
-                displayField : 'thick',
-                valueField   : 'thick',
-                triggerAction   : 'all',
-                forceSelection : true,
-                mode : 'local'
-            },{
-                xtype      : 'combo',
-                id         : _idThin,
-                helpPopup  : 'Thin blood smear species identification',
-                fieldLabel : 'Thin blood',
-                value      : defaultSpeciesData,
-                store           : new Ext4.data.SimpleStore({
-                    fields : ['thin'],
-                    data   : speciesData
-                }),
-                displayField : 'thin',
-                valueField   : 'thin',
-                triggerAction   : 'all',
-                forceSelection : true,
-                mode : 'local'
-            },{
-                xtype      : 'combo',
-                id         : _idRDT,
-                helpPopup  : 'RDT species identification',
-                fieldLabel : 'RDT',
-                value      : defaultSpeciesData,
-                store           : new Ext4.data.SimpleStore({
-                    fields : ['rdt'],
-                    data   : speciesData
-                }),
-                displayField : 'rdt',
-                valueField   : 'rdt',
-                triggerAction   : 'all',
-                forceSelection : true,
-                mode : 'local'
-            },{
-                xtype      : 'textfield',
-                id         : _idFreezer,
-                helpPopup  : 'Add all FreezerPro IDs for this sample',
-                fieldLabel : 'FreezerPro ID'
-            },{
-                xtype : 'fieldcontainer',
-                layout : {
-                    type : 'hbox',
-                    pack : 'end',
-                    defaultMargins : '2'
-                },
-                items : [
-                    {
-                        xtype   : 'button',
-                        text    : 'Submit',
-                        handler : submitDiagnostic
-                    }, {
-                        xtype   : 'button',
-                        text    : 'Cancel',
-                        handler : goBack
-                    }]
-            }
-        ]
+        items : resultConfigs
     });
+}
+
+Ext.onReady(function() {
+    Ext4.QuickTips.init();
+    // numeric field validation
+    //
+    initValidators();
+    getDiagnosticsFieldConfigs(onFieldConfigsReady);
 });
 </script>

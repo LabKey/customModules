@@ -43,6 +43,11 @@ hvtnFlow/resources/queries/flow/PassFailDetails/.qview.xml -text
 icemr/build.xml -text
 icemr/folderTypes/icemr.foldertype.xml -text
 icemr/module.properties -text
+icemr/resources/assay/Adaptation/config.xml -text
+icemr/resources/assay/Adaptation/domains/batch.xml -text
+icemr/resources/assay/Adaptation/domains/result.xml -text
+icemr/resources/assay/Adaptation/domains/run.xml -text
+icemr/resources/assay/Adaptation/views/upload.html -text
 icemr/resources/assay/Diagnostics/config.xml -text
 icemr/resources/assay/Diagnostics/domains/batch.xml -text
 icemr/resources/assay/Diagnostics/domains/result.xml -text
@@ -51,6 +56,10 @@ icemr/resources/assay/Diagnostics/queries/Runs/.qview.xml -text
 icemr/resources/assay/Diagnostics/views/upload.html -text
 icemr/resources/views/Add[!!-~]Diagnostics.webpart.xml -text
 icemr/resources/views/AddDiagnostics.html -text
+icemr/webapp/assay/adaptation/testhelper.js -text
+icemr/webapp/assay/adaptation/uploadhelper.js -text
+icemr/webapp/assay/schemahelper.js -text
+icemr/webapp/assay/validation.js -text
 ms2extensions/module.properties -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text

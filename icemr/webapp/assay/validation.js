@@ -1,0 +1,48 @@
+/**
+ * Created with IntelliJ IDEA.
+ * User: Dax
+ * Date: 1/10/13
+ * Time: 11:03 AM
+ * To change this template use File | Settings | File Templates.
+ */
+Ext.namespace("LABKEY.icemr");
+
+//
+// numeric field validation
+//
+LABKEY.icemr.percentNumber = {
+    percentNumber : function (val, field)
+    {
+        var d = parseFloat(val);
+        return (d >=0 && d <= 100);
+    },
+    percentNumberText : 'The value must be between 0 and 100'
+};
+
+LABKEY.icemr.intNumber = {
+    intNumber : function (val, field)
+    {
+        var n = parseInt(val, 10);
+        return ( n >=0 && (n == parseFloat(val, 10)) );
+    },
+    intNumberText : 'The value must be a positive integer'
+};
+
+LABKEY.icemr.doubleNumber = {
+    doubleNumber: function (val, field)
+    {
+        var d = parseFloat(val);
+        return (d >= 0);
+    },
+    doubleNumberText: 'The value must be positive'
+};
+
+function initValidators()
+{
+    //
+    // numeric field validation
+    //
+    Ext4.apply(Ext4.form.field.VTypes, LABKEY.icemr.intNumber);
+    Ext4.apply(Ext4.form.field.VTypes, LABKEY.icemr.percentNumber);
+    Ext4.apply(Ext4.form.field.VTypes, LABKEY.icemr.doubleNumber);
+}

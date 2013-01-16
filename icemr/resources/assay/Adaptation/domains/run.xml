@@ -1,0 +1,23 @@
+<ap:domain xmlns:exp="http://cpas.fhcrc.org/exp/xml"
+           xmlns:ap="http://labkey.org/study/assay/xml">
+<exp:Description>ICEMR Adaptation Run</exp:Description>
+<exp:PropertyDescriptor>
+    <exp:Name>PatientID</exp:Name>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Patient ID</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>StartDate</exp:Name>
+    <exp:Description>Start Date</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#dateTime</exp:RangeURI>
+    <exp:Label>Start Date</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>ExperimentID</exp:Name>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Experiment ID</exp:Label>
+</exp:PropertyDescriptor>
+</ap:domain>

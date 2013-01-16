@@ -1,0 +1,167 @@
+<ap:domain xmlns:exp="http://cpas.fhcrc.org/exp/xml"
+           xmlns:ap="http://labkey.org/study/assay/xml">
+<exp:Description>ICEMR Adaptation Result</exp:Description>
+<!-- Day 0 and Daily fields -->
+<exp:PropertyDescriptor>
+    <exp:Name>Scientist</exp:Name>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Scientist Name</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>SampleID</exp:Name>
+    <exp:Description>Flask (sample) ID</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Sample ID</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Stage</exp:Name>
+    <exp:Description>Stage (rings, trophozoites, or schizonts</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Stage</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Parasitemia</exp:Name>
+    <exp:Description>Parasitema percentage</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
+    <exp:Label>Parasitemia</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Gametocytemia</exp:Name>
+    <exp:Description>Gametocytemia percentage</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
+    <exp:Label>Gametocytemia</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>SerumBatchId</exp:Name>
+    <exp:Description>Batch ID for serum-supplemented media</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Serum Batch ID</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>AlbumaxBatchId</exp:Name>
+    <exp:Description>Batch ID for Albumax-supplemented media</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Albumax Batch ID</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Comments</exp:Name>
+    <exp:Description>Interesting Result (yes/no)</exp:Description>
+    <exp:Required>false</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Comments</exp:Label>
+</exp:PropertyDescriptor>
+<!-- Day 0 only fields-->
+<exp:PropertyDescriptor>
+    <exp:Name>CultureMedia</exp:Name>
+    <exp:Description>Culture Media (serum or Albumax)</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Culture Media</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>pRBCs</exp:Name>
+    <exp:Description>Patient RPCs (washed or unwashed)</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+    <exp:Label>Patient pRBCs</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Hematocrit</exp:Name>
+    <exp:Description>Hematocrit percent of culture</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
+    <exp:Label>Hematocrit</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>FoldIncrease</exp:Name>
+    <exp:Description>Fold-increase for successful growth test</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Fold Increase</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>AdaptationCriteria</exp:Name>
+    <exp:Description>Successful flask adaptation crteria</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Adaptation Criteria</exp:Label>
+</exp:PropertyDescriptor>
+<!-- Daily only fields-->
+<exp:PropertyDescriptor>
+    <exp:Name>Date</exp:Name>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#dateTime</exp:RangeURI>
+    <exp:Label>Measurement Date</exp:Label>
+    <exp:Format>EEE, MMM d, yyyy</exp:Format>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>DateIndex</exp:Name>
+    <exp:Description>Number of days since Day 0</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Date Index</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Removed</exp:Name>
+    <exp:Description>If split performed, percent removed</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
+    <exp:Label>Removed</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>RBCBatchId</exp:Name>
+    <exp:Description>If split performed, batch ID of RBCs used</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>RBC Batch ID</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>GrowthFoldInitiated</exp:Name>
+    <exp:Description>Growth fold test initiated (1,2,3, or null)</exp:Description>
+    <exp:Required>false</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Growth fold test initiated</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>GrowthFoldFinished</exp:Name>
+    <exp:Description>Growth fold test finished (1,2,3, or null)</exp:Description>
+    <exp:Required>false</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:Label>Growth fold test finished</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>Contamination</exp:Name>
+    <exp:Description>Contamination observed on this day (yes/no)</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#boolean</exp:RangeURI>
+    <exp:Label>Contamination</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>MycoTest</exp:Name>
+    <exp:Description>Results of Myco test (positive/negative/no test)</exp:Description>
+    <exp:Required>false</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#boolean</exp:RangeURI>
+    <exp:Label>Myco Test Result</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>MaintenanceStopped</exp:Name>
+    <exp:Description>Flask Maintenance Stopped (yes/no)</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#boolean</exp:RangeURI>
+    <exp:Label>Maintenance Stopped</exp:Label>
+</exp:PropertyDescriptor>
+<exp:PropertyDescriptor>
+    <exp:Name>InterestingResult</exp:Name>
+    <exp:Description>Interesting Result (yes/no)</exp:Description>
+    <exp:Required>true</exp:Required>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#boolean</exp:RangeURI>
+    <exp:Label>Interesting Result</exp:Label>
+</exp:PropertyDescriptor>
+</ap:domain>

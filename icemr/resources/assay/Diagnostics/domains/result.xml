@@ -21,10 +21,11 @@
         <exp:Label>Scientist Name</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
-        <exp:Name>ID</exp:Name>
+        <exp:Name>ParticipantID</exp:Name>
+        <exp:Description>Participant ID</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
-        <exp:Label>Patient ID</exp:Label>
+        <exp:Label>Patient</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>ProcessingProtocol</exp:Name>
@@ -34,60 +35,70 @@
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>InitParasitemia</exp:Name>
+        <exp:Description>Initial Parasitemia percentage</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
         <exp:Label>Initial Parasitemia</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>ParasiteDensity</exp:Name>
+        <exp:Description>Parasite Density (parasites/uL)</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
         <exp:Label>Parasite Density</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>InitGametocytemia</exp:Name>
+        <exp:Description>Initial Gametocytemia percentage</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
         <exp:Label>Initial Gametocytemia</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>GametocyteDensity</exp:Name>
+        <exp:Description>Gametocyte Density (gametocytes/uL)</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
         <exp:Label>Gametocyte Density</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>PatientHemoglobin</exp:Name>
+        <exp:Description>Patient Hemoglobin (g/dL)</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
         <exp:Label>Patient Hemoglobin</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>Hematocrit</exp:Name>
+        <exp:Description>Hematocrit percentage</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
-        <exp:Label>Percent Hematocrit</exp:Label>
+        <exp:Label>Hematocrit</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>ThickBloodSmear</exp:Name>
+        <exp:Description>Thick blood smear species identification</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
-        <exp:Label>Thick blood smear species identification</exp:Label>
+        <exp:Label>Thick blood</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>ThinBloodSmear</exp:Name>
+        <exp:Description>Thin blood smear species identification</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
-        <exp:Label>Thin blood smear species identification</exp:Label>
+        <exp:Label>Thin blood</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>RDT</exp:Name>
+        <exp:Description>RDT species identification</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
-        <exp:Label>RDT species identification</exp:Label>
+        <exp:Label>RDT</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>FreezerProID</exp:Name>
+        <exp:Description>Add all FreezerPRO IDs for this sample</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
         <exp:Label>FreezerPro IDs</exp:Label>

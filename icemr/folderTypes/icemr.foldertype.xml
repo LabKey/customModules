@@ -1,9 +1,13 @@
 <ft:folderType xmlns:ft="http://labkey.org/data/xml/folderType">
     <ft:name>ICEMR</ft:name>
-    <ft:description>ICEMR Diagnostic Assay</ft:description>
+    <ft:description>ICEMR Assays</ft:description>
     <ft:requiredWebParts>
         <ft:webPart>
             <ft:name>Assay List</ft:name>
+            <ft:location>body</ft:location>
+        </ft:webPart>
+        <ft:webPart>
+            <ft:name>Sample Sets</ft:name>
             <ft:location>body</ft:location>
         </ft:webPart>
         <ft:webPart>
