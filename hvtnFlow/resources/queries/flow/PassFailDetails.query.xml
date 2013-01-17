@@ -27,14 +27,14 @@
                         <isHidden>true</isHidden>
                     </column>
 
-                    <column columnName="sebctrl_CD4_Resp">
+                    <column columnName="posctrl_CD4_Resp">
 
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>
                         <isHidden>true</isHidden>
                     </column>
 
-                    <column columnName="sebctrl_CD8_Resp">
+                    <column columnName="posctrl_CD8_Resp">
                         <datatype>DOUBLE</datatype>
                         <formatString>#,##0.00</formatString>
                         <isHidden>true</isHidden>

@@ -11,10 +11,8 @@
         <column name="CD4_Resp"/>
         <column name="CD8_Resp"/>
         <column name="negctrl"/>
-        <column name="sebctrl"/>
-        <column name="LO_SEB"/>
-        <column name="sebctrl"/>
-        <column name="sebctrl"/>
+        <column name="posctrl"/>
+        <column name="LO_POS"/>
         <column name="FCSAnalysis/FCSFile/Keyword/PLATE NAME"/>
         <column name="FCSAnalysis/Flag"/>
         <column name="FCSAnalysis/Sample/Flag"/>

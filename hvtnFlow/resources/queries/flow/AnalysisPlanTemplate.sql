@@ -35,7 +35,7 @@ WHEN A.SPECROLE = 'QC' THEN
     WHEN A.ANTIGEN = 'CMV' THEN 'AgCtrl-Expt'
     WHEN A.ANTIGEN IN ('negctrl') THEN 'NegCtrl-CellsOnly-Expt'
     WHEN A.ANTIGEN IN ('GTS negctrl', 'GTS Buffer') THEN 'NegCtrl-CellsOnly-Ad'
-    WHEN A.ANTIGEN IN ('SEB', 'sebctrl') THEN 'PosCtrl-Expt'
+    WHEN A.ANTIGEN IN ('SEB', 'sebctrl', 'PHA', 'phactrl') THEN 'PosCtrl-Expt'
     ELSE '#ERROR'
    END
 ELSE
@@ -43,7 +43,7 @@ ELSE
     WHEN A.ANTIGEN = 'CMV' THEN 'AgCtrl-Specimen'
     WHEN A.ANTIGEN IN ('negctrl') THEN 'NegCtrl-CellsOnly-Specimen'
     WHEN A.ANTIGEN IN ('GTS negctrl', 'GTS Buffer') THEN 'NegCtrl-CellsOnly-Ad'
-    WHEN A.ANTIGEN IN ('SEB', 'sebctrl') THEN 'PosCtrl-Specimen'
+    WHEN A.ANTIGEN IN ('SEB', 'sebctrl', 'PHA', 'phactrl') THEN 'PosCtrl-Specimen'
     WHEN A.ANTIGEN IN ('Empty Ad5 (VRC)') THEN 'TestAg-Ad'
     ELSE 'TestAg-Specimen'
   END

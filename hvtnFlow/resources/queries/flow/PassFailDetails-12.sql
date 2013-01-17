@@ -39,8 +39,8 @@ SELECT
   CASE WHEN B.CD8_Count < B.Cutoff THEN 'LO_CD8' END AS LO_CD8,
   CASE WHEN (B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.negctrl
     WHEN (B.negctrl IS NOT NULL) THEN 'excluded' END AS negctrl,
-  B.sebctrl,
-  CASE WHEN (B.sebctrl IS NOT NULL AND (
+  B.posctrl,
+  CASE WHEN (B.posctrl IS NOT NULL AND (
       B.CD4_IL2_Freq < 1.2 OR
       B.CD4_IFNg_Freq < 1.2 OR
       B.CD4_CD154_Freq < 1.2 OR
@@ -51,19 +51,19 @@ SELECT
       B.CD8_CD154_Freq < 1.2 OR
       B.CD8_CD107a_Freq < 1.2 OR
       B.CD8_TNFa_Freq < 1.2
-    )) THEN 'LO_SEB' END AS LO_SEB,
+    )) THEN 'LO_POS' END AS LO_POS,
 
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD4_IL2_Freq    END AS sebctrl_CD4_IL2_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD4_IFNg_Freq   END AS sebctrl_CD4_IFNg_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD4_CD154_Freq  END AS sebctrl_CD4_CD154_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD4_CD107a_Freq END AS sebctrl_CD4_CD107a_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD4_TNFa_Freq   END AS sebctrl_CD4_TNFa_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD4_IL2_Freq    END AS posctrl_CD4_IL2_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD4_IFNg_Freq   END AS posctrl_CD4_IFNg_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD4_CD154_Freq  END AS posctrl_CD4_CD154_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD4_CD107a_Freq END AS posctrl_CD4_CD107a_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD4_TNFa_Freq   END AS posctrl_CD4_TNFa_Freq,
 
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD8_IL2_Freq    END AS sebctrl_CD8_IL2_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD8_IFNg_Freq   END AS sebctrl_CD8_IFNg_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD8_CD154_Freq  END AS sebctrl_CD8_CD154_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD8_CD107a_Freq END AS sebctrl_CD8_CD107a_Freq,
-  CASE WHEN (B.sebctrl IS NOT NULL) THEN B.CD8_TNFa_Freq   END AS sebctrl_CD8_TNFa_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_IL2_Freq    END AS posctrl_CD8_IL2_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_IFNg_Freq   END AS posctrl_CD8_IFNg_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_CD154_Freq  END AS posctrl_CD8_CD154_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_CD107a_Freq END AS posctrl_CD8_CD107a_Freq,
+  CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_TNFa_Freq   END AS posctrl_CD8_TNFa_Freq,
 
   CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_Count END AS negctrl_CD4_Count,
   CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_IL2_Count END AS negctrl_CD4_IL2_Count,
@@ -88,11 +88,13 @@ FROM
     A.FCSFile.Keyword."Sample Order" AS SampleOrder,
     A.FCSFile.Keyword.Stim AS Stim,
     CASE
-        WHEN (A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl', 'CMV')) THEN 0
+        WHEN (A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl', 'PHA', 'phactrl', 'CMV')) THEN 0
         WHEN (A.FCSFile.Keyword.Stim IN ('Env1', 'Env2', 'Env3', 'ENV-1-PTEG', 'ENV-2-PTEG', 'ENV-3-PTEG')) THEN 5000
         WHEN (A.FCSFile.Keyword.Stim NOT IN ('negctrl', 'Neg Cont')) THEN 5000 END AS Cutoff,
     CASE WHEN (A.FCSFile.Keyword.Stim IN ('negctrl', 'Neg Cont')) THEN 'negctrl' END AS negctrl,
-    CASE WHEN A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl') THEN 'sebctrl' END AS sebctrl,
+    CASE
+        WHEN (A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl')) THEN 'sebctrl'
+        WHEN (A.FCSFile.Keyword.Stim IN ('PHA', 'phactrl')) THEN 'phactrl' END AS posctrl,
 
     A.Statistic('S/Exclude/14-/Lv/L/3+/4+:Count') AS CD4_Count,
     A.Statistic('S/Exclude/14-/Lv/L/3+/4+/IL2+:Count') AS CD4_IL2_Count,
