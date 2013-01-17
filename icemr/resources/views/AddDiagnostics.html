@@ -6,13 +6,13 @@
 </head>
 <body>
 <p><strong>Welcome to the Diagnostics Assay!</strong></p>
-<a id='test'>Upload data</a>
+<a id='test'></a>
 <script>
     function successFn(assays) {
         document.getElementById('test').href =
                 LABKEY.ActionURL.buildURL('assay', 'moduleAssayUpload', null ,
                         {rowId:assays[0].id});
-
+        document.getElementById('test').innerHTML = "Upload data";
         console.log(assays);
     }
 
