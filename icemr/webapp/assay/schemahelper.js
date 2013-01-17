@@ -13,12 +13,12 @@ Ext.namespace("LABKEY.icemr");
 //
 Ext.namespace("LABKEY.icemr.diagnostics");
 LABKEY.icemr.diagnostics.participant='ParticipantID';
-LABKEY.icemr.diagnostics.hemoglobin='patienthemoglobin';
-LABKEY.icemr.diagnostics.thick = 'thickbloodsmear';
-LABKEY.icemr.diagnostics.thin = 'thinbloodsmear';
-LABKEY.icemr.diagnostics.RDT = 'rdt';
-LABKEY.icemr.diagnostics.time = 'time';
-LABKEY.icemr.diagnostics.date = 'date'
+LABKEY.icemr.diagnostics.hemoglobin='PatientHemoglobin';
+LABKEY.icemr.diagnostics.thick = 'ThickBloodSmear';
+LABKEY.icemr.diagnostics.thin = 'ThinBloodSmear';
+LABKEY.icemr.diagnostics.RDT = 'RDT';
+LABKEY.icemr.diagnostics.time = 'Time';
+LABKEY.icemr.diagnostics.date = 'Date'
 LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative']];
 
 //
@@ -27,10 +27,10 @@ LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative
 
 Ext.namespace("LABKEY.icemr.adaptation");
 LABKEY.icemr.adaptation.flaskSampleSet = 'Flasks';
-LABKEY.icemr.adaptation.patient = 'patientid';
-LABKEY.icemr.adaptation.stage = 'stage';
-LABKEY.icemr.adaptation.pRBC = 'patientprbcs';
-LABKEY.icemr.adaptation.cultureMedia = 'culturemedia';
+LABKEY.icemr.adaptation.patient = 'PatientID';
+LABKEY.icemr.adaptation.stage = 'Stage';
+LABKEY.icemr.adaptation.pRBC = 'PatientpRBCs';
+LABKEY.icemr.adaptation.cultureMedia = 'CultureMedia';
 LABKEY.icemr.adaptation.stageOptions =  [['rings'], ['trophozoites'], ['schizonts']];
 LABKEY.icemr.adaptation.pRBCOptions = [['washed'], ['unwashed']];
 LABKEY.icemr.adaptation.cultureMediaOptions = [['serum'], ['Albumax']];

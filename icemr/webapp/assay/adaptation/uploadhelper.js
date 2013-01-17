@@ -94,13 +94,13 @@ function onUploadFlasksSuccess(result)
     var materialInputs = [];
     for (var i = 0; i < result.rows.length; i++)
     {
-        var row = result.rows[i];
-
         //
         // create a material from the flask we just inserted
         //
-        var material = getMaterialFromFlask(row);
-        materialInputs.push(material);
+        materialInputs.push({
+            id : result.rows[i]['rowid'],
+            role : "Flask " + (i+1)
+        });
     }
 
     var run = new LABKEY.Exp.Run();
@@ -121,25 +121,6 @@ function onUploadFlasksSuccess(result)
         successCallback : LABKEY.icemr.saveDay0Success,
         failureCallback : LABKEY.icemr.saveDay0Failure
     });
-}
-
-function getMaterialFromFlask(flask)
-{
-    var material = new LABKEY.Exp.Material(flask);
-    material.id = flask['rowid'];
-    material.name = flask['name'];
-    /*
-        Shouldn't need the Flasks Sample Set ID
-        As the row ids should be unique across
-        all sample sets.
-
-     material.sampleSet = {
-     name : LABKEY.icemr.adaptation.flaskSampleSet,
-     id : LABKEY.icemr.adaptation.flaskSampleSetId
-     };
-
-     */
-    return material;
 }
 
 /**
@@ -177,50 +158,3 @@ function onFlasksFailure(data)
     Ext.Msg.hide();
     Ext.Msg.alert(LABKEY.icemr.errConfigTitle, LABKEY.icemr.errConfigMissingFlask);
 }
-
-/*
-We probably don't need this code since rowid's are unique across SampleSets.
-Keeping around until we successfully round trip day 0 data
- */
-
-/*
-
-
-//
-// Get the Flasks Sample Set ID before returning to the client
-// We'll need this to upload the day 0 data
-//
-LABKEY.Query.selectRows( {
-    schemaName : 'exp',
-    queryName : 'SampleSets',
-    success : onFlasksSampleSetReady,
-    failure : onFlasksFailure
-});
-
-
-function onFlasksSampleSetReady(data)
-{
-    for (var i = 0; i < data.rows.length; i++)
-    {
-        if (data.rows[i].Name == LABKEY.icemr.adaptation.flaskSampleSet)
-        {
-            LABKEY.icemr.adaptation.flaskSampleSetId = data.rows[i].RowId;
-            break;
-        }
-    }
-
-    if (LABKEY.icemr.adaptation.flaskSampleSetId == undefined)
-    {
-        Ext.Msg.hide();
-        Ext.Msg.alert(LABKEY.icemr.errConfigTitle, LABKEY.icemr.errConfigMissingFlask);
-    }
-    else
-    {
-        //
-        // we now have all our config info ready, return
-        // to the caller
-        //
-        LABKEY.icemr.getDay0Success(LABKEY.icemr.runConfigs, LABKEY.icemr.flaskConfigs);
-    }
-}
-*/

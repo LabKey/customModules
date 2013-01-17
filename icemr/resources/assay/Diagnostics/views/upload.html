@@ -39,7 +39,7 @@ function submitDiagnostic()
         batch : LABKEY.page.batch,
         successCallback : function (batch, response)
         {
-            showRuns();
+            showResults();
         },
         failureCallback : function (error, format)
         {
@@ -54,9 +54,9 @@ function goBack()
     window.history.back();
 }
 
-function showRuns()
+function showResults()
 {
-    window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
+    window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayResults', null,
                 {rowId:LABKEY.page.assay.id});
 }
 
@@ -92,21 +92,18 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
     //
     // fixup our field configs
     //
-
-    // undone: but these fields in schema?
     var defaultDate = new Date();
 
     for (var i = 0; i < resultConfigs.length; i++)
     {
         var config = resultConfigs[i];
-        var name = config.name.toLowerCase();
 
         //
         // handle combos
         //
-        if (name == LABKEY.icemr.diagnostics.thick ||
-            name == LABKEY.icemr.diagnostics.thin ||
-            name == LABKEY.icemr.diagnostics.RDT)
+        if (config.name == LABKEY.icemr.diagnostics.thick ||
+            config.name == LABKEY.icemr.diagnostics.thin ||
+            config.name == LABKEY.icemr.diagnostics.RDT)
         {
             setComboConfig(config, LABKEY.icemr.diagnostics.speciesOptions)
         }
@@ -114,18 +111,18 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
         //
         // show the time picker for measurement time
         //
-        if (name == LABKEY.icemr.diagnostics.time)
+        if (config.name == LABKEY.icemr.diagnostics.time)
         {
             config.xtype = 'timefield';
             config.value = '12:00 PM';
         }
 
-        if (name == LABKEY.icemr.diagnostics.date)
+        if (config.name == LABKEY.icemr.diagnostics.date)
         {
             config.value = defaultDate;
         }
 
-        if (name == LABKEY.icemr.diagnostics.hemoglobin)
+        if (config.name == LABKEY.icemr.diagnostics.hemoglobin)
         {
             //
             // this is the only field that is a double
@@ -136,7 +133,7 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
 
         }
 
-        // push the original name (not lowercased)
+        // save the original name to bind to later
         _fieldNames.push(config.name);
     }
 
@@ -187,7 +184,7 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
     });
 }
 
-Ext.onReady(function() {
+Ext4.onReady(function() {
     Ext4.QuickTips.init();
     // numeric field validation
     //

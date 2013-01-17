@@ -8,14 +8,18 @@ LABKEY.requiresScript("assay/adaptation/testhelper.js");
 
 function onSaveSuccess(result)
 {
-    var i = 1;
-
+    //
+    // just to to the runs view for now
+    //
+    window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
+            {rowId:LABKEY.page.assay.id});
 }
 
 function onSaveFailure(result)
 {
-    var i = 1;
-
+    //
+    // you can fill this in if you want
+    //
 }
 
 function submitAdaptation()
@@ -107,9 +111,8 @@ function onConfigsReady(runConfigs, flaskConfigs)
     for (var i = 0; i < flaskConfigs.length; i++)
     {
         var config = flaskConfigs[i];
-        var name = config.name.toLowerCase();
 
-        if (name == LABKEY.icemr.adaptation.patient)
+        if (config.name == LABKEY.icemr.adaptation.patient)
             continue;
 
         flaskUIConfigs.push(config);
@@ -117,17 +120,17 @@ function onConfigsReady(runConfigs, flaskConfigs)
         //
         // handle combos
         //
-        if (name == LABKEY.icemr.adaptation.stage)
+        if (config.name == LABKEY.icemr.adaptation.stage)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
         }
         else
-        if (name == LABKEY.icemr.adaptation.pRBC)
+        if (config.name == LABKEY.icemr.adaptation.pRBC)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.pRBCOptions);
         }
         else
-        if (name == LABKEY.icemr.adaptation.cultureMedia)
+        if (config.name == LABKEY.icemr.adaptation.cultureMedia)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.cultureMediaOptions);
         }
