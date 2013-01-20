@@ -171,7 +171,7 @@ public class SpecimenTest extends StudyBaseTestWD
         assertTextPresent("20ml Cryovial");
         assertTextPresent("25ml Cryovial");
         clickAndWait(Locator.linkWithText("Specimen Overview"));
-        click(Locator.linkWithText("Vials by Derivative"));
+        click(Locator.linkWithText("Vials by DerivativeType"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Tear Flo Strips"), WAIT_FOR_PAGE);
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
@@ -304,7 +304,7 @@ public class SpecimenTest extends StudyBaseTestWD
     {
         clickAndWait(Locator.linkWithText(getStudyLabel()));
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        click(Locator.linkWithText("Vials by Derivative"));
+        click(Locator.linkWithText("Vials by DerivativeType"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
         // Verify unavailable sample
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
@@ -345,7 +345,7 @@ public class SpecimenTest extends StudyBaseTestWD
 
         // add additional specimens
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClick(Locator.linkWithText("Vials by Derivative"));
+        waitAndClick(Locator.linkWithText("Vials by DerivativeType"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
@@ -612,7 +612,7 @@ public class SpecimenTest extends StudyBaseTestWD
         waitForText("No data to show.");
         clickAndWait(Locator.linkWithText(getStudyLabel()));
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        click(Locator.linkWithText("Vials by Derivative"));
+        click(Locator.linkWithText("Vials by DerivativeType"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
