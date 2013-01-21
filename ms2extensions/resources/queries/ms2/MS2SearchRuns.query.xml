@@ -1,26 +1,14 @@
-<ns:tables xmlns:ns="http://labkey.org/data/xml">
-  <ns:table tableName="MS2SearchRuns" tableDbType="NOT_IN_DB">
-     <ns:columns>
-      <ns:column columnName="XTandemMS2Details" wrappedColumnName="MS2Details">
-        <ns:measure>false</ns:measure>
-        <ns:dimension>true</ns:dimension>
-        <ns:columnTitle>XTandem Qualified Peptide Counts</ns:columnTitle>
-        <ns:fk>
-          <ns:fkDbSchema>ms2</ns:fkDbSchema>
-          <ns:fkTable>XTandemQualifiedPeptideCountsPerRun</ns:fkTable>
-          <ns:fkColumnName>MS2Run</ns:fkColumnName>
-        </ns:fk>
-      </ns:column>
-      <ns:column columnName="SequestMS2Details" wrappedColumnName="MS2Details">
-        <ns:measure>false</ns:measure>
-        <ns:dimension>true</ns:dimension>
-        <ns:columnTitle>Sequest Qualified Peptide Counts</ns:columnTitle>
-        <ns:fk>
-          <ns:fkDbSchema>ms2</ns:fkDbSchema>
-          <ns:fkTable>SequestQualifiedPeptideCountsPerRun</ns:fkTable>
-          <ns:fkColumnName>MS2Run</ns:fkColumnName>
-        </ns:fk>
-      </ns:column>
-    </ns:columns>
-  </ns:table>
-</ns:tables>
+<tables xmlns="http://labkey.org/data/xml">
+  <table tableName="MS2SearchRuns" tableDbType="NOT_IN_DB">
+     <columns>
+      <column columnName="PeptideCounts" wrappedColumnName="MS2Details">
+        <columnTitle>Qualified Peptide Counts</columnTitle>
+        <fk>
+          <fkDbSchema>ms2extensions</fkDbSchema>
+          <fkTable>Ms2RunAggregates</fkTable>
+          <fkColumnName>ms2Run</fkColumnName>
+        </fk>
+      </column>
+    </columns>
+  </table>
+</tables>

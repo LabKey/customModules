@@ -63,6 +63,7 @@ icemr/webapp/assay/adaptation/testhelper.js -text
 icemr/webapp/assay/adaptation/uploadhelper.js -text
 icemr/webapp/assay/schemahelper.js -text
 icemr/webapp/assay/validation.js -text
+ms2extensions/Ms2extensions.iml -text
 ms2extensions/module.properties -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text
@@ -76,6 +77,17 @@ ms2extensions/resources/queries/ms2/XTandemChargeQueryColumns.sql -text
 ms2extensions/resources/queries/ms2/XTandemQualifiedPeptideCountsPerRun.query.xml -text
 ms2extensions/resources/queries/ms2/XTandemQualifiedPeptideCountsPerRun.sql -text
 ms2extensions/resources/queries/ms2/XTandemSearchRuns.query.xml -text
+ms2extensions/resources/queries/ms2extensions/GetSequestPeptideCounts.sql -text
+ms2extensions/resources/queries/ms2extensions/GetXTandemPeptideCounts.sql -text
+ms2extensions/resources/queries/ms2extensions/Ms2RunAggregates.query.xml -text
+ms2extensions/resources/schemas/dbscripts/postgresql/ms2extensions-12.30-12.31.sql -text
+ms2extensions/resources/schemas/dbscripts/sqlserver/ms2extensions-12.30-12.31.sql -text
+ms2extensions/resources/schemas/ms2extensions.xml -text
+ms2extensions/src/org/labkey/ms2extensions/FilterView.java -text
+ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsController.java -text
+ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsModule.java -text
+ms2extensions/src/org/labkey/ms2extensions/RunGridWebPart.java -text
+ms2extensions/src/org/labkey/ms2extensions/runGridFilters.jsp -text
 viscstudies/build.xml -text
 viscstudies/module.properties -text
 viscstudies/resources/views/studydesigns.html -text
