@@ -40,6 +40,10 @@ LABKEY.icemr.adaptation.measurementDate = 'MeasurementDate';
 LABKEY.icemr.adaptation.growthFoldTestInitiated = 'GrowthFoldTestInitiated';
 LABKEY.icemr.adaptation.growthFoldTestFinished = 'GrowthFoldTestFinished';
 LABKEY.icemr.adaptation.flaskMaintenanceStopped = 'FlaskMaintenanceStopped';
+LABKEY.icemr.adaptation.scientist = 'Scientist';
+LABKEY.icemr.adaptation.serumBatch = 'SerumBatchID';
+LABKEY.icemr.adaptation.albumaxBatch = 'AlbumaxBatchID';
+
 
 //
 // the ICEMR module must have these assay designs and

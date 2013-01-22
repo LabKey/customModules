@@ -243,6 +243,16 @@ function createFileUploadPanel()
     return uploadFormPanel;
 }
 
+function generateTemplateFile()
+{
+    //
+    // pass in the measurement date from the form
+    //
+    var formCmp = Ext4.getCmp('upload-adaptation-form');
+    var fields = formCmp.getForm().getFields();
+    var measurementDate = fields.get('_' + LABKEY.icemr.adaptation.measurementDate).getValue();
+    getDailyUploadTemplate(measurementDate);
+}
 
 function onRunDataReady(runData)
 {
@@ -250,6 +260,9 @@ function onRunDataReady(runData)
     // fill in the values for our form and make the run data
     // read only
     //
+
+    var formRunFieldConfigs = [];
+
     for (var i = 0; i < _runFieldConfigs.length; i++)
     {
         var config = _runFieldConfigs[i];
@@ -262,7 +275,26 @@ function onRunDataReady(runData)
             config.value = runData[config.name];
         }
         config.readOnly = true;
+
+        formRunFieldConfigs.push(config);
     }
+
+    //
+    // add a measurement date field that we'll use to generate
+    // the template file
+    //
+    formRunFieldConfigs.push({
+        xtype : 'datefield',
+        id: '_' + LABKEY.icemr.adaptation.measurementDate,
+        fieldLabel : 'Maintenance Date',
+        value : new Date()
+    });
+
+    formRunFieldConfigs.push({
+            xtype   : 'button',
+            text    : 'Get Template',
+            handler : generateTemplateFile
+    });
 
     _runData = runData;
 
@@ -296,7 +328,7 @@ function onRunDataReady(runData)
                      type : 'vbox',
                      defaultMargins : '2 0 2 0'
                  },
-                 items : _runFieldConfigs
+                 items : formRunFieldConfigs
              },
              createFileUploadPanel(),
              {
@@ -311,7 +343,7 @@ function onRunDataReady(runData)
                  xtype : 'fieldcontainer',
                  layout : {
                      type : 'hbox',
-                     pack : 'end',
+                     pack : 'center',
                      defaultMargins : '2'
                  },
                  items : [

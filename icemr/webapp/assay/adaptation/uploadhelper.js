@@ -23,7 +23,9 @@ LABKEY.icemr.errDailyUploadFileNoRows = "The data file has no rows of data";
 LABKEY.icemr.errDailyUploadFileInvalidHeader = "The data file header row does not match the daily results schema";
 
 LABKEY.icemr.errDay0Title = "Day 0 Upload Error";
-LABKEY.icemr.errDay0NoFlasksDefined = "You must include at least one flask with your Day 0 data"
+LABKEY.icemr.errDay0NoFlasksDefined = "You must include at least one flask with your Day 0 data";
+
+LABKEY.icemr.dailyUploadTemplateFilename = "dailyUpload.xls";
 
 /**
  * These functions manage the upload of Day 0 and daily data to LabKey Server
@@ -177,6 +179,115 @@ function getFlaskUpdateData(dailyResult)
     }
 
     return null;
+}
+
+//
+// generate an excel template file and autopopulate
+// with the all the flasks specified in Day 0 for this run
+// that have not had their maintenance stopped
+//
+function getDailyUploadTemplate(measurementDate)
+{
+
+    var flasks = getDay0Flasks();
+    var rows = [];
+
+    rows.push(buildHeaderRow());
+    for (var i = 0; i < flasks.length; i++)
+    {
+        // skip any flasks whose daily maintennce has been stopped
+        if (true == flasks[i][LABKEY.icemr.adaptation.flaskMaintenanceStopped])
+            continue;
+
+        rows.push(buildDataRow(flasks[i], measurementDate));
+    }
+
+    //
+    // build up our spreadsheet object
+    //
+    var spreadsheet = {};
+    spreadsheet.fileName = LABKEY.icemr.dailyUploadTemplateFilename;
+    spreadsheet.sheets = [];
+    var sheet = {};
+    sheet.name = 'Sheet1';
+    sheet.data = rows;
+    spreadsheet.sheets.push(sheet);
+    LABKEY.Utils.convertToExcel(spreadsheet);
+}
+
+function buildHeaderRow()
+{
+    var columns = [];
+    for (var i = 0; i < LABKEY.icemr.adaptation.resultFieldConfigs.length; i++)
+    {
+        var cfg = LABKEY.icemr.adaptation.resultFieldConfigs[i];
+
+        // don't put calculated fields in the template
+        if (cfg.name == LABKEY.icemr.adaptation.dateIndex)
+            continue;
+
+        columns.push(cfg.name);
+    }
+
+    return columns;
+}
+
+function buildDataRow(flask, measurementDate)
+{
+    var columns = [];
+
+    for (var i = 0; i < LABKEY.icemr.adaptation.resultFieldConfigs.length; i++)
+    {
+        var cfg = LABKEY.icemr.adaptation.resultFieldConfigs[i];
+        var data = null;
+
+        // don't put calculated fields in the template
+        if (cfg.name == LABKEY.icemr.adaptation.dateIndex)
+            continue;
+
+        if (cfg.name == LABKEY.icemr.adaptation.measurementDate)
+        {
+            data = measurementDate;
+        }
+        else
+        if (cfg.name == LABKEY.icemr.adaptation.patient)
+        {
+            // not a prepopulated field
+            data = flask[LABKEY.icemr.adaptation.patient];
+        }
+        else
+        if (cfg.name == LABKEY.icemr.adaptation.sample)
+        {
+            data = flask[LABKEY.icemr.adaptation.sample];
+        }
+        else
+        if (cfg.name == LABKEY.icemr.adaptation.scientist)
+        {
+            data = flask[LABKEY.icemr.adaptation.scientist];
+        }
+        else
+        if (cfg.name == LABKEY.icemr.adaptation.stage)
+        {
+            data = flask[LABKEY.icemr.adaptation.stage];
+        }
+        else
+        if (cfg.name == LABKEY.icemr.adaptation.serumBatch)
+        {
+            data = flask[LABKEY.icemr.adaptation.serumBatch];
+        }
+        else
+        if (cfg.name == LABKEY.icemr.adaptation.albumaxBatch)
+        {
+            data = flask[LABKEY.icemr.adaptation.albumaxBatch];
+        }
+
+        if (data == null)
+            data = '';
+
+        columns.push(data);
+    }
+
+    return columns;
 }
 
 //
