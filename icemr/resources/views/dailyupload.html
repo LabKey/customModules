@@ -56,10 +56,14 @@ function submitDaily()
     var numResults = Math.floor(Math.random() * flasks.length);
     if (numResults == 0) numResults = 1;
 
+    var formCmp = Ext4.getCmp('upload-adaptation-form');
+    var fields = formCmp.getForm().getFields();
+    var stopMaintenance = fields.get(LABKEY.icemr.adaptation.flaskMaintenanceStopped).getValue();
+
     for (var i = 0; i < numResults; i++)
     {
         var result = createDaily();
-        generateDailyData(_runData, flasks[i], result);
+        generateDailyData(_runData, flasks[i], stopMaintenance, result);
         results.push(result);
     }
 

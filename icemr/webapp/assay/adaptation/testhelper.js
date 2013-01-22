@@ -41,7 +41,7 @@ function generateFlaskData(experiment, flask)
     LABKEY.icemr.test.flaskId++;
 }
 
-function generateDailyData(experiment, flask, dailyResult)
+function generateDailyData(experiment, flask, stopMaintenance, dailyResult)
 {
     dailyResult['Scientist'] = "N. Tesla";
     dailyResult['SampleID'] = flask[LABKEY.icemr.adaptation.sample];  // flask id
@@ -60,16 +60,7 @@ function generateDailyData(experiment, flask, dailyResult)
     dailyResult['GrowthFoldTestFinished'] = Math.floor(Math.random() * 3);
     dailyResult['Contamination'] = false;
     dailyResult['MycoTestResult'] = true;
-    var stopped = Math.floor(Math.random() * 2);
-
-    // undone: once a flask is stopped you can't add any more samples to it so
-    // undone: you may not want to specify this in tests
-    if (stopped)
-        dailyResult['FlaskMaintenanceStopped'] = true;
-    else
-        dailyResult['FlaskMaintenanceStopped'] = false;
-
-    // if 0 just leave undefined maintenance stopped undefined
+    dailyResult['FlaskMaintenanceStopped'] = stopMaintenance;
     dailyResult['InterestingResult'] = true;
     dailyResult['FreezerProIDs'] = "10 20 3a 4b";
     dailyResult['Comments'] = "this is my comment for the daily maintenace of: " + dailyResult['SampleID'];
