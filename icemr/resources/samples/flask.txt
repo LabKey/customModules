@@ -1,2 +1,2 @@
-Date	PatientID	SampleID	Scientist	Stage	Parasitemia	Gametocytemia	PatientpRBCs	Hematocrit	CultureMedia	SerumBatchID	AlbumaxBatchID	FoldIncrease	AdaptationCriteria	Comments
-1/11/2012	1010001	01010001A	Dr. Who	rings	2.5	0.1	unwashed	1.00	serum	1	1	4	2	howdy
+PatientID	SampleID	Scientist	Stage	Parasitemia	Gametocytemia	PatientpRBCs	Hematocrit	CultureMedia	SerumBatchID	AlbumaxBatchID	FoldIncrease	AdaptationCriteria	Comments
+1010001	01010001A	Dr. Who	rings	2.5	0.1	unwashed	1.00	serum	1	1	4	2	howdy

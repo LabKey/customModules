@@ -35,11 +35,17 @@ function submitAdaptation()
     var exp = createExperiment();
 
     // test only: fill in with some data
-    generateExperimentData(exp);
+    var formCmp = Ext4.getCmp('upload-adaptation-form');
+    var fields = formCmp.getForm().getFields();
+    var patientid = fields.get("PatientID").getValue();
+    var expid = fields.get("ExperimentID").getValue();
+    generateExperimentData(exp, patientid, expid);
 
     var flasks = [];
+    var numFlasks = Math.floor(Math.random() * 9);
+    if (numFlasks == 0) numFlasks = 1;
 
-    for (var i = 0; i < 4; i++)
+    for (var i = 0; i < numFlasks; i++)
     {
         // when the client adds a flask, create a blank flask object to fill in
         var flask = createFlask();

@@ -5,7 +5,8 @@ LABKEY Admin:  To setup your ICEMR assay you need to do the following:
 3) After completing project creation you should see the Assay List, Sample Sets, and Add Diagnostics web parts
 4) Create a new Assay Design
 5) Pick the "ICEMR Adaptation" type
-6) Name it whatever you want (i.e. "Adaptation Assay") and save
+6) Name it "Adaptation Assay" and save
+6.1) be sure to check the 'Editable Runs' property
 7) Create a new Assay Design
 8) Pick the "ICEMR Diagnostics" type
 9) Name it "Diagnostics Assay".  Note that this assay design must be named "Diagnostics Assay"

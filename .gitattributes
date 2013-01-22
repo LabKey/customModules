@@ -47,6 +47,7 @@ icemr/resources/assay/Adaptation/config.xml -text
 icemr/resources/assay/Adaptation/domains/batch.xml -text
 icemr/resources/assay/Adaptation/domains/result.xml -text
 icemr/resources/assay/Adaptation/domains/run.xml -text
+icemr/resources/assay/Adaptation/queries/Runs.query.xml -text
 icemr/resources/assay/Adaptation/views/upload.html -text
 icemr/resources/assay/Diagnostics/config.xml -text
 icemr/resources/assay/Diagnostics/domains/batch.xml -text
@@ -58,6 +59,7 @@ icemr/resources/samples/flask.txt -text
 icemr/resources/samples/flaskFields.txt -text
 icemr/resources/views/Add[!!-~]Diagnostics.webpart.xml -text
 icemr/resources/views/AddDiagnostics.html -text
+icemr/resources/views/dailyupload.html -text
 icemr/setup.txt -text
 icemr/webapp/assay/adaptation/testhelper.js -text
 icemr/webapp/assay/adaptation/uploadhelper.js -text

@@ -12,14 +12,12 @@ Ext.namespace("LABKEY.icemr.test");
 // add a bunch-o-special case code here (including ids, i guess)
 //
 LABKEY.icemr.test.flaskId = 1;
-LABKEY.icemr.test.patientId = 1010001;
 
-function generateExperimentData(experiment)
+function generateExperimentData(experiment, patientId, experimentId)
 {
     experiment['StartDate'] = new Date();
-    experiment['PatientID'] = LABKEY.icemr.test.patientId;
-    experiment['ExperimentID'] = 'adaptation';
-    LABKEY.icemr.test.patientId++;
+    experiment['PatientID'] = patientId;
+    experiment['ExperimentID'] = experimentId;
 }
 
 function generateFlaskData(experiment, flask)
@@ -42,3 +40,39 @@ function generateFlaskData(experiment, flask)
     flask['Comments'] = "this is a comment for flask " + LABKEY.icemr.test.flaskId;
     LABKEY.icemr.test.flaskId++;
 }
+
+function generateDailyData(experiment, flask, dailyResult)
+{
+    dailyResult['Scientist'] = "N. Tesla";
+    dailyResult['SampleID'] = flask[LABKEY.icemr.adaptation.sample];  // flask id
+    dailyResult['Stage'] = LABKEY.icemr.adaptation.stageOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.stageOptions.length)][0];
+    dailyResult['Parasitemia'] = Math.floor(Math.random() * 100);
+    dailyResult['Gametocytemia'] = Math.floor(Math.random() * 100);
+    if (flask['CultureMedia'] == 'serum')
+        dailyResult['SerumBatchID'] = 22;
+    else
+        dailyResult['AlbumaxBatchID'] = 33;
+    dailyResult['MeasurementDate'] = new Date();
+    dailyResult['DateIndex'] = getDateIndex(new Date(experiment['StartDate']), dailyResult['MeasurementDate']);
+    dailyResult['Removed'] = Math.floor(Math.random() * 100);
+    dailyResult['RBCBatchID'] = Math.floor(Math.random() * 10);
+    dailyResult['GrowthFoldTestInitiated'] = Math.floor(Math.random() * 3);
+    dailyResult['GrowthFoldTestFinished'] = Math.floor(Math.random() * 3);
+    dailyResult['Contamination'] = false;
+    dailyResult['MycoTestResult'] = true;
+    var stopped = Math.floor(Math.random() * 2);
+
+    // undone: once a flask is stopped you can't add any more samples to it so
+    // undone: you may not want to specify this in tests
+    if (stopped)
+        dailyResult['FlaskMaintenanceStopped'] = true;
+    else
+        dailyResult['FlaskMaintenanceStopped'] = false;
+
+    // if 0 just leave undefined maintenance stopped undefined
+    dailyResult['InterestingResult'] = true;
+    dailyResult['FreezerProIDs'] = "10 20 3a 4b";
+    dailyResult['Comments'] = "this is my comment for the daily maintenace of: " + dailyResult['SampleID'];
+}
+
+

@@ -24,16 +24,22 @@ LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative
 //
 // adaptation assay constants
 //
-
 Ext.namespace("LABKEY.icemr.adaptation");
 LABKEY.icemr.adaptation.flaskSampleSet = 'Flasks';
 LABKEY.icemr.adaptation.patient = 'PatientID';
+LABKEY.icemr.adaptation.sample = 'SampleID';
 LABKEY.icemr.adaptation.stage = 'Stage';
 LABKEY.icemr.adaptation.pRBC = 'PatientpRBCs';
 LABKEY.icemr.adaptation.cultureMedia = 'CultureMedia';
 LABKEY.icemr.adaptation.stageOptions =  [['rings'], ['trophozoites'], ['schizonts']];
 LABKEY.icemr.adaptation.pRBCOptions = [['washed'], ['unwashed']];
 LABKEY.icemr.adaptation.cultureMediaOptions = [['serum'], ['Albumax']];
+LABKEY.icemr.adaptation.dateIndex = 'DateIndex';
+LABKEY.icemr.adaptation.startDate = 'StartDate';
+LABKEY.icemr.adaptation.measurementDate = 'MeasurementDate';
+LABKEY.icemr.adaptation.growthFoldTestInitiated = 'GrowthFoldTestInitiated';
+LABKEY.icemr.adaptation.growthFoldTestFinished = 'GrowthFoldTestFinished';
+LABKEY.icemr.adaptation.flaskMaintenanceStopped = 'FlaskMaintenanceStopped';
 
 //
 // the ICEMR module must have these assay designs and
@@ -53,42 +59,61 @@ LABKEY.icemr.errConfigTitle = "Configuration Error";
 LABKEY.icemr.errConfigMissingAssayDesign = "Could not find the specified assay design. Please see your LabKey administrator.";
 LABKEY.icemr.errConfigMissingFlask = "Could not find the Flask Sample Set. Please see your LabKey administrator.";
 
+function getAdaptationFieldConfigsCallbackWrapper(fn) {
+    return function(runFieldConfigs, resultFieldConfigs) {
+        LABKEY.icemr.adaptation.runFieldConfigs = runFieldConfigs;
+        LABKEY.icemr.adaptation.resultFieldConfigs = resultFieldConfigs;
+        if (fn)
+            fn.call(this, runFieldConfigs, resultFieldConfigs);
+    }
+}
 function getAdaptationFieldConfigs(successCallback)
 {
-    getFieldConfigs(LABKEY.icemr.AdaptationAssayResults, successCallback);
+    getFieldConfigs(LABKEY.icemr.AdaptationAssayResults,
+            getAdaptationFieldConfigsCallbackWrapper(successCallback));
 }
-
+function getDiagnosticFieldConfigsCallbackWrapper(fn) {
+    return function(runFieldConfigs, resultFieldConfigs) {
+        LABKEY.icemr.diagnostics.runFieldConfigs = runFieldConfigs;
+        LABKEY.icemr.diagnostics.resultFieldConfigs = resultFieldConfigs;
+        if (fn)
+            fn.call(this, runFieldConfigs, resultFieldConfigs);
+    }
+}
 function getDiagnosticsFieldConfigs(successCallback)
 {
-    getFieldConfigs(LABKEY.icemr.DiagnosticsAssayResults, successCallback)
+    getFieldConfigs(LABKEY.icemr.DiagnosticsAssayResults,
+            getDiagnosticFieldConfigsCallbackWrapper(successCallback));
 }
 
-function onAssayDesignReady(assays)
-{
-    if (assays.length != 1)
+function getFieldConfigsSuccessCallback(fn) {
+    return function(assays)
     {
-        Ext.Msg.hide();
-        Ext.Msg.alert(LABKEY.icemr.errConfigTitle,  LABKEY.icemr.errConfigMissingAssayDesign);
-    }
+        if (assays.length != 1)
+        {
+            Ext.Msg.hide();
+            Ext.Msg.alert(LABKEY.icemr.errConfigTitle,  LABKEY.icemr.errConfigMissingAssayDesign);
+        }
 
-    var assay = assays[0];
-    var runFields = assay.domains[assay.name + ' Run Fields'];
-    var resultFields = assay.domains[assay.name + ' Result Fields'];
-    var runConfigs = buildConfigs(runFields, LABKEY.icemr.metaType.AssayDesign);
-    var resultConfigs = buildConfigs(resultFields, LABKEY.icemr.metaType.AssayDesign);
-    LABKEY.icemr.successCallback(runConfigs, resultConfigs);
+        var assay = assays[0];
+        var runFields = assay.domains[assay.name + ' Run Fields'];
+        var resultFields = assay.domains[assay.name + ' Result Fields'];
+        var runConfigs = buildConfigs(runFields, LABKEY.icemr.metaType.AssayDesign);
+        var resultConfigs = buildConfigs(resultFields, LABKEY.icemr.metaType.AssayDesign);
+
+        if (fn)
+            fn.call(this, runConfigs, resultConfigs);
+    }
 }
 
 function getFieldConfigs(assayName, successCallback)
 {
-    LABKEY.icemr.successCallback = successCallback;
-
     if (assayName == LABKEY.icemr.AdaptationAssayResults ||
         assayName == LABKEY.icemr.DiagnosticsAssayResults)
     {
         LABKEY.Assay.getByName({
             name : assayName,
-            success : onAssayDesignReady
+            success : getFieldConfigsSuccessCallback(successCallback)
         });
     }
     else

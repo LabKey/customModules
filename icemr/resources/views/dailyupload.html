@@ -1,0 +1,327 @@
+<div id="error-div"></div>
+<div id="upload-adaptation-div"></div>
+<script type="text/javascript">
+
+LABKEY.requiresScript("assay/validation.js");
+LABKEY.requiresScript("assay/adaptation/uploadhelper.js");
+LABKEY.requiresScript("assay/adaptation/testhelper.js");
+
+var _runFieldConfigs;
+var _resultFieldConfigs;
+var _runData; // experiment data
+var _resultFile;
+
+function onSaveSuccess(result)
+{
+    //
+    // just to to the runs view for now
+    // Note we need to use LABKEY.icemr.adapation.assayId instead of the
+    // LABKEY.page.assay.id since we came in through a custom view
+    //
+    window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
+            {rowId:LABKEY.icemr.adaptation.assayId});
+}
+
+function onSaveFailure(result)
+{
+    //
+    // you can fill this in if you want
+    //
+}
+
+function submitDaily()
+{
+//    if (!validateForm())
+//        return;
+
+
+    //
+    // generate data
+    //
+    var dailyResults = [];
+
+    //
+    // test/sample code: move to test functions once the real code
+    // test/sample code: is complete
+    //
+
+    //
+    // get the array of flasks that pertain
+    // to this experiment
+    //
+    var flasks = getDay0Flasks();
+    var results = [];
+
+    // upload a subset of flasks we have from day 0
+    var numResults = Math.floor(Math.random() * flasks.length);
+    if (numResults == 0) numResults = 1;
+
+    for (var i = 0; i < numResults; i++)
+    {
+        var result = createDaily();
+        generateDailyData(_runData, flasks[i], result);
+        results.push(result);
+    }
+
+    //
+    // we save run data
+    //
+    saveDaily(results, onSaveSuccess, onSaveFailure)
+
+}
+
+function goBack()
+{
+    window.history.back();
+}
+
+function showRuns()
+{
+    //
+    // stub for testing
+    //
+    window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
+                {rowId:LABKEY.page.assay.id});
+}
+
+function validateForm()
+{
+    // clear out error messages.
+    handleError("", true);
+
+    var form = Ext4.getCmp('upload-adaptation-form');
+    if(form.getForm().isValid())
+        return true;
+    else
+        handleError("Errors in your submission. See below.");
+    return false;
+}
+
+function handleError(msg, reset)
+{
+    var errorEl = document.getElementById('error-div');
+    if(!(reset))
+    {
+        errorEl.innerHTML += "<span style='color:red;'>> " + msg + "<br/></span>";
+        Ext4.Msg.hide();
+    }
+    else
+    {
+        errorEl.innerHTML = "";
+    }
+}
+
+
+Ext.onReady(function() {
+    Ext4.QuickTips.init();
+    initValidators();
+    getAdaptationFieldConfigs(onConfigsReady)
+})
+
+function onConfigsReady(runConfigs, resultConfigs)
+{
+    //
+    // we have a patient id field for the flask but we don't need to show it
+    // in the UI since it is already a run property
+    //
+    for (var i = 0; i < resultConfigs.length; i++)
+    {
+        var config = resultConfigs[i];
+        //
+        // handle combos
+        //
+        if (config.name == LABKEY.icemr.adaptation.stage)
+        {
+            setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
+        }
+    }
+
+    _runFieldConfigs = runConfigs;
+    _resultFieldConfigs = resultConfigs;
+
+    //
+    // fetch our run data so that we can populate our data
+    //
+    var params = LABKEY.ActionURL.getParameters();
+    getAdaptationRunData(params.protocolId, params.batchId, params.rowId, onRunDataReady)
+}
+
+function onDailyFileUploadSuccess(dailyResults)
+{
+    //
+    // populate form with data as a 'preview'
+    // note that the real UI should show all the columns, for this skeleton
+    // I am just populationg the 0th result
+    //
+
+    if (dailyResults.length > 0)
+    {
+        var formCmp = Ext4.getCmp('upload-adaptation-form');
+        var fields = formCmp.getForm().getFields();
+        var dailyResult = dailyResults[0];
+
+        for (var key in dailyResult)
+        {
+            //
+            // you'll need to add to this but basically map how fields are stored in the db
+            // to a better form experience
+            //
+            var value = dailyResult[key];
+            if (key == LABKEY.icemr.adaptation.measurementDate)
+            {
+                fields.get(key).setValue(new Date(value));
+            }
+            else
+            {
+                fields.get(key).setValue(dailyResult[key]);
+            }
+
+            //
+            // undone: handle the bool columns that want a "yes/no" presented in the ui
+            // undone: also GrowthFoldTest[Initiated|Finished] is an integer.  If not specified (null)
+            // undone: then the UI should present 'no test'
+            //
+        }
+    }
+}
+
+function handleDailyUpload(f, action)
+{
+    if (!action || !action.result) {
+        Ext.Msg.alert("Upload Failed", "Something went horribly wrong when uploading.");
+        return;
+    }
+    if (!action.result.id) {
+        Ext.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
+        return;
+    }
+
+    processDailyFileUpload(action.result, onDailyFileUploadSuccess);
+}
+
+function createFileUploadPanel()
+{
+    var uploadFormPanel = Ext4.create('Ext4.form.Panel', {
+            renderTo : Ext4.getBody(),
+            frame : true,
+            items : [{
+                xtype : 'filefield',
+                name : 'dailyUpload',
+                fieldLabel : 'Daily Upload',
+                labelWidth : 95,
+                width : 400,
+                allowBlank : false,
+                buttonText : 'Select file ...'
+            },{
+                xtype : 'fieldcontainer',
+                layout : {
+                    type : 'hbox',
+                    pack : 'center',
+                    defaultMargins : '2'
+                },
+                items : [
+                    {
+                        xtype   : 'button',
+                        text    : 'Upload',
+                        handler : function () {
+                            var form = this.up('form').getForm();
+                            form.submit ({
+                                url: LABKEY.ActionURL.buildURL("assay", "assayFileUpload"),
+                                waitMsg: 'Uploading file ...',
+                                success : handleDailyUpload,
+                                failure : handleDailyUpload
+                            })
+                        }
+                    }]
+            }]
+    });
+
+    return uploadFormPanel;
+}
+
+
+function onRunDataReady(runData)
+{
+    //
+    // fill in the values for our form and make the run data
+    // read only
+    //
+    for (var i = 0; i < _runFieldConfigs.length; i++)
+    {
+        var config = _runFieldConfigs[i];
+        if (config.xtype == 'datefield')
+        {
+            config.value = new Date(runData[config.name]);
+        }
+        else
+        {
+            config.value = runData[config.name];
+        }
+        config.readOnly = true;
+    }
+
+    _runData = runData;
+
+
+    // Create our form with two containers to separate
+    // the flask properties data for each flask
+    //
+     var fp = new Ext4.FormPanel({
+         renderTo: 'upload-adaptation-div',
+         id      : 'upload-adaptation-form',
+         width : 455,
+         defaults: {
+             validationEvent: false,
+             width : 435,
+             allowBlank : false,
+             style : { margin: '2 0 2 0' },
+             labelAlign : 'left',
+             labelWidth : 100
+         },
+         method : 'POST',
+         enctype :'multipart/form-data',
+         border : false,
+         stateful : false,
+         autoHeight : true,
+         frame : true,
+         items : [
+             {
+                 xtype : 'fieldcontainer',
+                 fieldLabel : 'Run',
+                 layout : {
+                     type : 'vbox',
+                     defaultMargins : '2 0 2 0'
+                 },
+                 items : _runFieldConfigs
+             },
+             createFileUploadPanel(),
+             {
+                 xtype : 'fieldcontainer',
+                 fieldLabel : 'Result',
+                 layout : {
+                     type : 'vbox',
+                     defaultMargins : '2 0 2 0'
+                 },
+                 items : _resultFieldConfigs
+             },{
+                 xtype : 'fieldcontainer',
+                 layout : {
+                     type : 'hbox',
+                     pack : 'end',
+                     defaultMargins : '2'
+                 },
+                 items : [
+                     {
+                         xtype   : 'button',
+                         text    : 'Submit',
+                         handler : submitDaily
+                     }, {
+                         xtype   : 'button',
+                         text    : 'Cancel',
+                         handler : goBack
+                     }]
+             }
+         ]
+     });
+}
+</script>

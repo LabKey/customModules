@@ -12,4 +12,5 @@ SerumBatchID	Serum Batch ID	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FA
 AlbumaxBatchID	Albumax Batch ID	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FALSE	Batch ID for Albumax supplemental media
 FoldIncrease	Fold-Increase	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FALSE	Fold-increase for successful growth test
 AdaptationCriteria	Adaptation Criteria	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FALSE	Successful adaptation criteria
+FlaskMaintenanceStopped	Flask Maintenance Stopped	http://www.w3.org/2001/XMLSchema#boolean		FALSE	FALSE	FALSE	
 Comments		http://www.w3.org/2001/XMLSchema#multiLine		FALSE	FALSE	FALSE	
