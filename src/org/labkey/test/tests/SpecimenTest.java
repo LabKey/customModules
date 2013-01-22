@@ -20,10 +20,12 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.labkey.test.Locator;
+import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
 
@@ -71,6 +73,13 @@ public class SpecimenTest extends StudyBaseTestWD
         return true;
     }
 
+    @Override
+    protected void doCleanup(boolean afterTest) throws TestTimeoutException
+    {
+        deleteUsers(afterTest, USER1, USER2);
+        super.doCleanup(afterTest);
+    }
+
     @Override @LogMethod
     protected void doCreateSteps()
     {
@@ -105,6 +114,7 @@ public class SpecimenTest extends StudyBaseTestWD
         verifyViews();
         verifyAdditionalRequestFields();
         verifyNotificationEmails();
+        verifyInactiveUsersInRequests();
         verifyRequestCancel();
         verifyReports();
         exportSpecimenTest();
@@ -604,6 +614,15 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod
     private void verifyRequestCancel()
     {
+        clickFolder(getProjectName());
+        clickFolder(getFolderName());
+
+        waitAndClick(Locator.linkWithText("Specimen Requests"));
+        click(Locator.linkWithText("View Current Requests"));
+
+        waitForElement(Locator.id("dataregion_SpecimenRequest"));
+        clickButton("Details");
+
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Not Yet Submitted");
         clickButton("Save Changes and Send Notifications");
@@ -728,12 +747,60 @@ public class SpecimenTest extends StudyBaseTestWD
         assertElementPresent(Locator.css("#email_body_2 > table"), 1);
     }
 
+    @LogMethod
+    private void verifyInactiveUsersInRequests()
+    {
+        enableEmailRecorder(); // clear email recorder
+        goToSiteUsers();
+        DataRegionTable usersTable = new DataRegionTable("Users", this, true, true);
+        int row = usersTable.getRow("Email", USER2);
+        usersTable.checkCheckbox(row);
+        clickButton("Deactivate");
+        clickButton("Deactivate");
+        assertTextNotPresent(USER2);
+
+        clickFolder(getProjectName());
+        clickFolder(getFolderName());
+
+        waitAndClick(Locator.linkWithText("Specimen Requests"));
+        click(Locator.linkWithText("View Current Requests"));
+
+        waitForElement(Locator.id("dataregion_SpecimenRequest"));
+        clickButton("Details");
+
+        waitAndClick(Locator.linkWithText("Update Request"));
+
+        waitForElement(Locator.pageHeader("Update Request"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
+        click(Locator.css(".labkey-help-pop-up"));
+        waitForElement(Locator.xpath("id('helpDivBody')").containing(USER1));
+
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
+        click(Locator.css(".labkey-help-pop-up").index(1));
+        waitForElement(Locator.xpath("id('helpDivBody')/del").withText(USER2));
+
+        setFormElement(Locator.name("requestDescription"), "Just one notification.");
+        pushLocation();
+        clickButton("Save Changes and Send Notifications");
+
+        popLocation();
+
+        waitForElement(Locator.pageHeader("Update Request"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
+        checkCheckbox(Locator.checkboxByName("emailInactiveUsers"));
+        setFormElement(Locator.name("requestDescription"), "Two notifications.");
+        clickButton("Save Changes and Send Notifications");
+
+        goToModule("Dumbster");
+    }
+
     /**
      * Allow all provided location types to make requests, disallow all others
      * @param types List of location types to allow to be requesting locations
      */
     @LogMethod
-    private void enableAndVerifyRequestingLocationTypes(StudyLocationType... types)
+    private void enableAndVerifyRequestingLocationTypes(@LoggedParam StudyLocationType... types)
     {
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Manage Location Types"));
