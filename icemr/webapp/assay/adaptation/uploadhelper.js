@@ -286,9 +286,10 @@ function addCalculatedFields(dailyResult)
     dailyResult[LABKEY.icemr.adaptation.dateIndex] = getDateIndex(startDate, measurementDate);
 }
 
+// convert milliseconds to days
 function getDateIndex(start, end)
 {
-    return parseInt( (end.getTime() - start.getTime())/(24*2600*1000));
+    return parseInt((end.getTime() - start.getTime())/(24*60*60*1000));
 }
 
 function isNameInSet(name, set)
