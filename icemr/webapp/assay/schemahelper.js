@@ -28,6 +28,7 @@ Ext.namespace("LABKEY.icemr.adaptation");
 LABKEY.icemr.adaptation.flaskSampleSet = 'Flasks';
 LABKEY.icemr.adaptation.patient = 'PatientID';
 LABKEY.icemr.adaptation.sample = 'SampleID';
+LABKEY.icemr.adaptation.experiment = 'ExperimentID';
 LABKEY.icemr.adaptation.stage = 'Stage';
 LABKEY.icemr.adaptation.pRBC = 'PatientpRBCs';
 LABKEY.icemr.adaptation.cultureMedia = 'CultureMedia';

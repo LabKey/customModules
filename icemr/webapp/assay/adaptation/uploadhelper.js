@@ -106,7 +106,7 @@ function saveDaily(dailyResults, success, failure)
             schemaName : 'Samples',
             queryName : LABKEY.icemr.adaptation.flaskSampleSet,
             rows : flasks,
-            success : getUpdateFlasksSuccessCallbackWrapper(success, failure),
+            success : getUpdateFlasksSuccessCallbackWrapper(success, failure)
         });
     }
     else
@@ -208,10 +208,10 @@ function getDailyUploadTemplate(measurementDate)
     var spreadsheet = {};
     spreadsheet.fileName = LABKEY.icemr.dailyUploadTemplateFilename;
     spreadsheet.sheets = [];
-    var sheet = {};
-    sheet.name = 'Sheet1';
-    sheet.data = rows;
-    spreadsheet.sheets.push(sheet);
+    spreadsheet.sheets.push( {
+        name : 'Sheet1',
+        data : rows
+    });
     LABKEY.Utils.convertToExcel(spreadsheet);
 }
 

@@ -1,0 +1,22 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="SampleID"/>
+        <column name="MeasurementDate"/>
+        <column name="Scientist"/>
+        <column name="Parasitemia"/>
+        <column name="Gametocytemia"/>
+        <column name="Stage"/>
+        <column name="Removed"/>
+        <column name="RBCBatchID"/>
+        <column name="SerumBatchID"/>
+        <column name="AlbumaxBatchID"/>
+        <column name="GrowthFoldTestInitiated"/>
+        <column name="GrowthFoldTestFinished"/>
+        <column name="Contamination"/>
+        <column name="MycoTestResult"/>
+        <column name="FreezerProIDs"/>
+        <column name="FlaskMaintenanceStopped"/>
+        <column name="InterestingResult"/>
+        <column name="Comments"/>
+    </columns>
+</customView>

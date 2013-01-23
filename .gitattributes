@@ -47,7 +47,9 @@ icemr/resources/assay/Adaptation/config.xml -text
 icemr/resources/assay/Adaptation/domains/batch.xml -text
 icemr/resources/assay/Adaptation/domains/result.xml -text
 icemr/resources/assay/Adaptation/domains/run.xml -text
+icemr/resources/assay/Adaptation/queries/Data/.qview.xml -text
 icemr/resources/assay/Adaptation/queries/Runs.query.xml -text
+icemr/resources/assay/Adaptation/views/results.html -text
 icemr/resources/assay/Adaptation/views/upload.html -text
 icemr/resources/assay/Diagnostics/config.xml -text
 icemr/resources/assay/Diagnostics/domains/batch.xml -text

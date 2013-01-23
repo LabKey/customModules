@@ -1,0 +1,79 @@
+<span style="font-size: large">
+<p>Showing data for Experiment ID: <span id='experiment'></span></p>
+<p>
+Start date: <span id='startDate'></span>
+<br>Last upload date: <span id='lastUploadDate'></span>
+</p>
+</span>
+
+<div id='runs_div'></div>
+
+<p>
+    <a href='javascript:done()' class='labkey-button'>
+        <span>Done</span>
+    </a>
+</p>
+
+<script type="text/javascript">
+LABKEY.requiresScript("assay/schemahelper.js");
+</script>
+<script type="text/javascript">
+
+
+function done()
+{
+    var url = LABKEY.ActionURL.buildURL("assay", "assayRuns", LABKEY.ActionURL.getContainer(), LABKEY.ActionURL.getParameters());
+    window.location = url;
+}
+
+function init()
+{
+    var params = LABKEY.ActionURL.getParameters();
+    LABKEY.Query.selectRows({
+        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        queryName  : 'Data',
+        columns :  ['Run/' + LABKEY.icemr.adaptation.startDate,
+                    'Run/' + LABKEY.icemr.adaptation.experiment,
+                    LABKEY.icemr.adaptation.measurementDate],
+        sort : '-'+LABKEY.icemr.adaptation.measurementDate,
+        filterArray    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])],
+        maxRows : 1,
+        success : onSelectSuccess
+    });
+}
+
+function onSelectSuccess(data, response, options)
+{
+    // update the header of our page
+    if (data && data.rows && data.rows.length > 0)
+    {
+        var row = data.rows[0];
+        Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.adaptation.experiment]);
+        Ext4.fly('startDate').update(buildDateString(row['Run/' + LABKEY.icemr.adaptation.startDate]));
+        Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.adaptation.measurementDate]));
+    }
+
+    renderResults();
+}
+
+function buildDateString(value)
+{
+    var d = new Date(value);
+    return ( (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear());
+}
+
+function renderResults()
+{
+    var params = LABKEY.ActionURL.getParameters();
+    var qwp = new LABKEY.QueryWebPart({
+        renderTo   : 'runs_div',
+        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        queryName  : 'Data',
+        buttonBarPosition: 'none',
+        showPagination : false,
+        filters    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])]
+    });
+}
+
+init();
+</script>
