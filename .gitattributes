@@ -69,6 +69,7 @@ icemr/webapp/assay/schemahelper.js -text
 icemr/webapp/assay/validation.js -text
 ms2extensions/Ms2extensions.iml -text
 ms2extensions/module.properties -text
+ms2extensions/resources/folderTypes/MS2Extensions.folderType.xml -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text
 ms2extensions/resources/queries/ms2/SequestChargeQueryColumns.query.xml -text

@@ -30,27 +30,29 @@
     String peptideCustomizeViewId = GUID.makeGUID();
     String targetProteinId = GUID.makeGUID();
 %>
+<fieldset>
+    <legend>Comparison and Export Filters</legend>
+    <table>
+        <tr>
+            <td class="labkey-form-label"><label for="<%= text(targetProteinId) %>">Target protein</label></td>
+            <td><input type="text" id="<%= text(targetProteinId) %>" name="targetProtein" value="<%= h(MS2ExtensionsController.getTargetProteinPreference(context)) %>"/></td>
+        </tr>
+        <tr>
+            <td class="labkey-form-label">Peptide filter</td>
+            <td>
+                <%
+                    String peptideViewSelectId = peptideView.renderViewList(request, out, MS2ExtensionsController.getPeptideFilterPreference(context));
+                %>
 
-<table>
-    <tr>
-        <td class="labkey-form-label"><label for="<%= text(targetProteinId) %>">Target protein</label></td>
-        <td><input type="text" id="<%= text(targetProteinId) %>" name="targetProtein" value="<%= h(MS2ExtensionsController.getTargetProteinPreference(context)) %>"/></td>
-    </tr>
-    <tr>
-        <td class="labkey-form-label">Peptide filter</td>
-        <td>
-            <%
-                String peptideViewSelectId = peptideView.renderViewList(request, out, MS2ExtensionsController.getPeptideFilterPreference(context));
-            %>
-
-            <%= PageFlowUtil.textLink("Create or Edit View", (ActionURL)null, "showViewDesigner('PeptidesFilter', '" + peptideCustomizeViewId + "', " + PageFlowUtil.jsString(peptideViewSelectId) + ", viewSavedCallback); return false;", "editPeptidesViewLink") %>
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><span id="<%= h(peptideCustomizeViewId) %>"></span></td>
-    </tr>
-</table>
+                <%= PageFlowUtil.textLink("Create or Edit View", (ActionURL)null, "showViewDesigner('PeptidesFilter', '" + peptideCustomizeViewId + "', " + PageFlowUtil.jsString(peptideViewSelectId) + ", viewSavedCallback); return false;", "editPeptidesViewLink") %>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><span id="<%= h(peptideCustomizeViewId) %>"></span></td>
+        </tr>
+    </table>
+</fieldset>
 
 <script type="text/javascript">
     function viewSavedCallback(arg1, viewInfo)

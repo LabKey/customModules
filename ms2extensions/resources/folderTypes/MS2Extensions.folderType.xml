@@ -1,0 +1,40 @@
+<folderType xmlns="http://labkey.org/data/xml/folderType">
+    <name>MS2 Extensions</name>
+    <description>Folder type used for customized MS2 folders.</description>
+    <folderTabs>
+        <folderTab>
+            <name>overview</name>
+            <caption>MS2 Dashboard</caption>
+            <preferredWebParts>
+                <webPart>
+                    <name>Data Pipeline</name>
+                    <location>body</location>
+                </webPart>
+                <webPart>
+                    <name>Protein Search</name>
+                    <location>right</location>
+                </webPart>
+                <webPart>
+                    <name>MS2 Runs With Peptide Counts</name>
+                    <location>body</location>
+                </webPart>
+                <webPart>
+                    <name>Peptide Search</name>
+                    <location>body</location>
+                </webPart>
+            </preferredWebParts>
+        </folderTab>
+    </folderTabs>
+    <modules>
+        <moduleName>Core</moduleName>
+        <moduleName>Query</moduleName>
+        <moduleName>MS1</moduleName>
+        <moduleName>MS2</moduleName>
+        <moduleName>MS2Extensions</moduleName>
+        <moduleName>Experiment</moduleName>
+        <moduleName>Pipeline</moduleName>
+    </modules>
+    <defaultModule>Core</defaultModule>
+    <workbookType>false</workbookType>
+    <menubarEnabled>false</menubarEnabled>
+</folderType>
