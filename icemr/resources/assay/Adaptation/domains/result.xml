@@ -94,7 +94,7 @@
 <exp:PropertyDescriptor>
     <exp:Name>MycoTestResult</exp:Name>
     <exp:Description>Results of Myco test (positive, negative, or no test)</exp:Description>
-    <exp:Required>true</exp:Required>
+    <exp:Required>false</exp:Required>
     <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
     <exp:Label>Myco Test Result</exp:Label>
 </exp:PropertyDescriptor>

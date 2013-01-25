@@ -22,7 +22,7 @@ function onSaveFailure(result)
     //
 }
 
-function submitAdaptation()
+function submitAdaptation(propsForm, flasksForm)
 {
 //    if (!validateForm())
 //        return;
@@ -35,11 +35,11 @@ function submitAdaptation()
     var exp = createExperiment();
 
     // test only: fill in with some data
-    var formCmp = Ext4.getCmp('upload-adaptation-form');
-    var fields = formCmp.getForm().getFields();
-    var patientid = fields.get("PatientID").getValue();
-    var expid = fields.get("ExperimentID").getValue();
-    generateExperimentData(exp, patientid, expid);
+
+//    var exp = [];
+    for(var i = 0; i < propsForm.items.items.length; i++){
+        exp[propsForm.items.items[i].id] = propsForm.items.items[i].value;
+    }
 
     var flasks = [];
     var numFlasks = Math.floor(Math.random() * 9);
@@ -49,8 +49,14 @@ function submitAdaptation()
     {
         // when the client adds a flask, create a blank flask object to fill in
         var flask = createFlask();
-        // test only: fill in with some data
-        generateFlaskData(exp, flask);
+        var target;
+        flask['PatientID'] = exp['PatientID'];
+
+        for(var r = 1; r < flasksForm.items.items[i].items.items.length; r++){
+            target =  flasksForm.items.items[i].items.items[r]
+            flask[target.id.substring(0, target.id.length-1)] = target.value;
+        }
+        console.log(flask);
         // the saveDay0 API takes an experiement object and an array of flask objects
         flasks.push(flask)
     }
@@ -72,7 +78,7 @@ function showRuns()
     // stub for testing
     //
     window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
-                {rowId:LABKEY.page.assay.id});
+            {rowId:LABKEY.page.assay.id});
 }
 
 function validateForm()
@@ -102,6 +108,8 @@ function handleError(msg, reset)
     }
 }
 
+var numFlasks = 1;
+
 function onConfigsReady(runConfigs, flaskConfigs)
 {
     //
@@ -109,7 +117,10 @@ function onConfigsReady(runConfigs, flaskConfigs)
     // PatientID field
     //
     var flaskUIConfigs = [];
-
+    flaskUIConfigs.push({
+        xtype : 'box',
+        text : 'Flask 1'
+    });
     //
     // we have a patient id field for the flask but we don't need to show it
     // in the UI since it is already a run property
@@ -130,15 +141,57 @@ function onConfigsReady(runConfigs, flaskConfigs)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
         }
+
         else
         if (config.name == LABKEY.icemr.adaptation.pRBC)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.pRBCOptions);
         }
+
         else
         if (config.name == LABKEY.icemr.adaptation.cultureMedia)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.cultureMediaOptions);
+        }
+
+    }
+
+    var getFlaskConfigs = function(){
+        var newArray = Ext4.clone(flaskUIConfigs);
+        newArray[0].html = 'Flask ' + numFlasks;
+        for(var i = 1; i < newArray.length; i++){
+            newArray[i].id += numFlasks;
+            newArray[i].name += numFlasks;
+            if(numFlasks != 1){
+                newArray[i].fieldLabel = null;
+                newArray[i].height = flasksBox.items.items[0].items.items[i].getHeight();
+            }
+        }
+
+        return newArray;
+    };
+
+    var addFlask = function(){
+        numFlasks++;
+        fp.width += 175;
+        flasksBox.add(            {
+            xtype : 'fieldcontainer',
+            id : 'flask ' + numFlasks,
+            layout : {
+                type : 'vbox',
+                defaultMargins : '2 10 2 10'
+            },
+            items : getFlaskConfigs()
+        });
+        flasksBox.doLayout();
+    };
+
+    var removeFlask = function(){
+        if(numFlasks != 1){
+            fp.width -= 175;
+            flasksBox.remove('flask ' + numFlasks, true);
+            numFlasks--;
+            flasksBox.doLayout();
         }
     }
 
@@ -146,13 +199,41 @@ function onConfigsReady(runConfigs, flaskConfigs)
     // Create our form with two containers to separate
     // the flask properties data for each flask
     //
-    var fp = new Ext4.FormPanel({
+
+    var flasksBox = Ext4.create('Ext.form.FieldContainer', {
+        fieldLabel : 'Flasks',
+        layout : {
+            type : 'hbox',
+            defaultMargins : '2 0 2 0'
+        },
+        items : [
+            {
+                xtype : 'fieldcontainer',
+                layout : {
+                    type : 'vbox',
+                    defaultMargins : '2 0 2 0'
+                },
+                items : getFlaskConfigs()
+            }
+        ]
+    });
+
+
+    var flaskProps = Ext4.create('Ext.form.FieldContainer', {
+        fieldLabel : 'Flask Properties',
+        layout : {
+            type : 'vbox',
+            defaultMargins : '2 0 2 0'
+        },
+        items : runConfigs
+    });
+
+    var fp = Ext4.create('Ext.form.Panel',{
         renderTo: 'upload-adaptation-div',
         id      : 'upload-adaptation-form',
-        width : 455,
+        width : 450,
         defaults: {
             validationEvent: false,
-            width : 435,
             allowBlank : false,
             style : { margin: '2 0 2 0' },
             labelAlign : 'left',
@@ -165,47 +246,42 @@ function onConfigsReady(runConfigs, flaskConfigs)
         autoHeight : true,
         frame : true,
         items : [
+            flaskProps, flasksBox ,
             {
-                xtype : 'fieldcontainer',
-                fieldLabel : 'Flask Properties',
-                layout : {
-                    type : 'vbox',
-                    defaultMargins : '2 0 2 0'
-                },
-                items : runConfigs
-            },{
-                xtype : 'fieldcontainer',
-                fieldLabel : 'Flasks',
-                layout : {
-                    type : 'vbox',
-                    defaultMargins : '2 0 2 0'
-                },
-                items : flaskUIConfigs
-            },{
                 xtype : 'fieldcontainer',
                 layout : {
                     type : 'hbox',
-                    pack : 'end',
                     defaultMargins : '2'
                 },
                 items : [
                     {
                         xtype   : 'button',
                         text    : 'Submit',
-                        handler : submitAdaptation
+                        handler : function(){
+                            submitAdaptation(flaskProps, flasksBox);
+                        }
                     }, {
                         xtype   : 'button',
                         text    : 'Cancel',
                         handler : goBack
-                    }]
+                    }, {
+                        xtype : 'button',
+                        text : 'Add Flask',
+                        handler : addFlask
+                    }, {
+                        xtype : 'button',
+                        text : 'Remove Flask',
+                        handler : removeFlask
+                    }
+                ]
             }
         ]
     });
 }
 
-Ext.onReady(function() {
+Ext4.onReady(function() {
     Ext4.QuickTips.init();
     initValidators();
     getDay0Configs(onConfigsReady)
-})
+});
 </script>
