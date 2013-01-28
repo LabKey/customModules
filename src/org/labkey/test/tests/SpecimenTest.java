@@ -121,6 +121,7 @@ public class SpecimenTest extends StudyBaseTestWD
         verifyRequestingLocationRestriction();
         verifySpecimenTableAttachments();
         searchTest();
+        verifySpecimenGroupings();
     }
 
     @LogMethod
@@ -849,6 +850,44 @@ public class SpecimenTest extends StudyBaseTestWD
 
         clickButton("Cancel", 0);
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Specimen Requests"));
+    }
+
+    /**
+     * Verify changing the specimen groupings that appear on the specimen web part
+     */
+    @LogMethod
+    private void verifySpecimenGroupings()
+    {
+        clickFolder(getProjectName());
+        clickFolder(getFolderName());
+        clickTab("Manage");
+        waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
+        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
+        _ext4Helper.selectComboBoxItemById("combo11", "ProcessingLocation");
+        _ext4Helper.selectComboBoxItemById("combo12", "PrimaryType");
+        _ext4Helper.selectComboBoxItemById("combo13", "SiteName");
+        _ext4Helper.selectComboBoxItemById("combo21", "AdditiveType");
+        _ext4Helper.selectComboBoxItemById("combo22", "DerivativeType");
+        _ext4Helper.selectComboBoxItemById("combo23", "TubeType");
+        clickButton("Save");
+        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
+        clickTab("Specimen Data");
+        assertTextPresent("Vials by ProcessingLocation", "Vials by AdditiveType", "The McMichael Lab");
+        assertTextPresent("NICD - Joberg", 2);
+        clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
+        assertTextPresent("Vials", "(ProcessingLocation = The McMichael Lab, Oxford, UK)");
+
+        // Put groupings back for other tests
+        clickTab("Manage");
+        waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
+        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
+        _ext4Helper.selectComboBoxItemById("combo11", "PrimaryType");
+        _ext4Helper.selectComboBoxItemById("combo12", "DerivativeType");
+        _ext4Helper.selectComboBoxItemById("combo13", "AdditiveType");
+        _ext4Helper.selectComboBoxItemById("combo21", "DerivativeType");
+        _ext4Helper.selectComboBoxItemById("combo22", "AdditiveType");
+
+        clickButton("Save");
     }
 
     /**
