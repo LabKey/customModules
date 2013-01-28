@@ -233,13 +233,15 @@ function handleDailyUpload(f, action)
         Ext.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
         return;
     }
-
+    Ext4.getCmp('submitButton').setVisible(true);
+    Ext4.getCmp('uploadFormPanel').setVisible(false);
     processDailyFileUpload(action.result, onDailyFileUploadSuccess);
 }
 
 function createFileUploadPanel()
 {
     var uploadFormPanel = Ext4.create('Ext4.form.Panel', {
+            id : 'uploadFormPanel',
             renderTo : Ext4.getBody(),
             frame : true,
             items : [{
@@ -392,7 +394,6 @@ function onRunDataReady(runData)
          width : 455,
          defaults: {
              validationEvent: false,
-//             width : 435,
              allowBlank : false,
              style : { margin: '2 0 2 0' },
              labelAlign : 'left',
@@ -424,10 +425,13 @@ function onRunDataReady(runData)
                  },
                  items : [
                      {
+                         id : 'submitButton',
+                         hidden : true,
                          xtype   : 'button',
                          text    : 'Submit',
                          handler : submitDaily
                      }, {
+                         id : 'cancelButton',
                          xtype   : 'button',
                          text    : 'Cancel',
                          handler : goBack
