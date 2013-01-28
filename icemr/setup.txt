@@ -12,9 +12,9 @@ LABKEY Admin:  To setup your ICEMR assay you need to do the following:
 9) Name it "Diagnostics Assay".  Note that this assay design must be named "Diagnostics Assay"
 10) Import a Sample Set
 11) Name it "Flasks".  Note this name must be "Flasks"
-11) paste the contents of <LABKEY_ROOT>/server/customModules/ICEMR/resources/samples/flask.txt into the "Sample Set Data"
+11) in "Sample Set Data" just paste in "SampleID" for the first row and "1" for the second
 12) under "Id Columns" pick "SampleID" for #1 and then save the sample set
-13) Since we pasted in a row of data, remove it.  Check the first ro in the Sample Set Contents and delete.
+13) Since we pasted in a row of data, remove it.  Check the first row in the Sample Set Contents and delete.
 14) Now click "Edit Fields" in the Sample Set Properties (of Sample Set Flasks)
 15) Select "Import Fields"
 16) paste the contents of <LABKEY_ROOT>/server/customModules/ICEMR/resources/samples/flaskFields.txt into dialog

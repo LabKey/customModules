@@ -1,5 +1,6 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
+        <column name="Run/PatientID"/>
         <column name="SampleID"/>
         <column name="MeasurementDate"/>
         <column name="Scientist"/>

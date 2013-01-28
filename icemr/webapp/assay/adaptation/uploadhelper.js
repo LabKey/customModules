@@ -89,22 +89,44 @@ function saveDaily(dailyResults, success, failure)
     var flasks = [];
     for (i = 0; i < dailyResults.length; i++)
     {
+        computeCalculatedValues(dailyResults[i]);
         //
-        // see if we have any flask sample set data that we need to save
+        // see if we have any flask sample set data that we need to update
         // before saving the batch
         //
-        var flask = getFlaskUpdateData(dailyResults[i]);
+        var flask = getFlaskUpdates(dailyResults[i]);
         if (flask != null)
             flasks.push(flask);
 
         run.dataRows.push(dailyResults[i]);
     }
 
+    mergeFlaskChanges(flasks);
+
     // undone: issue 16960 we need to get the "role" property back out of the database
     // undone: so that when we persist we roundtrip it correctly.  Alternatively
     // undone: we need to not save data that we already have!
 
-    // update the flask sample set if appropriate
+    LABKEY.Experiment.saveBatch({
+        assayId : LABKEY.icemr.adaptation.assayId,
+        batch : LABKEY.icemr.adaptation.batch,
+        successCallback : success,
+        failureCallback : failure
+    });
+}
+
+/*
+ * consider: it's probably better to update the flask sample set independently of SaveBatch
+ * consider: but it looks like the SaveBatch API is going through and updating the flasks
+ * consider: sample set through the material inputs. If we do decide to use updateRows to update
+ * consider: flask data then we need to copy over a rectangular rows array (i.e. row 1 can't have Parasitematest1Start)
+ * consider: and row 2 not have the column.  So then we'd have to fill in the values that didn't change with the old values
+ * consider: So rather than update the flask then merge in changes with the material inputs, save the round trip and
+ * consider: save with the material inputs as we have them.
+ * update the flask sample set if appropriate
+
+ function flaskUpload(flasks)
+{
     if (flasks.length > 0)
     {
         LABKEY.Query.updateRows( {
@@ -114,14 +136,7 @@ function saveDaily(dailyResults, success, failure)
             success : getUpdateFlasksSuccessCallbackWrapper(success, failure)
         });
     }
-    else
-    {
-        // just call save batch directly
-        var fn = getUpdateFlasksSuccessCallbackWrapper(success, failure);
-        fn.call(this);
-    }
 }
-
 function getUpdateFlasksSuccessCallbackWrapper(success, failure)
 {
     return function(result)
@@ -145,45 +160,159 @@ function getUpdateFlasksSuccessCallbackWrapper(success, failure)
         });
     }
 }
+*/
 
-function mergeFlaskChanges(rows)
+
+//
+// Store off the date index for now.  Consider using this
+// in your queries instead of calculating from the start date
+//
+function computeCalculatedValues(dailyResult)
+{
+    var startDate = new Date(LABKEY.icemr.adaptation.run.properties[LABKEY.icemr.flask.startDate]);
+    var measurementDate = new Date(dailyResult[LABKEY.icemr.adaptation.measurementDate]);
+    dailyResult[LABKEY.icemr.adaptation.dateIndex] = getDateIndex(startDate, measurementDate);
+}
+
+// convert milliseconds to days
+function getDateIndex(start, end)
+{
+    return parseInt((end.getTime() - start.getTime())/(24*60*60*1000));
+}
+
+function mergeFlaskChanges(flasks)
 {
     var materialInputs = LABKEY.icemr.adaptation.batch.runs[0].materialInputs;
-
-    for (var i = 0; i < rows.length; i++)
+    for (var i = 0; i < flasks.length; i++)
     {
-        var row = rows[i];
+        var flask = flasks[i];
         //
-        // find the material input that matches this flask in the batch and update the
-        // FlaskMaintenanceStopped property
+        // find the material input that matches this flask in the batch and update any
+        // changed properties
         //
         for (var j = 0; j < materialInputs.length; j++)
         {
             var properties = materialInputs[j].properties;
-            if (properties[LABKEY.icemr.adaptation.sample] == row[LABKEY.icemr.adaptation.sample.toLowerCase()])
+            if (properties[LABKEY.icemr.flask.sample] == flask[LABKEY.icemr.adaptation.sample])
             {
-                properties[LABKEY.icemr.adaptation.flaskMaintenanceStopped] = row[LABKEY.icemr.adaptation.flaskMaintenanceStopped.toLowerCase()];
+                setFlaskProperty(LABKEY.icemr.flask.maintenanceStopped, flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.maintenanceDate, flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.startParasitemia + '1', flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.startParasitemia + '2', flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.startParasitemia + '3', flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.finishParasitemia + '1', flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.finishParasitemia + '2', flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.finishParasitemia + '3', flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.startDate1, flask, properties);
+                setFlaskProperty(LABKEY.icemr.flask.finishDate1, flask, properties);
+                if (didFlaskAdapt(properties))
+                    properties[LABKEY.icemr.flask.adaptationDate] = flask[LABKEY.icemr.flask.maintenanceDate];
                 break;
             }
         }
     }
 }
 
-function getFlaskUpdateData(dailyResult)
+//
+// consider: doing this server-side so we don't have equations in two places
+// consider: or always do it client-side?
+// consider: the adaptationDate is really a pain, would be better if we can
+// consider: derive this
+//
+function didFlaskAdapt(properties)
 {
-    // right now we only update the flask sample if daily maintenance has been stopped
-    var maintenanceStopped = dailyResult[LABKEY.icemr.adaptation.flaskMaintenanceStopped];
+    // if the flask already has an adaptation date then
+    // it didn't adapt with this latest daily update
+    if (properties[LABKEY.icemr.flask.adaptationDate])
+        return false;
 
-    if (maintenanceStopped)
+    var totalPass = 0;
+    for (var testNum = 1; testNum < 4; testNum++)
     {
-        var flask = {};
-        // the sample id is the primary key
-        flask[LABKEY.icemr.adaptation.sample] = dailyResult[LABKEY.icemr.adaptation.sample];
-        flask[LABKEY.icemr.adaptation.flaskMaintenanceStopped] = true;
-        return flask;
+        if (didTestPass(testNum, properties))
+            totalPass++;
     }
 
-    return null;
+    return (totalPass >=  properties[LABKEY.icemr.flask.adaptationCriteria]);
+}
+
+function didTestPass(testNum, properties)
+{
+    if (properties[LABKEY.icemr.flask.finishParasitemia + testNum])
+    {
+        var increase = (properties[LABKEY.icemr.flask.finishParasitemia + testNum]) /
+                       (properties[LABKEY.icemr.flask.startParasitemia + testNum]);
+
+        if (increase >= properties[LABKEY.icemr.flask.foldIncrease + testNum])
+            return true;
+    }
+
+    return false;
+}
+
+function setFlaskProperty(name, flask, properties)
+{
+    if (flask[name])
+    {
+        properties[name] = flask[name];
+        return true;
+    }
+
+    return false;
+}
+
+function storeGrowthTestParasitemia(growthTest, flask, dailyResult, finished)
+{
+    if (growthTest == '1' || growthTest == '2' || growthTest == '3')
+    {
+        var parasitemia = dailyResult[LABKEY.icemr.adaptation.parasitemia];
+
+        if (finished)
+            flask[LABKEY.icemr.flask.finishParasitemia + growthTest] = parasitemia;
+        else
+            flask[LABKEY.icemr.flask.startParasitemia + growthTest] = parasitemia;
+
+        // we also record the start and finish dates for growth test 1
+        if (growthTest == '1')
+        {
+            if (finished)
+                flask[LABKEY.icemr.flask.finishDate1] = dailyResult[LABKEY.icemr.adaptation.measurementDate];
+            else
+                flask[LABKEY.icemr.flask.startDate1] = dailyResult[LABKEY.icemr.adaptation.measurementDate];
+
+        }
+    }
+}
+
+//
+// store data in the flask based on events that happen
+// for this daily maintenance.  At the very least we always
+// record the date of the last daily maintenance
+//
+function getFlaskUpdates(dailyResult)
+{
+    // setup a flask with a sample id and the most recent maintenance date
+    var flask = {};
+    var measurementDate = dailyResult[LABKEY.icemr.adaptation.measurementDate];
+
+    flask[LABKEY.icemr.flask.sample] = dailyResult[LABKEY.icemr.adaptation.sample];
+    flask[LABKEY.icemr.flask.maintenanceDate] = measurementDate;
+
+    // if maintenance was stopped, record the date
+    // consider: this date may be redundant since we also save the last maintenance
+    // consider: date above
+    if (dailyResult[LABKEY.icemr.adaptation.flaskMaintenanceStopped])
+        flask[LABKEY.icemr.flask.maintenanceStopped] = measurementDate;
+
+    // growth test started?
+    var growthTest = dailyResult[LABKEY.icemr.adaptation.growthFoldTestInitiated];
+    storeGrowthTestParasitemia(growthTest, flask, dailyResult, false);
+
+    // growth test finished?
+    growthTest = dailyResult[LABKEY.icemr.adaptation.growthFoldTestFinished];
+    storeGrowthTestParasitemia(growthTest, flask, dailyResult, true);
+
+    return flask;
 }
 
 //
@@ -201,7 +330,7 @@ function getDailyUploadTemplate(measurementDate)
     for (var i = 0; i < flasks.length; i++)
     {
         // skip any flasks whose daily maintennce has been stopped
-        if (true == flasks[i][LABKEY.icemr.adaptation.flaskMaintenanceStopped])
+        if (flasks[i][LABKEY.icemr.flask.maintenanceStopped] != null)
             continue;
 
         rows.push(buildDataRow(flasks[i], measurementDate));
@@ -250,40 +379,18 @@ function buildDataRow(flask, measurementDate)
         if (cfg.name == LABKEY.icemr.adaptation.dateIndex)
             continue;
 
+        //
+        // just set measurement date and sample - client doesn't want
+        // day0 data in the form
+        //
         if (cfg.name == LABKEY.icemr.adaptation.measurementDate)
         {
             data = measurementDate;
         }
         else
-        if (cfg.name == LABKEY.icemr.adaptation.patient)
-        {
-            // not a prepopulated field
-            data = flask[LABKEY.icemr.adaptation.patient];
-        }
-        else
         if (cfg.name == LABKEY.icemr.adaptation.sample)
         {
             data = flask[LABKEY.icemr.adaptation.sample];
-        }
-        else
-        if (cfg.name == LABKEY.icemr.adaptation.scientist)
-        {
-            data = flask[LABKEY.icemr.adaptation.scientist];
-        }
-        else
-        if (cfg.name == LABKEY.icemr.adaptation.stage)
-        {
-            data = flask[LABKEY.icemr.adaptation.stage];
-        }
-        else
-        if (cfg.name == LABKEY.icemr.adaptation.serumBatch)
-        {
-            data = flask[LABKEY.icemr.adaptation.serumBatch];
-        }
-        else
-        if (cfg.name == LABKEY.icemr.adaptation.albumaxBatch)
-        {
-            data = flask[LABKEY.icemr.adaptation.albumaxBatch];
         }
 
         if (data == null)
@@ -322,8 +429,7 @@ function verifyDailyData(dailyResults)
         {
             if (sampleId == day0Flasks[j][LABKEY.icemr.adaptation.sample])
             {
-                var stopped = day0Flasks[j][LABKEY.icemr.adaptation.flaskMaintenanceStopped]
-                if (stopped != true)
+                if (day0Flasks[j][LABKEY.icemr.flask.maintenanceStopped] == null)
                 {
                     found = true;
                 }
@@ -386,7 +492,6 @@ function getProcessDailyFileUploadCallbackWrapper(fn)
                 var map = columnMappings[colIdx];
                 dailyResult[map.name] = row[map.index];
             }
-            addCalculatedFields(dailyResult);
             dailyResults.push(dailyResult);
         }
 
@@ -395,30 +500,23 @@ function getProcessDailyFileUploadCallbackWrapper(fn)
     }
 }
 
-function addCalculatedFields(dailyResult)
-{
-    var startDate = new Date(LABKEY.icemr.adaptation.run.properties[LABKEY.icemr.adaptation.startDate]);
-    var measurementDate = new Date(dailyResult[LABKEY.icemr.adaptation.measurementDate]);
-    dailyResult[LABKEY.icemr.adaptation.dateIndex] = getDateIndex(startDate, measurementDate);
-}
-
-// convert milliseconds to days
-function getDateIndex(start, end)
-{
-    return parseInt((end.getTime() - start.getTime())/(24*60*60*1000));
-}
-
 function isNameInSet(name, set)
 {
     for (var i = 0; i < set.length; i++)
-    {
         if (set[i].name == name)
             return true;
-    }
 
     return false;
 }
 
+function isNameInArray(name, arr)
+{
+    for (var i = 0; i < arr.length; i++)
+        if (arr[i] == name)
+            return true;
+
+    return false;
+}
 
 //
 // verify that the header (row[0]) of data matches
@@ -648,9 +746,7 @@ function getDay0Configs(successCallback)
 
 function onAdaptationAssayConfigsReady(runConfigs, resultConfigs)
 {
-    //
-    // now get flask data
-    //
+    // retrieve flask sample set data
     var flasks = new LABKEY.Exp.SampleSet({name: LABKEY.icemr.adaptation.flaskSampleSet});
     flasks.getDomain({ success : onFlasksDomainReady, failure : onFlasksFailure });
 }
@@ -658,7 +754,17 @@ function onAdaptationAssayConfigsReady(runConfigs, resultConfigs)
 function onFlasksDomainReady(domain)
 {
     LABKEY.icemr.flaskConfigs = buildConfigs(domain.fields, LABKEY.icemr.metaType.SampleSet);
-    LABKEY.icemr.getDay0Success(LABKEY.icemr.adaptation.runFieldConfigs, LABKEY.icemr.flaskConfigs);
+
+    // filter out our internal flask fields for the client
+    var clientFlaskConfigs = [];
+    for (var i=0; i < LABKEY.icemr.flaskConfigs.length; i++)
+    {
+        var config = LABKEY.icemr.flaskConfigs[i];
+        if (!isNameInArray(config.name, LABKEY.icemr.flask.internalFields))
+            clientFlaskConfigs.push(config);
+    }
+
+    LABKEY.icemr.getDay0Success(LABKEY.icemr.adaptation.runFieldConfigs, clientFlaskConfigs);
 }
 
 function onFlasksFailure(data)

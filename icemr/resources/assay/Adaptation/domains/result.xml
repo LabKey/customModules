@@ -45,7 +45,7 @@
     <exp:PropertyDescriptor>
         <exp:Name>Removed</exp:Name>
         <exp:Description>If split performed, percent removed</exp:Description>
-        <exp:Required>true</exp:Required>
+        <exp:Required>false</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
         <exp:Label>Removed</exp:Label>
 </exp:PropertyDescriptor>

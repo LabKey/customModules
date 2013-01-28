@@ -33,8 +33,8 @@ function onSaveFailure(result)
 
 function submitDaily()
 {
-//    if (!validateForm())
-//        return;
+    if (!validateForm())
+        return;
 
     var results = [];
     var target;
@@ -46,20 +46,19 @@ function submitDaily()
         for(r = 0; r < _flasksPanel.items.items[i].items.items.length; r++){
             target =  _flasksPanel.items.items[i].items.items[r];
             console.log(typeof target.value);
-            if(target.value == 'Yes' || target.value == 'Positive')
+            if(target.value == 'Yes')
             {
                 trueValue = true;
             }
-            else if(target.value == 'No' || target.value == 'Negative')
+            else
+            if(target.value == 'No')
             {
-                trueValue = false;
-            }
-            else if(target.value == 'No Test'){
-                trueValue = null;
-            }
-            else if(typeof target.value == 'object')
-            {
-                trueValue = target.value.toString();
+                // growth test is stored as an integer so map 'no' value to null
+                if (target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
+                    target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestFinished)
+                    trueValue = null;
+                else
+                    trueValue = false;
             }
             else trueValue = target.value;
 
@@ -70,7 +69,6 @@ function submitDaily()
     }
 
     saveDaily(results, onSaveSuccess, onSaveFailure)
-
 }
 
 function goBack()
@@ -138,36 +136,25 @@ function onConfigsReady(runConfigs, resultConfigs)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.growthFoldTestInitiated)
+        else if (config.name == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
+                config.name == LABKEY.icemr.adaptation.growthFoldTestFinished)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.oneTwoThreeOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.growthFoldTestFinished)
-        {
-            setComboConfig(config, LABKEY.icemr.adaptation.oneTwoThreeOptions);
-        }
-        else if (config.name == 'Contamination')
+        else if (config.name == LABKEY.icemr.adaptation.contamination ||
+                 config.name == LABKEY.icemr.adaptation.flaskMaintenanceStopped ||
+                 config.name == LABKEY.icemr.adaptation.interestingResult)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.yesNoOptions);
         }
-        else if (config.name == 'MycoTestResult')
+        else if (config.name == LABKEY.icemr.adaptation.mycotest)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.positiveNegativeOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.flaskMaintenanceStopped)
-        {
-            setComboConfig(config, LABKEY.icemr.adaptation.yesNoOptions);
-        }
-        else if (config.name == 'InterestingResult')
-        {
-            setComboConfig(config, LABKEY.icemr.adaptation.yesNoOptions);
-        }
-        else if (config.name == 'DateIndex')
+        else if (config.name == LABKEY.icemr.adaptation.dateIndex)
         {
             config.hidden = true;
         }
-
-
     }
 
     _runFieldConfigs = runConfigs;
@@ -197,32 +184,40 @@ function onDailyFileUploadSuccess(dailyResults)
         }
 
         var form = _flasksPanel.items.items[0];
-//        var formCmp = Ext4.getCmp('upload-adaptation-form');
-//        var fields = formCmp.getForm().getFields();
-        var dailyResult = dailyResults[0];
         for(var i = 0; i < dailyResults.length; i++){
+            var dailyResult = dailyResults[i];
             for (var key in dailyResult)
             {
-                dailyResult = dailyResults[i];
                 form = _flasksPanel.items.items[i];
-                // you'll need to add to this but basically map how fields are stored in the db
-                // to a better form experience
-                //
                 var value = dailyResult[key];
+                var field = form.getComponent(key +(i+1));
 
                 if (key == LABKEY.icemr.adaptation.measurementDate)
                 {
-                    form.getComponent(key + (i+1)).setValue(new Date(value));
+                    field.setValue(new Date(value));
+                }
+                else
+                if (key == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
+                    key == LABKEY.icemr.adaptation.growthFoldTestFinished)
+                {
+                    field.setValue(getFormGrowthTestValue(value));
+                }
+                else
+                if (key == LABKEY.icemr.adaptation.interestingResult ||
+                    key == LABKEY.icemr.adaptation.contamination ||
+                    key == LABKEY.icemr.adaptation.flaskMaintenanceStopped)
+                {
+                    field.setValue(getFormYesNoValue(value));
+                }
+                else
+                if (key == LABKEY.icemr.adaptation.mycotest)
+                {
+                    field.setValue(getFormPosNegValue(value));
                 }
                 else
                 {
-                    form.getComponent(key + (i+1)).setValue(value);
+                    field.setValue(value);
                 }
-                //
-                // undone: handle the bool columns that want a "yes/no" presented in the ui
-                // undone: also GrowthFoldTest[Initiated|Finished] is an integer.  If not specified (null)
-                // undone: then the UI should present 'no test'
-                //
             }
         }
     }
@@ -253,7 +248,7 @@ function createFileUploadPanel()
                 fieldLabel : 'Daily Upload',
                 labelWidth : 95,
                 width : 400,
-                allowBlank : false,
+                allowBlank : true,
                 buttonText : 'Select file ...'
             },{
                 xtype : 'fieldcontainer',

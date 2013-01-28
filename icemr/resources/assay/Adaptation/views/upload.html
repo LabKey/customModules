@@ -1,5 +1,5 @@
 <div id="error-div"></div>
-<div id="upload-adaptation-div"></div>
+<div id="upload-day0-div"></div>
 <script type="text/javascript">
 
 LABKEY.requiresScript("assay/validation.js");
@@ -24,26 +24,18 @@ function onSaveFailure(result)
 
 function submitAdaptation(propsForm, flasksForm)
 {
-//    if (!validateForm())
-//        return;
-
-    //
-    // generate data
-    //
+    if (!validateForm())
+        return;
 
     // first create a blank experiment object
     var exp = createExperiment();
 
-    // test only: fill in with some data
-
-//    var exp = [];
     for(var i = 0; i < propsForm.items.items.length; i++){
         exp[propsForm.items.items[i].id] = propsForm.items.items[i].value;
     }
 
     var flasks = [];
-    var numFlasks = Math.floor(Math.random() * 9);
-    if (numFlasks == 0) numFlasks = 1;
+    var numFlasks = flasksForm.items.items.length;
 
     for (var i = 0; i < numFlasks; i++)
     {
@@ -57,7 +49,6 @@ function submitAdaptation(propsForm, flasksForm)
             flask[target.id.substring(0, target.id.length-1)] = target.value;
         }
         console.log(flask);
-        // the saveDay0 API takes an experiement object and an array of flask objects
         flasks.push(flask)
     }
 
@@ -74,9 +65,6 @@ function goBack()
 
 function showRuns()
 {
-    //
-    // stub for testing
-    //
     window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
             {rowId:LABKEY.page.assay.id});
 }
@@ -86,7 +74,7 @@ function validateForm()
     // clear out error messages.
     handleError("", true);
 
-    var form = Ext4.getCmp('upload-diagnostic-form');
+    var form = Ext4.getCmp('upload-day0-form');
     if(form.getForm().isValid())
         return true;
     else
@@ -112,23 +100,32 @@ var numFlasks = 1;
 
 function onConfigsReady(runConfigs, flaskConfigs)
 {
-    //
-    // making a new array because we don't need to show the
-    // PatientID field
-    //
     var flaskUIConfigs = [];
+    var i, config;
+
     flaskUIConfigs.push({
         xtype : 'box',
         text : 'Flask 1'
     });
-    //
-    // we have a patient id field for the flask but we don't need to show it
-    // in the UI since it is already a run property
-    //
-    for (var i = 0; i < flaskConfigs.length; i++)
-    {
-        var config = flaskConfigs[i];
 
+    // fixup run config
+    for (i = 0; i < runConfigs.length; i++)
+    {
+        config = runConfigs[i];
+        // set a default start date of today
+        if (config.name == LABKEY.icemr.flask.startDate)
+            config.value = new Date();
+    }
+
+    // fixup field configs
+    for (i = 0; i < flaskConfigs.length; i++)
+    {
+        config = flaskConfigs[i];
+
+        //
+        // we have a patient id field for the flask but we don't need to show it
+        // in the UI since it is already a run property
+        //
         if (config.name == LABKEY.icemr.adaptation.patient)
             continue;
 
@@ -229,8 +226,8 @@ function onConfigsReady(runConfigs, flaskConfigs)
     });
 
     var fp = Ext4.create('Ext.form.Panel',{
-        renderTo: 'upload-adaptation-div',
-        id      : 'upload-adaptation-form',
+        renderTo: 'upload-day0-div',
+        id      : 'upload-day0-form',
         width : 450,
         defaults: {
             validationEvent: false,

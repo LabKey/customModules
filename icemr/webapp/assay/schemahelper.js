@@ -13,9 +13,9 @@
 LABKEY.requiresScript('clientapi/ext4/Util.js');
 Ext.namespace("LABKEY.icemr");
 
-//
+// -------------------------------------------------------------------
 // diagnostic assay constants
-//
+// -------------------------------------------------------------------
 Ext.namespace("LABKEY.icemr.diagnostics");
 LABKEY.icemr.diagnostics.participant='ParticipantID';
 LABKEY.icemr.diagnostics.hemoglobin='PatientHemoglobin';
@@ -26,14 +26,18 @@ LABKEY.icemr.diagnostics.time = 'Time';
 LABKEY.icemr.diagnostics.date = 'Date'
 LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative']];
 
-//
-// adaptation assay constants
-//
+// -------------------------------------------------------------------
+// adaptation assay constants for the result fields
+// -------------------------------------------------------------------
 Ext.namespace("LABKEY.icemr.adaptation");
 LABKEY.icemr.adaptation.flaskSampleSet = 'Flasks';
+LABKEY.icemr.adaptation.parasitemia = 'Parasitemia';
 LABKEY.icemr.adaptation.patient = 'PatientID';
 LABKEY.icemr.adaptation.sample = 'SampleID';
 LABKEY.icemr.adaptation.experiment = 'ExperimentID';
+LABKEY.icemr.adaptation.contamination = 'Contamination';
+LABKEY.icemr.adaptation.mycotest = 'MycoTestResult';
+LABKEY.icemr.adaptation.interestingResult = 'InterestingResult';
 LABKEY.icemr.adaptation.stage = 'Stage';
 LABKEY.icemr.adaptation.pRBC = 'PatientpRBCs';
 LABKEY.icemr.adaptation.cultureMedia = 'CultureMedia';
@@ -44,7 +48,6 @@ LABKEY.icemr.adaptation.yesNoOptions = [['Yes'], ['No']];
 LABKEY.icemr.adaptation.positiveNegativeOptions = [['Positive'], ['Negative'], ['No Test']];
 LABKEY.icemr.adaptation.oneTwoThreeOptions = [['1'], ['2'], ['3'], ['No']];
 LABKEY.icemr.adaptation.dateIndex = 'DateIndex';
-LABKEY.icemr.adaptation.startDate = 'StartDate';
 LABKEY.icemr.adaptation.measurementDate = 'MeasurementDate';
 LABKEY.icemr.adaptation.growthFoldTestInitiated = 'GrowthFoldTestInitiated';
 LABKEY.icemr.adaptation.growthFoldTestFinished = 'GrowthFoldTestFinished';
@@ -53,11 +56,51 @@ LABKEY.icemr.adaptation.scientist = 'Scientist';
 LABKEY.icemr.adaptation.serumBatch = 'SerumBatchID';
 LABKEY.icemr.adaptation.albumaxBatch = 'AlbumaxBatchID';
 
+// -------------------------------------------------------------------
+// these fields are added to the flask sample set automatically
+// when daily uploads occur
+// -------------------------------------------------------------------
+Ext.namespace("LABKEY.icemr.flask");
+LABKEY.icemr.flask.sample = LABKEY.icemr.adaptation.sample;
+LABKEY.icemr.flask.startDate = 'StartDate';
+// date that maintenance on the flask is done
+LABKEY.icemr.flask.maintenanceStopped = 'MaintenanceStopped';
+// date of most recent daily upload
+LABKEY.icemr.flask.maintenanceDate = 'MaintenanceDate';
+// StartParasitemia[n] where n = 1,2, or 3 corresponding to the parasitemia when the growth-fold test
+// is started
+LABKEY.icemr.flask.startParasitemia = 'StartParasitemia';
+// same as above but when the test is finished
+LABKEY.icemr.flask.finishParasitemia = 'FinishParasitemia';
+// start date of growth test, ICEMR only cares about the Growth-Fold test1
+LABKEY.icemr.flask.startDate1 = 'StartDate1';
+LABKEY.icemr.flask.finishDate1 = 'FinishDate1';
+// the date when the flask is considered to have a successful adaptation based on the passing
+// of a growth test that puts it over the adaptation criteria
+LABKEY.icemr.flask.adaptationCriteria = 'AdaptationCriteria';
+LABKEY.icemr.flask.adaptationDate = 'AdaptationDate';
 
-//
+LABKEY.icemr.flask.internalFields = [
+    LABKEY.icemr.flask.maintenanceStopped,
+    LABKEY.icemr.flask.maintenanceDate,
+    LABKEY.icemr.flask.startParasitemia + '1',
+    LABKEY.icemr.flask.startParasitemia + '2',
+    LABKEY.icemr.flask.startParasitemia + '3',
+    LABKEY.icemr.flask.finishParasitemia + '1',
+    LABKEY.icemr.flask.finishParasitemia + '2',
+    LABKEY.icemr.flask.finishParasitemia + '3',
+    LABKEY.icemr.flask.startDate1,
+    LABKEY.icemr.flask.finishDate1,
+    LABKEY.icemr.flask.adaptationDate
+];
+
+// used for calculations
+LABKEY.icemr.flask.foldIncrease = 'FoldIncrease';
+
+// -------------------------------------------------------------------
 // the ICEMR module must have these assay designs and
 // sample sets
-//
+// -------------------------------------------------------------------
 LABKEY.icemr.AdaptationAssayResults = 'Adaptation Assay';
 LABKEY.icemr.DiagnosticsAssayResults = 'Diagnostics Assay';
 LABKEY.icemr.metaType = {
@@ -65,13 +108,16 @@ LABKEY.icemr.metaType = {
     SampleSet : 1
 }
 
-//
+// -------------------------------------------------------------------
 // configuration errors
-//
+// -------------------------------------------------------------------
 LABKEY.icemr.errConfigTitle = "Configuration Error";
 LABKEY.icemr.errConfigMissingAssayDesign = "Could not find the specified assay design. Please see your LabKey administrator.";
 LABKEY.icemr.errConfigMissingFlask = "Could not find the Flask Sample Set. Please see your LabKey administrator.";
 
+// -------------------------------------------------------------------
+// functions
+// -------------------------------------------------------------------
 function getAdaptationFieldConfigsCallbackWrapper(fn) {
     return function(runFieldConfigs, resultFieldConfigs) {
         LABKEY.icemr.adaptation.runFieldConfigs = runFieldConfigs;
@@ -80,11 +126,13 @@ function getAdaptationFieldConfigsCallbackWrapper(fn) {
             fn.call(this, runFieldConfigs, resultFieldConfigs);
     }
 }
+
 function getAdaptationFieldConfigs(successCallback)
 {
     getFieldConfigs(LABKEY.icemr.AdaptationAssayResults,
             getAdaptationFieldConfigsCallbackWrapper(successCallback));
 }
+
 function getDiagnosticFieldConfigsCallbackWrapper(fn) {
     return function(runFieldConfigs, resultFieldConfigs) {
         LABKEY.icemr.diagnostics.runFieldConfigs = runFieldConfigs;
@@ -93,6 +141,7 @@ function getDiagnosticFieldConfigsCallbackWrapper(fn) {
             fn.call(this, runFieldConfigs, resultFieldConfigs);
     }
 }
+
 function getDiagnosticsFieldConfigs(successCallback)
 {
     getFieldConfigs(LABKEY.icemr.DiagnosticsAssayResults,
@@ -219,4 +268,44 @@ function setComboConfig(config, options)
     config.forceSelection = true;
     config.mode = 'local';
     config.value = options[0][0];
+    config.vtype = undefined; // let combo provide validation
+}
+
+// map various fields from the db to ui values
+
+function getFormGrowthTestValue(src)
+{
+    if (src == '1' || src == 1)
+        return '1';
+    else if (src == '2' || src == 2)
+        return '2';
+    else if (src == '3' || src == 3)
+        return '3';
+
+    // any other value we just set to 'No'
+    return 'No';
+}
+
+function getFormYesNoValue(value)
+{
+    if (value && value.toLowerCase() == 'yes')
+        return 'Yes';
+
+    return 'No';
+}
+
+function getFormPosNegValue(value)
+{
+    if (value)
+    {
+        var v = value.toLowerCase();
+
+        if (v == 'positive')
+            return 'Positive';
+
+        if (v == 'negative')
+            return 'Negative';
+    }
+
+    return 'No Test';
 }
