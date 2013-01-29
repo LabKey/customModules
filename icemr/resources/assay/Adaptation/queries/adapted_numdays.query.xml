@@ -5,15 +5,8 @@ undone - this query metadata is not being picked up
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="adapted_numdays" tableDbType="TABLE">
-                <tableTitle>Flask Adaptation</tableTitle>
-                <columns>
-                    <!-- currently not provding the url to get to the flask details -->
-                    <column columnName="SampleID">
-                        <url>/icemr/showMaterial.view?rowId=${RowId}</url>
-                    </column>
-                </columns>
+                <tableTitle>Flask Summary</tableTitle>
             </table>
         </tables>
     </metadata>
 </query>
-

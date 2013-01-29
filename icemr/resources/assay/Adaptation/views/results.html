@@ -42,6 +42,7 @@ function init()
                     LABKEY.icemr.adaptation.measurementDate],
         sort : '-'+LABKEY.icemr.adaptation.measurementDate,
         filterArray    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])],
+        maxRows : 1,
         success : onSelectSuccess
     });
 }
@@ -54,29 +55,13 @@ function onSelectSuccess(data, response, options)
     //
     if (data && data.rows && data.rows.length > 0)
     {
-        var sampleIDs = {};
-        var filterValues = '';
-
-        for (var i = 0; i < data.rows.length; i++)
-        {
-            var row = data.rows[i];
-            if (0 == i)
-            {
-                Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.adaptation.experiment]);
-                Ext4.fly('startDate').update(buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]));
-                Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.adaptation.measurementDate]));
-            }
-            // we have one row per flask measurement for this experiment so we
-            // need to only collect unique flask ids
-            if (sampleIDs[row[LABKEY.icemr.adaptation.sample]] == undefined)
-            {
-                sampleIDs[row[LABKEY.icemr.adaptation.sample]] = 1;
-                filterValues += row[LABKEY.icemr.adaptation.sample] + ';'
-            }
-        }
+        var row = data.rows[0];
+        Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.adaptation.experiment]);
+        Ext4.fly('startDate').update(buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]));
+        Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.adaptation.measurementDate]));
     }
 
-    renderResults(filterValues);
+    renderResults();
 }
 
 function buildDateString(value)
@@ -85,20 +70,25 @@ function buildDateString(value)
     return ( (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear());
 }
 
-function renderResults(filterValues)
+function renderResults()
 {
-    /* this shows all the measurment data for each run;
     var params = LABKEY.ActionURL.getParameters();
-
     var qwp = new LABKEY.QueryWebPart({
-        renderTo   : 'runs_div',
+        renderTo   : 'flasks_div',
         schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
         queryName  : 'Data',
         buttonBarPosition: 'none',
         showPagination : false,
         filters    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])]
     });
-    */
+}
+
+/*
+* if we want to show the flasks themselves as results instead of
+* the actual results then use this function with a list of
+* sample/flask IDs
+function renderResults(filterValues)
+{
 
     var qwp = new LABKEY.QueryWebPart({
         renderTo   : 'flasks_div',
@@ -109,7 +99,9 @@ function renderResults(filterValues)
         filters    : [ LABKEY.Filter.create(LABKEY.icemr.adaptation.sample, filterValues,
             LABKEY.Filter.Types.IN)]
     });
+
 }
+ */
 
 init();
 </script>
