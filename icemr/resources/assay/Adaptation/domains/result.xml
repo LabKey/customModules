@@ -129,7 +129,7 @@
 <exp:PropertyDescriptor>
     <exp:Name>DateIndex</exp:Name>
     <exp:Description>Number of days since Day 0</exp:Description>
-    <exp:Required>true</exp:Required>
+    <exp:Required>false</exp:Required>
     <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
     <exp:Label>Date Index</exp:Label>
 </exp:PropertyDescriptor>
