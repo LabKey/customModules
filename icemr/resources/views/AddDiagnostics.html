@@ -9,10 +9,17 @@
 <a id='test'></a>
 <script>
     function successFn(assays) {
-        document.getElementById('test').href =
-                LABKEY.ActionURL.buildURL('assay', 'moduleAssayUpload', null ,
-                        {rowId:assays[0].id});
-        document.getElementById('test').innerHTML = "Upload data";
+        if (assays.length > 0)
+        {
+            document.getElementById('test').href =
+                    LABKEY.ActionURL.buildURL('assay', 'moduleAssayUpload', null ,
+                            {rowId:assays[0].id});
+            document.getElementById('test').innerHTML = "Upload data";
+        }
+        else
+        {
+            document.getElementById('test').innerHTML = "You need to define a new Diagnostics Assay";
+        }
         console.log(assays);
     }
 

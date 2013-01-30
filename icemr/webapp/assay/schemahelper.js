@@ -288,24 +288,35 @@ function getFormGrowthTestValue(src)
 
 function getFormYesNoValue(value)
 {
-    if (value && value.toLowerCase() == 'yes')
-        return 'Yes';
-
-    return 'No';
-}
-
-function getFormPosNegValue(value)
-{
     if (value)
     {
-        var v = value.toLowerCase();
-
-        if (v == 'positive')
-            return 'Positive';
-
-        if (v == 'negative')
-            return 'Negative';
+        if (typeof(value) == 'string')
+        {
+            var v = value.toLowerCase();
+            if (v =='yes') return 'Yes';
+            if (v =='no') return 'No';
+        }
+        // if defined but invalid, return null
+        return null;
     }
 
+    // if not defined, return no
+    return 'No';
+}
+function getFormPosNegValue(value)
+{
+
+    if (value)
+    {
+        if (typeof(value) == 'string')
+        {
+            var v = value.toLowerCase();
+            if (v == 'positive') return 'Positive';
+            if (v == 'negative') return 'Negative';
+        }
+        // if defined but invalid, return null
+        return null;
+    }
+    // if not defined, return 'No Test'
     return 'No Test';
 }
