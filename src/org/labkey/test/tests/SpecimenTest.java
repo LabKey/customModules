@@ -182,7 +182,7 @@ public class SpecimenTest extends StudyBaseTestWD
         assertTextPresent("20ml Cryovial");
         assertTextPresent("25ml Cryovial");
         clickAndWait(Locator.linkWithText("Specimen Overview"));
-        click(Locator.linkWithText("Vials by DerivativeType"));
+        click(Locator.linkWithText("Vials by Derivative Type"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Tear Flo Strips"), WAIT_FOR_PAGE);
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
@@ -315,7 +315,7 @@ public class SpecimenTest extends StudyBaseTestWD
     {
         clickAndWait(Locator.linkWithText(getStudyLabel()));
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        click(Locator.linkWithText("Vials by DerivativeType"));
+        click(Locator.linkWithText("Vials by Derivative Type"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
         // Verify unavailable sample
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
@@ -356,7 +356,7 @@ public class SpecimenTest extends StudyBaseTestWD
 
         // add additional specimens
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClick(Locator.linkWithText("Vials by DerivativeType"));
+        waitAndClick(Locator.linkWithText("Vials by Derivative Type"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
@@ -632,7 +632,7 @@ public class SpecimenTest extends StudyBaseTestWD
         waitForText("No data to show.");
         clickAndWait(Locator.linkWithText(getStudyLabel()));
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        click(Locator.linkWithText("Vials by DerivativeType"));
+        click(Locator.linkWithText("Vials by Derivative Type"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
@@ -863,16 +863,16 @@ public class SpecimenTest extends StudyBaseTestWD
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
-        _ext4Helper.selectComboBoxItemById("combo11", "ProcessingLocation");
-        _ext4Helper.selectComboBoxItemById("combo12", "PrimaryType");
-        _ext4Helper.selectComboBoxItemById("combo13", "SiteName");
-        _ext4Helper.selectComboBoxItemById("combo21", "AdditiveType");
-        _ext4Helper.selectComboBoxItemById("combo22", "DerivativeType");
-        _ext4Helper.selectComboBoxItemById("combo23", "TubeType");
+        _ext4Helper.selectComboBoxItemById("combo11", "Processing Location");
+        _ext4Helper.selectComboBoxItemById("combo12", "Primary Type");
+        _ext4Helper.selectComboBoxItemById("combo13", "Site Name");
+        _ext4Helper.selectComboBoxItemById("combo21", "Additive Type");
+        _ext4Helper.selectComboBoxItemById("combo22", "Derivative Type");
+        _ext4Helper.selectComboBoxItemById("combo23", "Tube Type");
         clickButton("Save");
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
         clickTab("Specimen Data");
-        assertTextPresent("Vials by ProcessingLocation", "Vials by AdditiveType", "The McMichael Lab");
+        assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
         assertTextPresent("NICD - Joberg", 2);
         clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
         assertTextPresent("Vials", "(ProcessingLocation = The McMichael Lab, Oxford, UK)");
@@ -881,11 +881,11 @@ public class SpecimenTest extends StudyBaseTestWD
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
-        _ext4Helper.selectComboBoxItemById("combo11", "PrimaryType");
-        _ext4Helper.selectComboBoxItemById("combo12", "DerivativeType");
-        _ext4Helper.selectComboBoxItemById("combo13", "AdditiveType");
-        _ext4Helper.selectComboBoxItemById("combo21", "DerivativeType");
-        _ext4Helper.selectComboBoxItemById("combo22", "AdditiveType");
+        _ext4Helper.selectComboBoxItemById("combo11", "Primary Type");
+        _ext4Helper.selectComboBoxItemById("combo12", "Derivative Type");
+        _ext4Helper.selectComboBoxItemById("combo13", "Additive Type");
+        _ext4Helper.selectComboBoxItemById("combo21", "Derivative Type");
+        _ext4Helper.selectComboBoxItemById("combo22", "Additive Type");
 
         clickButton("Save");
     }
