@@ -104,8 +104,9 @@ function onConfigsReady(runConfigs, flaskConfigs)
     var i, config;
 
     flaskUIConfigs.push({
-        xtype : 'box',
-        text : 'Flask 1'
+        xtype : 'fieldcontainer',
+        text : 'Flask 1',
+        fieldLabel : 'Flask'
     });
 
     // fixup run config
@@ -156,6 +157,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
     var getFlaskConfigs = function(){
         var newArray = Ext4.clone(flaskUIConfigs);
         newArray[0].html = 'Flask ' + numFlasks;
+        if(numFlasks != 1) newArray[0].fieldLabel = null;
         for(var i = 1; i < newArray.length; i++){
             newArray[i].id += numFlasks;
             newArray[i].name += numFlasks;
@@ -170,7 +172,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
 
     var addFlask = function(){
         numFlasks++;
-        fp.width += 175;
+        fp.width += 183;
         flasksBox.add(            {
             xtype : 'fieldcontainer',
             id : 'flask ' + numFlasks,
