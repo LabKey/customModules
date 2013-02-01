@@ -4,7 +4,7 @@ CASE WHEN ((PassTest1 + PassTest2 + PassTest3) >= AdaptationCriteria) THEN
 'Yes'
 ELSE
 'No'
-End As SuccessfulAdaptation
+END As SuccessfulAdaptation
 FROM
 stored_parasitemia_alltests_increase
 

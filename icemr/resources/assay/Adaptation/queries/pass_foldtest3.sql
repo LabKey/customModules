@@ -2,7 +2,8 @@ SELECT
 fi.SampleID,
 GrowthFoldTest,
 Increase,
-cast((Increase >= FoldIncrease3) as INTEGER) As Pass
+CASE WHEN (Increase  >= FoldIncrease3) THEN (1)
+ELSE (0) END As Pass
 FROM
 parasitemia_foldincrease3 as fi, Samples.Flasks as f
 WHERE
