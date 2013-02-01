@@ -385,7 +385,7 @@ function onRunDataReady(runData)
     // Create our form with two containers to separate
     // the flask properties data for each flask
     //
-     var fp = new Ext4.FormPanel({
+     var fp = Ext4.create('Ext.form.Panel', {
          renderTo: 'upload-adaptation-div',
          id      : 'upload-adaptation-form',
          width : 455,
