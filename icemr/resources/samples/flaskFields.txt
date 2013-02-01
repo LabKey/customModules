@@ -8,8 +8,8 @@ Gametocytemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Gametoc
 PatientpRBCs	Patient pRBCs	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
 Hematocrit		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Hematocrit %
 CultureMedia	Culture Media	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
-SerumBatchID	Serum Batch ID	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FALSE	Batch ID for serum supplemental media
-AlbumaxBatchID	Albumax Batch ID	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FALSE	Batch ID for Albumax supplemental media
+SerumBatchID	Serum Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID for serum supplemental media
+AlbumaxBatchID	Albumax Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID for Albumax supplemental media
 FoldIncrease1	Fold-Increase Test 1	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Fold-increase for successful growth test 1
 FoldIncrease2	Fold-Increase Test 2	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Fold-increase for successful growth test 2
 FoldIncrease3	Fold-Increase Test 3	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Fold-increase for successful growth test 3

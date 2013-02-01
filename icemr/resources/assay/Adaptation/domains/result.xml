@@ -53,21 +53,21 @@
     <exp:Name>RBCBatchID</exp:Name>
     <exp:Description>If split performed, batch ID of RBCs used</exp:Description>
     <exp:Required>false</exp:Required>
-    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
     <exp:Label>RBC Batch ID</exp:Label>
 </exp:PropertyDescriptor>
 <exp:PropertyDescriptor>
     <exp:Name>SerumBatchID</exp:Name>
     <exp:Description>Batch ID for serum-supplemented media</exp:Description>
     <exp:Required>false</exp:Required>
-    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
     <exp:Label>Serum Batch ID</exp:Label>
 </exp:PropertyDescriptor>
 <exp:PropertyDescriptor>
     <exp:Name>AlbumaxBatchID</exp:Name>
     <exp:Description>Batch ID for Albumax-supplemented media</exp:Description>
     <exp:Required>false</exp:Required>
-    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
+    <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
     <exp:Label>Albumax Batch ID</exp:Label>
 </exp:PropertyDescriptor>
 <exp:PropertyDescriptor>

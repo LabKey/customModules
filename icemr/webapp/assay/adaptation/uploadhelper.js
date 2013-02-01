@@ -15,13 +15,14 @@ LABKEY.requiresScript('assay/schemahelper.js');
 Ext.namespace("LABKEY.icemr");
 
 LABKEY.icemr.errAssayTitle = "Assay Runtime Error";
-LABKEY.icemr.errAssayMissingRun = "Could not find a matching experiment to update";
+LABKEY.icemr.errAssayMissingRun = "Could not find a matching Day 0 experiment to update";
 
 LABKEY.icemr.errDailyTitle = "Daily Maintenance Error";
+LABKEY.icemr.errDailyNoResults = "You must include at least one result to upload";
 LABKEY.icemr.errDailyTooManyFlasks = "Invalid attempt to upload data for flasks that were not defined in Day 0";
 LABKEY.icemr.errDailyInvalidFlaskDefined = "Invalid flask specified.  The following flask was not found in the Day 0 data or maintenance was already stopped: ";
 
-LABKEY.icemr.errDailyUploadTitle = "Dailiy Upload Failed"
+LABKEY.icemr.errDailyUploadTitle = "Daily Upload Failed";
 LABKEY.icemr.errDailyUploadFileNoContent = "The data file has no content";
 LABKEY.icemr.errDailyUploadFileNoSheets = "The data file has no sheets of data";
 LABKEY.icemr.errDailyUploadFileNoRows = "The data file has no rows of data";
@@ -71,16 +72,24 @@ function saveDaily(dailyResults, success, failure)
     // add results to the existing run
     //
     //
+    if (!dailyResults)
+        throw "You must provide a non-empty array of results";
+
+    if (!success)
+        throw "You must provide a Success callback function";
+
+    if (dailyResults.length == 0)
+        return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyNoResults, failure);
+
     var batch = LABKEY.icemr.adaptation.batch;
     var run = LABKEY.icemr.adaptation.run;
     var i;
 
     if (batch == undefined || run == undefined)
-        return onLoadBatchFailure(); // we shouldn't get here
+        return showError(LABKEY.icemr.errAssayTitle, LABKEY.icemr.errAssayMissingRun, failure);
 
-    if (!verifyDailyData(dailyResults))
+    if (!verifyDailyData(dailyResults, failure))
     {
-        failure();
         return;
     }
 
@@ -412,13 +421,13 @@ function buildDataRow(flask, measurementDate)
 // Also if a flask is marked as maintenance stopped in day 0 then
 // we will error.
 //
-function verifyDailyData(dailyResults)
+function verifyDailyData(dailyResults, failure)
 {
     var day0Flasks = getDay0Flasks();
 
     // cannot have more flasks to upload than we had on day 0
     if (dailyResults.length > day0Flasks.length)
-        return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyTooManyFlasks);
+        return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyTooManyFlasks, failure);
 
     // all flasks that we want to upload must exist in the day0Flasks
     for (var i = 0; i < dailyResults.length; i++)
@@ -438,7 +447,7 @@ function verifyDailyData(dailyResults)
         }
 
         if (!found)
-            return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyInvalidFlaskDefined + sampleId)
+            return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyInvalidFlaskDefined + sampleId, failure)
     }
 
     // verification succeeded
@@ -605,14 +614,15 @@ function saveDay0(experiment, flasks, success, failure)
     if (!experiment)
         throw "You must provide an experiment object";
 
-    if (!flasks)
-        return showError(LABKEY.icemr.errDay0Title, LABKEY.icemr.icemr.errDay0NoFlasksDefined);
-
-    if (flasks.length == 0)
-        return showError(LABKEY.icemr.errDay0Title, LABKEY.icemr.icemr.errDay0NoFlasksDefined);
-
     if (!success)
         throw "You must provide a Success callback function";
+
+    if (!flasks)
+        return showError(LABKEY.icemr.errDay0Title, LABKEY.icemr.errDay0NoFlasksDefined, failure);
+
+    if (flasks.length == 0)
+        return showError(LABKEY.icemr.errDay0Title, LABKEY.icemr.errDay0NoFlasksDefined, failure);
+
 
     // save off client callbacks
     LABKEY.icemr.saveDay0Success = success;
@@ -772,8 +782,17 @@ function onFlasksFailure(data)
     showError(LABKEY.icemr.errConfigTitle, LABKEY.icemr.errConfigMissingFlask);
 }
 
-function showError(title, message)
+function showError(title, message, failure)
 {
-    Ext.Msg.hide();
-    Ext.Msg.alert(title, message);
+    if (failure)
+    {
+        var json = new Object();
+        json.exception = title + ": " + message;
+        failure.call(this, json);
+    }
+    else
+    {
+        Ext.Msg.hide();
+        Ext.Msg.alert(title, message);
+    }
 }

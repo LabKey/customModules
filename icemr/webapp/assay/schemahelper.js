@@ -225,7 +225,7 @@ function fixupSampleSetTypeInformation(meta, config)
         config.allowDecimals = true;
     }
     else
-    if (typename == 'http://www.w3.org/2001/xmlschema#integer')
+    if (typename == 'http://www.w3.org/2001/xmlschema#int')
     {
         config.xtype = 'numberfield';
         config.allowDecimals = false;

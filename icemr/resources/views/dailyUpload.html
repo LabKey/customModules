@@ -24,13 +24,6 @@ function onSaveSuccess(result)
             {rowId:LABKEY.icemr.adaptation.assayId});
 }
 
-function onSaveFailure(result)
-{
-    //
-    // you can fill this in if you want
-    //
-}
-
 function submitDaily()
 {
     if (!validateForm())
@@ -68,7 +61,7 @@ function submitDaily()
         console.log(results);
     }
 
-    saveDaily(results, onSaveSuccess, onSaveFailure)
+    saveDaily(results, onSaveSuccess)
 }
 
 function goBack()
