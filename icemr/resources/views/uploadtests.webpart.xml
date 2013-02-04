@@ -1,0 +1,5 @@
+<webpart xmlns="http://labkey.org/data/xml/webpart" title="ICEMR Upload Tests">
+    <view name="uploadtests"/>
+</webpart>
+
+

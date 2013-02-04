@@ -261,7 +261,7 @@ function didTestPass(testNum, properties)
 
 function setFlaskProperty(name, flask, properties)
 {
-    if (flask[name])
+    if (flask[name] != null)
     {
         properties[name] = flask[name];
         return true;
@@ -646,7 +646,8 @@ function uploadFlasks(experiment, flasks)
         schemaName : 'Samples',
         queryName : LABKEY.icemr.adaptation.flaskSampleSet,
         rows : flasks,
-        success : onInsertFlasksSuccess
+        success : onInsertFlasksSuccess,
+        failure : LABKEY.icemr.saveDay0Failure
     });
 }
 
@@ -666,7 +667,7 @@ function onInsertFlasksSuccess(result)
         // create a material from the flask we just inserted
         //
         materialInputs.push({
-            id : result.rows[i]['rowid'],
+            id : result.rows[i]['rowId'] || result.rows[i]['rowid'],
             role : "Flask " + (i+1)
         });
     }

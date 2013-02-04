@@ -1,0 +1,994 @@
+<div id="start-test"></div>
+<div id="log-info"></div>
+<script type="text/javascript">
+    LABKEY.requiresScript("assay/validation.js");
+    LABKEY.requiresScript("assay/adaptation/uploadhelper.js");
+
+    // messages output to the console
+    var _successMessage = "Generations to come will sing of your good deeds.";
+    var _failureMessage = "What was the number of that truck driving school again?";
+    var _doneMessage = "DONE: "; // signal that the test the test is done
+    var _logHtml = "";
+    var _adaptationAssayId;
+
+    // expected results
+    var _expectedRunFields = ['PatientID', 'StartDate','ExperimentID'];
+    var _expectedDailyFields = ['SampleID', 'MeasurementDate', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
+        'Removed', 'RBCBatchID', 'SerumBatchID', 'AlbumaxBatchID','GrowthFoldTestInitiated', 'GrowthFoldTestFinished',
+        'Contamination', 'MycoTestResult', 'FreezerProIDs', 'FlaskMaintenanceStopped', 'InterestingResult', 'Comments',
+        'DateIndex'];
+    var _expectedFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
+        'PatientpRBCs', 'Hematocrit', 'CultureMedia','SerumBatchID', 'AlbumaxBatchID','FoldIncrease1', 'FoldIncrease2',
+        'FoldIncrease3', 'AdaptationCriteria', 'Comments'];
+    var _expectedGeneratedFlaskFields = ['MaintenanceDate', 'MaintenanceStopped', 'StartParasitemia1',
+        'StartParasitemia2', 'StartParasitemia3', 'FinishParasitemia1', 'FinishParasitemia2', 'FinishParasitemia3',
+        'StartDate1', 'FinishDate1', 'AdaptationDate'];
+    var _expectedCalculatedFlaskFields = ['NumDaysFromGrowthTestFinishToAdaptation', 'NumDaysInCulture',
+        'NumDaysToAdaptation', 'NumDaysToGrowthTestStart', 'IncreaseTest1', 'IncreaseTest2', 'IncreaseTest3',
+        'PassTest1', 'PassTest2', 'PassTest3','SuccessfulAdaptation'];
+
+    // stores expected results
+    var _day0Data = [];
+    var _dailyData = [];
+
+    // test flow control and state
+    var _stopped = false;
+    var _expectedError;
+    var _testName;
+    var _testNum = 0;
+
+    // validate calculated queries
+    // validate successful adaptation
+    // to validate failure of not enough flasks
+    // validate can't update flask maintenance
+    // validate adaptation date
+    // validate increase calculators
+    var _tests = [
+        {name: 'Day0Configs', fn: testDay0Configs},
+        {name: 'Day0Objects', fn: testDay0Objects},
+        {name: 'InvalidDay0UploadNoFlasks', fn: testInvalidDay0UploadNoFlasks},
+        {name: 'InvalidDay0UploadZeroFlasks', fn: testInvalidDay0UploadZeroFlasks},
+        {name: 'Day0Upload1', fn: testDay0Upload1},
+        {name: 'Day0Upload2', fn: testDay0Upload2},
+        {name: 'Day0Results', fn: testDay0Results},
+        {name: 'DailyConfigs', fn: testDailyConfigs},
+        {name: 'DailyObjects', fn: testDailyObjects},
+        {name: 'InvalidDailyUploadNoResults', fn: testInvalidDailyUploadNoResults},
+        {name: 'InvalidDailyUploadMissingRun', fn: testInvalidDailyMissingRun},
+        {name: 'AdaptionRunData', fn: testAdaptationRunData},
+        {name: 'InvalidDailyUploadTooManyFlasks', fn: testInvalidDailyUploadTooManyFlasks},
+        {name: 'InvalidDailyUploadInvalidFlask', fn: testInvalidDailyUploadInvalidFlask},
+        {name: 'DailyUpload1', fn: testDailyUpload1},
+        {name: 'DailyUpload2', fn: testDailyUpload2},
+        {name: 'DailyUpload3', fn: testDailyUpload3},
+        {name: 'DailyUpload4', fn: testDailyUpload4},
+        {name: 'DailyUpload5', fn: testDailyUpload5},
+        {name: 'DailyUpload6', fn: testDailyUpload6},
+        {name: 'MaintenanceStopped', fn: testMaintenanceStopped},
+        {name: 'CalculatedResults', fn: testCalculatedResults}
+    ];
+
+    function runTest(){
+        if (!_stopped) {
+            if (_testNum > 0) logSuccess();
+            if (_testNum >= _tests.length) {
+                updateLog(_doneMessage + _successMessage, true);
+            }
+            else {
+                _testName = _tests[_testNum].name;
+                _tests[_testNum++].fn.call(this);
+            }
+        }
+    }
+
+    // test getDay0Configs returns expected
+    // config objects
+    function testDay0Configs()
+    {
+        getDay0Configs(Day0ConfigsReady);
+    }
+
+    function Day0ConfigsReady(runConfigs, flaskConfigs)
+    {
+        if (!verifyConfig(_expectedRunFields, runConfigs))
+            logFailure("runConfigs were not as expected");
+
+        if (!verifyConfig(_expectedFlaskFields, flaskConfigs))
+            logFailure("flaskConfigs were not as expected");
+
+        // verify that none of the generated flask fields are in the flaskConfigs
+        for (var i = 0; i < _expectedGeneratedFlaskFields; i++)
+        {
+            if (isNameInSet(_expectedGeneratedFlaskFields[i], flaskConfigs))
+            {
+                logFailure("flaskConfigs should not contain generated-only fields");
+                break;
+            }
+        }
+        runTest();
+    }
+
+    // test createExperiment and createFlask return
+    // expected blank objects
+    function testDay0Objects()
+    {
+        if (!verifyObject(createExperiment(), _expectedRunFields))
+            logFailure("invalid template experiment object returned");
+
+        if (!verifyFlask(createFlask()))
+            logFailure("invalid template flask object returned");
+
+        // before running the next test get the
+        // assay id of the adaptation assay so that
+        // we can create a new batch
+        LABKEY.Assay.getByName({
+            name: 'Adaptation Assay',
+            success: AssayIdReady
+        });
+    }
+
+    function AssayIdReady(assays)
+    {
+        _adaptationAssayId = assays[0].id;
+        runTest();
+    }
+
+    function testInvalidDay0UploadNoFlasks()
+    {
+        _expectedError = LABKEY.icemr.errDay0Title + ': ' + LABKEY.icemr.errDay0NoFlasksDefined;
+        saveDay0(createExperiment(), null, Day0UploadSuccess, VerifyFailure);
+    }
+
+    function testInvalidDay0UploadZeroFlasks()
+    {
+        var flasks = [];
+        _expectedError = LABKEY.icemr.errDay0Title + ': ' + LABKEY.icemr.errDay0NoFlasksDefined;
+        saveDay0(createExperiment(), flasks, Day0UploadSuccess, VerifyFailure);
+    }
+
+    function testDay0Upload1()
+    {
+        genAndUploadDay0Data("1/1/2013", 1, 5, Day0UploadSuccess, VerifyFailure);
+    }
+
+    function testDay0Upload2()
+    {
+        genAndUploadDay0Data("1/10/2013", 2, 10, Day0UploadSuccess,VerifyFailure);
+    }
+
+    function Day0UploadSuccess(result, response)
+    {
+        // the latest result is the most recently stored value
+        if (!validateDay0Data(_day0Data[_day0Data.length -1], result))
+            logFailure("Run or material input data wasn't stored correctly");
+
+        runTest();
+    }
+
+    function testDay0Results()
+    {
+        // verify that our calculated queries have the right information
+        // even with no measurments (daily maintenance tasks)
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName  : 'adapted_numDays',
+            success: Day0ResultsSuccess
+        })
+    }
+
+    function getTotalFlasks()
+    {
+        var totalFlasks = 0;
+        for (var i = 0; i < _day0Data.length; i++)
+            totalFlasks += _day0Data[i].flasks.length;
+
+        return totalFlasks;
+    }
+
+    function Day0ResultsSuccess(data, response, options)
+    {
+        if (data.rowCount != getTotalFlasks())
+            logFailure("incorrect number of flasks returned for day 0 calculated query results");
+
+        for (var i = 0; i < data.rows.length; i++)
+            verifyFlaskResult(data.rows[i]);  // this fn will log his own failures if they occur
+
+        runTest();
+    }
+
+    function testDailyConfigs()
+    {
+        getAdaptationFieldConfigs(DailyConfigsReady)
+    }
+
+    function DailyConfigsReady(runConfigs, resultConfigs)
+    {
+        if (!verifyConfig(_expectedRunFields, runConfigs))
+            logFailure("runConfigs were not as expected");
+
+        if (!verifyConfig(_expectedDailyFields, resultConfigs))
+            logFailure("resultConfigs were not as expected");
+
+        runTest();
+    }
+
+    // test createExperiment and createFlask return
+    // expected blank objects
+    function testDailyObjects()
+    {
+        if (!verifyObject(createDaily(), _expectedDailyFields))
+            logFailure("invalid template daily object returned");
+
+        runTest();
+    }
+
+    function testInvalidDailyUploadNoResults()
+    {
+        var results = [];
+        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyNoResults;
+        saveDaily(results, DailyUploadSuccess, VerifyFailure);
+    }
+
+    function testInvalidDailyMissingRun()
+    {
+        var results = [];
+        results.push(createDaily());
+        _expectedError = LABKEY.icemr.errAssayTitle + ': ' + LABKEY.icemr.errAssayMissingRun;
+        saveDaily(results, DailyUploadSuccess, VerifyFailure);
+    }
+
+    function testAdaptationRunData()
+    {
+        // get the protocolId, batchid, and row id of
+        // for our first entered patient.  We need this info to
+        // call the gatherRunData API
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName  : 'Runs',
+            columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
+            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[0].exp.PatientID)],
+            success : SelectAdaptationRunSuccess
+        });
+    }
+
+    function SelectAdaptationRunSuccess(data, response, options)
+    {
+        var row = data.rows[0];
+        var protocolId = row["Batch/BatchProtocolId/RowId"];
+        var rowId = row["RowId"];
+        var batchId = row["Batch/RowId"];
+        getAdaptationRunData(protocolId, batchId, rowId, AdaptationRunDataSuccess)
+    }
+
+    function AdaptationRunDataSuccess(runData)
+    {
+        if (!validateExperimentData(_day0Data[0].exp, runData))
+            logFailure("Experiment data didn't match the run data")
+
+        runTest();
+    }
+
+    function testInvalidDailyUploadTooManyFlasks()
+    {
+        var results = [];
+        var numFlasks = _day0Data[0].flasks.length;
+
+        // add 1 more flask thatn the day 0 data has
+        for (var i = 0; i <= numFlasks; i++)
+            results.push({name : 'blank'});
+
+        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyTooManyFlasks;
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testInvalidDailyUploadInvalidFlask()
+    {
+        var results = [];
+        var invalidSample;
+        var date = new Date('1/13/13');
+
+        for (var i = 0; i < _day0Data[0].flasks.length; i++)
+        {
+            var flask = _day0Data[0].flasks[i];
+            var result = generateDailyData(flask.SampleID, 2, date, null, null, false);
+
+            // change last flasks sampleId so that it won't be found
+            if (i == (_day0Data[0].flasks.length-1))
+            {
+                result.SampleID = result.SampleID + 'unknown';
+                invalidSample = result.SampleID;
+            }
+            results.push(result);
+        }
+
+        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidFlaskDefined + invalidSample;
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+/*
+     Initial setup for Day0 data for all flasks is as follows:
+     FoldIncrease1: 2
+     FoldIncrease2: 4
+     FoldIncrease3: 8
+     AdaptionCriteria: 2
+     A flask will be considered to adapt iff at least two out of three of the growth tests pass.
+     A growth test passes if the parasitemia when the tests finishes divided by the parasitemia when
+     the test starts is greater than the specified FoldIncrease.  For example, a flask will only pass
+     growth test 3 if the (finish parasitemia)/(start parasitemia) > 8.
+
+     For patient 1, test the following scenarios:
+     1. can upload fewer flasks in daily update than the experiment has in day 0
+     2. start a growth test
+     3. flask1 should not adapt even though it passed growth test1 because it is under the adaptation criteria of 2
+     4. flask2 should adapt because it passes two growth tests (1 and 2)
+
+     Patient 2: test the following scenarios
+     1. ensure parasitemia values of 0 are okay throughout the measuerents and don't blow up the queries (flask2)
+     2. ensure that flask maintenance can be stopped (flask5)
+     3. ensure that flask 8 does not adapt because we'll have growth test 2 pass byt 3 fail
+*/
+
+    var _expectedCalculations = [{
+        SampleID : 'Patient1Flask1',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 2,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 1,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        NumDaysInCulture : 200,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : 109,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No'
+        },{
+        SampleID : 'Patient1Flask2',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 2,
+        IncreaseTest2 : 4.25,
+        IncreaseTest3 : 0,
+        PassTest1 : 1,
+        PassTest2 : 1,
+        PassTest3 : 0,
+        NumDaysInCulture : 200,
+        NumDaysToAdaptation : 200,
+        NumDaysToGrowthTestStart : 50,
+        NumDaysFromGrowthTestFinishToAdaptation : 91,
+        SuccessfulAdaptation : 'Yes'
+        },{
+        SampleID : 'Patient2Flask2',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 0,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 0,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        NumDaysInCulture : 43,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : 41,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No'
+        },{
+        SampleID : 'Patient2Flask5',
+        MaintenanceStopped : new Date('2/20/2013'),
+        IncreaseTest1 : 0,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 0,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        NumDaysInCulture : 41,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : null,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No'
+        },{
+        SampleID : 'Patient2Flask8',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 0,
+        IncreaseTest2 : 8,
+        IncreaseTest3 : 1.25,
+        PassTest1 : 0,
+        PassTest2 : 1,
+        PassTest3 : 0,
+        NumDaysInCulture : 43,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : null,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No'
+    }];
+
+    function testDailyUpload1()
+    {
+        var results = [];
+        var date = new Date('2/20/2013');
+        results.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
+        // start growth test 1 in flask 2 with parasitemia value of 2
+        results.push(generateDailyData('Patient1Flask2', 2, date, 1, null, false ));
+        storeDailyData(results);
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testDailyUpload2()
+    {
+        var results = [];
+        var date = new Date('4/20/2013');
+        // start growth test 1 in flask 1 with parasitemia value of 1
+        results.push(generateDailyData('Patient1Flask1', 2, date, 1, null, false));
+        // start growth test 2 in flask 1 with parasitemia value of 4, finish test 1
+        results.push(generateDailyData('Patient1Flask2', 4, date, 2, 1, false ));
+        storeDailyData(results);
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testDailyUpload3()
+    {
+        var results = [];
+        var date = new Date('7/20/2013');
+        // finish growth test 1 in flask 1 with parasitemia value of 4
+        results.push(generateDailyData('Patient1Flask1', 4, date, null, 1, false));
+        // finish growth test 2 in flask 2 with parasitemia value of 17
+        results.push(generateDailyData('Patient1Flask2', 17, date, null, 2, false ));
+        storeDailyData(results);
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testDailyUpload4()
+    {
+        // we're switching patients so we need to pretend we are
+        // the client UI and do another call to getAdaptationRunData with the right
+        // row, protocol, and batch ids.  Also remember to clear out our daily data
+        // results since we are switching runs
+        _dailyData = [];
+
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName  : 'Runs',
+            columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
+            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[1].exp.PatientID)],
+            success : SelectPatient2Success
+        });
+    }
+
+    function SelectPatient2Success(data, response, options)
+    {
+        var row = data.rows[0];
+        var protocolId = row["Batch/BatchProtocolId/RowId"];
+        var rowId = row["RowId"];
+        var batchId = row["Batch/RowId"];
+        getAdaptationRunData(protocolId, batchId, rowId, testDailyUpload4Finish)
+    }
+
+    function testDailyUpload4Finish()
+    {
+        var results = [];
+        var date = new Date('2/20/2013');
+        // start and finish growth test 1 with a value of parasitemia value of 0
+        results.push(generateDailyData('Patient2Flask2', 0, date, 1, 1, false));
+        // stop maintenance on flask 5
+        results.push(generateDailyData('Patient2Flask5', 13, date, null, null, true));
+        // start growhh test 2 with parasitemia value of 8
+        results.push(generateDailyData('Patient2Flask8', 8, date, 2, null, false));
+        storeDailyData(results);
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testDailyUpload5()
+    {
+        var results = [];
+        var date = new Date('2/21/2013');
+        // start and finish growth test 2 with a value of parasitemia value of 0
+        results.push(generateDailyData('Patient2Flask2', 0, date, 2, 2, false));
+        // start growth test 3 with parasitemia value of 64, end growth test 2
+        results.push(generateDailyData('Patient2Flask8', 64, date, 3, 2, false));
+        storeDailyData(results);
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testDailyUpload6()
+    {
+        var results = [];
+        var date = new Date('2/22/2013');
+        // start and finish growth test 2 with a value of parasitemia value of 0
+        results.push(generateDailyData('Patient2Flask2', 0, date, 3, 3, false));
+        // finish growth test 3 with parasiteia value of 80, this is not high enough to pass
+        results.push(generateDailyData('Patient2Flask8', 80, date, null, 3, false));
+        storeDailyData(results);
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testMaintenanceStopped()
+    {
+        var results = [];
+        var date = new Date('2/22/2013');
+        // start and finish growth test 2 with a value of parasitemia value of 0
+        results.push(generateDailyData('Patient2Flask5', 13, date, 3, 3, false));
+        storeDailyData(results);
+        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidFlaskDefined + 'Patient2Flask5';
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
+    function testCalculatedResults()
+    {
+        // verify our calcuations match our expectations
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName  : 'adapted_numdays',
+            success : SelectCalculationSuccess
+        });
+    }
+
+    function SelectCalculationSuccess(data, response, options)
+    {
+        if (data.rowCount != getTotalFlasks())
+            logFailure("incorrect number of flasks returned for calculated query results");
+
+        for (var i = 0; i < data.rows.length; i++)
+        {
+            var row = data.rows[i];
+            var found = false;
+            for (var j = 0; j < _expectedCalculations.length; j++)
+            {
+                if (row.SampleID == _expectedCalculations[j].SampleID)
+                {
+                    if (!verifyCalculations(row, _expectedCalculations[j]))
+                        logFailure("calculated query has an incorrect value");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                verifyFlaskResult(row);
+        }
+
+        runTest();
+    }
+
+    function verifyCalculations(a, b)
+    {
+        for (key in b)
+        {
+            if (key == 'MaintenanceStopped')
+            {
+                if (!compareDate(a[key], b[key]))
+                    return false;
+            }
+            else
+            if (a[key] != b[key])
+                return false;
+        }
+
+        return true;
+    }
+
+    function compareDate(date1, date2)
+    {
+        var t1 = new Date(date1).getTime();
+        return (t1 == new Date(date2).getTime())
+    }
+
+    function DailyUploadSuccess(result)
+    {
+        validateDailyData(result);
+        validateFlaskUpdates(result);
+        runTest();
+    }
+
+    function VerifyFailure(response)
+    {
+        if (response.exception !=  _expectedError)
+            logFailure("expected error not returned");
+
+        runTest();
+    }
+
+    function verifyFlaskResult(flask)
+    {
+        // verify that Day0 data is correct
+        var expectedFlask = findFlaskInDay0Data(flask.SampleID);
+        for (key in expectedFlask)
+        {
+            if (flask[key] != expectedFlask[key])
+            {
+                logFailure("Day0 flask result does not have the uploaded result");
+                return false;
+            }
+        }
+
+        // verify that added calculated columns are present and
+        // all 0 or null (except for SuccessfulAdaptation which should
+        // be "No")
+        for (var i = 0; i < _expectedCalculatedFlaskFields.length; i++)
+        {
+            if (_expectedCalculatedFlaskFields[i] == 'SuccessfulAdaptation')
+            {
+                if (flask[_expectedCalculatedFlaskFields[i]] != 'No')
+                {
+                    logFailure("Day0 flask result SuccessfulAdaptation is not No.")
+                    return false;
+                }
+                continue;
+            }
+
+            var val = flask[_expectedCalculatedFlaskFields[i]];
+            if (val != null && val != 0)
+            {
+                logFailure("Day0 flask result has an incorrect non-zero/null calculated column.");
+            }
+        }
+
+        return true;
+    }
+
+    function validateDailyData(batch)
+    {
+        var run = batch.runs[0];
+        if (_dailyData.length != run.dataRows.length)
+            logFailure("incorrect number of daily result rows saved");
+
+        for (var i = 0; i < run.dataRows.length; i++)
+        {
+            var row = run.dataRows[i];
+            if (!validateDailyDataRow(findResultInDailyData(row.SampleID, row.MeasurementDate), row))
+                return false;
+        }
+
+        return true;
+    }
+
+    function storeDailyData(results)
+    {
+        for (var i = 0; i < results.length; i++)
+            _dailyData.push(results[i]);
+    }
+
+    function storeDay0Data(exp, flasks)
+    {
+        var day0Data = {};
+        day0Data.exp = exp;
+        day0Data.flasks = flasks;
+        _day0Data.push(day0Data);
+    }
+
+    function validateDay0Data(expected, batch)
+    {
+        var run = batch.runs[0];
+        if (validateExperimentData(expected.exp, run.properties)) {
+            if(validateFlaskData(expected.flasks, run.materialInputs)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function validateDailyDataRow(expected, row)
+    {
+        for (key in expected)
+        {
+            if (key == 'MeasurementDate')
+            {
+                if (!compareDate(expected[key], row[key]))
+                    return false;
+            }
+            else
+            if (expected[key] != row[key])
+                return false;
+        }
+
+        return true;
+    }
+
+    function validateFlaskUpdates(result)
+    {
+        var run = result.runs[0];
+        var inputs = run.materialInputs;
+
+        for (var i = 0; i < inputs.length; i++)
+        {
+            // this is the updated flask data for the batch we just uploaded
+            var updated = inputs[i].properties;
+            // this is the flask as it looked at day0 upload time
+            var day0 = findFlaskInDay0Data(updated.SampleID);
+            // this is the daily result we just uploaded
+            var result = findResultInDailyData(updated.SampleID, updated.MaintenanceDate);
+
+            if (!day0)
+                logFailure("updated a flask that was not found in day 0 data");
+
+            if (!result)
+            {
+                // this just means that we didn't update the flask during this daily update so it
+                // should have same properties as the day0 upload
+                if (!validateFlask(day0, updated))
+                    logFailure("updated a flask that was not part of the daily result");
+
+            }
+            else
+            {
+                // verify that flask fields were updated correctly
+                var p = result['Parasitemia'];
+                var d = result['MeasurementDate'];
+
+                // verify that we have updated the flask as expected from the result data
+                if (!compareDate(d, updated['MaintenanceDate']))
+                    logFailure("flask does not have the correct updated MaintenanceDate");
+
+                validateGrowthTestData(p, d, result['GrowthFoldTestInitiated'], true, updated);
+                validateGrowthTestData(p, d, result['GrowthFoldTestFinished'], false, updated);
+
+                if (result['FlaskMaintenanceStopped'])
+                    if (!compareDate(d, updated['MaintenanceStopped']))
+                        logFailure("flask does not have the correct MaintenanceStopped date");
+            }
+        }
+    }
+
+    function validateGrowthTestData(p, d, num, start, updated)
+    {
+        // no growth test
+        if (null == num)
+            return true;
+
+        // we save off the dates for the first growthtest only
+        if (1 == num)
+        {
+            if (start)
+            {
+                if (!compareDate(d, updated['StartDate1']))
+                    logFailure("flask did not update StartDate1");
+            }
+            else
+            {
+                if (!compareDate(d, updated['FinishDate1']))
+                    logFailure("flask did not update FinishDate1");
+            }
+        }
+
+        var test = start ? 'StartParasitemia' : 'FinishParasitemia';
+        test = test + num;
+        if (p != updated[test])
+            logFailure("flask did not update " + test);
+    }
+
+    function validateExperimentData(expected, result)
+    {
+        if (expected['ExperimentID'] == result['ExperimentID'] &&
+            expected['PatientID'] == result['PatientID'] &&
+            compareDate(expected['StartDate'], result['StartDate']))
+            return true;
+
+        return false;
+    }
+
+    function validateFlaskData(expected, result)
+    {
+        if (expected.length == result.length)
+        {
+            for (var i = 0; i < expected.length; i++)
+            {
+                var a = expected[i];
+                // flask order may be different - this is ok
+                var b = findFlaskInInputs(a.SampleID, result);
+                if (!validateFlask(a,b))
+                        return false;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    function validateFlask(a, b)
+    {
+        for (key in b)
+        {
+            if (a[key] != b[key])
+            {
+                logFailure(key + " : " + a[key] + "!= to" + b[key]);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function findResultInDailyData(sampleId, measurementDate)
+    {
+        var t = new Date(measurementDate).getTime();
+
+        for (var i = 0; i < _dailyData.length; i++)
+        {
+            if (_dailyData[i].SampleID == sampleId &&
+                compareDate(measurementDate, _dailyData[i].MeasurementDate))
+                return _dailyData[i];
+        }
+    }
+
+    function findExperimentInDay0Data(patientId)
+    {
+        for (var i = 0; i < _day0Data.length; i++)
+            if (_day0Data[i].exp.PatientID == patientId)
+                return _day0Data[i].exp;
+    }
+    function findFlaskInDay0Data(sampleId)
+    {
+        for (var i = 0; i < _day0Data.length; i++)
+        {
+            var day0 = _day0Data[i];
+            for (var j = 0; j < day0.flasks.length; j++)
+            {
+                if (day0.flasks[j].SampleID == sampleId)
+                    return day0.flasks[j];
+            }
+        }
+
+        return null;
+    }
+
+    function findFlaskInInputs(sampleId, inputs)
+    {
+        var flask = null;
+        for (var i = 0; i < inputs.length; i++)
+        {
+            if (inputs[i].properties.SampleID == sampleId)
+            {
+                flask = inputs[i].properties;
+                break;
+            }
+        }
+
+        return flask;
+    }
+
+    function genAndUploadDay0Data(startDate, expNum, numFlasks, success, failure)
+    {
+        var exp = generateExperimentData(startDate, expNum);
+        var flasks = [];
+        for (var i = 0; i < numFlasks; i++)
+            flasks.push(generateFlaskData(exp.PatientID,exp.PatientID + 'Flask' + (i+1)));
+
+        // provide a LABKEY page and batch object
+        // since these are usually provided in the context
+        // of the upload views and the uploadhelper requires it
+        LABKEY.page = {};
+        LABKEY.page.assay = {};
+        LABKEY.page.assay.id = _adaptationAssayId;
+        LABKEY.page.batch = new LABKEY.Exp.RunGroup();
+        LABKEY.page.batch.batchProtocolId = _adaptationAssayId;
+        storeDay0Data(exp, flasks);
+        saveDay0(exp, flasks, success, failure);
+    }
+
+    function generateDailyData(id, parasitemia, date, init, finish, stop)
+    {
+        var dailyResult = createDaily();
+        dailyResult['Scientist'] = "Hayflick";
+        dailyResult['SampleID'] = id;  // flask id
+        dailyResult['Stage'] = LABKEY.icemr.adaptation.stageOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.stageOptions.length)][0];
+        dailyResult['Parasitemia'] = parasitemia;
+        dailyResult['Gametocytemia'] = Math.floor(Math.random() * 100);
+        // if we start validating then we can only have serum or albumax batch id depending on the
+        // culture media of the flask (day 0 info)
+        dailyResult['SerumBatchID'] = "22";
+        dailyResult['AlbumaxBatchID'] = "33";
+        dailyResult['MeasurementDate'] = date || new Date();
+        dailyResult['Removed'] = Math.floor(Math.random() * 100);
+        dailyResult['RBCBatchID'] = "44";
+        dailyResult['GrowthFoldTestInitiated'] = init;
+        dailyResult['GrowthFoldTestFinished'] = finish;
+        dailyResult['Contamination'] = false;
+        dailyResult['MycoTestResult'] = "true";
+        dailyResult['FlaskMaintenanceStopped'] = stop || false;
+        dailyResult['InterestingResult'] = true;
+        dailyResult['FreezerProIDs'] = "10 20 3a 4b";
+        dailyResult['Comments'] = "this is my comment for the daily maintenace of: " + dailyResult['SampleID'];
+        return dailyResult;
+    }
+
+
+    function generateExperimentData(start, num)
+    {
+        var exp = createExperiment();
+        exp.ExperimentID = "Experiment" + num;
+        exp.StartDate = new Date(start);
+        exp.PatientID = "Patient" + num;
+        return exp;
+    }
+
+    function generateFlaskData(patientId, sampleId)
+    {
+        var flask = createFlask();
+        flask['PatientID'] = patientId;
+        flask['SampleID'] =  sampleId;
+        flask['Scientist'] = "Maverick";
+        flask['Stage'] = LABKEY.icemr.adaptation.stageOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.stageOptions.length)][0];
+        flask['Parasitemia'] = Math.floor(Math.random() * 100);
+        flask['Gametocytemia'] = Math.floor(Math.random() * 100);
+        flask['PatientpRBCs'] = LABKEY.icemr.adaptation.pRBCOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.pRBCOptions.length)][0];
+        flask['Hematocrit'] = Math.floor(Math.random() * 100);
+        flask['CultureMedia'] = LABKEY.icemr.adaptation.cultureMediaOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.cultureMediaOptions.length)][0];
+        if (flask['CultureMedia'] == 'serum')
+            flask['SerumBatchID'] = 1;
+        else
+            flask['AlbumaxBatchID'] = 1;
+        flask['FoldIncrease1'] = 2;
+        flask['FoldIncrease2'] = 4;
+        flask['FoldIncrease3'] = 8;
+        flask['AdaptationCriteria'] = 2;
+        flask['Comments'] = "this is a comment for flask " + flask['SampleID'];
+        return flask;
+    }
+
+    function verifyFlask(flask)
+    {
+        for (key in flask)
+        {
+            if (!isNameInArray(key, _expectedFlaskFields))
+                if (!isNameInArray(key, _expectedGeneratedFlaskFields))
+                    return false;
+        }
+
+        return true;
+    }
+
+    function verifyObject(obj, set)
+    {
+        for (key in obj)
+        {
+            if (!isNameInArray(key, set))
+                return false;
+        }
+
+        return true;
+    }
+
+
+    function verifyConfig(expected, configs)
+    {
+        if (expected.length == configs.length)
+        {
+            for (var i = 0; i < expected.length; i++)
+                if (!isNameInSet(expected[i], configs))
+                    return false;
+            return true;
+        }
+        return false;
+    }
+
+
+    function updateLog(newHtml, newLine){
+        // if we are stopped then suppress any messages as the test
+        // drains
+        if (!_stopped) {
+            _logHtml += (newLine ? "<br/>" : "") + newHtml;
+            Ext4.get('log-info').update(_logHtml);
+        }
+    }
+
+    function logFailure(message) {
+        updateLog('FAILED {' + _testName + '}:' + message, true);
+        updateLog(_doneMessage + _failureMessage, true);
+        _stopped = true;
+    }
+    function logSuccess(){
+        updateLog('PASSED {' + _testName + '}', true);
+    }
+
+    function init(){
+        var btn = new Ext.Button({
+            id: 'test-button',
+            renderTo: 'start-test',
+            text: 'Start Test',
+            handler: function(){
+                initValidators();
+                runTest();
+            }
+        });
+    }
+
+    Ext4.onReady(init);
+</script>
