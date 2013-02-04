@@ -83,7 +83,6 @@ icemr/resources/views/dailyUpload.html -text
 icemr/resources/views/uploadtests.html -text
 icemr/resources/views/uploadtests.webpart.xml -text
 icemr/setup.txt -text
-icemr/webapp/assay/adaptation/testhelper.js -text
 icemr/webapp/assay/adaptation/uploadhelper.js -text
 icemr/webapp/assay/schemahelper.js -text
 icemr/webapp/assay/validation.js -text
