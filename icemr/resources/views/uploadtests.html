@@ -341,7 +341,8 @@
         NumDaysToAdaptation : null,
         NumDaysToGrowthTestStart : 109,
         NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No'
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
         },{
         SampleID : 'Patient1Flask2',
         MaintenanceStopped : null,
@@ -355,7 +356,8 @@
         NumDaysToAdaptation : 200,
         NumDaysToGrowthTestStart : 50,
         NumDaysFromGrowthTestFinishToAdaptation : 91,
-        SuccessfulAdaptation : 'Yes'
+        SuccessfulAdaptation : 'Yes',
+        AdaptationDate : '7/20/2013'
         },{
         SampleID : 'Patient2Flask2',
         MaintenanceStopped : null,
@@ -369,10 +371,11 @@
         NumDaysToAdaptation : null,
         NumDaysToGrowthTestStart : 41,
         NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No'
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
         },{
         SampleID : 'Patient2Flask5',
-        MaintenanceStopped : new Date('2/20/2013'),
+        MaintenanceStopped : '2/20/2013',
         IncreaseTest1 : 0,
         IncreaseTest2 : 0,
         IncreaseTest3 : 0,
@@ -383,7 +386,8 @@
         NumDaysToAdaptation : null,
         NumDaysToGrowthTestStart : null,
         NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No'
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
         },{
         SampleID : 'Patient2Flask8',
         MaintenanceStopped : null,
@@ -397,7 +401,8 @@
         NumDaysToAdaptation : null,
         NumDaysToGrowthTestStart : null,
         NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No'
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
     }];
 
     function testDailyUpload1()
@@ -551,7 +556,7 @@
     {
         for (key in b)
         {
-            if (key == 'MaintenanceStopped')
+            if (key == 'MaintenanceStopped' || key == 'AdaptationDate')
             {
                 if (!compareDate(a[key], b[key]))
                     return false;
