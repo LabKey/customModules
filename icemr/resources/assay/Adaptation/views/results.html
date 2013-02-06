@@ -5,9 +5,9 @@ Start date: <span id='startDate'></span>
 <br>Last upload date: <span id='lastUploadDate'></span>
 </p>
 </span>
-
-<div id='flasks_div'></div>
-
+<div id='foldincrease-div'></div>
+<div id='numdays-div'></div>
+<div id='flasks-div'></div>
 <p>
     <a href='javascript:done()' class='labkey-button'>
         <span>Done</span>
@@ -19,6 +19,10 @@ LABKEY.requiresScript("assay/schemahelper.js");
 </script>
 <script type="text/javascript">
 
+// for the calculator parameters
+var _start = "start";
+var _finish = "finish";
+var _sampleId = "sampleId";
 
 function done()
 {
@@ -70,14 +74,186 @@ function buildDateString(value)
     return ( (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear());
 }
 
+function showFoldIncrease()
+{
+    hideFoldIncrease();
+    showCalculator('foldincrease');
+}
+
+function showNumDays()
+{
+    hideNumDays();
+    showCalculator('numdays');
+}
+
+
+// calculator must either be 'numdays' or 'foldincrease'
+function showCalculator(calculator)
+{
+    var isNumDays = (calculator == 'numdays');
+    var title = isNumDays ? 'Number of Days' : 'Fold-Increase';
+    title += ' Calculator';
+
+    items = [];
+
+    // these items are common to both calculators
+    items.push({
+        xtype : 'label',
+        html : '<b>' + title + '</b>',
+        margin: '2 0 0 0'
+    });
+
+    // since both calculators may be on the page
+    // at the same time make the shared fields 'start' and 'finish'
+    // unique
+    items.push({
+        xtype : 'datefield',
+        fieldLabel : 'Start Date',
+        id : _start + calculator,
+        margin: '10 0 2 0'
+    });
+
+    items.push({
+        xtype : 'datefield',
+        fieldLabel : 'Finish Date',
+        id : _finish + calculator,
+        margin: '5 0 2 0'
+    });
+
+    if (calculator == 'foldincrease') {
+        items.push({
+            xtype : 'textfield',
+            fieldLabel : 'Sample ID',
+            id : _sampleId,
+            margin: '5 0 2 0'
+        });
+    }
+
+    items.push({
+        xtype : 'fieldcontainer',
+        layout : {
+            type : 'hbox',
+            pack : 'center',
+            defaultMargins : '5'
+        },
+        items : [{
+            xtype   : 'button',
+            text    : 'Submit',
+            handler : isNumDays ? renderNumDays : renderFoldIncrease
+        },{
+            xtype   : 'button',
+            text    : 'Cancel',
+            handler : isNumDays ? hideNumDays : hideFoldIncrease
+        }]
+    });
+
+    var fp = Ext4.create('Ext.form.Panel',{
+        renderTo: calculator + '-div',
+        id      :  calculator + '-form',
+        width : 250,
+        defaults: {
+            validationEvent: false,
+            allowBlank : false,
+            style : { margin: '2 0 2 0' },
+            labelAlign : 'left',
+            labelWidth : 75
+        },
+        method : 'POST',
+        enctype :'multipart/form-data',
+        border : false,
+        stateful : false,
+        autoHeight : true,
+        frame : true,
+        items : items
+    });
+}
+
+function renderFoldIncrease()
+{
+    var fields =  Ext4.getCmp('foldincrease-form').getForm().getFields();
+
+    var parameters = {
+        start : fields.get(_start + 'foldincrease').getValue(),
+        finish : fields.get(_finish + 'foldincrease').getValue(),
+        flaskId : fields.get(_sampleId).getValue()
+    };
+
+   var qwp = new LABKEY.QueryWebPart({
+        title      : 'Fold-Increase Calculator',
+        renderTo   : 'foldincrease-div',
+        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        queryName  : 'generic_foldincrease',
+        parameters :  parameters,
+        showPagination : false
+    });
+}
+
+function renderNumDays()
+{
+    var fields =  Ext4.getCmp('numdays-form').getForm().getFields();
+    var parameters = {
+        start : fields.get(_start + 'numdays').getValue(),
+        finish : fields.get(_finish + 'numdays').getValue()
+    };
+
+    var qwp = new LABKEY.QueryWebPart({
+        title      : 'Number of Days Calculator',
+        renderTo   : 'numdays-div',
+        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        queryName  : 'generic_numdays',
+        parameters :  parameters,
+        buttonBarPosition : 'none',
+        showPagination : false
+    });
+}
+
+function hideFoldIncrease()
+{
+    document.getElementById('foldincrease-div').innerHTML = "";
+}
+
+function hideNumDays()
+{
+    document.getElementById('numdays-div').innerHTML = "";
+}
+
 function renderResults()
 {
     var params = LABKEY.ActionURL.getParameters();
+
+    var foldButton = {
+        text    : 'Fold Increase Calculator', items   : [
+            {text: 'Show', handler : showFoldIncrease},
+            {text: 'Hide', handler : hideFoldIncrease}
+            ]
+    };
+
+    var dayButton = {
+        text    : 'Day Calculator', items   : [
+            {text: 'Show', handler : showNumDays},
+            {text: 'Hide', handler : hideNumDays}
+        ]
+    };
+
+    var buttons = [];
+    buttons.push(
+        LABKEY.QueryWebPart.standardButtons.views,
+        LABKEY.QueryWebPart.standardButtons.exportRows,
+        LABKEY.QueryWebPart.standardButtons.print,
+        foldButton,
+        dayButton
+    );
+
+    var buttonBar = {};
+    buttonBar.position = 'both';
+    buttonBar.includeStandardButtons = true;
+    buttonBar.items = buttons;
+
     var qwp = new LABKEY.QueryWebPart({
-        renderTo   : 'flasks_div',
+        renderTo   : 'flasks-div',
         schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
         queryName  : 'Data',
-        buttonBarPosition: 'none',
+        buttonBar: buttonBar,
         showPagination : false,
         filters    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])]
     });
@@ -102,6 +278,7 @@ function renderResults(filterValues)
 
 }
  */
-
-init();
+Ext4.onReady(function() {
+    init();
+});
 </script>

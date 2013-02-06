@@ -55,7 +55,9 @@ icemr/resources/assay/Adaptation/queries/calc_growthtests.sql -text
 icemr/resources/assay/Adaptation/queries/flask_adapted.sql -text
 icemr/resources/assay/Adaptation/queries/generic_daysfromdates.sql -text
 icemr/resources/assay/Adaptation/queries/generic_daysfromday0.sql -text
+icemr/resources/assay/Adaptation/queries/generic_foldincrease.query.xml -text
 icemr/resources/assay/Adaptation/queries/generic_foldincrease.sql -text
+icemr/resources/assay/Adaptation/queries/generic_numdays.sql -text
 icemr/resources/assay/Adaptation/queries/parasitemia_foldincrease1.sql -text
 icemr/resources/assay/Adaptation/queries/parasitemia_foldincrease2.sql -text
 icemr/resources/assay/Adaptation/queries/parasitemia_foldincrease3.sql -text

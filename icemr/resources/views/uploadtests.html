@@ -30,6 +30,7 @@
     // stores expected results
     var _day0Data = [];
     var _dailyData = [];
+    var _startTime;
 
     // test flow control and state
     var _stopped = false;
@@ -65,14 +66,18 @@
         {name: 'DailyUpload5', fn: testDailyUpload5},
         {name: 'DailyUpload6', fn: testDailyUpload6},
         {name: 'MaintenanceStopped', fn: testMaintenanceStopped},
-        {name: 'CalculatedResults', fn: testCalculatedResults}
+        {name: 'CalculatedResults', fn: testCalculatedResults},
+        {name: 'GenericFoldIncrease', fn: testFoldIncreaseCalculator},
+        {name: 'GenericNumDays', fn: testNumDaysCalculator}
     ];
 
     function runTest(){
         if (!_stopped) {
             if (_testNum > 0) logSuccess();
             if (_testNum >= _tests.length) {
+                var stopTime = new Date().getTime();
                 updateLog(_doneMessage + _successMessage, true);
+                updateLog('Elapsed time:  ' + ((stopTime - _startTime) / 1000) + ' seconds', true);
             }
             else {
                 _testName = _tests[_testNum].name;
@@ -552,6 +557,69 @@
         runTest();
     }
 
+    function testFoldIncreaseCalculator()
+    {
+        var parameters = {
+            start : '4/20/2013', // parasitemia value here is 4
+            finish : '7/20/2013', // parasitemia value here is 17
+            flaskId : 'Patient1Flask2'
+        };
+
+        // verify our calcuations match our expectations
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName  : 'generic_foldincrease',
+            parameters : parameters,
+            success : FoldIncreaseCalculatorSuccess
+        });
+    }
+
+    function FoldIncreaseCalculatorSuccess(data, response, options)
+    {
+        if (data.rowCount != 1)
+            logFailure("unexpected row count returned from the generic_foldincrease query");
+
+        var row = data.rows[0];
+        if (row['Increase'] != (17/4))
+            logFailure("generic_foldncrease calculation did not return the expected increase");
+
+        runTest();
+    }
+
+    function testNumDaysCalculator()
+    {
+        var parameters = {
+            start : '4/20/2013',
+            finish : '7/20/2013'
+        };
+
+        // verify our calcuations match our expectations
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName  : 'generic_numDays',
+            parameters : parameters,
+            success : NumDaysCalculatorSuccess
+        });
+    }
+
+    function NumDaysCalculatorSuccess(data, response, options)
+    {
+        if (data.columnModel.length !=1)
+            logFailure("unexpected column count returned from the generic_numdays query");
+
+        if (data.rowCount != 1)
+            logFailure("unexpected row count returned from the generic_numdays query");
+
+        var row = data.rows[0];
+        // sql server returns a -91, postgres returns 91 for the
+        // same order of arguments for timestampdiff fn.
+        if (row['NumDays'] != 91 && row['NumDays'] != -91)
+            logFailure("generic_numdays calculation did not return the expected day count");
+
+        runTest();
+    }
+
+
     function verifyCalculations(a, b)
     {
         for (key in b)
@@ -989,6 +1057,7 @@
             renderTo: 'start-test',
             text: 'Start Test',
             handler: function(){
+                _startTime = new Date().getTime();
                 initValidators();
                 runTest();
             }
