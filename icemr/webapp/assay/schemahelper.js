@@ -79,8 +79,9 @@ LABKEY.icemr.flask.finishDate1 = 'FinishDate1';
 // of a growth test that puts it over the adaptation criteria
 LABKEY.icemr.flask.adaptationCriteria = 'AdaptationCriteria';
 LABKEY.icemr.flask.adaptationDate = 'AdaptationDate';
+LABKEY.icemr.flask.successfulAdaptation = 'SuccessfulAdaptation';
 
-LABKEY.icemr.flask.internalFields = [
+LABKEY.icemr.flask.syncFields = [
     LABKEY.icemr.flask.maintenanceStopped,
     LABKEY.icemr.flask.maintenanceDate,
     LABKEY.icemr.flask.startParasitemia + '1',

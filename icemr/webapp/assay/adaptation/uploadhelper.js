@@ -33,7 +33,7 @@ LABKEY.icemr.errDay0NoFlasksDefined = "You must include at least one flask with 
 
 LABKEY.icemr.dailyUploadTemplateFilename = "dailyUpload.xls";
 
-/**
+ /**
  * These functions manage the upload of Day 0 and daily data to LabKey Server
  */
 function createExperiment()
@@ -110,67 +110,120 @@ function saveDaily(dailyResults, success, failure)
         run.dataRows.push(dailyResults[i]);
     }
 
-    mergeFlaskChanges(flasks);
+    var result = makeUpdateRowset(flasks);
 
-    // undone: issue 16960 we need to get the "role" property back out of the database
-    // undone: so that when we persist we roundtrip it correctly.  Alternatively
-    // undone: we need to not save data that we already have!
+    // create a new update context
+    LABKEY.icemr.updateContext = {};
+    LABKEY.icemr.updateContext.success = success;
+    LABKEY.icemr.updateContext.failure = failure;
+    LABKEY.icemr.updateContext.checkForAdaptation = result.checkForAdaptation;
 
-    LABKEY.Experiment.saveBatch({
-        assayId : LABKEY.icemr.adaptation.assayId,
-        batch : LABKEY.icemr.adaptation.batch,
-        successCallback : success,
-        failureCallback : failure
+    LABKEY.Query.updateRows( {
+        schemaName : 'Samples',
+        queryName : LABKEY.icemr.adaptation.flaskSampleSet,
+        rows : result.rows,
+        success : checkForAdaptation,
+        failure : LABKEY.icemr.updateContext.failure
     });
 }
 
-/*
- * consider: it's probably better to update the flask sample set independently of SaveBatch
- * consider: but it looks like the SaveBatch API is going through and updating the flasks
- * consider: sample set through the material inputs. If we do decide to use updateRows to update
- * consider: flask data then we need to copy over a rectangular rows array (i.e. row 1 can't have Parasitematest1Start)
- * consider: and row 2 not have the column.  So then we'd have to fill in the values that didn't change with the old values
- * consider: So rather than update the flask then merge in changes with the material inputs, save the round trip and
- * consider: save with the material inputs as we have them.
- * update the flask sample set if appropriate
-
- function flaskUpload(flasks)
+function checkForAdaptation(data, response, options)
 {
-    if (flasks.length > 0)
+    if (!data || !(data.rows) || (0 == data.rows.length))
+        return;
+
+    var keyMap = makeSyncFieldsKeyMap(data.rows[0]);
+    syncMaterialInputs(data.rows, keyMap, false);
+
+    if (LABKEY.icemr.updateContext.checkForAdaptation)
+    {
+        // at least one flask that we updated finished a growth test so we need to check whether
+        // any of the flasks we just uploaded adapted to see if we have to update the flask's adaptation date
+        // consider: if the adaptation calculation takes too long over all the samples then make a parameterized
+        // consider: version that only checks the flask ids of flasks that could have possibly adapted for this
+        // consider: update
+        var filterValues = '';
+        for (var i = 0 ; i < data.rows.length; i++)
+        {
+            filterValues += data.rows[i][keyMap[LABKEY.icemr.flask.sample]] + ';';
+        }
+
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            queryName : 'adapted_numdays',
+            columns : [LABKEY.icemr.flask.sample,
+                LABKEY.icemr.flask.maintenanceDate,
+                LABKEY.icemr.flask.adaptationDate,
+                LABKEY.icemr.flask.successfulAdaptation],
+            filterArray : [LABKEY.Filter.create(LABKEY.icemr.flask.sample, filterValues,
+                    LABKEY.Filter.Types.IN)],
+            success : saveAdaptationDate,
+            failure : LABKEY.icemr.updateContext.failure
+        });
+    }
+    else
+    {
+        saveBatch();
+    }
+}
+
+function saveBatch()
+{
+    LABKEY.Experiment.saveBatch({
+        assayId : LABKEY.icemr.adaptation.assayId,
+        batch : LABKEY.icemr.adaptation.batch,
+        successCallback : LABKEY.icemr.updateContext.success,
+        failureCallback : LABKEY.icemr.updateContext.failure
+    });
+}
+
+function saveAdaptationDate(data, response, options)
+{
+    var rows = [];
+
+    if (data && data.rows)
+    {
+        for (var i = 0; i < data.rows.length; i++)
+        {
+            var dataRow = data.rows[i];
+            // if the flask has just adapted then successfulAdaptation will be true
+            // but it won't have an adaptation date.  In this case we need
+            // to provide a list of rows
+            if ((dataRow[LABKEY.icemr.flask.adaptationDate] == null) &&
+                (dataRow[LABKEY.icemr.flask.successfulAdaptation] == 'Yes'))
+            {
+                var row = {};
+                row[LABKEY.icemr.flask.sample] = dataRow[LABKEY.icemr.flask.sample];
+                row[LABKEY.icemr.flask.adaptationDate] = dataRow[LABKEY.icemr.flask.maintenanceDate];
+                rows.push(row);
+            }
+        }
+    }
+
+    if (rows.length > 0)
     {
         LABKEY.Query.updateRows( {
             schemaName : 'Samples',
             queryName : LABKEY.icemr.adaptation.flaskSampleSet,
-            rows : flasks,
-            success : getUpdateFlasksSuccessCallbackWrapper(success, failure)
+            rows : rows,
+            success : saveDailyMaintenance,
+            failure : LABKEY.icemr.updateContext.failure
         });
     }
-}
-function getUpdateFlasksSuccessCallbackWrapper(success, failure)
-{
-    return function(result)
+    else
     {
-        if (result != undefined)
-        {
-            //
-            // we just changed our material inputs (using selectRow)
-            // therefore we should update to the values we chanaged to
-            // consider:  may want to change SaveBatch not to update inputmaterials
-            //
-            mergeFlaskChanges(result.rows);
-        }
-        // now that we've saved the flask data, go ahead and
-        // save our batch
-        LABKEY.Experiment.saveBatch({
-            assayId : LABKEY.icemr.adaptation.assayId,
-            batch : LABKEY.icemr.adaptation.batch,
-            successCallback : success,
-            failureCallback : failure
-        });
+        saveBatch();
     }
 }
-*/
 
+function saveDailyMaintenance(data, response, options)
+{
+    if (data && data.rows && data.rows.length > 0)
+    {
+        syncMaterialInputs(data.rows, makeSyncFieldsKeyMap(data.rows[0]), true);
+        saveBatch();
+    }
+}
 
 //
 // Store off the date index for now.  Consider using this
@@ -189,85 +242,123 @@ function getDateIndex(start, end)
     return parseInt((end.getTime() - start.getTime())/(24*60*60*1000));
 }
 
-function mergeFlaskChanges(flasks)
+//
+// make a rowset to copy from our local flasks -> rowset to update the database
+//
+function makeUpdateRowset(flasks)
 {
-    var materialInputs = LABKEY.icemr.adaptation.batch.runs[0].materialInputs;
+    var result = {};
+    result.checkForAdaptation = false;
+    result.rows = [];
+
     for (var i = 0; i < flasks.length; i++)
     {
-        var flask = flasks[i];
-        //
-        // find the material input that matches this flask in the batch and update any
-        // changed properties
-        //
-        for (var j = 0; j < materialInputs.length; j++)
+        var row = {};
+        var newFlask = flasks[i];
+        var oldFlask = findFlaskInMaterialInputs(newFlask[LABKEY.icemr.adaptation.sample]);
+
+        // set the sample id for updating
+        setRowProperty(LABKEY.icemr.flask.sample, row, newFlask, oldFlask);
+
+        for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
         {
-            var properties = materialInputs[j].properties;
-            if (properties[LABKEY.icemr.flask.sample] == flask[LABKEY.icemr.adaptation.sample])
+            var key = LABKEY.icemr.flask.syncFields[j];
+            setRowProperty(key, row, newFlask, oldFlask);
+
+            // if we finished a growth test and the flask has not already adapted, then
+            // we'll need to check for adaptation of this flask set before saving the batch so
+            // that we can include the adaptation date
+            if ( (key == LABKEY.icemr.flask.finishParasitemia + '1') ||
+                 (key == LABKEY.icemr.flask.finishParasitemia + '2') ||
+                 (key == LABKEY.icemr.flask.finishParasitemia + '3'))
             {
-                setFlaskProperty(LABKEY.icemr.flask.maintenanceStopped, flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.maintenanceDate, flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.startParasitemia + '1', flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.startParasitemia + '2', flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.startParasitemia + '3', flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.finishParasitemia + '1', flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.finishParasitemia + '2', flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.finishParasitemia + '3', flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.startDate1, flask, properties);
-                setFlaskProperty(LABKEY.icemr.flask.finishDate1, flask, properties);
-                if (didFlaskAdapt(properties))
-                    properties[LABKEY.icemr.flask.adaptationDate] = flask[LABKEY.icemr.flask.maintenanceDate];
+                if (row[key])
+                    result.checkForAdaptation = true;
+            }
+        }
+        result.rows.push(row);
+    }
+
+    return result;
+}
+
+//
+// Map the normalized column name to the casing that the row object expects.  We do this because
+// SQL Server and Postgress don't necessarily return the same column name casing in the
+// metadata
+//
+//
+function makeSyncFieldsKeyMap(row)
+{
+    var keyMap = {};
+    for (var key in row)
+    {
+        var normalized = key.toLowerCase();
+
+        // be sure to add in our primary key field
+        if (normalized == LABKEY.icemr.flask.sample.toLowerCase())
+        {
+            keyMap[LABKEY.icemr.flask.sample] = key;
+            continue;
+        }
+
+        for (var i = 0 ; i < LABKEY.icemr.flask.syncFields.length; i ++)
+        {
+            if (normalized == LABKEY.icemr.flask.syncFields[i].toLowerCase())
+            {
+                keyMap[LABKEY.icemr.flask.syncFields[i]] = key;
                 break;
+            }
+        }
+    }
+
+    return keyMap;
+}
+
+//
+// given a rowset, copy over the latest updated values to our material inputs
+//
+function syncMaterialInputs(rows, keyMap, syncAdaptationDateOnly)
+{
+    for (var i  = 0; i < rows.length; i++)
+    {
+        var row = rows[i];
+        var flask = findFlaskInMaterialInputs(row[keyMap[LABKEY.icemr.flask.sample]]);
+
+        if (syncAdaptationDateOnly)
+        {
+            flask[LABKEY.icemr.flask.adaptationDate] = row[keyMap[LABKEY.icemr.flask.adaptationDate]];
+        }
+        else
+        {
+            for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
+            {
+                var key = LABKEY.icemr.flask.syncFields[j];
+                flask[key] = row[keyMap[key]];
             }
         }
     }
 }
 
-//
-// consider: doing this server-side so we don't have equations in two places
-// consider: or always do it client-side?
-// consider: the adaptationDate is really a pain, would be better if we can
-// consider: derive this
-//
-function didFlaskAdapt(properties)
+function findFlaskInMaterialInputs(sampleId)
 {
-    // if the flask already has an adaptation date then
-    // it didn't adapt with this latest daily update
-    if (properties[LABKEY.icemr.flask.adaptationDate])
-        return false;
-
-    var totalPass = 0;
-    for (var testNum = 1; testNum < 4; testNum++)
+    var materialInputs = LABKEY.icemr.adaptation.materialInputs;
+    for (var j = 0; j < materialInputs.length; j++)
     {
-        if (didTestPass(testNum, properties))
-            totalPass++;
+        var properties = materialInputs[j];
+        if (properties[LABKEY.icemr.flask.sample] == sampleId)
+            return properties;
     }
-
-    return (totalPass >=  properties[LABKEY.icemr.flask.adaptationCriteria]);
 }
 
-function didTestPass(testNum, properties)
+// if the new flask has the value then set it, otherwise
+// use the old value
+function setRowProperty(name, row, newFlask, oldFlask)
 {
-    if (properties[LABKEY.icemr.flask.finishParasitemia + testNum])
-    {
-        var increase = (properties[LABKEY.icemr.flask.finishParasitemia + testNum]) /
-                       (properties[LABKEY.icemr.flask.startParasitemia + testNum]);
-
-        if (increase >= properties[LABKEY.icemr.flask.foldIncrease + testNum])
-            return true;
-    }
-
-    return false;
-}
-
-function setFlaskProperty(name, flask, properties)
-{
-    if (flask[name] != null)
-    {
-        properties[name] = flask[name];
-        return true;
-    }
-
-    return false;
+    if (newFlask[name] != null)
+        row[name] = newFlask[name];
+    else
+        row[name] = oldFlask[name];
 }
 
 function storeGrowthTestParasitemia(growthTest, flask, dailyResult, finished)
@@ -594,16 +685,14 @@ function processDailyFileUpload(result, success)
 
 function getDay0Flasks()
 {
-    var run = LABKEY.icemr.adaptation.run;
-
-    if (run == undefined)
+    if (LABKEY.icemr.adaptation.run == undefined)
         return onLoadBatchFailure(); // we shouldn't get here
 
     var flasks = [];
 
-    for (var i = 0; i < run.materialInputs.length; i++)
+    for (var i = 0; i < LABKEY.icemr.adaptation.materialInputs.length; i++)
     {
-        flasks.push(run.materialInputs[i].properties);
+        flasks.push(LABKEY.icemr.adaptation.materialInputs[i]);
     }
 
     return flasks;
@@ -706,6 +795,7 @@ function getAdaptationRunDataCallbackWrapper(fn)
                 LABKEY.icemr.adaptation.batch = batch;
                 LABKEY.icemr.adaptation.run = batch.runs[i];
                 runData = LABKEY.icemr.adaptation.run.properties;
+                decoupleMaterialInputs();
                 break;
             }
         }
@@ -720,6 +810,21 @@ function getAdaptationRunDataCallbackWrapper(fn)
                 fn.call(this, runData)
         }
     }
+}
+
+function decoupleMaterialInputs()
+{
+    // we save all of the material input data through direct updating of the flasks
+    // sample set so don't include the custom properties in the batch
+    var inputs = [];
+    var materialInputs = LABKEY.icemr.adaptation.run.materialInputs;
+    for (var j = 0; j < materialInputs.length; j++)
+    {
+        inputs.push(materialInputs[j].properties);
+        materialInputs[j].properties = {};
+    }
+
+    LABKEY.icemr.adaptation.materialInputs = inputs;
 }
 
 function getAdaptationRunData(protocolId, batchId, rowId, success)
@@ -771,7 +876,7 @@ function onFlasksDomainReady(domain)
     for (var i=0; i < LABKEY.icemr.flaskConfigs.length; i++)
     {
         var config = LABKEY.icemr.flaskConfigs[i];
-        if (!isNameInArray(config.name, LABKEY.icemr.flask.internalFields))
+        if (!isNameInArray(config.name, LABKEY.icemr.flask.syncFields))
             clientFlaskConfigs.push(config);
     }
 
