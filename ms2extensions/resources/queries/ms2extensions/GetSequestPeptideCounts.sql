@@ -9,7 +9,7 @@ SELECT
   COALESCE(X.totalPeptides, 0) AS totalPeptides,
   COALESCE(X.distinctPeptides, 0) as distinctPeptides
 FROM
-  ms2.SequestSearchRuns r
+  ms2.MS2SearchRuns r
 LEFT OUTER JOIN
   (SELECT
     P.Fraction.Run.run AS ms2Run,
