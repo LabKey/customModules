@@ -47,7 +47,7 @@ function submitDaily()
             {
                 // growth test is stored as an integer so map 'no' value to null
                 if (target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
-                    target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestFinished)
+                        target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestFinished)
                     trueValue = null;
                 else
                     trueValue = false;
@@ -71,7 +71,7 @@ function goBack()
 function showRuns()
 {
     window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
-                {rowId:LABKEY.page.assay.id});
+            {rowId:LABKEY.page.assay.id});
 }
 
 function validateForm()
@@ -131,8 +131,8 @@ function onConfigsReady(runConfigs, resultConfigs)
             setComboConfig(config, LABKEY.icemr.adaptation.oneTwoThreeOptions);
         }
         else if (config.name == LABKEY.icemr.adaptation.contamination ||
-                 config.name == LABKEY.icemr.adaptation.flaskMaintenanceStopped ||
-                 config.name == LABKEY.icemr.adaptation.interestingResult)
+                config.name == LABKEY.icemr.adaptation.flaskMaintenanceStopped ||
+                config.name == LABKEY.icemr.adaptation.interestingResult)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.yesNoOptions);
         }
@@ -180,6 +180,11 @@ function onDailyFileUploadSuccess(dailyResults)
                 form = _flasksPanel.items.items[i];
                 var value = dailyResult[key];
                 var field = form.getComponent(key +(i+1));
+                //Height helper to ensure that all the boxes line up.
+                if(field.xtype === 'textfield')
+                {
+                    field.inputEl.setHeight(22);
+                }
 
                 if (key == LABKEY.icemr.adaptation.measurementDate)
                 {
@@ -187,14 +192,14 @@ function onDailyFileUploadSuccess(dailyResults)
                 }
                 else
                 if (key == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
-                    key == LABKEY.icemr.adaptation.growthFoldTestFinished)
+                        key == LABKEY.icemr.adaptation.growthFoldTestFinished)
                 {
                     field.setValue(getFormGrowthTestValue(value));
                 }
                 else
                 if (key == LABKEY.icemr.adaptation.interestingResult ||
-                    key == LABKEY.icemr.adaptation.contamination ||
-                    key == LABKEY.icemr.adaptation.flaskMaintenanceStopped)
+                        key == LABKEY.icemr.adaptation.contamination ||
+                        key == LABKEY.icemr.adaptation.flaskMaintenanceStopped)
                 {
                     field.setValue(getFormYesNoValue(value));
                 }
@@ -230,39 +235,39 @@ function handleDailyUpload(f, action)
 function createFileUploadPanel()
 {
     var uploadFormPanel = Ext4.create('Ext4.form.Panel', {
-            id : 'uploadFormPanel',
-            renderTo : Ext4.getBody(),
-            frame : true,
-            items : [{
-                xtype : 'filefield',
-                name : 'dailyUpload',
-                fieldLabel : 'Daily Upload',
-                labelWidth : 95,
-                width : 400,
-                allowBlank : true,
-                buttonText : 'Select file ...'
-            },{
-                xtype : 'fieldcontainer',
-                layout : {
-                    type : 'hbox',
-                    pack : 'center',
-                    defaultMargins : '2'
-                },
-                items : [
-                    {
-                        xtype   : 'button',
-                        text    : 'Upload',
-                        handler : function () {
-                            var form = this.up('form').getForm();
-                            form.submit ({
-                                url: LABKEY.ActionURL.buildURL("assay", "assayFileUpload"),
-                                waitMsg: 'Uploading file ...',
-                                success : handleDailyUpload,
-                                failure : handleDailyUpload
-                            })
-                        }
-                    }]
-            }]
+        id : 'uploadFormPanel',
+        renderTo : Ext4.getBody(),
+        frame : true,
+        items : [{
+            xtype : 'filefield',
+            name : 'dailyUpload',
+            fieldLabel : 'Daily Upload',
+            labelWidth : 95,
+            width : 400,
+            allowBlank : true,
+            buttonText : 'Select file ...'
+        },{
+            xtype : 'fieldcontainer',
+            layout : {
+                type : 'hbox',
+                pack : 'center',
+                defaultMargins : '2'
+            },
+            items : [
+                {
+                    xtype   : 'button',
+                    text    : 'Upload',
+                    handler : function () {
+                        var form = this.up('form').getForm();
+                        form.submit ({
+                            url: LABKEY.ActionURL.buildURL("assay", "assayFileUpload"),
+                            waitMsg: 'Uploading file ...',
+                            success : handleDailyUpload,
+                            failure : handleDailyUpload
+                        })
+                    }
+                }]
+        }]
     });
 
     return uploadFormPanel;
@@ -327,15 +332,13 @@ function onRunDataReady(runData)
         var newArray = Ext4.clone(_resultFieldConfigs);
         newArray[0].text = 'Flask ' + numFlasks;
         for(var i = 0; i < newArray.length; i++){
-            if(numFlasks != 1)
-                newArray[i].height = Ext.get(newArray[i].id + 1).height;
             newArray[i].id += numFlasks;
             newArray[i].name += numFlasks;
-            if(numFlasks != 1){
+            if(numFlasks != 1)
+            {
                 newArray[i].fieldLabel = null;
                 newArray[i].height = _flasksPanel.items.items[0].items.items[i].getHeight();
             }
-
         }
         return newArray;
     };
@@ -358,7 +361,7 @@ function onRunDataReady(runData)
 
     _flasksPanel = Ext4.create('Ext.form.FieldContainer', {
         fieldLabel : 'Result',
-         hidden : true,
+        hidden : true,
         layout : {
             type : 'hbox',
             defaultMargins : '2 0 2 0'
@@ -377,56 +380,56 @@ function onRunDataReady(runData)
     // Create our form with two containers to separate
     // the flask properties data for each flask
     //
-     var fp = Ext4.create('Ext.form.Panel', {
-         renderTo: 'upload-adaptation-div',
-         id      : 'upload-adaptation-form',
-         width : 455,
-         defaults: {
-             validationEvent: false,
-             allowBlank : false,
-             style : { margin: '2 0 2 0' },
-             labelAlign : 'left',
-             labelWidth : 100
-         },
-         method : 'POST',
-         enctype :'multipart/form-data',
-         border : false,
-         stateful : false,
-         autoHeight : true,
-         frame : true,
-         items : [
-             {
-                 xtype : 'fieldcontainer',
-                 fieldLabel : 'Run',
-                 layout : {
-                     type : 'vbox',
-                     defaultMargins : '2 0 2 0'
-                 },
-                 items : formRunFieldConfigs
-             },
-             createFileUploadPanel(),
-             _flasksPanel,{
-                 xtype : 'fieldcontainer',
-                 layout : {
-                     type : 'hbox',
-                     pack : 'end',
-                     defaultMargins : '2'
-                 },
-                 items : [
-                     {
-                         id : 'submitButton',
-                         hidden : true,
-                         xtype   : 'button',
-                         text    : 'Submit',
-                         handler : submitDaily
-                     }, {
-                         id : 'cancelButton',
-                         xtype   : 'button',
-                         text    : 'Cancel',
-                         handler : goBack
-                     }]
-             }
-         ]
-     });
+    var fp = Ext4.create('Ext.form.Panel', {
+        renderTo: 'upload-adaptation-div',
+        id      : 'upload-adaptation-form',
+        width : 455,
+        defaults: {
+            validationEvent: false,
+            allowBlank : false,
+            style : { margin: '2 0 2 0' },
+            labelAlign : 'left',
+            labelWidth : 100
+        },
+        method : 'POST',
+        enctype :'multipart/form-data',
+        border : false,
+        stateful : false,
+        autoHeight : true,
+        frame : true,
+        items : [
+            {
+                xtype : 'fieldcontainer',
+                fieldLabel : 'Run',
+                layout : {
+                    type : 'vbox',
+                    defaultMargins : '2 0 2 0'
+                },
+                items : formRunFieldConfigs
+            },
+            createFileUploadPanel(),
+            _flasksPanel,{
+                xtype : 'fieldcontainer',
+                layout : {
+                    type : 'hbox',
+                    pack : 'end',
+                    defaultMargins : '2'
+                },
+                items : [
+                    {
+                        id : 'submitButton',
+                        hidden : true,
+                        xtype   : 'button',
+                        text    : 'Submit',
+                        handler : submitDaily
+                    }, {
+                        id : 'cancelButton',
+                        xtype   : 'button',
+                        text    : 'Cancel',
+                        handler : goBack
+                    }]
+            }
+        ]
+    });
 }
 </script>
