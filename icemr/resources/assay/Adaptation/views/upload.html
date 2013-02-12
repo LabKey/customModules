@@ -95,6 +95,23 @@ function handleError(msg, reset)
     }
 }
 
+//If this doesn't happen late on, it doesn't work
+function adjustSizes()
+{
+    for(var i = 1; i < Ext4.getCmp('flasksBox').items.items.length; i++)
+    {
+        console.log('wee');
+        var flaskFields = Ext4.getCmp('flasksBox').items.items[i].items.items;
+        for(var r = 0; r < flaskFields.length; r++){
+            if(flaskFields[r].xtype === 'textfield')
+            {
+                flaskFields[r].inputEl.setHeight(22);
+            }
+        }
+    }
+
+}
+
 var numFlasks = 1;
 
 function onConfigsReady(runConfigs, flaskConfigs)
@@ -182,6 +199,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
             items : getFlaskConfigs()
         });
         flasksBox.doLayout();
+        adjustSizes();
     };
 
     var removeFlask = function(){
@@ -200,6 +218,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
 
     var flasksBox = Ext4.create('Ext.form.FieldContainer', {
         fieldLabel : 'Flasks',
+        id : 'flasksBox',
         layout : {
             type : 'hbox',
             defaultMargins : '2 0 2 0'
@@ -275,6 +294,8 @@ function onConfigsReady(runConfigs, flaskConfigs)
             }
         ]
     });
+
+    adjustSizes();
 }
 
 Ext4.onReady(function() {

@@ -102,7 +102,7 @@ function handleError(msg, reset)
 }
 
 
-Ext.onReady(function() {
+Ext4.onReady(function() {
     Ext4.QuickTips.init();
     initValidators();
     getAdaptationFieldConfigs(onConfigsReady)
@@ -120,7 +120,6 @@ function onConfigsReady(runConfigs, resultConfigs)
         //
         // handle combos
         //
-        console.log(config.name);
         if (config.name == LABKEY.icemr.adaptation.stage)
         {
             setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
@@ -180,11 +179,6 @@ function onDailyFileUploadSuccess(dailyResults)
                 form = _flasksPanel.items.items[i];
                 var value = dailyResult[key];
                 var field = form.getComponent(key +(i+1));
-                //Height helper to ensure that all the boxes line up.
-                if(field.xtype === 'textfield')
-                {
-                    field.inputEl.setHeight(22);
-                }
 
                 if (key == LABKEY.icemr.adaptation.measurementDate)
                 {
@@ -214,17 +208,35 @@ function onDailyFileUploadSuccess(dailyResults)
                 }
             }
         }
+        //Height helper to ensure that all the boxes line up.
+        adjustSizes(form);
     }
+}
+
+//If this doesn't happen late on, it doesn't work
+function adjustSizes(form)
+{
+    for(var i = 1; i < _flasksPanel.items.items.length; i++)
+    {
+        var flaskFields = _flasksPanel.items.items[i].items.items;
+        for(var r = 0; r < flaskFields.length; r++){
+            if(flaskFields[r].xtype === 'textfield')
+            {
+                flaskFields[r].inputEl.setHeight(22);
+            }
+        }
+    }
+
 }
 
 function handleDailyUpload(f, action)
 {
     if (!action || !action.result) {
-        Ext.Msg.alert("Upload Failed", "Something went horribly wrong when uploading.");
+        Ext4.Msg.alert("Upload Failed", "Something went horribly wrong when uploading.");
         return;
     }
     if (!action.result.id) {
-        Ext.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
+        Ext4.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
         return;
     }
     Ext4.getCmp('submitButton').setVisible(true);
@@ -241,6 +253,7 @@ function createFileUploadPanel()
         items : [{
             xtype : 'filefield',
             name : 'dailyUpload',
+            inputId : 'fileInput',
             fieldLabel : 'Daily Upload',
             labelWidth : 95,
             width : 400,
