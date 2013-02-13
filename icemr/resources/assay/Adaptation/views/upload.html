@@ -196,7 +196,12 @@ function onConfigsReady(runConfigs, flaskConfigs)
                 type : 'vbox',
                 defaultMargins : '2 10 2 10'
             },
-            items : getFlaskConfigs()
+            items : getFlaskConfigs(),
+            listeners : {
+                fieldvaliditychange : function(){
+                    adjustSizes();
+                }
+            }
         });
         flasksBox.doLayout();
         adjustSizes();

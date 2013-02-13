@@ -165,6 +165,9 @@ function onDailyFileUploadSuccess(dailyResults)
 
     if (dailyResults.length > 0)
     {
+        Ext4.getCmp('submitButton').setVisible(true);
+        Ext4.getCmp('uploadFormPanel').setVisible(false);
+
         _flasksPanel.setVisible(true);
         for(var i = 0; i < dailyResults.length-1; i++)
         {
@@ -209,24 +212,25 @@ function onDailyFileUploadSuccess(dailyResults)
             }
         }
         //Height helper to ensure that all the boxes line up.
-        adjustSizes(form);
+        adjustSizes();
     }
 }
 
 //If this doesn't happen late on, it doesn't work
-function adjustSizes(form)
+function adjustSizes()
 {
-    for(var i = 1; i < _flasksPanel.items.items.length; i++)
-    {
-        var flaskFields = _flasksPanel.items.items[i].items.items;
-        for(var r = 0; r < flaskFields.length; r++){
-            if(flaskFields[r].xtype === 'textfield')
-            {
-                flaskFields[r].inputEl.setHeight(22);
+    if(numFlasks > 1){
+        for(var i = 1; i < _flasksPanel.items.items.length; i++)
+        {
+            var flaskFields = _flasksPanel.items.items[i].items.items;
+            for(var r = 0; r < flaskFields.length; r++){
+                if(flaskFields[r].xtype === 'textfield')
+                {
+                    flaskFields[r].inputEl.setHeight(22);
+                }
             }
         }
     }
-
 }
 
 function handleDailyUpload(f, action)
@@ -239,8 +243,6 @@ function handleDailyUpload(f, action)
         Ext4.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
         return;
     }
-    Ext4.getCmp('submitButton').setVisible(true);
-    Ext4.getCmp('uploadFormPanel').setVisible(false);
     processDailyFileUpload(action.result, onDailyFileUploadSuccess);
 }
 
@@ -366,7 +368,12 @@ function onRunDataReady(runData)
                 type : 'vbox',
                 defaultMargins : '2 10 2 10'
             },
-            items : getFlaskConfigs()
+            items : getFlaskConfigs(),
+            listeners : {
+                fieldvaliditychange : function(){
+                    adjustSizes();
+                }
+            }
         });
         _flasksPanel.doLayout();
         fp.doLayout();

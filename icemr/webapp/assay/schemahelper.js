@@ -312,8 +312,9 @@ function getFormPosNegValue(value)
         if (typeof(value) == 'string')
         {
             var v = value.toLowerCase();
-            if (v == 'positive') return 'Positive';
-            if (v == 'negative') return 'Negative';
+            if (v.toUpperCase() == 'positive'.toUpperCase()) return 'Positive';
+            if (v.toUpperCase() == 'negative'.toUpperCase()) return 'Negative';
+            if (v.toUpperCase() == 'no test'.toUpperCase()) return 'No Test';
         }
         // if defined but invalid, return null
         return null;
