@@ -49,6 +49,7 @@ icemr/resources/assay/Adaptation/domains/run.xml -text
 icemr/resources/assay/Adaptation/queries/Data.query.xml -text
 icemr/resources/assay/Adaptation/queries/Data/.qview.xml -text
 icemr/resources/assay/Adaptation/queries/Runs.query.xml -text
+icemr/resources/assay/Adaptation/queries/Runs/.qview.xml -text
 icemr/resources/assay/Adaptation/queries/adapted_numdays.query.xml -text
 icemr/resources/assay/Adaptation/queries/adapted_numdays.sql -text
 icemr/resources/assay/Adaptation/queries/calc_growthtests.sql -text
@@ -65,6 +66,7 @@ icemr/resources/assay/Adaptation/queries/pass_allfoldtests.sql -text
 icemr/resources/assay/Adaptation/queries/pass_foldtest1.sql -text
 icemr/resources/assay/Adaptation/queries/pass_foldtest2.sql -text
 icemr/resources/assay/Adaptation/queries/pass_foldtest3.sql -text
+icemr/resources/assay/Adaptation/queries/runs_dailyupload.sql -text
 icemr/resources/assay/Adaptation/queries/stored_dates_numdays.sql -text
 icemr/resources/assay/Adaptation/queries/stored_parasitemia_alltests_increase.sql -text
 icemr/resources/assay/Adaptation/queries/stored_parasitemia_flask_adapted.sql -text
@@ -79,8 +81,6 @@ icemr/resources/assay/Diagnostics/views/upload.html -text
 icemr/resources/folderTypes/icemr.foldertype.xml -text
 icemr/resources/samples/flask.txt -text
 icemr/resources/samples/flaskFields.txt -text
-icemr/resources/views/Add[!!-~]Diagnostics.webpart.xml -text
-icemr/resources/views/AddDiagnostics.html -text
 icemr/resources/views/dailyUpload.html -text
 icemr/resources/views/uploadtests.html -text
 icemr/resources/views/uploadtests.webpart.xml -text

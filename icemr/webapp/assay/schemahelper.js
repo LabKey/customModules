@@ -97,6 +97,8 @@ LABKEY.icemr.flask.syncFields = [
 
 // used for calculations
 LABKEY.icemr.flask.foldIncrease = 'FoldIncrease';
+LABKEY.icemr.flask.defaultFoldIncrease = 4;
+LABKEY.icemr.flask.defaaultAdaptationCriteria = 2;
 
 // -------------------------------------------------------------------
 // the ICEMR module must have these assay designs and
@@ -107,7 +109,7 @@ LABKEY.icemr.DiagnosticsAssayResults = 'Diagnostics Assay';
 LABKEY.icemr.metaType = {
     AssayDesign : 0,
     SampleSet : 1
-}
+};
 
 // -------------------------------------------------------------------
 // configuration errors
@@ -212,7 +214,27 @@ function buildConfig(meta, metaType)
     // metadata
     //
     fixupValidation(meta, metaType, config);
+    setDefaultValues(metaType, config);
     return config;
+}
+
+function setDefaultValues(metaType, config)
+{
+    // currently we only have default values for our flask
+    if (metaType == LABKEY.icemr.metaType.SampleSet)
+    {
+        if (config.name == LABKEY.icemr.flask.foldIncrease + '1' ||
+            config.name == LABKEY.icemr.flask.foldIncrease + '2' ||
+            config.name == LABKEY.icemr.flask.foldIncrease + '3')
+        {
+            config.value = LABKEY.icemr.flask.defaultFoldIncrease;
+        }
+        else
+        if (config.name == LABKEY.icemr.flask.adaptationCriteria)
+        {
+            config.value = LABKEY.icemr.flask.defaaultAdaptationCriteria;
+        }
+    }
 }
 
 // this function only should be called for meta data returned from

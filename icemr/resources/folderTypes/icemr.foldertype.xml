@@ -6,16 +6,12 @@
             <ft:name>Assay List</ft:name>
             <ft:location>body</ft:location>
         </ft:webPart>
+    </ft:requiredWebParts>
+    <ft:preferredWebParts>
         <ft:webPart>
             <ft:name>Sample Sets</ft:name>
             <ft:location>body</ft:location>
         </ft:webPart>
-        <ft:webPart>
-            <ft:name>Add Diagnostics</ft:name>
-            <ft:location>body</ft:location>
-        </ft:webPart>
-    </ft:requiredWebParts>
-    <ft:preferredWebParts>
     </ft:preferredWebParts>
     <ft:modules>
         <ft:moduleName>icemr</ft:moduleName>

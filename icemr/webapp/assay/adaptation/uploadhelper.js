@@ -21,6 +21,8 @@ LABKEY.icemr.errDailyTitle = "Daily Maintenance Error";
 LABKEY.icemr.errDailyNoResults = "You must include at least one result to upload";
 LABKEY.icemr.errDailyTooManyFlasks = "Invalid attempt to upload data for flasks that were not defined in Day 0";
 LABKEY.icemr.errDailyInvalidFlaskDefined = "Invalid flask specified.  The following flask was not found in the Day 0 data or maintenance was already stopped: ";
+LABKEY.icemr.errDailyInvalidZeroParasitemia = "You must specify a non-zero Parasitemia value when a growth fold test is initiated for flask: ";
+LABKEY.icemr.errDailyInvalidMeasurementDate = "Data for the specified measurement date already exists for flask: ";
 
 LABKEY.icemr.errDailyUploadTitle = "Daily Upload Failed";
 LABKEY.icemr.errDailyUploadFileNoContent = "The data file has no content";
@@ -509,8 +511,10 @@ function buildDataRow(flask, measurementDate)
 // to not include data for all flasks established at day0.  However,
 // we will error if we see flask data for a flask that was not
 // uploaded at day0.
-// Also if a flask is marked as maintenance stopped in day 0 then
-// we will error.
+//
+// other rules:
+// don't allow upload of a data if the date already exists
+// don't allow 0 parasitemia value if a growth test is started
 //
 function verifyDailyData(dailyResults, failure)
 {
@@ -523,7 +527,8 @@ function verifyDailyData(dailyResults, failure)
     // all flasks that we want to upload must exist in the day0Flasks
     for (var i = 0; i < dailyResults.length; i++)
     {
-        var sampleId = dailyResults[i][LABKEY.icemr.adaptation.sample];
+        var result = dailyResults[i];
+        var sampleId = result[LABKEY.icemr.adaptation.sample];
         var found = false;
         for (var j = 0; j < day0Flasks.length; j++)
         {
@@ -539,10 +544,34 @@ function verifyDailyData(dailyResults, failure)
 
         if (!found)
             return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyInvalidFlaskDefined + sampleId, failure)
+
+        // verify that parasitemia value is not zero if we are starting a growtth test
+        if (result[LABKEY.icemr.adaptation.growthFoldTestInitiated] &&
+           (result[LABKEY.icemr.adaptation.parasitemia] == 0))
+            return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyInvalidZeroParasitemia + sampleId, failure);
+
+        // ensure we don't have data for this data already
+        if (maintenanceDateAlreadyExists(result[LABKEY.icemr.adaptation.measurementDate]))
+            return showError(LABKEY.icemr.errDailyTitle, LABKEY.icemr.errDailyInvalidMeasurementDate + sampleId, failure);
     }
 
     // verification succeeded
     return true;
+}
+
+// consider: if iterating over all the rows is too slow then
+// consider: we can always just sort the dates
+function maintenanceDateAlreadyExists(measurementDate)
+{
+    var dataRows = LABKEY.icemr.adaptation.run.dataRows;
+
+    for (var i = 0; i < dataRows.length; i++)
+    {
+        if (compareDate(measurementDate, dataRows[i][LABKEY.icemr.adaptation.measurementDate]))
+            return true;
+    }
+
+    return false;
 }
 
 //
@@ -902,3 +931,11 @@ function showError(title, message, failure)
         Ext.Msg.alert(title, message);
     }
 }
+
+function compareDate(date1, date2)
+{
+    var t1 = new Date(date1).getTime();
+    return (t1 == new Date(date2).getTime())
+}
+
+

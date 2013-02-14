@@ -59,7 +59,9 @@
         {name: 'AdaptionRunData', fn: testAdaptationRunData},
         {name: 'InvalidDailyUploadTooManyFlasks', fn: testInvalidDailyUploadTooManyFlasks},
         {name: 'InvalidDailyUploadInvalidFlask', fn: testInvalidDailyUploadInvalidFlask},
+        {name: 'InvalidDailyUploadZeroParasitemia', fn: testInvalidDailyUploadZeroParasitemia},
         {name: 'DailyUpload1', fn: testDailyUpload1},
+        {name: 'InvalidDailyUploadMeasurementExists', fn: testInvalidDailyUploadMeasurementExists},
         {name: 'DailyUpload2', fn: testDailyUpload2},
         {name: 'DailyUpload3', fn: testDailyUpload3},
         {name: 'DailyUpload4', fn: testDailyUpload4},
@@ -366,7 +368,7 @@
         },{
         SampleID : 'Patient2Flask2',
         MaintenanceStopped : null,
-        IncreaseTest1 : 0,
+        IncreaseTest1 : 1,
         IncreaseTest2 : 0,
         IncreaseTest3 : 0,
         PassTest1 : 0,
@@ -410,6 +412,16 @@
         AdaptationDate : null
     }];
 
+    function testInvalidDailyUploadZeroParasitemia()
+    {
+        var results = [];
+        var date = new Date('2/20/2013');
+        // we cannot have a parasitemia value of 0 if a growth test is initiated
+        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidZeroParasitemia + 'Patient1Flask1';
+        results.push(generateDailyData('Patient1Flask1', 0, date, 3, null, false));
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
     function testDailyUpload1()
     {
         var results = [];
@@ -420,6 +432,16 @@
         storeDailyData(results);
         saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
+
+    function testInvalidDailyUploadMeasurementExists()
+    {
+        var results = [];
+        var date = new Date('2/20/2013');
+        results.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
+        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidMeasurementDate + 'Patient1Flask1';
+        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+    }
+
 
     function testDailyUpload2()
     {
@@ -475,8 +497,8 @@
     {
         var results = [];
         var date = new Date('2/20/2013');
-        // start and finish growth test 1 with a value of parasitemia value of 0
-        results.push(generateDailyData('Patient2Flask2', 0, date, 1, 1, false));
+        // start and finish growth test 1 with a value of parasitemia value of 0.1 (can't use 0 anymore)
+        results.push(generateDailyData('Patient2Flask2', 0.1, date, 1, 1, false));
         // stop maintenance on flask 5
         results.push(generateDailyData('Patient2Flask5', 13, date, null, null, true));
         // start growhh test 2 with parasitemia value of 8
@@ -490,7 +512,7 @@
         var results = [];
         var date = new Date('2/21/2013');
         // start and finish growth test 2 with a value of parasitemia value of 0
-        results.push(generateDailyData('Patient2Flask2', 0, date, 2, 2, false));
+        results.push(generateDailyData('Patient2Flask2', 0.1, date, 2, null, false));
         // start growth test 3 with parasitemia value of 64, end growth test 2
         results.push(generateDailyData('Patient2Flask8', 64, date, 3, 2, false));
         storeDailyData(results);
@@ -501,8 +523,8 @@
     {
         var results = [];
         var date = new Date('2/22/2013');
-        // start and finish growth test 2 with a value of parasitemia value of 0
-        results.push(generateDailyData('Patient2Flask2', 0, date, 3, 3, false));
+        // ensure we can have a 0 value of parasitemia if we finish a growth test
+        results.push(generateDailyData('Patient2Flask2', 0, date, null, 3, false));
         // finish growth test 3 with parasiteia value of 80, this is not high enough to pass
         results.push(generateDailyData('Patient2Flask8', 80, date, null, 3, false));
         storeDailyData(results);
@@ -639,12 +661,6 @@
         }
 
         return true;
-    }
-
-    function compareDate(date1, date2)
-    {
-        var t1 = new Date(date1).getTime();
-        return (t1 == new Date(date2).getTime())
     }
 
     function DailyUploadSuccess(result)
