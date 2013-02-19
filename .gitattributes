@@ -54,6 +54,7 @@ icemr/resources/assay/Adaptation/queries/adapted_numdays.query.xml -text
 icemr/resources/assay/Adaptation/queries/adapted_numdays.sql -text
 icemr/resources/assay/Adaptation/queries/calc_growthtests.sql -text
 icemr/resources/assay/Adaptation/queries/flask_adapted.sql -text
+icemr/resources/assay/Adaptation/queries/flasks_viz.sql -text
 icemr/resources/assay/Adaptation/queries/generic_daysfromdates.sql -text
 icemr/resources/assay/Adaptation/queries/generic_daysfromday0.sql -text
 icemr/resources/assay/Adaptation/queries/generic_foldincrease.query.xml -text
