@@ -23,8 +23,16 @@ LABKEY.icemr.diagnostics.thick = 'ThickBloodSmear';
 LABKEY.icemr.diagnostics.thin = 'ThinBloodSmear';
 LABKEY.icemr.diagnostics.RDT = 'RDT';
 LABKEY.icemr.diagnostics.time = 'Time';
-LABKEY.icemr.diagnostics.date = 'Date'
+LABKEY.icemr.diagnostics.date = 'Date';
 LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative']];
+
+// -------------------------------------------------------------------
+// Species specific PCR constants
+// -------------------------------------------------------------------
+Ext.namespace("LABKEY.icemr.speciesSpecific");
+LABKEY.icemr.speciesSpecific.participant='ParticipantID';
+LABKEY.icemr.speciesSpecific.time = 'Time';
+LABKEY.icemr.speciesSpecific.date = 'Date';
 
 // -------------------------------------------------------------------
 // adaptation assay constants for the result fields
@@ -106,6 +114,7 @@ LABKEY.icemr.flask.defaaultAdaptationCriteria = 2;
 // -------------------------------------------------------------------
 LABKEY.icemr.AdaptationAssayResults = 'Adaptation Assay';
 LABKEY.icemr.DiagnosticsAssayResults = 'Diagnostics Assay';
+LABKEY.icemr.SpeciesSpecificResults = 'Species specific PCR';
 LABKEY.icemr.metaType = {
     AssayDesign : 0,
     SampleSet : 1
@@ -151,6 +160,21 @@ function getDiagnosticsFieldConfigs(successCallback)
             getDiagnosticFieldConfigsCallbackWrapper(successCallback));
 }
 
+function getSpeciesSpecificFieldConfigsCallbackWrapper(fn) {
+    return function(runFieldConfigs, resultFieldConfigs) {
+        LABKEY.icemr.speciesSpecific.runFieldConfigs = runFieldConfigs;
+        LABKEY.icemr.speciesSpecific.resultFieldConfigs = resultFieldConfigs;
+        if (fn)
+            fn.call(this, runFieldConfigs, resultFieldConfigs);
+    }
+}
+
+function getSpeciesSpecificFieldConfigs(successCallback)
+{
+    getFieldConfigs(LABKEY.icemr.SpeciesSpecificResults,
+            getSpeciesSpecificFieldConfigsCallbackWrapper(successCallback));
+}
+
 function getFieldConfigsSuccessCallback(fn) {
     return function(assays)
     {
@@ -174,7 +198,8 @@ function getFieldConfigsSuccessCallback(fn) {
 function getFieldConfigs(assayName, successCallback)
 {
     if (assayName == LABKEY.icemr.AdaptationAssayResults ||
-        assayName == LABKEY.icemr.DiagnosticsAssayResults)
+        assayName == LABKEY.icemr.DiagnosticsAssayResults ||
+        assayName == LABKEY.icemr.SpeciesSpecificResults    )
     {
         LABKEY.Assay.getByName({
             name : assayName,
