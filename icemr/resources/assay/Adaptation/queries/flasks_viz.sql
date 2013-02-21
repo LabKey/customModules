@@ -17,7 +17,7 @@
  -- combines results from flasks, runs, and daily maintenance into
  -- a table for visualization
 
-SELECT f.SampleID, StartDate as MeasurementDate, f.Stage, f.Parasitemia, f.Gametocytemia, f.PatientpRBCs, f.Hematocrit,
+SELECT Runs.PatientID, f.SampleID, StartDate as MeasurementDate, f.Stage, f.Parasitemia, f.Gametocytemia, f.PatientpRBCs, f.Hematocrit,
     f.CultureMedia, NULL as Removed, NULL as GrowthFoldTestInitiated, NULL as GrowthFoldTestFinished,
     NULL As Contaminiation, NULL as MycoTestResults, NULL as FeezerProIDS, NULL as FlaskMaintenanceStopped
 FROM Runs, Samples.Flasks as f
@@ -25,7 +25,7 @@ WHERE Runs.PatientID = f.PatientID
 
 UNION ALL
 
-SELECT SampleID, MeasurementDate, Stage, Parasitemia, Gametocytemia, NULL As PatientpRBCs, NULL as Hematocrit,
+SELECT Run.PatientID, SampleID, MeasurementDate, Stage, Parasitemia, Gametocytemia, NULL As PatientpRBCs, NULL as Hematocrit,
     NULL As CultureMedia, Removed, GrowthFoldTestInitiated, GrowthFoldTestFinished, Contamination, MycoTestResult,
     FreezerProIDs, FlaskMaintenanceStopped
 FROM Data
