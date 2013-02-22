@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
+import org.labkey.api.files.view.FilesWebPart;
 import org.labkey.api.portal.ProjectUrls;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
@@ -179,9 +180,15 @@ public class ViscStudyFolderTabs
         {
             List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
             parts.add(Portal.getPortalPart("Data Views").createWebPart());
-            Portal.WebPart toolsWebPart = Portal.getPortalPart(StudyService.DATA_TOOLS_WEBPART_NAME).createWebPart();
-            toolsWebPart.setLocation(WebPartFactory.LOCATION_RIGHT);
-            parts.add(toolsWebPart);
+
+            Portal.WebPart specimenWebPart = Portal.getPortalPart(StudyService.SPECIMEN_BROWSE_WEBPART).createWebPart();
+            specimenWebPart.setLocation(WebPartFactory.LOCATION_RIGHT);
+            parts.add(specimenWebPart);
+
+            Portal.WebPart filesWebPart = Portal.getPortalPart(FilesWebPart.PART_NAME).createWebPart();
+            filesWebPart.setLocation(WebPartFactory.LOCATION_RIGHT);
+            parts.add(filesWebPart);
+
             return parts;
         }
 
@@ -189,7 +196,7 @@ public class ViscStudyFolderTabs
         public boolean isVisible(Container c, User user)
         {
             Study study = StudyService.get().getStudy(c);
-            return (study != null && study.isEmptyStudy() == false);
+            return (study != null && !study.isEmptyStudy());
         }
     }
 
