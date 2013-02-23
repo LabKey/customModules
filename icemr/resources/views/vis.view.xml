@@ -1,0 +1,9 @@
+<view xmlns="http://labkey.org/data/xml/view" title="ICEMR Visualization" frame="none">
+    <dependencies>
+        <dependency path="Ext4"/>
+        <!--<dependency path="/vis/SVGConverter.js"/>-->
+        <!--<dependency path="/vis/visDependencies.lib.xml"/>-->
+        <!--<dependency path="vis/vischart.lib.xml"/>-->
+        <dependency path="vischart"/>
+    </dependencies>
+</view>

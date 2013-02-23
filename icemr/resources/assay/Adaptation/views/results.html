@@ -42,6 +42,7 @@ function init()
         queryName  : 'Data',
         columns :  ['Run/' + LABKEY.icemr.flask.startDate,
                     'Run/' + LABKEY.icemr.adaptation.experiment,
+                    'Run/' + LABKEY.icemr.adaptation.patient,
                     LABKEY.icemr.adaptation.sample,
                     LABKEY.icemr.adaptation.measurementDate],
         sort : '-'+LABKEY.icemr.adaptation.measurementDate,
@@ -63,6 +64,7 @@ function onSelectSuccess(data, response, options)
         Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.adaptation.experiment]);
         Ext4.fly('startDate').update(buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]));
         Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.adaptation.measurementDate]));
+        this.patientId = row['Run/' + LABKEY.icemr.adaptation.patient];
     }
 
     renderResults();
@@ -72,6 +74,19 @@ function buildDateString(value)
 {
     var d = new Date(value);
     return ( (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear());
+}
+
+function onVisClick()
+{
+    window.location = LABKEY.ActionURL.buildURL(
+            'icemr',
+            "vis",
+            LABKEY.ActionURL.getContainer(),
+            {
+                patientId: patientId,
+                edit: true,
+                schemaName: 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults
+            });
 }
 
 function showFoldIncrease()
@@ -235,13 +250,20 @@ function renderResults()
         ]
     };
 
+    var visButton = {
+        text: 'Visualization',
+        handler: onVisClick
+//        scope: this
+    };
+
     var buttons = [];
     buttons.push(
-        LABKEY.QueryWebPart.standardButtons.views,
-        LABKEY.QueryWebPart.standardButtons.exportRows,
-        LABKEY.QueryWebPart.standardButtons.print,
-        foldButton,
-        dayButton
+            LABKEY.QueryWebPart.standardButtons.views,
+            LABKEY.QueryWebPart.standardButtons.exportRows,
+            LABKEY.QueryWebPart.standardButtons.print,
+            foldButton,
+            dayButton,
+            visButton
     );
 
     var buttonBar = {};
