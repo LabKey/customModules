@@ -874,6 +874,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickButton("Save");
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
         clickTab("Specimen Data");
+        waitForElement(Locator.linkWithText("Vials by Processing Location"));
         assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
         assertTextPresent("NICD - Joberg", 2);
         clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
