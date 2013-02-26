@@ -571,7 +571,7 @@ public class SpecimenTest extends StudyBaseTestWD
             Assert.assertTrue(!bodyText.contains(_specimen_KCMC));
             click(Locator.linkContainingText("Specimen Request Notification").index(1));
             _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(2));
-            sleep(100); // Avoid WebDriver timeout
+            sleep(500); // Avoid WebDriver timeout
             bodyText = getText(Locator.id("dataregion_EmailRecord"));
             Assert.assertTrue(bodyText.contains(_specimen_KCMC));
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
@@ -586,7 +586,7 @@ public class SpecimenTest extends StudyBaseTestWD
             Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
             click(Locator.linkContainingText("Specimen Request Notification").index(1));
             _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(2));
-            sleep(100); // Avoid WebDriver timeout
+            sleep(500); // Avoid WebDriver timeout
             bodyText = getText(Locator.id("dataregion_EmailRecord"));
             Assert.assertTrue(bodyText.contains(_specimen_McMichael));
             DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
