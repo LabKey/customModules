@@ -4,6 +4,15 @@
         <column name="Run/Protocol"/>
         <column name="Run"/>
         <column name="RunGroup"/>
-        <column name="Created"/>
+        <column name="Created">
+            <properties>
+                <property name="columnTitle" value="Updated"/>
+            </properties>
+        </column>
+        <column name="CreatedBy">
+            <properties>
+                <property name="columnTitle" value="Updated By"/>
+            </properties>
+        </column>
     </columns>
 </customView>
