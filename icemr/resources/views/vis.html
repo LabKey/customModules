@@ -6,12 +6,28 @@ Ext4.onReady(function(){
 
     var storeFoldIncreases = function(rows){
         var values = {};
-
         for(var i = 0; i < rows.length; i++){
-            values[rows[i].SampleID] = {};
-            values[rows[i].SampleID].FoldIncrease1 = rows[i].FoldIncrease1;
-            values[rows[i].SampleID].FoldIncrease2 = rows[i].FoldIncrease2;
-            values[rows[i].SampleID].FoldIncrease3 = rows[i].FoldIncrease3;
+            var sample = values[rows[i].SampleID] = {},
+                row = rows[i],
+                foldIncrease1 = null,
+                foldIncrease2 = null,
+                foldIncrease3 = null;
+
+            if(row.StartParasitemia1 && row.FinishParasitemia1){
+                foldIncrease1 = row.FinishParasitemia1 / row.StartParasitemia1;
+            }
+
+            if(row.StartParasitemia2 && row.FinishParasitemia2){
+                foldIncrease2 = row.FinishParasitemia2 / row.StartParasitemia2;
+            }
+
+            if(row.StartParasitemia3 && row.FinishParasitemia3){
+                foldIncrease3 = row.FinishParasitemia3 / row.StartParasitemia3;
+            }
+            
+            sample.FoldIncrease1 = foldIncrease1;
+            sample.FoldIncrease2 = foldIncrease2;
+            sample.FoldIncrease3 = foldIncrease3;
         }
 
         return values;
