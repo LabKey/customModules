@@ -1,12 +1,26 @@
 <div id="icemrvis"></div>
 <script type="text/javascript">
-    Ext4.onReady(function(){
-        var params = LABKEY.ActionURL.getParameters();
+Ext4.onReady(function(){
+    var params = LABKEY.ActionURL.getParameters();
+    var filter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
+
+    var storeFoldIncreases = function(rows){
+        var values = {};
+
+        for(var i = 0; i < rows.length; i++){
+            values[rows[i].SampleID] = {};
+            values[rows[i].SampleID].FoldIncrease1 = rows[i].FoldIncrease1;
+            values[rows[i].SampleID].FoldIncrease2 = rows[i].FoldIncrease2;
+            values[rows[i].SampleID].FoldIncrease3 = rows[i].FoldIncrease3;
+        }
+
+        return values;
+    };
+
+    var createPanel = function(foldIncreases, params, filter){
         var schemaName = params.schemaName;
         var queryName = "flasks_viz";
         var customButtons = [];
-        var filter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
-
         var cbGroup = Ext4.create('Ext.form.CheckboxGroup', {
             fieldLabel: 'Hover Variables',
             vertical: true,
@@ -14,7 +28,8 @@
             labelWidth: 125,
             items: [
                 {boxLabel: 'Parasitemia', name: 'hoverVariables', inputValue: 'parasitemia', checked: true},
-//                {boxLabel: 'Split Performed', name: 'hoverVariables', inputValue: 'splitPerformed'},
+                {boxLabel: 'Split Performed', name: 'hoverVariables', inputValue: 'splitPerformed'},
+                {boxLabel: 'Sample Stored', name: 'hoverVariables', inputValue: 'sampleStored'},
                 {boxLabel: 'Start Growth Fold Test', name: 'hoverVariables', inputValue: 'startGrowth'},
                 {boxLabel: 'End Growth Fold Test', name: 'hoverVariables', inputValue: 'endGrowth'}
             ]
@@ -62,19 +77,10 @@
                             var text = row.PatientID.value + "\n";
                             text += "SampleID: " + row.SampleID.value + "\n";
                             text += "Parasitemia(%): " + row.Parasitemia.value + "\n";
-
-                            if(row.FeezerProIDS && row.FeezerProIDS.value){
-                                text += "FeezerPro IDs: " + row.FeezerProIDS.value; // This might need to be changed to FreezerProIDS
-                            }
-
                             return text;
                         }
                     }
                 };
-
-//                if(measures.color){
-//                    layerConfig.aes.color = measures.color.acc;
-//                }
 
                 return layerConfig;
             },
@@ -82,6 +88,12 @@
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
+                        y: function(row){
+                            if(row.Removed && row.Removed.value){
+                                return measures.y.acc(row);
+                            }
+                            return null;
+                        },
                         shape: function(row){return 'Split Performed'},
                         hoverText: function(row){
                             var text = row.PatientID.value + "\n";
@@ -91,6 +103,33 @@
                             if(row.Removed && row.Removed.value){
                                 text += "Removed(%): " + row.Removed.value + "\n";
                             }
+
+                            return text;
+                        }
+                    }
+                };
+
+                if(measures.color){
+                    layerConfig.aes.color = measures.color.acc;
+                }
+
+                return layerConfig;
+            },
+            sampleStored: function(measures){
+                var layerConfig = {
+                    geom: new LABKEY.vis.Geom.Point(),
+                    aes: {
+                        y: function(row){
+                            if(row.FeezerProIDS && row.FeezerProIDS.value){
+                                return measures.y.acc(row);
+                            }
+                            return null;
+                        },
+                        shape: function(row){return 'Sample Stored'},
+                        hoverText: function(row){
+                            var text = row.PatientID.value + "\n";
+                            text += "SampleID: " + row.SampleID.value + "\n";
+                            text += "Parasitemia(%): " + row.Parasitemia.value + "\n";
 
                             if(row.FeezerProIDS && row.FeezerProIDS.value){
                                 text += "FeezerPro IDs: " + row.FeezerProIDS.value; // This might need to be changed to FreezerProIDS
@@ -108,16 +147,9 @@
                 return layerConfig;
             },
             startGrowth: function(measures){
-//                GrowthFoldTestInitiated
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
-                        x: function(row){
-                            if(row.GrowthFoldTestInitiated && row.GrowthFoldTestInitiated.value){
-                                return measures.x.acc(row);
-                            }
-                            return null;
-                        },
                         y: function(row){
                             if(row.GrowthFoldTestInitiated && row.GrowthFoldTestInitiated.value){
                                 return measures.y.acc(row);
@@ -145,17 +177,10 @@
 
                 return layerConfig;
             },
-            endGrowth: function(measures){
-//                GrowthFoldTestFinished
+            endGrowth: function(measures, foldIncreases){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
-                        x: function(row){
-                            if(row.GrowthFoldTestFinished && row.GrowthFoldTestFinished.value){
-                                return measures.x.acc(row);
-                            }
-                            return null;
-                        },
                         y: function(row){
                             if(row.GrowthFoldTestFinished && row.GrowthFoldTestFinished.value){
                                 return measures.y.acc(row);
@@ -169,7 +194,12 @@
                             text += "Parasitemia(%): " + row.Parasitemia.value + "\n";
 
                             if(row.GrowthFoldTestFinished && row.GrowthFoldTestFinished.value){
-                                text += "Test : " + row.GrowthFoldTestFinished.value;
+                                var testNum = row.GrowthFoldTestFinished.value;
+                                text += "Test : " + testNum + "\n";
+                                
+                                if(foldIncreases[row.SampleID.value] && foldIncreases[row.SampleID.value]['FoldIncrease'+testNum]){
+                                    text += "Fold Increase: " + foldIncreases[row.SampleID.value]['FoldIncrease'+testNum] + "\n";
+                                }
                             }
 
                             return text;
@@ -227,15 +257,20 @@
                         if(customOptions.ICEMR.hoverVariables && customOptions.ICEMR.hoverVariables.length > 0){
                             for(var i = 0; i < customOptions.ICEMR.hoverVariables.length; i++){
                                 var hoverVariable = customOptions.ICEMR.hoverVariables[i];
-                                if(hoverLayers[hoverVariable]){
+                                if(hoverVariable == 'endGrowth'){
+                                    layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](measures, foldIncreases)));
+                                } else if(hoverLayers[hoverVariable]){
                                     layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](measures)));
                                 }
                             }
                         }
 
                         scales.x.tickFormat = function(val){
-                            val = new Date(val);
-                            return val.format('M d Y');
+                            if(val !== null && val !== undefined){
+                                val = new Date(val);
+                                return val.format('M d Y');
+                            }
+                            return '';
                         };
 
                         return {
@@ -264,5 +299,20 @@
         };
 
         Ext4.EventManager.onWindowResize(resize);
+    };
+
+    // SelectRows to get fold increase values.
+    LABKEY.Query.selectRows({
+        schemaName: "Samples",
+        queryName: "Flasks",
+        filterArray: [filter],
+        success: function(results){
+            var foldIncreases = storeFoldIncreases(results.rows);
+            createPanel(foldIncreases, params, filter);
+        },
+        failure: function(response){
+            createPanel({}, params, filter);
+        }
     });
+});
 </script>
