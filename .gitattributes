@@ -12,6 +12,7 @@ atlastools/resources/views/dataUploadDashboard.view.xml -text
 hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/README.txt -text
 hvtnFlow/build.xml -text
+hvtnFlow/generate-booleans.py -text
 hvtnFlow/hvtnFlow.iml -text
 hvtnFlow/module.properties -text
 hvtnFlow/resources/queries/flow/AnalysisPlan001.sql -text
@@ -25,6 +26,7 @@ hvtnFlow/resources/queries/flow/AnalysisPlan007.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan008.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan009.excl.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan009.sql -text
+hvtnFlow/resources/queries/flow/AnalysisPlan024.7bool.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan024.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlanBase.query.xml -text
 hvtnFlow/resources/queries/flow/AnalysisPlanBase.sql -text
