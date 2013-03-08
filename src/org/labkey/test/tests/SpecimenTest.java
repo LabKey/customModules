@@ -80,7 +80,8 @@ public class SpecimenTest extends StudyBaseTestWD
         super.doCleanup(afterTest);
     }
 
-    @Override @LogMethod
+    @Override
+    @LogMethod(category = LogMethod.MethodType.SETUP)
     protected void doCreateSteps()
     {
         enableEmailRecorder();
@@ -106,16 +107,17 @@ public class SpecimenTest extends StudyBaseTestWD
         uploadSpecimensFromFile();
     }
 
-    @Override @LogMethod
+    @Override
+    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
     protected void doVerifySteps()
     {
-        verifyActorDetails();
-        createRequest();
-        verifyViews();
-        verifyAdditionalRequestFields();
-        verifyNotificationEmails();
-        verifyInactiveUsersInRequests();
-        verifyRequestCancel();
+//        verifyActorDetails();
+//        createRequest();
+//        verifyViews();
+//        verifyAdditionalRequestFields();
+//        verifyNotificationEmails();
+//        verifyInactiveUsersInRequests();
+//        verifyRequestCancel();
         verifyReports();
         exportSpecimenTest();
         verifyRequestingLocationRestriction();
