@@ -1,6 +1,6 @@
 <ap:domain xmlns:exp="http://cpas.fhcrc.org/exp/xml"
            xmlns:ap="http://labkey.org/study/assay/xml">
-<exp:Description>ICEMR Adaptation Result</exp:Description>
+<exp:Description>The user is prompted to enter daily maintenance data for the samples uploade on Day 0</exp:Description>
 <exp:PropertyDescriptor>
     <exp:Name>SampleID</exp:Name>
     <exp:Description>Flask (sample) ID</exp:Description>
@@ -37,7 +37,7 @@
 </exp:PropertyDescriptor>
 <exp:PropertyDescriptor>
     <exp:Name>Stage</exp:Name>
-    <exp:Description>Stage (rings, trophozoites, or schizonts</exp:Description>
+    <exp:Description>Stage (rings, trophozoites, schizonts, mixed</exp:Description>
     <exp:Required>true</exp:Required>
     <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
     <exp:Label>Stage</exp:Label>

@@ -11,7 +11,6 @@
  * To change this template use File | Settings | File Templates.
  */
 Ext.namespace("LABKEY.icemr");
-
 //
 // numeric field validation
 //
@@ -42,12 +41,11 @@ LABKEY.icemr.doubleNumber = {
     doubleNumberText: 'The value must be positive'
 };
 
-function initValidators()
-{
+LABKEY.icemr.initValidators = function() {
     //
     // numeric field validation
     //
     Ext4.apply(Ext4.form.field.VTypes, LABKEY.icemr.intNumber);
     Ext4.apply(Ext4.form.field.VTypes, LABKEY.icemr.percentNumber);
     Ext4.apply(Ext4.form.field.VTypes, LABKEY.icemr.doubleNumber);
-}
+};

@@ -1,0 +1,4 @@
+<ap:provider xmlns:exp="http://cpas.fhcrc.org/exp/xml" xmlns:ap="http://labkey.org/study/assay/xml">
+    <ap:name>ICEMR Flask Tracking</ap:name>
+    <ap:description>Enables entry of a set of initial samples and then tracks their progress over time via a series of daily measurements.</ap:description>
+</ap:provider>

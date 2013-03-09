@@ -1,0 +1,54 @@
+/*
+ * Copyright (c) 2013 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+ */
+/**
+ * Created with IntelliJ IDEA.
+ * User: Dax
+ * Date: 1/10/13
+ * Time: 10:14 AM
+ * To change this template use File | Settings | File Templates.
+ *
+ * This implements the flask tracking assay base code that is common to both
+ * adaptation and selection instances.  Specific implementations of adaptation or selection
+ * assay behavior can be found in adaptation.js and selection.js.  The UI layer should only need
+ * to know about the LABKEY.icemr.tracking namespace
+ *
+ */
+Ext.namespace("LABKEY.icemr.speciesSpecific");
+// -------------------------------------------------------------------
+// dependencies
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+// configuration errors
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+// constants
+// -------------------------------------------------------------------
+LABKEY.icemr.speciesSpecific.participant='ParticipantID';
+LABKEY.icemr.speciesSpecific.time = 'Time';
+LABKEY.icemr.speciesSpecific.date = 'Date';
+// -------------------------------------------------------------------
+// enums
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+// methods
+// -------------------------------------------------------------------
+LABKEY.icemr.speciesSpecific.getFieldConfigsCallbackWrapper = function(fn) {
+    return function(runFieldConfigs, resultFieldConfigs) {
+        LABKEY.icemr.speciesSpecific.runFieldConfigs = runFieldConfigs;
+        LABKEY.icemr.speciesSpecific.resultFieldConfigs = resultFieldConfigs;
+        if (fn)
+            fn.call(this, runFieldConfigs, resultFieldConfigs);
+    }
+};
+
+LABKEY.icemr.speciesSpecific.getFieldConfigs = function(successCallback) {
+    LABKEY.icemr.getFieldConfigs(LABKEY.page.assay.name,
+            LABKEY.icemr.speciesSpecific.getFieldConfigsCallbackWrapper(successCallback));
+};
+

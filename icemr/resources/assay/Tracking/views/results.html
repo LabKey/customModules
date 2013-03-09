@@ -15,7 +15,8 @@ Start date: <span id='startDate'></span>
 </p>
 
 <script type="text/javascript">
-LABKEY.requiresScript("assay/schemahelper.js");
+LABKEY.requiresScript("assay/icemr.js");
+LABKEY.requiresScript("assay/tracking/tracking.js");
 </script>
 <script type="text/javascript">
 
@@ -38,14 +39,14 @@ function init()
     // sorted by most recent measurement date
     //
     LABKEY.Query.selectRows({
-        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
         queryName  : 'Data',
         columns :  ['Run/' + LABKEY.icemr.flask.startDate,
-                    'Run/' + LABKEY.icemr.adaptation.experiment,
-                    'Run/' + LABKEY.icemr.adaptation.patient,
-                    LABKEY.icemr.adaptation.sample,
-                    LABKEY.icemr.adaptation.measurementDate],
-        sort : '-'+LABKEY.icemr.adaptation.measurementDate,
+                    'Run/' + LABKEY.icemr.tracking.experiment,
+                    'Run/' + LABKEY.icemr.tracking.patient,
+                    LABKEY.icemr.tracking.sample,
+                    LABKEY.icemr.tracking.measurementDate],
+        sort : '-'+LABKEY.icemr.tracking.measurementDate,
         filterArray    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])],
         maxRows : 1,
         success : onSelectSuccess
@@ -61,10 +62,10 @@ function onSelectSuccess(data, response, options)
     if (data && data.rows && data.rows.length > 0)
     {
         var row = data.rows[0];
-        Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.adaptation.experiment]);
+        Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.tracking.experiment]);
         Ext4.fly('startDate').update(buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]));
-        Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.adaptation.measurementDate]));
-        this.patientId = row['Run/' + LABKEY.icemr.adaptation.patient];
+        Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.tracking.measurementDate]));
+        this.patientId = row['Run/' + LABKEY.icemr.tracking.patient];
     }
 
     renderResults();
@@ -85,7 +86,7 @@ function onVisClick()
             {
                 patientId: patientId,
                 edit: true,
-                schemaName: 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults
+                schemaName: 'assay.Tracking.' + LABKEY.page.assay.name
             });
 }
 
@@ -196,7 +197,7 @@ function renderFoldIncrease()
    var qwp = new LABKEY.QueryWebPart({
         title      : 'Fold-Increase Calculator',
         renderTo   : 'foldincrease-div',
-        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
         queryName  : 'generic_foldincrease',
         parameters :  parameters,
         showPagination : false
@@ -214,7 +215,7 @@ function renderNumDays()
     var qwp = new LABKEY.QueryWebPart({
         title      : 'Number of Days Calculator',
         renderTo   : 'numdays-div',
-        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
         queryName  : 'generic_numdays',
         parameters :  parameters,
         buttonBarPosition : 'none',
@@ -273,7 +274,7 @@ function renderResults()
 
     var qwp = new LABKEY.QueryWebPart({
         renderTo   : 'flasks-div',
-        schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+        schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
         queryName  : 'Data',
         buttonBar: buttonBar,
         showPagination : false,
@@ -294,7 +295,7 @@ function renderResults(filterValues)
         queryName  : 'adapted_numdays',
         buttonBarPosition: 'none',
         showPagination : false,
-        filters    : [ LABKEY.Filter.create(LABKEY.icemr.adaptation.sample, filterValues,
+        filters    : [ LABKEY.Filter.create(LABKEY.icemr.tracking.sample, filterValues,
             LABKEY.Filter.Types.IN)]
     });
 

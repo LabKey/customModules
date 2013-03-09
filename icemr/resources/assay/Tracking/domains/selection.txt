@@ -1,0 +1,2 @@
+Property	Label	RangeURI	Format	NotNull	Hidden	MvEnabled	Description
+Selection		http://www.w3.org/2001/XMLSchema#boolean		FALSE	TRUE	FALSE	Presence of this hidden field indicates that this is a selection assay.

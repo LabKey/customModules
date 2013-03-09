@@ -27,7 +27,7 @@
                             <fkTable>runs_dailyupload</fkTable>
                             <fkColumnName>rowId</fkColumnName>
                         </fk>
-                        <url>/icemr/DailyUpload.view?rowId=${RowId}&amp;protocolId=${Batch/BatchProtocolId/RowId}&amp;batchId=${Batch/RowId}</url>
+                        <url>/icemr/DailyUpload.view?rowId=${RowId}&amp;protocolId=${Batch/BatchProtocolId/RowId}&amp;batchId=${Batch/RowId}&amp;protocolName=${Protocol/Name}</url>
                     </column>
                 </columns>
                 <buttonBarOptions position="both" includeStandardButtons="true">

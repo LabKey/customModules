@@ -2,8 +2,9 @@
 <div id="upload-day0-div"></div>
 <script type="text/javascript">
 
+LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/validation.js");
-LABKEY.requiresScript("assay/adaptation/uploadhelper.js");
+LABKEY.requiresScript("assay/tracking/tracking.js");
 
 function onSaveSuccess(result)
 {
@@ -27,7 +28,7 @@ function submitAdaptation(propsForm, flasksForm)
         return;
 
     // first create a blank experiment object
-    var exp = createExperiment();
+    var exp = LABKEY.icemr.tracking.createExperiment();
 
     for(var i = 0; i < propsForm.items.items.length; i++){
         exp[propsForm.items.items[i].id] = propsForm.items.items[i].value;
@@ -39,7 +40,7 @@ function submitAdaptation(propsForm, flasksForm)
     for (var i = 0; i < numFlasks; i++)
     {
         // when the client adds a flask, create a blank flask object to fill in
-        var flask = createFlask();
+        var flask = LABKEY.icemr.tracking.createFlask();
         var target;
         flask['PatientID'] = exp['PatientID'];
 
@@ -54,7 +55,7 @@ function submitAdaptation(propsForm, flasksForm)
     //
     // do the upload now
     //
-    saveDay0(exp, flasks, onSaveSuccess);
+    LABKEY.icemr.tracking.saveDay0(exp, flasks, onSaveSuccess);
 }
 
 function goBack()
@@ -143,7 +144,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
         // we have a patient id field for the flask but we don't need to show it
         // in the UI since it is already a run property
         //
-        if (config.name == LABKEY.icemr.adaptation.patient)
+        if (config.name == LABKEY.icemr.tracking.patient)
             continue;
 
         flaskUIConfigs.push(config);
@@ -151,21 +152,21 @@ function onConfigsReady(runConfigs, flaskConfigs)
         //
         // handle combos
         //
-        if (config.name == LABKEY.icemr.adaptation.stage)
+        if (config.name == LABKEY.icemr.tracking.stage)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.stageOptions);
         }
 
         else
-        if (config.name == LABKEY.icemr.adaptation.pRBC)
+        if (config.name == LABKEY.icemr.tracking.pRBC)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.pRBCOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.pRBCOptions);
         }
 
         else
-        if (config.name == LABKEY.icemr.adaptation.cultureMedia)
+        if (config.name == LABKEY.icemr.tracking.cultureMedia)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.cultureMediaOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.cultureMediaOptions);
         }
 
     }
@@ -305,7 +306,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
 
 Ext4.onReady(function() {
     Ext4.QuickTips.init();
-    initValidators();
-    getDay0Configs(onConfigsReady)
+    LABKEY.icemr.initValidators();
+    LABKEY.icemr.tracking.getDay0Configs(onConfigsReady)
 });
 </script>

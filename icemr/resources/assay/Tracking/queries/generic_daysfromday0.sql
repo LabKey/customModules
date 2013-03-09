@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT
-fi.SampleID,
-GrowthFoldTest,
-Increase,
-CASE WHEN (Increase  >= FoldIncrease2) THEN (1)
-ELSE (0) END As Pass
+PARAMETERS(finish TIMESTAMP)
+SELECT DISTINCT f.*,
+cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, finish) as INTEGER) As NumDaysInCulture,
 FROM
-parasitemia_foldincrease2 as fi, Samples.Flasks as f
-WHERE
-fi.SampleID = f.SampleID
-
--- need to repeat for tests 1 to 3
-
+Samples."Adaptation Flasks" as f
+LEFT JOIN Data as d
+-- consider doing an inner join if they don't care about flasks
+-- that aren't involved in any experiments
+On f.SampleID = d.SampleID

@@ -1,8 +1,10 @@
 <div id="start-test"></div>
 <div id="log-info"></div>
 <script type="text/javascript">
+
+    LABKEY.requiresScript("assay/icemr.js");
     LABKEY.requiresScript("assay/validation.js");
-    LABKEY.requiresScript("assay/adaptation/uploadhelper.js");
+    LABKEY.requiresScript("assay/tracking/tracking.js");
 
     // messages output to the console
     var _successMessage = "Generations to come will sing of your good deeds.";
@@ -37,6 +39,9 @@
     var _expectedError;
     var _testName;
     var _testNum = 0;
+
+    var _adaptationAssay = "Culture Adaptation";
+    var _selectionAssay = "Drug Selection";
 
     // validate calculated queries
     // validate successful adaptation
@@ -92,7 +97,8 @@
     // config objects
     function testDay0Configs()
     {
-        getDay0Configs(Day0ConfigsReady);
+        LABKEY.page = createDummyTrackingAssayPage(_adaptationAssay, _adaptationAssayId);
+        LABKEY.icemr.tracking.getDay0Configs(Day0ConfigsReady);
     }
 
     function Day0ConfigsReady(runConfigs, flaskConfigs)
@@ -106,7 +112,7 @@
         // verify that none of the generated flask fields are in the flaskConfigs
         for (var i = 0; i < _expectedGeneratedFlaskFields; i++)
         {
-            if (isNameInSet(_expectedGeneratedFlaskFields[i], flaskConfigs))
+            if (LABKEY.icemr.isNameInSet(_expectedGeneratedFlaskFields[i], flaskConfigs))
             {
                 logFailure("flaskConfigs should not contain generated-only fields");
                 break;
@@ -119,17 +125,17 @@
     // expected blank objects
     function testDay0Objects()
     {
-        if (!verifyObject(createExperiment(), _expectedRunFields))
+        if (!verifyObject(LABKEY.icemr.tracking.createExperiment(), _expectedRunFields))
             logFailure("invalid template experiment object returned");
 
-        if (!verifyFlask(createFlask()))
+        if (!verifyFlask(LABKEY.icemr.tracking.createFlask()))
             logFailure("invalid template flask object returned");
 
         // before running the next test get the
         // assay id of the adaptation assay so that
         // we can create a new batch
         LABKEY.Assay.getByName({
-            name: 'Adaptation Assay',
+            name: _adaptationAssay,
             success: AssayIdReady
         });
     }
@@ -142,15 +148,15 @@
 
     function testInvalidDay0UploadNoFlasks()
     {
-        _expectedError = LABKEY.icemr.errDay0Title + ': ' + LABKEY.icemr.errDay0NoFlasksDefined;
-        saveDay0(createExperiment(), null, Day0UploadSuccess, VerifyFailure);
+        _expectedError = LABKEY.icemr.tracking.errDay0Title + ': ' + LABKEY.icemr.tracking.errDay0NoFlasksDefined;
+        LABKEY.icemr.tracking.saveDay0(LABKEY.icemr.tracking.createExperiment(), null, Day0UploadSuccess, VerifyFailure);
     }
 
     function testInvalidDay0UploadZeroFlasks()
     {
         var flasks = [];
-        _expectedError = LABKEY.icemr.errDay0Title + ': ' + LABKEY.icemr.errDay0NoFlasksDefined;
-        saveDay0(createExperiment(), flasks, Day0UploadSuccess, VerifyFailure);
+        _expectedError = LABKEY.icemr.tracking.errDay0Title + ': ' + LABKEY.icemr.tracking.errDay0NoFlasksDefined;
+        LABKEY.icemr.tracking.saveDay0(LABKEY.icemr.tracking.createExperiment(), flasks, Day0UploadSuccess, VerifyFailure);
     }
 
     function testDay0Upload1()
@@ -177,7 +183,7 @@
         // verify that our calculated queries have the right information
         // even with no measurments (daily maintenance tasks)
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'adapted_numDays',
             success: Day0ResultsSuccess
         })
@@ -205,7 +211,7 @@
 
     function testDailyConfigs()
     {
-        getAdaptationFieldConfigs(DailyConfigsReady)
+        LABKEY.icemr.tracking.getFieldConfigs(LABKEY.page.assay.name, DailyConfigsReady)
     }
 
     function DailyConfigsReady(runConfigs, resultConfigs)
@@ -223,7 +229,7 @@
     // expected blank objects
     function testDailyObjects()
     {
-        if (!verifyObject(createDaily(), _expectedDailyFields))
+        if (!verifyObject(LABKEY.icemr.tracking.createDaily(), _expectedDailyFields))
             logFailure("invalid template daily object returned");
 
         runTest();
@@ -232,16 +238,16 @@
     function testInvalidDailyUploadNoResults()
     {
         var results = [];
-        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyNoResults;
-        saveDaily(results, DailyUploadSuccess, VerifyFailure);
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyNoResults;
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
     }
 
     function testInvalidDailyMissingRun()
     {
         var results = [];
-        results.push(createDaily());
-        _expectedError = LABKEY.icemr.errAssayTitle + ': ' + LABKEY.icemr.errAssayMissingRun;
-        saveDaily(results, DailyUploadSuccess, VerifyFailure);
+        results.push(LABKEY.icemr.tracking.createDaily());
+        _expectedError = LABKEY.icemr.tracking.errAssayTitle + ': ' + LABKEY.icemr.tracking.errAssayMissingRun;
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
     }
 
     function testAdaptationRunData()
@@ -250,7 +256,7 @@
         // for our first entered patient.  We need this info to
         // call the gatherRunData API
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'Runs',
             columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
             filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[0].exp.PatientID)],
@@ -264,7 +270,7 @@
         var protocolId = row["Batch/BatchProtocolId/RowId"];
         var rowId = row["RowId"];
         var batchId = row["Batch/RowId"];
-        getAdaptationRunData(protocolId, batchId, rowId, AdaptationRunDataSuccess)
+        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, AdaptationRunDataSuccess)
     }
 
     function AdaptationRunDataSuccess(runData)
@@ -284,8 +290,8 @@
         for (var i = 0; i <= numFlasks; i++)
             results.push({name : 'blank'});
 
-        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyTooManyFlasks;
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyTooManyFlasks;
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testInvalidDailyUploadInvalidFlask()
@@ -308,8 +314,8 @@
             results.push(result);
         }
 
-        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidFlaskDefined + invalidSample;
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidFlaskDefined + invalidSample;
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
 /*
@@ -417,9 +423,9 @@
         var results = [];
         var date = new Date('2/20/2013');
         // we cannot have a parasitemia value of 0 if a growth test is initiated
-        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidZeroParasitemia + 'Patient1Flask1';
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidZeroParasitemia + 'Patient1Flask1';
         results.push(generateDailyData('Patient1Flask1', 0, date, 3, null, false));
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testDailyUpload1()
@@ -430,7 +436,7 @@
         // start growth test 1 in flask 2 with parasitemia value of 2
         results.push(generateDailyData('Patient1Flask2', 2, date, 1, null, false ));
         storeDailyData(results);
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testInvalidDailyUploadMeasurementExists()
@@ -438,8 +444,8 @@
         var results = [];
         var date = new Date('2/20/2013');
         results.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
-        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidMeasurementDate + 'Patient1Flask1';
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidMeasurementDate + 'Patient1Flask1';
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
 
@@ -452,7 +458,7 @@
         // start growth test 2 in flask 1 with parasitemia value of 4, finish test 1
         results.push(generateDailyData('Patient1Flask2', 4, date, 2, 1, false ));
         storeDailyData(results);
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testDailyUpload3()
@@ -464,7 +470,7 @@
         // finish growth test 2 in flask 2 with parasitemia value of 17
         results.push(generateDailyData('Patient1Flask2', 17, date, null, 2, false ));
         storeDailyData(results);
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testDailyUpload4()
@@ -476,7 +482,7 @@
         _dailyData = [];
 
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'Runs',
             columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
             filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[1].exp.PatientID)],
@@ -490,7 +496,7 @@
         var protocolId = row["Batch/BatchProtocolId/RowId"];
         var rowId = row["RowId"];
         var batchId = row["Batch/RowId"];
-        getAdaptationRunData(protocolId, batchId, rowId, testDailyUpload4Finish)
+        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, testDailyUpload4Finish)
     }
 
     function testDailyUpload4Finish()
@@ -504,7 +510,7 @@
         // start growhh test 2 with parasitemia value of 8
         results.push(generateDailyData('Patient2Flask8', 8, date, 2, null, false));
         storeDailyData(results);
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testDailyUpload5()
@@ -516,7 +522,7 @@
         // start growth test 3 with parasitemia value of 64, end growth test 2
         results.push(generateDailyData('Patient2Flask8', 64, date, 3, 2, false));
         storeDailyData(results);
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testDailyUpload6()
@@ -528,7 +534,7 @@
         // finish growth test 3 with parasiteia value of 80, this is not high enough to pass
         results.push(generateDailyData('Patient2Flask8', 80, date, null, 3, false));
         storeDailyData(results);
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testMaintenanceStopped()
@@ -538,15 +544,15 @@
         // start and finish growth test 2 with a value of parasitemia value of 0
         results.push(generateDailyData('Patient2Flask5', 13, date, 3, 3, false));
         storeDailyData(results);
-        _expectedError = LABKEY.icemr.errDailyTitle + ': ' + LABKEY.icemr.errDailyInvalidFlaskDefined + 'Patient2Flask5';
-        saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidFlaskDefined + 'Patient2Flask5';
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
     function testCalculatedResults()
     {
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'adapted_numdays',
             success : SelectCalculationSuccess
         });
@@ -589,7 +595,7 @@
 
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'generic_foldincrease',
             parameters : parameters,
             success : FoldIncreaseCalculatorSuccess
@@ -617,7 +623,7 @@
 
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
+            schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'generic_numDays',
             parameters : parameters,
             success : NumDaysCalculatorSuccess
@@ -652,7 +658,7 @@
         {
             if (key == 'MaintenanceStopped' || key == 'AdaptationDate')
             {
-                if (!compareDate(a[key], b[key]))
+                if (!LABKEY.icemr.compareDate(a[key], b[key]))
                     return false;
             }
             else
@@ -764,7 +770,7 @@
         {
             if (key == 'MeasurementDate')
             {
-                if (!compareDate(expected[key], row[key]))
+                if (!LABKEY.icemr.compareDate(expected[key], row[key]))
                     return false;
             }
             else
@@ -820,14 +826,14 @@
                 var d = result['MeasurementDate'];
 
                 // verify that we have updated the flask as expected from the result data
-                if (!compareDate(d, updated['MaintenanceDate']))
+                if (!LABKEY.icemr.compareDate(d, updated['MaintenanceDate']))
                     logFailure("flask does not have the correct updated MaintenanceDate");
 
                 validateGrowthTestData(p, d, result['GrowthFoldTestInitiated'], true, updated);
                 validateGrowthTestData(p, d, result['GrowthFoldTestFinished'], false, updated);
 
                 if (result['FlaskMaintenanceStopped'])
-                    if (!compareDate(d, updated['MaintenanceStopped']))
+                    if (!LABKEY.icemr.compareDate(d, updated['MaintenanceStopped']))
                         logFailure("flask does not have the correct MaintenanceStopped date");
             }
         }
@@ -844,12 +850,12 @@
         {
             if (start)
             {
-                if (!compareDate(d, updated['StartDate1']))
+                if (!LABKEY.icemr.compareDate(d, updated['StartDate1']))
                     logFailure("flask did not update StartDate1");
             }
             else
             {
-                if (!compareDate(d, updated['FinishDate1']))
+                if (!LABKEY.icemr.compareDate(d, updated['FinishDate1']))
                     logFailure("flask did not update FinishDate1");
             }
         }
@@ -864,7 +870,7 @@
     {
         if (expected['ExperimentID'] == result['ExperimentID'] &&
             expected['PatientID'] == result['PatientID'] &&
-            compareDate(expected['StartDate'], result['StartDate']))
+                LABKEY.icemr.compareDate(expected['StartDate'], result['StartDate']))
             return true;
 
         return false;
@@ -909,7 +915,7 @@
         for (var i = 0; i < _dailyData.length; i++)
         {
             if (_dailyData[i].SampleID == sampleId &&
-                compareDate(measurementDate, _dailyData[i].MeasurementDate))
+                    LABKEY.icemr.compareDate(measurementDate, _dailyData[i].MeasurementDate))
                 return _dailyData[i];
         }
     }
@@ -960,21 +966,17 @@
         // provide a LABKEY page and batch object
         // since these are usually provided in the context
         // of the upload views and the uploadhelper requires it
-        LABKEY.page = {};
-        LABKEY.page.assay = {};
-        LABKEY.page.assay.id = _adaptationAssayId;
-        LABKEY.page.batch = new LABKEY.Exp.RunGroup();
-        LABKEY.page.batch.batchProtocolId = _adaptationAssayId;
+        LABKEY.page = createDummyTrackingAssayPage(_adaptationAssay, _adaptationAssayId);
         storeDay0Data(exp, flasks);
-        saveDay0(exp, flasks, success, failure);
+        LABKEY.icemr.tracking.saveDay0(exp, flasks, success, failure);
     }
 
     function generateDailyData(id, parasitemia, date, init, finish, stop)
     {
-        var dailyResult = createDaily();
+        var dailyResult = LABKEY.icemr.tracking.createDaily();
         dailyResult['Scientist'] = "Hayflick";
         dailyResult['SampleID'] = id;  // flask id
-        dailyResult['Stage'] = LABKEY.icemr.adaptation.stageOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.stageOptions.length)][0];
+        dailyResult['Stage'] = LABKEY.icemr.tracking.stageOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.stageOptions.length)][0];
         dailyResult['Parasitemia'] = parasitemia;
         dailyResult['Gametocytemia'] = Math.floor(Math.random() * 100);
         // if we start validating then we can only have serum or albumax batch id depending on the
@@ -998,7 +1000,7 @@
 
     function generateExperimentData(start, num)
     {
-        var exp = createExperiment();
+        var exp = LABKEY.icemr.tracking.createExperiment();
         exp.ExperimentID = "Experiment" + num;
         exp.StartDate = new Date(start);
         exp.PatientID = "Patient" + num;
@@ -1007,16 +1009,16 @@
 
     function generateFlaskData(patientId, sampleId)
     {
-        var flask = createFlask();
+        var flask = LABKEY.icemr.tracking.createFlask();
         flask['PatientID'] = patientId;
         flask['SampleID'] =  sampleId;
         flask['Scientist'] = "Maverick";
-        flask['Stage'] = LABKEY.icemr.adaptation.stageOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.stageOptions.length)][0];
+        flask['Stage'] = LABKEY.icemr.tracking.stageOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.stageOptions.length)][0];
         flask['Parasitemia'] = Math.floor(Math.random() * 100);
         flask['Gametocytemia'] = Math.floor(Math.random() * 100);
-        flask['PatientpRBCs'] = LABKEY.icemr.adaptation.pRBCOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.pRBCOptions.length)][0];
+        flask['PatientpRBCs'] = LABKEY.icemr.tracking.pRBCOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.pRBCOptions.length)][0];
         flask['Hematocrit'] = Math.floor(Math.random() * 100);
-        flask['CultureMedia'] = LABKEY.icemr.adaptation.cultureMediaOptions[Math.floor(Math.random()*LABKEY.icemr.adaptation.cultureMediaOptions.length)][0];
+        flask['CultureMedia'] = LABKEY.icemr.tracking.cultureMediaOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.cultureMediaOptions.length)][0];
         if (flask['CultureMedia'] == 'serum')
             flask['SerumBatchID'] = 1;
         else
@@ -1033,8 +1035,8 @@
     {
         for (key in flask)
         {
-            if (!isNameInArray(key, _expectedFlaskFields))
-                if (!isNameInArray(key, _expectedGeneratedFlaskFields))
+            if (!LABKEY.icemr.isNameInArray(key, _expectedFlaskFields))
+                if (!LABKEY.icemr.isNameInArray(key, _expectedGeneratedFlaskFields))
                     return false;
         }
 
@@ -1045,7 +1047,7 @@
     {
         for (key in obj)
         {
-            if (!isNameInArray(key, set))
+            if (!LABKEY.icemr.isNameInArray(key, set))
                 return false;
         }
 
@@ -1058,7 +1060,7 @@
         if (expected.length == configs.length)
         {
             for (var i = 0; i < expected.length; i++)
-                if (!isNameInSet(expected[i], configs))
+                if (!LABKEY.icemr.isNameInSet(expected[i], configs))
                     return false;
             return true;
         }
@@ -1084,6 +1086,20 @@
         updateLog('PASSED {' + _testName + '}', true);
     }
 
+    function createDummyTrackingAssayPage(assayName, assayId)
+    {
+        var batch = new LABKEY.Exp.RunGroup();
+        batch.batchProtocolId = assayId;
+        var page = {
+            assay : {
+                id : assayId,
+                name : assayName
+            },
+            batch : batch
+        };
+        return page;
+    }
+
     function init(){
         var btn = new Ext.Button({
             id: 'test-button',
@@ -1091,7 +1107,7 @@
             text: 'Start Test',
             handler: function(){
                 _startTime = new Date().getTime();
-                initValidators();
+                LABKEY.icemr.initValidators();
                 runTest();
             }
         });

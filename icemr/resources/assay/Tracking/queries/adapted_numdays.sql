@@ -22,7 +22,7 @@ f.AdaptationCriteria,f.Comments, f.MaintenanceStopped, f.MaintenanceDate,
 a.IncreaseTest1, a.IncreaseTest2, a.IncreaseTest3, a.PassTest1, a.PassTest2, a.PassTest3, a.SuccessfulAdaptation,
 f.AdaptationDate, d.NumDaysInCulture, d.NumDaysToGrowthTestStart, d.NumDaysFromGrowthTestFinishToAdaptation, d.NumDaysToAdaptation,
 FROM
-Samples.Flasks as f,
+Samples."Adaptation Flasks" as f,
 stored_parasitemia_flask_adapted as a,
 stored_dates_numdays as d
 WHERE f.SampleID = d.SampleID AND d.SampleID = a.SampleID

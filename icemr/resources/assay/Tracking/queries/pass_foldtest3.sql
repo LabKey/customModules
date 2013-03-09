@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT DISTINCT f.SampleID,
-cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, f.MaintenanceDate) as INTEGER) As NumDaysInCulture,
-cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, f.StartDate1) as INTEGER) As NumDaysToGrowthTestStart,
-cast(timestampdiff('SQL_TSI_DAY', f.FinishDate1, f.AdaptationDate) as INTEGER) As NumDaysFromGrowthTestFinishToAdaptation,
-cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, f.AdaptationDate) as INTEGER) As NumDaysToAdaptation,
+SELECT
+fi.SampleID,
+GrowthFoldTest,
+Increase,
+CASE WHEN (Increase  >= FoldIncrease3) THEN (1)
+ELSE (0) END As Pass
 FROM
-Samples.Flasks as f
-LEFT JOIN Data as d
-On f.SampleID = d.SampleID
+parasitemia_foldincrease3 as fi, Samples."Adaptation Flasks" as f
+WHERE
+fi.SampleID = f.SampleID
+
+-- need to repeat for tests 1 to 3
+

@@ -1,0 +1,8 @@
+Property	Label	RangeURI	Format	NotNull	Hidden	MvEnabled	Description
+Stage	Stage	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+Parasitemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Initial Parasitemia %
+Gametocytemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Gametocytemia %
+PatientpRBCs	Patient pRBCs	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+Hematocrit		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Hematocrit %
+AdaptationCriteria	Adaptation Criteria	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Successful adaptation criteria
+AdaptationDate	Adaptation Date	http://www.w3.org/2001/XMLSchema#dateTime		FALSE	FALSE	FALSE	Date of successful adaptation

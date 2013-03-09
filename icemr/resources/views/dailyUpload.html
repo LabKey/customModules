@@ -2,8 +2,9 @@
 <div id="upload-adaptation-div"></div>
 <script type="text/javascript">
 
+LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/validation.js");
-LABKEY.requiresScript("assay/adaptation/uploadhelper.js");
+LABKEY.requiresScript("assay/tracking/tracking.js");
 
 var _runFieldConfigs;
 var _resultFieldConfigs;
@@ -20,7 +21,7 @@ function onSaveSuccess(result)
     // LABKEY.page.assay.id since we came in through a custom view
     //
     window.location.href = LABKEY.ActionURL.buildURL('assay', 'assayRuns', null,
-            {rowId:LABKEY.icemr.adaptation.assayId});
+            {rowId:LABKEY.icemr.tracking.assayId});
 }
 
 function submitDaily()
@@ -46,8 +47,8 @@ function submitDaily()
             if(target.value == 'No')
             {
                 // growth test is stored as an integer so map 'no' value to null
-                if (target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
-                        target.dataIndex == LABKEY.icemr.adaptation.growthFoldTestFinished)
+                if (target.dataIndex == LABKEY.icemr.tracking.growthFoldTestInitiated ||
+                        target.dataIndex == LABKEY.icemr.tracking.growthFoldTestFinished)
                     trueValue = null;
                 else
                     trueValue = false;
@@ -60,7 +61,7 @@ function submitDaily()
         console.log(results);
     }
 
-    saveDaily(results, onSaveSuccess)
+    LABKEY.icemr.tracking.saveDaily(results, onSaveSuccess);
 }
 
 function goBack()
@@ -103,10 +104,11 @@ function handleError(msg, reset)
 
 
 Ext4.onReady(function() {
+    var params = LABKEY.ActionURL.getParameters();
     Ext4.QuickTips.init();
-    initValidators();
-    getAdaptationFieldConfigs(onConfigsReady)
-})
+    LABKEY.icemr.initValidators();
+    LABKEY.icemr.tracking.getFieldConfigs(params.protocolName, onConfigsReady);
+});
 
 function onConfigsReady(runConfigs, resultConfigs)
 {
@@ -120,26 +122,26 @@ function onConfigsReady(runConfigs, resultConfigs)
         //
         // handle combos
         //
-        if (config.name == LABKEY.icemr.adaptation.stage)
+        if (config.name == LABKEY.icemr.tracking.stage)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.stageOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.stageOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
-                config.name == LABKEY.icemr.adaptation.growthFoldTestFinished)
+        else if (config.name == LABKEY.icemr.tracking.growthFoldTestInitiated ||
+                config.name == LABKEY.icemr.tracking.growthFoldTestFinished)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.oneTwoThreeOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.oneTwoThreeOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.contamination ||
-                config.name == LABKEY.icemr.adaptation.flaskMaintenanceStopped ||
-                config.name == LABKEY.icemr.adaptation.interestingResult)
+        else if (config.name == LABKEY.icemr.tracking.contamination ||
+                config.name == LABKEY.icemr.tracking.flaskMaintenanceStopped ||
+                config.name == LABKEY.icemr.tracking.interestingResult)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.yesNoOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.yesNoOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.mycotest)
+        else if (config.name == LABKEY.icemr.tracking.mycotest)
         {
-            setComboConfig(config, LABKEY.icemr.adaptation.positiveNegativeOptions);
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.positiveNegativeOptions);
         }
-        else if (config.name == LABKEY.icemr.adaptation.dateIndex)
+        else if (config.name == LABKEY.icemr.tracking.dateIndex)
         {
             config.hidden = true;
         }
@@ -152,7 +154,7 @@ function onConfigsReady(runConfigs, resultConfigs)
     // fetch our run data so that we can populate our data
     //
     var params = LABKEY.ActionURL.getParameters();
-    getAdaptationRunData(params.protocolId, params.batchId, params.rowId, onRunDataReady)
+    LABKEY.icemr.tracking.getRunData(params.protocolId, params.batchId, params.rowId, onRunDataReady)
 }
 
 function onDailyFileUploadSuccess(dailyResults)
@@ -183,27 +185,27 @@ function onDailyFileUploadSuccess(dailyResults)
                 var value = dailyResult[key];
                 var field = form.getComponent(key +(i+1));
 
-                if (key == LABKEY.icemr.adaptation.measurementDate)
+                if (key == LABKEY.icemr.tracking.measurementDate)
                 {
                     field.setValue(new Date(value));
                 }
                 else
-                if (key == LABKEY.icemr.adaptation.growthFoldTestInitiated ||
-                        key == LABKEY.icemr.adaptation.growthFoldTestFinished)
+                if (key == LABKEY.icemr.tracking.growthFoldTestInitiated ||
+                        key == LABKEY.icemr.tracking.growthFoldTestFinished)
                 {
-                    field.setValue(getFormGrowthTestValue(value));
+                    field.setValue(LABKEY.icemr.getFormGrowthTestValue(value));
                 }
                 else
-                if (key == LABKEY.icemr.adaptation.interestingResult ||
-                        key == LABKEY.icemr.adaptation.contamination ||
-                        key == LABKEY.icemr.adaptation.flaskMaintenanceStopped)
+                if (key == LABKEY.icemr.tracking.interestingResult ||
+                        key == LABKEY.icemr.tracking.contamination ||
+                        key == LABKEY.icemr.tracking.flaskMaintenanceStopped)
                 {
-                    field.setValue(getFormYesNoValue(value));
+                    field.setValue(LABKEY.icemr.getFormYesNoValue(value));
                 }
                 else
-                if (key == LABKEY.icemr.adaptation.mycotest)
+                if (key == LABKEY.icemr.tracking.mycotest)
                 {
-                    field.setValue(getFormPosNegValue(value));
+                    field.setValue(LABKEY.icemr.getFormPosNegValue(value));
                 }
                 else
                 {
@@ -243,7 +245,7 @@ function handleDailyUpload(f, action)
         Ext4.Msg.alert("Upload Failed", "Failed to upload the data file: " + action.result);
         return;
     }
-    processDailyFileUpload(action.result, onDailyFileUploadSuccess);
+    LABKEY.icemr.tracking.processDailyFileUpload(action.result, onDailyFileUploadSuccess);
 }
 
 function createFileUploadPanel()
@@ -295,8 +297,8 @@ function generateTemplateFile()
     //
     var formCmp = Ext4.getCmp('upload-adaptation-form');
     var fields = formCmp.getForm().getFields();
-    var measurementDate = fields.get('_' + LABKEY.icemr.adaptation.measurementDate).getValue();
-    getDailyUploadTemplate(measurementDate);
+    var measurementDate = fields.get('_' + LABKEY.icemr.tracking.measurementDate).getValue();
+    LABKEY.icemr.tracking.getDailyUploadTemplate(measurementDate);
 }
 
 function onRunDataReady(runData)
@@ -332,7 +334,7 @@ function onRunDataReady(runData)
     //
     formRunFieldConfigs.push({
         xtype : 'datefield',
-        id: '_' + LABKEY.icemr.adaptation.measurementDate,
+        id: '_' + LABKEY.icemr.tracking.measurementDate,
         fieldLabel : 'Maintenance Date',
         value : new Date()
     });

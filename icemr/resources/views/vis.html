@@ -320,7 +320,7 @@ Ext4.onReady(function(){
     // SelectRows to get fold increase values.
     LABKEY.Query.selectRows({
         schemaName: "Samples",
-        queryName: "Flasks",
+        queryName: "Adaptation Flasks",
         filterArray: [filter],
         success: function(results){
             var foldIncreases = storeFoldIncreases(results.rows);

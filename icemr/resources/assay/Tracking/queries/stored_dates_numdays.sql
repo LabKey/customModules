@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-PARAMETERS(finish TIMESTAMP)
-SELECT DISTINCT f.*,
-cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, finish) as INTEGER) As NumDaysInCulture,
+SELECT DISTINCT f.SampleID,
+cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, f.MaintenanceDate) as INTEGER) As NumDaysInCulture,
+cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, f.StartDate1) as INTEGER) As NumDaysToGrowthTestStart,
+cast(timestampdiff('SQL_TSI_DAY', f.FinishDate1, f.AdaptationDate) as INTEGER) As NumDaysFromGrowthTestFinishToAdaptation,
+cast(timestampdiff('SQL_TSI_DAY', d.Run.StartDate, f.AdaptationDate) as INTEGER) As NumDaysToAdaptation,
 FROM
-Samples.Flasks as f
+Samples."Adaptation Flasks" as f
 LEFT JOIN Data as d
--- consider doing an inner join if they don't care about flasks
--- that aren't involved in any experiments
 On f.SampleID = d.SampleID

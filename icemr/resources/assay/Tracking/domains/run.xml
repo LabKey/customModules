@@ -1,6 +1,6 @@
 <ap:domain xmlns:exp="http://cpas.fhcrc.org/exp/xml"
            xmlns:ap="http://labkey.org/study/assay/xml">
-<exp:Description>ICEMR Adaptation Run</exp:Description>
+<exp:Description>The user is prompted to enter Patient, Experiment, and Start Date information for Day 0.</exp:Description>
 <exp:PropertyDescriptor>
     <exp:Name>PatientID</exp:Name>
     <exp:Required>true</exp:Required>

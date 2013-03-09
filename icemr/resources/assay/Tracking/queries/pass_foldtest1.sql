@@ -13,8 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT gt.SampleID, gt.NumSuccessfulGrowthTests, sf.AdaptationCriteria,
-CASE WHEN (gt.NumSuccessfulGrowthTests >= sf.AdaptationCriteria) THEN 'Yes'
-ELSE 'No' END As AdaptationSuccess
-FROM calc_growthtests as gt, Samples.Flasks as sf
-WHERE sf.SampleID = gt.SampleID
+SELECT
+fi.SampleID,
+GrowthFoldTest,
+Increase,
+CASE WHEN (Increase  >= FoldIncrease1) THEN (1)
+ELSE (0) END As Pass
+FROM
+parasitemia_foldincrease1 as fi, Samples."Adaptation Flasks" as f
+WHERE
+fi.SampleID = f.SampleID
+
+-- need to repeat for tests 1 to 3
+

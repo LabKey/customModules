@@ -2,8 +2,9 @@
 <div id="upload-diagnostic-div"></div>
 <script type="text/javascript">
 
+LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/validation.js");
-LABKEY.requiresScript("assay/schemaHelper.js");
+LABKEY.requiresScript("assay/diagnostics/diagnostics.js");
 //
 // setup when we get the field configs from the schemaHelper
 //
@@ -105,7 +106,7 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
             config.name == LABKEY.icemr.diagnostics.thin ||
             config.name == LABKEY.icemr.diagnostics.RDT)
         {
-            setComboConfig(config, LABKEY.icemr.diagnostics.speciesOptions)
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.diagnostics.speciesOptions)
         }
 
         //
@@ -188,7 +189,7 @@ Ext4.onReady(function() {
     Ext4.QuickTips.init();
     // numeric field validation
     //
-    initValidators();
-    getDiagnosticsFieldConfigs(onFieldConfigsReady);
+    LABKEY.icemr.initValidators();
+    LABKEY.icemr.diagnostics.getFieldConfigs(onFieldConfigsReady);
 });
 </script>

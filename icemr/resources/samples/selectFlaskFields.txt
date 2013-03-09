@@ -1,0 +1,13 @@
+Property	Label	RangeURI	Format	NotNull	Hidden	MvEnabled	Description
+AdaptationSampleID	Adaptation Flask ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	If selections started from cultures never frozen, enter flask sample id from adaptation
+FreezerProID	FreezerPro ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	If thawed, FreezerPro ID of line used
+InitialPopulation	Initial Population	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	(10^#)
+Compound	Selection Compound	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+Concentration	Selection Concentration	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE	micromolar or % based on selection compound
+Control	Control	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	positive, negative, or no
+SuperstockBatchID	Super Stock Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID of super stock selection solutions
+WorkingstockBatchID	Working Stock Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID of working stock selection solutions
+RBCBatchID	RBC Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID of RPBCs
+ResistanceProtocol	Resistance Protocol	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE	Protocol used to classify preliminary resistance (growth-fold or consecutive days)
+ResistanceNumber	Resistance Number	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Number of growth-fold or days for preliminary resistance
+MinimumParasitemia	Minimum Parasitemia	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Minimum parasitemia required for preliminary resistance.
