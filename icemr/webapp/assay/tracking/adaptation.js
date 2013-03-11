@@ -46,24 +46,14 @@ LABKEY.icemr.tracking.adaptation = new function() {
     /**
      * Private functions specific to adaptation assay
      */
-    function makeUpdateRowset(flasks) {
-        var result = {};
-        result.checkForAdaptation = false;
-        result.rows = [];
-
-        for (var i = 0; i < flasks.length; i++)
+    function isCheckForAdaptationRequired(rows)
+    {
+        for (var i = 0; i < rows.length; i++)
         {
-            var row = {};
-            var newFlask = flasks[i];
-            var oldFlask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(newFlask[LABKEY.icemr.tracking.sample]);
-
-            // set the sample id for updating
-            LABKEY.icemr.tracking.setRowProperty(LABKEY.icemr.flask.sample, row, newFlask, oldFlask);
-
+            var row = rows[i];
             for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
             {
                 var key = LABKEY.icemr.flask.syncFields[j];
-                LABKEY.icemr.tracking.setRowProperty(key, row, newFlask, oldFlask);
 
                 // if we finished a growth test and the flask has not already adapted, then
                 // we'll need to check for adaptation of this flask set before saving the batch so
@@ -73,13 +63,12 @@ LABKEY.icemr.tracking.adaptation = new function() {
                         (key == LABKEY.icemr.flask.finishParasitemia + '3'))
                 {
                     if (row[key])
-                        result.checkForAdaptation = true;
+                        return true;
                 }
             }
-            result.rows.push(row);
         }
 
-        return result;
+        return false;
     }
 
     function checkForAdaptation(data, response, options)
@@ -88,7 +77,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
             return;
 
         var keyMap = LABKEY.icemr.tracking.makeSyncFieldsKeyMap(data.rows[0]);
-        syncMaterialInputs(data.rows, keyMap, false);
+        LABKEY.icemr.tracking.syncMaterialInputs(data.rows, keyMap);
 
         if (LABKEY.icemr.tracking.updateContext.checkForAdaptation)
         {
@@ -165,7 +154,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
     {
         if (data && data.rows && data.rows.length > 0)
         {
-            syncMaterialInputs(data.rows, LABKEY.icemr.tracking.makeSyncFieldsKeyMap(data.rows[0]), true);
+            syncAdaptationDate(data.rows, LABKEY.icemr.tracking.makeSyncFieldsKeyMap(data.rows[0]));
             LABKEY.icemr.tracking.saveBatch();
         }
     }
@@ -173,25 +162,13 @@ LABKEY.icemr.tracking.adaptation = new function() {
     //
     // given a rowset, copy over the latest updated values to our material inputs
     //
-    function syncMaterialInputs(rows, keyMap, syncAdaptationDateOnly)
+    function syncAdaptationDate(rows, keyMap)
     {
         for (var i  = 0; i < rows.length; i++)
         {
             var row = rows[i];
             var flask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(row[keyMap[LABKEY.icemr.flask.sample]]);
-
-            if (syncAdaptationDateOnly)
-            {
-                flask[LABKEY.icemr.flask.adaptationDate] = row[keyMap[LABKEY.icemr.flask.adaptationDate]];
-            }
-            else
-            {
-                for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
-                {
-                    var key = LABKEY.icemr.flask.syncFields[j];
-                    flask[key] = row[keyMap[key]];
-                }
-            }
+            flask[LABKEY.icemr.flask.adaptationDate] = row[keyMap[LABKEY.icemr.flask.adaptationDate]];
         }
     }
 
@@ -262,20 +239,19 @@ LABKEY.icemr.tracking.adaptation = new function() {
          * if needed.
          */
         saveDaily: function(flasks, success, failure){
-
-            var result = makeUpdateRowset(flasks);
+            var rows = LABKEY.icemr.tracking.makeUpdateRowset(flasks);
 
             // create a new update context
             LABKEY.icemr.tracking.updateContext = {
                 success : success,
                 failure : failure,
-                checkForAdaptation : result.checkForAdaptation
+                checkForAdaptation : isCheckForAdaptationRequired(rows)
             };
 
             LABKEY.Query.updateRows( {
                 schemaName : 'Samples',
                 queryName : this.getFlasksSampleSetName(),
-                rows : result.rows,
+                rows : rows,
                 success : checkForAdaptation,
                 failure : failure
             });

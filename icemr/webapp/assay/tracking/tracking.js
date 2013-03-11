@@ -815,7 +815,6 @@ LABKEY.icemr.tracking.saveBatch = function() {
 };
 
 LABKEY.icemr.tracking.setDefaultValues = function(metaType, config){
-
     // take care of common defaults between selection and adaptation here
     if (config.name == LABKEY.icemr.flask.foldIncrease + '1' ||
             config.name == LABKEY.icemr.flask.foldIncrease + '2' ||
@@ -828,6 +827,47 @@ LABKEY.icemr.tracking.setDefaultValues = function(metaType, config){
     LABKEY.icemr.tracking.interface.setDefaultValues(metaType, config);
 };
 
+//
+// given a rowset, copy over the latest updated values to our material inputs
+//
+LABKEY.icemr.tracking.syncMaterialInputs = function(rows, keyMap)
+{
+    for (var i  = 0; i < rows.length; i++)
+    {
+        var row = rows[i];
+        var flask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(row[keyMap[LABKEY.icemr.flask.sample]]);
+
+        for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
+        {
+            var key = LABKEY.icemr.flask.syncFields[j];
+            flask[key] = row[keyMap[key]];
+        }
+    }
+}
+
+LABKEY.icemr.tracking.makeUpdateRowset = function(flasks)
+{
+    var rows = [];
+
+    for (var i = 0; i < flasks.length; i++)
+    {
+        var row = {};
+        var newFlask = flasks[i];
+        var oldFlask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(newFlask[LABKEY.icemr.tracking.sample]);
+
+        // set the sample id for updating
+        LABKEY.icemr.tracking.setRowProperty(LABKEY.icemr.flask.sample, row, newFlask, oldFlask);
+
+        for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
+        {
+            var key = LABKEY.icemr.flask.syncFields[j];
+            LABKEY.icemr.tracking.setRowProperty(key, row, newFlask, oldFlask);
+        }
+        rows.push(row);
+    }
+
+    return rows;
+}
 
 
 

@@ -51,6 +51,16 @@ LABKEY.icemr.tracking.selection = new function() {
         });
     }
 
+    function saveDailyMaintenance(data, response, options)
+    {
+        if (!data || !(data.rows) || (0 == data.rows.length))
+            return;
+
+        var keyMap = LABKEY.icemr.tracking.makeSyncFieldsKeyMap(data.rows[0]);
+        LABKEY.icemr.tracking.syncMaterialInputs(data.rows, keyMap);
+        LABKEY.icemr.tracking.saveBatch();
+    }
+
     /**
      * Public interface
      */
@@ -91,6 +101,25 @@ LABKEY.icemr.tracking.selection = new function() {
                 queryName : this.getFlasksSampleSetName(),
                 rows : flasks,
                 success : success,
+                failure : failure
+            });
+        },
+
+        /**
+         * Save daily maintenance data and update flask sample set.
+         */
+        saveDaily: function(flasks, success, failure){
+            // create a new update context
+            LABKEY.icemr.tracking.updateContext = {
+                success : success,
+                failure : failure
+            };
+
+            LABKEY.Query.updateRows( {
+                schemaName : 'Samples',
+                queryName : this.getFlasksSampleSetName(),
+                rows : LABKEY.icemr.tracking.makeUpdateRowset(flasks),
+                success : saveDailyMaintenance,
                 failure : failure
             });
         }
