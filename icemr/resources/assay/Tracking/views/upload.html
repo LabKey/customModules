@@ -168,6 +168,21 @@ function onConfigsReady(runConfigs, flaskConfigs)
         {
             LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.cultureMediaOptions);
         }
+        else
+        if (config.name == LABKEY.icemr.flask.control)
+        {
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.positiveNegativeOptions);
+        }
+        else
+        if (config.name == LABKEY.icemr.flask.resistanceProtocol)
+        {
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.tracking.resistanceProtocolOptions);
+        }
+        else
+        if (config.name == LABKEY.icemr.flask.compound)
+        {
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.flask.compoundOptions);
+        }
 
     }
 

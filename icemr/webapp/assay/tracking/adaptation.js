@@ -200,10 +200,17 @@ LABKEY.icemr.tracking.adaptation = new function() {
      */
     return {
         /**
+         * return the name of flask sample set required for Culture Adaptation
+         */
+        getFlasksSampleSetName : function () {
+            return adaptationFlasks;
+        },
+
+        /**
          * return the flask sample set specific to adaptation
          */
         getFlasks : function () {
-            var flasks = new LABKEY.Exp.SampleSet({name: adaptationFlasks});
+            var flasks = new LABKEY.Exp.SampleSet( {name: this.getFlasksSampleSetName()});
             flasks.getDomain({
                 success : LABKEY.icemr.tracking.onFlasksDomainReady,
                 failure : LABKEY.icemr.tracking.onFlasksFailure
@@ -231,13 +238,6 @@ LABKEY.icemr.tracking.adaptation = new function() {
          * set default values on the passed in config depending on the metatype
          */
         setDefaultValues : function(metaType, config) {
-            if (config.name == LABKEY.icemr.flask.foldIncrease + '1' ||
-                    config.name == LABKEY.icemr.flask.foldIncrease + '2' ||
-                    config.name == LABKEY.icemr.flask.foldIncrease + '3')
-            {
-                config.value = LABKEY.icemr.flask.defaultFoldIncrease;
-            }
-            else
             if (config.name == LABKEY.icemr.flask.adaptationCriteria)
             {
                 config.value = LABKEY.icemr.flask.defaultAdaptationCriteria;
@@ -250,7 +250,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
         uploadFlasks: function(flasks, success, failure){
             LABKEY.Query.insertRows( {
                 schemaName : 'Samples',
-                queryName : adaptationFlasks,
+                queryName : this.getFlasksSampleSetName(),
                 rows : flasks,
                 success : success,
                 failure : failure
@@ -274,7 +274,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
 
             LABKEY.Query.updateRows( {
                 schemaName : 'Samples',
-                queryName : adaptationFlasks,
+                queryName : this.getFlasksSampleSetName(),
                 rows : result.rows,
                 success : checkForAdaptation,
                 failure : failure

@@ -33,6 +33,7 @@ LABKEY.requiresScript('assay/tracking/selection.js');
 // -------------------------------------------------------------------
 LABKEY.icemr.tracking.interface = new function () {
     return {
+        getFlasksSampleSetName : function () { throw "not implemented!"},
         getFlasks : function () { throw "not implemented!" },
         getSyncFields : function() { throw "not implemented!" },
         setDefaultValues : function(metaTypa, config) {throw "not implemented!"},
@@ -71,8 +72,6 @@ LABKEY.icemr.tracking.errDay0NoFlasksDefined = "You must include at least one fl
 // -------------------------------------------------------------------
 LABKEY.icemr.tracking.adaptationAssay = 'Culture Adaptation';
 LABKEY.icemr.tracking.selectionAssay = 'Drug Selection';
-// result fields for tracking assay - note that these are currently identical across the selection and
-// adaptation results
 LABKEY.icemr.tracking.parasitemia = 'Parasitemia';
 LABKEY.icemr.tracking.patient = 'PatientID';
 LABKEY.icemr.tracking.sample = 'SampleID';
@@ -87,7 +86,9 @@ LABKEY.icemr.tracking.stageOptions =  [['rings'], ['trophozoites'], ['schizonts'
 LABKEY.icemr.tracking.pRBCOptions = [['washed'], ['unwashed']];
 LABKEY.icemr.tracking.cultureMediaOptions = [['serum'], ['Albumax']];
 LABKEY.icemr.tracking.yesNoOptions = [['Yes'], ['No']];
-LABKEY.icemr.tracking.positiveNegativeOptions = [['Positive'], ['Negative'], ['No Test']];
+LABKEY.icemr.tracking.positiveNegativeTestOptions = [['Positive'], ['Negative'], ['No Test']];
+LABKEY.icemr.tracking.positiveNegativeOptions = [['Positive'], ['Negative'], ['No']];
+LABKEY.icemr.tracking.resistanceProtocolOptions = [['growth-fold'], ['days']];
 LABKEY.icemr.tracking.oneTwoThreeOptions = [['1'], ['2'], ['3'], ['No']];
 LABKEY.icemr.tracking.dateIndex = 'DateIndex';
 LABKEY.icemr.tracking.measurementDate = 'MeasurementDate';
@@ -97,8 +98,6 @@ LABKEY.icemr.tracking.flaskMaintenanceStopped = 'FlaskMaintenanceStopped';
 LABKEY.icemr.tracking.scientist = 'Scientist';
 LABKEY.icemr.tracking.serumBatch = 'SerumBatchID';
 LABKEY.icemr.tracking.albumaxBatch = 'AlbumaxBatchID';
-// undone: get rid of this, just use the name (ugh)
-LABKEY.icemr.tracking.selectionMarker = "Selection";
 
 // sample set fields common to both adaptation and selection flasks
 LABKEY.icemr.flask.sample = LABKEY.icemr.tracking.sample;
@@ -128,10 +127,15 @@ LABKEY.icemr.flask.syncFields = [
     LABKEY.icemr.flask.startDate1,
     LABKEY.icemr.flask.finishDate1
 ];
-
 // used for calculations
 LABKEY.icemr.flask.foldIncrease = 'FoldIncrease';
 LABKEY.icemr.flask.defaultFoldIncrease = 4;
+
+// selection specific flask fields
+LABKEY.icemr.flask.control = 'Control';
+LABKEY.icemr.flask.resistanceProtocol = 'ResistanceProtocol';
+LABKEY.icemr.flask.compound = 'Compound';
+LABKEY.icemr.flask.compoundOptions = []; // filled in if the Drug Selection Assay is chosen
 
 // used for excel template upload
 LABKEY.icemr.tracking.dailyUploadTemplateFilename = "dailyUpload.xls";
@@ -808,6 +812,20 @@ LABKEY.icemr.tracking.saveBatch = function() {
         successCallback : LABKEY.icemr.tracking.updateContext.success,
         failureCallback : LABKEY.icemr.tracking.updateContext.failure
     });
+};
+
+LABKEY.icemr.tracking.setDefaultValues = function(metaType, config){
+
+    // take care of common defaults between selection and adaptation here
+    if (config.name == LABKEY.icemr.flask.foldIncrease + '1' ||
+            config.name == LABKEY.icemr.flask.foldIncrease + '2' ||
+            config.name == LABKEY.icemr.flask.foldIncrease + '3')
+    {
+        config.value = LABKEY.icemr.flask.defaultFoldIncrease;
+    }
+
+    // now take care of assay-specific defaults
+    LABKEY.icemr.tracking.interface.setDefaultValues(metaType, config);
 };
 
 

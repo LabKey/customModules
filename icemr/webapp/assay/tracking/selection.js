@@ -19,20 +19,55 @@ LABKEY.icemr.tracking.selection = new function() {
     /**
      * Private functions specific to the selection assay
      */
+    var selectionFlasks = 'Selection Flasks';
+
+    function fetchCompounds()
+    {
+        var storeCompounds = new LABKEY.ext.Store({
+            schemaName : 'icemr',
+            queryName  : 'lk_compound'
+        });
+
+        storeCompounds.load({
+            callback : function( records, options, success)
+            {
+                for (var i = 0; i < records.length; i++)
+                {
+                    var rec = [];
+                    rec.push(records[i].data.compound);
+                    LABKEY.icemr.flask.compoundOptions.push(rec);
+                }
+                fetchFlasks();
+            }
+        });
+    }
+
+    function fetchFlasks()
+    {
+        var flasks = new LABKEY.Exp.SampleSet({name: selectionFlasks});
+        flasks.getDomain({
+            success : LABKEY.icemr.tracking.onFlasksDomainReady,
+            failure : LABKEY.icemr.tracking.onFlasksFailure
+        });
+    }
 
     /**
      * Public interface
      */
     return {
         /**
+         * return the name of the flask sample set required for the Drug Selection assay
+         */
+        getFlasksSampleSetName : function () {
+            return selectionFlasks;
+        },
+
+        /**
          * return the flask sample set specific to selection
          */
         getFlasks : function () {
-            var flasks = new LABKEY.Exp.SampleSet({name: LABKEY.icemr.selectionFlasks});
-            flasks.getDomain({
-                success : LABKEY.icemr.tracking.onFlasksDomainReady,
-                failure : LABKEY.icemr.tracking.onFlasksFailure
-            });
+            // fetch the compounds from our schema and then get the flasks
+            fetchCompounds();
         },
 
         /**
@@ -44,7 +79,7 @@ LABKEY.icemr.tracking.selection = new function() {
         },
 
         setDefaultValues : function(metaType, config) {
-            throw "not implemented!";
+            // nothing to do here for now
         },
 
         /**
@@ -53,7 +88,7 @@ LABKEY.icemr.tracking.selection = new function() {
         uploadFlasks: function(flasks, success, failure){
             LABKEY.Query.insertRows( {
                 schemaName : 'Samples',
-                queryName : 'Selection Flasks',
+                queryName : this.getFlasksSampleSetName(),
                 rows : flasks,
                 success : success,
                 failure : failure

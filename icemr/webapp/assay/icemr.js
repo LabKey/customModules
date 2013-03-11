@@ -18,6 +18,7 @@ Ext.namespace("LABKEY.icemr");
 // configuration errors
 // -------------------------------------------------------------------
 LABKEY.icemr.errConfigTitle = "Configuration Error";
+//consider: adding the context of the missing sample set name here (do your own token replacement function here)
 LABKEY.icemr.errConfigMissingAssayDesign = "Could not find the specified assay design. Please see your LabKey administrator.";
 LABKEY.icemr.errConfigMissingFlask = "Could not find the Flask Sample Set. Please see your LabKey administrator.";
 
@@ -97,7 +98,7 @@ LABKEY.icemr.setDefaultValues = function(metaType, config) {
     // diagnostics or speciesSelection, then we'll need to provide a more global interface)
     if (metaType == LABKEY.icemr.metaType.SampleSet)
     {
-        LABKEY.icemr.tracking.interface.setDefaultValues(metaType, config);
+        LABKEY.icemr.tracking.setDefaultValues(metaType, config);
     }
 };
 
