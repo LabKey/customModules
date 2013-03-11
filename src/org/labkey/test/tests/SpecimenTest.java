@@ -111,13 +111,13 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod(category = LogMethod.MethodType.VERIFICATION)
     protected void doVerifySteps()
     {
-//        verifyActorDetails();
-//        createRequest();
-//        verifyViews();
-//        verifyAdditionalRequestFields();
-//        verifyNotificationEmails();
-//        verifyInactiveUsersInRequests();
-//        verifyRequestCancel();
+        verifyActorDetails();
+        createRequest();
+        verifyViews();
+        verifyAdditionalRequestFields();
+        verifyNotificationEmails();
+        verifyInactiveUsersInRequests();
+        verifyRequestCancel();
         verifyReports();
         exportSpecimenTest();
         verifyRequestingLocationRestriction();
