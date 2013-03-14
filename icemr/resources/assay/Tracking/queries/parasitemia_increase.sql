@@ -36,6 +36,7 @@ CASE WHEN (FinishParasitemia3 IS NOT NULL AND StartParasitemia3 IS NOT NULL AND 
   ELSE (0) END
 ELSE 0 END As PassTest3,
 FROM
-Samples."Selection Flasks"
+base_flasks
+
 
 

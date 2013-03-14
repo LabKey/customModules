@@ -231,14 +231,15 @@ function renderFoldIncrease()
     var parameters = {
         start : fields.get(_start + 'foldincrease').getValue(),
         finish : fields.get(_finish + 'foldincrease').getValue(),
-        flaskId : fields.get(_sampleId + 'foldincrease').getValue()
+        flaskId : fields.get(_sampleId + 'foldincrease').getValue(),
+        isSelectionFlask : (LABKEY.icemr.tracking.isSelection ? 1 : 0)
     };
 
     var qwp = new LABKEY.QueryWebPart({
         title      : 'Fold-Increase Calculator',
         renderTo   : 'foldincrease-div',
         schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
-        queryName  : LABKEY.icemr.tracking.interface.getGenericFoldIncreaseQuery(),
+        queryName  : "generic_foldincrease",
         parameters :  parameters,
         showPagination : false
     });

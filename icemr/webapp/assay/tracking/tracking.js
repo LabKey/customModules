@@ -41,8 +41,7 @@ LABKEY.icemr.tracking.interface = new function () {
         uploadFlasks : function(flasks, success, failure) {throw "not implemented!"},
         saveDaily : function(flasks, success, failure) { throw "not implemented!"},
         getVisQuery : function () { throw "not implemented"},
-        getCalcQuery : function () { throw "not implemented"},
-        getGenericFoldIncreaseQuery : function() { throw "not implemented"}
+        getCalcQuery : function () { throw "not implemented"}
     };
 };
 

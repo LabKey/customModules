@@ -185,6 +185,7 @@
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'adapted_numDays',
+            parameters : {isSelectionFlask : 0},
             success: Day0ResultsSuccess
         })
     }
@@ -554,6 +555,7 @@
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _adaptationAssay,
             queryName  : 'adapted_numdays',
+            parameters : {isSelectionFlask : 0},
             success : SelectCalculationSuccess
         });
     }
@@ -590,13 +592,14 @@
         var parameters = {
             start : '4/20/2013', // parasitemia value here is 4
             finish : '7/20/2013', // parasitemia value here is 17
-            flaskId : 'Patient1Flask2'
+            flaskId : 'Patient1Flask2',
+            isSelectionFlask : 0
         };
 
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _adaptationAssay,
-            queryName  : 'adapt_generic_foldincrease',
+            queryName  : 'generic_foldincrease',
             parameters : parameters,
             success : FoldIncreaseCalculatorSuccess
         });

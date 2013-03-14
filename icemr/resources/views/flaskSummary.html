@@ -29,6 +29,7 @@ function init()
         renderTo   : 'flasks-div',
         schemaName : schemaName,
         queryName  : LABKEY.icemr.tracking.interface.getCalcQuery(),
+        parameters : {isSelectionFlask : (LABKEY.icemr.tracking.isSelection ? 1 : 0)},
         frame : 'none',
         removeableFilters    : [ LABKEY.Filter.create("SampleID", params["sampleId"])]
     });

@@ -35,10 +35,9 @@ function submitDaily()
 
     for(var i = 0; i < numFlasks; i++){
         var result = {};
-
+        var si = (i+1).toString();
         for(r = 0; r < _flasksPanel.items.items[i].items.items.length; r++){
             target =  _flasksPanel.items.items[i].items.items[r];
-            console.log(typeof target.value);
             if(target.value == 'Yes')
             {
                 trueValue = true;
@@ -55,10 +54,9 @@ function submitDaily()
             }
             else trueValue = target.value;
 
-            result[target.id.substring(0, target.id.length-1)] = trueValue;
+            result[target.id.substring(0, target.id.length-si.length)] = trueValue;
         }
         results.push(result);
-        console.log(results);
     }
 
     LABKEY.icemr.tracking.saveDaily(results, onSaveSuccess);

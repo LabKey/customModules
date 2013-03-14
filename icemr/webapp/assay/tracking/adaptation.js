@@ -95,6 +95,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
             LABKEY.Query.selectRows({
                 schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
                 queryName : 'adapted_numdays',
+                parameters : {isSelectionFlask : 0},
                 columns : [LABKEY.icemr.flask.sample,
                     LABKEY.icemr.flask.maintenanceDate,
                     LABKEY.icemr.flask.adaptationDate,
@@ -269,13 +270,6 @@ LABKEY.icemr.tracking.adaptation = new function() {
          */
         getCalcQuery : function() {
             return "adapted_numdays";
-        },
-
-        /**
-         * return the query used for the generic fold increase calculator
-         */
-        getGenericFoldIncreaseQuery : function() {
-            return "adapt_generic_foldincrease";
         }
     };
 };

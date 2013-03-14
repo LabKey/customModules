@@ -43,12 +43,11 @@ function submitAdaptation(propsForm, flasksForm)
         var flask = LABKEY.icemr.tracking.createFlask();
         var target;
         flask['PatientID'] = exp['PatientID'];
-
+        var si = (i+1).toString();
         for(var r = 1; r < flasksForm.items.items[i].items.items.length; r++){
             target =  flasksForm.items.items[i].items.items[r]
-            flask[target.id.substring(0, target.id.length-1)] = target.value;
+            flask[target.id.substring(0, target.id.length-si.length)] = target.value;
         }
-        console.log(flask);
         flasks.push(flask)
     }
 
@@ -101,7 +100,6 @@ function adjustSizes()
 {
     for(var i = 1; i < Ext4.getCmp('flasksBox').items.items.length; i++)
     {
-        console.log('wee');
         var flaskFields = Ext4.getCmp('flasksBox').items.items[i].items.items;
         for(var r = 0; r < flaskFields.length; r++){
             if(flaskFields[r].xtype === 'textfield')

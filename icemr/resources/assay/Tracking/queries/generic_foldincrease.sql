@@ -24,5 +24,5 @@ FROM
       (SELECT  SampleID,  Parasitemia FROM  Data  WHERE  (timestampdiff('SQL_TSI_DAY', MeasurementDate, finish)=0)
         AND SampleID = flaskId) as pf
     WHERE ps.SampleID = pf.SampleID) as i,
-  Samples."Selection Flasks" as f
+  base_flasks as f
 WHERE i.SampleID = f.SampleID

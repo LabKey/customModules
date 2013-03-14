@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT SampleID, IncreaseTest1, IncreaseTest2, IncreaseTest3,
+SELECT f.SampleID, IncreaseTest1, IncreaseTest2, IncreaseTest3,
 PassTest1, PassTest2, PassTest3,
-CASE WHEN ((PassTest1 + PassTest2 + PassTest3) >= ResistanceNumber) THEN
+CASE WHEN ((PassTest1 + PassTest2 + PassTest3) >= f.ResistanceNumber) THEN
 'Yes'
 ELSE
 'No'
 END As SuccessfulPreliminaryResistanceGrowthFold
 FROM
-select_parasitemia_increase
-WHERE ResistanceProtocol='growth-fold';
+Samples."Selection Flasks" as f,
+parasitemia_increase as p
+WHERE f.SampleID = p.SampleID AND f.ResistanceProtocol='growth-fold';
 

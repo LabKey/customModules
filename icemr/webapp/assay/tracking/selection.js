@@ -193,13 +193,6 @@ LABKEY.icemr.tracking.selection = new function() {
          */
         getCalcQuery : function() {
             return "select_all_calcs";
-        },
-
-        /**
-         * return the query used for the generic fold increase calculator
-         */
-        getGenericFoldIncreaseQuery : function() {
-            return "select_generic_foldincrease";
         }
     };
 };
