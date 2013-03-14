@@ -37,8 +37,12 @@ LABKEY.icemr.tracking.interface = new function () {
         getFlasks : function () { throw "not implemented!" },
         getSyncFields : function() { throw "not implemented!" },
         setDefaultValues : function(metaTypa, config) {throw "not implemented!"},
+        getFlaskUpdates : function(dailyResult, flask) { throw "not implemented!"},
         uploadFlasks : function(flasks, success, failure) {throw "not implemented!"},
-        saveDaily : function(flasks, success, failure) { throw "not implemented!"}
+        saveDaily : function(flasks, success, failure) { throw "not implemented!"},
+        getVisQuery : function () { throw "not implemented"},
+        getCalcQuery : function () { throw "not implemented"},
+        getGenericFoldIncreaseQuery : function() { throw "not implemented"}
     };
 };
 
@@ -88,7 +92,6 @@ LABKEY.icemr.tracking.cultureMediaOptions = [['serum'], ['Albumax']];
 LABKEY.icemr.tracking.yesNoOptions = [['Yes'], ['No']];
 LABKEY.icemr.tracking.positiveNegativeTestOptions = [['Positive'], ['Negative'], ['No Test']];
 LABKEY.icemr.tracking.positiveNegativeOptions = [['Positive'], ['Negative'], ['No']];
-LABKEY.icemr.tracking.resistanceProtocolOptions = [['growth-fold'], ['days']];
 LABKEY.icemr.tracking.oneTwoThreeOptions = [['1'], ['2'], ['3'], ['No']];
 LABKEY.icemr.tracking.dateIndex = 'DateIndex';
 LABKEY.icemr.tracking.measurementDate = 'MeasurementDate';
@@ -131,12 +134,6 @@ LABKEY.icemr.flask.syncFields = [
 LABKEY.icemr.flask.foldIncrease = 'FoldIncrease';
 LABKEY.icemr.flask.defaultFoldIncrease = 4;
 
-// selection specific flask fields
-LABKEY.icemr.flask.control = 'Control';
-LABKEY.icemr.flask.resistanceProtocol = 'ResistanceProtocol';
-LABKEY.icemr.flask.compound = 'Compound';
-LABKEY.icemr.flask.compoundOptions = []; // filled in if the Drug Selection Assay is chosen
-
 // used for excel template upload
 LABKEY.icemr.tracking.dailyUploadTemplateFilename = "dailyUpload.xls";
 
@@ -152,7 +149,7 @@ LABKEY.icemr.tracking.onFlasksDomainReady = function(domain)
 
     // filter out our internal flask fields for the client
     var clientFlaskConfigs = [];
-    var syncFields = LABKEY.icemr.tracking.interface.getSyncFields();
+    var syncFields = LABKEY.icemr.tracking.getSyncFields();
     for (var i=0; i < LABKEY.icemr.tracking.flaskConfigs.length; i++)
     {
         var config = LABKEY.icemr.tracking.flaskConfigs[i];
@@ -206,6 +203,17 @@ LABKEY.icemr.tracking.getFieldConfigs = function(assayName, success) {
     // get the field configs for the name of the assay selected
     LABKEY.icemr.getFieldConfigs(assayName, LABKEY.icemr.tracking.getFieldConfigsCallbackWrapper(success));
 };
+
+LABKEY.icemr.tracking.setInterface = function(schemaName) {
+    //
+    // some pages have a schema name so set the appropriate interface here
+    //
+    if (schemaName == "assay.Tracking." + LABKEY.icemr.tracking.selectionAssay) {
+        LABKEY.icemr.tracking.isSelection = true;
+    }
+
+    LABKEY.icemr.tracking.interface = (LABKEY.icemr.tracking.isSelection) ? LABKEY.icemr.tracking.selection : LABKEY.icemr.tracking.adaptation;
+}
 
 LABKEY.icemr.tracking.createExperiment = function() {
     return LABKEY.icemr.tracking.createRecord(LABKEY.icemr.tracking.runFieldConfigs);
@@ -729,6 +737,9 @@ LABKEY.icemr.tracking.getFlaskUpdates = function(dailyResult){
     growthTest = dailyResult[LABKEY.icemr.tracking.growthFoldTestFinished];
     LABKEY.icemr.tracking.storeGrowthTestParasitemia(growthTest, flask, dailyResult, true);
 
+    // give the specific assay a chance to add flask properties
+    LABKEY.icemr.tracking.interface.getFlaskUpdates(dailyResult, flask);
+
     return flask;
 };
 
@@ -781,6 +792,8 @@ LABKEY.icemr.tracking.setRowProperty = function(name, row, newFlask, oldFlask){
 //
 LABKEY.icemr.tracking.makeSyncFieldsKeyMap = function(row){
     var keyMap = {};
+    var syncFields = LABKEY.icemr.tracking.getSyncFields();
+
     for (var key in row)
     {
         var normalized = key.toLowerCase();
@@ -792,11 +805,11 @@ LABKEY.icemr.tracking.makeSyncFieldsKeyMap = function(row){
             continue;
         }
 
-        for (var i = 0 ; i < LABKEY.icemr.flask.syncFields.length; i ++)
+        for (var i = 0 ; i < syncFields.length; i ++)
         {
-            if (normalized == LABKEY.icemr.flask.syncFields[i].toLowerCase())
+            if (normalized == syncFields[i].toLowerCase())
             {
-                keyMap[LABKEY.icemr.flask.syncFields[i]] = key;
+                keyMap[syncFields[i]] = key;
                 break;
             }
         }
@@ -836,10 +849,12 @@ LABKEY.icemr.tracking.syncMaterialInputs = function(rows, keyMap)
     {
         var row = rows[i];
         var flask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(row[keyMap[LABKEY.icemr.flask.sample]]);
+        var syncFields = LABKEY.icemr.tracking.getSyncFields();
 
-        for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
+        // just sync common flask fields here
+        for (var j = 0; j < syncFields.length; j++)
         {
-            var key = LABKEY.icemr.flask.syncFields[j];
+            var key = syncFields[j];
             flask[key] = row[keyMap[key]];
         }
     }
@@ -857,16 +872,34 @@ LABKEY.icemr.tracking.makeUpdateRowset = function(flasks)
 
         // set the sample id for updating
         LABKEY.icemr.tracking.setRowProperty(LABKEY.icemr.flask.sample, row, newFlask, oldFlask);
+        var syncFields = LABKEY.icemr.tracking.getSyncFields();
 
-        for (var j = 0; j < LABKEY.icemr.flask.syncFields.length; j++)
+        for (var j = 0; j < syncFields.length; j++)
         {
-            var key = LABKEY.icemr.flask.syncFields[j];
+            var key = syncFields[j];
             LABKEY.icemr.tracking.setRowProperty(key, row, newFlask, oldFlask);
         }
         rows.push(row);
     }
 
     return rows;
+}
+
+LABKEY.icemr.tracking.getSyncFields = function()
+{
+    // return the union of the common sync fields and the assay-specific
+    // sync fields
+    var newSyncFields = [];
+    var i;
+    for (i = 0; i < LABKEY.icemr.flask.syncFields.length; i++)
+        newSyncFields.push(LABKEY.icemr.flask.syncFields[i]);
+
+    var specificSyncFields = LABKEY.icemr.tracking.interface.getSyncFields();
+
+    for (i = 0; i < specificSyncFields.length; i++)
+        newSyncFields.push(specificSyncFields[i]);
+
+    return newSyncFields;
 }
 
 

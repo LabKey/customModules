@@ -23,7 +23,7 @@ a.IncreaseTest1, a.IncreaseTest2, a.IncreaseTest3, a.PassTest1, a.PassTest2, a.P
 f.AdaptationDate, d.NumDaysInCulture, d.NumDaysToGrowthTestStart, d.NumDaysFromGrowthTestFinishToAdaptation, d.NumDaysToAdaptation,
 FROM
 Samples."Adaptation Flasks" as f,
-stored_parasitemia_flask_adapted as a,
+adapt_parasitemia_pass as a,
 stored_dates_numdays as d
 WHERE f.SampleID = d.SampleID AND d.SampleID = a.SampleID
 

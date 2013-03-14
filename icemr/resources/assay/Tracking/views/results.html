@@ -7,6 +7,7 @@ Start date: <span id='startDate'></span>
 </span>
 <div id='foldincrease-div'></div>
 <div id='numdays-div'></div>
+<div id='firstdaypositive-div'></div>
 <div id='flasks-div'></div>
 <p>
     <a href='javascript:done()' class='labkey-button'>
@@ -24,6 +25,7 @@ LABKEY.requiresScript("assay/tracking/tracking.js");
 var _start = "start";
 var _finish = "finish";
 var _sampleId = "sampleId";
+var _parasitemia = "parasitemia"
 
 function done()
 {
@@ -38,8 +40,11 @@ function init()
     // bring back the flasks associated with this run as well as a list of sampleIds
     // sorted by most recent measurement date
     //
+    var schemaName = 'assay.Tracking.' + LABKEY.page.assay.name;
+    LABKEY.icemr.tracking.setInterface(schemaName);
+
     LABKEY.Query.selectRows({
-        schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
+        schemaName : schemaName,
         queryName  : 'Data',
         columns :  ['Run/' + LABKEY.icemr.flask.startDate,
                     'Run/' + LABKEY.icemr.tracking.experiment,
@@ -102,46 +107,81 @@ function showNumDays()
     showCalculator('numdays');
 }
 
+function showFirstDayPositive()
+{
+    hideFirstDayPositive();
+    showCalculator('firstdaypositive');
+}
 
-// calculator must either be 'numdays' or 'foldincrease'
+
+// calculator must be 'numdays', 'foldincrease', or 'firstdaypositive'
 function showCalculator(calculator)
 {
-    var isNumDays = (calculator == 'numdays');
-    var title = isNumDays ? 'Number of Days' : 'Fold-Increase';
+    var title = "";
+    var submitHandler = null;
+    var cancelHandler = null;
+
+    if (calculator == 'numdays'){
+        title = 'Number of Days';
+        submitHandler = renderNumDays;
+        cancelHandler = hideNumDays;
+    }
+    else if (calculator == 'foldincrease'){
+        title = 'Fold-Increase';
+        submitHandler = renderFoldIncrease;
+        cancelHandler = hideFoldIncrease;
+    }
+    else {
+        title = 'First Day Positive'
+        submitHandler = renderFirstDayPositive;
+        cancelHandler = hideFirstDayPositive;
+    }
+
     title += ' Calculator';
 
     items = [];
 
-    // these items are common to both calculators
+    // these items are common to all calculators
     items.push({
         xtype : 'label',
         html : '<b>' + title + '</b>',
         margin: '2 0 0 0'
     });
 
-    // since both calculators may be on the page
-    // at the same time make the shared fields 'start' and 'finish'
-    // unique
-    items.push({
-        xtype : 'datefield',
-        fieldLabel : 'Start Date',
-        id : _start + calculator,
-        margin: '10 0 2 0'
-    });
+    // numdays and foldincrease both have start and finish dates
+    if (calculator == 'numdays' || calculator == 'foldincrease')
+    {
+        items.push({
+            xtype : 'datefield',
+            fieldLabel : 'Start Date',
+            id : _start + calculator,
+            margin: '10 0 2 0'
+        });
 
-    items.push({
-        xtype : 'datefield',
-        fieldLabel : 'Finish Date',
-        id : _finish + calculator,
-        margin: '5 0 2 0'
-    });
+        items.push({
+            xtype : 'datefield',
+            fieldLabel : 'Finish Date',
+            id : _finish + calculator,
+            margin: '5 0 2 0'
+        });
+    }
 
-    if (calculator == 'foldincrease') {
+    // foldincrease and firstdaypositive both take a sampleId
+    if (calculator == 'foldincrease' || calculator == 'firstdaypositive') {
         items.push({
             xtype : 'textfield',
             fieldLabel : 'Sample ID',
-            id : _sampleId,
+            id : _sampleId + calculator,
             margin: '5 0 2 0'
+        });
+    }
+
+    if (calculator == 'firstdaypositive') {
+        items.push ({
+        xtype : 'numberfield',
+                fieldLabel : 'Parasitemia %',
+                id : _parasitemia,
+                margin: '5 0 2 0'
         });
     }
 
@@ -155,11 +195,11 @@ function showCalculator(calculator)
         items : [{
             xtype   : 'button',
             text    : 'Submit',
-            handler : isNumDays ? renderNumDays : renderFoldIncrease
+            handler : submitHandler
         },{
             xtype   : 'button',
             text    : 'Cancel',
-            handler : isNumDays ? hideNumDays : hideFoldIncrease
+            handler : cancelHandler
         }]
     });
 
@@ -191,18 +231,37 @@ function renderFoldIncrease()
     var parameters = {
         start : fields.get(_start + 'foldincrease').getValue(),
         finish : fields.get(_finish + 'foldincrease').getValue(),
-        flaskId : fields.get(_sampleId).getValue()
+        flaskId : fields.get(_sampleId + 'foldincrease').getValue()
     };
 
-   var qwp = new LABKEY.QueryWebPart({
+    var qwp = new LABKEY.QueryWebPart({
         title      : 'Fold-Increase Calculator',
         renderTo   : 'foldincrease-div',
         schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
-        queryName  : 'generic_foldincrease',
+        queryName  : LABKEY.icemr.tracking.interface.getGenericFoldIncreaseQuery(),
         parameters :  parameters,
         showPagination : false
     });
 }
+
+function renderFirstDayPositive()
+{
+    var fields =  Ext4.getCmp('firstdaypositive-form').getForm().getFields();
+    var parameters = {
+        flaskId : fields.get(_sampleId + 'firstdaypositive').getValue(),
+        parasitemia : fields.get(_parasitemia).getValue()
+    };
+
+    var qwp = new LABKEY.QueryWebPart({
+        title      : 'First Day Positive Calculator',
+        renderTo   : 'firstdaypositive-div',
+        schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
+        queryName  : "select_generic_firstdaypositive",
+        parameters :  parameters,
+        showPagination : false
+    });
+}
+
 
 function renderNumDays()
 {
@@ -233,6 +292,12 @@ function hideNumDays()
     document.getElementById('numdays-div').innerHTML = "";
 }
 
+function hideFirstDayPositive()
+{
+    document.getElementById('firstdaypositive-div').innerHTML = "";
+}
+
+
 function renderResults()
 {
     var params = LABKEY.ActionURL.getParameters();
@@ -251,10 +316,16 @@ function renderResults()
         ]
     };
 
+    var posButton = {
+        text    : 'First Day Positive Calculator', items   : [
+            {text: 'Show', handler : showFirstDayPositive},
+            {text: 'Hide', handler : hideFirstDayPositive}
+        ]
+    };
+
     var visButton = {
         text: 'Visualization',
         handler: onVisClick
-//        scope: this
     };
 
     var buttons = [];
@@ -263,9 +334,14 @@ function renderResults()
             LABKEY.QueryWebPart.standardButtons.exportRows,
             LABKEY.QueryWebPart.standardButtons.print,
             foldButton,
-            dayButton,
-            visButton
+            dayButton
     );
+
+    // show the first day positive calculator only for Drug Selection
+    if (LABKEY.icemr.tracking.isSelection)
+        buttons.push(posButton);
+
+    buttons.push(visButton);
 
     var buttonBar = {};
     buttonBar.position = 'both';

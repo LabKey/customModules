@@ -22,7 +22,7 @@
             <table tableName="Data" tableDbType="TABLE">
                 <columns>
                     <column columnName="SampleID">
-                        <url>/query/executeQuery.view?schemaName=${schemaName}&amp;queryName=adapted_numdays&amp;query.SampleId~eq=${SampleId}</url>
+                        <url>/icemr/flaskSummary.view?schemaName=${schemaName}&amp;sampleId=${SampleId}</url>
                     </column>
                 </columns>
             </table>

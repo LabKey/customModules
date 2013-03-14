@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT SampleID, IncreaseTest1, IncreaseTest2, IncreaseTest3,
-PassTest1, PassTest2, PassTest3,
-CASE WHEN ((PassTest1 + PassTest2 + PassTest3) >= AdaptationCriteria) THEN
-'Yes'
-ELSE
-'No'
-END As SuccessfulAdaptation
+SELECT f.SampleID, MIN(d.MeasurementDate) As FirstDayPositiveResistantPopulation
 FROM
-stored_parasitemia_alltests_increase
-
+Samples."Selection Flasks" as f,
+Data as d
+WHERE f.SampleID = d.SampleId AND f.Control='No' AND d.Parasitemia > f.MinimumParasitemia
+GROUP BY f.SampleID

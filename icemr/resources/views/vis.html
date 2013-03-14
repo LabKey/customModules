@@ -1,8 +1,11 @@
 <div id="icemrvis"></div>
 <script type="text/javascript">
+LABKEY.requiresScript("assay/icemr.js");
+LABKEY.requiresScript("assay/tracking/tracking.js");
 Ext4.onReady(function(){
     var params = LABKEY.ActionURL.getParameters();
     var filter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
+    LABKEY.icemr.tracking.setInterface(params.schemaName);
 
     var storeFoldIncreases = function(rows){
         var values = {};
@@ -35,7 +38,7 @@ Ext4.onReady(function(){
 
     var createPanel = function(foldIncreases, params, filter){
         var schemaName = params.schemaName;
-        var queryName = "flasks_viz";
+        var queryName = LABKEY.icemr.tracking.interface.getVisQuery();
         var customButtons = [];
         var cbGroup = Ext4.create('Ext.form.CheckboxGroup', {
             fieldLabel: 'Hover Variables',
@@ -320,7 +323,7 @@ Ext4.onReady(function(){
     // SelectRows to get fold increase values.
     LABKEY.Query.selectRows({
         schemaName: "Samples",
-        queryName: "Adaptation Flasks",
+        queryName: LABKEY.icemr.tracking.interface.getFlasksSampleSetName(),
         filterArray: [filter],
         success: function(results){
             var foldIncreases = storeFoldIncreases(results.rows);

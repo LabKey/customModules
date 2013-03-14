@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="generic_foldincrease" tableDbType="TABLE" useColumnOrder="true">
+            <table tableName="select_generic_foldincrease" tableDbType="TABLE" useColumnOrder="true">
                 <columns>
                     <column columnName="RowId">
                         <isHidden>true</isHidden>

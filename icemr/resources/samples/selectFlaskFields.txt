@@ -10,4 +10,5 @@ WorkingstockBatchID	Working Stock Batch ID	http://www.w3.org/2001/XMLSchema#stri
 RBCBatchID	RBC Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID of RPBCs
 ResistanceProtocol	Resistance Protocol	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE	Protocol used to classify preliminary resistance (growth-fold or consecutive days)
 ResistanceNumber	Resistance Number	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Number of growth-fold or days for preliminary resistance
-MinimumParasitemia	Minimum Parasitemia	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Minimum parasitemia required for preliminary resistance.
+MinimumParasitemia	Minimum Parasitemia	http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Minimum parasitemia required for preliminary resistance.
+ConsecutiveDays Consecutive Days	http://www.w3.org/2001/XMLSchema#int		FALSE	FALSE	FALSE	Consecutive days parasitemia is greater than minimum for consecutive days protocol.

@@ -199,16 +199,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
          * hidden in the UI as well.
          */
         getSyncFields : function() {
-            // return the union of the base sync fields and the adaptation specific sync fields
-            var newSyncFields = [];
-            var i;
-            for (i = 0; i < LABKEY.icemr.flask.syncFields.length; i++)
-                newSyncFields.push(LABKEY.icemr.flask.syncFields[i]);
-
-            for (i = 0; i < syncFields.length; i++)
-                newSyncFields.push(syncFields[i]);
-
-            return newSyncFields;
+            return syncFields;
         },
 
         /**
@@ -219,6 +210,15 @@ LABKEY.icemr.tracking.adaptation = new function() {
             {
                 config.value = LABKEY.icemr.flask.defaultAdaptationCriteria;
             }
+        },
+
+        /**
+         * get any data we need to store in the flask before saving based on this daily maintenace
+         * result
+         */
+        getFlaskUpdates : function(dailyResult, flask) {
+            // nothing do do here for this assay
+            return;
         },
 
         /**
@@ -255,6 +255,27 @@ LABKEY.icemr.tracking.adaptation = new function() {
                 success : checkForAdaptation,
                 failure : failure
             });
+        },
+
+        /**
+         * return the query used by vis.html
+         */
+        getVisQuery : function() {
+            return "adapt_flasks_viz";
+        },
+
+        /**
+         * return the query used flaskSummary.html
+         */
+        getCalcQuery : function() {
+            return "adapted_numdays";
+        },
+
+        /**
+         * return the query used for the generic fold increase calculator
+         */
+        getGenericFoldIncreaseQuery : function() {
+            return "adapt_generic_foldincrease";
         }
     };
 };
