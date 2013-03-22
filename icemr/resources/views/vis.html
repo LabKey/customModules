@@ -231,6 +231,27 @@ Ext4.onReady(function(){
                 }
 
                 return layerConfig;
+            },
+
+            other: function(measures){
+                var layerConfig = {
+                    geom: new LABKEY.vis.Geom.Point(),
+                    aes: {
+                        hoverText: function(row){
+                            var text = row.PatientID.value + "\n";
+                            text += "SampleID: " + row.SampleID.value + "\n";
+                            text += measures.y.label + ": " + measures.y.acc(row) + "\n";
+
+                            return text;
+                        }
+                    }
+                };
+
+                if(measures.color){
+                    layerConfig.aes.color = measures.color.acc;
+                }
+
+                return layerConfig;
             }
         };
 
@@ -272,8 +293,8 @@ Ext4.onReady(function(){
                         };
 
                         layers.push(new LABKEY.vis.Layer(pathLayerConfig));
-
-                        if(customOptions.ICEMR.hoverVariables && customOptions.ICEMR.hoverVariables.length > 0){
+                        
+                        if(measures.y.name == "Parasitemia" && customOptions.ICEMR.hoverVariables && customOptions.ICEMR.hoverVariables.length > 0){
                             for(var i = 0; i < customOptions.ICEMR.hoverVariables.length; i++){
                                 var hoverVariable = customOptions.ICEMR.hoverVariables[i];
                                 if(hoverVariable == 'endGrowth'){
@@ -282,6 +303,8 @@ Ext4.onReady(function(){
                                     layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](measures)));
                                 }
                             }
+                        } else {
+                            layers.push(new LABKEY.vis.Layer(hoverLayers.other(measures)));
                         }
 
                         scales.x.tickFormat = function(val){
