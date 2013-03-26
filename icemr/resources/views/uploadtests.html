@@ -6,50 +6,11 @@
     LABKEY.requiresScript("assay/validation.js");
     LABKEY.requiresScript("assay/tracking/tracking.js");
 
-    // messages output to the console
-    var _successMessage = "Generations to come will sing of your good deeds.";
-    var _failureMessage = "What was the number of that truck driving school again?";
-    var _doneMessage = "DONE: "; // signal that the test the test is done
-    var _logHtml = "";
-    var _adaptationAssayId;
-
-    // expected results
-    var _expectedRunFields = ['PatientID', 'StartDate','ExperimentID'];
-    var _expectedDailyFields = ['SampleID', 'MeasurementDate', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
-        'Removed', 'RBCBatchID', 'SerumBatchID', 'AlbumaxBatchID','GrowthFoldTestInitiated', 'GrowthFoldTestFinished',
-        'Contamination', 'MycoTestResult', 'FreezerProIDs', 'FlaskMaintenanceStopped', 'InterestingResult', 'Comments',
-        'DateIndex'];
-    var _expectedFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
-        'PatientpRBCs', 'Hematocrit', 'CultureMedia','SerumBatchID', 'AlbumaxBatchID','FoldIncrease1', 'FoldIncrease2',
-        'FoldIncrease3', 'AdaptationCriteria', 'Comments'];
-    var _expectedGeneratedFlaskFields = ['MaintenanceDate', 'MaintenanceStopped', 'StartParasitemia1',
-        'StartParasitemia2', 'StartParasitemia3', 'FinishParasitemia1', 'FinishParasitemia2', 'FinishParasitemia3',
-        'StartDate1', 'FinishDate1', 'AdaptationDate'];
-    var _expectedCalculatedFlaskFields = ['NumDaysFromGrowthTestFinishToAdaptation', 'NumDaysInCulture',
-        'NumDaysToAdaptation', 'NumDaysToGrowthTestStart', 'IncreaseTest1', 'IncreaseTest2', 'IncreaseTest3',
-        'PassTest1', 'PassTest2', 'PassTest3','SuccessfulAdaptation'];
-
-    // stores expected results
-    var _day0Data = [];
-    var _dailyData = [];
-    var _startTime;
-
-    // test flow control and state
-    var _stopped = false;
-    var _expectedError;
-    var _testName;
-    var _testNum = 0;
-
-    var _adaptationAssay = "Culture Adaptation";
-    var _selectionAssay = "Drug Selection";
-
-    // validate calculated queries
-    // validate successful adaptation
-    // to validate failure of not enough flasks
-    // validate can't update flask maintenance
-    // validate adaptation date
-    // validate increase calculators
+    // there are really two suites of tests, one for the Culture Adaptation assay and one for the
+    // Drug Selection assay.  Both of these assays are implemnted by the tracking assay but have different
+    // code behind them (depending on whether they are adaptation or selection).
     var _tests = [
+        // Culture Adaptation
         {name: 'Day0Configs', fn: testDay0Configs},
         {name: 'Day0Objects', fn: testDay0Objects},
         {name: 'InvalidDay0UploadNoFlasks', fn: testInvalidDay0UploadNoFlasks},
@@ -61,7 +22,7 @@
         {name: 'DailyObjects', fn: testDailyObjects},
         {name: 'InvalidDailyUploadNoResults', fn: testInvalidDailyUploadNoResults},
         {name: 'InvalidDailyUploadMissingRun', fn: testInvalidDailyMissingRun},
-        {name: 'AdaptionRunData', fn: testAdaptationRunData},
+        {name: 'TrackingRunData', fn: testTrackingRunData},
         {name: 'InvalidDailyUploadTooManyFlasks', fn: testInvalidDailyUploadTooManyFlasks},
         {name: 'InvalidDailyUploadInvalidFlask', fn: testInvalidDailyUploadInvalidFlask},
         {name: 'InvalidDailyUploadZeroParasitemia', fn: testInvalidDailyUploadZeroParasitemia},
@@ -69,14 +30,396 @@
         {name: 'InvalidDailyUploadMeasurementExists', fn: testInvalidDailyUploadMeasurementExists},
         {name: 'DailyUpload2', fn: testDailyUpload2},
         {name: 'DailyUpload3', fn: testDailyUpload3},
+        {name: 'SwitchPatient', fn: switchPatient},
         {name: 'DailyUpload4', fn: testDailyUpload4},
         {name: 'DailyUpload5', fn: testDailyUpload5},
         {name: 'DailyUpload6', fn: testDailyUpload6},
         {name: 'MaintenanceStopped', fn: testMaintenanceStopped},
         {name: 'CalculatedResults', fn: testCalculatedResults},
         {name: 'GenericFoldIncrease', fn: testFoldIncreaseCalculator},
-        {name: 'GenericNumDays', fn: testNumDaysCalculator}
+        {name: 'GenericNumDays', fn: testNumDaysCalculator},
+        // Drug Selection
+        {name: 'SwitchToSelection', fn: switchToSelection},
+        {name: 'Day0Configs', fn: testDay0Configs},
+        {name: 'Day0Objects', fn: testDay0Objects},
+        {name: 'SelectionCompounds', fn: testCompounds},
+        {name: 'Day0Upload1', fn: testDay0Upload1},
+        {name: 'Day0Upload2', fn: testDay0Upload2},
+        {name: 'Day0Results', fn: testDay0Results},
+        {name: 'TrackingRunData', fn: testTrackingRunData},
+        {name: 'InvalidDailyUploadZeroParasitemia', fn: testInvalidDailyUploadZeroParasitemia},
+        {name: 'DailyUpload1', fn: testDailyUpload1},
+        {name: 'InvalidDailyUploadMeasurementExists', fn: testInvalidDailyUploadMeasurementExists},
+        {name: 'DailyUpload2', fn: testDailyUpload2},
+        {name: 'DailyUpload3', fn: testDailyUpload3},
+        {name: 'SwitchPatient', fn: switchPatient},
+        {name: 'DailyUpload4', fn: testDailyUpload4},
+        {name: 'DailyUpload5', fn: testDailyUpload5},
+        {name: 'DailyUpload6', fn: testDailyUpload6},
+        {name: 'DailyUpload7', fn: testDailyUpload7},
+        {name: 'DailyUpload8', fn: testDailyUpload8},
+        {name: 'MaintenanceStopped', fn: testMaintenanceStopped},
+        {name: 'CalculatedResults', fn: testCalculatedResults},
+        {name: 'GenericFoldIncrease', fn: testFoldIncreaseCalculator},
+        {name: 'GenericFirstDayPositive', fn: testFirstDayPositiveCalculator}
     ];
+
+    // messages output to the console
+    var _successMessage = "Generations to come will sing of your good deeds.";
+    var _failureMessage = "What was the number of that truck driving school again?";
+    var _doneMessage = "DONE: "; // signal that the test the test is done
+    var _logHtml = "";
+    var _assayId;
+    var _assayName;
+
+    // expected results for tracking assay (shared between culture adaptatio and drug selection)
+    var _expectedRunFields = ['PatientID', 'StartDate','ExperimentID'];
+    var _expectedDailyFields = ['SampleID', 'MeasurementDate', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
+        'Removed', 'RBCBatchID', 'SerumBatchID', 'AlbumaxBatchID','GrowthFoldTestInitiated', 'GrowthFoldTestFinished',
+        'Contamination', 'MycoTestResult', 'FreezerProIDs', 'FlaskMaintenanceStopped', 'InterestingResult', 'Comments',
+        'DateIndex'];
+
+    // setup in setupAssayResults
+    var _expectedFlaskFields;
+    var _expectedGeneratedFlaskFields;
+    var _expectedCalculatedFlaskFields;
+    var _expectedCalculations;
+    var _dailyMeasurements;
+    var generateFlaskData;
+    var isSuccessfulCalcField;
+
+    // culture adaptation specific results
+    var _expectedAdaptFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
+        'PatientpRBCs', 'Hematocrit', 'CultureMedia','SerumBatchID', 'AlbumaxBatchID','FoldIncrease1', 'FoldIncrease2',
+        'FoldIncrease3', 'AdaptationCriteria', 'Comments'];
+    var _expectedAdaptGeneratedFlaskFields = ['MaintenanceDate', 'MaintenanceStopped', 'StartParasitemia1',
+        'StartParasitemia2', 'StartParasitemia3', 'FinishParasitemia1', 'FinishParasitemia2', 'FinishParasitemia3',
+        'StartDate1', 'FinishDate1', 'AdaptationDate'];
+    var _expectedAdaptCalculatedFlaskFields = ['NumDaysFromGrowthTestFinishToAdaptation', 'NumDaysInCulture',
+        'NumDaysToAdaptation', 'NumDaysToGrowthTestStart', 'IncreaseTest1', 'IncreaseTest2', 'IncreaseTest3',
+        'PassTest1', 'PassTest2', 'PassTest3','SuccessfulAdaptation'];
+
+    // drug selection specific results
+    var _expectedSelectFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'AdaptationSampleID', 'FreezerProID',
+        'InitialPopulation', 'Compound', 'Concentration', 'CultureMedia','SerumBatchID', 'AlbumaxBatchID',
+        'SuperstockBatchID', 'WorkingstockBatchID','RBCBatchID','Control', 'ResistanceProtocol', 'ResistanceNumber',
+        'MinimumParasitemia', 'FoldIncrease1', 'FoldIncrease2', 'FoldIncrease3', 'Comments'];
+
+    var _expectedSelectGeneratedFlaskFields = ['MaintenanceDate', 'MaintenanceStopped', 'StartParasitemia1',
+        'StartParasitemia2', 'StartParasitemia3', 'FinishParasitemia1', 'FinishParasitemia2', 'FinishParasitemia3',
+        'StartDate1', 'FinishDate1', 'ConsecutiveDays'];
+
+    var _expectedSelectCalculatedFlaskFields = ['FirstDayPositiveGrowth', 'FirstDayPositiveResistantPopluation',
+        'IncreaseTest1', 'IncreaseTest2', 'IncreaseTest3','PassTest1', 'PassTest2', 'PassTest3',
+        'SuccesfulPreliminaryResistanceDays', 'SuccessfulPreliminaryResistanceGrowthFold'];
+
+    var _selectionCompounds = [];
+
+    // stors expected results, initialzed in setupAssayResults
+    var _day0Data;
+    var _dailyData;
+    var _patientIndex;
+    var _startTime;
+
+    // test flow control and state
+    var _stopped = false;
+    var _expectedError;
+    var _testName;
+    var _testNum = 0;
+
+    var _adaptationAssay = "Culture Adaptation";
+    var _selectionAssay = "Drug Selection";
+
+    // Each row is a daily measurement.  For example, Patient1Flask2 on 4/20/2013 had a parasitemia valud of 4 %, initialied
+    // growth-fold test 2 and finished growth-fold test 1.  The flask was not stopped.
+    var _dailyAdaptMeasurements = [
+        {id : 'Patient1Flask1', parasitemia : 1, date : new Date('2/20/2013'), init : null, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 2, date : new Date('2/20/2013'), init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 2, date : new Date('4/20/2013'), init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 4, date : new Date('4/20/2013'), init : 2, finish : 1, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 4, date : new Date('7/20/2013'), init : null, finish : 1, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 17, date : new Date('7/20/2013'), init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.1, date : new Date('2/20/2013'), init : 1, finish : 1, stop : false },
+        {id : 'Patient2Flask5', parasitemia : 13, date : new Date('2/20/2013'), init : null, finish : null, stop : true },
+        {id : 'Patient2Flask8', parasitemia : 8, date : new Date('2/20/2013'), init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.1, date : new Date('2/21/2013'), init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 64, date : new Date('2/21/2013'), init : 3, finish : 2, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0, date : new Date('2/22/2013'), init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 80, date : new Date('2/22/2013'), init : null, finish : 3, stop : false }
+    ];
+    /*
+     Initial setup for Day0 data for adaptation flasks is as follows:
+     FoldIncrease1: 2
+     FoldIncrease2: 4
+     FoldIncrease3: 8
+     AdaptationCriteria: 2
+     A flask will be considered to adapt iff at least two out of three of the growth tests pass.
+     A growth test passes if the parasitemia when the tests finishes divided by the parasitemia when
+     the test starts is greater than the specified FoldIncrease.  For example, a flask will only pass
+     growth test 3 if the (finish parasitemia)/(start parasitemia) > 8.
+
+     For patient 1, test the following scenarios:
+     1. can upload fewer flasks in daily update than the experiment has in day 0
+     2. start a growth test
+     3. flask1 should not adapt even though it passed growth test1 because it is under the adaptation criteria of 2
+     4. flask2 should adapt because it passes two growth tests (1 and 2)
+
+     Patient 2: test the following scenarios
+     1. ensure parasitemia values of 0 are okay throughout the measuerents and don't blow up the queries (flask2)
+     2. ensure that flask maintenance can be stopped (flask5)
+     3. ensure that flask 8 does not adapt because we'll have growth test 2 pass byt 3 fail
+     */
+    var _expectedAdaptCalculations = [{
+        SampleID : 'Patient1Flask1',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 2,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 1,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        NumDaysInCulture : 200,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : 109,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
+    },{
+        SampleID : 'Patient1Flask2',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 2,
+        IncreaseTest2 : 4.25,
+        IncreaseTest3 : 0,
+        PassTest1 : 1,
+        PassTest2 : 1,
+        PassTest3 : 0,
+        NumDaysInCulture : 200,
+        NumDaysToAdaptation : 200,
+        NumDaysToGrowthTestStart : 50,
+        NumDaysFromGrowthTestFinishToAdaptation : 91,
+        SuccessfulAdaptation : 'Yes',
+        AdaptationDate : '7/20/2013'
+    },{
+        SampleID : 'Patient2Flask2',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 1,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 0,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        NumDaysInCulture : 43,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : 41,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
+    },{
+        SampleID : 'Patient2Flask5',
+        MaintenanceStopped : '2/20/2013',
+        IncreaseTest1 : 0,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 0,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        NumDaysInCulture : 41,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : null,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
+    },{
+        SampleID : 'Patient2Flask8',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 0,
+        IncreaseTest2 : 8,
+        IncreaseTest3 : 1.25,
+        PassTest1 : 0,
+        PassTest2 : 1,
+        PassTest3 : 0,
+        NumDaysInCulture : 43,
+        NumDaysToAdaptation : null,
+        NumDaysToGrowthTestStart : null,
+        NumDaysFromGrowthTestFinishToAdaptation : null,
+        SuccessfulAdaptation : 'No',
+        AdaptationDate : null
+    }];
+
+    // Test growth-fold increases just like we did for adaptation.  Add a bunch more days for selection to test
+    // for resistance using the consecutive-days protocol for Patient2.  In particular, pay close attention to the
+    // daily values for Patient2 flasks.  Flask2 should never successfully resist because it never has 3 consecutive
+    // days with a parasitemia value >= .5.  It has 3 overall days, but not consecutive.  Similarly, Flask8 should
+    // show resistance because it does have 3 consecutive days even though the last day it has a parasitemia value that
+    // drops below .5.
+    var _dailySelectMeasurements = [
+        {id : 'Patient1Flask1', parasitemia : 1, date : new Date('2/20/2013'), init : null, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia : .34, date : new Date('2/20/2013'), init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 2, date : new Date('4/20/2013'), init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia :.68, date : new Date('4/20/2013'), init : 2, finish : 1, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 4, date : new Date('7/20/2013'), init : null, finish : 1, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 17, date : new Date('7/20/2013'), init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.1, date : new Date('2/20/2013'), init : 1, finish : 1, stop : false },
+        {id : 'Patient2Flask5', parasitemia : 0.1, date : new Date('2/20/2013'), init : null, finish : null, stop : true },
+        {id : 'Patient2Flask8', parasitemia : 0.1, date : new Date('2/20/2013'), init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.53, date : new Date('2/21/2013'), init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.53, date : new Date('2/21/2013'), init : 3, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.54, date : new Date('2/22/2013'), init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.54, date : new Date('2/22/2013'), init : null, finish : 3, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.49, date : new Date('2/23/2013'), init : null, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.55, date : new Date('2/23/2013'), init : null, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.51, date : new Date('2/24/2013'), init : null, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.49, date : new Date('2/24/2013'), init : null, finish : null, stop : false }
+    ];
+
+    /*
+     Initial setup for Day0 data for slection flasks is as follows:
+     FoldIncrease1: 2
+     FoldIncrease2: 4
+     FoldIncrease3: 8
+     ResistanceNumber: 3 if ResistanceProtocol is 'days'
+     ResistanceNumber: 2 if ResistanceProtocol is 'growth-fold'
+     MinimumParasitemia = 0.5
+
+     Control:
+     Patient1Flask2 has a 'Positive' control
+     Patient2Flask2 has 'No' control
+     all other flasks have 'Negative' control
+
+     Resistance Protocol:
+     Patient2Flask2 and Patient2Flask8 have the 'days' protocol
+     all other flasks have the 'growth-fold' protocol.
+
+     A flask will be considered to have developled resistance (SuccessfulPreliminaryResistance) in the following cases:
+     If the protocol is 'days' then the flask's parasitemia must be > than the miniminm parasitemia specified on day 0
+     for at least 3 days.  If the protocol is 'growth-fold' then the calculation is the same as for adaptation.  Namely
+     the growth-fold increase for each test must be  greater than the day 0 values and the number of growth-fold tests
+     required to pass must be >= to the ResistanceNumber (2 in this case).
+
+     For patient 1, test the following scenarios:
+     1. can upload fewer flasks in daily update than the experiment has in day 0
+     2. start a growth test
+     3. flask1 should not adapt even though it passed growth test1 because it is under the resistance number of 2
+     4. flask2 should resist because it passes two growth tests (1 and 2)
+
+     Patient 2: test the following scenarios
+     1. ensure parasitemia values of 0 are okay throughout the measuerents and don't blow up the queries (flask2)
+     2. ensure that flask maintenance can be stopped (flask5)
+     3. ensure that flask 2 does not have resistance because it doesn't have enough consecutve days
+     4. ensure that flask 8 does have have resistance because it has enough consecutive days
+     5. ensure that neither flask 2 or 8 report that they have passed the growth-fold resistance tests since their
+     protocol is days
+     */
+    var _expectedSelectCalculations = [{
+        SampleID : 'Patient1Flask1',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 2,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 1,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        ConsecutiveDays : null, // protocol is growth-fold so this should be null
+        SuccessfulPreliminaryResistanceGrowthFold : 'No',
+        SuccessfulPreliminaryResistanceDays : null,
+        FirstDayPositiveGrowth : null, // Control is negative, so this should be null
+        FirstDayPositiveResistantPopulation : null // Control is negative so this should be null
+    },{
+        SampleID : 'Patient1Flask2',
+        MaintenanceStopped : null,
+        IncreaseTest1 : 2,
+        IncreaseTest2 : 25,
+        IncreaseTest3 : 0,
+        PassTest1 : 1,
+        PassTest2 : 1,
+        PassTest3 : 0,
+        ConsecutiveDays : null, // protocol is growth-fold so this should be null
+        SuccessfulPreliminaryResistanceGrowthFold : 'Yes',
+        SuccessfulPreliminaryResistanceDays : null,
+        FirstDayPositiveGrowth : '4/20/2013',
+        FirstDayPositiveResistantPopulation : null // Control is 'Positive' so this should be null
+    },{
+        SampleID : 'Patient2Flask2',
+        MaintenanceStopped : null,
+        IncreaseTest1 : null, // protocol is days so no growth-fold calculations or tests
+        IncreaseTest2 : null,
+        IncreaseTest3 : null,
+        PassTest1 : null,
+        PassTest2 : null,
+        PassTest3 : null,
+        ConsecutiveDays: 1,
+        SuccessfulPreliminaryResistanceGrowthFold : null,
+        SuccessfulPreliminaryResistanceDays : 'No',
+        FirstDayPositiveGrowth : null, // Control is 'No' so this should not be null
+        FirstDayPositiveResistantPopulation : '2/21/2013'
+    },{
+        SampleID : 'Patient2Flask5',
+        MaintenanceStopped : '2/20/2013',
+        IncreaseTest1 : 0,
+        IncreaseTest2 : 0,
+        IncreaseTest3 : 0,
+        PassTest1 : 0,
+        PassTest2 : 0,
+        PassTest3 : 0,
+        ConsecutiveDays: null, // protocol is growth-fold so this should be null
+        SuccessfulPreliminaryResistanceGrowthFold : 'No',
+        SuccessfulPreliminaryResistanceDays : null,
+        FirstDayPositiveGrowth : null, // Control is negative, so this should be null
+        FirstDayPositiveResistantPopulation : null // Control is negative so this should be null
+    },{
+        SampleID : 'Patient2Flask8',
+        MaintenanceStopped : null,
+        IncreaseTest1 : null, // protocol is days so no growth-fold calculations or tests
+        IncreaseTest2 : null,
+        IncreaseTest3 : null,
+        PassTest1 : null,
+        PassTest2 : null,
+        PassTest3 : null,
+        ConsecutiveDays: 3,
+        SuccessfulPreliminaryResistanceGrowthFold : null,
+        SuccessfulPreliminaryResistanceDays : 'Yes',
+        FirstDayPositiveGrowth : null, // Control is negative, so this should be null
+        FirstDayPositiveResistantPopulation : null // Control is negative so this should be null
+    }];
+
+    // setup the test and expected results for the passed in flavor of the tracking assay
+    function setupAssayResults(assayName)
+    {
+        _day0Data = [];
+        _dailyData = [];
+        _patientIndex = 0;
+
+        if (assayName == _adaptationAssay)
+        {
+            _assayName = _adaptationAssay;
+            _expectedFlaskFields = _expectedAdaptFlaskFields;
+            _expectedCalculatedFlaskFields = _expectedAdaptCalculatedFlaskFields;
+            _expectedGeneratedFlaskFields = _expectedAdaptGeneratedFlaskFields;
+            _expectedCalculations = _expectedAdaptCalculations;
+            _dailyMeasurements = _dailyAdaptMeasurements;
+
+            generateFlaskData = generateAdaptFlaskData;
+            isSuccessfulCalcField = isAdaptSuccessfulCalcField;
+        }
+        else
+        {
+            _assayName = _selectionAssay;
+            _expectedFlaskFields = _expectedSelectFlaskFields;
+            _expectedCalculatedFlaskFields = _expectedSelectCalculatedFlaskFields;
+            _expectedGeneratedFlaskFields = _expectedSelectGeneratedFlaskFields;
+            _expectedCalculations = _expectedSelectCalculations;
+            _dailyMeasurements = _dailySelectMeasurements;
+
+            generateFlaskData = generateSelectFlaskData;
+            isSuccessfulCalcField = isSelectSuccessfulCalcField;
+        }
+    }
+
+    function switchToSelection()
+    {
+        setupAssayResults(_selectionAssay);
+        runTest();
+    }
 
     function runTest(){
         if (!_stopped) {
@@ -93,11 +436,10 @@
         }
     }
 
-    // test getDay0Configs returns expected
-    // config objects
+    // test getDay0Configs returns expected config objects
     function testDay0Configs()
     {
-        LABKEY.page = createDummyTrackingAssayPage(_adaptationAssay, _adaptationAssayId);
+        LABKEY.page = createDummyTrackingAssayPage(_assayName, _assayId);
         LABKEY.icemr.tracking.getDay0Configs(Day0ConfigsReady);
     }
 
@@ -121,8 +463,7 @@
         runTest();
     }
 
-    // test createExperiment and createFlask return
-    // expected blank objects
+    // test createExperiment and createFlask return expected blank objects
     function testDay0Objects()
     {
         if (!verifyObject(LABKEY.icemr.tracking.createExperiment(), _expectedRunFields))
@@ -135,14 +476,14 @@
         // assay id of the adaptation assay so that
         // we can create a new batch
         LABKEY.Assay.getByName({
-            name: _adaptationAssay,
+            name: _assayName,
             success: AssayIdReady
         });
     }
 
     function AssayIdReady(assays)
     {
-        _adaptationAssayId = assays[0].id;
+        _assayId = assays[0].id;
         runTest();
     }
 
@@ -183,9 +524,9 @@
         // verify that our calculated queries have the right information
         // even with no measurments (daily maintenance tasks)
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _adaptationAssay,
-            queryName  : 'adapted_numDays',
-            parameters : {isSelectionFlask : 0},
+            schemaName : 'assay.Tracking.' + _assayName,
+            queryName  : LABKEY.icemr.tracking.interface.getCalcQuery(),
+            parameters : {isSelectionFlask : LABKEY.icemr.tracking.isSelection ? 1 : 0},
             success: Day0ResultsSuccess
         })
     }
@@ -251,32 +592,32 @@
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
     }
 
-    function testAdaptationRunData()
+    function testTrackingRunData()
     {
         // get the protocolId, batchid, and row id of
         // for our first entered patient.  We need this info to
         // call the gatherRunData API
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _adaptationAssay,
+            schemaName : 'assay.Tracking.' + _assayName,
             queryName  : 'Runs',
             columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
-            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[0].exp.PatientID)],
-            success : SelectAdaptationRunSuccess
+            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[_patientIndex].exp.PatientID)],
+            success : selectTrackingRunSuccess
         });
     }
 
-    function SelectAdaptationRunSuccess(data, response, options)
+    function selectTrackingRunSuccess(data, response, options)
     {
         var row = data.rows[0];
         var protocolId = row["Batch/BatchProtocolId/RowId"];
         var rowId = row["RowId"];
         var batchId = row["Batch/RowId"];
-        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, AdaptationRunDataSuccess)
+        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, trackingRunDataSuccess)
     }
 
-    function AdaptationRunDataSuccess(runData)
+    function trackingRunDataSuccess(runData)
     {
-        if (!validateExperimentData(_day0Data[0].exp, runData))
+        if (!validateExperimentData(_day0Data[_patientIndex].exp, runData))
             logFailure("Experiment data didn't match the run data")
 
         runTest();
@@ -285,7 +626,7 @@
     function testInvalidDailyUploadTooManyFlasks()
     {
         var results = [];
-        var numFlasks = _day0Data[0].flasks.length;
+        var numFlasks = _day0Data[_patientIndex].flasks.length;
 
         // add 1 more flask thatn the day 0 data has
         for (var i = 0; i <= numFlasks; i++)
@@ -301,13 +642,13 @@
         var invalidSample;
         var date = new Date('1/13/13');
 
-        for (var i = 0; i < _day0Data[0].flasks.length; i++)
+        for (var i = 0; i < _day0Data[_patientIndex].flasks.length; i++)
         {
-            var flask = _day0Data[0].flasks[i];
+            var flask = _day0Data[_patientIndex].flasks[i];
             var result = generateDailyData(flask.SampleID, 2, date, null, null, false);
 
             // change last flasks sampleId so that it won't be found
-            if (i == (_day0Data[0].flasks.length-1))
+            if (i == (_day0Data[_patientIndex].flasks.length-1))
             {
                 result.SampleID = result.SampleID + 'unknown';
                 invalidSample = result.SampleID;
@@ -319,105 +660,6 @@
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
-/*
-     Initial setup for Day0 data for all flasks is as follows:
-     FoldIncrease1: 2
-     FoldIncrease2: 4
-     FoldIncrease3: 8
-     AdaptionCriteria: 2
-     A flask will be considered to adapt iff at least two out of three of the growth tests pass.
-     A growth test passes if the parasitemia when the tests finishes divided by the parasitemia when
-     the test starts is greater than the specified FoldIncrease.  For example, a flask will only pass
-     growth test 3 if the (finish parasitemia)/(start parasitemia) > 8.
-
-     For patient 1, test the following scenarios:
-     1. can upload fewer flasks in daily update than the experiment has in day 0
-     2. start a growth test
-     3. flask1 should not adapt even though it passed growth test1 because it is under the adaptation criteria of 2
-     4. flask2 should adapt because it passes two growth tests (1 and 2)
-
-     Patient 2: test the following scenarios
-     1. ensure parasitemia values of 0 are okay throughout the measuerents and don't blow up the queries (flask2)
-     2. ensure that flask maintenance can be stopped (flask5)
-     3. ensure that flask 8 does not adapt because we'll have growth test 2 pass byt 3 fail
-*/
-
-    var _expectedCalculations = [{
-        SampleID : 'Patient1Flask1',
-        MaintenanceStopped : null,
-        IncreaseTest1 : 2,
-        IncreaseTest2 : 0,
-        IncreaseTest3 : 0,
-        PassTest1 : 1,
-        PassTest2 : 0,
-        PassTest3 : 0,
-        NumDaysInCulture : 200,
-        NumDaysToAdaptation : null,
-        NumDaysToGrowthTestStart : 109,
-        NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No',
-        AdaptationDate : null
-        },{
-        SampleID : 'Patient1Flask2',
-        MaintenanceStopped : null,
-        IncreaseTest1 : 2,
-        IncreaseTest2 : 4.25,
-        IncreaseTest3 : 0,
-        PassTest1 : 1,
-        PassTest2 : 1,
-        PassTest3 : 0,
-        NumDaysInCulture : 200,
-        NumDaysToAdaptation : 200,
-        NumDaysToGrowthTestStart : 50,
-        NumDaysFromGrowthTestFinishToAdaptation : 91,
-        SuccessfulAdaptation : 'Yes',
-        AdaptationDate : '7/20/2013'
-        },{
-        SampleID : 'Patient2Flask2',
-        MaintenanceStopped : null,
-        IncreaseTest1 : 1,
-        IncreaseTest2 : 0,
-        IncreaseTest3 : 0,
-        PassTest1 : 0,
-        PassTest2 : 0,
-        PassTest3 : 0,
-        NumDaysInCulture : 43,
-        NumDaysToAdaptation : null,
-        NumDaysToGrowthTestStart : 41,
-        NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No',
-        AdaptationDate : null
-        },{
-        SampleID : 'Patient2Flask5',
-        MaintenanceStopped : '2/20/2013',
-        IncreaseTest1 : 0,
-        IncreaseTest2 : 0,
-        IncreaseTest3 : 0,
-        PassTest1 : 0,
-        PassTest2 : 0,
-        PassTest3 : 0,
-        NumDaysInCulture : 41,
-        NumDaysToAdaptation : null,
-        NumDaysToGrowthTestStart : null,
-        NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No',
-        AdaptationDate : null
-        },{
-        SampleID : 'Patient2Flask8',
-        MaintenanceStopped : null,
-        IncreaseTest1 : 0,
-        IncreaseTest2 : 8,
-        IncreaseTest3 : 1.25,
-        PassTest1 : 0,
-        PassTest2 : 1,
-        PassTest3 : 0,
-        NumDaysInCulture : 43,
-        NumDaysToAdaptation : null,
-        NumDaysToGrowthTestStart : null,
-        NumDaysFromGrowthTestFinishToAdaptation : null,
-        SuccessfulAdaptation : 'No',
-        AdaptationDate : null
-    }];
 
     function testInvalidDailyUploadZeroParasitemia()
     {
@@ -431,14 +673,9 @@
 
     function testDailyUpload1()
     {
-        var results = [];
-        var date = new Date('2/20/2013');
-        results.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
-        // start growth test 1 in flask 2 with parasitemia value of 2
-        results.push(generateDailyData('Patient1Flask2', 2, date, 1, null, false ));
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        dailyUpload('Patient1', new Date('2/20/2013'));
     }
+
 
     function testInvalidDailyUploadMeasurementExists()
     {
@@ -449,93 +686,66 @@
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
-
     function testDailyUpload2()
     {
-        var results = [];
-        var date = new Date('4/20/2013');
-        // start growth test 1 in flask 1 with parasitemia value of 1
-        results.push(generateDailyData('Patient1Flask1', 2, date, 1, null, false));
-        // start growth test 2 in flask 1 with parasitemia value of 4, finish test 1
-        results.push(generateDailyData('Patient1Flask2', 4, date, 2, 1, false ));
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        dailyUpload('Patient1', new Date('4/20/2013'));
     }
 
     function testDailyUpload3()
     {
-        var results = [];
-        var date = new Date('7/20/2013');
-        // finish growth test 1 in flask 1 with parasitemia value of 4
-        results.push(generateDailyData('Patient1Flask1', 4, date, null, 1, false));
-        // finish growth test 2 in flask 2 with parasitemia value of 17
-        results.push(generateDailyData('Patient1Flask2', 17, date, null, 2, false ));
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        dailyUpload('Patient1', new Date('7/20/2013'));
     }
 
-    function testDailyUpload4()
+    function switchPatient()
     {
         // we're switching patients so we need to pretend we are
         // the client UI and do another call to getAdaptationRunData with the right
         // row, protocol, and batch ids.  Also remember to clear out our daily data
         // results since we are switching runs
         _dailyData = [];
+        _patientIndex++;
 
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _adaptationAssay,
+            schemaName : 'assay.Tracking.' + _assayName,
             queryName  : 'Runs',
             columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
-            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[1].exp.PatientID)],
-            success : SelectPatient2Success
+            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[_patientIndex].exp.PatientID)],
+            success : switchPatientSuccess
         });
     }
 
-    function SelectPatient2Success(data, response, options)
+    function switchPatientSuccess(data, response, options)
     {
         var row = data.rows[0];
         var protocolId = row["Batch/BatchProtocolId/RowId"];
         var rowId = row["RowId"];
         var batchId = row["Batch/RowId"];
-        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, testDailyUpload4Finish)
+        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, trackingRunDataSuccess);
     }
 
-    function testDailyUpload4Finish()
+    function testDailyUpload4()
     {
-        var results = [];
-        var date = new Date('2/20/2013');
-        // start and finish growth test 1 with a value of parasitemia value of 0.1 (can't use 0 anymore)
-        results.push(generateDailyData('Patient2Flask2', 0.1, date, 1, 1, false));
-        // stop maintenance on flask 5
-        results.push(generateDailyData('Patient2Flask5', 13, date, null, null, true));
-        // start growhh test 2 with parasitemia value of 8
-        results.push(generateDailyData('Patient2Flask8', 8, date, 2, null, false));
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        dailyUpload('Patient2', new Date('2/20/2013'));
     }
 
     function testDailyUpload5()
     {
-        var results = [];
-        var date = new Date('2/21/2013');
-        // start and finish growth test 2 with a value of parasitemia value of 0
-        results.push(generateDailyData('Patient2Flask2', 0.1, date, 2, null, false));
-        // start growth test 3 with parasitemia value of 64, end growth test 2
-        results.push(generateDailyData('Patient2Flask8', 64, date, 3, 2, false));
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        dailyUpload('Patient2', new Date('2/21/2013'));
     }
 
     function testDailyUpload6()
     {
-        var results = [];
-        var date = new Date('2/22/2013');
-        // ensure we can have a 0 value of parasitemia if we finish a growth test
-        results.push(generateDailyData('Patient2Flask2', 0, date, null, 3, false));
-        // finish growth test 3 with parasiteia value of 80, this is not high enough to pass
-        results.push(generateDailyData('Patient2Flask8', 80, date, null, 3, false));
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
+        dailyUpload('Patient2', new Date('2/22/2013'));
+    }
+
+    function testDailyUpload7()
+    {
+        dailyUpload('Patient2', new Date('2/23/2013'));
+    }
+
+    function testDailyUpload8()
+    {
+        dailyUpload('Patient2', new Date('2/24/2013'));
     }
 
     function testMaintenanceStopped()
@@ -553,14 +763,14 @@
     {
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _adaptationAssay,
-            queryName  : 'adapted_numdays',
-            parameters : {isSelectionFlask : 0},
-            success : SelectCalculationSuccess
+            schemaName : 'assay.Tracking.' + _assayName,
+            queryName  : LABKEY.icemr.tracking.interface.getCalcQuery(),
+            parameters : {isSelectionFlask : LABKEY.icemr.tracking.isSelection ? 1 : 0},
+            success : selectCalculationSuccess
         });
     }
 
-    function SelectCalculationSuccess(data, response, options)
+    function selectCalculationSuccess(data, response, options)
     {
         if (data.rowCount != getTotalFlasks())
             logFailure("incorrect number of flasks returned for calculated query results");
@@ -592,27 +802,55 @@
         var parameters = {
             start : '4/20/2013', // parasitemia value here is 4
             finish : '7/20/2013', // parasitemia value here is 17
-            flaskId : 'Patient1Flask2',
-            isSelectionFlask : 0
+            flaskId : 'Patient1Flask1',
+            isSelectionFlask : LABKEY.icemr.tracking.isSelection ? 1 : 0
         };
 
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _adaptationAssay,
+            schemaName : 'assay.Tracking.' + _assayName,
             queryName  : 'generic_foldincrease',
             parameters : parameters,
-            success : FoldIncreaseCalculatorSuccess
+            success : foldIncreaseCalculatorSuccess
         });
     }
 
-    function FoldIncreaseCalculatorSuccess(data, response, options)
+    function testFirstDayPositiveCalculator()
+    {
+        var parameters = {
+            flaskId : 'Patient2Flask8',
+            parasitemia : .54
+        };
+
+        // verify our calcuations match our expectations
+        LABKEY.Query.selectRows({
+            schemaName : 'assay.Tracking.' + _assayName,
+            queryName  : 'select_generic_firstdaypositive',
+            parameters : parameters,
+            success : firstDayPositiveCalculatorSuccess
+        });
+    }
+
+    function foldIncreaseCalculatorSuccess(data, response, options)
     {
         if (data.rowCount != 1)
             logFailure("unexpected row count returned from the generic_foldincrease query");
 
         var row = data.rows[0];
-        if (row['Increase'] != (17/4))
+        if (row['Increase'] != (4/2))
             logFailure("generic_foldncrease calculation did not return the expected increase");
+
+        runTest();
+    }
+
+    function firstDayPositiveCalculatorSuccess(data, response, options)
+    {
+        if (data.rowCount != 1)
+            logFailure("unexpected row count returned from the select_generic_firstdaypositive query");
+
+        var row = data.rows[0];
+        if (!LABKEY.icemr.compareDate('2/23/2013', row['FirstDayPositive']))
+            logFailure("select_generic_firstdaypositive calculation did not return the expected date");
 
         runTest();
     }
@@ -626,11 +864,36 @@
 
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _adaptationAssay,
+            schemaName : 'assay.Tracking.' + _assayName,
             queryName  : 'generic_numDays',
             parameters : parameters,
             success : NumDaysCalculatorSuccess
         });
+    }
+
+    function testCompounds()
+    {
+        LABKEY.Query.selectRows({
+            schemaName : "icemr",
+            queryName : "lk_compound",
+            success : compoundsSuccess
+        });
+    }
+
+    function compoundsSuccess(data, response, options)
+    {
+        if (data.columnModel.length !=1)
+            logFailure("unexpected column count returned from the lk_compound table");
+        if (data.rowCount != 5)
+            logFailure("unexpected row count returned from the lk_compound table");
+
+        for (var i = 0; i < data.rows.length; i++)
+        {
+            var row = data.rows[i];
+            _selectionCompounds.push(row['compound']);
+        }
+
+        runTest();
     }
 
     function NumDaysCalculatorSuccess(data, response, options)
@@ -659,7 +922,8 @@
     {
         for (key in b)
         {
-            if (key == 'MaintenanceStopped' || key == 'AdaptationDate')
+            if (key == 'MaintenanceStopped' || key == 'AdaptationDate' || key == 'FirstDayPositiveGrowth' ||
+                key == 'FirstDayPositiveResistantPopulation')
             {
                 if (!LABKEY.icemr.compareDate(a[key], b[key]))
                     return false;
@@ -670,6 +934,25 @@
         }
 
         return true;
+    }
+
+    function dailyUpload(patient, date)
+    {
+        var results = [];
+        for (var i = 0; i < _dailyMeasurements.length; i++)
+        {
+            var d = _dailyMeasurements[i];
+            if (isDailyMeasurementApplicable(patient, date, d))
+                results.push(generateDailyData(d['id'],d['parasitemia'],d['date'],d['init'],d['finish'], d['stop']));
+        }
+        storeDailyData(results);
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
+    }
+
+    function isDailyMeasurementApplicable(patient, date, measurement)
+    {
+        var p = measurement['id'].substring(0, 'PatientN'.length);
+        return (p == patient && date.getTime() == measurement['date'].getTime())
     }
 
     function DailyUploadSuccess(result)
@@ -701,15 +984,16 @@
         }
 
         // verify that added calculated columns are present and
-        // all 0 or null (except for SuccessfulAdaptation which should
+        // all 0 or null (except for SuccessfulAdaptation or SuccessfulPreliminaryResistanceGrowthFold which should
         // be "No")
         for (var i = 0; i < _expectedCalculatedFlaskFields.length; i++)
         {
-            if (_expectedCalculatedFlaskFields[i] == 'SuccessfulAdaptation')
+            var calcField = _expectedCalculatedFlaskFields[i];
+            if (isSuccessfulCalcField(flask, calcField))
             {
-                if (flask[_expectedCalculatedFlaskFields[i]] != 'No')
+                if (flask[calcField] != 'No')
                 {
-                    logFailure("Day0 flask result SuccessfulAdaptation is not No.")
+                    logFailure("Day0 flask result " + calcField + " is not No.");
                     return false;
                 }
                 continue;
@@ -724,6 +1008,30 @@
 
         return true;
     }
+
+    function isAdaptSuccessfulCalcField(flask, calcField)
+    {
+        if (calcField == 'SuccessfulAdaptation')
+            return true;
+
+        return false;
+    }
+
+    // selection flask has a different 'successful' column depending
+    // on the 'resistance protocol'
+    function isSelectSuccessfulCalcField(flask, calcField)
+    {
+        if ((flask['ResistanceProtocol'] == 'days') &&
+             calcField == 'SuccessfulPreliminaryResistanceDays')
+            return true;
+
+        if ((flask['ResistanceProtocol'] == 'growth-fold') &&
+             calcField == 'SuccessfulPreliminaryResistanceGrowthFold')
+            return true;
+
+        return false;
+    }
+
 
     function validateDailyData(batch)
     {
@@ -969,7 +1277,7 @@
         // provide a LABKEY page and batch object
         // since these are usually provided in the context
         // of the upload views and the uploadhelper requires it
-        LABKEY.page = createDummyTrackingAssayPage(_adaptationAssay, _adaptationAssayId);
+        LABKEY.page = createDummyTrackingAssayPage(_assayName, _assayId);
         storeDay0Data(exp, flasks);
         LABKEY.icemr.tracking.saveDay0(exp, flasks, success, failure);
     }
@@ -1010,17 +1318,11 @@
         return exp;
     }
 
-    function generateFlaskData(patientId, sampleId)
+    function generateBaseFlaskData(patientId, sampleId, flask)
     {
-        var flask = LABKEY.icemr.tracking.createFlask();
         flask['PatientID'] = patientId;
         flask['SampleID'] =  sampleId;
         flask['Scientist'] = "Maverick";
-        flask['Stage'] = LABKEY.icemr.tracking.stageOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.stageOptions.length)][0];
-        flask['Parasitemia'] = Math.floor(Math.random() * 100);
-        flask['Gametocytemia'] = Math.floor(Math.random() * 100);
-        flask['PatientpRBCs'] = LABKEY.icemr.tracking.pRBCOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.pRBCOptions.length)][0];
-        flask['Hematocrit'] = Math.floor(Math.random() * 100);
         flask['CultureMedia'] = LABKEY.icemr.tracking.cultureMediaOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.cultureMediaOptions.length)][0];
         if (flask['CultureMedia'] == 'serum')
             flask['SerumBatchID'] = 1;
@@ -1029,8 +1331,54 @@
         flask['FoldIncrease1'] = 2;
         flask['FoldIncrease2'] = 4;
         flask['FoldIncrease3'] = 8;
-        flask['AdaptationCriteria'] = 2;
         flask['Comments'] = "this is a comment for flask " + flask['SampleID'];
+    }
+
+    function generateAdaptFlaskData(patientId, sampleId)
+    {
+        var flask = LABKEY.icemr.tracking.createFlask();
+        generateBaseFlaskData(patientId, sampleId, flask);
+
+        flask['Stage'] = LABKEY.icemr.tracking.stageOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.stageOptions.length)][0];
+        flask['Parasitemia'] = Math.floor(Math.random() * 100);
+        flask['Gametocytemia'] = Math.floor(Math.random() * 100);
+        flask['PatientpRBCs'] = LABKEY.icemr.tracking.pRBCOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.pRBCOptions.length)][0];
+        flask['Hematocrit'] = Math.floor(Math.random() * 100);
+        flask['AdaptationCriteria'] = 2;
+        return flask;
+    }
+
+    function generateSelectFlaskData(patientId, sampleId)
+    {
+        var flask = LABKEY.icemr.tracking.createFlask();
+        generateBaseFlaskData(patientId, sampleId, flask);
+        flask['InitialPopulation'] = 5;
+        flask['Compound'] = _selectionCompounds[Math.floor(Math.random() * _selectionCompounds.length)];
+        flask['Concentration'] = 3;
+
+        // ensure Patient1Flask2 control is positive.  Control value determins the First Day Positive
+        // calculators.  If the Control is 'Positive' the we use First Day for Positive Growth.  If the control
+        // is 'No' then we use  First Day Positive for ResistantPopulation
+        if ('Patient1Flask2' == sampleId)
+            flask['Control'] = 'Positive';
+        else if ('Patient2Flask2' == sampleId)
+            flask['Control'] = 'No';
+        else
+            flask['Control'] = 'Negative';
+
+        // Ensure that the protocol for Patient2Flask2 and Patient2Flask8 is days.  The ResistanceProtocl determins
+        // the sucessful preliminary resistance (consecutive days or growth-fold)
+        if ('Patient2Flask2' == sampleId || 'Patient2Flask8' == sampleId)
+            flask['ResistanceProtocol'] = 'days';
+        else
+            flask['ResistanceProtocol'] = 'growth-fold'
+
+        if (flask['ResistanceProtocol'] == 'days')
+            flask['ResistanceNumber'] = 3;
+        else
+            flask['ResistanceNumber'] = 2;
+
+        flask['MinimumParasitemia'] = 0.5;
         return flask;
     }
 
@@ -1111,6 +1459,7 @@
             handler: function(){
                 _startTime = new Date().getTime();
                 LABKEY.icemr.initValidators();
+                setupAssayResults(_adaptationAssay);
                 runTest();
             }
         });
