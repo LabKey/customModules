@@ -564,36 +564,14 @@ public class SpecimenTest extends StudyBaseTestWD
         assertTextPresent(USER2, 4);
 
         log("Check for correct data in notification emails");
-        if (getTableCellText("dataregion_EmailRecord", 2, 0).equals(USER1))
-        {
-            click(Locator.linkContainingText("Specimen Request Notification"));
-            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(1));
-            String bodyText = getText(Locator.id("dataregion_EmailRecord"));
-            Assert.assertTrue(bodyText.contains(_specimen_McMichael));
-            Assert.assertTrue(!bodyText.contains(_specimen_KCMC));
-            click(Locator.linkContainingText("Specimen Request Notification").index(1));
-            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(2));
-            sleep(500); // Avoid WebDriver timeout
-            bodyText = getText(Locator.id("dataregion_EmailRecord"));
-            Assert.assertTrue(bodyText.contains(_specimen_KCMC));
-            DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
-            Assert.assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(1, "Message"));
-        }
-        else
-        {
-            click(Locator.linkContainingText("Specimen Request Notification"));
-            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(1));
-            String bodyText = getText(Locator.id("dataregion_EmailRecord"));
-            Assert.assertTrue(bodyText.contains(_specimen_KCMC));
-            Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
-            click(Locator.linkContainingText("Specimen Request Notification").index(1));
-            _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(2));
-            sleep(500); // Avoid WebDriver timeout
-            bodyText = getText(Locator.id("dataregion_EmailRecord"));
-            Assert.assertTrue(bodyText.contains(_specimen_McMichael));
-            DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
-            Assert.assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(0, "Message"));
-        }
+        int emailIndex = getTableCellText(Locator.id("dataregion_EmailRecord"), 2, 0).equals(USER1) ? 1 : 0;
+        click(Locator.linkContainingText("Specimen Request Notification").index(emailIndex));
+        _shortWait.until(LabKeyExpectedConditions.emailIsExpanded(emailIndex + 1));
+        String bodyText = getText(Locator.id("dataregion_EmailRecord"));
+        Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
+        Assert.assertTrue(bodyText.contains(_specimen_KCMC));
+        DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
+        Assert.assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(emailIndex, "Message"));
 
         String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
         String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
