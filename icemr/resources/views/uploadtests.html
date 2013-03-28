@@ -1179,10 +1179,24 @@
 
     function validateExperimentData(expected, result)
     {
-        if (expected['ExperimentID'] == result['ExperimentID'] &&
-            expected['PatientID'] == result['PatientID'] &&
-                LABKEY.icemr.compareDate(expected['StartDate'], result['StartDate']))
-            return true;
+        if (expected['ExperimentID'] == result['ExperimentID'])
+        {
+            if (expected['PatientID'] == result['PatientID'])
+            {
+                if (LABKEY.icemr.compareDate(expected['StartDate'], result['StartDate']))
+                    return true;
+
+                logMessage("StartDate not equal (expected, result): " + expected['StartDate'] + ", " + result['StartDate']);
+            }
+            else
+            {
+                logMessage("PatientID not equal (expected, result): " + expected['PatientID'] + ", " + result['PatientID']);
+            }
+        }
+        else
+        {
+            logMessage("ExperimentID not equal (expected, result): " + expected['ExperimentID'] + ", " + result['ExperimentID']);
+        }
 
         return false;
     }
@@ -1200,6 +1214,10 @@
                         return false;
             }
             return true;
+        }
+        else
+        {
+            logMessage("Flask properties length are not equal (expected, result): " + expected.length + ", " + "result.length");
         }
 
         return false;
@@ -1426,6 +1444,10 @@
             _logHtml += (newLine ? "<br/>" : "") + newHtml;
             Ext4.get('log-info').update(_logHtml);
         }
+    }
+
+    function logMessage(message) {
+        updateLog(message, true);
     }
 
     function logFailure(message) {
