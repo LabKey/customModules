@@ -31,7 +31,7 @@ SELECT
       COALESCE(LO_CD8, '') ||
       COALESCE(LO_POS, '') ||
       COALESCE(NO_BKG, '') ||
-      CASE WHEN (negctrl_CD4_Resp > 0.1 OR negctrl_CD4_Resp > 0.1) THEN 'HI_BKG ' ELSE '' END)
+      CASE WHEN (negctrl_CD4_Resp > 0.1 OR negctrl_CD8_Resp > 0.1) THEN 'HI_BKG ' ELSE '' END)
     END AS Verdict,
   Run,
   "EXPERIMENT NAME",
