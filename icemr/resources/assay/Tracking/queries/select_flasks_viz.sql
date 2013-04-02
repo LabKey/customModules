@@ -17,7 +17,7 @@
  -- select visualization does not involve day 0 data
 SELECT Run.PatientID, SampleID, MeasurementDate, Stage, Parasitemia, Gametocytemia, NULL As PatientpRBCs, NULL as Hematocrit,
     NULL As CultureMedia, Removed, GrowthFoldTestInitiated, GrowthFoldTestFinished, Contamination, MycoTestResult,
-    FreezerProIDs, FlaskMaintenanceStopped
+    FreezerProIDs, FlaskMaintenanceStopped, DateIndex
 FROM Data
 
 
