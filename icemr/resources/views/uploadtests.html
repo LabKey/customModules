@@ -133,19 +133,19 @@
     // Each row is a daily measurement.  For example, Patient1Flask2 on 4/20/2013 had a parasitemia valud of 4 %, initialied
     // growth-fold test 2 and finished growth-fold test 1.  The flask was not stopped.
     var _dailyAdaptMeasurements = [
-        {id : 'Patient1Flask1', parasitemia : 1, date : new Date('2/20/2013'), init : null, finish : null, stop : false },
-        {id : 'Patient1Flask2', parasitemia : 2, date : new Date('2/20/2013'), init : 1, finish : null, stop : false },
-        {id : 'Patient1Flask1', parasitemia : 2, date : new Date('4/20/2013'), init : 1, finish : null, stop : false },
-        {id : 'Patient1Flask2', parasitemia : 4, date : new Date('4/20/2013'), init : 2, finish : 1, stop : false },
-        {id : 'Patient1Flask1', parasitemia : 4, date : new Date('7/20/2013'), init : null, finish : 1, stop : false },
-        {id : 'Patient1Flask2', parasitemia : 17, date : new Date('7/20/2013'), init : null, finish : 2, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.1, date : new Date('2/20/2013'), init : 1, finish : 1, stop : false },
-        {id : 'Patient2Flask5', parasitemia : 13, date : new Date('2/20/2013'), init : null, finish : null, stop : true },
-        {id : 'Patient2Flask8', parasitemia : 8, date : new Date('2/20/2013'), init : 2, finish : null, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.1, date : new Date('2/21/2013'), init : 2, finish : null, stop : false },
-        {id : 'Patient2Flask8', parasitemia : 64, date : new Date('2/21/2013'), init : 3, finish : 2, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0, date : new Date('2/22/2013'), init : null, finish : 2, stop : false },
-        {id : 'Patient2Flask8', parasitemia : 80, date : new Date('2/22/2013'), init : null, finish : 3, stop : false }
+        {id : 'Patient1Flask1', parasitemia : 1, date : '2/20/2013', init : null, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 2, date : '2/20/2013', init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 2, date : '4/20/2013', init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 4, date : '4/20/2013', init : 2, finish : 1, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 4, date : '7/20/2013', init : null, finish : 1, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 17, date :'7/20/2013', init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.1, date : '2/20/2013', init : 1, finish : 1, stop : false },
+        {id : 'Patient2Flask5', parasitemia : 13, date : '2/20/2013', init : null, finish : null, stop : true },
+        {id : 'Patient2Flask8', parasitemia : 8, date : '2/20/2013', init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.1, date : '2/21/2013', init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 64, date : '2/21/2013', init : 3, finish : 2, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0, date : '2/22/2013', init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 80, date :'2/22/2013', init : null, finish : 3, stop : false }
     ];
     /*
      Initial setup for Day0 data for adaptation flasks is as follows:
@@ -253,23 +253,23 @@
     // show resistance because it does have 3 consecutive days even though the last day it has a parasitemia value that
     // drops below .5.
     var _dailySelectMeasurements = [
-        {id : 'Patient1Flask1', parasitemia : 1, date : new Date('2/20/2013'), init : null, finish : null, stop : false },
-        {id : 'Patient1Flask2', parasitemia : .34, date : new Date('2/20/2013'), init : 1, finish : null, stop : false },
-        {id : 'Patient1Flask1', parasitemia : 2, date : new Date('4/20/2013'), init : 1, finish : null, stop : false },
-        {id : 'Patient1Flask2', parasitemia :.68, date : new Date('4/20/2013'), init : 2, finish : 1, stop : false },
-        {id : 'Patient1Flask1', parasitemia : 4, date : new Date('7/20/2013'), init : null, finish : 1, stop : false },
-        {id : 'Patient1Flask2', parasitemia : 17, date : new Date('7/20/2013'), init : null, finish : 2, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.1, date : new Date('2/20/2013'), init : 1, finish : 1, stop : false },
-        {id : 'Patient2Flask5', parasitemia : 0.1, date : new Date('2/20/2013'), init : null, finish : null, stop : true },
-        {id : 'Patient2Flask8', parasitemia : 0.1, date : new Date('2/20/2013'), init : 2, finish : null, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.53, date : new Date('2/21/2013'), init : 2, finish : null, stop : false },
-        {id : 'Patient2Flask8', parasitemia : 0.53, date : new Date('2/21/2013'), init : 3, finish : null, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.54, date : new Date('2/22/2013'), init : null, finish : 2, stop : false },
-        {id : 'Patient2Flask8', parasitemia : 0.54, date : new Date('2/22/2013'), init : null, finish : 3, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.49, date : new Date('2/23/2013'), init : null, finish : null, stop : false },
-        {id : 'Patient2Flask8', parasitemia : 0.55, date : new Date('2/23/2013'), init : null, finish : null, stop : false },
-        {id : 'Patient2Flask2', parasitemia : 0.51, date : new Date('2/24/2013'), init : null, finish : null, stop : false },
-        {id : 'Patient2Flask8', parasitemia : 0.49, date : new Date('2/24/2013'), init : null, finish : null, stop : false }
+        {id : 'Patient1Flask1', parasitemia : 1, date : '2/20/2013', init : null, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia : .34, date : '2/20/2013', init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 2, date : '4/20/2013', init : 1, finish : null, stop : false },
+        {id : 'Patient1Flask2', parasitemia :.68, date : '4/20/2013', init : 2, finish : 1, stop : false },
+        {id : 'Patient1Flask1', parasitemia : 4, date : '7/20/2013', init : null, finish : 1, stop : false },
+        {id : 'Patient1Flask2', parasitemia : 17, date : '7/20/2013', init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.1, date : '2/20/2013', init : 1, finish : 1, stop : false },
+        {id : 'Patient2Flask5', parasitemia : 0.1, date : '2/20/2013', init : null, finish : null, stop : true },
+        {id : 'Patient2Flask8', parasitemia : 0.1, date : '2/20/2013', init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.53, date : '2/21/2013', init : 2, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.53, date : '2/21/2013', init : 3, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.54, date : '2/22/2013', init : null, finish : 2, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.54, date : '2/22/2013', init : null, finish : 3, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.49, date : '2/23/2013', init : null, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.55, date : '2/23/2013', init : null, finish : null, stop : false },
+        {id : 'Patient2Flask2', parasitemia : 0.51, date : '2/24/2013', init : null, finish : null, stop : false },
+        {id : 'Patient2Flask8', parasitemia : 0.49, date : '2/24/2013', init : null, finish : null, stop : false }
     ];
 
     /*
@@ -640,7 +640,7 @@
     {
         var results = [];
         var invalidSample;
-        var date = new Date('1/13/13');
+        var date = '1/13/13';
 
         for (var i = 0; i < _day0Data[_patientIndex].flasks.length; i++)
         {
@@ -664,7 +664,7 @@
     function testInvalidDailyUploadZeroParasitemia()
     {
         var results = [];
-        var date = new Date('2/20/2013');
+        var date = '2/20/2013';
         // we cannot have a parasitemia value of 0 if a growth test is initiated
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidZeroParasitemia + 'Patient1Flask1';
         results.push(generateDailyData('Patient1Flask1', 0, date, 3, null, false));
@@ -673,14 +673,14 @@
 
     function testDailyUpload1()
     {
-        dailyUpload('Patient1', new Date('2/20/2013'));
+        dailyUpload('Patient1', '2/20/2013');
     }
 
 
     function testInvalidDailyUploadMeasurementExists()
     {
         var results = [];
-        var date = new Date('2/20/2013');
+        var date = '2/20/2013';
         results.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidMeasurementDate + 'Patient1Flask1';
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
@@ -688,12 +688,12 @@
 
     function testDailyUpload2()
     {
-        dailyUpload('Patient1', new Date('4/20/2013'));
+        dailyUpload('Patient1', '4/20/2013');
     }
 
     function testDailyUpload3()
     {
-        dailyUpload('Patient1', new Date('7/20/2013'));
+        dailyUpload('Patient1', '7/20/2013');
     }
 
     function switchPatient()
@@ -725,33 +725,33 @@
 
     function testDailyUpload4()
     {
-        dailyUpload('Patient2', new Date('2/20/2013'));
+        dailyUpload('Patient2', '2/20/2013');
     }
 
     function testDailyUpload5()
     {
-        dailyUpload('Patient2', new Date('2/21/2013'));
+        dailyUpload('Patient2', '2/21/2013');
     }
 
     function testDailyUpload6()
     {
-        dailyUpload('Patient2', new Date('2/22/2013'));
+        dailyUpload('Patient2', '2/22/2013');
     }
 
     function testDailyUpload7()
     {
-        dailyUpload('Patient2', new Date('2/23/2013'));
+        dailyUpload('Patient2', '2/23/2013');
     }
 
     function testDailyUpload8()
     {
-        dailyUpload('Patient2', new Date('2/24/2013'));
+        dailyUpload('Patient2', '2/24/2013');
     }
 
     function testMaintenanceStopped()
     {
         var results = [];
-        var date = new Date('2/22/2013');
+        var date = '2/22/2013';
         // start and finish growth test 2 with a value of parasitemia value of 0
         results.push(generateDailyData('Patient2Flask5', 13, date, 3, 3, false));
         storeDailyData(results);
@@ -952,7 +952,9 @@
     function isDailyMeasurementApplicable(patient, date, measurement)
     {
         var p = measurement['id'].substring(0, 'PatientN'.length);
-        return (p == patient && date.getTime() == measurement['date'].getTime())
+        var d1 = new Date(date);
+        var d2 = new Date(measurement['date']);
+        return (p == patient && d1.getTime() == d2.getTime())
     }
 
     function DailyUploadSuccess(result)
@@ -1331,7 +1333,7 @@
     {
         var exp = LABKEY.icemr.tracking.createExperiment();
         exp.ExperimentID = "Experiment" + num;
-        exp.StartDate = new Date(start);
+        exp.StartDate = start;
         exp.PatientID = "Patient" + num;
         return exp;
     }
