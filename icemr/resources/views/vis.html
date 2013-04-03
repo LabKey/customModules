@@ -267,7 +267,7 @@ Ext4.onReady(function(){
             allowShare: false,
             isDeveloper: false,
             allowEditMode: true,
-            autoColumnXName: 'MeasurementDate',
+            autoColumnXName: 'DateIndex',
             autoColumnYName: 'Parasitemia',
             defaultNumberFormat: Ext.util.Format.numberRenderer('0.00'),
             userFilters: [filter],
@@ -309,8 +309,7 @@ Ext4.onReady(function(){
 
                         scales.x.tickFormat = function(val){
                             if(val !== null && val !== undefined){
-                                val = new Date(val);
-                                return val.format('M d Y');
+                                return "Day " + val;
                             }
                             return '';
                         };
