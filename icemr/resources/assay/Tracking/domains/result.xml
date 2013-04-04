@@ -37,7 +37,7 @@
 </exp:PropertyDescriptor>
 <exp:PropertyDescriptor>
     <exp:Name>Stage</exp:Name>
-    <exp:Description>Stage (rings, trophozoites, schizonts, mixed</exp:Description>
+    <exp:Description>Stage (none, gametocyte, rings, trophozoites, schizonts, mixed</exp:Description>
     <exp:Required>true</exp:Required>
     <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
     <exp:Label>Stage</exp:Label>
