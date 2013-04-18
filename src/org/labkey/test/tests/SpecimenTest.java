@@ -143,7 +143,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickButton("Save", 0);
         waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
-        clickAndWait(Locator.linkWithText(getFolderName()));
+        clickFolder(getFolderName());
         waitAndClick(Locator.linkWithText("Manage Study"));
         waitAndClick(Locator.linkWithText("Manage Requestability Rules"));
         // Verify that LOCKED_IN_REQUEST is the last rule
@@ -597,7 +597,7 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod
     private void verifyRequestCancel()
     {
-        clickFolder(getProjectName());
+        clickProject(getProjectName());
         clickFolder(getFolderName());
 
         waitAndClick(Locator.linkWithText("Specimen Requests"));
@@ -655,7 +655,7 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod
     private void verifyRequestingLocationRestriction()
     {
-        clickFolder(getProjectName());
+        clickProject(getProjectName());
         clickFolder(getFolderName());
 
         verifyRequestingLocationCounts(StudyLocationType.values()); // All locations should be enabled by default
@@ -672,7 +672,7 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod
     private void verifySpecimenTableAttachments()
     {
-        clickFolder(getProjectName());
+        clickProject(getProjectName());
         clickFolder(getFolderName());
 
         log("Setup Excel specimen attachment");
@@ -742,7 +742,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickButton("Deactivate");
         assertTextNotPresent(USER2);
 
-        clickFolder(getProjectName());
+        clickProject(getProjectName());
         clickFolder(getFolderName());
 
         waitAndClick(Locator.linkWithText("Specimen Requests"));
@@ -840,7 +840,7 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod
     private void verifySpecimenGroupings()
     {
-        clickFolder(getProjectName());
+        clickProject(getProjectName());
         clickFolder(getFolderName());
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
