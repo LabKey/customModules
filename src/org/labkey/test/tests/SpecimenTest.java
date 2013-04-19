@@ -912,7 +912,7 @@ public class SpecimenTest extends StudyBaseTestWD
     private void searchTest()
     {
         goToProjectHome();
-         clickAndWait(Locator.linkContainingText(getFolderName()));
+        clickFolder(getFolderName());
         clickTab("Specimen Data");
         waitForVialSearch();
         Ext4FieldRefWD additiveType = Ext4FieldRefWD.getForLabel(this, "Additive Type");
