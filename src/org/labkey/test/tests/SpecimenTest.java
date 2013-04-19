@@ -170,7 +170,7 @@ public class SpecimenTest extends StudyBaseTestWD
     private void checkTubeType()
     {
         // Field check for Tube Type column (including conflict)
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
         addWebPart("Specimens");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
@@ -210,7 +210,7 @@ public class SpecimenTest extends StudyBaseTestWD
         setFormElement(Locator.name("names"), USER2);
         uncheckCheckbox("sendEmail");
         clickAndWait(Locator.linkWithText("Update Members"));
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
     }
 
     @LogMethod (quiet = true)
@@ -242,14 +242,14 @@ public class SpecimenTest extends StudyBaseTestWD
         setFormElement(Locator.xpath("//descendant::input[@name='helpText'][4]"), "A test input");
         click(Locator.xpath("//descendant::input[@name='required'][4]"));
         clickButton("Save");
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
     }
 
     @LogMethod
     private void setupActorNotification()
     {
         log("Check Configure Defaults for Actor Notification");
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Manage"));
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         assertTextPresent("Default Email Recipients");
@@ -261,7 +261,7 @@ public class SpecimenTest extends StudyBaseTestWD
     private void uploadSpecimensFromFile()
     {
         log("Check Upload Specimen List from file");
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
         waitAndClick(Locator.linkWithText("Specimen Requests")); // expand node in Specimens webpart
         clickAndWait(Locator.linkWithText("Create New Request"));
@@ -315,7 +315,7 @@ public class SpecimenTest extends StudyBaseTestWD
     @LogMethod
     private void createRequest()
     {
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
         click(Locator.linkWithText("Vials by Derivative Type"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
@@ -354,7 +354,7 @@ public class SpecimenTest extends StudyBaseTestWD
         // verify that the swab specimen isn't present yet
         assertTextNotPresent("DAA07YGW-01");
         assertTextNotPresent("Complete");
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
 
         // add additional specimens
         clickAndWait(Locator.linkWithText("Specimen Data"));
@@ -475,7 +475,7 @@ public class SpecimenTest extends StudyBaseTestWD
         popLocation();
 
         log("verifying column changes");
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
         waitAndClick(Locator.linkWithText("Specimen Requests")); // expand node in Specimens webpart
         clickAndWait(Locator.xpath("//a[text() = 'View Current Requests']"));
@@ -612,7 +612,7 @@ public class SpecimenTest extends StudyBaseTestWD
         clickButton("Cancel Request", 0);
         assertAlert("Canceling will permanently delete this pending request.  Continue?");
         waitForText("No data to show.");
-        clickAndWait(Locator.linkWithText(getStudyLabel()));
+        clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
         click(Locator.linkWithText("Vials by Derivative Type"));
         waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
