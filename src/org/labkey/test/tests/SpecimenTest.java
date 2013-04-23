@@ -172,7 +172,7 @@ public class SpecimenTest extends StudyBaseTestWD
         // Field check for Tube Type column (including conflict)
         clickFolder(getStudyLabel());
         addWebPart("Specimens");
-        clickAndWait(Locator.linkWithText("By Individual Vial"));
+        waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
         setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
         assertLinkPresentWithTextCount("[history]", 1);
