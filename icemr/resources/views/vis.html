@@ -314,6 +314,10 @@ Ext4.onReady(function(){
                             return '';
                         };
 
+                        // We're cheating a bit here since we could override the configureAxes function, however I'd rather
+                        // not roll my own y-axis configurator at the moment.
+                        scales.x.scaleType = 'discrete';
+
                         return {
                             renderTo: renderTo,
                             width: width,
