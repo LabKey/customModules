@@ -124,6 +124,47 @@ public class SpecimenTest extends StudyBaseTestWD
         verifySpecimenTableAttachments();
         searchTest();
         verifySpecimenGroupings();
+        verifyRequestEnabled();
+        disableRequests();
+        verifyRequestsDisabled();
+    }
+
+    private void disableRequests()
+    {
+        clickFolder(getFolderName());
+        assertTextPresent("Specimen Requests");
+        waitAndClick(Locator.linkWithText("Manage Study"));
+        waitAndClick(Locator.linkWithText("Change Repository Type"));
+        Locator disableRequestsRadio = Locator.radioButtonByNameAndValue("enableRequests", "false");
+        waitForElement(disableRequestsRadio);
+        checkRadioButton(disableRequestsRadio);
+        clickButton("Submit");
+    }
+
+    private void verifyRequestEnabled()
+    {
+        clickFolder(getFolderName());
+        assertTextPresent("Specimen Requests");
+        click(Locator.linkWithText("By Individual Vial"));
+        assertElementPresent(Locator.navButton("Request Options"));
+        assertTextPresent("Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count");
+        click(Locator.linkWithText("Reports"));
+        assertTextPresent("Requested Vials by Type and Timepoint", "Request Summary");
+        clickButton("View");
+        assertTextPresent("Availability status");
+    }
+
+    private void verifyRequestsDisabled()
+    {
+        clickFolder(getFolderName());
+        assertTextNotPresent("Specimen Requests");
+        click(Locator.linkWithText("By Individual Vial"));
+        assertElementNotPresent(Locator.navButton("Request Options"));
+        assertTextNotPresent("Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count");
+        click(Locator.linkWithText("Reports"));
+        assertTextNotPresent("Requested Vials by Type and Timepoint", "Request Summary");
+        clickButton("View");
+        assertTextNotPresent("Availability status");
     }
 
     @LogMethod
