@@ -360,8 +360,7 @@ function onRunDataReady(runData)
 
     var addFlask = function(){
         numFlasks++;
-        fp.width += 175;
-        _flasksPanel.add(            {
+        var addCol = Ext4.create('Ext.form.FieldContainer', {
             xtype : 'fieldcontainer',
             id : 'flask ' + numFlasks,
             layout : {
@@ -369,12 +368,14 @@ function onRunDataReady(runData)
                 defaultMargins : '2 10 2 10'
             },
             items : getFlaskConfigs(),
-            listeners : {
-                fieldvaliditychange : function(){
-                    adjustSizes();
-                }
+                listeners : {
+            fieldvaliditychange : function(){
+                adjustSizes();
             }
-        });
+        }
+    } );
+        fp.width += addCol.getWidth();
+        _flasksPanel.add(addCol);
         _flasksPanel.doLayout();
         fp.doLayout();
     };

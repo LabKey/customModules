@@ -96,6 +96,7 @@ function handleError(msg, reset)
 }
 
 //If this doesn't happen late on, it doesn't work
+//TODO: find a way to do this better
 function adjustSizes()
 {
     for(var i = 1; i < Ext4.getCmp('flasksBox').items.items.length; i++)
@@ -202,9 +203,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
 
     var addFlask = function(){
         numFlasks++;
-        fp.width += 183;
-        flasksBox.add(            {
-            xtype : 'fieldcontainer',
+        var addCol = Ext4.create('Ext.form.FieldContainer', {
             id : 'flask ' + numFlasks,
             layout : {
                 type : 'vbox',
@@ -217,18 +216,21 @@ function onConfigsReady(runConfigs, flaskConfigs)
                 }
             }
         });
+        flasksBox.add(addCol);
+        fp.setWidth(fp.getWidth() + addCol.getWidth());
         flasksBox.doLayout();
         adjustSizes();
     };
 
     var removeFlask = function(){
         if(numFlasks != 1){
-            fp.width -= 175;
+            fp.width -= flasksBox.getComponent('flask ' + numFlasks).getWidth();
             flasksBox.remove('flask ' + numFlasks, true);
             numFlasks--;
             flasksBox.doLayout();
+            adjustSizes();
         }
-    }
+    };
 
     //
     // Create our form with two containers to separate
