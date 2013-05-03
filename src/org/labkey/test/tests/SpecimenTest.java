@@ -145,10 +145,10 @@ public class SpecimenTest extends StudyBaseTestWD
     {
         clickFolder(getFolderName());
         assertTextPresent("Specimen Requests");
-        click(Locator.linkWithText("By Individual Vial"));
+        clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementPresent(Locator.navButton("Request Options"));
         assertTextPresent("Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count");
-        click(Locator.linkWithText("Reports"));
+        clickAndWait(Locator.linkWithText("Reports"));
         assertTextPresent("Requested Vials by Type and Timepoint", "Request Summary");
         clickButton("View");
         assertTextPresent("Availability status");
@@ -158,10 +158,10 @@ public class SpecimenTest extends StudyBaseTestWD
     {
         clickFolder(getFolderName());
         assertTextNotPresent("Specimen Requests");
-        click(Locator.linkWithText("By Individual Vial"));
+        clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementNotPresent(Locator.navButton("Request Options"));
         assertTextNotPresent("Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count");
-        click(Locator.linkWithText("Reports"));
+        clickAndWait(Locator.linkWithText("Reports"));
         assertTextNotPresent("Requested Vials by Type and Timepoint", "Request Summary");
         clickButton("View");
         assertTextNotPresent("Availability status");
