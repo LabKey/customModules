@@ -361,21 +361,20 @@ function onRunDataReady(runData)
     var addFlask = function(){
         numFlasks++;
         var addCol = Ext4.create('Ext.form.FieldContainer', {
-            xtype : 'fieldcontainer',
             id : 'flask ' + numFlasks,
             layout : {
                 type : 'vbox',
                 defaultMargins : '2 10 2 10'
             },
             items : getFlaskConfigs(),
-                listeners : {
-            fieldvaliditychange : function(){
-                adjustSizes();
+            listeners : {
+                fieldvaliditychange : function(){
+                    adjustSizes();
+                }
             }
-        }
-    } );
-        fp.width += addCol.getWidth();
+        });
         _flasksPanel.add(addCol);
+        fp.setWidth(fp.getWidth() + addCol.getWidth())
         _flasksPanel.doLayout();
         fp.doLayout();
     };
