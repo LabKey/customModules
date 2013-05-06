@@ -144,9 +144,7 @@ viscstudies/resources/views/updateStudyProperties.html -text
 viscstudies/resources/views/updateStudyProperties.view.xml -text
 viscstudies/src/org/labkey/viscstudies/DatasetListWithStatusColumn.java -text
 viscstudies/src/org/labkey/viscstudies/ProjectStudiesTable.java -text
-viscstudies/src/org/labkey/viscstudies/ViscStudiesContainerListener.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudiesController.java -text
-viscstudies/src/org/labkey/viscstudies/ViscStudiesManager.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudiesModule.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderTabs.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderType.java -text

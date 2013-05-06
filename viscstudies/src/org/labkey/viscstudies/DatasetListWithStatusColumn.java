@@ -47,7 +47,7 @@ public class DatasetListWithStatusColumn extends DataColumn
 
     static
     {
-        Map<String, String> paths = new CaseInsensitiveHashMap<String>();
+        Map<String, String> paths = new CaseInsensitiveHashMap<>();
         paths.put("Final", AppProps.getInstance().getContextPath() + "/reports/icon_final.png");
         paths.put("Draft", AppProps.getInstance().getContextPath() + "/reports/icon_draft.png");
         paths.put("Locked", AppProps.getInstance().getContextPath() + "/reports/icon_locked.png");

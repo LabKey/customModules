@@ -17,7 +17,6 @@
 package org.labkey.viscstudies;
 
 import org.labkey.api.data.Container;
-import org.labkey.api.data.ContainerManager;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.ModuleLoader;
@@ -65,8 +64,6 @@ public class ViscStudiesModule extends DefaultModule
 
     public void doStartup(ModuleContext moduleContext)
     {
-        // add a container listener so we'll know when our container is deleted:
-        ContainerManager.addContainerListener(new ViscStudiesContainerListener());
         ModuleLoader.getInstance().registerFolderType(this, new ViscStudyFolderType(this));
     }
 
@@ -75,5 +72,4 @@ public class ViscStudiesModule extends DefaultModule
     {
         return Collections.emptyList();
     }
-
 }
