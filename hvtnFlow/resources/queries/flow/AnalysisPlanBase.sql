@@ -17,12 +17,12 @@ SELECT
 CONVERT('HVTN', 'VARCHAR') AS NETWORK,
 FCSAnalyses.FCSFile.Sample.Property.PROTOCOL AS PROTOCOL,
 'FH' AS LABID,
-COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Keyword."EXPERIMENT NAME"), FCSAnalyses.FCSFile.Run) AS ASSAYID,
+COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Keyword."EXPERIMENT NAME"), FCSAnalyses.FCSFile.Run.Name) AS ASSAYID,
 CASE
   WHEN FCSAnalyses.FCSFile.Sample.Property.PTID LIKE 'FH%' THEN 'QC'
   ELSE 'Sample'
 END AS SPECROLE,
-FCSAnalyses.FCSFile.Sample.Property.PTID,
+COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTID), IFDEFINED(FCSAnalyses.FCSFile.Keyword.Sample)) AS PTID,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.PTIDTYPE),'S') AS PTIDTYPE,
 NULL AS STDY_DESC,
 FCSAnalyses.FCSFile.Sample.Property.VISITNO,
@@ -85,4 +85,6 @@ FCSAnalyses.FCSFile.Sample as _sample
 FROM FCSAnalyses INNER JOIN Project.lists.AnalysisPlans AS Subsets ON 1=1
 
 WHERE
+  FCSAnalyses.FCSFile.Keyword."Sample Order" IS NULL OR
   FCSAnalyses.FCSFile.Keyword."Sample Order" NOT IN ('PBS','Comp')
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 LabKey Corporation
+ * Copyright (c) 2011-2013 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 SELECT 
-A._sample.property.NETWORK as NETWORK,
---A.NETWORK, 
+--A._sample.property.NETWORK as NETWORK,
+A.NETWORK, 
 A.PROTOCOL,
 A.LABID,
 A.ASSAYID,
 A.SPECROLE,
 A.PTID,
-A._sample.property.PTIDTYPE as PTIDTYPE,
---A.PTIDTYPE,
+--A._sample.property.PTIDTYPE as PTIDTYPE,
+A.PTIDTYPE,
+A.SPECTYPE,
+A.ISOLATION,
+A.ADDITIVE,
+A.CRYOSTAT,
 A.CTRSAMPNAME,
 A.STDY_DESC,
 A.VISITNO,
@@ -47,21 +51,21 @@ A.SUBSET7, A.SUBSET7_NUM,
 A.SUBSET8, A.SUBSET8_NUM,
 A.SUBSET9, A.SUBSET9_NUM,
 A.SUBSET10, A.SUBSET10_NUM,
+
 NULL AS NUMVIALS,
+A.RUNGROUPID,
 NULL AS VIAL1_ID,
 NULL AS VIAL2_ID,
 NULL AS VIAL3_ID,
 NULL AS VIAL4_ID,
---A._fcsfile.Sample.Property.NUMVIALS,
---A._fcsfile.Sample.Property.VIAL1_ID,
---A._fcsfile.Sample.Property.VIAL2_ID,
---A._fcsfile.Sample.Property.VIAL3_ID,
---A._fcsfile.Sample.Property.VIAL4_ID,
+NULL AS VIAL5_ID,
 A.PREFRZCT,
 A.VIABL1,
 A.RECOVR1,
+NULL AS CD3GUAVA1,
 A.VIABL2,
 A.RECOVR2,
+NULL AS CD3GUAVA2,
 A.METHOD,
 A.REPLACE,
 A.MODDT,
