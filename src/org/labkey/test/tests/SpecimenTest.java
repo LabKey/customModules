@@ -190,14 +190,9 @@ public class SpecimenTest extends StudyBaseTestWD
         // Verify that LOCKED_IN_REQUEST is the last rule
         waitForElement(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
         click(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
-        // Verify that LOCKED_IN_REQUEST rule cannot be moved or deleted
-        assertElementPresent(Locator.xpath("//table[@id='btn_deleteEngine' and contains(@class, 'x-item-disabled')]"));
-        assertElementPresent(Locator.xpath("//table[@id='btn_moveUp' and contains(@class, 'x-item-disabled')]"));
-        assertElementPresent(Locator.xpath("//table[@id='btn_moveDown' and contains(@class, 'x-item-disabled')]"));
+
         click(Locator.xpath("//div[contains(@class, 'x-grid3-col-numberer') and text()='2']"));
-        assertElementPresent(Locator.xpath("//table[@id='btn_deleteEngine' and not(contains(@class, 'x-item-disabled'))]"));
-        assertElementPresent(Locator.xpath("//table[@id='btn_moveUp' and not(contains(@class, 'x-item-disabled'))]"));
-        assertElementPresent(Locator.xpath("//table[@id='btn_moveDown' and contains(@class, 'x-item-disabled')]"));
+
         clickButton("Add Rule", 0);
         click(Locator.menuItem("Custom Query"));
         _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_schema']"), "study" );
@@ -320,10 +315,10 @@ public class SpecimenTest extends StudyBaseTestWD
         waitForElement(Locator.xpath("//textarea[@id='tsv3']"));
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // try to add again
         clickButton("Submit", 0);    // Submit button
-        waitForText("Specimen AAA07XK5-01 not available", 20000);
+        waitForText("Specimen AAA07XK5-01 is unavailable", 20000);
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-02");     // try to add one that doesn't exist
         clickButton("Submit", 0);    // Submit button
-        waitForText("Specimen AAA07XK5-02 not available", 20000);
+        waitForText("Specimen AAA07XK5-02 is unavailable", 20000);
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03");     // add different one
         clickButton("Submit");    // Submit button
     }
