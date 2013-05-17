@@ -41,19 +41,10 @@ import java.util.List;
  * Date: Mar 9, 2006
  * Time: 1:54:57 PM
  */
-public class SpecimenTest extends StudyBaseTestWD
+public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
-    public static final String SPECIMEN_DETAIL = "SpecimenDetail";
-    private static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Endpoint Lab, Repository)";
-    private static final String SOURCE_SITE = "Contract Lab Services, Johannesburg, South Africa (Repository, Clinic)";
-    private static final String USER1 = "user1@specimen.test";
-    private static final String USER2 = "user2@specimen.test";
-    private static final String REQUESTABILITY_QUERY = "RequestabilityRule";
-    private static final String UNREQUESTABLE_SAMPLE = "BAA07XNP-02";
     private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
-    private static final String[] PTIDS = {"999320396","999320812"};
-    private int _requestId;
 
 
     public String getAssociatedModuleDirectory()
@@ -71,13 +62,6 @@ public class SpecimenTest extends StudyBaseTestWD
     protected boolean isFileUploadTest()
     {
         return true;
-    }
-
-    @Override
-    protected void doCleanup(boolean afterTest) throws TestTimeoutException
-    {
-        deleteUsers(afterTest, USER1, USER2);
-        super.doCleanup(afterTest);
     }
 
     @Override
@@ -225,72 +209,6 @@ public class SpecimenTest extends StudyBaseTestWD
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
         assertTextPresent("15ml Cryovial", 3);
-    }
-
-    @LogMethod
-    private void setupActorsAndGroups()
-    {
-        clickAndWait(Locator.linkWithText("Manage Actors and Groups"));
-        setFormElement(Locator.name("newLabel"), "SLG");
-        selectOptionByText(Locator.name("newPerSite"), "One Per Study");
-        clickButton("Save");
-        clickAndWait(Locator.linkWithText("Update Members"));
-        setFormElement(Locator.name("names"), USER1);
-        uncheckCheckbox("sendEmail");
-        clickButton("Update Members");
-        setFormElement(Locator.name("newLabel"), "IRB");
-        selectOptionByText(Locator.name("newPerSite"), "Multiple Per Study (Location Affiliated)");
-        clickButton("Save");
-        clickAndWait(Locator.linkWithText("Update Members").index(1));
-        clickAndWait(Locator.linkWithText(DESTINATION_SITE));
-        setFormElement(Locator.name("names"), USER2);
-        uncheckCheckbox("sendEmail");
-        clickAndWait(Locator.linkWithText("Update Members"));
-        clickFolder(getStudyLabel());
-    }
-
-    @LogMethod (quiet = true)
-    private void setupDefaultRequirements()
-    {
-        clickAndWait(Locator.linkWithText("Manage Study"));
-        clickAndWait(Locator.linkWithText("Manage Default Requirements"));
-        selectOptionByText(Locator.name("originatorActor"), "IRB");
-        setFormElement(Locator.name("originatorDescription"), "Originating IRB Approval");
-        clickButton("Add Requirement");
-        selectOptionByText(Locator.name("providerActor"), "IRB");
-        setFormElement(Locator.name("providerDescription"), "Providing IRB Approval");
-        clickAndWait(Locator.xpath("//input[@name='providerDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
-        selectOptionByText(Locator.name("receiverActor"), "IRB");
-        setFormElement(Locator.name("receiverDescription"), "Receiving IRB Approval");
-        clickAndWait(Locator.xpath("//input[@name='receiverDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
-        selectOptionByText(Locator.name("generalActor"), "SLG");
-        setFormElement(Locator.name("generalDescription"), "SLG Approval");
-        clickAndWait(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
-        clickTab("Manage");
-    }
-
-    @LogMethod (quiet = true)
-    private void setupRequestForm()
-    {
-        clickAndWait(Locator.linkWithText("Manage New Request Form"));
-        clickButton("Add New Input", 0);
-        setFormElement(Locator.xpath("//descendant::input[@name='title'][4]"), "Last One");
-        setFormElement(Locator.xpath("//descendant::input[@name='helpText'][4]"), "A test input");
-        click(Locator.xpath("//descendant::input[@name='required'][4]"));
-        clickButton("Save");
-        clickFolder(getStudyLabel());
-    }
-
-    @LogMethod
-    private void setupActorNotification()
-    {
-        log("Check Configure Defaults for Actor Notification");
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Manage"));
-        clickAndWait(Locator.linkWithText("Manage Notifications"));
-        assertTextPresent("Default Email Recipients");
-        checkRadioButton("defaultEmailNotify", "All");
-        clickButton("Save");
     }
 
     @LogMethod
