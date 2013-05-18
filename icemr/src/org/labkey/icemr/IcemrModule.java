@@ -20,12 +20,18 @@ import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.query.QueryService;
+import org.labkey.api.study.PlateService;
+import org.labkey.api.study.assay.AssayService;
 import org.labkey.api.view.WebPartFactory;
+import org.labkey.icemr.assay.DrugSensitivityAssayProvider;
+import org.labkey.icemr.assay.DrugSensitivityDataHandler;
+import org.labkey.icemr.assay.DrugSensitivityPlateTypeHandler;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -82,6 +88,9 @@ public class IcemrModule extends DefaultModule
                 }
             });
         }
+        AssayService.get().registerAssayProvider(new DrugSensitivityAssayProvider());
+        ExperimentService.get().registerExperimentDataHandler(new DrugSensitivityDataHandler());
+        PlateService.get().registerPlateTypeHandler(new DrugSensitivityPlateTypeHandler());
     }
 
     @Override

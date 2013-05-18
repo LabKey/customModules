@@ -116,6 +116,15 @@ icemr/src/org/labkey/icemr/IcemrController.java -text
 icemr/src/org/labkey/icemr/IcemrManager.java -text
 icemr/src/org/labkey/icemr/IcemrModule.java -text
 icemr/src/org/labkey/icemr/IcemrSchema.java -text
+icemr/src/org/labkey/icemr/assay/DrugSensitivityAssayProvider.java -text
+icemr/src/org/labkey/icemr/assay/DrugSensitivityAssayRun.java -text
+icemr/src/org/labkey/icemr/assay/DrugSensitivityDataHandler.java -text
+icemr/src/org/labkey/icemr/assay/DrugSensitivityManager.java -text
+icemr/src/org/labkey/icemr/assay/DrugSensitivityPlateTypeHandler.java -text
+icemr/src/org/labkey/icemr/assay/DrugSensitivityProtocolSchema.java -text
+icemr/src/org/labkey/icemr/assay/actions/DrugSensitivityRunUploadForm.java -text
+icemr/src/org/labkey/icemr/assay/actions/DrugSensitivityUploadWizardAction.java -text
+icemr/src/org/labkey/icemr/assay/query/DrugSensitivityResultsTable.java -text
 ms2extensions/Ms2extensions.iml -text
 ms2extensions/module.properties -text
 ms2extensions/resources/folderTypes/MS2Extensions.folderType.xml -text
