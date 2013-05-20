@@ -7,16 +7,20 @@ import org.labkey.api.assay.dilution.DilutionAssayProvider;
 import org.labkey.api.assay.dilution.DilutionDataHandler;
 import org.labkey.api.assay.dilution.DilutionRunUploadForm;
 import org.labkey.api.assay.dilution.query.DilutionProviderSchema;
+import org.labkey.api.assay.nab.NabSpecimen;
 import org.labkey.api.data.Container;
 import org.labkey.api.exp.PropertyType;
+import org.labkey.api.exp.api.ExpData;
 import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExpRun;
+import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.exp.api.IAssayDomainType;
 import org.labkey.api.exp.property.Domain;
 import org.labkey.api.exp.property.DomainProperty;
 import org.labkey.api.exp.property.Lookup;
 import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.pipeline.PipelineProvider;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryView;
 import org.labkey.api.security.User;
 import org.labkey.api.study.actions.AssayRunUploadForm;
@@ -27,6 +31,7 @@ import org.labkey.api.study.assay.AssayPipelineProvider;
 import org.labkey.api.study.assay.AssayProtocolSchema;
 import org.labkey.api.study.assay.AssayProviderSchema;
 import org.labkey.api.study.assay.AssaySchema;
+import org.labkey.api.study.assay.AssayTableMetadata;
 import org.labkey.api.study.assay.AssayUrls;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.UniqueID;
@@ -115,10 +120,35 @@ public class DrugSensitivityAssayProvider extends AbstractDilutionAssayProvider<
         addProperty(domain, COMMENTS_PROPERTY_NAME, COMMENTS_PROPERTY_NAME, PropertyType.STRING);
     }
 
+    @NotNull
+    @Override
+    public AssayTableMetadata getTableMetadata(@NotNull ExpProtocol protocol)
+    {
+        return new AssayTableMetadata(
+                this,
+                protocol,
+                FieldKey.fromParts("Run"),
+                FieldKey.fromParts("Run"),
+                FieldKey.fromParts("RowId"));
+    }
+
     @Override
     public DilutionDataHandler getDataHandler()
     {
         return new DrugSensitivityDataHandler();
+    }
+
+    @Override
+    public ExpData getDataForDataRow(Object dataRowId, ExpProtocol protocol)
+    {
+        if (!(dataRowId instanceof Integer))
+            return null;
+
+        // dataRowId is NabSpecimen rowId
+        NabSpecimen nabSpecimen = DrugSensitivityManager.get().getNabSpecimen((Integer)dataRowId);
+        if (null != nabSpecimen)
+            return ExperimentService.get().getExpData(nabSpecimen.getDataId());
+        return null;
     }
 
     @Override
