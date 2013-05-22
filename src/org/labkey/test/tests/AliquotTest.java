@@ -20,11 +20,9 @@ import org.labkey.test.Locator;
 import org.labkey.test.util.LogMethod;
 
 /**
- * Created with IntelliJ IDEA.
  * User: davebradlee
  * Date: 5/14/13
  * Time: 1:44 PM
- * To change this template use File | Settings | File Templates.
  */
 public class AliquotTest extends SpecimenBaseTest
 {
