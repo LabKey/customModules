@@ -104,6 +104,13 @@ public class ViscStudyFolderTabs
             actionURL.addParameter("panel", getPanelName());
             return actionURL;
         }
+
+        @Override
+        public boolean isVisible(Container c, User user)
+        {
+            Study study = StudyService.get().getStudy(c);
+            return (study != null);
+        }
     }
 
     public static class VaccineDesignPage extends VaccineProtocolPage
@@ -190,13 +197,6 @@ public class ViscStudyFolderTabs
             parts.add(filesWebPart);
 
             return parts;
-        }
-
-        @Override
-        public boolean isVisible(Container c, User user)
-        {
-            Study study = StudyService.get().getStudy(c);
-            return (study != null && !study.isEmptyStudy());
         }
     }
 
