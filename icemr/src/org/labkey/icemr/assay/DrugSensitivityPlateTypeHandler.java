@@ -39,9 +39,11 @@ public class DrugSensitivityPlateTypeHandler extends AbstractPlateTypeHandler
     {
         PlateTemplate template = PlateService.get().createPlateTemplate(container, getAssayType(), rowCount, colCount);
 
+/*
         template.addWellGroup(DilutionManager.CELL_CONTROL_SAMPLE, WellGroup.Type.CONTROL,
                 PlateService.get().createPosition(container, 0, template.getColumns() - 1),
                 PlateService.get().createPosition(container, template.getRows() - 1, template.getColumns() - 1));
+*/
         template.addWellGroup(DilutionManager.VIRUS_CONTROL_SAMPLE, WellGroup.Type.CONTROL,
                 PlateService.get().createPosition(container, 0, template.getColumns() - 3),
                 PlateService.get().createPosition(container, template.getRows() - 1, template.getColumns() - 2));

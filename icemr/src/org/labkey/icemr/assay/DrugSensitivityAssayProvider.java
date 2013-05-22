@@ -98,7 +98,7 @@ public class DrugSensitivityAssayProvider extends AbstractDilutionAssayProvider<
         addProperty(runDomain, FREEZER_PRO_ID_PROPERTY_NAME, "Freezer Pro ID", PropertyType.STRING);
         addProperty(runDomain, MEDIA_TYPE_PROPERTY_NAME, "Media Type", PropertyType.STRING);
         addProperty(runDomain, MEDIA_FREEZER_PRO_ID_PROPERTY_NAME, "Media Type Freezer Pro ID", PropertyType.STRING);
-        addProperty(runDomain, INITIAL_PARASITEMIA_PROPERTY_NAME, "Initial Parasitemia Percent", PropertyType.DOUBLE);
+        addProperty(runDomain, INITIAL_PARASITEMIA_PROPERTY_NAME, "Initial Parasitemia Percent", PropertyType.DOUBLE).setRequired(true);
         addProperty(runDomain, EXPERIMENT_PERFORMER_PROPERTY_NAME, "Experiment Performer", PropertyType.STRING);
         addProperty(runDomain, TOTAL_EVENTS_PER_WELL_PROPERTY_NAME, "Total Events Per Well", PropertyType.INTEGER);
         addProperty(runDomain, DATA_ACQUISITION_PROPERTY_NAME, "Data Acquisition File", PropertyType.FILE_LINK);
@@ -116,8 +116,6 @@ public class DrugSensitivityAssayProvider extends AbstractDilutionAssayProvider<
         DomainProperty method = addProperty(domain, SAMPLE_METHOD_PROPERTY_NAME, SAMPLE_METHOD_PROPERTY_CAPTION, PropertyType.STRING);
         method.setLookup(new Lookup(lookupContainer, AssaySchema.NAME + "." + getResourceName(), DilutionProviderSchema.SAMPLE_PREPARATION_METHOD_TABLE_NAME));
         method.setRequired(true);
-
-        addProperty(domain, COMMENTS_PROPERTY_NAME, COMMENTS_PROPERTY_NAME, PropertyType.STRING);
     }
 
     @NotNull

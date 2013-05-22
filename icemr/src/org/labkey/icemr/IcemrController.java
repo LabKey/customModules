@@ -20,7 +20,10 @@ import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.assay.dilution.DilutionAssayRun;
 import org.labkey.api.assay.dilution.DilutionCurve;
+import org.labkey.api.assay.nab.GraphForm;
+import org.labkey.api.assay.nab.NabGraph;
 import org.labkey.api.assay.nab.RenderAssayBean;
+import org.labkey.api.assay.nab.view.DilutionGraphAction;
 import org.labkey.api.assay.nab.view.RunDetailsAction;
 import org.labkey.api.exp.ExperimentException;
 import org.labkey.api.exp.api.ExpRun;
@@ -55,6 +58,8 @@ public class IcemrController extends SpringActionController
         public ModelAndView getView(RenderAssayBean form, BindException errors) throws Exception
         {
             form.setSampleNoun("Drug Treatment");
+            form.setGraphURL(new ActionURL(GraphAction.class, getContainer()));
+
             return super.getView(form, errors);
         }
 
@@ -62,6 +67,20 @@ public class IcemrController extends SpringActionController
         {
             ActionURL runDataURL = PageFlowUtil.urlProvider(AssayUrls.class).getAssayResultsURL(getContainer(), _protocol, _runRowId);
             return root.addChild(_protocol.getName() + " Data", runDataURL).addChild("Run " + _runRowId + " Details");
+        }
+    }
+
+    @RequiresPermissionClass(ReadPermission.class)
+    public class GraphAction extends DilutionGraphAction
+    {
+        @Override
+        protected NabGraph.Config getGraphConfig(GraphForm form, DilutionAssayRun assay)
+        {
+            NabGraph.Config config = super.getGraphConfig(form, assay);
+
+            config.setyAxisLabel("Percent Proliferation");
+            //config.setxAxisLabel("Concentration");
+            return config;
         }
     }
 }

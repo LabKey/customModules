@@ -4,17 +4,23 @@ import org.labkey.api.assay.dilution.DilutionAssayProvider;
 import org.labkey.api.assay.dilution.DilutionAssayRun;
 import org.labkey.api.assay.dilution.DilutionCurve;
 import org.labkey.api.assay.dilution.DilutionDataHandler;
+import org.labkey.api.assay.dilution.DilutionManager;
 import org.labkey.api.assay.dilution.DilutionMaterialKey;
 import org.labkey.api.assay.dilution.DilutionSummary;
+import org.labkey.api.assay.nab.Luc5Assay;
+import org.labkey.api.exp.PropertyDescriptor;
 import org.labkey.api.exp.api.DataType;
 import org.labkey.api.exp.api.ExpData;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.security.User;
 import org.labkey.api.study.Plate;
+import org.labkey.api.study.WellData;
 import org.labkey.api.study.WellGroup;
+import org.labkey.api.study.assay.AbstractAssayProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +35,34 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
 {
     protected Plate _plate;
     private DilutionSummary[] _dilutionSummaries;
+    private Double _initialParasitemia;
 
     public DrugSensitivityAssayRun(DilutionAssayProvider provider, ExpRun run, Plate plate,
                                    User user, List<Integer> cutoffs, DilutionCurve.FitType renderCurveFitType)
     {
         super(provider, run, user, cutoffs, renderCurveFitType);
 
+        for (Map.Entry<PropertyDescriptor, Object> property : getRunProperties().entrySet())
+        {
+            if (DrugSensitivityAssayProvider.INITIAL_PARASITEMIA_PROPERTY_NAME.equals(property.getKey().getName()))
+            {
+                _initialParasitemia = (Double)property.getValue();
+                break;
+            }
+        }
         _plate = plate;
         List<? extends WellGroup> specimenGroups = _plate.getWellGroups(WellGroup.Type.SPECIMEN);
         _dilutionSummaries = getDilutionSumariesForWellGroups(specimenGroups);
+    }
+
+    @Override
+    protected DilutionSummary[] getDilutionSumariesForWellGroups(List<? extends WellGroup> specimenGroups)
+    {
+        int sampleIndex = 0;
+        DilutionSummary[] dilutionSummaries = new DilutionSummary[specimenGroups.size()];
+        for (WellGroup specimenGroup : specimenGroups)
+            dilutionSummaries[sampleIndex++] = new DrugSensitivityDilutionSummary(this, Collections.singletonList(specimenGroup), null, _renderedCurveFitType);
+        return dilutionSummaries;
     }
 
     /**
@@ -117,6 +142,41 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     }
 
     @Override
+    public double getPercent(WellGroup group, WellData data) throws DilutionCurve.FitFailedException
+    {
+        Plate plate = group.getPlate();
+
+        WellData virusControl = plate.getWellGroup(WellGroup.Type.CONTROL, DilutionManager.VIRUS_CONTROL_SAMPLE);
+        if (virusControl == null)
+            throw new DilutionCurve.FitFailedException("Invalid plate template: no virus control well group was found.");
+        double controlRange = virusControl.getMean();
+        double cellControl = _initialParasitemia != null ? _initialParasitemia.doubleValue() : 0.0;
+        if (data.getMean() < cellControl)
+            return 0.0;
+        else
+            return (data.getMean() - cellControl) / controlRange;
+    }
+
+    @Override
+    public double getControlRange(Plate plate)
+    {
+        WellData virusControl = plate.getWellGroup(WellGroup.Type.CONTROL, DilutionManager.VIRUS_CONTROL_SAMPLE);
+        return virusControl.getMean();
+    }
+
+    @Override
+    public double getCellControlMean(Plate plate)
+    {
+        return 0.0;
+    }
+
+    @Override
+    public double getCellControlPlusMinus(Plate plate)
+    {
+        return 0.0;
+    }
+
+    @Override
     public DilutionSummary[] getSummaries()
     {
         return _dilutionSummaries;
@@ -126,5 +186,30 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     public List<Plate> getPlates()
     {
         return Collections.singletonList(_plate);
+    }
+
+    public static class DrugSensitivityDilutionSummary extends DilutionSummary
+    {
+        public DrugSensitivityDilutionSummary(Luc5Assay assay, List<WellGroup> sampleGroups, String lsid, DilutionCurve.FitType curveFitType)
+        {
+            super(assay, sampleGroups, lsid, curveFitType);
+        }
+
+        @Override
+        public DilutionMaterialKey getMaterialKey()
+        {
+            if (_materialKey == null)
+            {
+                WellGroup firstWellGroup = getFirstWellGroup();
+                String specimenId = (String) firstWellGroup.getProperty(AbstractAssayProvider.SPECIMENID_PROPERTY_NAME);
+                Double visitId = (Double) firstWellGroup.getProperty(AbstractAssayProvider.VISITID_PROPERTY_NAME);
+                String participantId = (String) firstWellGroup.getProperty(AbstractAssayProvider.PARTICIPANTID_PROPERTY_NAME);
+                Date visitDate = (Date) firstWellGroup.getProperty(AbstractAssayProvider.DATE_PROPERTY_NAME);
+                String treatmentName = firstWellGroup.getProperty(DrugSensitivityAssayProvider.TREATMENT_NAME_PROPERTY_NAME).toString();
+
+                _materialKey = new DilutionMaterialKey(treatmentName, participantId, visitId, visitDate);
+            }
+            return _materialKey;
+        }
     }
 }
