@@ -93,7 +93,7 @@ LABKEY.icemr.tracking.adaptation = new function() {
             }
 
             LABKEY.Query.selectRows({
-                schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
+                schemaName : 'assay.Tracking.' + LABKEY.icemr.tracking.adaptationAssay,
                 queryName : 'adapted_numdays',
                 parameters : {isSelectionFlask : 0},
                 columns : [LABKEY.icemr.flask.sample,
