@@ -64,7 +64,7 @@ public class RunGridWebPart extends VBox
             addView(new HtmlView("<span class=\"labkey-error\">Unable to update peptide counts: " + PageFlowUtil.filter(errorMessage) + "</span>"));
         }
 
-        JspView<ViewContext> v = new JspView<ViewContext>("/org/labkey/ms2extensions/runGridFilters.jsp", viewContext);
+        JspView<ViewContext> v = new JspView<>("/org/labkey/ms2extensions/runGridFilters.jsp", viewContext);
         addClientDependencies(Collections.singleton(ClientDependency.fromFilePath("/MS2/inlineViewDesigner.js")));
         addView(v);
 
@@ -127,12 +127,12 @@ public class RunGridWebPart extends VBox
 
             // Execute the query, filtering to just the runs that need aggregates calculated
             SimpleFilter filter = new SimpleFilter(new SimpleFilter.InClause(ms2RunColumn.getFieldKey(), runIds));
-            Collection<Map> results = new TableSelector(table, Arrays.asList(ms2RunColumn, totalPeptidesColumn, distinctPeptidesColumn), filter, null).getCollection(Map.class);
+            Collection<Map<String, Object>> results = new TableSelector(table, Arrays.asList(ms2RunColumn, totalPeptidesColumn, distinctPeptidesColumn), filter, null).getMapCollection();
 
             // Iterate through the results and insert them into the table so they're cached and fast to show
             for (Map<String, Object> result : results)
             {
-                Map<String, Object> toInsert = new CaseInsensitiveHashMap<Object>(result);
+                Map<String, Object> toInsert = new CaseInsensitiveHashMap<>(result);
                 toInsert.put("container", viewContext.getContainer().getEntityId());
                 try
                 {
