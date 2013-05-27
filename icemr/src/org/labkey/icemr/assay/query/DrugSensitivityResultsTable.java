@@ -10,6 +10,7 @@ import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.exp.PropertyColumn;
 import org.labkey.api.exp.PropertyDescriptor;
 import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExpSampleSet;
@@ -30,6 +31,7 @@ import org.labkey.api.study.assay.AssayProvider;
 import org.labkey.api.study.assay.AssayService;
 import org.labkey.api.study.assay.SpecimenPropertyColumnDecorator;
 import org.labkey.icemr.assay.DrugSensitivityDataHandler;
+import org.labkey.icemr.assay.DrugSensitivityProtocolSchema;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,6 +67,19 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
             {
                 visibleColumns.add(FieldKey.fromParts(DrugSensitivityDataHandler.DILUTION_INPUT_MATERIAL_DATA_PROPERTY,
                         ExpMaterialTable.Column.Property.toString(), pd.getName()));
+            }
+        }
+
+        // add the standard deviation property
+        ColumnInfo objectURI = getColumn(FieldKey.fromParts("ObjectUri"));
+        for (PropertyDescriptor prop : DrugSensitivityProtocolSchema.getExistingDataProperties(_protocol, DrugSensitivityDataHandler.DRUG_SENSITIVITY_PROPERTY_LSID_PREFIX))
+        {
+            if (objectURI != null && DilutionDataHandler.STD_DEV_PROPERTY_NAME.equals(prop.getName()))
+            {
+                ColumnInfo propColumn = new PropertyColumn(prop, objectURI, getContainer(), schema.getUser(), false);
+                addColumn(propColumn);
+
+                visibleColumns.add(FieldKey.fromParts(DilutionDataHandler.STD_DEV_PROPERTY_NAME));
             }
         }
 

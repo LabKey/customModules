@@ -10,7 +10,10 @@ import org.labkey.api.assay.dilution.SampleProperty;
 import org.labkey.api.assay.nab.NabSpecimen;
 import org.labkey.api.data.Container;
 import org.labkey.api.exp.ExperimentException;
+import org.labkey.api.exp.Lsid;
+import org.labkey.api.exp.ObjectProperty;
 import org.labkey.api.exp.OntologyManager;
+import org.labkey.api.exp.PropertyType;
 import org.labkey.api.exp.api.DataType;
 import org.labkey.api.exp.api.ExpData;
 import org.labkey.api.exp.api.ExpMaterial;
@@ -18,6 +21,7 @@ import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.exp.property.DomainProperty;
+import org.labkey.api.query.ValidationException;
 import org.labkey.api.reader.DataLoader;
 import org.labkey.api.reader.DataLoaderService;
 import org.labkey.api.security.User;
@@ -50,6 +54,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     public static final String DATA_ROW_LSID_PREFIX = "AssayRunDrugSensitivityDataRow";
     public static final AssayDataType DRUG_SENSITIVITY_DATA_TYPE = new AssayDataType("AssayRunDrugSensitivityData", new FileType(Arrays.asList(".txt", ".tsv"), ".txt"));
 
+    public static final String DRUG_SENSITIVITY_PROPERTY_LSID_PREFIX = "DrugSensitivityProperty";
 
     public DrugSensitivityDataHandler()
     {
@@ -289,10 +294,20 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
                     cutoffEntries.put("IC_5plOORIndicator", group.get(icKey));
                     DrugSensitivityManager.get().insertCutoffValueRow(null, cutoffEntries);
                 }
-                //NabProtocolSchema.ensureCutoffValues(protocol, cutoffFormats.keySet());
+
+                if (group.containsKey(STD_DEV_PROPERTY_NAME))
+                {
+                    // save the standard deviation for each drug well group
+                    Lsid propertyURI = new Lsid(DRUG_SENSITIVITY_PROPERTY_LSID_PREFIX, protocol.getName(), STD_DEV_PROPERTY_NAME);
+                    ObjectProperty prop = new ObjectProperty(dataRowLsid, container, propertyURI.toString(),
+                            group.get(STD_DEV_PROPERTY_NAME), PropertyType.DOUBLE, STD_DEV_PROPERTY_NAME);
+                    prop.setFormat("0.0");
+
+                    OntologyManager.insertProperties(container, dataRowLsid, prop);
+                }
             }
         }
-        catch (SQLException e)
+        catch (SQLException | ValidationException e)
         {
             throw new RuntimeException(e);
         }
@@ -315,5 +330,13 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
         {
             throw new ExperimentException(e);
         }
+    }
+
+    @Override
+    public boolean isValidDataProperty(String propertyName)
+    {
+        if (STD_DEV_PROPERTY_NAME.equals(propertyName))
+            return true;
+        return super.isValidDataProperty(propertyName);
     }
 }

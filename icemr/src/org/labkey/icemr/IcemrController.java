@@ -58,6 +58,7 @@ public class IcemrController extends SpringActionController
         public ModelAndView getView(RenderAssayBean form, BindException errors) throws Exception
         {
             form.setSampleNoun("Drug Treatment");
+            form.setNeutralizationAbrev("Prol.");
             form.setGraphURL(new ActionURL(GraphAction.class, getContainer()));
 
             return super.getView(form, errors);
