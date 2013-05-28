@@ -126,7 +126,7 @@ public class AliquotTest extends SpecimenBaseTest
     {
         clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        clickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
 
         assertElementPresent(Locator.xpath(UNAVAILABLE_ALIQUOT_DISABLED));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
