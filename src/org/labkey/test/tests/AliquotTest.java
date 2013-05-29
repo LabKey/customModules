@@ -146,7 +146,7 @@ public class AliquotTest extends SpecimenBaseTest
         // Check that aliquot we added is not available
         clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        clickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX_DISABLED));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX + "/../../td[contains(text(), 'This vial is unavailable because it is being processed')]"));
 
@@ -163,7 +163,7 @@ public class AliquotTest extends SpecimenBaseTest
         // Now verify that that aliquot is available again
         clickFolder(getStudyLabel());
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        clickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
 
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
         checkCheckbox(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
