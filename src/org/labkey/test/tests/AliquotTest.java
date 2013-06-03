@@ -154,7 +154,7 @@ public class AliquotTest extends SpecimenBaseTest
         _extHelper.clickMenuButton("Request Options", "View Existing Requests");
         clickButton("Submit", 0);
         assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
-        assertTextPresent("Your request has been successfully submitted");
+        waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Completed");
