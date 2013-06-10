@@ -82,7 +82,7 @@ public class AliquotTest extends SpecimenBaseTest
         clickButton("Create New Query");
         setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
         clickAndWait(Locator.linkWithText("Create and Edit Source"));
-        setQueryEditorValue("queryText",
+        setCodeEditorValue("queryText",
                 "SELECT \n" +
                         SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
                         "FROM " + SPECIMEN_DETAIL + "\n" +

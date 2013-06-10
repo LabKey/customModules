@@ -20,7 +20,6 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.labkey.test.Locator;
-import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LabKeyExpectedConditions;
@@ -160,11 +159,11 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Create New Query");
         setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
         clickAndWait(Locator.linkWithText("Create and Edit Source"));
-        setQueryEditorValue("queryText",
+        setCodeEditorValue("queryText",
                 "SELECT \n" +
-                SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
-                "FROM " + SPECIMEN_DETAIL + "\n" +
-                "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
+                        SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
+                        "FROM " + SPECIMEN_DETAIL + "\n" +
+                        "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
         clickButton("Save", 0);
         waitForText("Saved", WAIT_FOR_JAVASCRIPT);
 
