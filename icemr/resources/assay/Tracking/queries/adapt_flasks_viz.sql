@@ -19,7 +19,7 @@
 
 SELECT Runs.PatientID, f.SampleID, StartDate as MeasurementDate, f.Stage, f.Parasitemia, f.Gametocytemia, f.PatientpRBCs, f.Hematocrit,
     f.CultureMedia, NULL as Removed, NULL as GrowthFoldTestInitiated, NULL as GrowthFoldTestFinished,
-    NULL As Contaminiation, NULL as MycoTestResults, NULL as FeezerProIDS, NULL as FlaskMaintenanceStopped, 0 as DateIndex
+    NULL As Contamination, NULL as MycoTestResults, NULL as FeezerProIDS, NULL as FlaskMaintenanceStopped, 0 as DateIndex
 FROM Runs, Samples."Adaptation Flasks" as f
 WHERE Runs.PatientID = f.PatientID
 

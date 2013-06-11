@@ -50,7 +50,8 @@ Ext4.onReady(function(){
                 {boxLabel: 'Split Performed', name: 'hoverVariables', inputValue: 'splitPerformed'},
                 {boxLabel: 'Sample Stored', name: 'hoverVariables', inputValue: 'sampleStored'},
                 {boxLabel: 'Start Growth Fold Test', name: 'hoverVariables', inputValue: 'startGrowth'},
-                {boxLabel: 'End Growth Fold Test', name: 'hoverVariables', inputValue: 'endGrowth'}
+                {boxLabel: 'End Growth Fold Test', name: 'hoverVariables', inputValue: 'endGrowth'},
+                {boxLabel: 'Contamination', name: 'hoverVariables', inputValue: 'contamination'}
             ]
         });
 
@@ -69,7 +70,6 @@ Ext4.onReady(function(){
         var ICEMRWindow = Ext4.create('Ext.window.Window', {
             title: "ICEMR Customization",
             width: 400,
-            height: 200,
             items: [ICEMRPanel],
             closeAction: 'hide',
             modal: true,
@@ -232,7 +232,38 @@ Ext4.onReady(function(){
 
                 return layerConfig;
             },
+            contamination: function(measures){
+                var layerConfig = {
+                    geom: new LABKEY.vis.Geom.Point(),
+                    aes: {
+                        y: function(row){
+                            if(row.Contamination && row.Contamination.hasOwnProperty('value')){
+                                return measures.y.acc(row);
+                            }
+                            return null;
+                        },
+                        shape: function(row){return 'Contamination'},
+                        hoverText: function(row){
+                            var text = row.PatientID.value + "\n";
+                            text += "SampleID: " + row.SampleID.value + "\n";
+                            text += "Parasitemia(%): " + row.Parasitemia.value + "\n";
 
+                            if(row.Contamination && row.Contamination.hasOwnProperty('value')){
+                                var rowVal = row.Contamination.value;
+                                text += "Contamination: " + (rowVal === true ? "Yes" : "No");
+                            }
+
+                            return text;
+                        }
+                    }
+                };
+
+                if(measures.color){
+                    layerConfig.aes.color = measures.color.acc;
+                }
+
+                return layerConfig;
+            },
             other: function(measures){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
