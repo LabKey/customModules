@@ -16,6 +16,7 @@
 package org.labkey.icemr.assay;
 
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.assay.dilution.query.DilutionResultsQueryView;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerFilterable;
@@ -25,16 +26,13 @@ import org.labkey.api.exp.Lsid;
 import org.labkey.api.exp.OntologyManager;
 import org.labkey.api.exp.PropertyDescriptor;
 import org.labkey.api.exp.api.ExpProtocol;
-import org.labkey.api.exp.property.Domain;
-import org.labkey.api.exp.property.DomainProperty;
-import org.labkey.api.exp.property.PropertyService;
 import org.labkey.api.exp.query.ExpRunTable;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QuerySettings;
 import org.labkey.api.security.User;
 import org.labkey.api.study.assay.AssayProtocolSchema;
 import org.labkey.api.study.assay.RunListDetailsQueryView;
-import org.labkey.api.study.query.RunListQueryView;
+import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewContext;
 import org.labkey.icemr.IcemrController;
 import org.labkey.icemr.assay.query.DrugSensitivityResultsTable;
@@ -63,18 +61,17 @@ public class DrugSensitivityProtocolSchema extends AssayProtocolSchema
         return table;
     }
 
-    public static class RunListQueryView extends RunListDetailsQueryView
-    {
-        public RunListQueryView(AssayProtocolSchema schema, QuerySettings settings)
-        {
-            super(schema, settings, IcemrController.DetailsAction.class, "rowId", ExpRunTable.Column.RowId.toString());
-        }
-    }
-
     @Override
     protected RunListQueryView createRunsQueryView(ViewContext context, QuerySettings settings, BindException errors)
     {
         return new RunListQueryView(this, settings);
+    }
+
+    @Nullable
+    @Override
+    protected ResultsQueryView createDataQueryView(ViewContext context, QuerySettings settings, BindException errors)
+    {
+        return new ResultsQueryView(getProtocol(), context, settings);
     }
 
     public static PropertyDescriptor[] getExistingDataProperties(ExpProtocol protocol, String propertyPrefix)
@@ -87,5 +84,39 @@ public class DrugSensitivityProtocolSchema extends AssayProtocolSchema
                 propertyFilter, null).getArray(PropertyDescriptor.class);
 
         return result;
+    }
+
+    public static class RunListQueryView extends RunListDetailsQueryView
+    {
+        public RunListQueryView(AssayProtocolSchema schema, QuerySettings settings)
+        {
+            super(schema, settings, IcemrController.DetailsAction.class, "rowId", ExpRunTable.Column.RowId.toString());
+        }
+    }
+
+    public static class ResultsQueryView extends DilutionResultsQueryView
+    {
+        public ResultsQueryView(ExpProtocol protocol, ViewContext context, QuerySettings settings)
+        {
+            super(protocol, context, settings);
+        }
+
+        @Override
+        public ActionURL getGraphSelectedURL()
+        {
+            return new ActionURL(IcemrController.DrugSensitivityGraphSelectedAction.class, getContainer());
+        }
+
+        @Override
+        public ActionURL getRunDetailsURL(Object runId)
+        {
+            return new ActionURL(IcemrController.DetailsAction.class, getContainer()).addParameter("rowId", "" + runId);
+        }
+
+        @Override
+        protected String getChartTitle(String propLabel)
+        {
+            return "Proliferation by " + propLabel;
+        }
     }
 }
