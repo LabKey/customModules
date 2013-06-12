@@ -31,6 +31,7 @@ Ext.namespace("LABKEY.icemr.speciesSpecific");
 LABKEY.icemr.speciesSpecific.participant='ParticipantID';
 LABKEY.icemr.speciesSpecific.time = 'Time';
 LABKEY.icemr.speciesSpecific.date = 'Date';
+LABKEY.icemr.speciesSpecific.gelImage = 'GelImage';
 // -------------------------------------------------------------------
 // enums
 // -------------------------------------------------------------------
@@ -52,3 +53,32 @@ LABKEY.icemr.speciesSpecific.getFieldConfigs = function(successCallback) {
             LABKEY.icemr.speciesSpecific.getFieldConfigsCallbackWrapper(successCallback));
 };
 
+//
+// if the user has specified a gel-image then we'll have an Exp data
+// object that we wire up as a run input
+//
+LABKEY.icemr.speciesSpecific.saveBatch = function(row, data, success, failure)
+{
+    var run = new LABKEY.Exp.Run();
+
+    if (data)
+    {
+        run.dataInputs = [data];
+        row[LABKEY.icemr.speciesSpecific.gelImage] = data.name;
+    }
+
+    run.name = row[LABKEY.icemr.speciesSpecific.participant];
+    run.dataRows = [];
+    run.dataRows.push(row);
+
+    LABKEY.page.batch.runs = [];
+    LABKEY.page.batch.runs.push(run);
+    LABKEY.setDirty(true);
+
+    LABKEY.Experiment.saveBatch({
+        assayId : LABKEY.page.assay.id,
+        batch : LABKEY.page.batch,
+        successCallback : success,
+        failureCallback : failure
+    });
+}

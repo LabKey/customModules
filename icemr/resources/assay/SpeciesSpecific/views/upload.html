@@ -9,44 +9,61 @@
     //
     var _fieldNames = [];
 
+    function submitSuccess(batch, response)
+    {
+        showResults();
+    };
+
+    function submitFailure(error, format)
+    {
+        Ext4.Msg.hide();
+        Ext4.Msg.alert("Failure when communicating with the server: " + error.exception);
+    }
+
     function submitSpeciesSpecific()
     {
         if (!validateForm())
             return;
 
-        var formCmp = Ext4.getCmp('upload-speciesSpecific-form');
-        var fields = formCmp.getForm().getFields();
+        var speciesForm = Ext4.getCmp('upload-speciesSpecific-form').getForm();
+        var imageForm = Ext4.getCmp('upload-gelImage-form').getForm();
+        var speciesFields = speciesForm.getFields();
+        var imageFields = imageForm.getFields();
         var row = {};
 
         for (var idx = 0; idx < _fieldNames.length; idx++)
         {
             var f = _fieldNames[idx];
-            row[f] = fields.get(f).getValue();
+
+            if (f == LABKEY.icemr.speciesSpecific.gelImage)
+            {
+                row[f] = imageFields.get(f).getValue();
+            }
+            else
+            {
+                row[f] = speciesFields.get(f).getValue();
+            }
         }
 
-        var run = new LABKEY.Exp.Run();
-
-        run.name = row[LABKEY.icemr.speciesSpecific.participant];
-        run.dataRows = [];
-        run.dataRows.push(row);
-
-        LABKEY.page.batch.runs = [];
-        LABKEY.page.batch.runs.push(run);
-        LABKEY.setDirty(true);
-
-        LABKEY.Experiment.saveBatch({
-            assayId : LABKEY.page.assay.id,
-            batch : LABKEY.page.batch,
-            successCallback : function (batch, response)
-            {
-                showResults();
-            },
-            failureCallback : function (error, format)
-            {
-                Ext4.Msg.hide();
-                Ext4.Msg.alert("Failure when communicating with the server: " + error.exception);
-            }
-        });
+        if (row[LABKEY.icemr.speciesSpecific.gelImage])
+        {
+            imageForm.submit({
+                url : LABKEY.ActionURL.buildURL("assay", "assayFileUpload"),
+                success : function (form, action) {
+                    var data = new LABKEY.Exp.Data(action.result);
+                    LABKEY.icemr.speciesSpecific.saveBatch(row, data, submitSuccess, submitFailure);
+                },
+                failure : function (form, action) {
+                    var error = {};
+                    error.exception = "Image upload failed.";
+                    submitFailure(error, null)
+                }
+            });
+        }
+        else
+        {
+            LABKEY.icemr.speciesSpecific.saveBatch(row, null, submitSuccess, submitFailure)
+        }
     }
 
     function goBack()
@@ -87,6 +104,35 @@
         }
     }
 
+    function getDefaults()
+    {
+        return {
+            validationEvent: false,
+            width : 300,
+            allowBlank : false,
+            style : { margin: '2 0 2 0' },
+            labelAlign : 'left',
+            labelWidth : 150
+        };
+    }
+
+    function getImageUpload(config)
+    {
+        // set this config up as a file field
+        config.xtype = 'filefield';
+        config.emptyText = 'Select an image';
+        config.buttonText = '...';
+
+        // and add to our hidden panel
+        return new Ext4.FormPanel({
+            border : 0,
+            id : 'upload-gelImage-form',
+            bodyStyle: {background: 'transparent'},
+            defaults: getDefaults(),
+            items : [config]
+        });
+    }
+
     function onFieldConfigsReady(runConfigs, resultConfigs)
     {
         //
@@ -94,53 +140,33 @@
         //
         var defaultDate = new Date();
 
+        //
+        // create a new list of configs and swap out the gel image config
+        // with a new form for uploading the image
+        //
+        var formConfigs = [];
+
+
         for (var i = 0; i < resultConfigs.length; i++)
         {
             var config = resultConfigs[i];
 
-            //
-            // handle combos
-            //
-            /*if (config.name == LABKEY.icemr.diagnostics.thick ||
-                    config.name == LABKEY.icemr.diagnostics.thin ||
-                    config.name == LABKEY.icemr.diagnostics.RDT)
-            {
-                setComboConfig(config, LABKEY.icemr.diagnostics.speciesOptions)
-            } */
-
-            //
-            // show the time picker for measurement time
-            //
-            /*if (config.name == LABKEY.icemr.diagnostics.time)
-            {
-                config.xtype = 'timefield';
-                config.value = '12:00 PM';
-            }   */
-
             if (config.name == LABKEY.icemr.speciesSpecific.date)
-            {
                 config.value = defaultDate;
-            }
-
-           /* if (config.name == LABKEY.icemr.diagnostics.hemoglobin)
-            {
-                //
-                // this is the only field that is a double
-                // but not a percentage so ensure validation
-                // is correct
-                //
-                config.vtype = 'doubleNumber';
-
-            }   */
 
             // save the original name to bind to later
             _fieldNames.push(config.name);
+
+            if (config.name == LABKEY.icemr.speciesSpecific.gelImage)
+                formConfigs.push(getImageUpload(config));
+            else
+                formConfigs.push(config);
         }
 
         //
         // push our button configs on to the end now
         //
-        resultConfigs.push({
+        formConfigs.push({
             xtype : 'fieldcontainer',
             layout : {
                 type : 'hbox',
@@ -166,28 +192,20 @@
             renderTo: 'upload-speciesSpecific-div',
             id      : 'upload-speciesSpecific-form',
             width : 350,
-            defaults: {
-                validationEvent: false,
-                width : 300,
-                allowBlank : false,
-                style : { margin: '2 0 2 0' },
-                labelAlign : 'left',
-                labelWidth : 150
-            },
+            defaults: getDefaults(),
             method : 'POST',
             enctype :'multipart/form-data',
             border : false,
             stateful : false,
             autoHeight : true,
             frame : true,
-            items : resultConfigs
+            items : formConfigs
         });
     }
 
     Ext4.onReady(function() {
         Ext4.QuickTips.init();
         // numeric field validation
-        //
         LABKEY.icemr.initValidators();
         LABKEY.icemr.speciesSpecific.getFieldConfigs(onFieldConfigsReady);
     });

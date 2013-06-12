@@ -55,6 +55,7 @@ icemr/resources/assay/SpeciesSpecific/config.xml -text
 icemr/resources/assay/SpeciesSpecific/domains/batch.xml -text
 icemr/resources/assay/SpeciesSpecific/domains/result.xml -text
 icemr/resources/assay/SpeciesSpecific/domains/run.xml -text
+icemr/resources/assay/SpeciesSpecific/queries/Data/.qview.xml -text
 icemr/resources/assay/SpeciesSpecific/queries/Runs/.qview.xml -text
 icemr/resources/assay/SpeciesSpecific/views/upload.html -text
 icemr/resources/assay/Tracking/config.xml -text

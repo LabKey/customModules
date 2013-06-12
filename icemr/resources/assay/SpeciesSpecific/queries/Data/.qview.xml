@@ -1,0 +1,22 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="Date"/>
+        <column name="ExpID"/>
+        <column name="ParticipantID"/>
+        <column name="Scientist"/>
+        <column name="FreezerProID"/>
+        <column name="Attempt"/>
+        <column name="Sample"/>
+        <column name="DNADilution"/>
+        <column name="PfPresent"/>
+        <column name="PfBand"/>
+        <column name="PvPresent"/>
+        <column name="PvBand"/>
+        <column name="Run/Input/Data/DownloadLink">
+            <properties>
+                <property name="columnTitle" value="Gel Image"/>
+            </properties>
+        </column>
+        <column name="FinalAttempt"/>
+    </columns>
+</customView>

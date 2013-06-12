@@ -76,10 +76,17 @@
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>PvBand</exp:Name>
-        <exp:Description>If Pv present - approximate beand size</exp:Description>
+        <exp:Description>If Pv present - approximate band size</exp:Description>
         <exp:Required>false</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
         <exp:Label>Pv Band Size</exp:Label>
+    </exp:PropertyDescriptor>
+    <exp:PropertyDescriptor>
+        <exp:Name>GelImage</exp:Name>
+        <exp:Description>Gel image upload (.jpeg file)</exp:Description>
+        <exp:Required>false</exp:Required>
+        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+        <exp:Label>Gel Image</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>FinalAttempt</exp:Name>
@@ -87,5 +94,4 @@
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#boolean</exp:RangeURI>
         <exp:Label>Final Attempt</exp:Label>
     </exp:PropertyDescriptor>
-
 </ap:domain>
