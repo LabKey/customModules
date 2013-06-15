@@ -21,11 +21,8 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.util.LogMethod;
 
 /**
- * Created with IntelliJ IDEA.
  * User: davebradlee
  * Date: 5/16/13
- * Time: 12:41 PM
- * To change this template use File | Settings | File Templates.
  */
 
 // Base class for SpecimenTest and AliquotTest
