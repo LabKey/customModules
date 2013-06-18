@@ -13,15 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT f.SampleID, IncreaseTest1, IncreaseTest2, IncreaseTest3,
-PassTest1, PassTest2, PassTest3,
-CASE WHEN ((PassTest1 + PassTest2 + PassTest3) >= f.ResistanceNumber) THEN
-'Yes'
-ELSE
-'No'
-END As SuccessfulPreliminaryResistanceGrowthFold
-FROM
-Samples."Selection Flasks" as f,
-select_parasitemia_increase as p
-WHERE f.SampleID = p.SampleID AND f.ResistanceProtocol='growth-fold';
-
+-- these are the fields common between the adaptation and selection samplesets
+SELECT PatientID, SampleID, Scientist, CultureMedia, SerumBatchID, AlbumaxBatchID, FoldIncrease1,
+FoldIncrease2, FoldIncrease3, Comments, MaintenanceDate, MaintenanceStopped, StartParasitemia1,
+FinishParasitemia1, StartParasitemia2, FinishParasitemia2, StartParasitemia3, FinishParasitemia3,
+StartDate1, FinishDate1
+FROM Samples."Adaptation Flasks"

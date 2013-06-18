@@ -22,6 +22,6 @@ ELSE
 END As SuccessfulAdaptation
 FROM
 Samples."Adaptation Flasks" as f,
-parasitemia_increase as p
+adapt_parasitemia_increase as p
 WHERE f.SampleID = p.SampleID
 

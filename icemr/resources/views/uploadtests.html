@@ -526,7 +526,6 @@
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _assayName,
             queryName  : LABKEY.icemr.tracking.interface.getCalcQuery(),
-            parameters : {isSelectionFlask : LABKEY.icemr.tracking.isSelection ? 1 : 0},
             success: Day0ResultsSuccess
         })
     }
@@ -765,7 +764,6 @@
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _assayName,
             queryName  : LABKEY.icemr.tracking.interface.getCalcQuery(),
-            parameters : {isSelectionFlask : LABKEY.icemr.tracking.isSelection ? 1 : 0},
             success : selectCalculationSuccess
         });
     }
@@ -802,14 +800,13 @@
         var parameters = {
             start : '4/20/2013', // parasitemia value here is 4
             finish : '7/20/2013', // parasitemia value here is 17
-            flaskId : 'Patient1Flask1',
-            isSelectionFlask : LABKEY.icemr.tracking.isSelection ? 1 : 0
+            flaskId : 'Patient1Flask1'
         };
 
         // verify our calcuations match our expectations
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _assayName,
-            queryName  : 'generic_foldincrease',
+            queryName  : LABKEY.icemr.tracking.isSelection ? 'select_generic_foldincrease' : 'adapt_generic_foldincrease',
             parameters : parameters,
             success : foldIncreaseCalculatorSuccess
         });
