@@ -245,14 +245,15 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         // Check each Actor's Details for "Default Actor Notification" feature;
         // In Details, for each actor the ether Notify checkbox should be set or disabled, because we set Notifications to All
-        List<Locator> detailsLinks = findAllMatches(Locator.xpath("//td[a='Details']/a"));
-        for (Locator link : detailsLinks)
+        Locator detailsLink = Locator.xpath("//td[a='Details']/a");
+        int linkCount = getElementCount(detailsLink);
+        for (int i = 0; i < linkCount; i++)
         {
-            clickAndWait(link);
-            List<Locator> allCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']"));
-            List<Locator> checkedCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
-            List<Locator> disabledCheckBoxes = findAllMatches(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
-            Assert.assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes.size() == checkedCheckBoxes.size() + disabledCheckBoxes.size());
+            clickAndWait(detailsLink.index(i));
+            int allCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']"));
+            int checkedCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
+            int disabledCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
+            Assert.assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes == checkedCheckBoxes + disabledCheckBoxes);
             clickButton("Cancel");
         }
 
