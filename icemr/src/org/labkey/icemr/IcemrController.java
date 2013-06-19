@@ -131,7 +131,7 @@ public class IcemrController extends SpringActionController
                     SimpleFilter existingFilter = (SimpleFilter) view.getRenderContext().getBaseFilter();
                     if (existingFilter != null)
                         filter.addAllClauses(existingFilter);
-                    List<Integer> objectIds = new ArrayList<Integer>(_dataObjectIds.length);
+                    List<Integer> objectIds = new ArrayList<>(_dataObjectIds.length);
                     for (int dataObjectId : _dataObjectIds)
                         objectIds.add(new Integer(dataObjectId));
 

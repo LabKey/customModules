@@ -51,11 +51,11 @@ public class FilterView extends QueryView
 
     public String renderViewList(HttpServletRequest request, Writer out, String viewName) throws IOException
     {
-        Map<String, CustomView> customViews = new TreeMap<String, CustomView>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, CustomView> customViews = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<String, CustomView> savedViews = getQueryDef().getCustomViews(getUser(), request, false, false);
         savedViews.remove(null);
         customViews.putAll(savedViews);
-        Map<String, String> options = new LinkedHashMap<String, String>();
+        Map<String, String> options = new LinkedHashMap<>();
         options.put("", "<default>");
         for (CustomView view : customViews.values())
         {

@@ -70,7 +70,7 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
         _protocol = _userSchema.getProtocol();
         _provider = _userSchema.getProvider();
 
-        List<FieldKey> visibleColumns = new ArrayList<FieldKey>();
+        List<FieldKey> visibleColumns = new ArrayList<>();
 
         // add material lookup columns to the view first, so they appear at the left:
         String sampleDomainURI = AbstractAssayProvider.getDomainURIForPrefix(schema.getProtocol(), AbstractPlateBasedAssayProvider.ASSAY_DOMAIN_SAMPLE_WELLGROUP);

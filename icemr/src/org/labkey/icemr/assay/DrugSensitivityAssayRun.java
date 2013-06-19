@@ -88,7 +88,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     {
         if (_sampleResults == null)
         {
-            List<SampleResult> sampleResults = new ArrayList<SampleResult>();
+            List<SampleResult> sampleResults = new ArrayList<>();
 
             DilutionDataHandler handler = _provider.getDataHandler();
             DataType dataType = handler.getDataType();
@@ -126,7 +126,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
                 throw new IllegalStateException("Expected a single data file output for this NAb run, but none matching the expected datatype found. Found a total of " + outputDatas.length);
 
             Map<String, DilutionResultProperties> allProperties = getSampleProperties(outputObject);
-            Set<String> captions = new HashSet<String>();
+            Set<String> captions = new HashSet<>();
             boolean longCaptions = false;
 
             for (DilutionSummary summary : getSummaries())

@@ -92,7 +92,7 @@ public class MS2ExtensionsController extends SpringActionController
                 props = (Map<String, String>)session.getAttribute(PREFERENCES_KEY_NAME);
                 if (props == null)
                 {
-                    props = new HashMap<String, String>();
+                    props = new HashMap<>();
                     session.setAttribute(PREFERENCES_KEY_NAME, props);
                 }
             }

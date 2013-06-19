@@ -88,7 +88,7 @@ public class DrugSensitivityPlateTypeHandler extends AbstractPlateTypeHandler
     @Override
     public List<Pair<Integer, Integer>> getSupportedPlateSizes()
     {
-        return Collections.singletonList(new Pair<Integer, Integer>(8, 12));
+        return Collections.singletonList(new Pair<>(8, 12));
     }
 
     @Override

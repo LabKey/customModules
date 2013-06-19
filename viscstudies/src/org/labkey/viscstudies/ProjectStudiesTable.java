@@ -92,7 +92,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         });
 
         // Configure the set of default column
-        List<FieldKey> defaultCols = new ArrayList<FieldKey>();
+        List<FieldKey> defaultCols = new ArrayList<>();
         defaultCols.add(labelColumn.getFieldKey());
         defaultCols.add(datasetColumn.getFieldKey());
         setDefaultVisibleColumns(defaultCols);

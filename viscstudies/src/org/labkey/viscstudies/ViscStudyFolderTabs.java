@@ -185,7 +185,7 @@ public class ViscStudyFolderTabs
         @Override
          public List<Portal.WebPart> createWebParts()
         {
-            List<Portal.WebPart> parts = new ArrayList<Portal.WebPart>();
+            List<Portal.WebPart> parts = new ArrayList<>();
             parts.add(Portal.getPortalPart("Data Views").createWebPart());
 
             Portal.WebPart specimenWebPart = Portal.getPortalPart(StudyService.SPECIMEN_BROWSE_WEBPART).createWebPart();
