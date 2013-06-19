@@ -4,11 +4,9 @@
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 /**
- * Created with IntelliJ IDEA.
  * User: Dax
  * Date: 1/15/13
  * Time: 11:09 AM
- * To change this template use File | Settings | File Templates.
  *
  *  Code and utility functions common to all ICEMR assays goes here
  */

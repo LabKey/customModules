@@ -32,7 +32,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 
 /**
- * Created by IntelliJ IDEA.
  * User: klum
  * Date: 5/14/13
  */

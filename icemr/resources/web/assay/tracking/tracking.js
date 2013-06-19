@@ -4,11 +4,9 @@
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 /**
- * Created with IntelliJ IDEA.
  * User: Dax
  * Date: 1/10/13
  * Time: 10:14 AM
- * To change this template use File | Settings | File Templates.
  *
  * This implements the flask tracking assay base code that is common to both
  * adaptation and selection instances.  Specific implementations of adaptation or selection

@@ -24,7 +24,6 @@ import org.labkey.icemr.assay.DrugSensitivityAssayProvider;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
  * User: klum
  * Date: 5/14/13
  */

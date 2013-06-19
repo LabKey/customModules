@@ -39,7 +39,6 @@ import org.labkey.icemr.assay.query.DrugSensitivityResultsTable;
 import org.springframework.validation.BindException;
 
 /**
- * Created by IntelliJ IDEA.
  * User: klum
  * Date: 5/13/13
  */
