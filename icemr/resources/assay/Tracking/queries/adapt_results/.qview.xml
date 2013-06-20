@@ -1,0 +1,40 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView">
+    <columns>
+        <column name="FlaskDetails"/>
+        <column name="PatientID"/>
+        <column name="ExperimentID"/>
+        <column name="SampleID"/>
+        <column name="MeasurementDate"/>
+        <column name="Scientist"/>
+        <column name="Parasitemia"/>
+        <column name="Gametocytemia"/>
+        <column name="Stage"/>
+        <column name="Removed"/>
+        <column name="RBCBatchID"/>
+        <column name="SerumBatchID"/>
+        <column name="AlbumaxBatchID"/>
+        <column name="GrowthFoldTestInitiated"/>
+        <column name="GrowthFoldTestFinished"/>
+        <column name="Contamination"/>
+        <column name="MycoTestResult"/>
+        <column name="FreezerProIDs"/>
+        <column name="FlaskMaintenanceStopped"/>
+        <column name="InterestingResult"/>
+        <column name="Comments"/>
+        <column name="StartDate"/>
+        <column name="PatientpRBCs"/>
+        <column name="Hematocrit"/>
+        <column name="InitialScientist"/>
+        <column name="InitialParasitemia"/>
+        <column name="InitialGametocytemia"/>
+        <column name="InitialStage"/>
+        <column name="CultureMedia"/>
+        <column name="InitialSerumBatchID"/>
+        <column name="InitialAlbumaxBatchID"/>
+        <column name="FoldIncrease1"/>
+        <column name="FoldIncrease2"/>
+        <column name="FoldIncrease3"/>
+        <column name="AdaptationCriteria"/>
+        <column name="InitialComments"/>
+    </columns>
+</customView>

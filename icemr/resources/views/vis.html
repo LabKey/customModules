@@ -4,7 +4,12 @@ LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/tracking/tracking.js");
 Ext4.onReady(function(){
     var params = LABKEY.ActionURL.getParameters();
-    var filter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
+    var filter;
+    if (params.patientId)
+        filter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
+    else
+        filter = LABKEY.Filter.create('PatientID', LABKEY.Filter.NOT_MISSING);
+
     LABKEY.icemr.tracking.setInterface(params.schemaName);
 
     var storeFoldIncreases = function(rows){

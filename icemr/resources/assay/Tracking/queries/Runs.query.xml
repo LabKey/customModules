@@ -29,6 +29,14 @@
                         </fk>
                         <url>/icemr/DailyUpload.view?rowId=${RowId}&amp;protocolId=${Batch/BatchProtocolId/RowId}&amp;batchId=${Batch/RowId}&amp;protocolName=${Protocol/Name}</url>
                     </column>
+                    <column columnName="ViewResults" wrappedColumnName="rowId">
+                        <columnTitle></columnTitle>
+                        <fk>
+                            <fkTable>runs_viewresults</fkTable>
+                            <fkColumnName>rowId</fkColumnName>
+                        </fk>
+                        <url>/assay/assayDetailRedirect.view?runId=${RowId}</url>
+                    </column>
                 </columns>
                 <buttonBarOptions position="both" includeStandardButtons="true">
                         <item insertPosition="end" text="New Experiment" >

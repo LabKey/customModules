@@ -1,10 +1,4 @@
-<span style="font-size: large">
-<p>Showing data for Experiment ID: <span id='experiment'></span></p>
-<p>
-Start date: <span id='startDate'></span>
-<br>Last upload date: <span id='lastUploadDate'></span>
-</p>
-</span>
+<span id='resultHeader' style="font-size: large" ></span>
 <div id='foldincrease-div'></div>
 <div id='numdays-div'></div>
 <div id='firstdaypositive-div'></div>
@@ -42,6 +36,7 @@ function init()
     //
     var schemaName = 'assay.Tracking.' + LABKEY.page.assay.name;
     LABKEY.icemr.tracking.setInterface(schemaName);
+    var filterValue = params["Data.Run/RowId~eq"];
 
     LABKEY.Query.selectRows({
         schemaName : schemaName,
@@ -54,26 +49,29 @@ function init()
         sort : '-'+LABKEY.icemr.tracking.measurementDate,
         filterArray    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])],
         maxRows : 1,
-        success : onSelectSuccess
+        success : function(data, response, options) {
+            if (data && data.rows && data.rows.length > 0)
+            {
+                var resultHeader = 'Showing data for ';
+                var row = data.rows[0];
+                if (filterValue)
+                {
+                    resultHeader += row['Run/' + LABKEY.icemr.tracking.experiment] + '<br>';
+                    resultHeader += 'Start date: ' + buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]) + '<br>';
+                    resultHeader += 'Last maintenance date: ' + buildDateString(row[LABKEY.icemr.tracking.measurementDate]);
+                    this.patientId = row['Run/' + LABKEY.icemr.tracking.patient];
+                }
+                else
+                {
+                    resultHeader += 'all experiments.';
+                    this.patientId = "";
+                }
+                resultHeader += '<p/>'
+                Ext4.fly('resultHeader').update(resultHeader);
+            }
+            renderResults();
+        }
     });
-}
-
-function onSelectSuccess(data, response, options)
-{
-    //
-    // update the header of our page and collect the sampleids of the flasks
-    // for which we want to show the calculated results
-    //
-    if (data && data.rows && data.rows.length > 0)
-    {
-        var row = data.rows[0];
-        Ext4.fly('experiment').update(row['Run/' + LABKEY.icemr.tracking.experiment]);
-        Ext4.fly('startDate').update(buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]));
-        Ext4.fly('lastUploadDate').update(buildDateString(row[LABKEY.icemr.tracking.measurementDate]));
-        this.patientId = row['Run/' + LABKEY.icemr.tracking.patient];
-    }
-
-    renderResults();
 }
 
 function buildDateString(value)
@@ -231,7 +229,7 @@ function renderFoldIncrease()
     var parameters = {
         start : fields.get(_start + 'foldincrease').getValue(),
         finish : fields.get(_finish + 'foldincrease').getValue(),
-        flaskId : fields.get(_sampleId + 'foldincrease').getValue(),
+        flaskId : fields.get(_sampleId + 'foldincrease').getValue()
     };
 
     var qwp = new LABKEY.QueryWebPart({
@@ -349,12 +347,12 @@ function renderResults()
     buttonBar.items = buttons;
 
     var qwp = new LABKEY.QueryWebPart({
+        frame : 'none',
         renderTo   : 'flasks-div',
         schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
-        queryName  : 'Data',
+        queryName  : LABKEY.icemr.tracking.isSelection ? 'select_results' : 'adapt_results',
         buttonBar: buttonBar,
-        showPagination : false,
-        filters    : [ LABKEY.Filter.create("Run/Rowid", params["Data.Run/RowId~eq"])]
+        filters    : [ LABKEY.Filter.create("Rowid", params["Data.Run/RowId~eq"])]
     });
 }
 
@@ -370,7 +368,6 @@ function renderResults(filterValues)
         schemaName : 'assay.Adaptation.' + LABKEY.icemr.AdaptationAssayResults,
         queryName  : 'adapted_numdays',
         buttonBarPosition: 'none',
-        showPagination : false,
         filters    : [ LABKEY.Filter.create(LABKEY.icemr.tracking.sample, filterValues,
             LABKEY.Filter.Types.IN)]
     });
