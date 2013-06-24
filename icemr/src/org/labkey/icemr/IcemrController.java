@@ -74,6 +74,7 @@ public class IcemrController extends SpringActionController
             form.setSampleNoun("Drug Treatment");
             form.setNeutralizationAbrev("Prol.");
             form.setGraphURL(new ActionURL(GraphAction.class, getContainer()));
+            form.setPlateDataFormat("%.3f");
 
             return super.getView(form, errors);
         }
