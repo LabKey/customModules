@@ -44,7 +44,6 @@ Ext4.onReady(function(){
     var createPanel = function(foldIncreases, params, filter){
         var schemaName = params.schemaName;
         var queryName = LABKEY.icemr.tracking.interface.getVisQuery();
-        var customButtons = [];
         var cbGroup = Ext4.create('Ext.form.CheckboxGroup', {
             fieldLabel: 'Hover Variables',
             vertical: true,
@@ -80,7 +79,6 @@ Ext4.onReady(function(){
             modal: true,
             buttons: [{text: 'ok', handler: function(){
                 ICEMRWindow.close();
-//                panel.fireEvent('chartDefinitionChanged');
                 panel.chartDefinitionChanged.delay(250);
             }}, {text: 'cancel', handler: function(){
                 ICEMRWindow.close();
@@ -298,6 +296,9 @@ Ext4.onReady(function(){
             renderType: 'ICEMR',
             schemaName: schemaName,
             queryName: queryName,
+            defaultTitleFn: function(){
+                return "Parasitemia";
+            },
             canEdit: true,
             hideSave: true,
             allowShare: false,
