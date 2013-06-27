@@ -45,10 +45,45 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
         super.doCleanup(afterTest);
     }
 
+    @LogMethod
+    protected void setupRequestabilityRules()
+    {
+        // Create custom query to test requestability rules.
+        goToSchemaBrowser();
+        selectQuery("study", SPECIMEN_DETAIL);
+        clickButton("Create New Query");
+        setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
+        clickAndWait(Locator.linkWithText("Create and Edit Source"));
+        setCodeEditorValue("queryText",
+                "SELECT \n" +
+                        SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
+                        "FROM " + SPECIMEN_DETAIL + "\n" +
+                        "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
+        clickButton("Save", 0);
+        waitForText("Saved", WAIT_FOR_JAVASCRIPT);
+
+        clickFolder(getFolderName());
+        waitAndClick(Locator.linkWithText("Manage Study"));
+        waitAndClick(Locator.linkWithText("Manage Requestability Rules"));
+        // Verify that LOCKED_IN_REQUEST is the last rule
+        waitForElement(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
+        click(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
+
+        click(Locator.xpath("//div[contains(@class, 'x-grid3-col-numberer') and text()='2']"));
+
+        clickButton("Add Rule", 0);
+        click(Locator.menuItem("Custom Query"));
+        _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_schema']"), "study" );
+        _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_query']"), REQUESTABILITY_QUERY );
+        _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_action']"), "Unavailable" );
+        clickButton("Submit",0);
+        clickButton("Save");
+    }
 
     @LogMethod
     protected void setupActorsAndGroups()
     {
+        clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Actors and Groups"));
         setFormElement(Locator.name("newLabel"), "SLG");
         selectOptionByText(Locator.name("newPerSite"), "One Per Study");
@@ -65,13 +100,12 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
         setFormElement(Locator.name("names"), USER2);
         uncheckCheckbox(Locator.checkboxByName("sendEmail"));
         clickAndWait(Locator.linkWithText("Update Members"));
-        clickFolder(getStudyLabel());
     }
 
     @LogMethod (quiet = true)
     protected void setupDefaultRequirements()
     {
-        clickAndWait(Locator.linkWithText("Manage Study"));
+        clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Default Requirements"));
         selectOptionByText(Locator.name("originatorActor"), "IRB");
         setFormElement(Locator.name("originatorDescription"), "Originating IRB Approval");
@@ -85,31 +119,33 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
         selectOptionByText(Locator.name("generalActor"), "SLG");
         setFormElement(Locator.name("generalDescription"), "SLG Approval");
         clickAndWait(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.navButton("Add Requirement").getPath()));
-        clickTab("Manage");
     }
 
     @LogMethod (quiet = true)
     protected void setupRequestForm()
     {
+        clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage New Request Form"));
         clickButton("Add New Input", 0);
         setFormElement(Locator.xpath("//descendant::input[@name='title'][4]"), "Last One");
         setFormElement(Locator.xpath("//descendant::input[@name='helpText'][4]"), "A test input");
         click(Locator.xpath("//descendant::input[@name='required'][4]"));
         clickButton("Save");
-        clickFolder(getStudyLabel());
     }
 
     @LogMethod
     protected void setupActorNotification()
     {
         log("Check Configure Defaults for Actor Notification");
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Manage"));
+        clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         assertTextPresent("Default Email Recipients");
         checkRadioButton(Locator.radioButtonByNameAndValue("defaultEmailNotify", "All"));
         clickButton("Save");
     }
 
+    protected void waitForVialSearch()
+    {
+        waitForElement(Locator.css(".specimenSearchLoaded"));
+    }
 }

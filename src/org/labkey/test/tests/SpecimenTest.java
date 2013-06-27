@@ -26,6 +26,7 @@ import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
+import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
 
 import java.io.File;
@@ -33,7 +34,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * User: brittp
@@ -44,7 +44,7 @@ public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
     private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
-
+    private final PortalHelper _portalHelper = new PortalHelper(this);
 
     public String getAssociatedModuleDirectory()
     {
@@ -61,6 +61,12 @@ public class SpecimenTest extends SpecimenBaseTest
     protected boolean isFileUploadTest()
     {
         return true;
+    }
+
+    @Override
+    protected BrowserType bestBrowser()
+    {
+        return BrowserType.CHROME;
     }
 
     @Override
@@ -82,7 +88,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForSpecimenImport();
         _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
         checkTubeType();
-        setupSpecimenManagement();
+        setupRequestStatuses();
         setupActorsAndGroups();
         setupDefaultRequirements();
         setupRequestForm();
@@ -151,46 +157,11 @@ public class SpecimenTest extends SpecimenBaseTest
     }
 
     @LogMethod
-    private void setupRequestabilityRules()
-    {
-        // Create custom query to test requestability rules.
-        goToSchemaBrowser();
-        selectQuery("study", SPECIMEN_DETAIL);
-        clickButton("Create New Query");
-        setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
-        clickAndWait(Locator.linkWithText("Create and Edit Source"));
-        setCodeEditorValue("queryText",
-                "SELECT \n" +
-                        SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
-                        "FROM " + SPECIMEN_DETAIL + "\n" +
-                        "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
-        clickButton("Save", 0);
-        waitForText("Saved", WAIT_FOR_JAVASCRIPT);
-
-        clickFolder(getFolderName());
-        waitAndClick(Locator.linkWithText("Manage Study"));
-        waitAndClick(Locator.linkWithText("Manage Requestability Rules"));
-        // Verify that LOCKED_IN_REQUEST is the last rule
-        waitForElement(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
-        click(Locator.xpath("//div[contains(@class, 'x-grid3-row-last')]//div[text()='Locked In Request Check']"));
-
-        click(Locator.xpath("//div[contains(@class, 'x-grid3-col-numberer') and text()='2']"));
-
-        clickButton("Add Rule", 0);
-        click(Locator.menuItem("Custom Query"));
-        _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_schema']"), "study" );
-        _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_query']"), REQUESTABILITY_QUERY );
-        _extHelper.selectComboBoxItem(Locator.xpath("//div[@id='x-form-el-userQuery_action']"), "Unavailable" );
-        clickButton("Submit",0);
-        clickButton("Save");
-    }
-
-    @LogMethod
     private void checkTubeType()
     {
         // Field check for Tube Type column (including conflict)
-        clickFolder(getStudyLabel());
-        addWebPart("Specimens");
+        clickTab("Overview");
+        _portalHelper.addWebPart("Specimens");
         waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
         setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
@@ -203,8 +174,8 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("20ml Cryovial");
         assertTextPresent("25ml Cryovial");
         clickAndWait(Locator.linkWithText("Specimen Overview"));
-        click(Locator.linkWithText("Vials by Derivative Type"));
-        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Tear Flo Strips"), WAIT_FOR_PAGE);
+        waitAndClick(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitAndClickAndWait(Locator.linkWithText("Tear Flo Strips"));
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
         assertLinkPresentWithTextCount("[history]", 3);
         assertTextPresent("15ml Cryovial", 3);
@@ -214,10 +185,10 @@ public class SpecimenTest extends SpecimenBaseTest
     private void uploadSpecimensFromFile()
     {
         log("Check Upload Specimen List from file");
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClick(Locator.linkWithText("Specimen Requests")); // expand node in Specimens webpart
-        clickAndWait(Locator.linkWithText("Create New Request"));
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        click(Locator.imageWithAltText("New Request Icon", true));
+        waitForElement(Locator.name("destinationLocation"));
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
@@ -269,10 +240,11 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void createRequest()
     {
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        click(Locator.linkWithText("Vials by Derivative Type"));
-        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Plasma, Unknown Processing"), WAIT_FOR_PAGE);
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitForElement(Locator.linkWithText("Plasma, Unknown Processing"));
+        clickAndWait(Locator.linkWithText("Plasma, Unknown Processing"));
         // Verify unavailable sample
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'This vial is unavailable because it was found in the set called \"" + REQUESTABILITY_QUERY + "\".')]"));
@@ -308,12 +280,13 @@ public class SpecimenTest extends SpecimenBaseTest
         // verify that the swab specimen isn't present yet
         assertTextNotPresent("DAA07YGW-01");
         assertTextNotPresent("Complete");
-        clickFolder(getStudyLabel());
 
         // add additional specimens
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClick(Locator.linkWithText("Vials by Derivative Type"));
-        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitForElement(Locator.linkWithText("Swab"));
+        clickAndWait(Locator.linkWithText("Swab"));
         checkCheckbox(".toggle");
         clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
         _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
@@ -429,10 +402,11 @@ public class SpecimenTest extends SpecimenBaseTest
         popLocation();
 
         log("verifying column changes");
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClick(Locator.linkWithText("Specimen Requests")); // expand node in Specimens webpart
-        clickAndWait(Locator.xpath("//a[text() = 'View Current Requests']"));
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        click(Locator.xpath("//span[text() = 'Specimen Requests']/../img")); // expand node in Specimens webpart
+        waitForElement(Locator.linkWithText("View Current Requests"));
+        clickAndWait(Locator.linkWithText("View Current Requests"));
 
         clickButton("Details");
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
@@ -551,11 +525,11 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifyRequestCancel()
     {
-        clickProject(getProjectName());
+        goToProjectHome();
         clickFolder(getFolderName());
 
-        waitAndClick(Locator.linkWithText("Specimen Requests"));
-        click(Locator.linkWithText("View Current Requests"));
+        waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
+        waitAndClick(Locator.linkWithText("View Current Requests"));
 
         waitForElement(Locator.id("dataregion_SpecimenRequest"));
         clickButton("Details");
@@ -566,10 +540,11 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Cancel Request", 0);
         assertAlert("Canceling will permanently delete this pending request.  Continue?");
         waitForText("No data to show.");
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        click(Locator.linkWithText("Vials by Derivative Type"));
-        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Swab"), WAIT_FOR_PAGE);
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitForElement(Locator.linkWithText("Swab"));
+        clickAndWait(Locator.linkWithText("Swab"));
         checkCheckbox(".toggle");
         clickMenuButton("Request Options", "Create New Request");
         clickButton("Cancel");
@@ -579,9 +554,9 @@ public class SpecimenTest extends SpecimenBaseTest
     private void verifyReports()
     {
         log("check reports by participant group");
-        clickFolder(getFolderName());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClick(WAIT_FOR_JAVASCRIPT, Locator.linkWithText("Blood (Whole)"), WAIT_FOR_PAGE);
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        clickAndWait(Locator.linkWithText("Blood (Whole)"));
         pushLocation();
         clickAndWait(Locator.linkWithText("Reports"));
         clickButton("View"); // Summary Report
@@ -609,7 +584,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifyRequestingLocationRestriction()
     {
-        clickProject(getProjectName());
+        goToProjectHome();
         clickFolder(getFolderName());
 
         verifyRequestingLocationCounts(StudyLocationType.values()); // All locations should be enabled by default
@@ -626,7 +601,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifySpecimenTableAttachments()
     {
-        clickProject(getProjectName());
+        goToProjectHome();
         clickFolder(getFolderName());
 
         log("Setup Excel specimen attachment");
@@ -639,6 +614,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
         log("Create request with excel specimen attachment");
         clickTab("Specimen Data");
+        waitForVialSearch();
         clickAndWait(Locator.linkWithText("Urine"));
         checkDataRegionCheckbox("SpecimenDetail", 0);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
@@ -659,6 +635,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
         log("Create request with text specimen attachment");
         clickTab("Specimen Data");
+        waitForVialSearch();
         clickAndWait(Locator.linkWithText("Urine"));
         checkDataRegionCheckbox("SpecimenDetail", 1);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
@@ -696,11 +673,11 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Deactivate");
         assertTextNotPresent(USER2);
 
-        clickProject(getProjectName());
+        goToProjectHome();
         clickFolder(getFolderName());
 
-        waitAndClick(Locator.linkWithText("Specimen Requests"));
-        click(Locator.linkWithText("View Current Requests"));
+        waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
+        waitAndClick(Locator.linkWithText("View Current Requests"));
 
         waitForElement(Locator.id("dataregion_SpecimenRequest"));
         clickButton("Details");
@@ -764,8 +741,8 @@ public class SpecimenTest extends SpecimenBaseTest
     private void verifyRequestingLocationCounts(StudyLocationType... types)
     {
         clickTab("Specimen Data");
-        click(Locator.linkWithText("Specimen Requests"));
-        click(Locator.linkWithText("Create New Request"));
+        waitForVialSearch();
+        click(Locator.imageWithAltText("New Request Icon", true));
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("New Specimen Request"));
 
         int expectedLocationCount = StudyLocationType.untypedSites();
@@ -794,7 +771,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifySpecimenGroupings()
     {
-        clickProject(getProjectName());
+        goToProjectHome();
         clickFolder(getFolderName());
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
@@ -808,7 +785,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Save");
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
         clickTab("Specimen Data");
-        waitForElement(Locator.linkWithText("Vials by Processing Location"));
+        waitForVialSearch();
         assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
         assertTextPresent("NICD - Joberg", 2);
         clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
@@ -885,11 +862,6 @@ public class SpecimenTest extends SpecimenBaseTest
         additiveType.setValue(new String[] {"Ammonium Heparin","Cell Preparation Tube Heparin","Cell Preparation Tube SCI","Citrate Phosphate Dextrose","EDTA","Fetal Fibronectin Buffer","Guanidine Isothiocyanate (GITC)","Heparin","Liquid Potassium EDTA","Liquid Sodium EDTA","Lithium Heparin","Lithium Heparin and Gel for Plasma","None","Normal Saline","Optimum Cutting Temperature Medium","Orasure Collection Container","Other","PAXgene Blood RNA tube","Phosphate Buffered Saline","Plasma Preparation Tube","PLP Fixative","Port-a-cul Transport Tube","Potassium EDTA","RNA Later","Serum Separator","Sodium Citrate","Sodium EDTA","Sodium Fluoride","Sodium Fluoride/Potassium Oxalate","Sodium Heparin","Sodium Polyanetholesulfonate","Spray Dried Potassium EDTA","Spray Dried Sodium EDTA","Thrombin","Tissue Freezing Medium","Unknown Additive","Viral Transport Media"});
         clickButtonContainingText("Search");
         assertTextPresent("IS NOT ANY OF ");
-    }
-
-    private void waitForVialSearch()
-    {
-        waitForElement(Locator.css(".specimenSearchLoaded"));
     }
 
     @LogMethod

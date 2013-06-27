@@ -41,6 +41,12 @@ public class AliquotTest extends SpecimenBaseTest
     }
 
     @Override
+    protected BrowserType bestBrowser()
+    {
+        return BrowserType.CHROME;
+    }
+
+    @Override
     @LogMethod(category = LogMethod.MethodType.SETUP)
     protected void doCreateSteps()
     {
@@ -58,7 +64,7 @@ public class AliquotTest extends SpecimenBaseTest
         startSpecimenImport(1);
         waitForSpecimenImport();
         _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
-        setupSpecimenManagement();
+        setupRequestStatuses();
         setupActorsAndGroups();
         setupDefaultRequirements();
         setupRequestForm();
@@ -73,6 +79,7 @@ public class AliquotTest extends SpecimenBaseTest
         createRequests();
     }
 
+    @Override
     @LogMethod
     protected void setupRequestabilityRules()
     {
@@ -124,9 +131,9 @@ public class AliquotTest extends SpecimenBaseTest
     @LogMethod
     private void createRequests()
     {
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        clickAndWait(Locator.linkWithText("Blood (Whole)"));
 
         assertElementPresent(Locator.xpath(UNAVAILABLE_ALIQUOT_DISABLED));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
@@ -144,9 +151,9 @@ public class AliquotTest extends SpecimenBaseTest
         assertTextNotPresent("Complete");
 
         // Check that aliquot we added is not available
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        clickAndWait(Locator.linkWithText("Blood (Whole)"));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX_DISABLED));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX + "/../../td[contains(text(), 'This vial is unavailable because it is being processed')]"));
 
@@ -161,9 +168,9 @@ public class AliquotTest extends SpecimenBaseTest
         clickButton("Save Changes and Send Notifications");
 
         // Now verify that that aliquot is available again
-        clickFolder(getStudyLabel());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        clickAndWait(Locator.linkWithText("Blood (Whole)"));
 
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
         checkCheckbox(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
