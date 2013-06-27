@@ -38,8 +38,8 @@ LABKEY.icemr.tracking.interface = new function () {
         getFlaskUpdates : function(dailyResult, flask) { throw "not implemented!"},
         uploadFlasks : function(flasks, success, failure) {throw "not implemented!"},
         saveDaily : function(flasks, success, failure) { throw "not implemented!"},
-        getVisQuery : function () { throw "not implemented"},
-        getCalcQuery : function () { throw "not implemented"}
+        getVisQuery : function () { throw "not implemented!"},
+        getCalcQuery : function () { throw "not implemented!"}
     };
 };
 
@@ -71,16 +71,46 @@ LABKEY.icemr.tracking.errDay0NoFlasksDefined = "You must include at least one fl
 // -------------------------------------------------------------------
 // constants
 // -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+// These field names and options are used across the assay results as well
+// as the sample sets.  The convention used is that assay field names
+// are under the LABKEY.icemr.tracking namespace.  Sample set field names
+// are under the LABKEY.icemr.flask namespace.  The adaptation and selection
+// assays share the exact same field names.  The adaptation and selection flasks
+// have a set of shared and different fields.
+// -------------------------------------------------------------------
 LABKEY.icemr.tracking.adaptationAssay = 'Culture Adaptation';
 LABKEY.icemr.tracking.selectionAssay = 'Drug Selection';
-LABKEY.icemr.tracking.parasitemia = 'Parasitemia';
+
+// -------------------------------------------------------------------
+// tracking assay (selection and adaptation
+// -------------------------------------------------------------------
+// run fields
 LABKEY.icemr.tracking.patient = 'PatientID';
-LABKEY.icemr.tracking.sample = 'SampleID';
+LABKEY.icemr.tracking.startDate = 'StartDate';
 LABKEY.icemr.tracking.experiment = 'ExperimentID';
+// result fields
+LABKEY.icemr.tracking.sample = 'SampleID';
+LABKEY.icemr.tracking.measurementDate = 'MeasurementDate';
+LABKEY.icemr.tracking.scientist = 'Scientist';
+LABKEY.icemr.tracking.parasitemia = 'Parasitemia';
+LABKEY.icemr.tracking.gametocytemia = 'Gametocytemia';
+LABKEY.icemr.tracking.stage = 'Stage';
+LABKEY.icemr.tracking.removed = 'Removed';
+LABKEY.icemr.tracking.rbcBatch = 'RBCBatchID';
+LABKEY.icemr.tracking.serumBatch = 'SerumBatchID';
+LABKEY.icemr.tracking.albumaxBatch = 'AlbumaxBatchID';
+LABKEY.icemr.tracking.growthFoldTestInitiated = 'GrowthFoldTestInitiated';
+LABKEY.icemr.tracking.growthFoldTestFinished = 'GrowthFoldTestFinished';
 LABKEY.icemr.tracking.contamination = 'Contamination';
 LABKEY.icemr.tracking.mycotest = 'MycoTestResult';
+LABKEY.icemr.tracking.freezerProIds = "FreezerProIDs";
+LABKEY.icemr.tracking.flaskMaintenanceStopped = 'FlaskMaintenanceStopped';
 LABKEY.icemr.tracking.interestingResult = 'InterestingResult';
-LABKEY.icemr.tracking.stage = 'Stage';
+LABKEY.icemr.tracking.comments = 'Comments';
+LABKEY.icemr.tracking.dateIndex = 'DateIndex';
+// result option values
 LABKEY.icemr.tracking.pRBC = 'PatientpRBCs';
 LABKEY.icemr.tracking.cultureMedia = 'CultureMedia';
 LABKEY.icemr.tracking.stageOptions =  [['none'], ['gametocyte'], ['rings'], ['trophozoites'], ['schizonts'], ['mixed']];
@@ -90,30 +120,51 @@ LABKEY.icemr.tracking.yesNoOptions = [['Yes'], ['No']];
 LABKEY.icemr.tracking.positiveNegativeTestOptions = [['Positive'], ['Negative'], ['No Test']];
 LABKEY.icemr.tracking.positiveNegativeOptions = [['Positive'], ['Negative'], ['No']];
 LABKEY.icemr.tracking.oneTwoThreeOptions = [['1'], ['2'], ['3'], ['No']];
-LABKEY.icemr.tracking.dateIndex = 'DateIndex';
-LABKEY.icemr.tracking.measurementDate = 'MeasurementDate';
-LABKEY.icemr.tracking.growthFoldTestInitiated = 'GrowthFoldTestInitiated';
-LABKEY.icemr.tracking.growthFoldTestFinished = 'GrowthFoldTestFinished';
-LABKEY.icemr.tracking.flaskMaintenanceStopped = 'FlaskMaintenanceStopped';
-LABKEY.icemr.tracking.scientist = 'Scientist';
-LABKEY.icemr.tracking.serumBatch = 'SerumBatchID';
-LABKEY.icemr.tracking.albumaxBatch = 'AlbumaxBatchID';
 
-// sample set fields common to both adaptation and selection flasks
+// -------------------------------------------------------------------
+// sample set fields (flasks)
+// -------------------------------------------------------------------
+// common flask fields
+LABKEY.icemr.flask.patient = LABKEY.icemr.tracking.patient;
 LABKEY.icemr.flask.sample = LABKEY.icemr.tracking.sample;
-LABKEY.icemr.flask.startDate = 'StartDate';
-// date that maintenance on the flask is done
-LABKEY.icemr.flask.maintenanceStopped = 'MaintenanceStopped';
-// date of most recent daily upload
-LABKEY.icemr.flask.maintenanceDate = 'MaintenanceDate';
-// StartParasitemia[n] where n = 1,2, or 3 corresponding to the parasitemia when the growth-fold test
-// is started
-LABKEY.icemr.flask.startParasitemia = 'StartParasitemia';
-// same as above but when the test is finished
-LABKEY.icemr.flask.finishParasitemia = 'FinishParasitemia';
-// start date of growth test, ICEMR only cares about the Growth-Fold test1
+LABKEY.icemr.flask.scientist = LABKEY.icemr.tracking.scientist;
+LABKEY.icemr.flask.cultureMedia = LABKEY.icemr.tracking.cultureMedia;
+LABKEY.icemr.flask.serumBatch = LABKEY.icemr.tracking.serumBatch;
+LABKEY.icemr.flask.albumaxBatch = LABKEY.icemr.tracking.albumaxBatch;
+LABKEY.icemr.flask.foldIncrease = 'FoldIncrease'; // FoldIncrease[n] where n = 1,2, or 3
+LABKEY.icemr.flask.startParasitemia = 'StartParasitemia';// StartParasitemia[n] where n = 1,2, or 3
+LABKEY.icemr.flask.finishParasitemia = 'FinishParasitemia'; // save as above
+LABKEY.icemr.flask.comments = LABKEY.icemr.tracking.comments;
+LABKEY.icemr.flask.maintenanceStopped = 'MaintenanceStopped'; // date that maintenance on the flask is done
+LABKEY.icemr.flask.maintenanceDate = 'MaintenanceDate'; // date of most recent daily upload
 LABKEY.icemr.flask.startDate1 = 'StartDate1';
 LABKEY.icemr.flask.finishDate1 = 'FinishDate1';
+// adaptation specific flask fields
+LABKEY.icemr.flask.parasitemia = LABKEY.icemr.tracking.parasitemia;
+LABKEY.icemr.flask.gametocytemia = LABKEY.icemr.tracking.gametocytemia;
+LABKEY.icemr.flask.patientpRBCs = 'PatientpRBCs';
+LABKEY.icemr.flask.hematocrit = 'Hematocrit';
+LABKEY.icemr.flask.stage = LABKEY.icemr.tracking.stage;
+LABKEY.icemr.flask.adaptationCriteria = 'AdaptationCriteria';
+LABKEY.icemr.flask.adaptationDate = 'AdaptationDate';
+LABKEY.icemr.flask.successfulAdaptation = 'SuccessfulAdaptation'; // calculated field
+// selection specific flask fields
+LABKEY.icemr.flask.adaptationSample = 'AdaptationSampleID';
+LABKEY.icemr.flask.freezerProId = 'FreezerProID';
+LABKEY.icemr.flask.initialPopulation = 'InitialPopulation';
+LABKEY.icemr.flask.compound = 'Compound';
+LABKEY.icemr.flask.concentration = 'Concentration';
+LABKEY.icemr.flask.control = 'Control';
+LABKEY.icemr.flask.superstockBatch = 'SuperstockBatchID';
+LABKEY.icemr.flask.workingstockBatch = 'WorkingstockBatchID';
+LABKEY.icemr.flask.rbcBatch = LABKEY.icemr.tracking.rbcBatch;
+LABKEY.icemr.flask.resistanceProtocol = 'ResistanceProtocol';
+LABKEY.icemr.flask.resistanceNumber = 'ResistanceNumber';
+LABKEY.icemr.flask.minimumParasitemia = 'MinimumParasitemia';
+LABKEY.icemr.flask.consecutiveDays = 'ConsecutiveDays'; // calculated field
+// sample set options
+LABKEY.icemr.flask.compoundOptions = []; // filled in if the Drug Selection Assay is chosen
+LABKEY.icemr.flask.resistanceProtocolOptions = [['growth-fold'], ['days']];
 
 LABKEY.icemr.flask.syncFields = [
     LABKEY.icemr.flask.maintenanceStopped,
@@ -128,15 +179,11 @@ LABKEY.icemr.flask.syncFields = [
     LABKEY.icemr.flask.finishDate1
 ];
 // used for calculations
-LABKEY.icemr.flask.foldIncrease = 'FoldIncrease';
 LABKEY.icemr.flask.defaultFoldIncrease = 4;
+LABKEY.icemr.flask.defaultAdaptationCriteria = 2;
 
 // used for excel template upload
 LABKEY.icemr.tracking.dailyUploadTemplateFilename = "dailyUpload.xls";
-
-// -------------------------------------------------------------------
-// enums
-// -------------------------------------------------------------------
 // -------------------------------------------------------------------
 // methods
 // -------------------------------------------------------------------
@@ -702,7 +749,7 @@ LABKEY.icemr.tracking.maintenanceDateAlreadyExists = function(measurementDate){
 // in your queries instead of calculating from the start date
 //
 LABKEY.icemr.tracking.computeCalculatedValues = function(dailyResult){
-    var startDate = new Date(LABKEY.icemr.tracking.run.properties[LABKEY.icemr.flask.startDate]);
+    var startDate = new Date(LABKEY.icemr.tracking.run.properties[LABKEY.icemr.tracking.startDate]);
     var measurementDate = new Date(dailyResult[LABKEY.icemr.tracking.measurementDate]);
     dailyResult[LABKEY.icemr.tracking.dateIndex] = LABKEY.icemr.getDateIndex(startDate, measurementDate);
 };

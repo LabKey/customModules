@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
- -- combines results from flasks, runs, and daily maintenance into
- -- a table for visualization
-
-SELECT Runs.PatientID, f.SampleID, StartDate as MeasurementDate, f.Stage, f.Parasitemia, f.Gametocytemia, f.PatientpRBCs, f.Hematocrit,
-    f.CultureMedia, NULL as Removed, NULL as GrowthFoldTestInitiated, NULL as GrowthFoldTestFinished,
-    NULL As Contamination, NULL as MycoTestResults, NULL as FeezerProIDS, NULL as FlaskMaintenanceStopped, 0 as DateIndex
-FROM Runs, Samples."Adaptation Flasks" as f
-WHERE Runs.PatientID = f.PatientID
+-- get all the daily maintenance data with their day 0 data for filtering
+SELECT r.*, f.*
+FROM tracking_results r INNER JOIN alias_adapt_flasks f ON r.SampleID = f.FlaskSampleID
 
 UNION ALL
 
-SELECT Run.PatientID, SampleID, MeasurementDate, Stage, Parasitemia, Gametocytemia, NULL As PatientpRBCs, NULL as Hematocrit,
-    NULL As CultureMedia, Removed, GrowthFoldTestInitiated, GrowthFoldTestFinished, Contamination, MycoTestResult,
-    FreezerProIDs, FlaskMaintenanceStopped, DateIndex
-FROM Data
+-- combine with all the day 0 data
+SELECT NULL As RowId, Runs.PatientID, NULL As ExperimentID,
+f.FlaskSampleID as SampleID, Runs.StartDate As MeasurementDate, f.InitialScientist As Scientist,
+f.InitialParasitemia as Parasitemia, f.InitialGametocytemia as Gametocytemia, f.InitialStage as Stage,
+NULL As Removed, NULL As RBCBatchID, f.InitialSerumBatchID as SerumBatchID, f.InitialAlbumaxBatchID as AlbumaxBatchID,
+NULL As GrowthFoldTestInitiated, NULL As GrowthFoldTestFinished, NULL As Contamination, NULL As MycoTestResult,
+NULL As FreezerProIDs, NULL As FlaskMaintenanceStopped, NULL As InterestingResult, f.InitialComments as Comments,
+NULL As StartDate, 0 as DateIndex, f.FlaskPatientID, f.FlaskSampleID, f.InitialScientist, f.InitialParasitemia,
+f.InitialGametocytemia, f.PatientpRBCs, f.Hematocrit, f.InitialStage, f.AdaptationCriteria, f.CultureMedia,
+f.InitialSerumBatchID, f.InitialAlbumaxBatchID, f.FoldIncrease1, f.FoldIncrease2, f.FoldIncrease3, f.InitialComments,
+f.AdaptationDate, f.MaintenanceDate, f.MaintenanceStopped, f.StartParasitemia1, f.FinishParasitemia1,
+f.StartParasitemia2, f.FinishParasitemia2, f.StartParasitemia3, f.FinishParasitemia3, f.StartDate1, f.FinishDate1
+FROM Runs, alias_adapt_flasks as f
+WHERE Runs.PatientID = f.FlaskPatientID
 
-
-
+ORDER BY DateIndex LIMIT 5000

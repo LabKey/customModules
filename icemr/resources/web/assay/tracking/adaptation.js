@@ -12,28 +12,6 @@
  * behavior.  This file must implement all methods in tracking.js
  */
 // -------------------------------------------------------------------
-// namespaces
-// -------------------------------------------------------------------
-// -------------------------------------------------------------------
-// dependencies
-// -------------------------------------------------------------------
-// -------------------------------------------------------------------
-// configuration errors
-// -------------------------------------------------------------------
-// -------------------------------------------------------------------
-// constants
-// -------------------------------------------------------------------
-// sample set fields specific to culture adaptation flasks
-LABKEY.icemr.flask.adaptationCriteria = 'AdaptationCriteria';
-LABKEY.icemr.flask.adaptationDate = 'AdaptationDate';
-LABKEY.icemr.flask.successfulAdaptation = 'SuccessfulAdaptation';
-// used for calculations
-LABKEY.icemr.flask.defaultAdaptationCriteria = 2;
-
-// -------------------------------------------------------------------
-// enums
-// -------------------------------------------------------------------
-// -------------------------------------------------------------------
 // interface definition
 // -------------------------------------------------------------------
 LABKEY.icemr.tracking.adaptation = new function() {

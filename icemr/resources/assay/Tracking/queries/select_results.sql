@@ -13,9 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT r.*, f.Scientist as InitialScientist, f.AdaptationSampleID, f.FreezerProID, f.InitialPopulation, f.Compound,
-f.Concentration, f.Control, f.CultureMedia, f.SuperStockBatchID, f.WorkingStockBatchID,f.RBCBatchID as InitialRBCBatchID,
-f.SerumBatchID as InitialSerumBatchID, f.AlbumaxBatchID as InitialAlbumaxBatchID, f.ResistanceProtocol,
-f.ResistanceNumber, f.FoldIncrease1, f.FoldIncrease2, f.FoldIncrease3, f.MinimumParasitemia,
-f.Comments as InitialComments
-FROM tracking_results r INNER JOIN Samples."Selection Flasks" f ON r.SampleID = f.SampleID
+SELECT r.*, f.*
+FROM tracking_results r INNER JOIN alias_select_flasks f ON r.SampleID = f.FlaskSampleID

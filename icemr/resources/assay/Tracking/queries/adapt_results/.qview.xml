@@ -36,5 +36,16 @@
         <column name="FoldIncrease3"/>
         <column name="AdaptationCriteria"/>
         <column name="InitialComments"/>
+        <column name="AdaptationDate"/>
+        <column name="MaintenanceDate"/>
+        <column name="MaintenanceStopped"/>
+        <column name="StartParasitemia1"/>
+        <column name="FinishParasitemia1"/>
+        <column name="StartParasitemia2"/>
+        <column name="FinishParasitemia2"/>
+        <column name="StartParasitemia3"/>
+        <column name="FinishParasitemia3"/>
+        <column name="StartDate1"/>
+        <column name="FinishDate1"/>
     </columns>
 </customView>

@@ -130,7 +130,7 @@ function onConfigsReady(runConfigs, flaskConfigs)
     {
         config = runConfigs[i];
         // set a default start date of today
-        if (config.name == LABKEY.icemr.flask.startDate)
+        if (config.name == LABKEY.icemr.tracking.startDate)
             config.value = new Date();
     }
 

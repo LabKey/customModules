@@ -3,14 +3,24 @@
 LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/tracking/tracking.js");
 Ext4.onReady(function(){
+    var dataFilters = [];
+    var patientFilter;
     var params = LABKEY.ActionURL.getParameters();
-    var filter;
-    if (params.patientId)
-        filter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
-    else
-        filter = LABKEY.Filter.create('PatientID', LABKEY.Filter.NOT_MISSING);
 
     LABKEY.icemr.tracking.setInterface(params.schemaName);
+
+    if (params.patientId)
+        patientFilter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
+    else
+        patientFilter = LABKEY.Filter.create('PatientID', LABKEY.Filter.NOT_MISSING);
+
+    dataFilters.push(patientFilter);
+
+    if (params['filterUrl']){
+        var userFilters = LABKEY.Filter.getFiltersFromUrl(params['filterUrl']);
+        for (var i = 0; i < userFilters.length; i++)
+            dataFilters.push(userFilters[i]);
+    }
 
     var storeFoldIncreases = function(rows){
         var values = {};
@@ -41,7 +51,7 @@ Ext4.onReady(function(){
         return values;
     };
 
-    var createPanel = function(foldIncreases, params, filter){
+    var createPanel = function(foldIncreases, params, dataFilters){
         var schemaName = params.schemaName;
         var queryName = LABKEY.icemr.tracking.interface.getVisQuery();
         var cbGroup = Ext4.create('Ext.form.CheckboxGroup', {
@@ -307,7 +317,7 @@ Ext4.onReady(function(){
             autoColumnXName: 'DateIndex',
             autoColumnYName: 'Parasitemia',
             defaultNumberFormat: Ext.util.Format.numberRenderer('0.00'),
-            userFilters: [filter],
+            userFilters: dataFilters,
             customButtons: [Ext4.create('Ext.button.Button', {text: 'ICEMR', handler: ICEMRHandler})],
             getCustomChartOptions: function(scope){
                 return {ICEMR: ICEMRPanel.getPanelOptionValues()};
@@ -387,13 +397,13 @@ Ext4.onReady(function(){
     LABKEY.Query.selectRows({
         schemaName: "Samples",
         queryName: LABKEY.icemr.tracking.interface.getFlasksSampleSetName(),
-        filterArray: [filter],
+        filterArray: [patientFilter],
         success: function(results){
             var foldIncreases = storeFoldIncreases(results.rows);
-            createPanel(foldIncreases, params, filter);
+            createPanel(foldIncreases, params, dataFilters);
         },
         failure: function(response){
-            createPanel({}, params, filter);
+            createPanel({}, params, dataFilters);
         }
     });
 });

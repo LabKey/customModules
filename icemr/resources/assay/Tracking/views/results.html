@@ -41,7 +41,7 @@ function init()
     LABKEY.Query.selectRows({
         schemaName : schemaName,
         queryName  : 'Data',
-        columns :  ['Run/' + LABKEY.icemr.flask.startDate,
+        columns :  ['Run/' + LABKEY.icemr.tracking.startDate,
                     'Run/' + LABKEY.icemr.tracking.experiment,
                     'Run/' + LABKEY.icemr.tracking.patient,
                     LABKEY.icemr.tracking.sample,
@@ -57,7 +57,7 @@ function init()
                 if (filterValue)
                 {
                     resultHeader += row['Run/' + LABKEY.icemr.tracking.experiment] + '<br>';
-                    resultHeader += 'Start date: ' + buildDateString(row['Run/' + LABKEY.icemr.flask.startDate]) + '<br>';
+                    resultHeader += 'Start date: ' + buildDateString(row['Run/' + LABKEY.icemr.tracking.startDate]) + '<br>';
                     resultHeader += 'Last maintenance date: ' + buildDateString(row[LABKEY.icemr.tracking.measurementDate]);
                     this.patientId = row['Run/' + LABKEY.icemr.tracking.patient];
                 }
@@ -82,15 +82,34 @@ function buildDateString(value)
 
 function onVisClick()
 {
+    var dataRegion = Ext.getCmp(this.dataRegionName);
+
+    var params = {};
+    params['patientId'] = patientId;
+    params['edit'] = true;
+    params['schemaName'] =  'assay.Tracking.' + LABKEY.page.assay.name;
+
+    // respect any user filters that exist
+    var userFilters = dataRegion.getUserFilterArray();
+    if (userFilters.length > 0)
+    {
+        var filterUrl = '';
+        for (var i = 0; i < userFilters.length; i++)
+        {
+            if (i > 0)
+                filterUrl += '&';
+
+            filterUrl += userFilters[i].getURLParameterName() + '=' + userFilters[i].getURLParameterValue();
+        }
+        params['filterUrl'] = filterUrl;
+    }
+
     window.location = LABKEY.ActionURL.buildURL(
             'icemr',
             "vis",
             LABKEY.ActionURL.getContainer(),
-            {
-                patientId: patientId,
-                edit: true,
-                schemaName: 'assay.Tracking.' + LABKEY.page.assay.name
-            });
+            params
+    );
 }
 
 function showFoldIncrease()

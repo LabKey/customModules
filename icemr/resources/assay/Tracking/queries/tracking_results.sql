@@ -17,5 +17,5 @@ SELECT Run.RowId, Run.PatientID, Run.ExperimentID,
 SampleID, MeasurementDate, Scientist, Parasitemia,
 Gametocytemia, Stage, Removed, RBCBatchID, SerumBatchID, AlbumaxBatchID, GrowthFoldTestInitiated,
 GrowthFoldTestFinished, Contamination, MycoTestResult, FreezerProIDs, FlaskMaintenanceStopped,
-InterestingResult, Comments, Run.StartDate
+InterestingResult, Comments, Run.StartDate, DateIndex
 FROM Data

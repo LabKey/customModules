@@ -15,10 +15,10 @@
  */
 
  -- select visualization does not involve day 0 data
-SELECT Run.PatientID, SampleID, MeasurementDate, Stage, Parasitemia, Gametocytemia, NULL As PatientpRBCs, NULL as Hematocrit,
-    NULL As CultureMedia, Removed, GrowthFoldTestInitiated, GrowthFoldTestFinished, Contamination, MycoTestResult,
-    FreezerProIDs, FlaskMaintenanceStopped, DateIndex
-FROM Data
-
+ -- not that this is really just select_results.sql but we don't want to apply
+ -- our default custom view for visualization
+SELECT r.*, f.*
+FROM tracking_results r INNER JOIN alias_select_flasks f ON r.SampleID = f.FlaskSampleID
+ORDER BY DateIndex LIMIT 5000
 
 

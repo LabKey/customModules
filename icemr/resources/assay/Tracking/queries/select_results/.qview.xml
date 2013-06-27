@@ -30,8 +30,8 @@
         <column name="Concentration"/>
         <column name="Control"/>
         <column name="CultureMedia"/>
-        <column name="SuperStockBatchID"/>
-        <column name="WorkingStockBatchID"/>
+        <column name="SuperstockBatchID"/>
+        <column name="WorkingstockBatchID"/>
         <column name="InitialRBCBatchID"/>
         <column name="InitialSerumBatchID"/>
         <column name="InitialAlbumaxBatchID"/>
@@ -42,5 +42,15 @@
         <column name="FoldIncrease3"/>
         <column name="MinimumParasitemia"/>
         <column name="InitialComments"/>
+        <column name="MaintenanceDate"/>
+        <column name="MaintenanceStopped"/>
+        <column name="StartParasitemia1"/>
+        <column name="FinishParasitemia1"/>
+        <column name="StartParasitemia2"/>
+        <column name="FinishParasitemia2"/>
+        <column name="StartParasitemia3"/>
+        <column name="FinishParasitemia3"/>
+        <column name="StartDate1"/>
+        <column name="FinishDate1"/>
     </columns>
 </customView>

@@ -13,8 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT r.*, f.PatientpRBCs, f.Hematocrit, f.Scientist as InitialScientist,
-f.Parasitemia as InitialParasitemia, f.Gametocytemia as InitialGametocytemia, f.Stage as InitialStage, f.CultureMedia,
-f.SerumBatchID as InitialSerumBatchID, f.AlbumaxBatchID as InitialAlbumaxBatchID, f.FoldIncrease1, f.FoldIncrease2,
-f.FoldIncrease3,f.AdaptationCriteria, f.Comments as InitialComments
-FROM tracking_results r INNER JOIN Samples."Adaptation Flasks" f ON r.SampleID = f.SampleID
+SELECT r.*, f.*
+FROM tracking_results r INNER JOIN alias_adapt_flasks f ON r.SampleID = f.FlaskSampleID

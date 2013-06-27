@@ -11,22 +11,6 @@
  * This implements the tracking assay "interface" for the adaptation specific
  * behavior.  This file must implement all methods in tracking.js
  */
-
-// -------------------------------------------------------------------
-// constants
-// -------------------------------------------------------------------
-// selection specific flask fields
-LABKEY.icemr.flask.control = 'Control';
-LABKEY.icemr.flask.resistanceNumber = 'ResistanceNumber';
-LABKEY.icemr.flask.resistanceProtocol = 'ResistanceProtocol';
-LABKEY.icemr.flask.compound = 'Compound';
-LABKEY.icemr.flask.compoundOptions = []; // filled in if the Drug Selection Assay is chosen
-LABKEY.icemr.flask.resistanceProtocolOptions = [['growth-fold'], ['days']];
-LABKEY.icemr.flask.minimumParasitemia = 'MinimumParasitemia';
-
-// sample set fields specific to drug selection flasks
-LABKEY.icemr.flask.consecutiveDays = 'ConsecutiveDays';
-
 // -------------------------------------------------------------------
 // interface definition
 // -------------------------------------------------------------------
