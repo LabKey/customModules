@@ -136,7 +136,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         clickButtonContainingText("Import Folder Using Pipeline");
         _extHelper.expandFileBrowserRootNode();
         _extHelper.selectFileBrowserItem("export/");
-        _extHelper.selectAllFileBrowserFiles();
+        click(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and starts-with(text(), 'My Study_')]"));
         selectImportDataAction("Import Folder");
         waitForPipelineJobsToComplete(2, "Folder import", false);
     }
