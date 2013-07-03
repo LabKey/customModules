@@ -1,5 +1,6 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
+        <column name="FCSAnalysis"/>
         <column name="EXPERIMENT NAME"/>
         <column name="SampleOrder"/>
         <column name="Sample/PTID"/>
