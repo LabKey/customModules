@@ -27,6 +27,7 @@ import org.labkey.test.util.LogMethod;
 public class AliquotTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
+    protected static final String SPECIMEN_ARCHIVE_148 = getStudySampleDataPath() + "specimens/lab148.specimens";
 
     @Override
     protected String getProjectName()
@@ -69,7 +70,6 @@ public class AliquotTest extends SpecimenBaseTest
         setupDefaultRequirements();
         setupRequestForm();
         setupActorNotification();
-
     }
 
     @Override
@@ -199,7 +199,7 @@ public class AliquotTest extends SpecimenBaseTest
     private void verifyEditableSpecimens()
     {
         // Change repository to editable
-        clickFolder(getStudyLabel());
+        clickFolder(getFolderName());
         clickAndWait(Locator.linkWithText("Manage"));
         clickAndWait(Locator.linkWithText("Change Repository Type"));
         Locator enableEditableSpecimens = Locator.radioButtonByNameAndValue("specimenDataEditable", "true");
@@ -210,15 +210,15 @@ public class AliquotTest extends SpecimenBaseTest
         verifyDeletingSpecimens();
         verifyEditingSpecimens();
         verifyInsertingSpecimens();
-//        verifyIllegalImporting();
-//        verifyLegalImporting();
+
+        verifyIllegalImporting();
     }
 
     @LogMethod
     private void verifyDeletingSpecimens()
     {
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // Check that ALIQUOT_ONE cannot be selected for Delete
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX_DISABLED));
@@ -233,9 +233,9 @@ public class AliquotTest extends SpecimenBaseTest
         clickButton("Save Changes and Send Notifications");
 
         // Now try to delete ALIQUOT_ONE
-        clickFolder(getStudyLabel());
+        clickFolder(getFolderName());
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
         checkCheckbox(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
         click(Locator.linkWithText("Delete"));
@@ -253,9 +253,9 @@ public class AliquotTest extends SpecimenBaseTest
     @LogMethod
     private void verifyEditingSpecimens()
     {
-        clickFolder(getStudyLabel());
+        clickFolder(getFolderName());
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // Create request with ALIQUOT_FOUR
         checkCheckbox(Locator.xpath(ALIQUOT_FOUR_CHECKBOX));
@@ -264,7 +264,7 @@ public class AliquotTest extends SpecimenBaseTest
 
         // Attempt to edit, which should be error
         clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
         clickAndWait(Locator.xpath(ALIQUOT_FOUR_EDITLINK));
         assertTextNotPresent("Specimen may not be edited when it's in a non-final request.");
         clickButton("Submit");
@@ -282,24 +282,35 @@ public class AliquotTest extends SpecimenBaseTest
     @LogMethod
     private void verifyInsertingSpecimens()
     {
+        clickFolder(getFolderName());
+        clickAndWait(Locator.linkWithText("Specimen Data"));
+        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
+        // verify insert new here
+        clickAndWait(Locator.linkWithText("Insert New"));
+        setFormElement(Locator.xpath("//input[@name='quf_GlobalUniqueId']"), "Global");
+        setFormElement(Locator.xpath("//input[@name='quf_VisitDescription']"), "NewVisit");
+        setFormElement(Locator.xpath("//input[@name='quf_SequenceNum']"), "001");
+        setFormElement(Locator.name("quf_ParticipantId"), "618005775");
+        clickButton("Submit");
+        assertTextNotPresent("Error");
+        setFilter("SpecimenDetail", "VisitDescription", "Equals", "NewVisit");
+        assertTextPresent("NewVisit");
     }
-
-    protected static final String SPECIMEN_ARCHIVE_148 = getStudySampleDataPath() + "specimens/lab148.specimens";
 
     @LogMethod
     private void verifyIllegalImporting()
     {
-        clickFolder(getStudyLabel());                   // TODO: this doesn't work as is yet
-        startSpecimenImport(1, SPECIMEN_ARCHIVE_148);
+        checkErrors();
+        clickProject("AliquotVerifyProject");
+
+        clickFolder(getFolderName());
+        startSpecimenImport(2, SPECIMEN_ARCHIVE_148);
         setExpectSpecimenImportError(true);
         waitForSpecimenImport();
-    }
 
-    @LogMethod
-    private void verifyLegalImporting()
-    {
-
+        // Make sure the expected errors have been logged and will not hang up the test later on.
+        checkExpectedErrors(1);
     }
 
     private void createNewRequestFromQueryView()
