@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 SELECT Run.RowId, Run.PatientID, Run.ExperimentID,
-SampleID, MeasurementDate, Scientist, Parasitemia,
-Gametocytemia, Stage, Removed, RBCBatchID, SerumBatchID, AlbumaxBatchID, GrowthFoldTestInitiated,
-GrowthFoldTestFinished, Contamination, MycoTestResult, FreezerProIDs, FlaskMaintenanceStopped,
-InterestingResult, Comments, Run.StartDate, DateIndex
+SampleID,
+-- remove the time component from the date so that MeasurementDate - StartDate only counts full days
+cast(cast(MeasurementDate As Date) as Timestamp) As MeasurementDate,
+Scientist, Parasitemia, Gametocytemia, Stage, Removed, RBCBatchID, SerumBatchID, AlbumaxBatchID,
+GrowthFoldTestInitiated, GrowthFoldTestFinished, Contamination, MycoTestResult, FreezerProIDs, FlaskMaintenanceStopped,
+InterestingResult, Comments,
+ -- remove the time component from the date so that MeasurementDate - StartDate only counts full days
+cast(cast(Run.StartDate As Date) as Timestamp) as StartDate
 FROM Data

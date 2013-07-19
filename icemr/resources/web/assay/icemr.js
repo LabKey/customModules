@@ -240,6 +240,10 @@ LABKEY.icemr.getFormPosNegValue = function(value) {
 
 // convert milliseconds to days
 LABKEY.icemr.getDateIndex = function(start, end){
-    return parseInt((end.getTime() - start.getTime())/(24*60*60*1000));
+    // ignore the time portion to get number of days
+    // note that dateindex is really no longer used as we calculate the value in the database
+    var startDate = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0, 0);
+    var endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 0, 0, 0, 0);
+    return parseInt((endDate.getTime() - startDate.getTime())/(24*60*60*1000));
 };
 

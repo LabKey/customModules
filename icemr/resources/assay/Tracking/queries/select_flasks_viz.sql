@@ -17,7 +17,8 @@
  -- select visualization does not involve day 0 data
  -- not that this is really just select_results.sql but we don't want to apply
  -- our default custom view for visualization
-SELECT r.*, f.*
+SELECT r.*, f.*,
+abs(timestampdiff('SQL_TSI_DAY', MeasurementDate, StartDate)) As DateIndex
 FROM tracking_results r INNER JOIN alias_select_flasks f ON r.SampleID = f.FlaskSampleID
 ORDER BY DateIndex LIMIT 5000
 

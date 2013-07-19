@@ -745,8 +745,9 @@ LABKEY.icemr.tracking.maintenanceDateAlreadyExists = function(measurementDate){
 };
 
 //
-// Store off the date index for now.  Consider using this
-// in your queries instead of calculating from the start date
+// Store off the date index for now.  Note that this field no longer needs
+// to be stored in the database as we calculate the value now in our visualization
+// queries
 //
 LABKEY.icemr.tracking.computeCalculatedValues = function(dailyResult){
     var startDate = new Date(LABKEY.icemr.tracking.run.properties[LABKEY.icemr.tracking.startDate]);

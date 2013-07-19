@@ -60,11 +60,13 @@ function init()
                     resultHeader += 'Start date: ' + buildDateString(row['Run/' + LABKEY.icemr.tracking.startDate]) + '<br>';
                     resultHeader += 'Last maintenance date: ' + buildDateString(row[LABKEY.icemr.tracking.measurementDate]);
                     this.patientId = row['Run/' + LABKEY.icemr.tracking.patient];
+                    this.experimentId = row['Run/' + LABKEY.icemr.tracking.experiment]
                 }
                 else
                 {
                     resultHeader += 'all experiments.';
                     this.patientId = "";
+                    this.experimentId = "";
                 }
                 resultHeader += '<p/>'
                 Ext4.fly('resultHeader').update(resultHeader);
@@ -85,6 +87,7 @@ function onVisClick()
     var dataRegion = Ext.getCmp(this.dataRegionName);
 
     var params = {};
+    params['experimentId'] = experimentId;
     params['patientId'] = patientId;
     params['edit'] = true;
     params['schemaName'] =  'assay.Tracking.' + LABKEY.page.assay.name;

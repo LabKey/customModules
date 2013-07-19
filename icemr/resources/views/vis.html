@@ -2,6 +2,19 @@
 <script type="text/javascript">
 LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/tracking/tracking.js");
+
+function buildEqFilter(name, value)
+{
+    var filter;
+
+    if (value)
+        filter = LABKEY.Filter.create(name, value, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
+    else
+        filter = LABKEY.Filter.create(name, LABKEY.Filter.NOT_MISSING);
+
+    return filter;
+}
+
 Ext4.onReady(function(){
     var dataFilters = [];
     var patientFilter;
@@ -9,12 +22,9 @@ Ext4.onReady(function(){
 
     LABKEY.icemr.tracking.setInterface(params.schemaName);
 
-    if (params.patientId)
-        patientFilter = LABKEY.Filter.create('PatientID', params.patientId, LABKEY.Filter.getFilterTypeForURLSuffix('eq'));
-    else
-        patientFilter = LABKEY.Filter.create('PatientID', LABKEY.Filter.NOT_MISSING);
-
+    patientFilter = buildEqFilter(LABKEY.icemr.tracking.patient, params.patientId);
     dataFilters.push(patientFilter);
+    dataFilters.push(buildEqFilter(LABKEY.icemr.tracking.experiment, params.experimentId)) ;
 
     if (params['filterUrl']){
         var userFilters = LABKEY.Filter.getFiltersFromUrl(params['filterUrl']);
