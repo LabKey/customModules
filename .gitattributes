@@ -11,7 +11,6 @@ atlastools/resources/views/dataUploadDashboard.html -text
 atlastools/resources/views/dataUploadDashboard.view.xml -text
 hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/README.txt -text
-hvtnFlow/build.xml -text
 hvtnFlow/generate-booleans.py -text
 hvtnFlow/hvtnFlow.iml -text
 hvtnFlow/module.properties -text
@@ -42,7 +41,6 @@ hvtnFlow/resources/queries/flow/PassFailDetails-12.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails.query.xml -text
 hvtnFlow/resources/queries/flow/PassFailDetails.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails/.qview.xml -text
-icemr/build.xml -text
 icemr/icemr.iml -text
 icemr/module.properties -text
 icemr/resources/assay/Diagnostics/config.xml -text
@@ -166,7 +164,6 @@ ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsController.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsModule.java -text
 ms2extensions/src/org/labkey/ms2extensions/RunGridWebPart.java -text
 ms2extensions/src/org/labkey/ms2extensions/runGridFilters.jsp -text
-viscstudies/build.xml -text
 viscstudies/module.properties -text
 viscstudies/resources/views/studydesigns.html -text
 viscstudies/resources/views/updateStudyProperties.html -text
