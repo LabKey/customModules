@@ -110,7 +110,7 @@ Ext4.onReady(function(){
         };
 
         var hoverLayers = {
-            parasitemia: function(measures){
+            parasitemia: function(aes){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
@@ -126,13 +126,13 @@ Ext4.onReady(function(){
 
                 return layerConfig;
             },
-            splitPerformed: function(measures){
+            splitPerformed: function(aes){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         y: function(row){
                             if(row.Removed && row.Removed.value){
-                                return measures.y.acc(row);
+                                return aes.y(row);
                             }
                             return null;
                         },
@@ -151,19 +151,19 @@ Ext4.onReady(function(){
                     }
                 };
 
-                if(measures.color){
-                    layerConfig.aes.color = measures.color.acc;
+                if(aes.color){
+                    layerConfig.aes.color = aes.color;
                 }
 
                 return layerConfig;
             },
-            sampleStored: function(measures){
+            sampleStored: function(aes){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         y: function(row){
                             if(row.FeezerProIDS && row.FeezerProIDS.value){
-                                return measures.y.acc(row);
+                                return aes.y(row);
                             }
                             return null;
                         },
@@ -182,19 +182,19 @@ Ext4.onReady(function(){
                     }
                 };
 
-                if(measures.color){
-                    layerConfig.aes.color = measures.color.acc;
+                if(aes.color){
+                    layerConfig.aes.color = aes.color;
                 }
 
                 return layerConfig;
             },
-            startGrowth: function(measures){
+            startGrowth: function(aes){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         y: function(row){
                             if(row.GrowthFoldTestInitiated && row.GrowthFoldTestInitiated.value){
-                                return measures.y.acc(row);
+                                return aes.y(row);
                             }
                             return null;
                         },
@@ -213,19 +213,19 @@ Ext4.onReady(function(){
                     }
                 };
 
-                if(measures.color){
-                    layerConfig.aes.color = measures.color.acc;
+                if(aes.color){
+                    layerConfig.aes.color = aes.color;
                 }
 
                 return layerConfig;
             },
-            endGrowth: function(measures, foldIncreases){
+            endGrowth: function(aes, foldIncreases){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         y: function(row){
                             if(row.GrowthFoldTestFinished && row.GrowthFoldTestFinished.value){
-                                return measures.y.acc(row);
+                                return aes.y(row);
                             }
                             return null;
                         },
@@ -249,19 +249,19 @@ Ext4.onReady(function(){
                     }
                 };
 
-                if(measures.color){
-                    layerConfig.aes.color = measures.color.acc;
+                if(aes.color){
+                    layerConfig.aes.color = aes.color;
                 }
 
                 return layerConfig;
             },
-            contamination: function(measures){
+            contamination: function(aes){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         y: function(row){
                             if(row.Contamination && row.Contamination.hasOwnProperty('value')){
-                                return measures.y.acc(row);
+                                return aes.y(row);
                             }
                             return null;
                         },
@@ -281,28 +281,28 @@ Ext4.onReady(function(){
                     }
                 };
 
-                if(measures.color){
-                    layerConfig.aes.color = measures.color.acc;
+                if(aes.color){
+                    layerConfig.aes.color = aes.color;
                 }
 
                 return layerConfig;
             },
-            other: function(measures){
+            other: function(measures, aes){
                 var layerConfig = {
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         hoverText: function(row){
                             var text = row.PatientID.value + "\n";
                             text += "SampleID: " + row.SampleID.value + "\n";
-                            text += measures.y.label + ": " + measures.y.acc(row) + "\n";
+                            text += measures.y.label + ": " + aes.y(row) + "\n";
 
                             return text;
                         }
                     }
                 };
 
-                if(measures.color){
-                    layerConfig.aes.color = measures.color.acc;
+                if(aes.color){
+                    layerConfig.aes.color = aes.color;
                 }
 
                 return layerConfig;
@@ -335,12 +335,23 @@ Ext4.onReady(function(){
             customRenderTypes: {
                 ICEMR: {
                     label: "ICEMR Line Plot",
-                    generatePlotConfig: function(scope, chartOptions, measures, renderTo, width, height, data, labels, scales){
-                        measures.color = {acc: function(row){return row.SampleID.value}};
+                    generatePlotConfig: function(scope, chartConfig, renderTo, width, height, data, aes, scales, labels){
+                        // We're cheating a bit here since we could override the generateScales and generateAes functions,
+                        // however we only want to alter the color aesthetic and x scale, so we manipulate it here instead.
+                        aes.color = function(row){return row.SampleID.value};
+                        scales.x.tickFormat = function(val){
+                            if(val !== null && val !== undefined){
+                                return "Day " + val;
+                            }
+                            return '';
+                        };
+                        scales.x.trans = 'discrete';
+
+                        var measures = chartConfig.measures;
                         var layers = [];
                         var groupAcc = function(row){return row.SampleID.value};
                         var pathGeom = new LABKEY.vis.Geom.Path({});
-                        var customOptions = chartOptions.customOptions;
+                        var customOptions = chartConfig.customOptions;
                         var pathLayerConfig = {
                             geom: pathGeom,
                             data: data,
@@ -350,30 +361,21 @@ Ext4.onReady(function(){
                         };
 
                         layers.push(new LABKEY.vis.Layer(pathLayerConfig));
-                        
+
                         if(measures.y.name == "Parasitemia" && customOptions.ICEMR.hoverVariables && customOptions.ICEMR.hoverVariables.length > 0){
                             for(var i = 0; i < customOptions.ICEMR.hoverVariables.length; i++){
                                 var hoverVariable = customOptions.ICEMR.hoverVariables[i];
                                 if(hoverVariable == 'endGrowth'){
-                                    layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](measures, foldIncreases)));
+                                    layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](aes, foldIncreases)));
                                 } else if(hoverLayers[hoverVariable]){
-                                    layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](measures)));
+                                    layers.push(new LABKEY.vis.Layer(hoverLayers[hoverVariable](aes)));
                                 }
                             }
                         } else {
-                            layers.push(new LABKEY.vis.Layer(hoverLayers.other(measures)));
+                            layers.push(new LABKEY.vis.Layer(hoverLayers.other(measures, aes)));
                         }
 
-                        scales.x.tickFormat = function(val){
-                            if(val !== null && val !== undefined){
-                                return "Day " + val;
-                            }
-                            return '';
-                        };
 
-                        // We're cheating a bit here since we could override the configureAxes function, however I'd rather
-                        // not roll my own y-axis configurator at the moment.
-                        scales.x.scaleType = 'discrete';
 
                         return {
                             renderTo: renderTo,
@@ -381,15 +383,9 @@ Ext4.onReady(function(){
                             height: height,
                             labels: labels,
                             scales: scales,
+                            aes: aes,
                             data: data,
                             layers: layers
-                        };
-                    },
-                    generateAes: function(scope, chartOptions, measures, pointClickFn){
-                        return {
-                            x: measures.x.acc,
-                            y: measures.y.acc,
-                            color: function(row){return row.SampleID.value}
                         };
                     }
                 }
