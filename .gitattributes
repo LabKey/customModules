@@ -76,6 +76,9 @@ icemr/resources/assay/Tracking/queries/adapt_results/.qview.xml -text
 icemr/resources/assay/Tracking/queries/adapted_numdays.sql -text
 icemr/resources/assay/Tracking/queries/alias_adapt_flasks.sql -text
 icemr/resources/assay/Tracking/queries/alias_select_flasks.sql -text
+icemr/resources/assay/Tracking/queries/export_culture_adaptation.sql -text
+icemr/resources/assay/Tracking/queries/export_drug_selection.sql -text
+icemr/resources/assay/Tracking/queries/export_drug_selection_day0.sql -text
 icemr/resources/assay/Tracking/queries/generic_daysfromdates.sql -text
 icemr/resources/assay/Tracking/queries/generic_daysfromday0.sql -text
 icemr/resources/assay/Tracking/queries/generic_foldincrease.query.xml -text

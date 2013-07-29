@@ -22,7 +22,7 @@ FROM tracking_results r INNER JOIN alias_adapt_flasks f ON r.SampleID = f.FlaskS
 UNION ALL
 
 -- combine with all the day 0 data
-SELECT NULL As RowId, Runs.PatientID, NULL As ExperimentID,
+SELECT NULL As RowId, Runs.PatientID, Runs.ExperimentID,
 f.FlaskSampleID as SampleID, Runs.StartDate As MeasurementDate, f.InitialScientist As Scientist,
 f.InitialParasitemia as Parasitemia, f.InitialGametocytemia as Gametocytemia, f.InitialStage as Stage,
 NULL As Removed, NULL As RBCBatchID, f.InitialSerumBatchID as SerumBatchID, f.InitialAlbumaxBatchID as AlbumaxBatchID,
@@ -37,4 +37,4 @@ f.StartParasitemia2, f.FinishParasitemia2, f.StartParasitemia3, f.FinishParasite
 FROM Runs, alias_adapt_flasks as f
 WHERE Runs.PatientID = f.FlaskPatientID
 
-ORDER BY DateIndex LIMIT 5000
+ORDER BY DateIndex LIMIT 50000

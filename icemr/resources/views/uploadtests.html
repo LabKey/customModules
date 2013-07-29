@@ -704,7 +704,8 @@
         var maintDate = new Date();
         maintDate.setDate(maintDate.getDate() + _bulkCounter);
         var results = [];
-        results.push(generateDailyData('Patient2Flask2',.06, maintDate, null, null, false));
+        var p = _bulkCounter / _bulkLimit;
+        results.push(generateDailyData('Patient2Flask2',p, maintDate, null, null, false));
         LABKEY.icemr.tracking.saveDaily(results, BulkUploadSuccess, VerifyFailure);
     }
 

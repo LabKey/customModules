@@ -260,7 +260,7 @@ Ext4.onReady(function(){
                     geom: new LABKEY.vis.Geom.Point(),
                     aes: {
                         y: function(row){
-                            if(row.Contamination && row.Contamination.hasOwnProperty('value')){
+                            if(row.Contamination && row.Contamination.hasOwnProperty('value') && row.Contamination.value === true){
                                 return aes.y(row);
                             }
                             return null;
