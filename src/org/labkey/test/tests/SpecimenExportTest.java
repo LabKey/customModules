@@ -16,8 +16,11 @@
 package org.labkey.test.tests;
 
 import junit.framework.Assert;
+import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
+import org.labkey.test.categories.DailyB;
+import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -25,6 +28,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  * User: cnathe
  * Date: 6/26/13
  */
+@Category({DailyB.class, Specimen.class})
 public class SpecimenExportTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenExportVerifyProject";

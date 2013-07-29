@@ -19,8 +19,10 @@ package org.labkey.test.tests;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
+import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
+import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
@@ -40,6 +42,7 @@ import java.util.Date;
  * Date: Mar 9, 2006
  * Time: 1:54:57 PM
  */
+@Category({DailyA.class})
 public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";

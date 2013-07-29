@@ -16,7 +16,10 @@
 
 package org.labkey.test.tests;
 
+import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
+import org.labkey.test.categories.DailyA;
+import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
 
 /**
@@ -24,6 +27,7 @@ import org.labkey.test.util.LogMethod;
  * Date: 7/8/13
  * Time: 1:44 PM
  */
+@Category({DailyA.class, Specimen.class})
 public class SpecimenMultipleImportTest extends StudyBaseTestWD
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
