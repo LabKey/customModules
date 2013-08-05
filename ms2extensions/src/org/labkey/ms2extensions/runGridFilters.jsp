@@ -87,8 +87,14 @@
         handleRunGridButtonClick(dataRegionName, "comparePeptideQuery");
     }
 
-    function handleRunGridButtonClick(dataRegionName, actionTarget)
+    function spectraCount(dataRegionName)
     {
+        handleRunGridButtonClick(dataRegionName, "spectraCount", { spectraConfig: 'SpectraCountPeptideProtein' });
+    }
+
+    function handleRunGridButtonClick(dataRegionName, actionTarget, urlParams)
+    {
+        urlParams = urlParams || {};
         var dataRegion = LABKEY.DataRegions[dataRegionName];
         var runIds = dataRegion.getChecked();
         var viewSelectElement = document.getElementById(<%= PageFlowUtil.jsString(peptideViewSelectId)%>);
@@ -105,13 +111,12 @@
 
         LABKEY.Experiment.createHiddenRunGroup({runIds: runIds, success: function(runGroup, response)
         {
-            var urlParams =
-            {
+            Ext4.apply(urlParams, {
                 runList: runGroup.id,
                 peptideFilterType: 'customView',
                 'PeptidesFilter.viewName': viewName,
                 targetProtein: targetProtein
-            };
+            });
 
             window.location = LABKEY.ActionURL.buildURL("ms2", actionTarget, LABKEY.ActionURL.getContainer(), urlParams);
         }});

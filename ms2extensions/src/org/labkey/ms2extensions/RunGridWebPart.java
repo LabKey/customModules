@@ -167,6 +167,12 @@ public class RunGridWebPart extends VBox
             comparePeptidesButton.setRequiresSelection(true);
             bar.add(comparePeptidesButton);
 
+            ActionButton spectraCountButton = new ActionButton("Spectra Count");
+            spectraCountButton.setScript("spectraCount(" + PageFlowUtil.jsString(getDataRegionName()) + "); return false;", false);
+            spectraCountButton.setActionType(ActionButton.Action.SCRIPT);
+            spectraCountButton.setRequiresSelection(true);
+            bar.add(spectraCountButton);
+
             ActionButton exportBluemap = new ActionButton("Export Protein Coverage");
             exportBluemap.setScript("exportPeptideBluemap(" + PageFlowUtil.jsString(getDataRegionName()) + "); return false;", false);
             exportBluemap.setActionType(ActionButton.Action.SCRIPT);
