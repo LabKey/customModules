@@ -25,6 +25,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.ExcelHelper;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
 
 import java.io.File;
@@ -68,12 +69,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @Override
     protected void doTestSteps() throws Exception
     {
-
         setupAssays();
         doVerification();
     }
 
-//    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
+    @LogMethod
     private void doVerification()
     {
         testJavaScript();
@@ -98,6 +98,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         verifyTrackingIndependence();
     }
 
+    @LogMethod
     private void verifyTrackingIndependence()
     {
         // issues 18050 and 18040 - verify that the adaptation and drug selection assays work
@@ -114,6 +115,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
     }
 
+    @LogMethod
     private void verifyTrackingAssay(String assayName)
     {
         enterDataPointTracking(assayName);
@@ -136,6 +138,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             Assert.assertTrue(datapointData.contains(s));
     }
 
+    @LogMethod
     private void setupAssays()
     {
         log("Create ICEMR assays and samplesets");
@@ -154,6 +157,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
     }
 
+    @LogMethod
     private void verifyDataInAssay()
     {
         waitForElement(Locator.id("dataregion_Data"));
@@ -197,6 +201,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             enterAdaptationData();
     }
 
+    @LogMethod
     private void enterAdaptationData()
     {
         verifyError(7);
@@ -251,6 +256,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.css(".labkey-nav-page-header").withText(ADAPTATION_ASSAY_NAME + " Runs"));
     }
 
+    @LogMethod
     private void enterSelectionData()
     {
         verifyError(8);
@@ -300,6 +306,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
 
+    @LogMethod
     private void makeAdaptationFlask(int flaskNum)
     {
         verifyError(5);
@@ -326,6 +333,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         sleep(1000);
     }
 
+    @LogMethod
     private void makeSelectionFlask(int flaskNum)
     {
         verifyError(6);
@@ -353,6 +361,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
 
+    @LogMethod
     private void enterDailyTrackingData()
     {
         //Navigate to Daily Upload page
@@ -399,6 +408,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         clickButton("Cancel");
     }
 
+    @LogMethod
     private void checkTemplate()
     {
         waitForElement(Locator.name("dailyUpload"));
@@ -450,6 +460,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         }
     }
 
+    @LogMethod
     private void checkResultsPage(){
         Locator.XPathLocator link = Locator.xpath("//a[text()='100101']");
         waitAndClick(link);
@@ -474,6 +485,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     private Map<String, String> fieldAndValue = new HashMap<>();
+    @LogMethod
     private void enterDiagnosticsData()
     {
         verifyError(10);
@@ -517,6 +529,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.css(".labkey-nav-page-header").withText(DIAGNOSTIC_ASSAY_NAME + " Results"));
     }
 
+    @LogMethod
     private void enterSpeciesData(String fileUploadField)
     {
         verifyError(7);
@@ -566,6 +579,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             enterSpeciesData(fileUploadField);
     }
 
+    @LogMethod
     private void createFlasksSampleSet(String samplesetName, String samplesetFilename)
     {
         clickProject(getProjectName());
@@ -588,6 +602,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         clickProject(getProjectName());
     }
 
+    @LogMethod
     private void testJavaScript()
     {
         PortalHelper ph = new PortalHelper(this);
@@ -608,6 +623,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         Assert.assertFalse("At least one of the javascript tests failed", Locator.id("log-info").findElement(_driver).getText().contains("FAILED"));
     }
 
+    @LogMethod
     private void deleteSample(String sample)
     {
         if (isTextPresent(sample))
@@ -624,7 +640,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         return "server/customModules/icemr";
     }
 
-    protected void setICEMRField(String field, String value)
+    @LogMethod(quiet = true)
+    protected void setICEMRField(@LoggedParam String field, @LoggedParam String value)
     {
         setFormElement(Locator.name(field), value);
         fieldAndValue.put(field, value);
