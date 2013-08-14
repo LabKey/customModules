@@ -29,6 +29,7 @@ import org.labkey.api.exp.api.ExpData;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.security.User;
 import org.labkey.api.study.Plate;
+import org.labkey.api.study.Position;
 import org.labkey.api.study.WellData;
 import org.labkey.api.study.WellGroup;
 import org.labkey.api.study.assay.AbstractAssayProvider;
@@ -160,15 +161,54 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     {
         Plate plate = group.getPlate();
 
-        WellData virusControl = plate.getWellGroup(WellGroup.Type.CONTROL, DilutionManager.VIRUS_CONTROL_SAMPLE);
+        WellGroup virusControl = plate.getWellGroup(WellGroup.Type.CONTROL, DilutionManager.VIRUS_CONTROL_SAMPLE);
         if (virusControl == null)
             throw new DilutionCurve.FitFailedException("Invalid plate template: no virus control well group was found.");
-        double controlRange = virusControl.getMean();
+
+        double controlRange = 0.0;
+
+        if (data instanceof WellGroup)
+        {
+            Position position = ((WellGroup)data).getPositions().get(0);
+            if (position != null)
+            {
+                WellGroup replicateGroup = getControlReplicateGroup(position.getRow(), virusControl);
+                controlRange = replicateGroup.getMean();
+            }
+        }
+
+        if (controlRange == 0.0)
+            controlRange = virusControl.getMean();
+
         double cellControl = _initialParasitemia != null ? _initialParasitemia.doubleValue() : 0.0;
         if (data.getMean() < cellControl)
             return 0.0;
         else
-            return (data.getMean() - cellControl) / controlRange;
+            return (data.getMean() - cellControl) / (controlRange - cellControl);
+    }
+
+    /**
+     * Try to locate, if any, the control replicate group at the same row level specified
+     * @param row
+     * @param controlGroup
+     * @return
+     */
+    private WellGroup getControlReplicateGroup(int row, WellGroup controlGroup)
+    {
+        for (WellGroup group : controlGroup.getOverlappingGroups(WellGroup.Type.REPLICATE))
+        {
+            boolean rowsMatched = true;
+            // find the control replicate group in the specified row
+            for (Position pos : group.getPositions())
+            {
+                if (pos.getRow() != row)
+                    rowsMatched = false;
+            }
+
+            if (rowsMatched)
+                return group;
+        }
+        return controlGroup;
     }
 
     @Override

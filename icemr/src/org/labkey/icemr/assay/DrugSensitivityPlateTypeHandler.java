@@ -81,6 +81,14 @@ public class DrugSensitivityPlateTypeHandler extends AbstractPlateTypeHandler
                             PlateService.get().createPosition(container, replicate, firstCol + 2));
                 }
             }
+
+            // add the control replicate groups
+            for (int replicate = 0; replicate < template.getRows(); replicate++)
+            {
+                template.addWellGroup("Control, Replicate " + (replicate + 1), WellGroup.Type.REPLICATE,
+                        PlateService.get().createPosition(container, replicate, 9),
+                        PlateService.get().createPosition(container, replicate, 10));
+            }
         }
         return template;
     }
