@@ -181,8 +181,8 @@ public class CAVDStudyTest extends StudyBaseTest
         clickTab("Vaccine Design");
         waitForText("Adjuvants");
         clickAndWait(Locator.linkContainingText("Edit"));
-        waitForText("Configure Lookup Values");
-        click(Locator.linkContainingText("Configure Lookup Values"));
+        waitForText("Configure Dropdown Options");
+        click(Locator.linkContainingText("Configure Dropdown Options"));
         clickAndWait(Locator.linkWithText("folder").index(0));  // configure the first type 'Immunogen Types'
         clickAndWait(Locator.linkWithText("edit").index(0));    // edit the first value "Canarypox"
         click(Locator.checkboxByName("quf_Inactive"));
@@ -280,8 +280,8 @@ public class CAVDStudyTest extends StudyBaseTest
         clickTab("Assays");
         waitForText("Edit");
         clickAndWait(Locator.linkContainingText("Edit"));
-        waitForText("Configure Lookup Values");
-        click(Locator.linkContainingText("Configure Lookup Values"));
+        waitForText("Configure Dropdown Options");
+        click(Locator.linkContainingText("Configure Dropdown Options"));
         clickAndWait(Locator.linkWithText(projectStr).index(index));
     }
 
@@ -300,8 +300,8 @@ public class CAVDStudyTest extends StudyBaseTest
         clickTab("Vaccine Design");
         waitForText("Edit");
         clickAndWait(Locator.linkContainingText("Edit"));
-        waitForText("Configure Lookup Values");
-        click(Locator.linkContainingText("Configure Lookup Values"));
+        waitForText("Configure Dropdown Options");
+        click(Locator.linkContainingText("Configure Dropdown Options"));
         clickAndWait(Locator.linkWithText(projectStr).index(index));
     }
 
