@@ -164,10 +164,10 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickAndWait(Locator.linkWithText("Immunizations"));
         clickEditDesign();
-        addStudyDesignRow(RowType.Immunization, "Vaccine", "1");
-        addStudyDesignRow(RowType.Immunization, "Placebo", "2");
+        addGroup("Vaccine", "1", 1);
+        addGroup("Placebo", "2", 2);
         saveRevision();
-        addStudyDesignRow(RowType.Immunization, "Vaccine2", "3");
+        addGroup("Vaccine2", "3", 3);
         addTimepoint("CAVDImmTimepoint", "0", TimeUnit.Days);
         finishRevision();
         waitForText("Immunization Schedule", 3, defaultWaitForPage);
@@ -640,6 +640,20 @@ public class CAVDStudyTest extends StudyBaseTest
     {
         waitAndClickButton("Edit");
         waitForElement(Locator.navButton("Finished"));
+    }
+
+    private void addGroup(String name, String count, int groupCount)
+    {
+        click(Locator.xpath("//div[text() = 'Add New']"));
+        waitForElement(Locator.id("DefineGroupDialog"));
+        setFormElement("newName", name);
+        clickButton("OK", 0);
+        waitForElementToDisappear(Locator.id("DefineGroupDialog"), WAIT_FOR_JAVASCRIPT);
+
+        Locator loc = Locator.xpath("//table[@id='ImmunizationGrid']/tbody/tr[" + (groupCount+2) + "]/td[3]/input");
+        waitForElement(loc);
+        setFormElement(loc, count);
+        _expectedImmunizationText.add(name);
     }
 
     private void addTimepoint(String name, String count, TimeUnit unit)
