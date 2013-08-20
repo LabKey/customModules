@@ -89,6 +89,7 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
         selectOptionByText(Locator.name("newPerSite"), "One Per Study");
         clickButton("Save");
         clickAndWait(Locator.linkWithText("Update Members"));
+        waitForElement(Locator.name("names"));
         setFormElement(Locator.name("names"), USER1);
         uncheckCheckbox(Locator.checkboxByName("sendEmail"));
         clickButton("Update Members");
@@ -97,6 +98,7 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
         clickButton("Save");
         clickAndWait(Locator.linkWithText("Update Members").index(1));
         clickAndWait(Locator.linkWithText(DESTINATION_SITE));
+        waitForElement(Locator.name("names"));
         setFormElement(Locator.name("names"), USER2);
         uncheckCheckbox(Locator.checkboxByName("sendEmail"));
         clickAndWait(Locator.linkWithText("Update Members"));
