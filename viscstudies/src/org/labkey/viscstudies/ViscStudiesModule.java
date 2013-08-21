@@ -16,6 +16,7 @@
 
 package org.labkey.viscstudies;
 
+import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
@@ -44,6 +45,7 @@ public class ViscStudiesModule extends DefaultModule
         return false;
     }
 
+    @NotNull
     protected Collection<WebPartFactory> createWebPartFactories()
     {
         return Collections.emptyList();
@@ -67,6 +69,7 @@ public class ViscStudiesModule extends DefaultModule
         ModuleLoader.getInstance().registerFolderType(this, new ViscStudyFolderType(this));
     }
 
+    @NotNull
     @Override
     public Collection<String> getSummary(Container c)
     {

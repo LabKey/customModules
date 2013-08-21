@@ -56,6 +56,7 @@ public class IcemrModule extends DefaultModule
         return true;
     }
 
+    @NotNull
     @Override
     protected Collection<WebPartFactory> createWebPartFactories()
     {
@@ -92,6 +93,7 @@ public class IcemrModule extends DefaultModule
         PlateService.get().registerPlateTypeHandler(new DrugSensitivityPlateTypeHandler());
     }
 
+    @NotNull
     @Override
     public Collection<String> getSummary(Container c)
     {

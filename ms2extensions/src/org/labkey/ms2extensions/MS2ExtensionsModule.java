@@ -15,6 +15,7 @@
  */
 package org.labkey.ms2extensions;
 
+import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
@@ -67,6 +68,7 @@ public class MS2ExtensionsModule extends DefaultModule
         addController("ms2extensions", MS2ExtensionsController.class);
     }
 
+    @NotNull
     @Override
     protected Collection<WebPartFactory> createWebPartFactories()
     {
