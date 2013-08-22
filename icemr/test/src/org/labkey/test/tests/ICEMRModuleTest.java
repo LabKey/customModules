@@ -393,7 +393,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
         clickButtonContainingText("Upload", "Scientist Name");
         sleep(500);
-        waitAndClick(Locator.button("Submit"));
+        waitAndClick(Locator.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         waitAndClick(link);
@@ -405,7 +405,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         _extHelper.waitForExtDialog("Daily Maintenance Error");
         clickButtonContainingText("OK", "Result");
         _extHelper.waitForExtDialogToDisappear("Daily Maintenance Error");
-        clickButton("Cancel");
+        click(Locator.ext4Button("Cancel"));
     }
 
     @LogMethod
@@ -511,7 +511,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         }
 
         // Issue 16875: decimals in certain icemr module fields causes js exception
-        assertFormElementEquals(Locator.name("GametocyteDensity"), "34"); // '.' can't be entered
+        assertFormElementEquals(Locator.name("GametocyteDensity"), "3.4"); // '.' can't be entered, The value must be a positive integer
         fieldAndValue.put("GametocyteDensity", "34"); // update value
 
         // we have 2 errors total, fix one at a time
