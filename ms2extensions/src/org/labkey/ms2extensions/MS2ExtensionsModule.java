@@ -82,6 +82,13 @@ public class MS2ExtensionsModule extends DefaultModule
         });
     }
 
+    @NotNull
+    @Override
+    public Collection<String> getSchemaNames()
+    {
+        return Collections.singleton(SCHEMA_NAME);
+    }
+
     @Override
     public boolean hasScripts()
     {
