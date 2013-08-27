@@ -164,10 +164,21 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickAndWait(Locator.linkWithText("Immunizations"));
         clickEditDesign();
-        addGroup("Vaccine", "1", 1);
-        addGroup("Placebo", "2", 2);
+        addGroup("Vaccine", false, "1", 1);
+        addGroup("Placebo", false, "2", 2);
         saveRevision();
-        addGroup("Vaccine2", "3", 3);
+
+        clickTab("Manage");
+        clickAndWait(Locator.linkWithText("Manage Cohorts"));
+        clickButton("Insert New");
+        setFormElement(Locator.name("quf_label"), "Vaccine2");
+        clickButton("Submit");
+        waitForText("Placebo");
+        assertTextPresentInThisOrder("Vaccine", "Placebo", "Vaccine2");
+
+        clickAndWait(Locator.linkWithText("Immunizations"));
+        clickEditDesign();
+        addGroup("Vaccine2", true, "3", 3);
         addTimepoint("CAVDImmTimepoint", "0", TimeUnit.Days);
         finishRevision();
         waitForText("Immunization Schedule", 3, defaultWaitForPage);
@@ -642,11 +653,19 @@ public class CAVDStudyTest extends StudyBaseTest
         waitForElement(Locator.navButton("Finished"));
     }
 
-    private void addGroup(String name, String count, int groupCount)
+    private void addGroup(String name, boolean cohortExists, String count, int groupCount)
     {
         click(Locator.xpath("//div[text() = 'Add New']"));
         waitForElement(Locator.id("DefineGroupDialog"));
-        setFormElement("newName", name);
+        if (cohortExists)
+        {
+            click(Locator.name("cohortType").index(1));
+            setFormElement(Locator.name("existName"), name);
+        }
+        else
+        {
+            setFormElement(Locator.name("newName"), name);
+        }
         clickButton("OK", 0);
         waitForElementToDisappear(Locator.id("DefineGroupDialog"), WAIT_FOR_JAVASCRIPT);
 
