@@ -41,6 +41,7 @@ hvtnFlow/resources/queries/flow/PassFailDetails-12.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails.query.xml -text
 hvtnFlow/resources/queries/flow/PassFailDetails.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails/.qview.xml -text
+icemr/distributions/icemr.xml -text
 icemr/icemr.iml -text
 icemr/module.properties -text
 icemr/resources/assay/Diagnostics/config.xml -text
