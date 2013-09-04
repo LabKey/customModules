@@ -57,7 +57,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
     public static final String SCIENTIST = "Torruk";
     public static final String GEL_IMAGE_FIELD = "GelImage";
-    public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.jpg";
+    public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
 
     @Override
 //    @LogMethod(category = LogMethod.MethodType.SETUP)
