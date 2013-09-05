@@ -877,7 +877,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
 
         goToAuditLog();
-        selectOptionByText(Locator.name("view"), "Query events");
+        selectOptionByText(Locator.name("view"), "Query export events");
         waitForElement(Locator.id("dataregion_audit"));
 
         DataRegionTable auditTable =  new DataRegionTable("audit", this);
