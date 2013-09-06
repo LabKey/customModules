@@ -37,17 +37,8 @@ LABKEY.icemr.tracking.selection = new function() {
                     rec.push(records[i].data.compound);
                     LABKEY.icemr.flask.compoundOptions.push(rec);
                 }
-                fetchFlasks();
+                LABKEY.icemr.tracking.fetchFlasks();
             }
-        });
-    }
-
-    function fetchFlasks()
-    {
-        var flasks = new LABKEY.Exp.SampleSet({name: selectionFlasks});
-        flasks.getDomain({
-            success : LABKEY.icemr.tracking.onFlasksDomainReady,
-            failure : LABKEY.icemr.tracking.onFlasksFailure
         });
     }
 
@@ -70,6 +61,13 @@ LABKEY.icemr.tracking.selection = new function() {
          */
         getFlasksSampleSetName : function () {
             return selectionFlasks;
+        },
+
+        /**
+         * check whether this assay's sample set exists without changing state of LABKEY.icemr.
+         */
+        checkFlasks : function (success) {
+            LABKEY.icemr.tracking.fetchFlasks(success);
         },
 
         /**

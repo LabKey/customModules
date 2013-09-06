@@ -32,6 +32,7 @@ LABKEY.requiresScript('assay/tracking/selection.js');
 LABKEY.icemr.tracking.interface = new function () {
     return {
         getFlasksSampleSetName : function () { throw "not implemented!"},
+        checkFlasks: function (success) { throw "not implemented"},
         getFlasks : function () { throw "not implemented!" },
         getSyncFields : function() { throw "not implemented!" },
         setDefaultValues : function(metaTypa, config) {throw "not implemented!"},
@@ -48,23 +49,19 @@ LABKEY.icemr.tracking.interface = new function () {
 // -------------------------------------------------------------------
 // undone: add the sample set name as a parameter here since we have more than one sample set now (drug or culture flasks)
 // undone: having the err title constants and the err message constants in different places could be confusing.
-LABKEY.icemr.tracking.errConfigMissingFlask = "Could not find the appropriate Sample Set. Please see your LabKey administrator.";
 LABKEY.icemr.tracking.errAssayTitle = "Assay Runtime Error";
 LABKEY.icemr.tracking.errAssayMissingRun = "Could not find a matching Day 0 experiment to update";
-
 LABKEY.icemr.tracking.errDailyTitle = "Daily Maintenance Error";
 LABKEY.icemr.tracking.errDailyNoResults = "You must include at least one result to upload";
 LABKEY.icemr.tracking.errDailyTooManyFlasks = "Invalid attempt to upload data for flasks that were not defined in Day 0";
 LABKEY.icemr.tracking.errDailyInvalidFlaskDefined = "Invalid flask specified.  The following flask was not found in the Day 0 data or maintenance was already stopped: ";
 LABKEY.icemr.tracking.errDailyInvalidZeroParasitemia = "You must specify a non-zero Parasitemia value when a growth fold test is initiated for flask: ";
 LABKEY.icemr.tracking.errDailyInvalidMeasurementDate = "Data for the specified measurement date already exists for flask: ";
-
 LABKEY.icemr.tracking.errDailyUploadTitle = "Daily Upload Failed";
 LABKEY.icemr.tracking.errDailyUploadFileNoContent = "The data file has no content";
 LABKEY.icemr.tracking.errDailyUploadFileNoSheets = "The data file has no sheets of data";
 LABKEY.icemr.tracking.errDailyUploadFileNoRows = "The data file has no rows of data";
 LABKEY.icemr.tracking.errDailyUploadFileInvalidHeader = "The data file header row does not match the daily results schema";
-
 LABKEY.icemr.tracking.errDay0Title = "Day 0 Upload Error";
 LABKEY.icemr.tracking.errDay0NoFlasksDefined = "You must include at least one flask with your Day 0 data";
 
@@ -206,7 +203,7 @@ LABKEY.icemr.tracking.onFlasksDomainReady = function(domain)
 
 LABKEY.icemr.tracking.onFlasksFailure = function(data)
 {
-    LABKEY.icemr.showError(LABKEY.icemr.errConfigTitle, LABKEY.icemr.errConfigMissingFlask);
+    LABKEY.icemr.showParamError(LABKEY.icemr.errConfigTitle, LABKEY.icemr.errConfigMissingFlask, LABKEY.icemr.tracking.interface.getFlasksSampleSetName());
 };
 
 LABKEY.icemr.tracking.onDay0ConfigsSuccess = function(runFieldConfigs, resultFieldConfigs) {
@@ -372,6 +369,15 @@ LABKEY.icemr.tracking.onInsertFlasksSuccess = function(result){
         failureCallback : LABKEY.icemr.saveDay0Failure
     });
 };
+
+LABKEY.icemr.tracking.fetchFlasks = function (success) {
+    var flasks = new LABKEY.Exp.SampleSet( {name: LABKEY.icemr.tracking.interface.getFlasksSampleSetName()});
+    flasks.getDomain({
+        success : success || LABKEY.icemr.tracking.onFlasksDomainReady,
+        failure : LABKEY.icemr.tracking.onFlasksFailure
+    });
+};
+
 
 LABKEY.icemr.tracking.uploadFlasks = function(experiment, flasks) {
     //

@@ -18,7 +18,7 @@ Ext.namespace("LABKEY.icemr");
 LABKEY.icemr.errConfigTitle = "Configuration Error";
 //consider: adding the context of the missing sample set name here (do your own token replacement function here)
 LABKEY.icemr.errConfigMissingAssayDesign = "Could not find the specified assay design. Please see your LabKey administrator.";
-LABKEY.icemr.errConfigMissingFlask = "Could not find the Flask Sample Set. Please see your LabKey administrator.";
+LABKEY.icemr.errConfigMissingFlask = "Could not find the {0} Sample Set. Please see your LabKey administrator.";
 
 // -------------------------------------------------------------------
 // constants
@@ -115,6 +115,18 @@ LABKEY.icemr.isNameInArray = function(name, arr) {
 
     return false;
 };
+
+// only support a single parameter for now
+LABKEY.icemr.showParamError = function(title, message, param, failure)
+{
+    var replacedMessage = message;
+    if (param)
+    {
+        replacedMessage = message.replace(/\{0\}/, param);
+    }
+
+    LABKEY.icemr.showError(title, replacedMessage, failure)
+}
 
 LABKEY.icemr.showError = function(title, message, failure){
     if (failure)

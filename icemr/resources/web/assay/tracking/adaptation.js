@@ -161,14 +161,18 @@ LABKEY.icemr.tracking.adaptation = new function() {
         },
 
         /**
+         * check whether this assay's sample set exists without changing state of LABKEY.icemr.
+         */
+        checkFlasks : function (success)
+        {
+            LABKEY.icemr.tracking.fetchFlasks(success);
+        },
+
+        /**
          * return the flask sample set specific to adaptation
          */
         getFlasks : function () {
-            var flasks = new LABKEY.Exp.SampleSet( {name: this.getFlasksSampleSetName()});
-            flasks.getDomain({
-                success : LABKEY.icemr.tracking.onFlasksDomainReady,
-                failure : LABKEY.icemr.tracking.onFlasksFailure
-            });
+            LABKEY.icemr.tracking.fetchFlasks();
         },
 
         /**

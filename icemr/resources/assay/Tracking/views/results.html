@@ -71,7 +71,7 @@ function init()
                 resultHeader += '<p/>'
                 Ext4.fly('resultHeader').update(resultHeader);
             }
-            renderResults();
+            LABKEY.icemr.tracking.interface.checkFlasks(onCheckFlasksSuccess);
         }
     });
 }
@@ -317,6 +317,10 @@ function hideFirstDayPositive()
     document.getElementById('firstdaypositive-div').innerHTML = "";
 }
 
+function onCheckFlasksSuccess()
+{
+    renderResults();
+}
 
 function renderResults()
 {
