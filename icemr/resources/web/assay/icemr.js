@@ -259,3 +259,19 @@ LABKEY.icemr.getDateIndex = function(start, end){
     return parseInt((endDate.getTime() - startDate.getTime())/(24*60*60*1000));
 };
 
+// format a date without a time zone
+// return "Month Day Year"
+LABKEY.icemr.stripTimeZoneDate = function(date){
+    if (date instanceof Date)
+        return (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear();
+
+    return date;
+};
+
+// return "Month-Day-Year hh:mm"
+LABKEY.icemr.stripTimeZoneDateTime = function(date, time){
+    if ((time instanceof Date) && (date instanceof Date))
+        return LABKEY.icemr.stripTimeZoneDate(date) + " " + time.getHours() + ":" + time.getMinutes();
+
+    return date + " " + time;
+};

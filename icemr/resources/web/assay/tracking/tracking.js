@@ -325,6 +325,9 @@ LABKEY.icemr.tracking.saveDay0 = function(experiment, flasks, success, failure){
     if (flasks.length == 0)
         return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDay0Title, LABKEY.icemr.tracking.errDay0NoFlasksDefined, failure);
 
+    // strip of the timezone for the start date
+    var startDate = experiment[LABKEY.icemr.tracking.startDate];
+    experiment[LABKEY.icemr.tracking.startDate] = LABKEY.icemr.stripTimeZoneDate(startDate);
 
     // save off client callbacks
     LABKEY.icemr.saveDay0Success = success;
@@ -756,6 +759,11 @@ LABKEY.icemr.tracking.maintenanceDateAlreadyExists = function(measurementDate){
 // queries
 //
 LABKEY.icemr.tracking.computeCalculatedValues = function(dailyResult){
+    // strip timezone of date string
+    var date = dailyResult[LABKEY.icemr.tracking.measurementDate];
+    dailyResult[LABKEY.icemr.tracking.measurementDate] = LABKEY.icemr.stripTimeZoneDate(date);
+
+    // note that dateIndex is no longer used; we calculate this on the fly now
     var startDate = new Date(LABKEY.icemr.tracking.run.properties[LABKEY.icemr.tracking.startDate]);
     var measurementDate = new Date(dailyResult[LABKEY.icemr.tracking.measurementDate]);
     dailyResult[LABKEY.icemr.tracking.dateIndex] = LABKEY.icemr.getDateIndex(startDate, measurementDate);

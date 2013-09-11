@@ -44,6 +44,9 @@
                 row[f] = speciesFields.get(f).getValue();
             }
         }
+        // ensure we don't send timezone info over
+        var date = row[LABKEY.icemr.speciesSpecific.date];
+        row[LABKEY.icemr.speciesSpecific.date] = LABKEY.icemr.stripTimeZoneDate(date);
 
         if (row[LABKEY.icemr.speciesSpecific.gelImage])
         {

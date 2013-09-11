@@ -25,6 +25,13 @@ function submitDiagnostic()
         row[f] = fields.get(f).getValue();
     }
 
+    // ensure we don't send timezone info over for time
+    var date = row[LABKEY.icemr.diagnostics.date];
+    var time = row[LABKEY.icemr.diagnostics.time];
+
+    row[LABKEY.icemr.diagnostics.date] = LABKEY.icemr.stripTimeZoneDate(date);
+    row[LABKEY.icemr.diagnostics.time] = LABKEY.icemr.stripTimeZoneDateTime(date, time);
+
     var run = new LABKEY.Exp.Run();
 
     run.name = row[LABKEY.icemr.diagnostics.participant];

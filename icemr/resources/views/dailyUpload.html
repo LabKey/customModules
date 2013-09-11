@@ -296,6 +296,7 @@ function generateTemplateFile()
     var formCmp = Ext4.getCmp('upload-adaptation-form');
     var fields = formCmp.getForm().getFields();
     var measurementDate = fields.get('_' + LABKEY.icemr.tracking.measurementDate).getValue();
+    measurementDate = LABKEY.icemr.stripTimeZoneDate(measurementDate);
     LABKEY.icemr.tracking.getDailyUploadTemplate(measurementDate);
 }
 
