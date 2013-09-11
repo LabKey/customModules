@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query" hidden="false">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="PassFailDetails2" tableDbType="NOT_IN_DB">
+            <table tableName="PassFailDetails" tableDbType="NOT_IN_DB">
                 <columns>
                     <column columnName="CD4_Resp">
                         <formatString>#,##0.00</formatString>
