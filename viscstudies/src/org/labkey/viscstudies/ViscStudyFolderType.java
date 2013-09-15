@@ -73,9 +73,9 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     }
 
     @Override
-    public void configureContainer(Container c, User user, boolean forceCreate)
+    public void configureContainer(Container c, User user)
     {
-        super.configureContainer(c, user, forceCreate);
+        super.configureContainer(c, user);
         //Create Study here
         try
         {
