@@ -878,9 +878,9 @@ public class SpecimenTest extends SpecimenBaseTest
 
         goToAuditLog();
         selectOptionByText(Locator.name("view"), "Query export events");
-        waitForElement(Locator.id("dataregion_audit"));
+        waitForElement(Locator.id("dataregion_query"));
 
-        DataRegionTable auditTable =  new DataRegionTable("audit", this);
+        DataRegionTable auditTable =  new DataRegionTable("query", this);
         String[][] columnAndValues = new String[][] {{"Created By", getDisplayName()},
                 {"Project", PROJECT_NAME}, {"Container", getFolderName()}, {"SchemaName", "study"},
                 {"QueryName", SPECIMEN_DETAIL}, {"Comment", "Exported to Excel Web Query data"}};
