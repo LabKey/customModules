@@ -59,7 +59,7 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 13.20;
+        return 13.21;
     }
 
     @Override

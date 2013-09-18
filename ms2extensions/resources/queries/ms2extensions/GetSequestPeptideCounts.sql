@@ -18,7 +18,8 @@ LEFT OUTER JOIN
   FROM ms2.SequestPeptides P
   WHERE (DeltaCn >= 0.1) AND ((Charge=1 AND Xcorr >= 1.8)
       OR (Charge=2 AND Xcorr >= 2.3)
-      OR (Charge=3 AND Xcorr >= 2.8))
+      OR (Charge=3 AND Xcorr >= 2.8)
+      OR (Charge=4 AND Xcorr >= 3.3))
   GROUP BY P.Fraction.Run.run
 ) X
 ON r.MS2Details = X.ms2Run

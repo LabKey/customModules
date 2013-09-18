@@ -162,7 +162,9 @@ ms2extensions/resources/queries/ms2extensions/GetSequestPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/GetXTandemPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/Ms2RunAggregates.query.xml -text
 ms2extensions/resources/schemas/dbscripts/postgresql/ms2extensions-12.30-13.10.sql -text
+ms2extensions/resources/schemas/dbscripts/postgresql/ms2extensions-13.20-13.21.sql -text
 ms2extensions/resources/schemas/dbscripts/sqlserver/ms2extensions-12.30-13.10.sql -text
+ms2extensions/resources/schemas/dbscripts/sqlserver/ms2extensions-13.20-13.21.sql -text
 ms2extensions/resources/schemas/ms2extensions.xml -text
 ms2extensions/src/org/labkey/ms2extensions/FilterView.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsController.java -text
