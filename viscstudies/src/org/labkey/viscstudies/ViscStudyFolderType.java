@@ -19,6 +19,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.MultiPortalFolderType;
+import org.labkey.api.reports.report.ReportUrls;
 import org.labkey.api.security.User;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
@@ -97,6 +98,6 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     public void addManageLinks(NavTree adminNavTree, Container container)
     {
         super.addManageLinks(adminNavTree, container);
-        adminNavTree.addChild(new NavTree("Manage Views", PageFlowUtil.urlProvider(StudyUrls.class).getManageReports(container)));
+        adminNavTree.addChild(new NavTree("Manage Views", PageFlowUtil.urlProvider(ReportUrls.class).urlManageViews(container)));
     }
 }
