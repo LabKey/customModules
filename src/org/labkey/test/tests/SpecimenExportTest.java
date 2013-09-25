@@ -15,10 +15,8 @@
  */
 package org.labkey.test.tests;
 
-import junit.framework.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
-import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyB;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
@@ -155,7 +153,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         log("verify specimen_settings.xml");
         clickAndWait(Locator.linkWithText("Manage Files"));
         click(Locator.css("button.iconFolderTree"));
-        _shortWait.until(ExpectedConditions.visibilityOf(Locator.xpath("id('fileBrowser')//div[contains(@id, 'xsplit')]").findElement(_driver)));
+        shortWait().until(ExpectedConditions.visibilityOf(Locator.xpath("id('fileBrowser')//div[contains(@id, 'xsplit')]").findElement(getDriver())));
         _extHelper.selectFileBrowserItem("export/study/specimens/specimen_settings.xml");
         doubleClick(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and text()='specimen_settings.xml']"));
         waitForText("<specimens repositoryType=\"ADVANCED\" enableRequests=\"true\" editableRepository=\"true\"");
