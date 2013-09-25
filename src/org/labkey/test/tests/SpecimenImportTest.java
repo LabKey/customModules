@@ -87,7 +87,6 @@ public class SpecimenImportTest extends SpecimenBaseTest
         else
         {
             assertTextPresent("Visit");
-            assertTextNotPresent("Draw Timestamp");
         }
     }
 
