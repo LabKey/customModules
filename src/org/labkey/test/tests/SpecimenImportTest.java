@@ -77,7 +77,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
     protected void checkRequiredFields(boolean visit)
     {
         goToImport();
-        waitAndClick(Locator.linkContainingText("Show Required Data Fields"));
+        waitAndClick(Locator.linkContainingText("Show Expected Data Fields"));
         assertTextPresent("Global Unique Id","Sample Id","Participant Id", "Volume", "Volume Units", "Primary Type", "Derivative Type", "Additive Type");
         if(!visit)
         {
