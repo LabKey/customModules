@@ -41,7 +41,6 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        deleteUsers(afterTest, USER1, USER2);
         super.doCleanup(afterTest);
     }
 
