@@ -29,13 +29,14 @@ import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.Table;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
+import org.labkey.api.exp.ExperimentRunListView;
+import org.labkey.api.exp.ExperimentRunType;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.module.ModuleProperty;
 import org.labkey.api.ms2.MS2Service;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QuerySettings;
-import org.labkey.api.query.QueryView;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.DataView;
@@ -148,12 +149,13 @@ public class RunGridWebPart extends VBox
     }
 
     /** Simple wrapper to add a few buttons that rely on the UI added in the JspView above */
-    public static class CustomRunGridView extends QueryView
+    public static class CustomRunGridView extends ExperimentRunListView
     {
         public CustomRunGridView(UserSchema ms2Schema, QuerySettings settings)
         {
-            super(ms2Schema, settings, null);
+            super(ms2Schema, settings, ExperimentRunType.ALL_RUNS_TYPE);
             setShowRecordSelectors(true);
+            setShowAddToRunGroupButton(true);
         }
 
         @Override
