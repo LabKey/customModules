@@ -1,7 +1,7 @@
 <query xmlns="http://labkey.org/data/xml/query" hidden="false">
     <metadata>
         <tables xmlns="http://labkey.org/data/xml">
-            <table tableName="PassFail2" tableDbType="NOT_IN_DB">
+            <table tableName="PassFail-12" tableDbType="NOT_IN_DB">
                 <tableUrl>query/executeQuery.view?schemaName=flow&amp;query.queryName=PassFailDetails&amp;query.Key~eq=${Key}</tableUrl>
                 <titleColumn>Verdict</titleColumn>
                 <columns>
