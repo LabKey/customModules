@@ -70,8 +70,8 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void goToImport()
     {
-        waitAndClick(Locator.linkContainingText("Data"));
-        waitAndClick(Locator.linkContainingText("Import Specimens"));
+        waitAndClickAndWait(Locator.linkContainingText("Data"));
+        waitAndClickAndWait(Locator.linkContainingText("Import Specimens"));
     }
 
     protected void checkRequiredFields(boolean visit)
