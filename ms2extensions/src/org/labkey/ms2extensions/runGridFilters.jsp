@@ -84,12 +84,12 @@
 
     function comparePeptides(dataRegionName)
     {
-        handleRunGridButtonClick(dataRegionName, "comparePeptideQuery");
+        handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'comparePeptideQuery')});
     }
 
     function spectraCount(dataRegionName)
     {
-        handleRunGridButtonClick(dataRegionName, "spectraCount", { spectraConfig: 'SpectraCountPeptideProtein' });
+        handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'spectraCount'), spectraConfig: 'SpectraCountPeptideProtein' });
     }
 
     function handleRunGridButtonClick(dataRegionName, actionTarget, urlParams)
@@ -124,6 +124,6 @@
 
     function exportPeptideBluemap(dataRegionName)
     {
-        handleRunGridButtonClick(dataRegionName, "exportComparisonProteinCoverageMap");
+        handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'exportComparisonProteinCoverageMap')});
     }
 </script>
