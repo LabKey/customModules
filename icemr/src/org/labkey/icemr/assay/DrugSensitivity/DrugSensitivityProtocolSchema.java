@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.icemr.assay;
+package org.labkey.icemr.assay.DrugSensitivity;
 
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.assay.dilution.query.DilutionResultsQueryView;
@@ -35,7 +35,7 @@ import org.labkey.api.study.assay.RunListDetailsQueryView;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewContext;
 import org.labkey.icemr.IcemrController;
-import org.labkey.icemr.assay.query.DrugSensitivityResultsTable;
+import org.labkey.icemr.assay.DrugSensitivity.query.DrugSensitivityResultsTable;
 import org.springframework.validation.BindException;
 
 /**

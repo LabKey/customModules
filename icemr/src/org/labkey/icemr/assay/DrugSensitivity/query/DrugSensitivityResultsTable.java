@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.icemr.assay.query;
+package org.labkey.icemr.assay.DrugSensitivity.query;
 
 import org.labkey.api.assay.dilution.DilutionDataHandler;
 import org.labkey.api.assay.dilution.DilutionManager;
@@ -45,8 +45,8 @@ import org.labkey.api.study.assay.AssayProtocolSchema;
 import org.labkey.api.study.assay.AssayProvider;
 import org.labkey.api.study.assay.AssayService;
 import org.labkey.api.study.assay.SpecimenPropertyColumnDecorator;
-import org.labkey.icemr.assay.DrugSensitivityDataHandler;
-import org.labkey.icemr.assay.DrugSensitivityProtocolSchema;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityDataHandler;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityProtocolSchema;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.icemr.assay;
+package org.labkey.icemr.assay.DrugSensitivity.actions;
 
-import org.labkey.api.assay.dilution.DilutionManager;
+import org.labkey.api.assay.dilution.DilutionRunUploadForm;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityAssayProvider;
+
+import java.util.Map;
 
 /**
  * User: klum
- * Date: 5/13/13
+ * Date: 5/14/13
  */
-public class DrugSensitivityManager extends DilutionManager
+public class DrugSensitivityRunUploadForm extends DilutionRunUploadForm<DrugSensitivityAssayProvider>
 {
-    private static final DrugSensitivityManager _instance = new DrugSensitivityManager();
-
-    private DrugSensitivityManager(){}
-
-    public static DrugSensitivityManager get()
-    {
-        return _instance;
-    }
 }

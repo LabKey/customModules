@@ -45,8 +45,8 @@ import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.DataView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.ViewContext;
-import org.labkey.icemr.assay.DrugSensitivityProtocolSchema;
-import org.labkey.icemr.assay.actions.DrugSensitivityUploadWizardAction;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityProtocolSchema;
+import org.labkey.icemr.assay.DrugSensitivity.actions.DrugSensitivityUploadWizardAction;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 

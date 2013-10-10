@@ -28,9 +28,9 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.study.PlateService;
 import org.labkey.api.study.assay.AssayService;
 import org.labkey.api.view.WebPartFactory;
-import org.labkey.icemr.assay.DrugSensitivityAssayProvider;
-import org.labkey.icemr.assay.DrugSensitivityDataHandler;
-import org.labkey.icemr.assay.DrugSensitivityPlateTypeHandler;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityAssayProvider;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityDataHandler;
+import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityPlateTypeHandler;
 
 import java.util.Collection;
 import java.util.Collections;
