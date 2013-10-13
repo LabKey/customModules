@@ -132,7 +132,6 @@ icemr/setup.txt -text
 icemr/src/org/labkey/icemr/IcemrController.java -text
 icemr/src/org/labkey/icemr/IcemrManager.java -text
 icemr/src/org/labkey/icemr/IcemrModule.java -text
-icemr/src/org/labkey/icemr/IcemrSaveHandler.java -text
 icemr/src/org/labkey/icemr/IcemrSchema.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityAssayProvider.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityAssayRun.java -text
@@ -143,6 +142,7 @@ icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityProtocolSchema.j
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/actions/DrugSensitivityRunUploadForm.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/actions/DrugSensitivityUploadWizardAction.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/query/DrugSensitivityResultsTable.java -text
+icemr/src/org/labkey/icemr/assay/IcemrSaveHandler.java -text
 icemr/src/org/labkey/icemr/assay/Tracking/AdaptationSaveHandler.java -text
 icemr/src/org/labkey/icemr/assay/Tracking/TrackingSaveHandler.java -text
 icemr/test/src/org/labkey/test/tests/ICEMRModuleTest.java -text

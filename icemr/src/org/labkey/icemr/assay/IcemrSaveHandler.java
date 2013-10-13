@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.icemr;
+package org.labkey.icemr.assay;
 
 import org.json.JSONException;
 import org.json.JSONObject;

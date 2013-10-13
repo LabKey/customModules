@@ -8,7 +8,7 @@ import org.labkey.api.query.ValidationException;
 
 import org.labkey.api.study.assay.AssaySaveHandler;
 import org.labkey.api.view.ViewContext;
-import org.labkey.icemr.IcemrSaveHandler;
+import org.labkey.icemr.assay.IcemrSaveHandler;
 
 /**
   * User: Dax
