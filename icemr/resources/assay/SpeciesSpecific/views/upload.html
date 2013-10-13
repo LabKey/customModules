@@ -12,12 +12,11 @@
     function submitSuccess(batch, response)
     {
         showResults();
-    };
+    }
 
     function submitFailure(error, format)
     {
-        Ext4.Msg.hide();
-        Ext4.Msg.alert("Failure when communicating with the server: " + error.exception);
+        handleError("Failure when communicating with the server: " + error.exception, false);
     }
 
     function submitSpeciesSpecific()

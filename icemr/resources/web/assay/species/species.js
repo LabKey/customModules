@@ -76,7 +76,7 @@ LABKEY.icemr.speciesSpecific.saveBatch = function(row, data, success, failure)
     LABKEY.Experiment.saveBatch({
         assayId : LABKEY.page.assay.id,
         batch : LABKEY.page.batch,
-        successCallback : success,
-        failureCallback : failure
+        success : success,
+        failure : failure
     });
 }

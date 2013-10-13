@@ -38,7 +38,6 @@ LABKEY.icemr.tracking.interface = new function () {
         setDefaultValues : function(metaTypa, config) {throw "not implemented!"},
         getFlaskUpdates : function(dailyResult, flask) { throw "not implemented!"},
         uploadFlasks : function(flasks, success, failure) {throw "not implemented!"},
-        saveDaily : function(flasks, success, failure) { throw "not implemented!"},
         getVisQuery : function () { throw "not implemented!"},
         getCalcQuery : function () { throw "not implemented!"}
     };
@@ -285,10 +284,11 @@ LABKEY.icemr.tracking.getDay0Flasks = function() {
         return LABKEY.icemr.tracking.onLoadBatchFailure(); // we shouldn't get here
 
     var flasks = [];
+    var materialInputs = LABKEY.icemr.tracking.run.materialInputs;
 
-    for (var i = 0; i < LABKEY.icemr.tracking.materialInputs.length; i++)
+    for (var i = 0; i < materialInputs.length; i++)
     {
-        flasks.push(LABKEY.icemr.tracking.materialInputs[i]);
+        flasks.push(materialInputs[i].properties);
     }
 
     return flasks;
@@ -296,20 +296,6 @@ LABKEY.icemr.tracking.getDay0Flasks = function() {
 
 LABKEY.icemr.tracking.onLoadBatchFailure = function(response){
     LABKEY.icemr.showError(LABKEY.icemr.errAssayTitle, LABKEY.icemr.errAssayMissingRun);
-};
-
-LABKEY.icemr.tracking.decoupleMaterialInputs = function() {
-    // we save all of the material input data through direct updating of the flasks
-    // sample set so don't include the custom properties in the batch
-    var inputs = [];
-    var materialInputs = LABKEY.icemr.tracking.run.materialInputs;
-    for (var j = 0; j < materialInputs.length; j++)
-    {
-        inputs.push(materialInputs[j].properties);
-        materialInputs[j].properties = {};
-    }
-
-    LABKEY.icemr.tracking.materialInputs = inputs;
 };
 
 LABKEY.icemr.tracking.saveDay0 = function(experiment, flasks, success, failure){
@@ -368,8 +354,8 @@ LABKEY.icemr.tracking.onInsertFlasksSuccess = function(result){
     LABKEY.Experiment.saveBatch({
         assayId : LABKEY.page.assay.id,
         batch : LABKEY.page.batch,
-        successCallback : LABKEY.icemr.saveDay0Success,
-        failureCallback : LABKEY.icemr.saveDay0Failure
+        success : LABKEY.icemr.saveDay0Success,
+        failure : LABKEY.icemr.saveDay0Failure
     });
 };
 
@@ -393,26 +379,41 @@ LABKEY.icemr.tracking.uploadFlasks = function(experiment, flasks) {
             LABKEY.icemr.saveDay0Failure);
 };
 
+//
+// update our batch variables on batch load or batch update
+//
+LABKEY.icemr.tracking.syncBatch = function(batch){
+    var runs = batch.runs;
+    var runData;
+
+    for (var i = 0; i < runs.length; i++)
+    {
+        if (LABKEY.icemr.tracking.runId == runs[i].id)
+        {
+            LABKEY.icemr.tracking.batch = batch;
+            LABKEY.icemr.tracking.run = batch.runs[i];
+            runData = LABKEY.icemr.tracking.run.properties;
+            break;
+        }
+    }
+}
+
+LABKEY.icemr.tracking.getSaveBatchCallbackWrapper = function(fn){
+    return function(batch) {
+        LABKEY.icemr.tracking.syncBatch(batch);
+        if (fn)
+            fn.call(this, batch)
+    }
+}
+
 LABKEY.icemr.tracking.getRunDataCallbackWrapper = function(fn){
     return function(batch) {
-        var runs = batch.runs;
-        var runData;
-
-        for (var i = 0; i < runs.length; i++)
-        {
-            if (LABKEY.icemr.tracking.runId == runs[i].id)
-            {
-                LABKEY.icemr.tracking.batch = batch;
-                LABKEY.icemr.tracking.run = batch.runs[i];
-                runData = LABKEY.icemr.tracking.run.properties;
-                LABKEY.icemr.tracking.decoupleMaterialInputs();
-                break;
-            }
-        }
+        LABKEY.icemr.tracking.syncBatch(batch);
+        var runData = LABKEY.icemr.tracking.run.properties;
 
         if (runData == undefined)
         {
-            onLoadBatchFailure();
+            LABKEY.icemr.tracking.onLoadBatchFailure();
         }
         else
         {
@@ -626,8 +627,8 @@ LABKEY.icemr.tracking.processDailyFileUpload = function(result, success) {
     {
         data.getContent({
             format: 'jsonTSV',
-            successCallback: LABKEY.icemr.tracking.getProcessDailyFileUploadCallbackWrapper(success),
-            failureCallback: function (error, format) {
+            success: LABKEY.icemr.tracking.getProcessDailyFileUploadCallbackWrapper(success),
+            failure: function (error, format) {
                 Ext.Msg.alert("Upload Failed", "An error occurred while fetching the contents of the data file.");
             }
         })
@@ -664,24 +665,20 @@ LABKEY.icemr.tracking.saveDaily = function(dailyResults, success, failure) {
     }
 
     run.dataRows = run.dataRows || [];
+    var materialInputs = run.materialInputs;
 
     var flasks = [];
     for (i = 0; i < dailyResults.length; i++)
     {
         LABKEY.icemr.tracking.computeCalculatedValues(dailyResults[i]);
-        //
-        // see if we have any flask sample set data that we need to update
-        // before saving the batch
-        //
-        var flask = LABKEY.icemr.tracking.getFlaskUpdates(dailyResults[i]);
-        if (flask != null)
-            flasks.push(flask);
-
+        LABKEY.icemr.tracking.updateMaterialInputs(materialInputs, dailyResults[i])
         run.dataRows.push(dailyResults[i]);
     }
 
-    // behavior now is dependent on whether the flask is adaptation or selection
-    LABKEY.icemr.tracking.interface.saveDaily(flasks, success, failure);
+    LABKEY.icemr.tracking.saveBatch(
+            LABKEY.icemr.tracking.getSaveBatchCallbackWrapper(success),
+            failure
+    );
 };
 
 /**
@@ -770,37 +767,44 @@ LABKEY.icemr.tracking.computeCalculatedValues = function(dailyResult){
 };
 
 //
-// store data in the flask based on events that happen
-// for this daily maintenance.  At the very least we always
-// record the date of the last daily maintenance
+// Update the flask (material input) with the latest data from the submitted
+// daily result
 //
-LABKEY.icemr.tracking.getFlaskUpdates = function(dailyResult){
-    // setup a flask with a sample id and the most recent maintenance date
-    var flask = {};
+LABKEY.icemr.tracking.updateMaterialInputs = function(materialInputs, dailyResult) {
+
+    var sampleId = dailyResult[LABKEY.icemr.tracking.sample];
     var measurementDate = dailyResult[LABKEY.icemr.tracking.measurementDate];
+    var materialInput = LABKEY.icemr.tracking.findMaterialInput(materialInputs, sampleId);
 
-    flask[LABKEY.icemr.flask.sample] = dailyResult[LABKEY.icemr.tracking.sample];
-    flask[LABKEY.icemr.flask.maintenanceDate] = measurementDate;
+    if (materialInput && materialInput.properties) {
+        var flask = materialInput.properties;
+        flask[LABKEY.icemr.flask.maintenanceDate] = measurementDate;
 
-    // if maintenance was stopped, record the date
-    // consider: this date may be redundant since we also save the last maintenance
-    // consider: date above
-    if (dailyResult[LABKEY.icemr.tracking.flaskMaintenanceStopped])
-        flask[LABKEY.icemr.flask.maintenanceStopped] = measurementDate;
+        // if maintenance was stopped, record the date
+        if (dailyResult[LABKEY.icemr.tracking.flaskMaintenanceStopped])
+            flask[LABKEY.icemr.flask.maintenanceStopped] = measurementDate;
 
-    // growth test started?
-    var growthTest = dailyResult[LABKEY.icemr.tracking.growthFoldTestInitiated];
-    LABKEY.icemr.tracking.storeGrowthTestParasitemia(growthTest, flask, dailyResult, false);
+        // growth test started?
+        var growthTest = dailyResult[LABKEY.icemr.tracking.growthFoldTestInitiated];
+        LABKEY.icemr.tracking.storeGrowthTestParasitemia(growthTest, flask, dailyResult, false);
 
-    // growth test finished?
-    growthTest = dailyResult[LABKEY.icemr.tracking.growthFoldTestFinished];
-    LABKEY.icemr.tracking.storeGrowthTestParasitemia(growthTest, flask, dailyResult, true);
+        // growth test finished?
+        growthTest = dailyResult[LABKEY.icemr.tracking.growthFoldTestFinished];
+        LABKEY.icemr.tracking.storeGrowthTestParasitemia(growthTest, flask, dailyResult, true);
 
-    // give the specific assay a chance to add flask properties
-    LABKEY.icemr.tracking.interface.getFlaskUpdates(dailyResult, flask);
+        // give the specific assay a chance to add flask properties
+        LABKEY.icemr.tracking.interface.getFlaskUpdates(dailyResult, flask);
+    }
+}
 
-    return flask;
-};
+LABKEY.icemr.tracking.findMaterialInput = function(materialInputs, sampleId){
+    for (var i = 0; i < materialInputs.length; i++)
+    {
+        var properties = materialInputs[i].properties;
+        if (properties[LABKEY.icemr.flask.sample] == sampleId)
+            return materialInputs[i];
+    }
+}
 
 LABKEY.icemr.tracking.storeGrowthTestParasitemia = function(growthTest, flask, dailyResult, finished){
     if (growthTest == '1' || growthTest == '2' || growthTest == '3')
@@ -821,16 +825,6 @@ LABKEY.icemr.tracking.storeGrowthTestParasitemia = function(growthTest, flask, d
                 flask[LABKEY.icemr.flask.startDate1] = dailyResult[LABKEY.icemr.tracking.measurementDate];
 
         }
-    }
-};
-
-LABKEY.icemr.tracking.findFlaskInMaterialInputs = function(sampleId){
-    var materialInputs = LABKEY.icemr.tracking.materialInputs;
-    for (var j = 0; j < materialInputs.length; j++)
-    {
-        var properties = materialInputs[j];
-        if (properties[LABKEY.icemr.flask.sample] == sampleId)
-            return properties;
     }
 };
 
@@ -877,12 +871,12 @@ LABKEY.icemr.tracking.makeSyncFieldsKeyMap = function(row){
     return keyMap;
 };
 
-LABKEY.icemr.tracking.saveBatch = function() {
+LABKEY.icemr.tracking.saveBatch = function(success, failure) {
     LABKEY.Experiment.saveBatch({
         assayId : LABKEY.icemr.tracking.assayId,
         batch : LABKEY.icemr.tracking.batch,
-        successCallback : LABKEY.icemr.tracking.updateContext.success,
-        failureCallback : LABKEY.icemr.tracking.updateContext.failure
+        success : success,
+        failure : failure
     });
 };
 
@@ -898,51 +892,6 @@ LABKEY.icemr.tracking.setDefaultValues = function(metaType, config){
     // now take care of assay-specific defaults
     LABKEY.icemr.tracking.interface.setDefaultValues(metaType, config);
 };
-
-//
-// given a rowset, copy over the latest updated values to our material inputs
-//
-LABKEY.icemr.tracking.syncMaterialInputs = function(rows, keyMap)
-{
-    for (var i  = 0; i < rows.length; i++)
-    {
-        var row = rows[i];
-        var flask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(row[keyMap[LABKEY.icemr.flask.sample]]);
-        var syncFields = LABKEY.icemr.tracking.getSyncFields();
-
-        // just sync common flask fields here
-        for (var j = 0; j < syncFields.length; j++)
-        {
-            var key = syncFields[j];
-            flask[key] = row[keyMap[key]];
-        }
-    }
-}
-
-LABKEY.icemr.tracking.makeUpdateRowset = function(flasks)
-{
-    var rows = [];
-
-    for (var i = 0; i < flasks.length; i++)
-    {
-        var row = {};
-        var newFlask = flasks[i];
-        var oldFlask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(newFlask[LABKEY.icemr.tracking.sample]);
-
-        // set the sample id for updating
-        LABKEY.icemr.tracking.setRowProperty(LABKEY.icemr.flask.sample, row, newFlask, oldFlask);
-        var syncFields = LABKEY.icemr.tracking.getSyncFields();
-
-        for (var j = 0; j < syncFields.length; j++)
-        {
-            var key = syncFields[j];
-            LABKEY.icemr.tracking.setRowProperty(key, row, newFlask, oldFlask);
-        }
-        rows.push(row);
-    }
-
-    return rows;
-}
 
 LABKEY.icemr.tracking.getSyncFields = function()
 {

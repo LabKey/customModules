@@ -11,6 +11,7 @@
  * This implements the tracking assay "interface" for the adaptation specific
  * behavior.  This file must implement all methods in tracking.js
  */
+
 // -------------------------------------------------------------------
 // interface definition
 // -------------------------------------------------------------------
@@ -40,16 +41,6 @@ LABKEY.icemr.tracking.selection = new function() {
                 LABKEY.icemr.tracking.fetchFlasks();
             }
         });
-    }
-
-    function saveDailyMaintenance(data, response, options)
-    {
-        if (!data || !(data.rows) || (0 == data.rows.length))
-            return;
-
-        var keyMap = LABKEY.icemr.tracking.makeSyncFieldsKeyMap(data.rows[0]);
-        LABKEY.icemr.tracking.syncMaterialInputs(data.rows, keyMap);
-        LABKEY.icemr.tracking.saveBatch();
     }
 
     /**
@@ -100,25 +91,17 @@ LABKEY.icemr.tracking.selection = new function() {
             // the number of days (also specified in Day0) than the flask has resisted the drug and we no longer track
             // consecutive days
             //
-
-            // note that the 'flask' parameter is the flask we are building to send to the db.  'oldFlask' contains
-            // the flask values we already have fetched from the db.
-            var oldFlask = LABKEY.icemr.tracking.findFlaskInMaterialInputs(flask[LABKEY.icemr.tracking.sample]);
-            var days = oldFlask[LABKEY.icemr.flask.consecutiveDays];
-            // set our initial value to send over
-            flask[LABKEY.icemr.flask.consecutiveDays] = days;
-
-            if (oldFlask[LABKEY.icemr.flask.resistanceProtocol] == 'days')
+            if (flask[LABKEY.icemr.flask.resistanceProtocol] == 'days')
             {
                 // Days could be null if this is the first daily update since day 0.  Since the resistance
                 // protocol is Days, set to 0 in this case
-                days = oldFlask[LABKEY.icemr.flask.consecutiveDays] || 0;
-                if (days < oldFlask[LABKEY.icemr.flask.resistanceNumber])
+                var days = flask[LABKEY.icemr.flask.consecutiveDays] || 0;
+                if (days < flask[LABKEY.icemr.flask.resistanceNumber])
                 {
                     // the flask has not resisted yet so we should update our consecutive days (either incraese
                     // or reset to 0 depending on whether the daily parasitemia value exceeded the day0 minimum
                     // threshold value)
-                    if (dailyResult[LABKEY.icemr.tracking.parasitemia] > oldFlask[LABKEY.icemr.flask.minimumParasitemia])
+                    if (dailyResult[LABKEY.icemr.tracking.parasitemia] > flask[LABKEY.icemr.flask.minimumParasitemia])
                         days++;
                     else
                         days = 0;
@@ -138,25 +121,6 @@ LABKEY.icemr.tracking.selection = new function() {
                 queryName : this.getFlasksSampleSetName(),
                 rows : flasks,
                 success : success,
-                failure : failure
-            });
-        },
-
-        /**
-         * Save daily maintenance data and update flask sample set.
-         */
-        saveDaily: function(flasks, success, failure){
-            // create a new update context
-            LABKEY.icemr.tracking.updateContext = {
-                success : success,
-                failure : failure
-            };
-
-            LABKEY.Query.updateRows( {
-                schemaName : 'Samples',
-                queryName : this.getFlasksSampleSetName(),
-                rows : LABKEY.icemr.tracking.makeUpdateRowset(flasks),
-                success : saveDailyMaintenance,
                 failure : failure
             });
         },

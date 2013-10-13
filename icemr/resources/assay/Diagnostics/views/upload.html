@@ -45,14 +45,13 @@ function submitDiagnostic()
     LABKEY.Experiment.saveBatch({
         assayId : LABKEY.page.assay.id,
         batch : LABKEY.page.batch,
-        successCallback : function (batch, response)
+        success : function (batch, response)
         {
             showResults();
         },
-        failureCallback : function (error, format)
+        failure : function (error, format)
         {
-            Ext4.Msg.hide();
-            Ext4.Msg.alert("Failure when communicating with the server: " + error.exception);
+            handleError("Failure when communicating with the server: " + error.exception, false);
         }
     });
 }
