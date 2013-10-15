@@ -157,6 +157,7 @@ public class SpecimenTest extends SpecimenBaseTest
     private void verifyRequestsDisabled()
     {
         clickFolder(getFolderName());
+        waitForElement(Locator.linkWithText("By Individual Vial"));
         assertTextNotPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementNotPresent(Locator.navButton("Request Options"));
