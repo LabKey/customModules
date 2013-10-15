@@ -452,11 +452,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         }
         catch (IOException e)
         {
-            Assert.fail("IOException creating the template file");
+            throw new RuntimeException("IOException creating the template file", e);
         }
         catch (InvalidFormatException e)
         {
-            Assert.fail("Template file has invalid format.");
+            throw new RuntimeException("Template file has invalid format.", e);
         }
     }
 
