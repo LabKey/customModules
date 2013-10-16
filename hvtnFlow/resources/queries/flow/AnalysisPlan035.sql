@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013 LabKey Corporation
+ * Copyright (c) 2013 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ A.SAMP_ORD,
 A.WELL_ID,
 A.WELLROLE,
 A.ANTIGEN,
+NULL AS ANTIGENID,
 A.NREPL,
 A.ANALYSIS_PLAN_ID,
 A.EXP_ASSAY_ID,
@@ -73,4 +74,4 @@ A.COMMENTS,
 A._well, A._fcsfile, A._sample
 
 FROM AnalysisPlanTemplate A
-WHERE A.ANALYSIS_PLAN_ID = '8'
+WHERE A.ANALYSIS_PLAN_ID = '35'

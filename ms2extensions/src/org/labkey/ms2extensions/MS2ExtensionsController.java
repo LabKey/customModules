@@ -20,12 +20,19 @@ import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.SimpleApiJsonForm;
+import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.RequiresSiteAdmin;
 import org.labkey.api.security.permissions.ReadPermission;
+import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.view.HtmlView;
+import org.labkey.api.view.NavTree;
 import org.labkey.api.view.ViewContext;
 import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -76,6 +83,47 @@ public class MS2ExtensionsController extends SpringActionController
             props = PropertyManager.getProperties(viewContext.getUser(), viewContext.getContainer(), PREFERENCES_KEY_NAME);
         }
         return props.get(preferenceName);
+    }
+
+    @RequiresSiteAdmin
+    public class UpdatePeptideCountsAction extends SimpleViewAction<Object>
+    {
+        @Override
+        public ModelAndView getView(Object o, BindException errors) throws Exception
+        {
+            StringBuilder sb = new StringBuilder();
+            updatePeptideCounts(sb, getContainer());
+            if (sb.length() == 0)
+            {
+                sb.append("Success!");
+            }
+            else
+            {
+                sb.insert(0, "<div>Success, with warnings:</div>");
+            }
+            return new HtmlView(sb.toString());
+        }
+
+        private void updatePeptideCounts(StringBuilder sb, Container container)
+        {
+            String error = new PeptideCountUpdater().update(container, getUser());
+            if (error != null)
+            {
+                sb.append("<div>");
+                sb.append(PageFlowUtil.filter(error));
+                sb.append("</div>");
+            }
+            for (Container child : container.getChildren())
+            {
+                updatePeptideCounts(sb, child);
+            }
+        }
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            return root.addChild("Update Peptide Counts");
+        }
     }
 
     @RequiresPermissionClass(ReadPermission.class)

@@ -89,7 +89,7 @@ A.MODDT,
  CASE WHEN (A.FCS_COMMENT IS NULL) THEN('') ELSE ('(File:)' || A.FCS_COMMENT) END ||
  CASE WHEN (A.RUN_COMMENT IS NULL) THEN('') ELSE ('(Run:)' || A.RUN_COMMENT) END ||
  CASE WHEN (A.SAMPLE_COMMENT IS NULL) THEN('') ELSE ('(Sample:)' || A.SAMPLE_COMMENT) END
-AS Comments,
+AS COMMENTS,
 -- pass through
 A._fcsfile,
 A._well,

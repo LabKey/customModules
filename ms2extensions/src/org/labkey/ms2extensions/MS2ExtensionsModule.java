@@ -21,6 +21,7 @@ import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
+import org.labkey.api.data.UpgradeCode;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
@@ -30,6 +31,8 @@ import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
+import org.labkey.api.settings.AdminConsole;
+import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.BaseWebPartFactory;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
@@ -60,7 +63,13 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 13.21;
+        return 13.22;
+    }
+
+    @Override
+    public UpgradeCode getUpgradeCode()
+    {
+        return new MS2ExtensionsUpgradeCode();
     }
 
     @Override
@@ -109,6 +118,8 @@ public class MS2ExtensionsModule extends DefaultModule
         queryProperty.setDefaultValue("GetSequestPeptideCounts");
         queryProperty.setCanSetPerContainer(false);
         addModuleProperty(queryProperty);
+
+        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()));
 
         ContainerManager.addContainerListener(new ContainerManager.ContainerListener()
         {

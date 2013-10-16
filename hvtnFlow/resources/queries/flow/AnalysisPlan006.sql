@@ -58,7 +58,7 @@ A.RECOVR2,
 A.METHOD,
 A.REPLACE,
 A.MODDT,
-A.Comments,
+A.COMMENTS,
 A._well, A._fcsfile
 
 
