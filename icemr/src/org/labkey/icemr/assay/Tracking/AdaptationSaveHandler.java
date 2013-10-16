@@ -1,5 +1,6 @@
 package org.labkey.icemr.assay.Tracking;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
@@ -59,6 +60,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     private static final String Adapted = "Yes";
     private static final String AdaptationFlasks = "Adaptation Flasks";
     private static final String SampleId = "SampleID";
+    private static final String InvalidAction = "Invalid call to the AdaptationSaveHandler";
     private static final Map<String, Object> CheckAdaptationParams;
     private Set<String> _samplesToCheckForAdaptation;
     static
@@ -111,8 +113,6 @@ public class AdaptationSaveHandler implements AssaySaveHandler
         if (_samplesToCheckForAdaptation.size() > 0)
         {
             List<Map<String, Object>> samples = getSamplesToUpdate(context.getContainer(), context.getUser());
-
-            // if we do have to update the samples, then do so here
             if (samples.size() > 0)
             {
                 TableInfo table = getFlasksTableInfo(context.getContainer(), context.getUser());
@@ -121,8 +121,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
                 table.getSchema().getScope().ensureTransaction();
                 try
                 {
-                    //UNDONE: do we need to enforce author permissions here or something?
-                    List<Map<String, Object>> updatedRows = qus.updateRows(context.getUser(), context.getContainer(), samples, samples, null);
+                    qus.updateRows(context.getUser(), context.getContainer(), samples, samples, null);
                     table.getSchema().getScope().commitTransaction();
                 }
                 finally
@@ -186,17 +185,22 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     }
 
     public void setProvider(AssayProvider provider)
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
     public AssayProvider getProvider()
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
     public ExpExperiment handleBatch(ViewContext context, JSONObject batchJson, ExpProtocol protocol) throws Exception
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
     public ExpRun handleRun(ViewContext context, JSONObject runJson, ExpProtocol protocol, ExpExperiment batch) throws JSONException, ValidationException, ExperimentException, SQLException
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
     public ExpData handleData(ViewContext context, JSONObject dataJson) throws ValidationException
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
     public void handleProperties(ViewContext context, ExpObject object, DomainProperty[] dps, JSONObject propertiesJson) throws ValidationException, JSONException
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
     public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)throws Exception
-    { throw new IllegalStateException("invalid call to this SaveHandler"); }
+    { throw new IllegalStateException(InvalidAction); }
+    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpRun run, JSONArray inputDataArray,
+        JSONArray dataArray, JSONArray inputMaterialArray, JSONObject runJsonObject, JSONArray outputDataArray,
+        JSONArray outputMaterialArray) throws ExperimentException, ValidationException
+    { throw new IllegalStateException(InvalidAction); }
+
 }
