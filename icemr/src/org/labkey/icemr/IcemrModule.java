@@ -21,6 +21,7 @@ import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.module.DefaultModule;
+import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
@@ -76,15 +77,11 @@ public class IcemrModule extends DefaultModule
         {
             final DbSchema dbschema = DbSchema.get(schemaName);
 
-            DefaultSchema.registerProvider(schemaName, new DefaultSchema.SchemaProvider()
+            DefaultSchema.registerProvider(schemaName, new DefaultSchema.SchemaProvider(this)
             {
-                public QuerySchema getSchema(final DefaultSchema schema)
+                public QuerySchema createSchema(final DefaultSchema schema, Module module)
                 {
-                    if (schema.getContainer().getActiveModules().contains(IcemrModule.this))
-                    {
-                        return QueryService.get().createSimpleUserSchema(schemaName, null, schema.getUser(), schema.getContainer(), dbschema);
-                    }
-                    return null;
+                    return QueryService.get().createSimpleUserSchema(schemaName, null, schema.getUser(), schema.getContainer(), dbschema);
                 }
             });
         }

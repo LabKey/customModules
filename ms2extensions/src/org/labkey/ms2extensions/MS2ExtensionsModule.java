@@ -22,6 +22,7 @@ import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.module.DefaultModule;
+import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.module.ModuleProperty;
@@ -127,15 +128,11 @@ public class MS2ExtensionsModule extends DefaultModule
             public void propertyChange(PropertyChangeEvent evt) {}
         });
 
-        DefaultSchema.registerProvider(SCHEMA_NAME, new DefaultSchema.SchemaProvider()
+        DefaultSchema.registerProvider(SCHEMA_NAME, new DefaultSchema.SchemaProvider(this)
         {
-            public QuerySchema getSchema(DefaultSchema schema)
+            public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
-                if (schema.getContainer().getActiveModules().contains(ModuleLoader.getInstance().getModule(NAME)))
-                {
-                    return new SimpleUserSchema(SCHEMA_NAME, null, schema.getUser(), schema.getContainer(), DbSchema.get(SCHEMA_NAME));
-                }
-                return null;
+                return new SimpleUserSchema(SCHEMA_NAME, null, schema.getUser(), schema.getContainer(), DbSchema.get(SCHEMA_NAME));
             }
         });
     }

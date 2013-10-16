@@ -19,6 +19,7 @@ package org.labkey.viscstudies;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.module.DefaultModule;
+import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.query.DefaultSchema;
@@ -55,9 +56,9 @@ public class ViscStudiesModule extends DefaultModule
     {
         addController("viscstudies", ViscStudiesController.class);
 
-        DefaultSchema.registerProvider(ViscStudySchema.NAME, new DefaultSchema.SchemaProvider()
+        DefaultSchema.registerProvider(ViscStudySchema.NAME, new DefaultSchema.SchemaProvider(this)
         {
-            public QuerySchema getSchema(DefaultSchema schema)
+            public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
                 return new ViscStudySchema(schema.getUser(), schema.getContainer());
             }
