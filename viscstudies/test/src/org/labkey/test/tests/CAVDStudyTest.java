@@ -419,6 +419,8 @@ public class CAVDStudyTest extends StudyBaseTest
         }
 
         log("Verify study list query from sibling folder contains studies and dataset status.");
+        clickFolder(FOLDER_NAME4);
+        enableModule("ViscStudies", false);
         goToViscStudiesQuery(FOLDER_NAME4);
         assertLinkPresentWithText(study2name);
         assertLinkPresentWithText(study3name);
