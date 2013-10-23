@@ -478,7 +478,7 @@ function generateDesignSpreadsheet() {
                         for (var anti = 0; anti < immunogen.antigens.length; anti++)
                         {
                             var antigen = immunogen.antigens[anti];
-                            rows.push([info.label, vaccination.groupName, vaccination.timepoint.days, "Immunogen", immunogen.name, immunogen.admin, immunogen.dose, immunogen.type, antigen.name, antigen.gene, antigen.genBankId, antigen.subType, antigen.sequence]);
+                            rows.push([info.label, vaccination.groupName, vaccination.timepoint.days, "Immunogen", immunogen.name, immunogen.admin, immunogen.dose, immunogen.type, antigen.name, antigen.gene, antigen.genBankId, antigen.subtype, antigen.sequence]);
                         }
 
                     }
@@ -491,7 +491,7 @@ function generateDesignSpreadsheet() {
                 for (var adji = 0; adji < vaccination.adjuvants.length; adji++)
                 {
                     var adjuvant = findAdjuvant(design, vaccination.adjuvants[adji]);
-                    rows.push([info.label, vaccination.groupName, vaccination.timepoint.days,, "Adjuvant", adjuvant.name, adjuvant.admin, adjuvant.dose]);
+                    rows.push([info.label, vaccination.groupName, vaccination.timepoint.days, "Adjuvant", adjuvant.name, adjuvant.admin, adjuvant.dose]);
                 }
             }
         }
