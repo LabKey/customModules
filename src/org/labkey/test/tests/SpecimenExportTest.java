@@ -144,8 +144,8 @@ public class SpecimenExportTest extends SpecimenBaseTest
         goToFolderManagement();
         clickAndWait(Locator.linkWithText("Import"));
         clickButtonContainingText("Import Folder Using Pipeline");
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.selectFileBrowserItem("export/");
+        _extHelper.expandFileBrowserRootNode();
+        _extHelper.selectFileBrowserItem("export/");
         click(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and starts-with(text(), 'My Study_')]"));
         selectImportDataAction("Import Folder");
         waitForPipelineJobsToComplete(2, "Folder import", false);
@@ -154,7 +154,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
     private void verifySpecimenSettingsInArchive()
     {
         log("verify specimen settings in study.xml");
-        _fileBrowserHelper.selectFileBrowserItem("export/study/study.xml");
+        _extHelper.selectFileBrowserItem("export/study/study.xml");
         doubleClick(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and text()='study.xml']"));
         waitForText("<specimens dir=\"specimens\" settings=\"specimen_settings.xml\" file=\"Study.specimens\"/>");
 
@@ -162,7 +162,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Manage Files"));
         click(Locator.css("button.iconFolderTree"));
         shortWait().until(ExpectedConditions.visibilityOf(Locator.xpath("id('fileBrowser')//div[contains(@id, 'xsplit')]").findElement(getDriver())));
-        _fileBrowserHelper.selectFileBrowserItem("export/study/specimens/specimen_settings.xml");
+        _extHelper.selectFileBrowserItem("export/study/specimens/specimen_settings.xml");
         doubleClick(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and text()='specimen_settings.xml']"));
         waitForText("<specimens repositoryType=\"ADVANCED\" enableRequests=\"true\" editableRepository=\"true\"");
         assertTextPresentInThisOrder(
