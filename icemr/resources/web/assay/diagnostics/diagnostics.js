@@ -31,6 +31,7 @@ LABKEY.icemr.diagnostics.thin = 'ThinBloodSmear';
 LABKEY.icemr.diagnostics.RDT = 'RDT';
 LABKEY.icemr.diagnostics.time = 'Time';
 LABKEY.icemr.diagnostics.date = 'Date';
+LABKEY.icemr.diagnostics.scientist = 'Scientist';
 LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative']];
 // -------------------------------------------------------------------
 // enums

@@ -1,7 +1,7 @@
 <div id="error-div"></div>
 <div id="upload-adaptation-div"></div>
 <script type="text/javascript">
-
+LABKEY.requiresExt4ClientAPI();
 LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/validation.js");
 LABKEY.requiresScript("assay/tracking/tracking.js");
@@ -110,6 +110,8 @@ Ext4.onReady(function() {
 
 function onConfigsReady(runConfigs, resultConfigs)
 {
+    var scientistConfig;
+    var afterConfig;
     //
     // we have a patient id field for the flask but we don't need to show it
     // in the UI since it is already a run property
@@ -143,10 +145,18 @@ function onConfigsReady(runConfigs, resultConfigs)
         {
             config.hidden = true;
         }
+        else if (config.name == LABKEY.icemr.tracking.scientist)
+        {
+            scientistConfig = config;
+        }
+        else if (config.name == LABKEY.icemr.tracking.parasitemia)
+        {
+            afterConfig = config;
+        }
     }
 
     _runFieldConfigs = runConfigs;
-    _resultFieldConfigs = resultConfigs;
+    _resultFieldConfigs = LABKEY.icemr.reorderList(resultConfigs, scientistConfig, afterConfig);
 
     //
     // fetch our run data so that we can populate our data

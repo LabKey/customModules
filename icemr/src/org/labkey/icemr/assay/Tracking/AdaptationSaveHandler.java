@@ -65,6 +65,7 @@ import java.util.Set;
 public class AdaptationSaveHandler implements AssaySaveHandler
 {
     public static final String ProtocolName = "Culture Adaptation";
+    public static final String SampleId = "SampleID";
 
     private static final String FinishParasitemia = "FinishParasitemia";
     private static final String AdaptationSchema = "assay.Tracking.Culture Adaptation";
@@ -74,7 +75,6 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     private static final String MaintenanceDate = "MaintenanceDate";
     private static final String Adapted = "Yes";
     private static final String AdaptationFlasks = "Adaptation Flasks";
-    private static final String SampleId = "SampleID";
     private static final String InvalidAction = "Invalid call to the AdaptationSaveHandler";
     private static final Map<String, Object> CheckAdaptationParams;
     private Set<String> _samplesToCheckForAdaptation;

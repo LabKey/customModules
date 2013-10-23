@@ -1,7 +1,7 @@
 <div id="start-test"></div>
 <div id="log-info"></div>
 <script type="text/javascript">
-
+    LABKEY.requiresExt4ClientAPI();
     LABKEY.requiresScript("assay/icemr.js");
     LABKEY.requiresScript("assay/validation.js");
     LABKEY.requiresScript("assay/tracking/tracking.js");
@@ -90,6 +90,9 @@
     var _dailyMeasurements;
     var generateFlaskData;
     var isSuccessfulCalcField;
+
+    // our loan userId
+    var _userId;
 
     // culture adaptation specific results
     var _expectedAdaptFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
@@ -425,6 +428,12 @@
     }
 
     function runTest(){
+        if (!_userId)
+        {
+            getUserId();
+            return;
+        }
+
         if (!_stopped) {
             if (_testNum > 0) logSuccess();
             if (_testNum >= _tests.length) {
@@ -1335,7 +1344,7 @@
     function generateDailyData(id, parasitemia, date, init, finish, stop)
     {
         var dailyResult = LABKEY.icemr.tracking.createDaily();
-        dailyResult['Scientist'] = "Hayflick";
+        dailyResult['Scientist'] = _userId;
         dailyResult['SampleID'] = id;  // flask id
         dailyResult['Stage'] = LABKEY.icemr.tracking.stageOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.stageOptions.length)][0];
         dailyResult['Parasitemia'] = parasitemia;
@@ -1372,7 +1381,7 @@
     {
         flask['PatientID'] = patientId;
         flask['SampleID'] =  sampleId;
-        flask['Scientist'] = "Maverick";
+        flask['Scientist'] = _userId;
         flask['CultureMedia'] = LABKEY.icemr.tracking.cultureMediaOptions[Math.floor(Math.random()*LABKEY.icemr.tracking.cultureMediaOptions.length)][0];
         if (flask['CultureMedia'] == 'serum')
             flask['SerumBatchID'] = 1;
@@ -1442,6 +1451,23 @@
         }
 
         return true;
+    }
+
+    function onUserIdSuccess(data)
+    {
+        _userId = data.rows[0].UserId;
+        runTest();
+    }
+
+    function getUserId()
+    {
+        LABKEY.Query.selectRows({
+            schemaName: "core",
+            queryName: "users",
+            columns: "UserId",
+            successCallback : onUserIdSuccess,
+            filterArray : [ LABKEY.Filter.create("email", "maverick", LABKEY.Filter.Types.CONTAINS)]
+        });
     }
 
     function verifyObject(obj, set)

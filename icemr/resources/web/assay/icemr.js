@@ -74,6 +74,7 @@ LABKEY.icemr.buildConfigs = function(fields, metaType) {
 };
 
 LABKEY.icemr.buildConfig = function(meta, metaType){
+    LABKEY.icemr.fixupLookup(meta, metaType);
     config = LABKEY.ext4.Util.getFormEditorConfig(meta);
     //
     // set an id so that we use this is as the key name for the field
@@ -147,21 +148,43 @@ LABKEY.icemr.compareDate = function(date1, date2){
     return (t1 == new Date(date2).getTime())
 };
 
+LABKEY.icemr.fixupLookup = function(meta, metaType) {
+    if (metaType != LABKEY.icemr.metaType.SampleSet)
+        return;
+
+    // the getDefaultEditorConfig code in util.js expects a lookup object, so create one here
+    // if our metadata has lookup information
+    if (meta.lookupContainer && meta.lookupQuery && meta.lookupSchema && !meta.lookup)    {
+        meta.lookup = {
+            container : meta.lookupContainer,
+            schemaName : meta.lookupSchema,
+            queryName : meta.lookupQuery
+        }
+
+        //
+        // handle users special case for our scientist column
+        //
+        if (meta.lookupQuery.toLowerCase() == "users") {
+            meta.lookup.keyColumn= "UserId";
+            meta.lookup.displayColumn= "DisplayName";
+        }
+    }
+};
 
 // this function only should be called for meta data returned from
 // a sample set domain
 LABKEY.icemr.fixupSampleSetTypeInformation = function(meta, config){
     var typename = meta.rangeURI.toLowerCase();
-    if (typename == 'http://www.w3.org/2001/xmlschema#double')
-    {
-        config.xtype = 'numberfield';
-        config.allowDecimals = true;
-    }
-    else
-    if (typename == 'http://www.w3.org/2001/xmlschema#int')
-    {
-        config.xtype = 'numberfield';
-        config.allowDecimals = false;
+
+    if (!meta.lookup) {
+        if (typename == 'http://www.w3.org/2001/xmlschema#double'){
+            config.xtype = 'numberfield';
+            config.allowDecimals = true;
+        }
+        else if (typename == 'http://www.w3.org/2001/xmlschema#int'){
+            config.xtype = 'numberfield';
+            config.allowDecimals = false;
+        }
     }
 };
 
@@ -275,3 +298,29 @@ LABKEY.icemr.stripTimeZoneDateTime = function(date, time){
 
     return date + " " + time;
 };
+
+
+//
+// given a list, find the item and ensure it comes before itemAfter, returns a reordered list
+// we use this to fixup a scientist column that has been migrated
+//
+LABKEY.icemr.reorderList = function(list, item, itemAfter) {
+    if (item) {
+        var reordered = [];
+        for (var i = 0; i < list.length; i++) {
+            var curr = list[i];
+
+            if (curr == itemAfter)
+                reordered.push(item);
+
+            if (curr == item)
+                continue;
+
+            reordered.push(curr);
+        }
+
+        return reordered;
+    }
+
+    return list;
+}

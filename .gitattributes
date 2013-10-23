@@ -110,11 +110,10 @@ icemr/resources/assay/Tracking/queries/tracking_results.sql -text
 icemr/resources/assay/Tracking/views/results.html -text
 icemr/resources/assay/Tracking/views/upload.html -text
 icemr/resources/folderTypes/icemr.foldertype.xml -text
-icemr/resources/samples/adaptFlaskFields.txt -text
-icemr/resources/samples/flaskFields.txt -text
-icemr/resources/samples/selectFlaskFields.txt -text
 icemr/resources/schemas/dbscripts/postgresql/icemr-12.30-13.10.sql -text
+icemr/resources/schemas/dbscripts/postgresql/icemr-13.20-13.21.sql -text
 icemr/resources/schemas/dbscripts/sqlserver/icemr-12.30-13.10.sql -text
+icemr/resources/schemas/dbscripts/sqlserver/icemr-13.20-13.21.sql -text
 icemr/resources/schemas/icemr.xml -text
 icemr/resources/views/dailyUpload.html -text
 icemr/resources/views/flaskSummary.html -text
@@ -134,6 +133,7 @@ icemr/src/org/labkey/icemr/IcemrController.java -text
 icemr/src/org/labkey/icemr/IcemrManager.java -text
 icemr/src/org/labkey/icemr/IcemrModule.java -text
 icemr/src/org/labkey/icemr/IcemrSchema.java -text
+icemr/src/org/labkey/icemr/IcemrUpgradeCode.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityAssayProvider.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityAssayRun.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityDataHandler.java -text

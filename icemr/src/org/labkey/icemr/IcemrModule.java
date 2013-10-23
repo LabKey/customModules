@@ -19,6 +19,7 @@ package org.labkey.icemr;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.UpgradeCode;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
@@ -48,7 +49,7 @@ public class IcemrModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 13.20;
+        return 13.21;
     }
 
     @Override
@@ -102,5 +103,11 @@ public class IcemrModule extends DefaultModule
     public Set<String> getSchemaNames()
     {
         return Collections.singleton("icemr");
+    }
+
+    @Override
+    public UpgradeCode getUpgradeCode()
+    {
+        return new IcemrUpgradeCode();
     }
 }

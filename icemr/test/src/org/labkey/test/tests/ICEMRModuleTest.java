@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.ExcelHelper;
 import org.labkey.test.util.LogMethod;
@@ -55,9 +56,12 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String ADAPTATION_FLASKS_NAME = "Adaptation Flasks";
     public static final String SELECTION_FLASK_FILE = "sampledata/icemr/selectFlaskFields.txt";
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
-    public static final String SCIENTIST = "Torruk";
     public static final String GEL_IMAGE_FIELD = "GelImage";
     public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
+    protected static final String ICEMR_AUTHOR_USER = "maverick@labkey.com";
+    protected static final String ICEMR_AUTHOR_USER_DISPLAY = "maverick";
+    protected static final String ICEMR_EDITOR_USER = "goose@labkey.com";
+    protected static final String ICEMR_EDITOR_USER_DISPLAY = "goose";
 
     @Override
 //    @LogMethod(category = LogMethod.MethodType.SETUP)
@@ -78,6 +82,10 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         testJavaScript();
 
+        // make sure we can do everything as an author
+        impersonate(ICEMR_AUTHOR_USER);
+        goToProjectHome();
+
         // test diagnostics
         enterDataPoint(DIAGNOSTIC_ASSAY_NAME, Locator.id("upload-diagnostic-form-body"), null);
         verifyDataInAssay();
@@ -93,6 +101,10 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         goToProjectHome();
         // track drug selection flavor of tracking assay
         verifyTrackingAssay(SELECTION_ASSAY_NAME);
+        goToProjectHome();
+
+        // next test involves deleting data so go back to our admin user
+        stopImpersonating();
         goToProjectHome();
 
         verifyTrackingIndependence();
@@ -139,15 +151,27 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
+    private void setupUsers()
+    {
+        createUserWithPermissions(ICEMR_AUTHOR_USER, getProjectName(), "Author");
+        clickButton("Save and Finish");
+        createUserWithPermissions(ICEMR_EDITOR_USER, getProjectName(), "Editor");
+        clickButton("Save and Finish");
+    }
+
+    @LogMethod
     private void setupAssays()
     {
         log("Create ICEMR assays and samplesets");
         _containerHelper.createProject(getProjectName(), "ICEMR");
         enableModule(getProjectName(), "Study");
 
+        setupUsers();
+
         PortalHelper ph = new PortalHelper(this);
         ph.addWebPart("Assay List");
         ph.addWebPart("Sample Sets");
+        ph.addWebPart("ICEMR Upload Tests");
 
         _assayHelper.createAssayWithDefaults(DIAGNOSTICS_ASSAY_DESIGN, DIAGNOSTIC_ASSAY_NAME);
         _assayHelper.createAssayWithDefaults(TRACKING_ASSAY_DESIGN, ADAPTATION_ASSAY_NAME);
@@ -155,6 +179,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         _assayHelper.createAssayWithDefaults(SPECIES_ASSAY_DESIGN, SPECIES_ASSAY_NAME);
         createFlasksSampleSet(ADAPTATION_FLASKS_NAME, ADAPTATION_FLASK_FILE);
         createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
+    }
+
+    protected void doCleanup(boolean afterTest) throws TestTimeoutException
+    {
+        deleteUsers(afterTest, ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
     }
 
     @LogMethod
@@ -218,7 +247,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("PatientID", "100101");
         fieldAndValue.put("ExperimentID", "12345");
         fieldAndValue.put("SampleID1", "15243");
-        fieldAndValue.put("Scientist1", "Dr. Helvetica");
+        fieldAndValue.put("Scientist1", ICEMR_EDITOR_USER_DISPLAY);
         fieldAndValue.put("Gametocytemia1", "20");
         fieldAndValue.put("Hematocrit1", "24");
         fieldAndValue.put("Parasitemia1", "");
@@ -272,7 +301,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("PatientID", "100101");
         fieldAndValue.put("ExperimentID", "12345");
         fieldAndValue.put("SampleID1", "15243");
-        fieldAndValue.put("Scientist1", "Dr. Helvetica");
+        fieldAndValue.put("Scientist1", ICEMR_EDITOR_USER_DISPLAY);
 
         fieldAndValue.put("InitialPopulation1", "7");
         fieldAndValue.put("Concentration1", "3");
@@ -314,7 +343,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue = new HashMap<>();
 
         fieldAndValue.put("SampleID" + flaskNum, "15258");
-        fieldAndValue.put("Scientist" + flaskNum, "Dr. Helvetica");
+        fieldAndValue.put("Scientist" + flaskNum, ICEMR_EDITOR_USER_DISPLAY);
         fieldAndValue.put("Gametocytemia" + flaskNum, "24");
         fieldAndValue.put("Hematocrit" + flaskNum, "28");
         fieldAndValue.put("Parasitemia" + flaskNum, "27");
@@ -341,7 +370,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue = new HashMap<>();
 
         fieldAndValue.put("SampleID" + flaskNum, "15258");
-        fieldAndValue.put("Scientist" + flaskNum, "Dr. Helvetica");
+        fieldAndValue.put("Scientist" + flaskNum, ICEMR_EDITOR_USER_DISPLAY);
         fieldAndValue.put("SerumBatchID"+ flaskNum, "00123");
         fieldAndValue.put("AlbumaxBatchID"+ flaskNum, "10213");
         fieldAndValue.put("InitialPopulation"+ flaskNum, "7");
@@ -380,8 +409,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         //Try to upload a form with bad flasks (invalid IDs)
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/badFlasks.xls"));
-        clickButtonContainingText("Upload", "Submit");
-        sleep(500);
+        completeUpload();
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
         clickButtonContainingText("OK", "Result");
@@ -391,21 +419,30 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         refresh();
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
-        clickButtonContainingText("Upload", "Scientist Name");
-        sleep(500);
+        completeUpload();
         waitAndClick(Locator.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         waitAndClick(link);
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
-        clickButtonContainingText("Upload", "Scientist Name");
-        sleep(500);
+        completeUpload();
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
         clickButtonContainingText("OK", "Result");
         _extHelper.waitForExtDialogToDisappear("Daily Maintenance Error");
         click(Locator.ext4Button("Cancel"));
+    }
+
+    @LogMethod
+    private void completeUpload()
+    {
+        clickButtonContainingText("Upload", "Submit");
+        sleep(500);
+
+        // hack to force selection of labkey user for scientist drop downs
+        setICEMRField("Scientist1", "goose");
+        setICEMRField("Scientist2", "maverick");
     }
 
     @LogMethod
@@ -492,7 +529,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         fieldAndValue = new HashMap<>();
 
-        fieldAndValue.put("Scientist", SCIENTIST);
+        fieldAndValue.put("Scientist", ICEMR_AUTHOR_USER_DISPLAY);
         fieldAndValue.put("ParticipantID", ID);
         fieldAndValue.put("ProcessingProtocol", "1");
         fieldAndValue.put("InitParasitemia", "0.3");
@@ -542,7 +579,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         fieldAndValue.put("ExpID", expId);
         fieldAndValue.put("ParticipantID", ID);
-        fieldAndValue.put("Scientist", SCIENTIST);
+        fieldAndValue.put("Scientist", ICEMR_AUTHOR_USER_DISPLAY);
         fieldAndValue.put("FreezerProID", "2543");
         fieldAndValue.put("Attempt", "2");
         fieldAndValue.put("Sample", "4.0");
@@ -598,6 +635,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         clickButton("Import", 0);
         waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
+        // set the scientist column type to a user instead of just an int
+        // this will make it be a combobox in the drop down.
+        setFormElement(Locator.xpath("//input[@name='ff_type2']"), "User");
         clickButton("Save");
         clickProject(getProjectName());
     }
@@ -605,8 +645,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void testJavaScript()
     {
-        PortalHelper ph = new PortalHelper(this);
-        ph.addWebPart("ICEMR Upload Tests");
         // run the test script
         clickButton("Start Test", 0);
 
@@ -643,7 +681,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod(quiet = true)
     protected void setICEMRField(@LoggedParam String field, @LoggedParam String value)
     {
-        setFormElement(Locator.name(field), value);
+        if (field.startsWith("Scientist"))
+            _extHelper.selectExt4ComboBoxItem(Locator.xpath("//tr["+Locator.NOT_HIDDEN+" and ./td/label[@id='"+field+"-labelEl']]"), value, true);
+        else
+            setFormElement(Locator.name(field), value);
+
         fieldAndValue.put(field, value);
     }
 }

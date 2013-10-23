@@ -1,7 +1,7 @@
 <div id="error-div"></div>
 <div id="upload-diagnostic-div"></div>
 <script type="text/javascript">
-
+LABKEY.requiresExt4ClientAPI();
 LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/validation.js");
 LABKEY.requiresScript("assay/diagnostics/diagnostics.js");
@@ -100,6 +100,8 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
     // fixup our field configs
     //
     var defaultDate = new Date();
+    var scientistConfig;
+    var participantConfig;
 
     for (var i = 0; i < resultConfigs.length; i++)
     {
@@ -137,12 +139,23 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
             // is correct
             //
             config.vtype = 'doubleNumber';
+        }
 
+        if (config.name == LABKEY.icemr.diagnostics.scientist)
+        {
+            scientistConfig = config;
+        }
+
+        if (config.name == LABKEY.icemr.diagnostics.participant)
+        {
+            participantConfig = config;
         }
 
         // save the original name to bind to later
         _fieldNames.push(config.name);
     }
+
+    resultConfigs = LABKEY.icemr.reorderList(resultConfigs, scientistConfig, participantConfig);
 
     //
     // push our button configs on to the end now

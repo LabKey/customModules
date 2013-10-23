@@ -1,30 +1,38 @@
 LABKEY Admin:  To setup your ICEMR assay you need to do the following:
 
-1) Create new project
+SETUP PROJECT
+1) Create a new project
 2) Pick the ICEMR project type and pick your settings
-3) After completing project creation you should see the Assay List, Sample Sets, and Add Diagnostics web parts
-4) Create a new Assay Design
-5) Pick the "ICEMR Adaptation" type
-6) Name it "Adaptation Assay" and save
+3) Go to the folder management and pick folder type.  Here you'll want to check the Study checkbox on the right hand
+side to enable the Assay List web part.
+4) back in your project folder add the Assay List web part
+5) add the Sample Sets weeb part.
+
+ADD ASSAYS
+5) Pick the "ICEMR Diagnostics" type
+6) Fill out a name and Save.
+
+Repeat steps 5-6 for the Species Specific assay if required.  Note that you should pick the ICEMR Species-specific PCR
+assay type.
+
+Create a Flask Tracking Assay (Culture Adaptation)
 7) Create a new Assay Design
-8) Pick the "ICEMR Diagnostics" type
-9) Name it "Diagnostics Assay".  Note that this assay design must be named "Diagnostics Assay"
+8) Pick the "ICEMR Flask Tracking" type
+9) Name it "Culture Adaptation" and save
+
+Repeat steps 7-9 for the Drug Selection assay.  Use the same Flask Tracking assay type as above.  Be sure, however,
+to name this assay "Drug Selection"
+
+ADD SAMPLE SETS
 10) Import a Sample Set
-11) Name it "Flasks".  Note this name must be "Flasks"
+11) Name it "Adaptation Flasks".  Be sure to pick this name.
 11) in "Sample Set Data" just paste in "SampleID" for the first row and "1" for the second
 12) under "Id Columns" pick "SampleID" for #1 and then save the sample set
 13) Since we pasted in a row of data, remove it.  Check the first row in the Sample Set Contents and delete.
 14) Now click "Edit Fields" in the Sample Set Properties (of Sample Set Flasks)
 15) Select "Import Fields"
 16) paste the contents of <LABKEY_ROOT>/server/customModules/ICEMR/resources/samples/flaskFields.txt into dialog
-17) Save - at this point you should have the correct metadata for the flask samples.
+17) Notice the Scientist column is of type int.  Before saving the sample set metadata, change this to a 'User' column.
+18) Save - at this point you should have the correct metadata for the flask samples for culture adaptation.
 
-Verify your setup
-1) Go back to your ICEMR Project Folder
-2) click the "Upload data" link in the Add Diagnostics webpart
-3) You should see a form entitled "Data Import" with all the diagnostic fields in it
-4) Go back to your ICEMR Project Folder
-5) click "Adaptation Assay" in the Assay List
-6) click "Import Data" you should see a "Data Import Form" with the Flask Properties and Flask fields in it.
-
-
+If required, repeat steps 10-18 for the Drug Selection assay.  Be sure to name the sample set "Selection Flasks".

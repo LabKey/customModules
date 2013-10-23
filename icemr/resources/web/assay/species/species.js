@@ -27,6 +27,7 @@ Ext.namespace("LABKEY.icemr.speciesSpecific");
 // constants
 // -------------------------------------------------------------------
 LABKEY.icemr.speciesSpecific.participant='ParticipantID';
+LABKEY.icemr.speciesSpecific.scientist='Scientist';
 LABKEY.icemr.speciesSpecific.time = 'Time';
 LABKEY.icemr.speciesSpecific.date = 'Date';
 LABKEY.icemr.speciesSpecific.gelImage = 'GelImage';

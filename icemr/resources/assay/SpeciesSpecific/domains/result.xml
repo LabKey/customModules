@@ -23,8 +23,12 @@
     <exp:PropertyDescriptor>
         <exp:Name>Scientist</exp:Name>
         <exp:Required>true</exp:Required>
-        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#int</exp:RangeURI>
         <exp:Label>Scientist Name</exp:Label>
+        <exp:FK>
+            <exp:Schema>core</exp:Schema>
+            <exp:Query>users</exp:Query>
+        </exp:FK>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>FreezerProID</exp:Name>

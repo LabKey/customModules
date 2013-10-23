@@ -40,6 +40,10 @@ import java.util.Map;
   */
 public class IcemrSaveHandler extends DefaultAssaySaveHandler
 {
+    public static final String SCIENTIST = "Scientist";
+    public static final String SCIENTIST_LABEL = "Scientist";
+    public static final String SCIENTIST_USER = "ScientistUser";
+
     //
     // The diagnostic assay should only send in a dataArray for the run
     // The species-specific assay may include a data input if a gel image is attached
