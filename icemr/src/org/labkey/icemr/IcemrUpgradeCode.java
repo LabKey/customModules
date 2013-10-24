@@ -92,13 +92,15 @@ public class IcemrUpgradeCode implements UpgradeCode
 
     private void upgradeSampleSets(ModuleContext context, ExpProtocol protocol)
     {
-        Container container = protocol.getContainer();
-        for (ExpSampleSet sampleSet : ExperimentService.get().getSampleSets(container, context.getUpgradeUser(), true))
+        for(Container container : protocol.getExpRunContainers())
         {
-            if (sampleSet.getName().equalsIgnoreCase(AdaptationSampleSet) ||
-                sampleSet.getName().equalsIgnoreCase(SelectionSampleSet))
+            for (ExpSampleSet sampleSet : ExperimentService.get().getSampleSets(container, context.getUpgradeUser(), true))
             {
-                upgradeSampleSet(context, protocol, container, sampleSet);
+                if (sampleSet.getName().equalsIgnoreCase(AdaptationSampleSet) ||
+                    sampleSet.getName().equalsIgnoreCase(SelectionSampleSet))
+                {
+                    upgradeSampleSet(context, protocol, container, sampleSet);
+                }
             }
         }
     }
@@ -106,16 +108,16 @@ public class IcemrUpgradeCode implements UpgradeCode
     private void upgradeAssay(ModuleContext context, ExpProtocol protocol, AssayProvider provider)
     {
         UpgradeItem upgradeItem = new AssayUpgradeItem(protocol, provider);
-        doUpgrade(context.getUpgradeUser(), upgradeItem);
+        doUpgrade(context.getUpgradeUser(), protocol.getContainer(), upgradeItem);
     }
 
     private void upgradeSampleSet(ModuleContext context, ExpProtocol protocol, Container container, ExpSampleSet sampleSet)
     {
         SampleSetUpgradeItem upgradeItem = new SampleSetUpgradeItem(protocol, sampleSet);
-        doUpgrade(context.getUpgradeUser(), upgradeItem);
+        doUpgrade(context.getUpgradeUser(), container, upgradeItem);
     }
 
-    private void doUpgrade(User user, UpgradeItem upgradeItem)
+    private void doUpgrade(User user, Container container, UpgradeItem upgradeItem)
     {
         if (!shouldUpgradeDomain(upgradeItem.getDomain()))
         {
@@ -124,13 +126,12 @@ public class IcemrUpgradeCode implements UpgradeCode
         ExpProtocol protocol = upgradeItem.getProtocol();
 
         ModuleUpgrader.getLogger().info("Upgrading " + upgradeItem.getName() + " : " + protocol.getName() +
-                " in folder: " + protocol.getContainer().getPath());
+                " in folder: " + container.getPath());
 
         ExperimentService.get().getSchema().getScope().ensureTransaction();
 
         try
         {
-
             //
             // first, add a result property to hold the Scientist as a user
             //
@@ -147,12 +148,11 @@ public class IcemrUpgradeCode implements UpgradeCode
             migrateScientistProperty(user, upgradeItem.getDomain());
 
             ExperimentService.get().getSchema().getScope().commitTransaction();
-
         }
         catch (Exception e)
         {
             // fail upgrading the run but continue on to subsequent runs
-            _log.error("An error occurred upgrading " + upgradeItem.getName() + " : " + protocol.getName() + " in folder: " + protocol.getContainer().getPath(), e);
+            _log.error("An error occurred upgrading " + upgradeItem.getName() + " : " + protocol.getName() + " in folder: " + container.getPath(), e);
         }
         finally
         {
@@ -166,6 +166,9 @@ public class IcemrUpgradeCode implements UpgradeCode
         for(Container container : upgradeItem.getProtocol().getExpRunContainers())
         {
             TableInfo ti = upgradeItem.getTableInfo(user, container);
+            if (ti == null)
+                continue;
+
             List<Map<String, Object>> rows = getRowsToUpdate(ti, upgradeItem);
             if (rows.size() > 0)
             {
