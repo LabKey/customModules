@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerFilterable;
+import org.labkey.api.data.DbScope;
 import org.labkey.api.data.DeferredUpgrade;
 import org.labkey.api.data.Results;
 import org.labkey.api.data.TableInfo;
@@ -49,9 +50,9 @@ import java.util.Map;
 public class IcemrUpgradeCode implements UpgradeCode
 {
     private static final Logger _log = Logger.getLogger(IcemrUpgradeCode.class);
-    private static final String UnknownScientistAccount = "UnknownScientist@labkey.com";
-    private static final String AdaptationSampleSet = "Adaptation Flasks";
-    private static final String SelectionSampleSet = "Selection Flasks";
+    private static final String UNKNOWN_SCIENTIST_ACCOUNT = "UnknownScientist@labkey.com";
+    private static final String ADAPTATION_SAMPLE_SET = "Adaptation Flasks";
+    private static final String SELECTION_SAMPLE_SET = "Selection Flasks";
     private Map<String, User> _mapUsers;
 
     // called from 13.20 - 13.21 to convert the Scientist property from a text field to
@@ -96,8 +97,8 @@ public class IcemrUpgradeCode implements UpgradeCode
         {
             for (ExpSampleSet sampleSet : ExperimentService.get().getSampleSets(container, context.getUpgradeUser(), true))
             {
-                if (sampleSet.getName().equalsIgnoreCase(AdaptationSampleSet) ||
-                    sampleSet.getName().equalsIgnoreCase(SelectionSampleSet))
+                if (sampleSet.getName().equalsIgnoreCase(ADAPTATION_SAMPLE_SET) ||
+                    sampleSet.getName().equalsIgnoreCase(SELECTION_SAMPLE_SET))
                 {
                     upgradeSampleSet(context, protocol, container, sampleSet);
                 }
@@ -128,9 +129,7 @@ public class IcemrUpgradeCode implements UpgradeCode
         ModuleUpgrader.getLogger().info("Upgrading " + upgradeItem.getName() + " : " + protocol.getName() +
                 " in folder: " + container.getPath());
 
-        ExperimentService.get().getSchema().getScope().ensureTransaction();
-
-        try
+        try (DbScope.Transaction transaction = ExperimentService.get().getSchema().getScope().ensureTransaction())
         {
             //
             // first, add a result property to hold the Scientist as a user
@@ -143,20 +142,16 @@ public class IcemrUpgradeCode implements UpgradeCode
             mapScientistToUser(user, upgradeItem);
 
             //
-            // third, get rid of the old scientist text column and rename the new scientist user column to this
+            // third, get rid of the old scientist text column and rename the new scientist user column
             //
             migrateScientistProperty(user, upgradeItem.getDomain());
 
-            ExperimentService.get().getSchema().getScope().commitTransaction();
+            transaction.commit();
         }
         catch (Exception e)
         {
             // fail upgrading the run but continue on to subsequent runs
             _log.error("An error occurred upgrading " + upgradeItem.getName() + " : " + protocol.getName() + " in folder: " + container.getPath(), e);
-        }
-        finally
-        {
-            ExperimentService.get().getSchema().getScope().closeConnection();
         }
     }
 
@@ -234,7 +229,7 @@ public class IcemrUpgradeCode implements UpgradeCode
             else
             {
                 // we didn't find the user so map to our UnknownScientist
-                u = createUnknownScientist();
+                u = ensureUnknownScientist();
             }
         }
 
@@ -244,9 +239,9 @@ public class IcemrUpgradeCode implements UpgradeCode
     //
     // create an UnknownScientist guest account if we didn't find the scientist
     //
-    private User createUnknownScientist() throws ValidEmail.InvalidEmailException, SecurityManager.UserManagementException
+    private User ensureUnknownScientist() throws ValidEmail.InvalidEmailException, SecurityManager.UserManagementException
     {
-        ValidEmail email = new ValidEmail(UnknownScientistAccount);
+        ValidEmail email = new ValidEmail(UNKNOWN_SCIENTIST_ACCOUNT);
         User u = UserManager.getUser(email);
         if (u == null)
         {

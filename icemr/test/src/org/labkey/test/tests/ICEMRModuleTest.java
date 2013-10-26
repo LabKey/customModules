@@ -58,9 +58,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
     public static final String GEL_IMAGE_FIELD = "GelImage";
     public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
-    protected static final String ICEMR_AUTHOR_USER = "maverick@labkey.com";
+    protected static final String ICEMR_AUTHOR_USER = "maverick@labkey.test";
     protected static final String ICEMR_AUTHOR_USER_DISPLAY = "maverick";
-    protected static final String ICEMR_EDITOR_USER = "goose@labkey.com";
+    protected static final String ICEMR_EDITOR_USER = "goose@labkey.test";
     protected static final String ICEMR_EDITOR_USER_DISPLAY = "goose";
 
     @Override
