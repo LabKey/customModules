@@ -147,7 +147,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         _fileBrowserHelper.expandFileBrowserRootNode();
         _fileBrowserHelper.selectFileBrowserItem("export/");
         click(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and starts-with(text(), 'My Study_')]"));
-        selectImportDataAction("Import Folder");
+        _fileBrowserHelper.selectImportDataAction("Import Folder");
         waitForPipelineJobsToComplete(2, "Folder import", false);
     }
 
