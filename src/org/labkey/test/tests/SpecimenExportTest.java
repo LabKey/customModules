@@ -144,25 +144,26 @@ public class SpecimenExportTest extends SpecimenBaseTest
         goToFolderManagement();
         clickAndWait(Locator.linkWithText("Import"));
         clickButtonContainingText("Import Folder Using Pipeline");
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.selectFileBrowserItem("export/");
-        click(Locator.tag("div").withClass("x4-grid-cell-inner").withPredicate("starts-with(text(), 'My Study_')"));
-        _fileBrowserHelper.selectImportDataAction("Import Folder");
+        _extHelper.expandFileBrowserRootNode();
+        _extHelper.selectFileBrowserItem("export/");
+        click(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and starts-with(text(), 'My Study_')]"));
+        selectImportDataAction("Import Folder");
         waitForPipelineJobsToComplete(2, "Folder import", false);
     }
 
     private void verifySpecimenSettingsInArchive()
     {
         log("verify specimen settings in study.xml");
-        _fileBrowserHelper.selectFileBrowserItem("export/study/study.xml");
-        doubleClick(Locator.xpath("//div[contains(@class, 'x4-grid-cell-inner') and text()='study.xml']"));
+        _extHelper.selectFileBrowserItem("export/study/study.xml");
+        doubleClick(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and text()='study.xml']"));
         waitForText("<specimens dir=\"specimens\" settings=\"specimen_settings.xml\" file=\"Study.specimens\"/>");
 
         log("verify specimen_settings.xml");
         clickAndWait(Locator.linkWithText("Manage Files"));
         click(Locator.css("button.iconFolderTree"));
-        _fileBrowserHelper.selectFileBrowserItem("export/study/specimens/specimen_settings.xml");
-        doubleClick(Locator.xpath("//div[contains(@class, 'x4-grid-cell-inner') and text()='specimen_settings.xml']"));
+        shortWait().until(ExpectedConditions.visibilityOf(Locator.xpath("id('fileBrowser')//div[contains(@id, 'xsplit')]").findElement(getDriver())));
+        _extHelper.selectFileBrowserItem("export/study/specimens/specimen_settings.xml");
+        doubleClick(Locator.xpath("//div[contains(@class, 'x-grid3-cell-inner') and text()='specimen_settings.xml']"));
         waitForText("<specimens repositoryType=\"ADVANCED\" enableRequests=\"true\" editableRepository=\"true\"");
         assertTextPresentInThisOrder(
             "<webPartGroupings>",
