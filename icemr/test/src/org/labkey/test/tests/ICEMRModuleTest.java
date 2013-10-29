@@ -682,9 +682,17 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     protected void setICEMRField(@LoggedParam String field, @LoggedParam String value)
     {
         if (field.startsWith("Scientist"))
-            _extHelper.selectExt4ComboBoxItem(Locator.xpath("//tr["+Locator.NOT_HIDDEN+" and ./td/label[@id='"+field+"-labelEl']]"), value, true);
+        {
+            Locator.XPathLocator comboBox = Locator.xpath("//tr["+Locator.NOT_HIDDEN+" and ./td/label[@id='"+field+"-labelEl']]");
+            waitForElement(comboBox);
+            _extHelper.selectExt4ComboBoxItem(comboBox, value, true);
+        }
         else
-            setFormElement(Locator.name(field), value);
+        {
+            Locator surveyField = Locator.name(field);
+            waitForElement(surveyField);
+            setFormElement(surveyField, value);
+        }
 
         fieldAndValue.put(field, value);
     }
