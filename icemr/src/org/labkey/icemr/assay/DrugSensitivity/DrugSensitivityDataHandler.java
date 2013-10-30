@@ -159,7 +159,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     }
 
     @Override
-    protected void prepareWellGroups(List<WellGroup> wellgroups, ExpMaterial material, Map<String, DomainProperty> samplePropertyMap)
+    protected void prepareWellGroups(List<WellGroup> wellgroups, ExpMaterial material, Map<String, DomainProperty> samplePropertyMap) throws ExperimentException
     {
         if (wellgroups.size() != 1)
             throw new IllegalStateException("Expected exactly 1 well group per material for drug sensitivity runs.  Found " + wellgroups.size());
