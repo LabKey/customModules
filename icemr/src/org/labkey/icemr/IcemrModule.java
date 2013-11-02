@@ -49,7 +49,7 @@ public class IcemrModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 13.21;
+        return 13.30;
     }
 
     @Override
