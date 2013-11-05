@@ -216,6 +216,14 @@ function onDailyFileUploadSuccess(dailyResults)
                     field.setValue(LABKEY.icemr.getFormPosNegValue(value));
                 }
                 else
+                if (key == LABKEY.icemr.tracking.scientist)
+                {
+                    // lookup by display name not the user id
+                    var rec = field.findRecordByDisplay(value);
+                    if (rec)
+                        field.setValue(rec.data.UserId);
+                }
+                else
                 {
                     field.setValue(value);
                 }
