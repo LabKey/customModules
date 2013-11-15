@@ -1,6 +1,8 @@
 <div id="error-div"></div>
 <div id="upload-adaptation-div"></div>
 <script type="text/javascript">
+// undone: remove after things work and add view.xml back that nick gave you
+
 LABKEY.requiresExt4ClientAPI();
 LABKEY.requiresScript("assay/icemr.js");
 LABKEY.requiresScript("assay/validation.js");
@@ -8,12 +10,10 @@ LABKEY.requiresScript("assay/tracking/tracking.js");
 
 var _runFieldConfigs;
 var _resultFieldConfigs;
-var _runData; // experiment data
 var _resultFile;
-var numFlasks = 1;
-var _flasksPanel;
+var _formPanel; // Overall panel for the UI
 
-function onSaveSuccess(batch)
+function onSaveSuccess(response)
 {
     //
     // just to to the runs view for now
@@ -24,38 +24,70 @@ function onSaveSuccess(batch)
             {rowId:LABKEY.icemr.tracking.assayId});
 }
 
+// copy form data into structures we send down to the
+// LABKEY.icemr.tracking layer.  Each experiment has a flaskPanel
+// that contains one or more flasks
+function collectFlaskData(flaskPanel, panelNum)
+{
+    var flaskResults = [];
+    var trueValue;
+
+    // iterate over flasks
+    for (var i = 0; i < flaskPanel.items.items.length; i++)
+    {
+
+        // iterate over flask fields
+        var flask = flaskPanel.items.items[i];
+        var flaskResult = {};
+
+        for (var j = 0; j < flask.items.items.length; j++)
+        {
+            var field = flask.items.items[j];
+
+            if(field.value == 'Yes')
+            {
+                trueValue = true;
+            }
+            else
+            if(field.value == 'No')
+            {
+                // growth test is stored as an integer so map 'no' value to null
+                if (field.dataIndex == LABKEY.icemr.tracking.growthFoldTestInitiated ||
+                        field.dataIndex == LABKEY.icemr.tracking.growthFoldTestFinished)
+                    trueValue = null;
+                else
+                    trueValue = false;
+            }
+            else trueValue = field.value;
+
+            // strip the unique flask id from the field id
+            var suffix = getFlaskId(panelNum, i);
+            flaskResult[field.id.substring(0, field.id.length-suffix.length)] = trueValue;
+        }
+        flaskResults.push(flaskResult);
+    }
+
+    return flaskResults;
+}
+
 function submitDaily()
 {
     if (!validateForm())
         return;
 
     var results = [];
-    var target;
-    var trueValue;
 
-    for(var i = 0; i < numFlasks; i++){
+    //
+    // a result consists of an experiment id with all its flasks
+    //
+    for (var i = 0; i < LABKEY.icemr.tracking.batches.length; i++)
+    {
         var result = {};
-        var si = (i+1).toString();
-        for(r = 0; r < _flasksPanel.items.items[i].items.items.length; r++){
-            target =  _flasksPanel.items.items[i].items.items[r];
-            if(target.value == 'Yes')
-            {
-                trueValue = true;
-            }
-            else
-            if(target.value == 'No')
-            {
-                // growth test is stored as an integer so map 'no' value to null
-                if (target.dataIndex == LABKEY.icemr.tracking.growthFoldTestInitiated ||
-                        target.dataIndex == LABKEY.icemr.tracking.growthFoldTestFinished)
-                    trueValue = null;
-                else
-                    trueValue = false;
-            }
-            else trueValue = target.value;
+        var exp = _formPanel.getComponent('experimentSet' + i);
 
-            result[target.id.substring(0, target.id.length-si.length)] = trueValue;
-        }
+        var flaskPanel = exp.getComponent('flaskPanel' + i);
+        result[LABKEY.icemr.tracking.experiment] = exp.title;
+        result[LABKEY.icemr.tracking.flasks] = collectFlaskData(flaskPanel ,i);
         results.push(result);
     }
 
@@ -105,7 +137,8 @@ Ext4.onReady(function() {
     var params = LABKEY.ActionURL.getParameters();
     Ext4.QuickTips.init();
     LABKEY.icemr.initValidators();
-    LABKEY.icemr.tracking.getFieldConfigs(params.protocolName, onConfigsReady);
+    LABKEY.icemr.tracking.getSelectedExperiments(params.schemaName, params.queryName, params.selectionKey,
+        onConfigsReady);
 });
 
 function onConfigsReady(runConfigs, resultConfigs)
@@ -157,98 +190,150 @@ function onConfigsReady(runConfigs, resultConfigs)
 
     _runFieldConfigs = runConfigs;
     _resultFieldConfigs = LABKEY.icemr.reorderList(resultConfigs, scientistConfig, afterConfig);
+    LABKEY.icemr.tracking.getAllRunData(onRunDataReady);
+}
 
-    //
-    // fetch our run data so that we can populate our data
-    //
-    var params = LABKEY.ActionURL.getParameters();
-    LABKEY.icemr.tracking.getRunData(params.protocolId, params.batchId, params.rowId, onRunDataReady)
+function findDailyResultForExperimentSet(experimentSet, dailyResults)
+{
+    for (var i = 0; i < dailyResults.length; i++)
+    {
+        var dailyResult = dailyResults[i];
+        if (dailyResult[LABKEY.icemr.tracking.experiment] == experimentSet.title)
+            return dailyResult;
+    }
+
+    return null;
 }
 
 function onDailyFileUploadSuccess(dailyResults)
 {
-    //
-    // populate form with data as a 'preview'
-    // note that the real UI should show all the columns, for this skeleton
-    // I am just populationg the 0th result
-    //
-
     if (dailyResults.length > 0)
     {
         Ext4.getCmp('submitButton').setVisible(true);
         Ext4.getCmp('uploadFormPanel').setVisible(false);
+        Ext4.getCmp('templateButton').setVisible(false);
 
-        _flasksPanel.setVisible(true);
-        for(var i = 0; i < dailyResults.length-1; i++)
+        for(var i = 0; i < dailyResults.length; i++)
         {
-            _flasksPanel.addFlask();
-        }
+            var exp = _formPanel.getComponent('experimentSet' + i);
+            exp.setVisible(true);
+            var flaskPanel = exp.getComponent('flaskPanel' + i);
+            flaskPanel.setVisible(true);
 
-        var form = _flasksPanel.items.items[0];
-        for(var i = 0; i < dailyResults.length; i++){
-            var dailyResult = dailyResults[i];
-            for (var key in dailyResult)
+            //
+            // be sure to insert the results from the uploaded template file in the same order as laid out in the form
+            //
+            var dailyResult = findDailyResultForExperimentSet(exp, dailyResults);
+
+            if (!dailyResult)
+                continue;
+
+            for (var j = 0; j < dailyResult.flasks.length; j++)
             {
-                form = _flasksPanel.items.items[i];
-                var value = dailyResult[key];
-                var field = form.getComponent(key +(i+1));
+                var flaskId = getFlaskId(i, j);
+                addFlask(flaskPanel, j, flaskId);
+                var dailyFlask = dailyResult.flasks[j];
+                var form = flaskPanel.items.items[j];
+                for (var key in dailyFlask)
+                {
+                    var value = dailyFlask[key];
+                    var field = form.getComponent(key + flaskId);
 
-                if (key == LABKEY.icemr.tracking.measurementDate)
-                {
-                    field.setValue(new Date(value));
-                }
-                else
-                if (key == LABKEY.icemr.tracking.growthFoldTestInitiated ||
-                        key == LABKEY.icemr.tracking.growthFoldTestFinished)
-                {
-                    field.setValue(LABKEY.icemr.getFormGrowthTestValue(value));
-                }
-                else
-                if (key == LABKEY.icemr.tracking.interestingResult ||
-                        key == LABKEY.icemr.tracking.contamination ||
-                        key == LABKEY.icemr.tracking.flaskMaintenanceStopped)
-                {
-                    field.setValue(LABKEY.icemr.getFormYesNoValue(value));
-                }
-                else
-                if (key == LABKEY.icemr.tracking.mycotest)
-                {
-                    field.setValue(LABKEY.icemr.getFormPosNegValue(value));
-                }
-                else
-                if (key == LABKEY.icemr.tracking.scientist)
-                {
-                    // lookup by display name not the user id
-                    var rec = field.findRecordByDisplay(value);
-                    if (rec)
-                        field.setValue(rec.data.UserId);
-                }
-                else
-                {
-                    field.setValue(value);
+                    if (key == LABKEY.icemr.tracking.measurementDate)
+                    {
+                        field.setValue(new Date(value));
+                    }
+                    else
+                    if (key == LABKEY.icemr.tracking.growthFoldTestInitiated ||
+                            key == LABKEY.icemr.tracking.growthFoldTestFinished)
+                    {
+                        field.setValue(LABKEY.icemr.getFormGrowthTestValue(value));
+                    }
+                    else
+                    if (key == LABKEY.icemr.tracking.interestingResult ||
+                            key == LABKEY.icemr.tracking.contamination ||
+                            key == LABKEY.icemr.tracking.flaskMaintenanceStopped)
+                    {
+                        field.setValue(LABKEY.icemr.getFormYesNoValue(value));
+                    }
+                    else
+                    if (key == LABKEY.icemr.tracking.mycotest)
+                    {
+                        field.setValue(LABKEY.icemr.getFormPosNegValue(value));
+                    }
+                    else
+                    if (key == LABKEY.icemr.tracking.scientist)
+                    {
+                        // lookup by display name not the user id
+                        var rec = field.findRecordByDisplay(value);
+                        if (rec)
+                            field.setValue(rec.data.UserId);
+                    }
+                    else
+                    {
+                        field.setValue(value);
+                    }
                 }
             }
         }
-        //Height helper to ensure that all the boxes line up.
-        adjustSizes();
     }
 }
 
-//If this doesn't happen late on, it doesn't work
-function adjustSizes()
+//
+// ensure the form is wide enough to contain all the flasks
+// we added
+//
+function adjustWidth(fieldSet)
 {
-    if(numFlasks > 1){
-        for(var i = 1; i < _flasksPanel.items.items.length; i++)
+    var flaskPanel = fieldSet.items.items[0];
+    var flaskWidth = 0;
+    for (var j = 0; j < flaskPanel.items.items.length; j++)
+    {
+        flaskWidth += flaskPanel.items.items[j].getWidth();
+    }
+
+    if (flaskWidth > _formPanel.getWidth())
+        _formPanel.setWidth(flaskWidth + 20);
+}
+
+//
+// If we hide the labels all flasks after the first column
+// we get serious alignment issues.  This function aligns the input
+// elements to match the alignment of the first flask (column 0) which
+// is spaced differently because of the labels
+//
+function adjustHeight(fieldSet)
+{
+    var flaskPanel = fieldSet.items.items[0];
+    var firstFlask = flaskPanel.items.items[0];
+    var j, r, flaskFields, flaskField;
+
+    for(j = 1; j < flaskPanel.items.items.length; j++)
+    {
+        flaskFields = flaskPanel.items.items[j].items.items;
+        for(r = 0; r < flaskFields.length; r++)
         {
-            var flaskFields = _flasksPanel.items.items[i].items.items;
-            for(var r = 0; r < flaskFields.length; r++){
-                if(flaskFields[r].xtype === 'textfield')
-                {
-                    flaskFields[r].inputEl.setHeight(22);
-                }
-            }
+            flaskField = flaskFields[r];
+            flaskField.height = firstFlask.items.items[r].getHeight();
         }
     }
+    fieldSet.doLayout();
+    for(j = 1; j < flaskPanel.items.items.length; j++)
+    {
+        flaskFields = flaskPanel.items.items[j].items.items;
+        for(r = 0; r < flaskFields.length; r++)
+        {
+            flaskField = flaskFields[r];
+            flaskField.inputEl.setHeight(firstFlask.items.items[r].inputEl.getHeight());
+        }
+    }
+}
+
+function adjustSizes(fieldSet)
+{
+    var form = Ext4.getCmp("upload-adaptation-form");
+    adjustWidth(fieldSet);
+    adjustHeight(fieldSet);
 }
 
 function handleDailyUpload(f, action)
@@ -283,7 +368,7 @@ function createFileUploadPanel()
             xtype : 'fieldcontainer',
             layout : {
                 type : 'hbox',
-                pack : 'center',
+                pack : 'start',
                 defaultMargins : '2'
             },
             items : [
@@ -318,32 +403,118 @@ function generateTemplateFile()
     LABKEY.icemr.tracking.getDailyUploadTemplate(measurementDate);
 }
 
-function onRunDataReady(runData)
+function getHeaderRowConfig()
 {
-    //
-    // fill in the values for our form and make the run data
-    // read only
-    //
+    var header = [];
+    for (var i = 0; i < _runFieldConfigs.length; i++)
+    {
+        header.push({
+            xtype : 'label',
+            text : _runFieldConfigs[i].name,
+            margin : '0 0 0 2',
+            width: 150
+        });
+    }
+    return header;
+}
 
-    var formRunFieldConfigs = [];
-
+function getRunRowConfig(run, batchIdx)
+{
+    var row = [];
     for (var i = 0; i < _runFieldConfigs.length; i++)
     {
         var config = _runFieldConfigs[i];
         if (config.xtype == 'datefield')
         {
-            config.value = new Date(runData[config.name]);
+            config.value = new Date(run.properties[config.name]);
         }
         else
         {
-            config.value = runData[config.name];
+            config.value = run.properties[config.name];
         }
+        config.id = config.id + batchIdx;
         config.readOnly = true;
+        config.hideLabel = true;
+        row.push(config);
+    }
+    return row;
+}
 
-        formRunFieldConfigs.push(config);
+function getFlaskConfigs(flaskPanel, flaskNum, flaskId)
+{
+    var newArray = Ext4.clone(_resultFieldConfigs);
+    for(var i = 0; i < newArray.length; i++)
+    {
+        newArray[i].id += flaskId;
+//        newArray[i].name += flaskNum;
+        // suppress the label of additional flasks
+        if(flaskNum > 0)
+        {
+            newArray[i].fieldLabel = null;
+        }
+    }
+    return newArray;
+}
+
+function getFlaskId(panelNum, flaskNum)
+{
+    return panelNum.toString() + flaskNum.toString();
+}
+
+function addFlask( flaskPanel, flaskNum, flaskId)
+{
+    var addCol = Ext4.create('Ext.form.FieldContainer', {
+        id : 'flask ' + flaskId,
+        layout : {
+            type : 'vbox',
+            defaultMargins : '2 10 2 10'
+        },
+        items : getFlaskConfigs(flaskPanel, flaskNum, flaskId)
+    });
+    flaskPanel.add(addCol);
+}
+
+function onRunDataReady(batches)
+{
+    //
+    // fill in the values for our form and make the run data
+    // read only.
+    //
+    var formRunFieldConfigs = [];
+    var experiments = [];
+    var i;
+
+    for (i = 0; i < batches.length; i++)
+    {
+        //
+        // build up the "Selected Experiments" part of our form
+        //
+        if (i == 0) {
+            experiments.push(Ext4.create('Ext.form.FieldContainer', {
+                layout : {
+                    type : 'hbox',
+                    defaultMargins : '0 0 0 0'
+                },
+                items : getHeaderRowConfig()
+            }));
+        }
+        experiments.push(Ext4.create('Ext.form.FieldContainer', {
+            layout : {
+                type : 'hbox',
+                defaultMargins : '0 0 0 0'
+            },
+            items : getRunRowConfig(batches[i].runs[0], i)
+        }));
     }
 
-    _runData = runData;
+    var expSelectPanel = Ext4.create('Ext.form.FieldContainer', {
+        fieldLabel : 'Selected Experiments',
+        layout : {
+            type : 'vbox',
+            defaultMargins : '1 0 1 0'
+        },
+        items : experiments
+    });
 
     //
     // add a measurement date field that we'll use to generate
@@ -357,72 +528,91 @@ function onRunDataReady(runData)
     });
 
     formRunFieldConfigs.push({
+        id      : 'templateButton',
         xtype   : 'button',
         text    : 'Get Template',
         handler : generateTemplateFile
     });
 
-    var getFlaskConfigs = function(){
-        var newArray = Ext4.clone(_resultFieldConfigs);
-        newArray[0].text = 'Flask ' + numFlasks;
-        for(var i = 0; i < newArray.length; i++){
-            newArray[i].id += numFlasks;
-            newArray[i].name += numFlasks;
-            if(numFlasks != 1)
-            {
-                newArray[i].fieldLabel = null;
-                newArray[i].height = _flasksPanel.items.items[0].items.items[i].getHeight();
-            }
-        }
-        return newArray;
-    };
+    // add all our items to the form panel now
+    var formItems = [];
 
-    var addFlask = function(){
-        numFlasks++;
-        var addCol = Ext4.create('Ext.form.FieldContainer', {
-            id : 'flask ' + numFlasks,
-            layout : {
-                type : 'vbox',
-                defaultMargins : '2 10 2 10'
-            },
-            items : getFlaskConfigs(),
-            listeners : {
-                fieldvaliditychange : function(){
-                    adjustSizes();
-                }
-            }
-        });
-        _flasksPanel.add(addCol);
-        fp.setWidth(fp.getWidth() + addCol.getWidth())
-        _flasksPanel.doLayout();
-        fp.doLayout();
-    };
+    // selected experiments
+    formItems.push(expSelectPanel);
 
-    _flasksPanel = Ext4.create('Ext.form.FieldContainer', {
-        fieldLabel : 'Result',
-        hidden : true,
-        layout : {
-            type : 'hbox',
-            defaultMargins : '2 0 2 0'
-        },
-        items : [{                 xtype : 'fieldcontainer',
-            layout : {
-                type : 'vbox',
-                defaultMargins : '2 0 2 0'
-            },
-            items : getFlaskConfigs()
-        }],
-        getconfigs : getFlaskConfigs,
-        addFlask : addFlask
+    // maintenance data and 'get template button'
+    formItems.push({
+                xtype : 'fieldcontainer',
+                layout : {
+                    type : 'vbox',
+                    defaultMargins : '2 0 2 0'
+                },
+                items : formRunFieldConfigs
     });
 
+    // template file upload panel
+    formItems.push(createFileUploadPanel());
+
+    // add a collapsible section for each experiment
+    // which contains the flasks for each experiment
+    for (i = 0; i < batches.length; i++)
+    {
+        var flaskPanel = Ext4.create('Ext.form.FieldContainer', {
+            id : 'flaskPanel' + i,
+            deferredRender : false,
+            layout : {
+                type : 'hbox',
+                defaultMargins : '2 0 2 0'
+            }
+        });
+
+        var flaskSet = Ext4.create('Ext.form.FieldSet', {
+            id : 'experimentSet' + i,
+            title: batches[i].runs[0].properties[LABKEY.icemr.tracking.experiment],
+            hidden : true,
+            collapsible : true,
+            collapsed : true,
+            items : [flaskPanel],
+            listeners : {
+                expand : function(fieldSet) {
+                    adjustSizes(fieldSet)
+                }
+            }
+        }) ;
+
+        formItems.push(flaskSet);
+    }
+
+    formItems.push({
+        xtype : 'fieldcontainer',
+        layout : {
+            type : 'hbox',
+            pack : 'start',
+            defaultMargins : '2'
+        },
+        items : [
+            {
+                id : 'submitButton',
+                hidden : true,
+                xtype   : 'button',
+                text    : 'Submit',
+                handler : submitDaily
+            }, {
+                id : 'cancelButton',
+                xtype   : 'button',
+                text    : 'Cancel',
+                handler : goBack
+            }]
+    });
+
+    //
     // Create our form with two containers to separate
     // the flask properties data for each flask
     //
-    var fp = Ext4.create('Ext.form.Panel', {
+    _formPanel = Ext4.create('Ext.form.Panel', {
         renderTo: 'upload-adaptation-div',
         id      : 'upload-adaptation-form',
-        width : 455,
+        width : 600,
         defaults: {
             validationEvent: false,
             allowBlank : false,
@@ -436,39 +626,7 @@ function onRunDataReady(runData)
         stateful : false,
         autoHeight : true,
         frame : true,
-        items : [
-            {
-                xtype : 'fieldcontainer',
-                fieldLabel : 'Run',
-                layout : {
-                    type : 'vbox',
-                    defaultMargins : '2 0 2 0'
-                },
-                items : formRunFieldConfigs
-            },
-            createFileUploadPanel(),
-            _flasksPanel,{
-                xtype : 'fieldcontainer',
-                layout : {
-                    type : 'hbox',
-                    pack : 'end',
-                    defaultMargins : '2'
-                },
-                items : [
-                    {
-                        id : 'submitButton',
-                        hidden : true,
-                        xtype   : 'button',
-                        text    : 'Submit',
-                        handler : submitDaily
-                    }, {
-                        id : 'cancelButton',
-                        xtype   : 'button',
-                        text    : 'Cancel',
-                        handler : goBack
-                    }]
-            }
-        ]
+        items : formItems
     });
 }
 </script>

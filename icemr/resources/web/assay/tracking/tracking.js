@@ -46,8 +46,6 @@ LABKEY.icemr.tracking.interface = new function () {
 // -------------------------------------------------------------------
 // configuration errors
 // -------------------------------------------------------------------
-// undone: add the sample set name as a parameter here since we have more than one sample set now (drug or culture flasks)
-// undone: having the err title constants and the err message constants in different places could be confusing.
 LABKEY.icemr.tracking.errAssayTitle = "Assay Runtime Error";
 LABKEY.icemr.tracking.errAssayMissingRun = "Could not find a matching Day 0 experiment to update";
 LABKEY.icemr.tracking.errDailyTitle = "Daily Maintenance Error";
@@ -56,6 +54,7 @@ LABKEY.icemr.tracking.errDailyTooManyFlasks = "Invalid attempt to upload data fo
 LABKEY.icemr.tracking.errDailyInvalidFlaskDefined = "Invalid flask specified.  The following flask was not found in the Day 0 data or maintenance was already stopped: ";
 LABKEY.icemr.tracking.errDailyInvalidZeroParasitemia = "You must specify a non-zero Parasitemia value when a growth fold test is initiated for flask: ";
 LABKEY.icemr.tracking.errDailyInvalidMeasurementDate = "Data for the specified measurement date already exists for flask: ";
+LABKEY.icemr.tracking.errDailyInvalidExperiment = "Invalid experiment specified.  The following experiment was not found:  ";
 LABKEY.icemr.tracking.errDailyUploadTitle = "Daily Upload Failed";
 LABKEY.icemr.tracking.errDailyUploadFileNoContent = "The data file has no content";
 LABKEY.icemr.tracking.errDailyUploadFileNoSheets = "The data file has no sheets of data";
@@ -63,6 +62,7 @@ LABKEY.icemr.tracking.errDailyUploadFileNoRows = "The data file has no rows of d
 LABKEY.icemr.tracking.errDailyUploadFileInvalidHeader = "The data file header row does not match the daily results schema";
 LABKEY.icemr.tracking.errDay0Title = "Day 0 Upload Error";
 LABKEY.icemr.tracking.errDay0NoFlasksDefined = "You must include at least one flask with your Day 0 data";
+
 
 // -------------------------------------------------------------------
 // constants
@@ -116,6 +116,13 @@ LABKEY.icemr.tracking.yesNoOptions = [['Yes'], ['No']];
 LABKEY.icemr.tracking.positiveNegativeTestOptions = [['Positive'], ['Negative'], ['No Test']];
 LABKEY.icemr.tracking.positiveNegativeOptions = [['Positive'], ['Negative'], ['No']];
 LABKEY.icemr.tracking.oneTwoThreeOptions = [['1'], ['2'], ['3'], ['No']];
+// daily maintenance column names
+LABKEY.icemr.tracking.rowId = "RowId";
+LABKEY.icemr.tracking.protocolId = "Batch/BatchProtocolId/RowId";
+LABKEY.icemr.tracking.batchId = "Batch/RowId";
+LABKEY.icemr.tracking.protocolName = "Protocol/Name";
+// flasks collection used in saveDaily result object
+LABKEY.icemr.tracking.flasks = "flasks";
 
 // -------------------------------------------------------------------
 // sample set fields (flasks)
@@ -180,6 +187,11 @@ LABKEY.icemr.flask.defaultAdaptationCriteria = 2;
 
 // used for excel template upload
 LABKEY.icemr.tracking.dailyUploadTemplateFilename = "dailyUpload.xls";
+LABKEY.icemr.tracking.rowTypeExperiment = 0;
+LABKEY.icemr.tracking.rowTypeHeader = 1;
+LABKEY.icemr.tracking.rowTypeFlask = 2;
+LABKEY.icemr.tracking.rowTypeBlank = 3;
+
 // -------------------------------------------------------------------
 // methods
 // -------------------------------------------------------------------
@@ -253,7 +265,7 @@ LABKEY.icemr.tracking.setInterface = function(schemaName) {
     }
 
     LABKEY.icemr.tracking.interface = (LABKEY.icemr.tracking.isSelection) ? LABKEY.icemr.tracking.selection : LABKEY.icemr.tracking.adaptation;
-}
+};
 
 LABKEY.icemr.tracking.createExperiment = function() {
     return LABKEY.icemr.tracking.createRecord(LABKEY.icemr.tracking.runFieldConfigs);
@@ -277,14 +289,12 @@ LABKEY.icemr.tracking.createRecord = function(fieldConfigs){
     return record;
 };
 
-
-
-LABKEY.icemr.tracking.getDay0Flasks = function() {
-    if (LABKEY.icemr.tracking.run == undefined)
+LABKEY.icemr.tracking.getDay0Flasks = function(run) {
+    if (run == undefined)
         return LABKEY.icemr.tracking.onLoadBatchFailure(); // we shouldn't get here
 
     var flasks = [];
-    var materialInputs = LABKEY.icemr.tracking.run.materialInputs;
+    var materialInputs = run.materialInputs;
 
     for (var i = 0; i < materialInputs.length; i++)
     {
@@ -343,9 +353,11 @@ LABKEY.icemr.tracking.onInsertFlasksSuccess = function(result){
     }
 
     var run = new LABKEY.Exp.Run();
+    var exp = LABKEY.icemr.tracking.experiments[0];
+
     run.materialInputs = materialInputs;
-    run.name = LABKEY.icemr.tracking.experiment[LABKEY.icemr.tracking.patient];
-    run.properties = LABKEY.icemr.tracking.experiment;
+    run.properties = exp;
+    run.name = exp[LABKEY.icemr.tracking.patient];
 
     LABKEY.page.batch.runs = [];
     LABKEY.page.batch.runs.push(run);
@@ -372,86 +384,117 @@ LABKEY.icemr.tracking.uploadFlasks = function(experiment, flasks) {
     //
     // save experiment for context
     //
-    LABKEY.icemr.tracking.experiment = experiment;
+    LABKEY.icemr.tracking.experiments = [];
+    LABKEY.icemr.tracking.experiments.push(experiment);
+
     LABKEY.icemr.tracking.interface.uploadFlasks(
             flasks,
             LABKEY.icemr.tracking.onInsertFlasksSuccess,
             LABKEY.icemr.saveDay0Failure);
 };
 
+LABKEY.icemr.tracking.getSelectedExperiments = function(schemaName, queryName, selectionKey, clientSuccess){
+    LABKEY.Query.selectRows({
+        schemaName: schemaName,
+        queryName: queryName,
+        selectionKey: selectionKey,
+        showRows: "selected",
+        columns: [LABKEY.icemr.tracking.rowId, LABKEY.icemr.tracking.protocolId, LABKEY.icemr.tracking.batchId,
+            LABKEY.icemr.tracking.protocolName],
+        success: function (data) {
+            if (data.rows && data.rows.length > 0){
+                LABKEY.icemr.tracking.experiments = data.rows;
+                // protocol name is the same across all experiments for a given assay
+                LABKEY.icemr.tracking.getFieldConfigs(
+                        LABKEY.icemr.tracking.experiments[0][LABKEY.icemr.tracking.protocolName], clientSuccess);
+            }
+            else {
+                LABKEY.icemr.tracking.onLoadBatchFailure();
+            }
+        },
+        failure: LABKEY.icemr.tracking.onLoadBatchFailure
+    });
+};
+
 //
-// update our batch variables on batch load or batch update
+// Load experiment information for all the selected batches
+// When the process is done, LABKEY.icemr.tracking.batches
+// will be loaded
 //
-LABKEY.icemr.tracking.syncBatch = function(batch){
-    var runs = batch.runs;
-    var runData;
+LABKEY.icemr.tracking.getAllRunData = function(success)
+{
+    if (LABKEY.icemr.tracking.experiments.length <= 0)
+        LABKEY.icemr.tracking.onLoadBatchFailure();
 
-    for (var i = 0; i < runs.length; i++)
-    {
-        if (LABKEY.icemr.tracking.runId == runs[i].id)
-        {
-            LABKEY.icemr.tracking.batch = batch;
-            LABKEY.icemr.tracking.run = batch.runs[i];
-            runData = LABKEY.icemr.tracking.run.properties;
-            break;
+    LABKEY.icemr.tracking.onBatchesReady = success;
+    LABKEY.icemr.tracking.batches = [];
+    LABKEY.icemr.tracking.getRunData();
+};
+
+LABKEY.icemr.tracking.onLoadBatchSuccess = function(batch){
+    if (batch == undefined) {
+        LABKEY.icemr.tracking.onLoadBatchFailure();
+    }
+    else {
+        LABKEY.icemr.tracking.batches.push(batch);
+        if (LABKEY.icemr.tracking.experiments.length == LABKEY.icemr.tracking.batches.length) {
+            // we are done loading batches, so call the client callback
+            LABKEY.icemr.tracking.onBatchesReady(LABKEY.icemr.tracking.batches);
+        }
+        else {
+            LABKEY.icemr.tracking.getRunData();
         }
     }
-}
+};
 
-LABKEY.icemr.tracking.getSaveBatchCallbackWrapper = function(fn){
-    return function(batch) {
-        LABKEY.icemr.tracking.syncBatch(batch);
-        if (fn)
-            fn.call(this, batch)
-    }
-}
-
-LABKEY.icemr.tracking.getRunDataCallbackWrapper = function(fn){
-    return function(batch) {
-        LABKEY.icemr.tracking.syncBatch(batch);
-        var runData = LABKEY.icemr.tracking.run.properties;
-
-        if (runData == undefined)
-        {
-            LABKEY.icemr.tracking.onLoadBatchFailure();
-        }
-        else
-        {
-            if (fn)
-                fn.call(this, runData)
-        }
-    }
-}
-
-LABKEY.icemr.tracking.getRunData = function(protocolId, batchId, rowId, success){
-    LABKEY.icemr.tracking.runId = rowId;
-    LABKEY.icemr.tracking.assayId = protocolId;
-
+LABKEY.icemr.tracking.getRunData = function(){
+    var exp = LABKEY.icemr.tracking.experiments[LABKEY.icemr.tracking.batches.length];
+    LABKEY.icemr.tracking.assayId = exp[LABKEY.icemr.tracking.protocolId];
     LABKEY.Experiment.loadBatch({
-        assayId : protocolId,
-        batchId : batchId,
-        success : LABKEY.icemr.tracking.getRunDataCallbackWrapper(success),
+        assayId : exp[LABKEY.icemr.tracking.protocolId],
+        batchId : exp[LABKEY.icemr.tracking.batchId],
+        success : LABKEY.icemr.tracking.onLoadBatchSuccess,
         failure : LABKEY.icemr.tracking.onLoadBatchFailure
     });
 };
 
 //
 // generate an excel template file and autopopulate
-// with the all the flasks specified in Day 0 for this run
+// with all the flasks for all experiments specified in Day 0
 // that have not had their maintenance stopped
 //
-LABKEY.icemr.tracking.getDailyUploadTemplate = function(measurementDate){
-    var flasks = LABKEY.icemr.tracking.getDay0Flasks();
+LABKEY.icemr.tracking.getDailyUploadTemplate = function(measurementDate)
+{
     var rows = [];
+    var headerRow = LABKEY.icemr.tracking.buildHeaderRow();
 
-    rows.push(LABKEY.icemr.tracking.buildHeaderRow());
-    for (var i = 0; i < flasks.length; i++)
+    for (var i = 0; i < LABKEY.icemr.tracking.batches.length; i++)
     {
-        // skip any flasks whose daily maintennce has been stopped
-        if (flasks[i][LABKEY.icemr.flask.maintenanceStopped] != null)
-            continue;
+        var batch = LABKEY.icemr.tracking.batches[i];
 
-        rows.push(LABKEY.icemr.tracking.buildDataRow(flasks[i], measurementDate));
+        // this should never happen
+        if (batch.runs.length == 0 || batch.runs[0] == undefined)
+            return LABKEY.icemr.showError(LABKEY.icemr.tracking.errAssayTitle, LABKEY.icemr.tracking.errAssayMissingRun, failure);
+
+        var run = batch.runs[0];
+
+        // add a single value for the experiment ID
+        rows.push(LABKEY.icemr.tracking.buildExperimentRow(run));
+        // add a header row (same header across all experiments)
+        rows.push(headerRow);
+        // add a row per flask for this experiment
+        var flasks = LABKEY.icemr.tracking.getDay0Flasks(run);
+        for (var j = 0; j < flasks.length; j++)
+        {
+            // skip any flasks whose daily maintennce has been stopped
+            if (flasks[j][LABKEY.icemr.flask.maintenanceStopped] != null)
+                continue;
+
+            rows.push(LABKEY.icemr.tracking.buildDataRow(flasks[j], measurementDate));
+        }
+
+        // add a blank row to separate experiments
+        rows.push([]);
     }
 
     //
@@ -481,6 +524,12 @@ LABKEY.icemr.tracking.buildHeaderRow = function(){
         columns.push(cfg.name);
     }
 
+    return columns;
+};
+
+LABKEY.icemr.tracking.buildExperimentRow = function(run) {
+    var columns = [];
+    columns.push(LABKEY.icemr.tracking.experiment + ": " + run.properties[LABKEY.icemr.tracking.experiment]);
     return columns;
 };
 
@@ -519,6 +568,14 @@ LABKEY.icemr.tracking.buildDataRow = function(flask, measurementDate){
     return columns;
 };
 
+LABKEY.icemr.tracking.makeDailyResult = function(experimentId, flasks) {
+    var dailyResult = {};
+    dailyResult[LABKEY.icemr.tracking.experiment] = experimentId;
+    dailyResult[LABKEY.icemr.tracking.flasks] = flasks;
+    return dailyResult;
+};
+
+
 //
 // Daily Excel file upload handling
 //
@@ -544,33 +601,83 @@ LABKEY.icemr.tracking.getProcessDailyFileUploadCallbackWrapper = function(fn){
             return;
         }
 
-        // get field config to row index mappings from the header row
-        var columnMappings = LABKEY.icemr.tracking.getColumnMappings(data[0]);
-
-        // ensure that the file has the expected columns
-        if (!LABKEY.icemr.tracking.verifyDailyFileUpload(columnMappings))
-        {
-            LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyUploadTitle, LABKEY.icemr.tracking.errDailyUploadFileInvalidHeader);
-            return;
-        }
-
-        // iterate over the row data, start at 1 to skip the header row
+        //
+        // for each experiment we have:
+        // experiment id row
+        // header row
+        // n flask rows
+        // blank row
+        //
+        var rowType = LABKEY.icemr.tracking.rowTypeExperiment;
         var dailyResults = [];
-        for (var rowIdx = 1; rowIdx < data.length; rowIdx++)
+        var flasks = null;
+        var experimentId = null;
+        var columnMappings = null;
+        var experimentIdPrefix = LABKEY.icemr.tracking.experiment + ": ";
+
+        for (var rowIdx = 0; rowIdx < data.length; rowIdx++)
         {
-            var dailyResult = LABKEY.icemr.tracking.createDaily();
             var row = data[rowIdx];
-            for (var colIdx = 0; colIdx < columnMappings.length; colIdx++)
+            if (LABKEY.icemr.tracking.isBlankRow(row))
             {
-                var map = columnMappings[colIdx];
-                dailyResult[map.name] = row[map.index];
+                if (experimentId && flasks)
+                   dailyResults.push(LABKEY.icemr.tracking.makeDailyResult(experimentId, flasks));
+
+                experimentId = null;
+                flasks = null;
+                rowType = LABKEY.icemr.tracking.rowTypeExperiment;
             }
-            dailyResults.push(dailyResult);
+            else
+            if (rowType == LABKEY.icemr.tracking.rowTypeExperiment)
+            {
+                experimentId = row[0].substring(experimentIdPrefix.length);
+                flasks = [];
+                rowType = LABKEY.icemr.tracking.rowTypeHeader;
+            }
+            else
+            if (rowType == LABKEY.icemr.tracking.rowTypeHeader)
+            {
+                if (null == columnMappings)
+                {
+                    // get field config to row index mappings from the header row
+                    columnMappings = LABKEY.icemr.tracking.getColumnMappings(row);
+
+                    // ensure that the file has the expected columns
+                    if (!LABKEY.icemr.tracking.verifyDailyFileUpload(columnMappings))
+                    {
+                        LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyUploadTitle, LABKEY.icemr.tracking.errDailyUploadFileInvalidHeader);
+                        return;
+                    }
+                }
+                rowType = LABKEY.icemr.tracking.rowTypeFlask;
+            }
+            else
+            if (rowType == LABKEY.icemr.tracking.rowTypeFlask)
+            {
+                var flask = {};
+                for (var colIdx = 0; colIdx < columnMappings.length; colIdx++)
+                {
+                    var map = columnMappings[colIdx];
+                    flask[map.name] = row[map.index];
+                }
+                flasks.push(flask);
+            }
         }
+
+        // take care of the case when there is no blank row after the last experiment data
+        if (experimentId && flasks)
+            dailyResults.push(LABKEY.icemr.tracking.makeDailyResult(experimentId, flasks));
 
         if (fn)
             fn.call(this, dailyResults)
     }
+};
+
+LABKEY.icemr.tracking.isBlankRow = function(row){
+    var value = row[0];
+    if (!value || value == "")
+        return true;
+    return false;
 };
 
 //
@@ -633,15 +740,31 @@ LABKEY.icemr.tracking.processDailyFileUpload = function(result, success) {
             }
         })
     }
-}
+};
+
+LABKEY.icemr.tracking.findBatch = function(experiment) {
+    var batch = null;
+    if (LABKEY.icemr.tracking.batches){
+        for (var i = 0; i < LABKEY.icemr.tracking.batches.length; i++) {
+                batch = LABKEY.icemr.tracking.batches[i];
+            if (batch.runs.length > 0)
+            {
+                var run = batch.runs[0];
+                if (run.properties[LABKEY.icemr.tracking.experiment] == experiment)
+                   return batch;
+            }
+        }
+    }
+    return batch;
+};
 
 /**
- * These functions are used for saving data
+ * These functions are used for saving data.  The dailyResults arg is an array of {experimentId, flasks[]} objects
+ * filled in from the dailyUpload form.
  */
 LABKEY.icemr.tracking.saveDaily = function(dailyResults, success, failure) {
     //
-    // add results to the existing run
-    //
+    // add results to the existing run for all batches
     //
     if (!dailyResults)
         throw "You must provide a non-empty array of results";
@@ -652,40 +775,51 @@ LABKEY.icemr.tracking.saveDaily = function(dailyResults, success, failure) {
     if (dailyResults.length == 0)
         return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyTitle, LABKEY.icemr.tracking.errDailyNoResults, failure);
 
-    var batch = LABKEY.icemr.tracking.batch;
-    var run = LABKEY.icemr.tracking.run;
-    var i;
-
-    if (batch == undefined || run == undefined)
-        return LABKEY.icemr.showError(LABKEY.icemr.tracking.errAssayTitle, LABKEY.icemr.tracking.errAssayMissingRun, failure);
-
-    if (!LABKEY.icemr.tracking.verifyDailyData(dailyResults, failure))
+    for (var i = 0; i < dailyResults.length; i++)
     {
-        return;
+        var dailyResult = dailyResults[i];
+        var experiment = dailyResult[LABKEY.icemr.tracking.experiment];
+        var batch = LABKEY.icemr.tracking.findBatch(experiment);
+        if (null == batch)
+        {
+            return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyTitle, LABKEY.icemr.tracking.errDailyInvalidExperiment + experiment, failure);
+        }
+
+        if (batch.runs.length == 0 || batch.runs[0] == undefined)
+            return LABKEY.icemr.showError(LABKEY.icemr.tracking.errAssayTitle, LABKEY.icemr.tracking.errAssayMissingRun, failure);
+
+        var run = batch.runs[0];
+        var flasks = dailyResult[LABKEY.icemr.tracking.flasks];
+
+        if (!LABKEY.icemr.tracking.verifyDailyData(run, flasks, failure))
+        {
+            // error shown in verifyDailyData function
+            return;
+        }
+
+        run.dataRows = run.dataRows || [];
+        var materialInputs = run.materialInputs;
+        for (var j = 0; j < flasks.length; j++)
+        {
+            LABKEY.icemr.tracking.computeCalculatedValues(run, flasks[j]);
+            LABKEY.icemr.tracking.updateMaterialInputs(materialInputs, flasks[j]);
+            run.dataRows.push(flasks[j]);
+        }
     }
 
-    run.dataRows = run.dataRows || [];
-    var materialInputs = run.materialInputs;
-
-    var flasks = [];
-    for (i = 0; i < dailyResults.length; i++)
-    {
-        LABKEY.icemr.tracking.computeCalculatedValues(dailyResults[i]);
-        LABKEY.icemr.tracking.updateMaterialInputs(materialInputs, dailyResults[i])
-        run.dataRows.push(dailyResults[i]);
-    }
-
-    LABKEY.icemr.tracking.saveBatch(
-            LABKEY.icemr.tracking.getSaveBatchCallbackWrapper(success),
-            failure
-    );
+    LABKEY.Experiment.saveBatches({
+        assayId : LABKEY.icemr.tracking.assayId,
+        batches : LABKEY.icemr.tracking.batches,
+        success : success,
+        failure : failure
+    });
 };
 
 /**
  * 
  * Takes an array of daily results as input and verifies
  * that we only have data for the flasks that were
- * uploaded as day0 data.  It is okay for the dailyResults
+ * uploaded as day0 data for the specified batch.  It is okay for the dailyResults
  * to not include data for all flasks established at day0.  However,
  * we will error if we see flask data for a flask that was not
  * uploaded at day0.
@@ -695,8 +829,8 @@ LABKEY.icemr.tracking.saveDaily = function(dailyResults, success, failure) {
  * don't allow 0 parasitemia value if a growth test is started
  *
  */
-LABKEY.icemr.tracking.verifyDailyData = function(dailyResults, failure){
-    var day0Flasks = LABKEY.icemr.tracking.getDay0Flasks();
+LABKEY.icemr.tracking.verifyDailyData = function(run, dailyResults, failure){
+    var day0Flasks = LABKEY.icemr.tracking.getDay0Flasks(run);
 
     // cannot have more flasks to upload than we had on day 0
     if (dailyResults.length > day0Flasks.length)
@@ -721,7 +855,7 @@ LABKEY.icemr.tracking.verifyDailyData = function(dailyResults, failure){
         }
 
         if (!found)
-            return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyTitle, LABKEY.icemr.tracking.errDailyInvalidFlaskDefined + sampleId, failure)
+            return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyTitle, LABKEY.icemr.tracking.errDailyInvalidFlaskDefined + sampleId, failure);
 
         // verify that parasitemia value is not zero if we are starting a growtth test
         if (result[LABKEY.icemr.tracking.growthFoldTestInitiated] &&
@@ -729,7 +863,7 @@ LABKEY.icemr.tracking.verifyDailyData = function(dailyResults, failure){
             return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyTitle, LABKEY.icemr.tracking.errDailyInvalidZeroParasitemia + sampleId, failure);
 
         // ensure we don't have data for this data already
-        if (LABKEY.icemr.tracking.maintenanceDateAlreadyExists(result[LABKEY.icemr.tracking.measurementDate]))
+        if (LABKEY.icemr.tracking.maintenanceDateAlreadyExists(run, result[LABKEY.icemr.tracking.measurementDate]))
             return LABKEY.icemr.showError(LABKEY.icemr.tracking.errDailyTitle, LABKEY.icemr.tracking.errDailyInvalidMeasurementDate + sampleId, failure);
     }
 
@@ -738,8 +872,8 @@ LABKEY.icemr.tracking.verifyDailyData = function(dailyResults, failure){
 };
 
 // consider: if iterating over all the rows is too slow then we can always just sort the dates
-LABKEY.icemr.tracking.maintenanceDateAlreadyExists = function(measurementDate){
-    var dataRows = LABKEY.icemr.tracking.run.dataRows;
+LABKEY.icemr.tracking.maintenanceDateAlreadyExists = function(run, measurementDate){
+    var dataRows = run.dataRows;
 
     for (var i = 0; i < dataRows.length; i++)
     {
@@ -755,13 +889,13 @@ LABKEY.icemr.tracking.maintenanceDateAlreadyExists = function(measurementDate){
 // to be stored in the database as we calculate the value now in our visualization
 // queries
 //
-LABKEY.icemr.tracking.computeCalculatedValues = function(dailyResult){
+LABKEY.icemr.tracking.computeCalculatedValues = function(run, dailyResult){
     // strip timezone of date string
     var date = dailyResult[LABKEY.icemr.tracking.measurementDate];
     dailyResult[LABKEY.icemr.tracking.measurementDate] = LABKEY.icemr.stripTimeZoneDate(date);
 
     // note that dateIndex is no longer used; we calculate this on the fly now
-    var startDate = new Date(LABKEY.icemr.tracking.run.properties[LABKEY.icemr.tracking.startDate]);
+    var startDate = new Date(run.properties[LABKEY.icemr.tracking.startDate]);
     var measurementDate = new Date(dailyResult[LABKEY.icemr.tracking.measurementDate]);
     dailyResult[LABKEY.icemr.tracking.dateIndex] = LABKEY.icemr.getDateIndex(startDate, measurementDate);
 };
@@ -795,7 +929,7 @@ LABKEY.icemr.tracking.updateMaterialInputs = function(materialInputs, dailyResul
         // give the specific assay a chance to add flask properties
         LABKEY.icemr.tracking.interface.getFlaskUpdates(dailyResult, flask);
     }
-}
+};
 
 LABKEY.icemr.tracking.findMaterialInput = function(materialInputs, sampleId){
     for (var i = 0; i < materialInputs.length; i++)
@@ -804,7 +938,9 @@ LABKEY.icemr.tracking.findMaterialInput = function(materialInputs, sampleId){
         if (properties[LABKEY.icemr.flask.sample] == sampleId)
             return materialInputs[i];
     }
-}
+
+    return null;
+};
 
 LABKEY.icemr.tracking.storeGrowthTestParasitemia = function(growthTest, flask, dailyResult, finished){
     if (growthTest == '1' || growthTest == '2' || growthTest == '3')
@@ -871,15 +1007,6 @@ LABKEY.icemr.tracking.makeSyncFieldsKeyMap = function(row){
     return keyMap;
 };
 
-LABKEY.icemr.tracking.saveBatch = function(success, failure) {
-    LABKEY.Experiment.saveBatch({
-        assayId : LABKEY.icemr.tracking.assayId,
-        batch : LABKEY.icemr.tracking.batch,
-        success : success,
-        failure : failure
-    });
-};
-
 LABKEY.icemr.tracking.setDefaultValues = function(metaType, config){
     // take care of common defaults between selection and adaptation here
     if (config.name == LABKEY.icemr.flask.foldIncrease + '1' ||
@@ -908,7 +1035,16 @@ LABKEY.icemr.tracking.getSyncFields = function()
         newSyncFields.push(specificSyncFields[i]);
 
     return newSyncFields;
-}
+};
+
+LABKEY.icemr.tracking.dailyMaintenance = function(dataRegion, dataRegionName)
+{
+    window.location = LABKEY.ActionURL.buildURL('icemr', 'DailyUpload.view', null, {
+        selectionKey : dataRegion.selectionKey,
+        queryName : dataRegion.queryName,
+        schemaName : dataRegion.schemaName
+     });
+};
 
 
 

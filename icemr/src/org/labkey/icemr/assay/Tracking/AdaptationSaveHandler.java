@@ -64,25 +64,25 @@ import java.util.Set;
 //
 public class AdaptationSaveHandler implements AssaySaveHandler
 {
-    public static final String ProtocolName = "Culture Adaptation";
-    public static final String SampleId = "SampleID";
+    public static final String PROTOCOL_NAME = "Culture Adaptation";
+    public static final String SAMPLE_ID = "SampleID";
 
-    private static final String FinishParasitemia = "FinishParasitemia";
-    private static final String AdaptationSchema = "assay.Tracking.Culture Adaptation";
-    private static final String CheckAdaptationQuery = "adapted_numdays";
-    private static final String AdaptationDate = "AdaptationDate";
-    private static final String SuccessfulAdaptation = "SuccessfulAdaptation";
-    private static final String MaintenanceDate = "MaintenanceDate";
-    private static final String Adapted = "Yes";
-    private static final String AdaptationFlasks = "Adaptation Flasks";
-    private static final String InvalidAction = "Invalid call to the AdaptationSaveHandler";
-    private static final Map<String, Object> CheckAdaptationParams;
+    private static final String FINISH_PARASITEMIA = "FinishParasitemia";
+    private static final String ADAPTATION_SCHEMA = "assay.Tracking.Culture Adaptation";
+    private static final String CHECK_ADAPTATION_QUERY = "adapted_numdays";
+    private static final String ADAPTATION_DATE = "AdaptationDate";
+    private static final String SUCCESSFUL_ADAPTATION = "SuccessfulAdaptation";
+    private static final String MAINTENANCE_DATE = "MaintenanceDate";
+    private static final String ADAPTED = "Yes";
+    private static final String ADAPTATION_FLASKS = "Adaptation Flasks";
+    private static final String INVALID_ACTION = "Invalid call to the AdaptationSaveHandler";
+    private static final Map<String, Object> CHECK_ADAPTATION_PARAMS;
     private Set<String> _samplesToCheckForAdaptation;
     static
     {
         Map<String, Object> mappings = new HashMap<>();
         mappings.put("isSelectionFlask", 0);
-        CheckAdaptationParams = Collections.unmodifiableMap(mappings);
+        CHECK_ADAPTATION_PARAMS = Collections.unmodifiableMap(mappings);
     }
 
     public AdaptationSaveHandler()
@@ -104,10 +104,10 @@ public class AdaptationSaveHandler implements AssaySaveHandler
             {
                 for (int test = 1; test < 4; test ++)
                 {
-                    String growthTest = FinishParasitemia + String.valueOf(test);
+                    String growthTest = FINISH_PARASITEMIA + String.valueOf(test);
                     if (materialProperties.has(growthTest) && (null != materialProperties.get(growthTest)))
                     {
-                        _samplesToCheckForAdaptation.add(materialProperties.getString(SampleId));
+                        _samplesToCheckForAdaptation.add(materialProperties.getString(SAMPLE_ID));
                         break;
                     }
                 }
@@ -147,11 +147,20 @@ public class AdaptationSaveHandler implements AssaySaveHandler
         }
     }
 
+    @Override
+    public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
+    {
+        // we are updating the flasks sample set so it doesn't matter if we
+        // have one or multiple batches; we'll update all the samples at the same time
+        if (batches.length > 0)
+            afterSave(context, batches[0], protocol);
+    }
+
     // return the Culture Adaptation sample set table
     private TableInfo getFlasksTableInfo(Container c, User u)
     {
         UserSchema schema = QueryService.get().getUserSchema(u, c, "Samples");
-        return schema.getTable(AdaptationFlasks);
+        return schema.getTable(ADAPTATION_FLASKS);
     }
 
     private Map<String, Integer> buildColumnMap(DataIterator it)
@@ -169,8 +178,8 @@ public class AdaptationSaveHandler implements AssaySaveHandler
 
     private List<Map<String, Object>> getSamplesToUpdate(Container c, User u) throws Exception
     {
-        QueryDataIteratorBuilder qb = new QueryDataIteratorBuilder(c, u, SchemaKey.fromString(AdaptationSchema), CheckAdaptationQuery, null, null);
-        qb.setParameters(CheckAdaptationParams);
+        QueryDataIteratorBuilder qb = new QueryDataIteratorBuilder(c, u, SchemaKey.fromString(ADAPTATION_SCHEMA), CHECK_ADAPTATION_QUERY, null, null);
+        qb.setParameters(CHECK_ADAPTATION_PARAMS);
 
         List<Map<String, Object>> samples = new ArrayList<>();
 
@@ -180,17 +189,17 @@ public class AdaptationSaveHandler implements AssaySaveHandler
 
             while (it.next())
             {
-                String sampleId = String.valueOf(it.get(indices.get(SampleId)));
+                String sampleId = String.valueOf(it.get(indices.get(SAMPLE_ID)));
                 if (_samplesToCheckForAdaptation.contains(sampleId))
                 {
                     // a flask that just adapted will have a null AdaptationDate but
                     // the query will return True for SuccessfulAdaptation
-                    if (null == it.get(indices.get(AdaptationDate)) &&
-                            (Adapted.equalsIgnoreCase(String.valueOf(it.get(indices.get(SuccessfulAdaptation))))))
+                    if (null == it.get(indices.get(ADAPTATION_DATE)) &&
+                            (ADAPTED.equalsIgnoreCase(String.valueOf(it.get(indices.get(SUCCESSFUL_ADAPTATION))))))
                     {
                         Map<String, Object> sample = new CaseInsensitiveHashMap<>();
-                        sample.put(SampleId, sampleId);
-                        sample.put(AdaptationDate, it.get(indices.get(MaintenanceDate)));
+                        sample.put(SAMPLE_ID, sampleId);
+                        sample.put(ADAPTATION_DATE, it.get(indices.get(MAINTENANCE_DATE)));
                         samples.add(sample);
                     }
                 }
@@ -200,22 +209,22 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     }
 
     public void setProvider(AssayProvider provider)
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public AssayProvider getProvider()
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public ExpExperiment handleBatch(ViewContext context, JSONObject batchJson, ExpProtocol protocol) throws Exception
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public ExpRun handleRun(ViewContext context, JSONObject runJson, ExpProtocol protocol, ExpExperiment batch) throws JSONException, ValidationException, ExperimentException, SQLException
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public ExpData handleData(ViewContext context, JSONObject dataJson) throws ValidationException
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public void handleProperties(ViewContext context, ExpObject object, DomainProperty[] dps, JSONObject propertiesJson) throws ValidationException, JSONException
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)throws Exception
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
     public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpRun run, JSONArray inputDataArray,
         JSONArray dataArray, JSONArray inputMaterialArray, JSONObject runJsonObject, JSONArray outputDataArray,
         JSONArray outputMaterialArray) throws ExperimentException, ValidationException
-    { throw new IllegalStateException(InvalidAction); }
+    { throw new IllegalStateException(INVALID_ACTION); }
 
 }

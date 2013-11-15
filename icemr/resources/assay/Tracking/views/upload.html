@@ -29,15 +29,16 @@ function submitAdaptation(propsForm, flasksForm)
 
     // first create a blank experiment object
     var exp = LABKEY.icemr.tracking.createExperiment();
+    var i;
 
-    for(var i = 0; i < propsForm.items.items.length; i++){
+    for(i = 0; i < propsForm.items.items.length; i++){
         exp[propsForm.items.items[i].id] = propsForm.items.items[i].value;
     }
 
     var flasks = [];
     var numFlasks = flasksForm.items.items.length;
 
-    for (var i = 0; i < numFlasks; i++)
+    for (i = 0; i < numFlasks; i++)
     {
         // when the client adds a flask, create a blank flask object to fill in
         var flask = LABKEY.icemr.tracking.createFlask();
@@ -45,7 +46,7 @@ function submitAdaptation(propsForm, flasksForm)
         flask['PatientID'] = exp['PatientID'];
         var si = (i+1).toString();
         for(var r = 1; r < flasksForm.items.items[i].items.items.length; r++){
-            target =  flasksForm.items.items[i].items.items[r]
+            target =  flasksForm.items.items[i].items.items[r];
             flask[target.id.substring(0, target.id.length-si.length)] = target.value;
         }
         flasks.push(flask)
@@ -95,21 +96,36 @@ function handleError(msg, reset)
     }
 }
 
-//If this doesn't happen late on, it doesn't work
-//TODO: find a way to do this better
 function adjustSizes()
 {
-    for(var i = 1; i < Ext4.getCmp('flasksBox').items.items.length; i++)
+    var flasksBox = Ext4.getCmp('flasksBox');
+    var firstFlask = flasksBox.items.items[0];
+    var i, r, flaskFields;
+
+
+    // Adjust heights of overall element to match the height
+    // of the first flask column.  These are wider because of
+    // the label which may span multiple lines
+    for(i = 1; i < flasksBox.items.items.length; i++)
     {
-        var flaskFields = Ext4.getCmp('flasksBox').items.items[i].items.items;
-        for(var r = 0; r < flaskFields.length; r++){
-            if(flaskFields[r].xtype === 'textfield')
-            {
-                flaskFields[r].inputEl.setHeight(22);
-            }
+        flaskFields = flasksBox.items.items[i].items.items;
+        for(r = 1; r < flaskFields.length; r++)
+        {
+            flaskFields[r].height = firstFlask.items.items[r].getHeight();
         }
     }
 
+    flasksBox.doLayout();
+
+    // Now make sure the input element is the right size
+    for(i = 1; i < flasksBox.items.items.length; i++)
+    {
+        flaskFields = flasksBox.items.items[i].items.items;
+        for(r = 1; r < flaskFields.length; r++)
+        {
+            flaskFields[r].inputEl.setHeight(firstFlask.items.items[r].inputEl.getHeight());
+        }
+    }
 }
 
 var numFlasks = 1;
@@ -205,13 +221,13 @@ function onConfigsReady(runConfigs, flaskConfigs)
     var getFlaskConfigs = function(){
         var newArray = Ext4.clone(flaskUIConfigs);
         newArray[0].html = 'Flask ' + numFlasks;
-        if(numFlasks != 1) newArray[0].fieldLabel = null;
+        if(numFlasks != 1)
+            newArray[0].fieldLabel = null;
         for(var i = 1; i < newArray.length; i++){
             newArray[i].id += numFlasks;
             newArray[i].name += numFlasks;
             if(numFlasks != 1){
-                newArray[i].fieldLabel = null;
-                newArray[i].height = flasksBox.items.items[0].items.items[i].getHeight();
+                newArray[i].hideLabel = true;
             }
         }
 
@@ -226,16 +242,10 @@ function onConfigsReady(runConfigs, flaskConfigs)
                 type : 'vbox',
                 defaultMargins : '2 10 2 10'
             },
-            items : getFlaskConfigs(),
-            listeners : {
-                fieldvaliditychange : function(){
-                    adjustSizes();
-                }
-            }
+            items : getFlaskConfigs()
         });
         flasksBox.add(addCol);
         fp.setWidth(fp.getWidth() + addCol.getWidth());
-        flasksBox.doLayout();
         adjustSizes();
     };
 
@@ -244,7 +254,6 @@ function onConfigsReady(runConfigs, flaskConfigs)
             fp.width -= flasksBox.getComponent('flask ' + numFlasks).getWidth();
             flasksBox.remove('flask ' + numFlasks, true);
             numFlasks--;
-            flasksBox.doLayout();
             adjustSizes();
         }
     };
@@ -332,8 +341,6 @@ function onConfigsReady(runConfigs, flaskConfigs)
             }
         ]
     });
-
-    adjustSizes();
 }
 
 Ext4.onReady(function() {

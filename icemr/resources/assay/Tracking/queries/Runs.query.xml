@@ -21,14 +21,6 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="Runs" tableDbType="TABLE">
                 <columns>
-                    <column columnName="DailyMaintenance" wrappedColumnName="rowId">
-                        <columnTitle></columnTitle>
-                        <fk>
-                            <fkTable>runs_dailyupload</fkTable>
-                            <fkColumnName>rowId</fkColumnName>
-                        </fk>
-                        <url>/icemr/DailyUpload.view?rowId=${RowId}&amp;protocolId=${Batch/BatchProtocolId/RowId}&amp;batchId=${Batch/RowId}&amp;protocolName=${Protocol/Name}</url>
-                    </column>
                     <column columnName="ViewResults" wrappedColumnName="rowId">
                         <columnTitle></columnTitle>
                         <fk>
@@ -39,8 +31,12 @@
                     </column>
                 </columns>
                 <buttonBarOptions position="both" includeStandardButtons="true">
+                        <includeScript>/assay/tracking/tracking.js</includeScript>
                         <item insertPosition="end" text="New Experiment" >
                                 <originalText>Import Data</originalText>
+                        </item>
+                        <item insertPosition="end" requiresSelection="true" text="Daily Maintenance">
+                            <onClick>LABKEY.icemr.tracking.dailyMaintenance(dataRegion, dataRegionName)</onClick>
                         </item>
                 </buttonBarOptions>
             </table>

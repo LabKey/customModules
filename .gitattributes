@@ -86,7 +86,6 @@ icemr/resources/assay/Tracking/queries/generic_daysfromday0.sql -text
 icemr/resources/assay/Tracking/queries/generic_foldincrease.query.xml -text
 icemr/resources/assay/Tracking/queries/generic_numdays.sql -text
 icemr/resources/assay/Tracking/queries/results_flaskdetails.sql -text
-icemr/resources/assay/Tracking/queries/runs_dailyupload.sql -text
 icemr/resources/assay/Tracking/queries/runs_viewresults.sql -text
 icemr/resources/assay/Tracking/queries/select_all_calcs.sql -text
 icemr/resources/assay/Tracking/queries/select_all_firstdaypositive_growth.sql -text

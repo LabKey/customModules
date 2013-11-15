@@ -58,7 +58,7 @@ public class TrackingSaveHandler extends IcemrSaveHandler
     @Override
     public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)
     {
-        if (protocol.getName().equalsIgnoreCase(AdaptationSaveHandler.ProtocolName))
+        if (protocol.getName().equalsIgnoreCase(AdaptationSaveHandler.PROTOCOL_NAME))
         {
             _delegate = new AdaptationSaveHandler();
         }
@@ -85,6 +85,13 @@ public class TrackingSaveHandler extends IcemrSaveHandler
     {
         if (null != _delegate)
             _delegate.afterSave(context, batch, protocol);
+    }
+
+    @Override
+    public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
+    {
+        if (null != _delegate)
+            _delegate.afterSave(context, batches, protocol);
     }
 
     @Override

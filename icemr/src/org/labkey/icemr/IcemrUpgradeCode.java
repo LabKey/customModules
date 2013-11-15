@@ -59,8 +59,6 @@ import java.util.Map;
  * Created with IntelliJ IDEA.
  * User: Dax
  * Date: 10/16/13
- * Time: 5:06 PM
- * To change this template use File | Settings | File Templates.
  */
 public class IcemrUpgradeCode implements UpgradeCode
 {
@@ -449,7 +447,7 @@ public class IcemrUpgradeCode implements UpgradeCode
         @Override
         public void addKey(Results rs, Map<String, Object> row) throws SQLException
         {
-            row.put(AdaptationSaveHandler.SampleId, rs.getString(AdaptationSaveHandler.SampleId));
+            row.put(AdaptationSaveHandler.SAMPLE_ID, rs.getString(AdaptationSaveHandler.SAMPLE_ID));
         }
     }
 }

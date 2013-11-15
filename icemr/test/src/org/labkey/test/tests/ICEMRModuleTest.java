@@ -58,10 +58,16 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
     public static final String GEL_IMAGE_FIELD = "GelImage";
     public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
+
     protected static final String ICEMR_AUTHOR_USER = "maverick@labkey.test";
     protected static final String ICEMR_AUTHOR_USER_DISPLAY = "maverick";
     protected static final String ICEMR_EDITOR_USER = "goose@labkey.test";
     protected static final String ICEMR_EDITOR_USER_DISPLAY = "goose";
+
+    protected static final String EXPERIMENT1_ID = "Exp1234";
+    protected static final int EXPERIMENT1_NUM_FLASKS = 2;
+    protected static final String EXPERIMENT2_ID = "Exp6789";
+    protected static final int EXPERIMENT2_NUM_FLASKS = 4;
 
     @Override
 //    @LogMethod(category = LogMethod.MethodType.SETUP)
@@ -81,6 +87,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     private void doVerification()
     {
         testJavaScript();
+        recreateSampleSets();
 
         // make sure we can do everything as an author
         impersonate(ICEMR_AUTHOR_USER);
@@ -108,6 +115,15 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         goToProjectHome();
 
         verifyTrackingIndependence();
+    }
+
+    private void recreateSampleSets()
+    {
+        deleteSample(SELECTION_FLASKS_NAME);
+        deleteSample(ADAPTATION_FLASKS_NAME);
+
+        createFlasksSampleSet(ADAPTATION_FLASKS_NAME, ADAPTATION_FLASK_FILE);
+        createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
     }
 
     @LogMethod
@@ -146,7 +162,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         Locator.CssLocator datapoint = Locator.css("svg a");
         waitForElement(datapoint);
         String datapointData = getAttribute(datapoint, "title");
-        for(String s : new String[] {"Parasitemia", "100101", "SampleID"})
+        for(String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
             Assert.assertTrue(datapointData.contains(s));
     }
 
@@ -179,11 +195,12 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         _assayHelper.createAssayWithDefaults(SPECIES_ASSAY_DESIGN, SPECIES_ASSAY_NAME);
         createFlasksSampleSet(ADAPTATION_FLASKS_NAME, ADAPTATION_FLASK_FILE);
         createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
+        goToProjectHome();
     }
 
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        deleteUsers(afterTest, ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
+       deleteUsers(afterTest, ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
         deleteProject(getProjectName(), afterTest);
     }
 
@@ -207,6 +224,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         goToProjectHome();
     }
 
+    @LogMethod
     private void enterDataPoint(String assayName, Locator.IdLocator locator, String fileUploadField)
     {
         Locator.XPathLocator link = Locator.linkContainingText(assayName);
@@ -217,22 +235,50 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         enterData(assayName, fileUploadField);
     }
 
+    @LogMethod
     private void enterDataPointTracking(String assayName)
     {
-        Locator.XPathLocator link = Locator.linkContainingText(assayName);
-        waitAndClick(link);
-        link = Locator.navButtonContainingText("New Experiment");
-        waitAndClick(link);
-        waitForElement(Locator.id("SampleID1"));
 
         if (assayName.equalsIgnoreCase(SELECTION_ASSAY_NAME))
-            enterSelectionData();
+            enterSelectionData(assayName);
         else
-            enterAdaptationData();
+            enterAdaptationData(assayName);
     }
 
     @LogMethod
-    private void enterAdaptationData()
+    private void prepareDay0Upload(String assayName, boolean firstUpload)
+    {
+        Locator.XPathLocator link;
+        if (firstUpload)
+        {
+            link = Locator.linkContainingText(assayName);
+            waitAndClick(link);
+        }
+        link = Locator.navButtonContainingText("New Experiment");
+        waitAndClick(link);
+        waitForElement(Locator.id("SampleID1"));
+    }
+
+    @LogMethod
+    private void enterAdaptationData(String assayName)
+    {
+        prepareDay0Upload(assayName, true);
+        enterAdaptationExperiment(EXPERIMENT1_ID, EXPERIMENT1_NUM_FLASKS);
+        prepareDay0Upload(assayName, false);
+        enterAdaptationExperiment(EXPERIMENT2_ID, EXPERIMENT2_NUM_FLASKS);
+    }
+
+    @LogMethod
+    private void enterSelectionData(String assayName)
+    {
+        prepareDay0Upload(assayName, true);
+        enterSelectionExperiment(EXPERIMENT1_ID, 2);
+        prepareDay0Upload(assayName, false);
+        enterSelectionExperiment(EXPERIMENT2_ID, 4);
+    }
+
+    @LogMethod
+    private void enterAdaptationExperiment(String experimentId, int numFlasks)
     {
         verifyError(7);
 
@@ -245,9 +291,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         fieldAndValue = new HashMap<>();
 
-        fieldAndValue.put("PatientID", "100101");
-        fieldAndValue.put("ExperimentID", "12345");
-        fieldAndValue.put("SampleID1", "15243");
+        fieldAndValue.put("PatientID", experimentId + "100101");
+        fieldAndValue.put("ExperimentID", experimentId);
+        fieldAndValue.put("SampleID1", experimentId + "Flask1");
         fieldAndValue.put("Scientist1", ICEMR_EDITOR_USER_DISPLAY);
         fieldAndValue.put("Gametocytemia1", "20");
         fieldAndValue.put("Hematocrit1", "24");
@@ -278,16 +324,18 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         setICEMRField("Gametocytemia1", "22");
         setICEMRField("Parasitemia1", "25");
 
-        clickButton("Add Flask", "Flask 2");
-
-        makeAdaptationFlask(2);
+        for (int i = 2; i <= numFlasks; i++)
+        {
+            clickButton("Add Flask", "Flask " + String.valueOf(i));
+            makeAdaptationFlask(experimentId, i);
+        }
 
         clickButtonContainingText("Submit");
         waitForElement(Locator.css(".labkey-nav-page-header").withText(ADAPTATION_ASSAY_NAME + " Runs"));
     }
 
     @LogMethod
-    private void enterSelectionData()
+    private void enterSelectionExperiment(String experimentId, int numFlasks)
     {
         verifyError(8);
 
@@ -299,9 +347,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         fieldAndValue = new HashMap<>();
 
-        fieldAndValue.put("PatientID", "100101");
-        fieldAndValue.put("ExperimentID", "12345");
-        fieldAndValue.put("SampleID1", "15243");
+        fieldAndValue.put("PatientID", experimentId + "100101");
+        fieldAndValue.put("ExperimentID", experimentId);
+        fieldAndValue.put("SampleID1", experimentId + "Flask1");
         fieldAndValue.put("Scientist1", ICEMR_EDITOR_USER_DISPLAY);
 
         fieldAndValue.put("InitialPopulation1", "7");
@@ -327,9 +375,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         setICEMRField("MinimumParasitemia1", ".5");
 
-        clickButton("Add Flask", "Flask 2");
-
-        makeSelectionFlask(2);
+        for (int i = 2; i <= numFlasks; i++)
+        {
+            clickButton("Add Flask", "Flask " + String.valueOf(i));
+            makeSelectionFlask(experimentId, i);
+        }
 
         clickButtonContainingText("Submit");
         waitForElement(Locator.css(".labkey-nav-page-header").withText(SELECTION_ASSAY_NAME + " Runs"));
@@ -337,13 +387,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
 
     @LogMethod
-    private void makeAdaptationFlask(int flaskNum)
+    private void makeAdaptationFlask(String experimentId, int flaskNum)
     {
         verifyError(5);
-
         fieldAndValue = new HashMap<>();
-
-        fieldAndValue.put("SampleID" + flaskNum, "15258");
+        fieldAndValue.put("SampleID" + flaskNum, experimentId + "Flask" + String.valueOf(flaskNum));
         fieldAndValue.put("Scientist" + flaskNum, ICEMR_EDITOR_USER_DISPLAY);
         fieldAndValue.put("Gametocytemia" + flaskNum, "24");
         fieldAndValue.put("Hematocrit" + flaskNum, "28");
@@ -364,13 +412,13 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private void makeSelectionFlask(int flaskNum)
+    private void makeSelectionFlask(String experimentId, int flaskNum)
     {
         verifyError(6);
 
         fieldAndValue = new HashMap<>();
 
-        fieldAndValue.put("SampleID" + flaskNum, "15258");
+        fieldAndValue.put("SampleID" + flaskNum, experimentId + "Flask" + String.valueOf(flaskNum));
         fieldAndValue.put("Scientist" + flaskNum, ICEMR_EDITOR_USER_DISPLAY);
         fieldAndValue.put("SerumBatchID"+ flaskNum, "00123");
         fieldAndValue.put("AlbumaxBatchID"+ flaskNum, "10213");
@@ -390,15 +438,22 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         sleep(1000);
     }
 
+    @LogMethod
+    private Locator.XPathLocator selectDailyMaintenance()
+    {
+        checkCheckbox(Locator.checkboxByTitle("Select/unselect all on current page"));      // all individual item checkboxes have same name/title; should be first one
+        Locator.XPathLocator link = Locator.linkContainingText("Daily Maintenance");
+        waitAndClick(link);
+        return link;
+    }
 
     @LogMethod
     private void enterDailyTrackingData()
     {
         //Navigate to Daily Upload page
-        Locator.XPathLocator link = Locator.linkContainingText("Daily Maintenance");
-        waitAndClick(link);
+        Locator.XPathLocator link = selectDailyMaintenance();
 
-        checkTemplate();
+        String firstExp = checkTemplate();
         waitForElement(Locator.name("dailyUpload"));
 
         //Try to upload a form with bad columns
@@ -410,7 +465,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         //Try to upload a form with bad flasks (invalid IDs)
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/badFlasks.xls"));
-        completeUpload();
+        completeUpload(firstExp);
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
         clickButtonContainingText("OK", "Result");
@@ -420,14 +475,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         refresh();
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
-        completeUpload();
+        completeUpload(null);
         waitAndClick(Locator.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         waitAndClick(link);
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
-        completeUpload();
+        completeUpload(null);
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
         clickButtonContainingText("OK", "Result");
@@ -436,56 +491,123 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private void completeUpload()
+    private void clickFieldSet(String experimentId)
+    {
+        Locator fieldSet = Locator.xpath("//fieldset").withClass("x4-fieldset-collapsed").withDescendant(Locator.xpath("//div").withClass("x4-fieldset-header-text").containing(experimentId)).append("//div/img");
+        click(fieldSet);
+    }
+
+    @LogMethod
+    private void completeUpload(String firstExp)
     {
         clickButtonContainingText("Upload", "Submit");
         sleep(500);
 
-        // hack to force selection of labkey user for scientist drop downs
-        setICEMRField("Scientist1", "goose");
-        setICEMRField("Scientist2", "maverick");
+        // if only one fieldset is on the page then click it otherwise click both - this can happen
+        // when testing some malformed template files
+        if (null != firstExp)
+        {
+            clickFieldSet(firstExp);
+        }
+        else
+        {
+            clickFieldSet(EXPERIMENT1_ID);
+            clickFieldSet(EXPERIMENT2_ID);
+        }
     }
 
     @LogMethod
-    private void checkTemplate()
+    private void checkTemplateFlaskHeader(Sheet sheet, int row)
+    {
+        // flask column titles
+        for(int i = 0; i < 18; i++)
+        {
+            Assert.assertNotNull(ExcelHelper.getCell(sheet, i, 1));
+        }
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "SampleID");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 1, row).toString(), "MeasurementDate");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 2, row).toString(), "Scientist");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 3, row).toString(), "Parasitemia");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 4, row).toString(), "Gametocytemia");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 5, row).toString(), "Stage");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 6, row).toString(), "Removed");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 7, row).toString(), "RBCBatchID");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 8, row).toString(), "SerumBatchID");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 9, row).toString(), "AlbumaxBatchID");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 10, row).toString(), "GrowthFoldTestInitiated");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 11, row).toString(), "GrowthFoldTestFinished");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 12, row).toString(), "Contamination");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 13, row).toString(), "MycoTestResult");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 14, row).toString(), "FreezerProIDs");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 15, row).toString(), "FlaskMaintenanceStopped");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 16, row).toString(), "InterestingResult");
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 17, row).toString(), "Comments");
+    }
+
+    @LogMethod
+    private void checkTemplateFlask(Sheet sheet, int row, String flaskName)
+    {
+        Assert.assertNotNull(ExcelHelper.getCell(sheet, 0, row));
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), flaskName);
+    }
+
+    @LogMethod
+    private int checkTemplateExperiment(Sheet sheet, int baseRow, String expId)
+    {
+        int row = baseRow;
+        // experiment header row
+        Assert.assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "ExperimentID: " + expId);
+        row++;
+        // flask header row for experiment 1
+        checkTemplateFlaskHeader(sheet, row);
+        row ++;
+        int numFlasks = (expId == EXPERIMENT1_ID) ? EXPERIMENT1_NUM_FLASKS : EXPERIMENT2_NUM_FLASKS;
+        for (int i = 1; i <= numFlasks; i++)
+        {
+            checkTemplateFlask(sheet, row, expId + "Flask" + String.valueOf(i));
+            row++;
+        }
+        // skip blank row
+        row++;
+        return row;
+    }
+
+    @LogMethod
+    private String checkTemplate()
     {
         waitForElement(Locator.name("dailyUpload"));
         clickButtonContainingText("Get Template", "Daily Upload");
         File templateFile = new File(getDownloadDir(), "dailyUpload.xls");
+        String firstExp = null;
         try
         {
             Workbook template = ExcelHelper.create(templateFile);
             Sheet sheet = template.getSheetAt(0);
+            // sheet looks like:
+            //
+            // Experiment ID: <experiment id>
+            // column header row
+            // 1 or more flask rows
+            //
+            // Experimeent ID: ...
+
             //Warnings about possible null pointers can be ignored, as all cells in question are tested for null before loading them.
+            int row = 0;
             if(sheet != null){
-                for(int i = 0; i < 18; i++)
+                // find the order first (it doesn't appear to be guaranteed)
+                firstExp = ExcelHelper.getCell(sheet, 0, row).toString();
+                if (firstExp.contains(EXPERIMENT1_ID))
                 {
-                    Assert.assertNotNull(ExcelHelper.getCell(sheet, i, 0));
+                    firstExp = EXPERIMENT1_ID;
+                    row = checkTemplateExperiment(sheet, row, EXPERIMENT1_ID);
+                    checkTemplateExperiment(sheet,row, EXPERIMENT2_ID);
                 }
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 0, 0).toString(), "SampleID");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 1, 0).toString(), "MeasurementDate");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 2, 0).toString(), "Scientist");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 3, 0).toString(), "Parasitemia");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 4, 0).toString(), "Gametocytemia");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 5, 0).toString(), "Stage");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 6, 0).toString(), "Removed");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 7, 0).toString(), "RBCBatchID");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 8, 0).toString(), "SerumBatchID");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 9, 0).toString(), "AlbumaxBatchID");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 10, 0).toString(), "GrowthFoldTestInitiated");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 11, 0).toString(), "GrowthFoldTestFinished");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 12, 0).toString(), "Contamination");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 13, 0).toString(), "MycoTestResult");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 14, 0).toString(), "FreezerProIDs");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 15, 0).toString(), "FlaskMaintenanceStopped");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 16, 0).toString(), "InterestingResult");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 17, 0).toString(), "Comments");
-
-
-                Assert.assertNotNull(ExcelHelper.getCell(sheet, 0, 1));
-                Assert.assertNotNull(ExcelHelper.getCell(sheet, 0, 2));
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 0, 1).toString(), "15243");
-                Assert.assertEquals(ExcelHelper.getCell(sheet, 0, 2).toString(), "15258");
+                else
+                {
+                    firstExp = EXPERIMENT2_ID;
+                    row = checkTemplateExperiment(sheet, row, EXPERIMENT2_ID);
+                    checkTemplateExperiment(sheet,row, EXPERIMENT1_ID);
+                }
             }
         }
         catch (IOException e)
@@ -496,22 +618,24 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         {
             throw new RuntimeException("Template file has invalid format.", e);
         }
+
+        return firstExp;
     }
 
     @LogMethod
     private void checkResultsPage(){
-        Locator.XPathLocator link = Locator.xpath("//a[text()='100101']");
+        Locator.XPathLocator link = Locator.xpath("//a[text()='"+EXPERIMENT1_ID+"100101']");
         waitAndClick(link);
         //Make sure the header is there and we are in the right place
-        waitForText("12345");
+        waitForText(EXPERIMENT1_ID);
         //Make sure the flasks we'd expect are there
-        waitForText("15243");
-        waitForText("15258");
+        waitForText(EXPERIMENT1_ID + "Flask1");
+        waitForText(EXPERIMENT1_ID + "Flask2");
         //Hop into one of the flasks to make sure that they have data
-        link = Locator.xpath("//a[text()='15243']");
+        link = Locator.xpath("//a[text()='"+EXPERIMENT1_ID+"Flask1']");
         waitAndClick(link);
-        waitForText("100101");
-        waitForText("15243");
+        waitForText(EXPERIMENT1_ID+"100101", WAIT_FOR_PAGE);
+        waitForText(EXPERIMENT1_ID+"Flask1");
     }
 
     private void verifyError(int errorCount)

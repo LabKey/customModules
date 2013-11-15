@@ -21,17 +21,17 @@
         {name: 'DailyConfigs', fn: testDailyConfigs},
         {name: 'DailyObjects', fn: testDailyObjects},
         {name: 'InvalidDailyUploadNoResults', fn: testInvalidDailyUploadNoResults},
-        {name: 'InvalidDailyUploadMissingRun', fn: testInvalidDailyMissingRun},
-        {name: 'TrackingRunData', fn: testTrackingRunData},
+        {name: 'InvalidDailyUploadBadExperiment', fn: testInvalidDailyUploadExperiment},
+        {name: 'TrackingRunDataPatient1', fn: testTrackingRunDataPatient1},
         {name: 'InvalidDailyUploadTooManyFlasks', fn: testInvalidDailyUploadTooManyFlasks},
         {name: 'InvalidDailyUploadInvalidFlask', fn: testInvalidDailyUploadInvalidFlask},
         {name: 'InvalidDailyUploadZeroParasitemia', fn: testInvalidDailyUploadZeroParasitemia},
         {name: 'DailyUpload1', fn: testDailyUpload1},
         {name: 'InvalidDailyUploadMeasurementExists', fn: testInvalidDailyUploadMeasurementExists},
         {name: 'DailyUpload2', fn: testDailyUpload2},
-        {name: 'DailyUpload3', fn: testDailyUpload3},
-        {name: 'SwitchPatient', fn: switchPatient},
-        {name: 'DailyUpload4', fn: testDailyUpload4},
+        {name: 'TrackingRunDataAll', fn: testTrackingRunDataAll},
+        {name: 'MultiExperiementUpload', fn: testMultiExperimentUpload},
+        {name: 'TrackingRunDataPatient2', fn: testTrackingRunDataPatient2},
         {name: 'DailyUpload5', fn: testDailyUpload5},
         {name: 'DailyUpload6', fn: testDailyUpload6},
         {name: 'MaintenanceStopped', fn: testMaintenanceStopped},
@@ -46,14 +46,14 @@
         {name: 'Day0Upload1', fn: testDay0Upload1},
         {name: 'Day0Upload2', fn: testDay0Upload2},
         {name: 'Day0Results', fn: testDay0Results},
-        {name: 'TrackingRunData', fn: testTrackingRunData},
+        {name: 'TrackingRunDataPatient1', fn: testTrackingRunDataPatient1},
         {name: 'InvalidDailyUploadZeroParasitemia', fn: testInvalidDailyUploadZeroParasitemia},
         {name: 'DailyUpload1', fn: testDailyUpload1},
         {name: 'InvalidDailyUploadMeasurementExists', fn: testInvalidDailyUploadMeasurementExists},
         {name: 'DailyUpload2', fn: testDailyUpload2},
-        {name: 'DailyUpload3', fn: testDailyUpload3},
-        {name: 'SwitchPatient', fn: switchPatient},
-        {name: 'DailyUpload4', fn: testDailyUpload4},
+        {name: 'TrackingRunDataAll', fn: testTrackingRunDataAll},
+        {name: 'MultiExperimentUpload', fn: testMultiExperimentUpload},
+        {name: 'TrackingRunDataPatient2', fn: testTrackingRunDataPatient2},
         {name: 'DailyUpload5', fn: testDailyUpload5},
         {name: 'DailyUpload6', fn: testDailyUpload6},
         {name: 'DailyUpload7', fn: testDailyUpload7},
@@ -124,7 +124,7 @@
     // stors expected results, initialzed in setupAssayResults
     var _day0Data;
     var _dailyData;
-    var _patientIndex;
+    var _lastDailyUpload;
     var _startTime;
 
     // test flow control and state
@@ -393,7 +393,6 @@
     {
         _day0Data = [];
         _dailyData = [];
-        _patientIndex = 0;
 
         if (assayName == _adaptationAssay)
         {
@@ -595,15 +594,40 @@
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
     }
 
-    function testInvalidDailyMissingRun()
+    function testInvalidDailyUploadExperiment()
     {
         var results = [];
-        results.push(LABKEY.icemr.tracking.createDaily());
-        _expectedError = LABKEY.icemr.tracking.errAssayTitle + ': ' + LABKEY.icemr.tracking.errAssayMissingRun;
+        var exp = {
+            ExperimentID : 'bogus'
+        };
+
+        results.push(makeDailyResultObject(exp, LABKEY.icemr.tracking.createDaily()));
+        _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' +
+                LABKEY.icemr.tracking.errDailyInvalidExperiment + 'bogus';
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
     }
 
-    function testTrackingRunData()
+    function testTrackingRunDataPatient1()
+    {
+        testTrackingRunData("Patient1");
+    }
+
+    function testTrackingRunDataPatient2()
+    {
+        testTrackingRunData("Patient2");
+    }
+
+    function testTrackingRunDataPatient2()
+    {
+        testTrackingRunData("Patient2");
+    }
+
+    function testTrackingRunDataAll()
+    {
+        testTrackingRunData("Patient1;Patient2");
+    }
+
+    function testTrackingRunData(patients)
     {
         // get the protocolId, batchid, and row id of
         // for our first entered patient.  We need this info to
@@ -611,24 +635,22 @@
         LABKEY.Query.selectRows({
             schemaName : 'assay.Tracking.' + _assayName,
             queryName  : 'Runs',
-            columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
-            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[_patientIndex].exp.PatientID)],
+            columns :  ['RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId', 'Protocol/Name'],
+            filterArray    : [LABKEY.Filter.create("PatientID", patients, LABKEY.Filter.Types.EQUALS_ONE_OF)],
             success : selectTrackingRunSuccess
         });
     }
 
     function selectTrackingRunSuccess(data, response, options)
     {
-        var row = data.rows[0];
-        var protocolId = row["Batch/BatchProtocolId/RowId"];
-        var rowId = row["RowId"];
-        var batchId = row["Batch/RowId"];
-        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, trackingRunDataSuccess)
+        // we are faking out the LABKEY.icemr.tracking layer by setting the experiments here.
+        LABKEY.icemr.tracking.experiments = data.rows;
+        LABKEY.icemr.tracking.getAllRunData(trackingRunDataSuccess)
     }
 
-    function trackingRunDataSuccess(runData)
+    function trackingRunDataSuccess(batches)
     {
-        if (!validateExperimentData(_day0Data[_patientIndex].exp, runData))
+        if (!validateExperimentDatas(batches))
             logFailure("Experiment data didn't match the run data")
 
         runTest();
@@ -637,11 +659,15 @@
     function testInvalidDailyUploadTooManyFlasks()
     {
         var results = [];
-        var numFlasks = _day0Data[_patientIndex].flasks.length;
+        var numFlasks = _day0Data[0].flasks.length;
+        var flasks = [];
+        var exp = findExperimentInDay0Data('Patient1');
 
-        // add 1 more flask thatn the day 0 data has
+        // add 1 more flask than the day 0 data has
         for (var i = 0; i <= numFlasks; i++)
-            results.push({name : 'blank'});
+            flasks.push({name : 'blank'});
+
+        results.push(makeDailyResultObject(exp, flasks))
 
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyTooManyFlasks;
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
@@ -652,21 +678,23 @@
         var results = [];
         var invalidSample;
         var date = '1/13/13';
+        var flasks = [];
+        var exp = findExperimentInDay0Data('Patient1');
 
-        for (var i = 0; i < _day0Data[_patientIndex].flasks.length; i++)
+        for (var i = 0; i < _day0Data[0].flasks.length; i++)
         {
-            var flask = _day0Data[_patientIndex].flasks[i];
-            var result = generateDailyData(flask.SampleID, 2, date, null, null, false);
+            var flask = _day0Data[0].flasks[i];
+            var resultFlask = generateDailyData(flask.SampleID, 2, date, null, null, false);
 
             // change last flasks sampleId so that it won't be found
-            if (i == (_day0Data[_patientIndex].flasks.length-1))
+            if (i == (_day0Data[0].flasks.length-1))
             {
-                result.SampleID = result.SampleID + 'unknown';
-                invalidSample = result.SampleID;
+                resultFlask.SampleID = resultFlask.SampleID + 'unknown';
+                invalidSample = resultFlask.SampleID;
             }
-            results.push(result);
+            flasks.push(resultFlask);
         }
-
+        results.push(makeDailyResultObject(exp, flasks));
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidFlaskDefined + invalidSample;
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
@@ -675,10 +703,14 @@
     function testInvalidDailyUploadZeroParasitemia()
     {
         var results = [];
+        var exp = findExperimentInDay0Data('Patient1');
         var date = '2/20/2013';
+        var flasks = [];
+
         // we cannot have a parasitemia value of 0 if a growth test is initiated
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidZeroParasitemia + 'Patient1Flask1';
-        results.push(generateDailyData('Patient1Flask1', 0, date, 3, null, false));
+        flasks.push(generateDailyData('Patient1Flask1', 0, date, 3, null, false));
+        results.push(makeDailyResultObject(exp,flasks));
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
 
@@ -721,8 +753,11 @@
     function testInvalidDailyUploadMeasurementExists()
     {
         var results = [];
+        var flasks = [];
+        var exp = findExperimentInDay0Data('Patient1');
         var date = '2/20/2013';
-        results.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
+        flasks.push(generateDailyData('Patient1Flask1', 1, date, null, null, false));
+        results.push(makeDailyResultObject(exp, flasks));
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidMeasurementDate + 'Patient1Flask1';
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
     }
@@ -732,41 +767,18 @@
         dailyUpload('Patient1', '4/20/2013');
     }
 
-    function testDailyUpload3()
+    // uploads "3" and "4" happen here to test out multi-experiment daily uploads
+    function testMultiExperimentUpload()
     {
-        dailyUpload('Patient1', '7/20/2013');
-    }
-
-    function switchPatient()
-    {
-        // we're switching patients so we need to pretend we are
-        // the client UI and do another call to getAdaptationRunData with the right
-        // row, protocol, and batch ids.  Also remember to clear out our daily data
-        // results since we are switching runs
-        _dailyData = [];
-        _patientIndex++;
-
-        LABKEY.Query.selectRows({
-            schemaName : 'assay.Tracking.' + _assayName,
-            queryName  : 'Runs',
-            columns :  ['PatientID', 'RowId', 'Batch/RowId', 'Batch/BatchProtocolId/RowId'],
-            filterArray    : [ LABKEY.Filter.create('PatientID', _day0Data[_patientIndex].exp.PatientID)],
-            success : switchPatientSuccess
-        });
-    }
-
-    function switchPatientSuccess(data, response, options)
-    {
-        var row = data.rows[0];
-        var protocolId = row["Batch/BatchProtocolId/RowId"];
-        var rowId = row["RowId"];
-        var batchId = row["Batch/RowId"];
-        LABKEY.icemr.tracking.getRunData(protocolId, batchId, rowId, trackingRunDataSuccess);
-    }
-
-    function testDailyUpload4()
-    {
-        dailyUpload('Patient2', '2/20/2013');
+        var results = [];
+        var exp = findExperimentInDay0Data('Patient1');
+        var flasks = getFlasksForDailyUpload('Patient1', '7/20/2013');
+        results.push(makeDailyResultObject(exp, flasks));
+        exp = findExperimentInDay0Data('Patient2');
+        flasks = getFlasksForDailyUpload('Patient2', '2/20/2013');
+        results.push(makeDailyResultObject(exp, flasks));
+        storeDailyData(results);
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
     }
 
     function testDailyUpload5()
@@ -792,9 +804,12 @@
     function testMaintenanceStopped()
     {
         var results = [];
+        var flasks = [];
+        var exp = findExperimentInDay0Data('Patient2');
         var date = '2/22/2013';
         // start and finish growth test 2 with a value of parasitemia value of 0
-        results.push(generateDailyData('Patient2Flask5', 13, date, 3, 3, false));
+        flasks.push(generateDailyData('Patient2Flask5', 13, date, 3, 3, false));
+        results.push(makeDailyResultObject(exp, flasks));
         storeDailyData(results);
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyInvalidFlaskDefined + 'Patient2Flask5';
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
@@ -978,14 +993,24 @@
     function dailyUpload(patient, date)
     {
         var results = [];
+        var exp = findExperimentInDay0Data(patient);
+        var flasks = getFlasksForDailyUpload(patient, date);
+        results.push(makeDailyResultObject(exp, flasks));
+        storeDailyData(results);
+        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
+    }
+
+    function getFlasksForDailyUpload(patient, date)
+    {
+        var flasks = [];
         for (var i = 0; i < _dailyMeasurements.length; i++)
         {
             var d = _dailyMeasurements[i];
             if (isDailyMeasurementApplicable(patient, date, d))
-                results.push(generateDailyData(d['id'],d['parasitemia'],d['date'],d['init'],d['finish'], d['stop']));
+                flasks.push(generateDailyData(d['id'],d['parasitemia'],d['date'],d['init'],d['finish'], d['stop']));
         }
-        storeDailyData(results);
-        LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure);
+
+        return flasks;
     }
 
     function isDailyMeasurementApplicable(patient, date, measurement)
@@ -996,10 +1021,16 @@
         return (p == patient && d1.getTime() == d2.getTime())
     }
 
-    function DailyUploadSuccess(result)
+    function DailyUploadSuccess(batches)
     {
-        validateDailyData(result);
-        validateFlaskUpdates(result);
+        if (batches.length != _lastDailyUpload.length)
+            logFailure("incorrect number of batches saved");
+
+        for (var i = 0; i < batches.length; i++)
+        {
+            validateDailyData(batches[i]);
+            validateFlaskUpdates(batches[i]);
+        }
         runTest();
     }
 
@@ -1073,17 +1104,28 @@
         return false;
     }
 
-
     function validateDailyData(batch)
     {
         var run = batch.runs[0];
-        if (_dailyData.length != run.dataRows.length)
+        var expId = run.properties[LABKEY.icemr.tracking.experiment];
+        var result = findResultInDailyDatas(expId);
+        if (!result || !result.flasks)
+        {
+            logFailure("invalid batch doesn't match daily data saved");
+            return false;
+        }
+
+        var flasks = result.flasks;
+        if (flasks.length != run.dataRows.length)
+        {
             logFailure("incorrect number of daily result rows saved");
+            return false;
+        }
 
         for (var i = 0; i < run.dataRows.length; i++)
         {
             var row = run.dataRows[i];
-            if (!validateDailyDataRow(findResultInDailyData(row.SampleID, row.MeasurementDate), row))
+            if (!validateDailyDataRow(findFlaskInDailyData(flasks, row.SampleID, row.MeasurementDate), row))
                 return false;
         }
 
@@ -1092,8 +1134,24 @@
 
     function storeDailyData(results)
     {
+        // add to the flasks of the correct experiment
+        // if not stored already, then add a top level {exp, flasks} object
         for (var i = 0; i < results.length; i++)
-            _dailyData.push(results[i]);
+        {
+            var result = results[i];
+            var storedResult = findResultInDailyDatas(result[LABKEY.icemr.tracking.experiment])
+            if (storedResult != null) {
+                for (var j = 0; j < result.flasks.length; j++) {
+                    storedResult.flasks.push(result.flasks[j]);
+                }
+            }
+            else {
+                _dailyData.push(result);
+            }
+        }
+
+        // remember out last upload
+        _lastDailyUpload = results;
     }
 
     function storeDay0Data(exp, flasks)
@@ -1143,10 +1201,13 @@
         return (input.name.search(input.role.replace(' ', '')) != -1);
     }
 
-    function validateFlaskUpdates(result)
+    function validateFlaskUpdates(batch)
     {
-        var run = result.runs[0];
+        var run = batch.runs[0];
         var inputs = run.materialInputs;
+        var exp = run.properties[LABKEY.icemr.tracking.experiment];
+        var dailyResult = findResultInDailyDatas(exp);
+        var flasks = dailyResult.flasks;
 
         for (var i = 0; i < inputs.length; i++)
         {
@@ -1158,33 +1219,32 @@
             // this is the flask as it looked at day0 upload time
             var day0 = findFlaskInDay0Data(updated.SampleID);
             // this is the daily result we just uploaded
-            var result = findResultInDailyData(updated.SampleID, updated.MaintenanceDate);
+            var flask = findFlaskInDailyData(flasks, updated.SampleID, updated.MaintenanceDate);
 
             if (!day0)
                 logFailure("updated a flask that was not found in day 0 data");
 
-            if (!result)
+            if (!flask)
             {
                 // this just means that we didn't update the flask during this daily update so it
                 // should have same properties as the day0 upload
                 if (!validateFlask(day0, updated))
                     logFailure("updated a flask that was not part of the daily result");
-
             }
             else
             {
                 // verify that flask fields were updated correctly
-                var p = result['Parasitemia'];
-                var d = result['MeasurementDate'];
+                var p = flask['Parasitemia'];
+                var d = flask['MeasurementDate'];
 
                 // verify that we have updated the flask as expected from the result data
                 if (!LABKEY.icemr.compareDate(d, updated['MaintenanceDate']))
                     logFailure("flask does not have the correct updated MaintenanceDate");
 
-                validateGrowthTestData(p, d, result['GrowthFoldTestInitiated'], true, updated);
-                validateGrowthTestData(p, d, result['GrowthFoldTestFinished'], false, updated);
+                validateGrowthTestData(p, d, flask['GrowthFoldTestInitiated'], true, updated);
+                validateGrowthTestData(p, d, flask['GrowthFoldTestFinished'], false, updated);
 
-                if (result['FlaskMaintenanceStopped'])
+                if (flask['FlaskMaintenanceStopped'])
                     if (!LABKEY.icemr.compareDate(d, updated['MaintenanceStopped']))
                         logFailure("flask does not have the correct MaintenanceStopped date");
             }
@@ -1218,8 +1278,24 @@
             logFailure("flask did not update " + test);
     }
 
+    // used to validate daily results which may include multiple experiments
+    function validateExperimentDatas(batches)
+    {
+        for (var i = 0; i < batches.length; i++) {
+            var batch = batches[i];
+            var run = batch.runs[0];
+            var exp = findExperimentInDay0Data(run.properties['PatientID']);
+            if (!validateExperimentData(exp, run.properties))
+                return false;
+        }
+
+        return true;
+    }
+
+    // used to validate day 0 results which only includes a single experiment
     function validateExperimentData(expected, result)
     {
+        // make sure that all the results in the experiment are ones that we have day0 data for
         if (expected['ExperimentID'] == result['ExperimentID'])
         {
             if (expected['PatientID'] == result['PatientID'])
@@ -1278,15 +1354,26 @@
         return true;
     }
 
-    function findResultInDailyData(sampleId, measurementDate)
+    function findResultInDailyDatas(expId)
+    {
+        for (var i = 0; i < _dailyData.length; i++)
+        {
+            if (_dailyData[i][LABKEY.icemr.tracking.experiment] == expId)
+                return _dailyData[i];
+        }
+
+        return null;
+    }
+
+    function findFlaskInDailyData(flasks, sampleId, measurementDate)
     {
         var t = new Date(measurementDate).getTime();
 
-        for (var i = 0; i < _dailyData.length; i++)
+        for (var i = 0; i < flasks.length; i++)
         {
-            if (_dailyData[i].SampleID == sampleId &&
-                    LABKEY.icemr.compareDate(measurementDate, _dailyData[i].MeasurementDate))
-                return _dailyData[i];
+            if (flasks[i].SampleID == sampleId &&
+                LABKEY.icemr.compareDate(measurementDate, flasks[i].MeasurementDate))
+                return flasks[i];
         }
     }
 
@@ -1481,6 +1568,12 @@
         return true;
     }
 
+    function makeDailyResultObject(exp, flasks) {
+        var result = {};
+        result[LABKEY.icemr.tracking.experiment] = exp[LABKEY.icemr.tracking.experiment];
+        result[LABKEY.icemr.tracking.flasks] = flasks;
+        return result;
+    }
 
     function verifyConfig(expected, configs)
     {
