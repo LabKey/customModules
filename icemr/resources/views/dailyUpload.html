@@ -86,7 +86,7 @@ function submitDaily()
         var exp = _formPanel.getComponent('experimentSet' + i);
 
         var flaskPanel = exp.getComponent('flaskPanel' + i);
-        result[LABKEY.icemr.tracking.experiment] = exp.title;
+        result[LABKEY.icemr.tracking.experiment] = exp.experimentId;
         result[LABKEY.icemr.tracking.flasks] = collectFlaskData(flaskPanel ,i);
         results.push(result);
     }
@@ -105,6 +105,41 @@ function showRuns()
             {rowId:LABKEY.page.assay.id});
 }
 
+function colorExperimentGroups(form)
+{
+    for (var i = 0; i < form.items.items.length; i++)
+    {
+        var cmp = form.items.items[i];
+        if (cmp.id.indexOf("experimentSet") != -1)
+        {
+            var set = cmp.id.substr("experimentSet".length);
+            var flaskPanel = cmp.getComponent('flaskPanel' + set);
+            var valid = true;
+            for (var j = 0; j < flaskPanel.items.items.length; j++)
+            {
+                var flask = flaskPanel.items.items[j];
+                for (var k = 0; k < flask.items.items.length; k++)
+                {
+                    var field = flask.items.items[k];
+                    valid = field.isValid();
+                    if (!valid)
+                        break;
+                }
+
+                // if any field of any flask is invalid then mark the fieldset component
+                // as invalid
+                if (!valid)
+                    break;
+            }
+            if (valid)
+                cmp.setTitle(cmp.experimentId);
+            else
+                cmp.setTitle("<span style='color:red;'><b>" + cmp.experimentId + "</b></span>");
+        }
+    }
+    form.doLayout();
+}
+
 function validateForm()
 {
     // clear out error messages.
@@ -114,7 +149,10 @@ function validateForm()
     if(form.getForm().isValid())
         return true;
     else
+    {
+        colorExperimentGroups(form);
         handleError("Errors in your submission. See below.");
+    }
     return false;
 }
 
@@ -198,85 +236,113 @@ function findDailyResultForExperimentSet(experimentSet, dailyResults)
     for (var i = 0; i < dailyResults.length; i++)
     {
         var dailyResult = dailyResults[i];
-        if (dailyResult[LABKEY.icemr.tracking.experiment] == experimentSet.title)
+        if (dailyResult[LABKEY.icemr.tracking.experiment] == experimentSet.experimentId)
             return dailyResult;
     }
 
     return null;
 }
 
+function checkDailyFileUpload(dailyResults)
+{
+    var expectedNum = LABKEY.icemr.tracking.batches.length;
+    var actualNum = dailyResults.length;
+
+    // clear out any old errors
+    handleError("", true);
+
+    if (actualNum != expectedNum)
+    {
+        var e = (expectedNum == 1) ? " experiment " : " experiments ";
+        var w = (actualNum == 1) ? " was " : " were ";
+
+        handleError("Daily Upload error.  Expected data for " + expectedNum + e + "but " + actualNum + w + "provided.");
+        return false;
+    }
+
+    for(var i = 0; i < actualNum; i++)
+    {
+        var exp = _formPanel.getComponent('experimentSet' + i);
+        var dailyResult = findDailyResultForExperimentSet(exp, dailyResults);
+
+        if (!dailyResult)
+        {
+            handleError("Daily Upload error.  Could not find data for " + exp.experimentId);
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function onDailyFileUploadSuccess(dailyResults)
 {
-    if (dailyResults.length > 0)
+    if (!checkDailyFileUpload(dailyResults))
+        return;
+
+    for(var i = 0; i < dailyResults.length; i++)
     {
-        Ext4.getCmp('submitButton').setVisible(true);
-        Ext4.getCmp('uploadFormPanel').setVisible(false);
-        Ext4.getCmp('templateButton').setVisible(false);
+        var exp = _formPanel.getComponent('experimentSet' + i);
+        var flaskPanel = exp.getComponent('flaskPanel' + i);
+        //
+        // be sure to insert the results from the uploaded template file in the same order as laid out in the form
+        //
+        var dailyResult = findDailyResultForExperimentSet(exp, dailyResults);
+        exp.setVisible(true);
+        flaskPanel.setVisible(true);
 
-        for(var i = 0; i < dailyResults.length; i++)
+        for (var j = 0; j < dailyResult.flasks.length; j++)
         {
-            var exp = _formPanel.getComponent('experimentSet' + i);
-            exp.setVisible(true);
-            var flaskPanel = exp.getComponent('flaskPanel' + i);
-            flaskPanel.setVisible(true);
-
-            //
-            // be sure to insert the results from the uploaded template file in the same order as laid out in the form
-            //
-            var dailyResult = findDailyResultForExperimentSet(exp, dailyResults);
-
-            if (!dailyResult)
-                continue;
-
-            for (var j = 0; j < dailyResult.flasks.length; j++)
+            var flaskId = getFlaskId(i, j);
+            addFlask(flaskPanel, j, flaskId);
+            var dailyFlask = dailyResult.flasks[j];
+            var form = flaskPanel.items.items[j];
+            for (var key in dailyFlask)
             {
-                var flaskId = getFlaskId(i, j);
-                addFlask(flaskPanel, j, flaskId);
-                var dailyFlask = dailyResult.flasks[j];
-                var form = flaskPanel.items.items[j];
-                for (var key in dailyFlask)
-                {
-                    var value = dailyFlask[key];
-                    var field = form.getComponent(key + flaskId);
+                var value = dailyFlask[key];
+                var field = form.getComponent(key + flaskId);
 
-                    if (key == LABKEY.icemr.tracking.measurementDate)
-                    {
-                        field.setValue(new Date(value));
-                    }
-                    else
-                    if (key == LABKEY.icemr.tracking.growthFoldTestInitiated ||
-                            key == LABKEY.icemr.tracking.growthFoldTestFinished)
-                    {
-                        field.setValue(LABKEY.icemr.getFormGrowthTestValue(value));
-                    }
-                    else
-                    if (key == LABKEY.icemr.tracking.interestingResult ||
-                            key == LABKEY.icemr.tracking.contamination ||
-                            key == LABKEY.icemr.tracking.flaskMaintenanceStopped)
-                    {
-                        field.setValue(LABKEY.icemr.getFormYesNoValue(value));
-                    }
-                    else
-                    if (key == LABKEY.icemr.tracking.mycotest)
-                    {
-                        field.setValue(LABKEY.icemr.getFormPosNegValue(value));
-                    }
-                    else
-                    if (key == LABKEY.icemr.tracking.scientist)
-                    {
-                        // lookup by display name not the user id
-                        var rec = field.findRecordByDisplay(value);
-                        if (rec)
-                            field.setValue(rec.data.UserId);
-                    }
-                    else
-                    {
-                        field.setValue(value);
-                    }
+                if (key == LABKEY.icemr.tracking.measurementDate)
+                {
+                    field.setValue(new Date(value));
+                }
+                else
+                if (key == LABKEY.icemr.tracking.growthFoldTestInitiated ||
+                        key == LABKEY.icemr.tracking.growthFoldTestFinished)
+                {
+                    field.setValue(LABKEY.icemr.getFormGrowthTestValue(value));
+                }
+                else
+                if (key == LABKEY.icemr.tracking.interestingResult ||
+                        key == LABKEY.icemr.tracking.contamination ||
+                        key == LABKEY.icemr.tracking.flaskMaintenanceStopped)
+                {
+                    field.setValue(LABKEY.icemr.getFormYesNoValue(value));
+                }
+                else
+                if (key == LABKEY.icemr.tracking.mycotest)
+                {
+                    field.setValue(LABKEY.icemr.getFormPosNegValue(value));
+                }
+                else
+                if (key == LABKEY.icemr.tracking.scientist)
+                {
+                    // lookup by display name not the user id
+                    var rec = field.findRecordByDisplay(value);
+                    if (rec)
+                        field.setValue(rec.data.UserId);
+                }
+                else
+                {
+                    field.setValue(value);
                 }
             }
         }
     }
+
+    Ext4.getCmp('submitButton').setVisible(true);
+    Ext4.getCmp('uploadFormPanel').setVisible(false);
+    Ext4.getCmp('templateButton').setVisible(false);
 }
 
 //
@@ -569,6 +635,7 @@ function onRunDataReady(batches)
         var flaskSet = Ext4.create('Ext.form.FieldSet', {
             id : 'experimentSet' + i,
             title: batches[i].runs[0].properties[LABKEY.icemr.tracking.experiment],
+            experimentId: batches[i].runs[0].properties[LABKEY.icemr.tracking.experiment],
             hidden : true,
             collapsible : true,
             collapsed : true,
