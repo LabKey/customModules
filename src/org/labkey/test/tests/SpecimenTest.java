@@ -109,7 +109,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
     @Override
     @LogMethod(category = LogMethod.MethodType.VERIFICATION)
-    protected void doVerifySteps()
+    protected void doVerifySteps() throws IOException, HttpException
     {
         verifyActorDetails();
         createRequest();
@@ -452,9 +452,6 @@ public class SpecimenTest extends SpecimenBaseTest
     private final static String ATTACHMENT1 = "KCMC_Moshi_Ta_to_Aurum_Health_.tsv";
     private final static String ATTACHMENT2 = "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls"; // Params: date(yyyy-MM-dd)
     private final String NOTIFICATION_TEMPLATE = // Params: Study Name, requestId, Study Name, requestId, Username, Date(yyyy-MM-dd)
-            "%s: Specimen Request Notification\n" +
-            "\n" +
-            "\n" +
             "Specimen request #%s was updated in %s.\n" +
             "\n" +
             "Request Details\n" +
@@ -491,10 +488,10 @@ public class SpecimenTest extends SpecimenBaseTest
             "10 999320520 KAA07YY0-01 Vst 501.0 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0\n" +
             "11 999320520 KAA07YY0-02 Vst 501.0 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA N/A 2005-12-15 10:30:00.0 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00:00.0 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false 2 2 2 0 0";
     @LogMethod
-    private void verifyNotificationEmails()
+    private void verifyNotificationEmails() throws IOException, HttpException
     {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String notification = String.format(NOTIFICATION_TEMPLATE, getStudyLabel(), _requestId, getStudyLabel(), _requestId, PasswordUtil.getUsername(), date);
+        String notification = String.format(NOTIFICATION_TEMPLATE, _requestId, getStudyLabel(), _requestId, PasswordUtil.getUsername(), date);
 
         log("Check notification emails");
         goToHome();
@@ -511,24 +508,15 @@ public class SpecimenTest extends SpecimenBaseTest
         Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
         Assert.assertTrue(bodyText.contains(_specimen_KCMC));
         DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
-        Assert.assertEquals("Notification was not as expected", notification, mailTable.getDataAsText(emailIndex, "Message"));
+        String message = mailTable.getDataAsText(emailIndex, "Message");
+        Assert.assertNotNull("No message found", message);
+        Assert.assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + message, message.contains(notification));
 
         String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
         String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
 
-        try
-        {
-            Assert.assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
-            Assert.assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
-        }
-        catch (HttpException e)
-        {
-            Assert.fail("Failed to get HTTP client: "+e.getMessage());
-        }
-        catch (IOException e)
-        {
-            Assert.fail("Failed to perform HTTP GET: "+e.getMessage());
-        }
+        Assert.assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
+        Assert.assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
 
         clickAndWait(Locator.linkWithText("Request Link"));
         assertTextPresent("Specimen Request " + _requestId);
