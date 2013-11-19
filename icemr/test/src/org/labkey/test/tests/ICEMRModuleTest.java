@@ -18,7 +18,6 @@ package org.labkey.test.tests;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
@@ -33,6 +32,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * User: elvan
@@ -163,7 +164,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(datapoint);
         String datapointData = getAttribute(datapoint, "title");
         for(String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
-            Assert.assertTrue(datapointData.contains(s));
+            assertTrue(datapointData.contains(s));
     }
 
     @LogMethod
@@ -522,33 +523,33 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // flask column titles
         for(int i = 0; i < 18; i++)
         {
-            Assert.assertNotNull(ExcelHelper.getCell(sheet, i, 1));
+            assertNotNull(ExcelHelper.getCell(sheet, i, 1));
         }
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "SampleID");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 1, row).toString(), "MeasurementDate");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 2, row).toString(), "Scientist");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 3, row).toString(), "Parasitemia");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 4, row).toString(), "Gametocytemia");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 5, row).toString(), "Stage");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 6, row).toString(), "Removed");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 7, row).toString(), "RBCBatchID");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 8, row).toString(), "SerumBatchID");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 9, row).toString(), "AlbumaxBatchID");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 10, row).toString(), "GrowthFoldTestInitiated");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 11, row).toString(), "GrowthFoldTestFinished");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 12, row).toString(), "Contamination");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 13, row).toString(), "MycoTestResult");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 14, row).toString(), "FreezerProIDs");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 15, row).toString(), "FlaskMaintenanceStopped");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 16, row).toString(), "InterestingResult");
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 17, row).toString(), "Comments");
+        assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "SampleID");
+        assertEquals(ExcelHelper.getCell(sheet, 1, row).toString(), "MeasurementDate");
+        assertEquals(ExcelHelper.getCell(sheet, 2, row).toString(), "Scientist");
+        assertEquals(ExcelHelper.getCell(sheet, 3, row).toString(), "Parasitemia");
+        assertEquals(ExcelHelper.getCell(sheet, 4, row).toString(), "Gametocytemia");
+        assertEquals(ExcelHelper.getCell(sheet, 5, row).toString(), "Stage");
+        assertEquals(ExcelHelper.getCell(sheet, 6, row).toString(), "Removed");
+        assertEquals(ExcelHelper.getCell(sheet, 7, row).toString(), "RBCBatchID");
+        assertEquals(ExcelHelper.getCell(sheet, 8, row).toString(), "SerumBatchID");
+        assertEquals(ExcelHelper.getCell(sheet, 9, row).toString(), "AlbumaxBatchID");
+        assertEquals(ExcelHelper.getCell(sheet, 10, row).toString(), "GrowthFoldTestInitiated");
+        assertEquals(ExcelHelper.getCell(sheet, 11, row).toString(), "GrowthFoldTestFinished");
+        assertEquals(ExcelHelper.getCell(sheet, 12, row).toString(), "Contamination");
+        assertEquals(ExcelHelper.getCell(sheet, 13, row).toString(), "MycoTestResult");
+        assertEquals(ExcelHelper.getCell(sheet, 14, row).toString(), "FreezerProIDs");
+        assertEquals(ExcelHelper.getCell(sheet, 15, row).toString(), "FlaskMaintenanceStopped");
+        assertEquals(ExcelHelper.getCell(sheet, 16, row).toString(), "InterestingResult");
+        assertEquals(ExcelHelper.getCell(sheet, 17, row).toString(), "Comments");
     }
 
     @LogMethod
     private void checkTemplateFlask(Sheet sheet, int row, String flaskName)
     {
-        Assert.assertNotNull(ExcelHelper.getCell(sheet, 0, row));
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), flaskName);
+        assertNotNull(ExcelHelper.getCell(sheet, 0, row));
+        assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), flaskName);
     }
 
     @LogMethod
@@ -556,7 +557,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         int row = baseRow;
         // experiment header row
-        Assert.assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "ExperimentID: " + expId);
+        assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "ExperimentID: " + expId);
         row++;
         // flask header row for experiment 1
         checkTemplateFlaskHeader(sheet, row);
@@ -783,7 +784,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             }
         }, "Test did not finish!", WAIT_FOR_PAGE * 2);
 
-        Assert.assertFalse("At least one of the javascript tests failed", Locator.id("log-info").findElement(getDriver()).getText().contains("FAILED"));
+        assertFalse("At least one of the javascript tests failed", Locator.id("log-info").findElement(getDriver()).getText().contains("FAILED"));
     }
 
     @LogMethod

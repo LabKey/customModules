@@ -16,7 +16,6 @@
 
 package org.labkey.test.tests;
 
-import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
@@ -28,6 +27,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static org.junit.Assert.*;
 
 @Category({CustomModules.class, Study.class})
 public class CAVDStudyTest extends StudyBaseTest
@@ -116,14 +117,14 @@ public class CAVDStudyTest extends StudyBaseTest
         if(!_ext4Helper.isChecked("DATE")){
             click(Locator.ext4Radio("DATE"));
         }
-        Assert.assertTrue(_ext4Helper.isChecked("DATE"));
+        assertTrue(_ext4Helper.isChecked("DATE"));
         clickButton("Submit");
         waitForPageToLoad();
 
         //Check to see if date is checked.
         clickAndWait(Locator.linkWithText("Edit"));
         waitForText("Timepoint Type");
-        Assert.assertTrue(_ext4Helper.isChecked("DATE"));
+        assertTrue(_ext4Helper.isChecked("DATE"));
 
     }
 
@@ -359,7 +360,7 @@ public class CAVDStudyTest extends StudyBaseTest
 //        clickAndWait(Locator.linkWithText("Edit"));
 //
 //        waitForText("Timepoint Type");
-//        Assert.assertEquals(2, getXpathCount(Locator.xpath("//input[@type='radio'][@name='TimepointType'][@disabled]")));
+//        assertEquals(2, getXpathCount(Locator.xpath("//input[@type='radio'][@name='TimepointType'][@disabled]")));
     }
 
     private void doVerifyCrossContainerDatasetStatus()
@@ -590,7 +591,7 @@ public class CAVDStudyTest extends StudyBaseTest
             else if(isElementPresent(Locator.xpath(cellPath+"/input")))
                 setFormElement(Locator.xpath(cellPath+"/input"), values[i]);
             else
-                Assert.fail("Non input/select cell found when adding new " + type);
+                fail("Non input/select cell found when adding new " + type);
             switch(type)
             {
                 case Adjuvant:
@@ -626,7 +627,7 @@ public class CAVDStudyTest extends StudyBaseTest
             else if(isElementPresent(Locator.xpath(cellPath+"/input")))
                 setFormElement(Locator.xpath(cellPath+"/input"), values[i]);
             else
-                Assert.fail("Non input/select cell found when adding new antigen");
+                fail("Non input/select cell found when adding new antigen");
             _expectedVaccineDesignText.add(values[i]);
         }
 
@@ -716,7 +717,7 @@ public class CAVDStudyTest extends StudyBaseTest
             clickButton("Import");
         }
         else
-            Assert.fail("The dataset import .tsv file (plate001.tsv) does not exist");
+            fail("The dataset import .tsv file (plate001.tsv) does not exist");
     }
 
     private int revision = 1;
