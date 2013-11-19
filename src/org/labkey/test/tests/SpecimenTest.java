@@ -18,7 +18,6 @@ package org.labkey.test.tests;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
-import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
@@ -37,6 +36,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+
+import static org.junit.Assert.*;
 
 /**
  * User: brittp
@@ -236,7 +237,7 @@ public class SpecimenTest extends SpecimenBaseTest
             int allCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']"));
             int checkedCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
             int disabledCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
-            Assert.assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes == checkedCheckBoxes + disabledCheckBoxes);
+            assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes == checkedCheckBoxes + disabledCheckBoxes);
             clickButton("Cancel");
         }
 
@@ -505,18 +506,18 @@ public class SpecimenTest extends SpecimenBaseTest
         click(Locator.linkContainingText("Specimen Request Notification").index(emailIndex));
         shortWait().until(LabKeyExpectedConditions.emailIsExpanded(emailIndex + 1));
         String bodyText = getText(Locator.id("dataregion_EmailRecord"));
-        Assert.assertTrue(!bodyText.contains(_specimen_McMichael));
-        Assert.assertTrue(bodyText.contains(_specimen_KCMC));
+        assertTrue(!bodyText.contains(_specimen_McMichael));
+        assertTrue(bodyText.contains(_specimen_KCMC));
         DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
         String message = mailTable.getDataAsText(emailIndex, "Message");
-        Assert.assertNotNull("No message found", message);
-        Assert.assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + message, message.contains(notification));
+        assertNotNull("No message found", message);
+        assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + message, message.contains(notification));
 
         String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
         String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
 
-        Assert.assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
-        Assert.assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
+        assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
+        assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
 
         clickAndWait(Locator.linkWithText("Request Link"));
         assertTextPresent("Specimen Request " + _requestId);
@@ -884,7 +885,7 @@ public class SpecimenTest extends SpecimenBaseTest
         for(String[] columnAndValue : columnAndValues)
         {
             log("Checking column: "+ columnAndValue[0]);
-            Assert.assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
+            assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
         }
     }
 }
