@@ -10,7 +10,6 @@
  *
  *  Code and utility functions common to all ICEMR assays goes here
  */
-LABKEY.requiresScript('clientapi/ext4/Util.js');
 Ext.namespace("LABKEY.icemr");
 // -------------------------------------------------------------------
 // configuration errors

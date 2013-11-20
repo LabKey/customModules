@@ -51,6 +51,7 @@ icemr/resources/assay/Diagnostics/domains/result.xml -text
 icemr/resources/assay/Diagnostics/domains/run.xml -text
 icemr/resources/assay/Diagnostics/queries/Runs/.qview.xml -text
 icemr/resources/assay/Diagnostics/views/upload.html -text
+icemr/resources/assay/Diagnostics/views/upload.view.xml -text
 icemr/resources/assay/SpeciesSpecific/config.xml -text
 icemr/resources/assay/SpeciesSpecific/domains/batch.xml -text
 icemr/resources/assay/SpeciesSpecific/domains/result.xml -text
@@ -58,6 +59,7 @@ icemr/resources/assay/SpeciesSpecific/domains/run.xml -text
 icemr/resources/assay/SpeciesSpecific/queries/Data/.qview.xml -text
 icemr/resources/assay/SpeciesSpecific/queries/Runs/.qview.xml -text
 icemr/resources/assay/SpeciesSpecific/views/upload.html -text
+icemr/resources/assay/SpeciesSpecific/views/upload.view.xml -text
 icemr/resources/assay/Tracking/config.xml -text
 icemr/resources/assay/Tracking/domains/batch.xml -text
 icemr/resources/assay/Tracking/domains/result.xml -text
@@ -107,7 +109,9 @@ icemr/resources/assay/Tracking/queries/select_results/.qview.xml -text
 icemr/resources/assay/Tracking/queries/stored_dates_numdays.sql -text
 icemr/resources/assay/Tracking/queries/tracking_results.sql -text
 icemr/resources/assay/Tracking/views/results.html -text
+icemr/resources/assay/Tracking/views/results.view.xml -text
 icemr/resources/assay/Tracking/views/upload.html -text
+icemr/resources/assay/Tracking/views/upload.view.xml -text
 icemr/resources/folderTypes/icemr.foldertype.xml -text
 icemr/resources/schemas/dbscripts/postgresql/icemr-12.30-13.10.sql -text
 icemr/resources/schemas/dbscripts/postgresql/icemr-13.20-13.21.sql -text
@@ -117,13 +121,17 @@ icemr/resources/schemas/dbscripts/sqlserver/icemr-13.20-13.21.sql -text
 icemr/resources/schemas/dbscripts/sqlserver/icemr-13.20-13.30.sql -text
 icemr/resources/schemas/icemr.xml -text
 icemr/resources/views/dailyUpload.html -text
+icemr/resources/views/dailyUpload.view.xml -text
 icemr/resources/views/flaskSummary.html -text
+icemr/resources/views/flaskSummary.view.xml -text
 icemr/resources/views/uploadtests.html -text
+icemr/resources/views/uploadtests.view.xml -text
 icemr/resources/views/uploadtests.webpart.xml -text
 icemr/resources/views/vis.html -text
 icemr/resources/views/vis.view.xml -text
 icemr/resources/web/assay/diagnostics/diagnostics.js -text
 icemr/resources/web/assay/icemr.js -text
+icemr/resources/web/assay/icemr.lib.xml -text
 icemr/resources/web/assay/species/species.js -text
 icemr/resources/web/assay/tracking/adaptation.js -text
 icemr/resources/web/assay/tracking/selection.js -text

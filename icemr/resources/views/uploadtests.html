@@ -1,11 +1,6 @@
 <div id="start-test"></div>
 <div id="log-info"></div>
 <script type="text/javascript">
-    LABKEY.requiresExt4ClientAPI();
-    LABKEY.requiresScript("assay/icemr.js");
-    LABKEY.requiresScript("assay/validation.js");
-    LABKEY.requiresScript("assay/tracking/tracking.js");
-
     // there are really two suites of tests, one for the Culture Adaptation assay and one for the
     // Drug Selection assay.  Both of these assays are implemnted by the tracking assay but have different
     // code behind them (depending on whether they are adaptation or selection).

@@ -1,0 +1,14 @@
+<libraries xmlns="http://labkey.org/clientLibrary/xml/">
+    <library compileInProductionMode="false">
+        <script path="assay/icemr.js"/>
+        <script path="assay/validation.js"/>
+        <script path="assay/diagnostics/diagnostics.js"/>
+        <script path="assay/species/species.js"/>
+        <script path="assay/tracking/tracking.js"/>
+        <script path="assay/tracking/adaptation.js"/>
+        <script path="assay/tracking/selection.js"/>
+    </library>
+    <dependencies>
+        <dependency path="Ext4ClientApi"/>
+    </dependencies>
+</libraries>
