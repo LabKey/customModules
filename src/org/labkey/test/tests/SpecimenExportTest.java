@@ -144,9 +144,8 @@ public class SpecimenExportTest extends SpecimenBaseTest
         goToFolderManagement();
         clickAndWait(Locator.linkWithText("Import"));
         clickButtonContainingText("Import Folder Using Pipeline");
-        _fileBrowserHelper.expandFileBrowserRootNode();
-        _fileBrowserHelper.selectFileBrowserItem("export/");
-        click(Locator.tag("div").withClass("x4-grid-cell-inner").withPredicate("starts-with(text(), 'My Study_')"));
+        _fileBrowserHelper.selectFileBrowserItem("/export/");
+        waitAndClick(Locator.tag("div").withClass("x4-grid-cell-inner").withPredicate("starts-with(text(), 'My Study_')"));
         _fileBrowserHelper.selectImportDataAction("Import Folder");
         waitForPipelineJobsToComplete(2, "Folder import", false);
     }
