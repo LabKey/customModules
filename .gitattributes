@@ -159,6 +159,11 @@ icemr/test/src/org/labkey/test/tests/ICEMRModuleTest.java -text
 ms2extensions/Ms2extensions.iml -text
 ms2extensions/module.properties -text
 ms2extensions/resources/folderTypes/MS2Extensions.folderType.xml -text
+ms2extensions/resources/queries/ms2/CometChargeQueryColumns.query.xml -text
+ms2extensions/resources/queries/ms2/CometChargeQueryColumns.sql -text
+ms2extensions/resources/queries/ms2/CometQualifiedPeptideCountsPerRun.query.xml -text
+ms2extensions/resources/queries/ms2/CometQualifiedPeptideCountsPerRun.sql -text
+ms2extensions/resources/queries/ms2/CometSearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/MS2SearchRuns.query.xml -text
 ms2extensions/resources/queries/ms2/Peptides.query.xml -text
 ms2extensions/resources/queries/ms2/SequestChargeQueryColumns.query.xml -text
@@ -171,6 +176,7 @@ ms2extensions/resources/queries/ms2/XTandemChargeQueryColumns.sql -text
 ms2extensions/resources/queries/ms2/XTandemQualifiedPeptideCountsPerRun.query.xml -text
 ms2extensions/resources/queries/ms2/XTandemQualifiedPeptideCountsPerRun.sql -text
 ms2extensions/resources/queries/ms2/XTandemSearchRuns.query.xml -text
+ms2extensions/resources/queries/ms2extensions/GetCometPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/GetSequestPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/GetXTandemPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/Ms2RunAggregates.query.xml -text

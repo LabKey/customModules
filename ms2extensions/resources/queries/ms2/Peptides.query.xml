@@ -17,6 +17,14 @@
                     <ns:fkDbSchema>ms2</ns:fkDbSchema>
                 </ns:fk>
             </ns:column>
+            <ns:column columnName="CometChgFilt" wrappedColumnName="RowId">
+                <ns:columnTitle>Comet Chg Filt</ns:columnTitle>
+                <ns:fk>
+                    <ns:fkTable>CometChargeQueryColumns</ns:fkTable>
+                    <ns:fkColumnName>RowId</ns:fkColumnName>
+                    <ns:fkDbSchema>ms2</ns:fkDbSchema>
+                </ns:fk>
+            </ns:column>
         </ns:columns>
     </ns:table>
 </ns:tables>

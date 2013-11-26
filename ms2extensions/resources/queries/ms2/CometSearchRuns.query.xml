@@ -1,0 +1,14 @@
+<tables xmlns="http://labkey.org/data/xml">
+  <table tableName="CometSearchRuns" tableDbType="NOT_IN_DB">
+     <columns>
+         <column columnName="PeptideCounts" wrappedColumnName="MS2Details">
+           <columnTitle>Qualified Peptide Counts</columnTitle>
+           <fk>
+             <fkDbSchema>ms2extensions</fkDbSchema>
+             <fkTable>Ms2RunAggregates</fkTable>
+             <fkColumnName>ms2Run</fkColumnName>
+           </fk>
+         </column>
+    </columns>
+  </table>
+</tables>
