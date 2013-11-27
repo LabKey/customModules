@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.DbScope;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.etl.DataIterator;
 import org.labkey.api.etl.DataIteratorContext;
@@ -133,15 +134,11 @@ public class AdaptationSaveHandler implements AssaySaveHandler
                 TableInfo table = getFlasksTableInfo(context.getContainer(), context.getUser());
                 QueryUpdateService qus = table.getUpdateService();
 
-                table.getSchema().getScope().ensureTransaction();
-                try
+
+                try (DbScope.Transaction transaction = table.getSchema().getScope().ensureTransaction())
                 {
                     qus.updateRows(context.getUser(), context.getContainer(), samples, samples, null);
-                    table.getSchema().getScope().commitTransaction();
-                }
-                finally
-                {
-                    table.getSchema().getScope().closeConnection();
+                    transaction.commit();
                 }
             }
         }
