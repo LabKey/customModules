@@ -128,7 +128,7 @@ function colorExperimentGroups(form)
             if (valid)
                 cmp.setTitle(cmp.experimentId);
             else
-                cmp.setTitle("<span style='color:red;'><b>" + cmp.experimentId + "</b></span>");
+                cmp.setTitle("<span style='color:red;'><b>" + Ext4.util.Format.htmlEncode(cmp.experimentId) + "</b></span>");
         }
     }
     form.doLayout();
@@ -155,7 +155,7 @@ function handleError(msg, reset)
     var errorEl = document.getElementById('error-div');
     if(!(reset))
     {
-        errorEl.innerHTML += "<span style='color:red;'>> " + msg + "<br/></span>";
+        errorEl.innerHTML += "<span style='color:red;'>> " + Ext4.util.Format.htmlEncode(msg) + "<br/></span>";
         Ext4.Msg.hide();
     }
     else
@@ -163,7 +163,6 @@ function handleError(msg, reset)
         errorEl.innerHTML = "";
     }
 }
-
 
 Ext4.onReady(function() {
     var params = LABKEY.ActionURL.getParameters();

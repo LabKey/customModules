@@ -81,13 +81,6 @@ public class TrackingSaveHandler extends IcemrSaveHandler
     }
 
     @Override
-    public void afterSave(ViewContext context, ExpExperiment batch, ExpProtocol protocol) throws Exception
-    {
-        if (null != _delegate)
-            _delegate.afterSave(context, batch, protocol);
-    }
-
-    @Override
     public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
     {
         if (null != _delegate)

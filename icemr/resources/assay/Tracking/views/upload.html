@@ -83,7 +83,7 @@ function handleError(msg, reset)
     var errorEl = document.getElementById('error-div');
     if(!(reset))
     {
-        errorEl.innerHTML += "<span style='color:red;'>> " + msg + "<br/></span>";
+        errorEl.innerHTML += "<span style='color:red;'>> " + Ext4.util.Format.htmlEncode(msg) + "<br/></span>";
         Ext4.Msg.hide();
     }
     else

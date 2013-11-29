@@ -124,7 +124,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     // as the adaptation date.
     //
     @Override
-    public void afterSave(ViewContext context, ExpExperiment batch, ExpProtocol protocol) throws Exception
+    public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
     {
         if (_samplesToCheckForAdaptation.size() > 0)
         {
@@ -142,15 +142,6 @@ public class AdaptationSaveHandler implements AssaySaveHandler
                 }
             }
         }
-    }
-
-    @Override
-    public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
-    {
-        // we are updating the flasks sample set so it doesn't matter if we
-        // have one or multiple batches; we'll update all the samples at the same time
-        if (batches.length > 0)
-            afterSave(context, batches[0], protocol);
     }
 
     // return the Culture Adaptation sample set table
