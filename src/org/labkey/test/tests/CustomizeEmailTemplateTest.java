@@ -150,7 +150,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         Assert.assertEquals("/labkey", emailNVPs.get("contextPath"));
         Assert.assertEquals("My Study", emailNVPs.get("folderName"));
         Assert.assertEquals("/EmailTemplateProject/My Study", emailNVPs.get("folderPath"));
-        Assert.assertEquals("http://localhost:8080/labkey", emailNVPs.get("homePageURL"));
+        Assert.assertEquals(getBaseURL(), emailNVPs.get("homePageURL"));
     }
 
 
