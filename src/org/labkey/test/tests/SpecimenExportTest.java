@@ -21,7 +21,10 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyB;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
 
 /**
  * User: cnathe
@@ -153,52 +156,85 @@ public class SpecimenExportTest extends SpecimenBaseTest
     private void verifySpecimenSettingsInArchive()
     {
         log("verify specimen settings in study.xml");
-        _fileBrowserHelper.selectFileBrowserItem("export/study/study.xml");
-        doubleClick(Locator.xpath("//div[contains(@class, 'x4-grid-cell-inner') and text()='study.xml']"));
-        waitForText("<specimens dir=\"specimens\" settings=\"specimen_settings.xml\" file=\"Study.specimens\"/>");
+        File studyXml = new File(getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/study.xml");
+        String studyXmlText = getFileContents(studyXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
+        assertTrue(studyXmlText.contains("<specimens dir=\"specimens\" settings=\"specimen_settings.xml\" file=\"Study.specimens\"/>"));
 
         log("verify specimen_settings.xml");
-        clickAndWait(Locator.linkWithText("Manage Files"));
-        _fileBrowserHelper.selectFileBrowserItem("export/study/specimens/specimen_settings.xml");
-        //TODO: broken: https://www.labkey.org/issues/home/Developer/issues/details.view?issueId=19029
-        doubleClick(Locator.xpath("//div[contains(@class, 'x4-grid-cell-inner') and text()='specimen_settings.xml']"));
-        waitForText("<specimens repositoryType=\"ADVANCED\" enableRequests=\"true\" editableRepository=\"true\"");
-        assertTextPresentInThisOrder(
-            "<webPartGroupings>",
-                "<groupBy>Processing Location</groupBy>",
-                "<groupBy>Tube Type</groupBy>",
-            "</webPartGroupings>");
-        assertTextPresentInThisOrder(
-            "<locationTypes>",
-                "<repository allowRequests=\"true\"/>",
-                "<clinic allowRequests=\"false\"/>",
-                "<siteAffiliatedLab allowRequests=\"false\"/>",
-                "<endpointLab allowRequests=\"true\"/>",
-            "</locationTypes>");
-        assertTextPresentInThisOrder(
-            "<requestStatuses>",
-                "<status label=\"New Request\" finalState=\"false\" lockSpecimens=\"true\"/>",
-                "<status label=\"Processing\" finalState=\"false\" lockSpecimens=\"true\"/>",
-                "<status label=\"Completed\" finalState=\"true\" lockSpecimens=\"true\"/>",
-                "<status label=\"Rejected\" finalState=\"true\" lockSpecimens=\"false\"/>",
-            "</requestStatuses>");
-        assertTextPresentInThisOrder(
-            "<requestActors>",
-                "<actor label=\"SLG\" type=\"study\">",
-                "<group name=\"SLG\" type=\"project\">",
-                "<ns:user name=\"user1@specimen.test\"/>",
-                "<actor label=\"IRB\" type=\"location\">",
-                "<group name=\"Aurum Health KOSH Lab, Orkney, South Africa\" type=\"project\">",
-                "<ns:user name=\"user2@specimen.test\"/>",
-            "</requestActors>");
-        assertTextPresentInThisOrder(
-            "<defaultRequirements",
-                "<requirement actor=\"IRB\">",
-                "<description>Originating IRB Approval</description>",
-                "<description>Providing IRB Approval</description>",
-                "<description>Receiving IRB Approval</description>",
-                "<requirement actor=\"SLG\">",
-                "<description>SLG Approval</description>",
-            "</defaultRequirements");
+        File specimenSettingsXml = new File(getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/specimens/specimen_settings.xml");
+        String specimenSettingsXmlText = getFileContents(specimenSettingsXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
+
+        assertTrue(specimenSettingsXmlText.contains("<specimens repositoryType=\"ADVANCED\" enableRequests=\"true\" editableRepository=\"true\""));
+        assertTrue(specimenSettingsXmlText.contains(
+                "<webPartGroupings>\n"+
+                    "<grouping>\n"+
+                        "<groupBy>Processing Location</groupBy>\n"+
+                        "<groupBy>Processing Location</groupBy>\n"+
+                        "<groupBy>Processing Location</groupBy>\n"+
+                    "</grouping>\n"+
+                    "<grouping>\n"+
+                        "<groupBy>Tube Type</groupBy>\n"+
+                        "<groupBy>Tube Type</groupBy>\n"+
+                        "<groupBy>Tube Type</groupBy>\n"+
+                    "</grouping>\n"+
+                "</webPartGroupings>"));
+        assertTrue(specimenSettingsXmlText.contains(
+                "<locationTypes>\n" +
+                    "<repository allowRequests=\"true\"/>\n" +
+                    "<clinic allowRequests=\"false\"/>\n" +
+                    "<siteAffiliatedLab allowRequests=\"false\"/>\n" +
+                    "<endpointLab allowRequests=\"true\"/>\n" +
+                "</locationTypes>"));
+        assertTrue(specimenSettingsXmlText.contains(
+                "<requestStatuses>\n" +
+                    "<status label=\"New Request\" finalState=\"false\" lockSpecimens=\"true\"/>\n" +
+                    "<status label=\"Processing\" finalState=\"false\" lockSpecimens=\"true\"/>\n" +
+                    "<status label=\"Completed\" finalState=\"true\" lockSpecimens=\"true\"/>\n" +
+                    "<status label=\"Rejected\" finalState=\"true\" lockSpecimens=\"false\"/>\n" +
+                "</requestStatuses>"));
+        assertTrue(specimenSettingsXmlText.contains(
+                "<requestActors>\n" +
+                    "<actor label=\"SLG\" type=\"study\">\n" +
+                        "<groups>\n" +
+                            "<group name=\"SLG\" type=\"project\">\n" +
+                                "<ns:users xmlns:ns=\"http://labkey.org/security/xml\">\n" +
+                                    "<ns:user name=\"user1@specimen.test\"/>\n" +
+                                "</ns:users>\n" +
+                            "</group>\n" +
+                        "</groups>\n" +
+                    "</actor>\n" +
+                    "<actor label=\"IRB\" type=\"location\">\n" +
+                        "<groups>\n" +
+                            "<group name=\"Aurum Health KOSH Lab, Orkney, South Africa\" type=\"project\">\n" +
+                                "<ns:users xmlns:ns=\"http://labkey.org/security/xml\">\n" +
+                                    "<ns:user name=\"user2@specimen.test\"/>\n" +
+                                "</ns:users>\n" +
+                            "</group>\n" +
+                        "</groups>\n" +
+                    "</actor>\n" +
+                "</requestActors>"));
+        assertTrue(specimenSettingsXmlText.contains(
+                "<defaultRequirements>\n" +
+                    "<originatingLab>\n" +
+                        "<requirement actor=\"IRB\">\n" +
+                            "<description>Originating IRB Approval</description>\n" +
+                        "</requirement>\n" +
+                    "</originatingLab>\n" +
+                    "<providingLab>\n" +
+                        "<requirement actor=\"IRB\">\n" +
+                            "<description>Providing IRB Approval</description>\n" +
+                        "</requirement>\n" +
+                    "</providingLab>\n" +
+                    "<receivingLab>\n" +
+                        "<requirement actor=\"IRB\">\n" +
+                            "<description>Receiving IRB Approval</description>\n" +
+                        "</requirement>\n" +
+                    "</receivingLab>\n" +
+                    "<general>\n" +
+                        "<requirement actor=\"SLG\">\n" +
+                            "<description>SLG Approval</description>\n" +
+                        "</requirement>\n" +
+                    "</general>\n" +
+                "</defaultRequirements>"));
     }
 }
