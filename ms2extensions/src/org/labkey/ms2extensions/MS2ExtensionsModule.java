@@ -25,7 +25,6 @@ import org.labkey.api.data.UpgradeCode;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
-import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.module.ModuleProperty;
 import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
@@ -115,7 +114,7 @@ public class MS2ExtensionsModule extends DefaultModule
         addModuleProperty(schemaProperty);
 
         ModuleProperty queryProperty = new ModuleProperty(this, PEPTIDE_COUNT_QUERY_PROPERTY);
-        queryProperty.setDefaultValue("GetSequestPeptideCounts");
+        queryProperty.setDefaultValue("GetXCorrPeptideCounts");
         queryProperty.setCanSetPerContainer(false);
         addModuleProperty(queryProperty);
 

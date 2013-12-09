@@ -67,7 +67,7 @@ FCSAnalyses.FCSFile.Sample.Property.RECOVR2,
 1 AS METHOD,
 'N' AS REPLACE,
 NULL AS MODDT,
-IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RUNNUM) AS RUNNUM,
+COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RUNNUM), IFDEFINED(FCSAnalyses.FCSFile.Sample.Property."Collection Num")) AS RUNNUM,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RELIABLE), 'Y') AS RELIABLE,
 
 FCSAnalyses.Flag.Comment AS ANALYSIS_COMMENT,
