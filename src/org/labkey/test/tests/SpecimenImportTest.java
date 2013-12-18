@@ -71,7 +71,10 @@ public class SpecimenImportTest extends SpecimenBaseTest
     protected void goToImport()
     {
         waitAndClickAndWait(Locator.linkContainingText("Data"));
-        waitAndClickAndWait(Locator.linkContainingText("Import Specimens"));
+        waitForText("No specimens found");
+        waitForText("Import Specimens");
+        sleep(100);
+        clickAndWait(Locator.linkContainingText("Import Specimens"));
     }
 
     protected void checkRequiredFields(boolean visit)

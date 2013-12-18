@@ -145,6 +145,7 @@ public class SpecimenTest extends SpecimenBaseTest
     private void verifyRequestEnabled()
     {
         clickFolder(getFolderName());
+        waitForElement(Locator.linkWithText("By Individual Vial"));
         assertTextPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementPresent(Locator.navButton("Request Options"));
@@ -529,6 +530,7 @@ public class SpecimenTest extends SpecimenBaseTest
         goToProjectHome();
         clickFolder(getFolderName());
 
+        waitForElement(Locator.linkWithText("By Individual Vial"));
         waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
         waitAndClick(Locator.linkWithText("View Current Requests"));
 
