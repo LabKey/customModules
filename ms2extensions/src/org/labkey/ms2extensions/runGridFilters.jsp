@@ -1,10 +1,3 @@
-<%@ page import="org.labkey.api.util.PageFlowUtil" %>
-<%@ page import="org.labkey.api.view.ActionURL" %>
-<%@ page import="org.labkey.ms2extensions.FilterView" %>
-<%@ page import="org.labkey.api.view.HttpView" %>
-<%@ page import="org.labkey.api.util.GUID" %>
-<%@ page import="org.labkey.ms2extensions.MS2ExtensionsController" %>
-<%@ page import="org.labkey.api.view.ViewContext" %>
 <%
 /*
  * Copyright (c) 2013 LabKey Corporation
@@ -22,10 +15,15 @@
  * limitations under the License.
  */
 %>
+<%@ page import="org.labkey.api.util.GUID" %>
+<%@ page import="org.labkey.api.util.PageFlowUtil" %>
+<%@ page import="org.labkey.api.view.ActionURL" %>
+<%@ page import="org.labkey.api.view.ViewContext" %>
+<%@ page import="org.labkey.ms2extensions.FilterView" %>
+<%@ page import="org.labkey.ms2extensions.MS2ExtensionsController" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
-
 <%
-    ViewContext context = HttpView.currentContext();
+    ViewContext context = getViewContext();
     FilterView peptideView = new FilterView(context);
     String peptideCustomizeViewId = GUID.makeGUID();
     String targetProteinId = GUID.makeGUID();
@@ -102,7 +100,7 @@
         var targetProtein = document.getElementById(<%= PageFlowUtil.jsString(targetProteinId)%>).value;
 
         // Fire off an AJAX request so that we repopulate with the last used values
-        var preferencesURL = <%= PageFlowUtil.jsString(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, context.getContainer()).toString())%>;
+        var preferencesURL = <%= PageFlowUtil.jsString(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()).toString())%>;
         Ext4.Ajax.request({ url: preferencesURL, jsonData:
         {
             peptideFilter : viewName,
