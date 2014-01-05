@@ -27,6 +27,7 @@ import org.labkey.api.exp.api.ExperimentJSONConverter;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.query.ValidationException;
 
+import org.labkey.api.study.assay.AssayRunUploadContext;
 import org.labkey.api.study.assay.AssaySaveHandler;
 import org.labkey.api.view.ViewBackgroundInfo;
 import org.labkey.api.view.ViewContext;
@@ -88,7 +89,7 @@ public class TrackingSaveHandler extends IcemrSaveHandler
     }
 
     @Override
-    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpRun run,
+    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpExperiment batch, ExpRun run,
                                            JSONArray inputDataArray, JSONArray dataArray,
                                            JSONArray inputMaterialArray, JSONObject runJsonObject,
                                            JSONArray outputDataArray, JSONArray outputMaterialArray)
@@ -131,15 +132,16 @@ public class TrackingSaveHandler extends IcemrSaveHandler
             Map<ExpData, String> outputData = new HashMap<>();
             ExpData newData = generateResultData(context, run, dataArray, outputData);
 
-            run = ExperimentService.get().saveSimpleExperimentRun(run,
-                    inputMaterial,
-                    Collections.<ExpData, String>emptyMap(),
-                    Collections.<ExpMaterial, String>emptyMap(),
-                    outputData,
-                    Collections.<ExpData, String>emptyMap(),
-                    new ViewBackgroundInfo(context.getContainer(), context.getUser(), context.getActionURL()), LOG, false);
+            if (dataArray != null)
+            {
+                AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataArray,
+                        Collections.<ExpData, String>emptyMap(),            // input data
+                        outputData,
+                        inputMaterial,
+                        Collections.<ExpMaterial, String>emptyMap());       // output materials
 
-            importRows(context, run, newData, protocol, runJsonObject, dataArray);
+                saveExperimentRun(uploadContext, batch, run);
+            }
         }
         else
         {

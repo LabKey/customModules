@@ -210,7 +210,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     { throw new IllegalStateException(INVALID_ACTION); }
     public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)throws Exception
     { throw new IllegalStateException(INVALID_ACTION); }
-    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpRun run, JSONArray inputDataArray,
+    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpExperiment batch, ExpRun run, JSONArray inputDataArray,
         JSONArray dataArray, JSONArray inputMaterialArray, JSONObject runJsonObject, JSONArray outputDataArray,
         JSONArray outputMaterialArray) throws ExperimentException, ValidationException
     { throw new IllegalStateException(INVALID_ACTION); }

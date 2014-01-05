@@ -19,12 +19,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.labkey.api.exp.ExperimentException;
 import org.labkey.api.exp.api.ExpData;
+import org.labkey.api.exp.api.ExpExperiment;
 import org.labkey.api.exp.api.ExpMaterial;
 import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.exp.api.ExperimentJSONConverter;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.query.ValidationException;
+import org.labkey.api.study.assay.AssayRunUploadContext;
 import org.labkey.api.study.assay.DefaultAssaySaveHandler;
 import org.labkey.api.view.ViewBackgroundInfo;
 import org.labkey.api.view.ViewContext;
@@ -52,7 +54,7 @@ public class IcemrSaveHandler extends DefaultAssaySaveHandler
     // run with any data inputs and attach the data rows
     //
     @Override
-    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpRun run, JSONArray inputDataArray,
+    public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpExperiment batch, ExpRun run, JSONArray inputDataArray,
         JSONArray dataArray, JSONArray inputMaterialArray, JSONObject runJsonObject, JSONArray outputDataArray,
         JSONArray outputMaterialArray) throws ExperimentException, ValidationException
     {
@@ -70,15 +72,15 @@ public class IcemrSaveHandler extends DefaultAssaySaveHandler
         Map<ExpData, String> outputData = new HashMap<>();
         ExpData newData = generateResultData(context, run, dataArray, outputData);
 
-        run = ExperimentService.get().saveSimpleExperimentRun(run,
-                Collections.<ExpMaterial, String>emptyMap(),
-                getInputData(context, inputDataArray),
-                Collections.<ExpMaterial, String>emptyMap(),
-                outputData,
-                Collections.<ExpData, String>emptyMap(),
-                new ViewBackgroundInfo(context.getContainer(),
-                        context.getUser(), context.getActionURL()), LOG, false);
+        if (dataArray != null)
+        {
+            AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataArray,
+                    getInputData(context, inputDataArray),
+                    outputData,
+                    Collections.<ExpMaterial, String>emptyMap(),        // input materials
+                    Collections.<ExpMaterial, String>emptyMap());       // output materials
 
-        importRows(context, run, newData, protocol, runJsonObject, dataArray);
+            saveExperimentRun(uploadContext, batch, run);
+        }
     }
 }
