@@ -43,7 +43,7 @@ public class DrugSensitivityUploadWizardAction extends PlateBasedUploadWizardAct
     protected ModelAndView afterRunCreation(DrugSensitivityRunUploadForm form, ExpRun run, BindException errors) throws ServletException, ExperimentException
     {
         if (form.getReRun() != null)
-            form.getReRun().delete(getViewContext().getUser());
+            form.getReRun().delete(getUser());
         return super.afterRunCreation(form, run, errors);
     }
 
