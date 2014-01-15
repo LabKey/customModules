@@ -21,7 +21,9 @@ import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.Study;
+import org.labkey.test.util.Ext4HelperWD;
 import org.labkey.test.util.ListHelper;
+import org.openqa.selenium.NoSuchElementException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ import java.util.TreeMap;
 import static org.junit.Assert.*;
 
 @Category({CustomModules.class, Study.class})
-public class CAVDStudyTest extends StudyBaseTest
+public class CAVDStudyTest extends StudyBaseTestWD
 {
     private static final String PROJECT_NAME = "CAVDStudyTest Project";
     private static final String FOLDER_NAME = "CAVDStudyTest Folder";
@@ -112,20 +114,15 @@ public class CAVDStudyTest extends StudyBaseTest
 
         // Change timepoint type.
         clickAndWait(Locator.linkWithText("Edit"));
-        waitForText("Timepoint Type");
-        //Can't simply use the checkRadioButton method, it doens't work with Ext 4 yet.
-        if(!_ext4Helper.isChecked("DATE")){
-            click(Locator.ext4Radio("DATE"));
-        }
-        assertTrue(_ext4Helper.isChecked("DATE"));
+        waitForElement(Ext4HelperWD.Locators.radiobutton(this, "DATE"));
+        _ext4Helper.selectRadioButton("DATE");
+
         clickButton("Submit");
-        waitForPageToLoad();
 
         //Check to see if date is checked.
         clickAndWait(Locator.linkWithText("Edit"));
-        waitForText("Timepoint Type");
-        assertTrue(_ext4Helper.isChecked("DATE"));
-
+        waitForElement(Ext4HelperWD.Locators.radiobutton(this, "DATE"));
+        assertTrue(_ext4Helper.isChecked(Locator.ext4Radio("DATE")));
     }
 
     private void doVerifyStudyDesign()
@@ -290,11 +287,9 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickFolder("CAVDStudyTest Folder");
         clickTab("Assays");
-        waitForText("Edit");
-        clickAndWait(Locator.linkContainingText("Edit"));
-        waitForText("Configure Dropdown Options");
-        click(Locator.linkContainingText("Configure Dropdown Options"));
-        clickAndWait(Locator.linkWithText(projectStr).index(index));
+        waitAndClickButton("Edit");
+        waitAndClick(Locator.linkContainingText("Configure Dropdown Options"));
+        waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
     }
 
     private void goToVaccineConfigureLookupValues(boolean project, int index)
@@ -310,11 +305,9 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickFolder("CAVDStudyTest Folder");
         clickTab("Vaccine Design");
-        waitForText("Edit");
-        clickAndWait(Locator.linkContainingText("Edit"));
-        waitForText("Configure Dropdown Options");
-        click(Locator.linkContainingText("Configure Dropdown Options"));
-        clickAndWait(Locator.linkWithText(projectStr).index(index));
+        waitAndClickButton("Edit");
+        waitAndClick(Locator.linkContainingText("Configure Dropdown Options"));
+        waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
     }
 
     private void insertLookupRecord(String name, String label)
@@ -662,8 +655,8 @@ public class CAVDStudyTest extends StudyBaseTest
         waitForElement(Locator.id("DefineGroupDialog"));
         if (cohortExists)
         {
-            click(Locator.name("cohortType").index(1));
-            setFormElement(Locator.name("existName"), name);
+            checkRadioButton(Locator.name("cohortType").index(1));
+            selectOptionByText(Locator.name("existName"), name);
         }
         else
         {
@@ -723,8 +716,15 @@ public class CAVDStudyTest extends StudyBaseTest
     private int revision = 1;
     private void saveRevision()
     {
+        waitForElementToDisappear(Locator.tag("a").withText("Save").withClass("labkey-disabled-button"));
         clickButton("Save", 0);
-        waitForText("Revision "+(++revision)+" saved successfully.", WAIT_FOR_JAVASCRIPT);
+        Locator successText = Locator.tag("div").withClass("gwt-Label").withText("Revision "+(++revision)+" saved successfully.");
+        if (!waitForElement(successText, WAIT_FOR_JAVASCRIPT, false))
+        {
+            clickButton("Save", 0); // GWT retry
+        }
+        waitForElement(successText);
+        waitForElement(Locator.tag("a").withText("Save").withClass("labkey-disabled-button"));
     }
 
     private void finishRevision()
