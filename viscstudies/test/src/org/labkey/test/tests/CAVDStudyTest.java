@@ -198,8 +198,7 @@ public class CAVDStudyTest extends StudyBaseTestWD
         clickAndWait(Locator.linkWithText("Submit"));
         // 2. verify that the Canarypox option, although inactive is still present.
         clickTab("Vaccine Design");
-        waitForText("Edit");
-        clickAndWait(Locator.linkContainingText("Edit"));
+        waitAndClickButton("Edit");
         waitForElement(Locator.navButton("Finished"));
         selectOptionByText(Locator.xpath("//select[@title='Immunogen 1 type']"), "Canarypox");
     }
