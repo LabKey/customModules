@@ -81,7 +81,7 @@ public class ViscStudyFolderType extends MultiPortalFolderType
         try
         {
             if (null == StudyService.get().getStudy(c))
-                StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE);
+                StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE, true);
 
         }
         catch (SQLException e)
