@@ -303,7 +303,7 @@ public class AliquotTest extends SpecimenBaseTest
         setFormElement(Locator.xpath("//input[@name='quf_GlobalUniqueId']"), "Global");
         setFormElement(Locator.xpath("//input[@name='quf_VisitDescription']"), "NewVisit");
         setFormElement(Locator.xpath("//input[@name='quf_SequenceNum']"), "001");
-        setFormElement(Locator.name("quf_ParticipantId"), "618005775");
+        selectOptionByText(Locator.name("quf_ParticipantId"), "618005775");
         clickButton("Submit");
         assertTextNotPresent("Error");
         setFilter("SpecimenDetail", "VisitDescription", "Equals", "NewVisit");
