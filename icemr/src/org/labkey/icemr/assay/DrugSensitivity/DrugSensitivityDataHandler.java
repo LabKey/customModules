@@ -18,12 +18,12 @@ package org.labkey.icemr.assay.DrugSensitivity;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.labkey.api.assay.dilution.DilutionAssayProvider;
 import org.labkey.api.assay.dilution.DilutionAssayRun;
-import org.labkey.api.assay.dilution.DilutionCurve;
 import org.labkey.api.assay.dilution.DilutionDataHandler;
 import org.labkey.api.assay.dilution.DilutionSummary;
 import org.labkey.api.assay.dilution.SampleProperty;
 import org.labkey.api.assay.nab.NabSpecimen;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.statistics.StatsService;
 import org.labkey.api.exp.ExperimentException;
 import org.labkey.api.exp.Lsid;
 import org.labkey.api.exp.ObjectProperty;
@@ -173,7 +173,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     }
 
     @Override
-    protected DilutionAssayRun createDilutionAssayRun(DilutionAssayProvider provider, ExpRun run, List<Plate> plates, User user, List<Integer> sortedCutoffs, DilutionCurve.FitType fit)
+    protected DilutionAssayRun createDilutionAssayRun(DilutionAssayProvider provider, ExpRun run, List<Plate> plates, User user, List<Integer> sortedCutoffs, StatsService.CurveFitType fit)
     {
         return new DrugSensitivityAssayRun(provider, run, plates.get(0), user, sortedCutoffs, fit);
     }
@@ -182,7 +182,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     /**
      * consider pushing this into the base data handler class
      */
-    public Map<DilutionSummary, DilutionAssayRun> getDilutionSummaries(User user, DilutionCurve.FitType fit, int... dataObjectIds) throws ExperimentException, SQLException
+    public Map<DilutionSummary, DilutionAssayRun> getDilutionSummaries(User user, StatsService.CurveFitType fit, int... dataObjectIds) throws ExperimentException, SQLException
     {
         Map<DilutionSummary, DilutionAssayRun> summaries = new LinkedHashMap<>();
         if (dataObjectIds == null || dataObjectIds.length == 0)

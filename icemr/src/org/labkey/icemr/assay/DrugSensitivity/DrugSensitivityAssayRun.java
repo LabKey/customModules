@@ -23,6 +23,7 @@ import org.labkey.api.assay.dilution.DilutionManager;
 import org.labkey.api.assay.dilution.DilutionMaterialKey;
 import org.labkey.api.assay.dilution.DilutionSummary;
 import org.labkey.api.assay.nab.Luc5Assay;
+import org.labkey.api.data.statistics.StatsService;
 import org.labkey.api.exp.PropertyDescriptor;
 import org.labkey.api.exp.api.DataType;
 import org.labkey.api.exp.api.ExpData;
@@ -53,7 +54,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     private Double _initialParasitemia;
 
     public DrugSensitivityAssayRun(DilutionAssayProvider provider, ExpRun run, Plate plate,
-                                   User user, List<Integer> cutoffs, DilutionCurve.FitType renderCurveFitType)
+                                   User user, List<Integer> cutoffs, StatsService.CurveFitType renderCurveFitType)
     {
         super(provider, run, user, cutoffs, renderCurveFitType);
 
@@ -244,7 +245,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
 
     public static class DrugSensitivityDilutionSummary extends DilutionSummary
     {
-        public DrugSensitivityDilutionSummary(Luc5Assay assay, List<WellGroup> sampleGroups, String lsid, DilutionCurve.FitType curveFitType)
+        public DrugSensitivityDilutionSummary(Luc5Assay assay, List<WellGroup> sampleGroups, String lsid, StatsService.CurveFitType curveFitType)
         {
             super(assay, sampleGroups, lsid, curveFitType);
         }
