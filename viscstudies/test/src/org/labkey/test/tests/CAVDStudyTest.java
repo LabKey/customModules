@@ -674,9 +674,9 @@ public class CAVDStudyTest extends StudyBaseTestWD
     {
         click(Locator.xpath("//div[text() = 'Add Timepoint']"));
         waitForElement(Locator.id("DefineTimepointDialog"));
-        setFormElement("timepointName", name);
-        setFormElement("timepointCount", count);
-        setFormElement("timepointUnit", unit.toString());
+        setFormElement(Locator.name("timepointName"), name);
+        setFormElement(Locator.name("timepointCount"), count);
+        selectOptionByText(Locator.name("timepointUnit"), unit.toString());
         clickButton("OK", 0);
         waitForElementToDisappear(Locator.id("DefineTimepointDialog"), WAIT_FOR_JAVASCRIPT);
     }
