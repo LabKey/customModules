@@ -23,9 +23,9 @@
 
     <target name="gather_modules">
         <copy todir="${dist.modules.dir}">
-            <fileset dir="${staging.modules.dir}">
-                <include name="icemr.module" />
-            </fileset>
+            <filelist dir="${staging.modules.dir}">
+                <file name="icemr.module" />
+            </filelist>
         </copy>
     </target>
 
