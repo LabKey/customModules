@@ -16,6 +16,7 @@
 
 package org.labkey.test.tests;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.experimental.categories.Category;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Hashtable;
 
 import static org.junit.Assert.*;
 
@@ -128,6 +130,7 @@ public class SpecimenTest extends SpecimenBaseTest
         verifyRequestEnabled();
         disableRequests();
         verifyRequestsDisabled();
+        verifyDrawTimestamp();
     }
 
     private void disableRequests()
@@ -889,5 +892,142 @@ public class SpecimenTest extends SpecimenBaseTest
             log("Checking column: "+ columnAndValue[0]);
             assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
         }
+    }
+
+    private final Hashtable<String, String> _drawTimestampConflicts = new Hashtable<>();
+    private boolean _spotCheckNoConflict;
+
+    @LogMethod
+    private void verifyDrawTimestamp()
+    {
+        String SPECIMEN_ARCHIVE_DTS = getStudySampleDataPath() + "specimens/dts.specimens";
+        startSpecimenImport(2, SPECIMEN_ARCHIVE_DTS);
+        waitForSpecimenImport();
+
+        // load our expected results
+        _drawTimestampConflicts.put("526455390.2504.346", "Conflicts found: DrawDate");
+        _drawTimestampConflicts.put("526515315.6304.370", "Conflicts found: DrawTime");
+        _drawTimestampConflicts.put("526515315.6304.375", "Conflicts found: DrawDate, DrawTime");
+        _drawTimestampConflicts.put("526515651.3704.363", "Conflicts found: DrawDate, DrawTime");
+        _spotCheckNoConflict = true;
+
+        clickTab("Specimen Data");
+        waitForVialSearch();
+        clickAndWait(Locator.linkWithText("By Individual Vial"));
+
+        DataRegionTable table = new DataRegionTable("SpecimenDetail", this);
+
+        int rowCount = table.getDataRowCount() - 1; // ignore the total row count row
+        for (int i = 0; i < rowCount; i ++)
+        {
+            String drawTimestamp = table.getDataAsText(i, "Draw Timestamp");
+            String drawDate = table.getDataAsText(i, "Draw Date");
+            String drawTime = table.getDataAsText(i, "Draw Time");
+            String qcControlComments = table.getDataAsText(i, "Quality Control Comments");
+            String id = table.getDataAsText(i, "Global Unique Id");
+
+            verifyDrawTimestampConflict(qcControlComments, drawTimestamp, drawDate, drawTime);
+            verifyDrawTimestampExpectedConflict(id, qcControlComments);
+
+            if (doSpecimenEventCheck(qcControlComments))
+            {
+                clickAndWait(Locator.linkContainingText("[history]", i));
+                verifyHistory(qcControlComments);
+            }
+        }
+    }
+
+     // spot check the specimen events for all conflicts and only for one non-conflict
+    private boolean doSpecimenEventCheck(String qcControlComments)
+    {
+        if (StringUtils.isNotBlank(qcControlComments))
+            return true;
+
+        if (_spotCheckNoConflict)
+        {
+            _spotCheckNoConflict = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void verifyDrawTimestampExpectedConflict(String id, String qcControl)
+    {
+        if (StringUtils.isBlank(qcControl))
+        {
+            assertFalse(id + " should not have a QC conflict", _drawTimestampConflicts.containsKey(id));
+        }
+        else
+        {
+            assertTrue(id + " should have a QC conflict",_drawTimestampConflicts.containsKey(id));
+            String expectedConflict = _drawTimestampConflicts.get(id);
+            assertTrue(id + " " + expectedConflict + " is not equal to " + qcControl, expectedConflict.equalsIgnoreCase(qcControl));
+        }
+    }
+
+    private void verifyDrawTimestampConflict(String qcControl, String timestamp, String date, String time)
+    {
+        if (StringUtils.isBlank(qcControl))
+        {
+            // no conflict, so all three fields shold be valid
+            assertTrue(StringUtils.isNotBlank(timestamp));
+            assertTrue(StringUtils.isNotBlank(time));
+            assertTrue(StringUtils.isNotBlank(date));
+            assertTrue(timestamp.contains(date));
+
+            // timestamp does not contain seconds but the time field does
+            assertTrue(timestamp.contains(time.substring(0, time.lastIndexOf(":"))));
+        }
+        else
+        {
+            // All of the specimens in dts specimens table should only have Draw Timestamp related
+            // conflicts.  If there is a conflict, then the timestamp should be blank
+            assertTrue(StringUtils.isBlank(timestamp));
+
+            if (qcControl.contains("DrawDate"))
+                assertTrue(StringUtils.isBlank(date));
+            else
+                assertFalse(StringUtils.isBlank(date));
+
+            if(qcControl.contains("DrawTime"))
+                assertTrue(StringUtils.isBlank(time));
+            else
+                assertFalse(StringUtils.isBlank(time));
+        }
+    }
+
+    @LogMethod
+    private void verifyHistory(String qcControl)
+    {
+        DataRegionTable table = new DataRegionTable("SpecimenEvent", this);
+
+        String prevDrawTimestamp = null;
+        String drawTimestamp;
+        boolean foundConflict = false;
+
+        for (int i = 0; i < table.getDataRowCount(); i++)
+        {
+            drawTimestamp = table.getDataAsText(i, "Draw Timestamp");
+
+            if (null == prevDrawTimestamp)
+            {
+                prevDrawTimestamp = drawTimestamp;
+            }
+            else
+            if (!prevDrawTimestamp.equalsIgnoreCase(drawTimestamp))
+            {
+                foundConflict = true;
+                break;
+            }
+        }
+
+        if (foundConflict)
+            assertTrue(StringUtils.isNotBlank(qcControl));
+        else
+            assertTrue(StringUtils.isBlank(qcControl));
+
+        goBack();
+        waitForText("[history]");
     }
 }
