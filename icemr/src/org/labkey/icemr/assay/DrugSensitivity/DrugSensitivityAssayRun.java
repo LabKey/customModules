@@ -17,12 +17,12 @@ package org.labkey.icemr.assay.DrugSensitivity;
 
 import org.labkey.api.assay.dilution.DilutionAssayProvider;
 import org.labkey.api.assay.dilution.DilutionAssayRun;
-import org.labkey.api.assay.dilution.DilutionCurve;
 import org.labkey.api.assay.dilution.DilutionDataHandler;
 import org.labkey.api.assay.dilution.DilutionManager;
 import org.labkey.api.assay.dilution.DilutionMaterialKey;
 import org.labkey.api.assay.dilution.DilutionSummary;
 import org.labkey.api.assay.nab.Luc5Assay;
+import org.labkey.api.data.statistics.FitFailedException;
 import org.labkey.api.data.statistics.StatsService;
 import org.labkey.api.exp.PropertyDescriptor;
 import org.labkey.api.exp.api.DataType;
@@ -158,13 +158,13 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     }
 
     @Override
-    public double getPercent(WellGroup group, WellData data) throws DilutionCurve.FitFailedException
+    public double getPercent(WellGroup group, WellData data) throws FitFailedException
     {
         Plate plate = group.getPlate();
 
         WellGroup virusControl = plate.getWellGroup(WellGroup.Type.CONTROL, DilutionManager.VIRUS_CONTROL_SAMPLE);
         if (virusControl == null)
-            throw new DilutionCurve.FitFailedException("Invalid plate template: no virus control well group was found.");
+            throw new FitFailedException("Invalid plate template: no virus control well group was found.");
 
         double controlRange = 0.0;
 
