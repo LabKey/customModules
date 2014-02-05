@@ -336,6 +336,7 @@ Ext4.onReady(function(){
                         // We're cheating a bit here since we could override the generateScales and generateAes functions,
                         // however we only want to alter the color aesthetic and x scale, so we manipulate it here instead.
                         aes.color = function(row){return row.SampleID.value};
+                        aes.pathColor = function(rows){return rows[0].SampleID.value};
                         scales.x.tickFormat = function(val){
                             if(val !== null && val !== undefined){
                                 return "Day " + val;

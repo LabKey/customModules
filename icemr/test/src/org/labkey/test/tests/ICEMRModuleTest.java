@@ -160,7 +160,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         Locator.XPathLocator visButton = Locator.navButtonContainingText("Visualization");
         waitAndClick(visButton);
         waitForText("ICEMR Visualization");
-        Locator.CssLocator datapoint = Locator.css("svg a");
+        Locator.CssLocator datapoint = Locator.css("svg g a.point");
         waitForElement(datapoint);
         String datapointData = getAttribute(datapoint, "title");
         for(String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
