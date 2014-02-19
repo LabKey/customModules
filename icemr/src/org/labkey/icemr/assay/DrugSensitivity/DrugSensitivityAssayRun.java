@@ -22,6 +22,7 @@ import org.labkey.api.assay.dilution.DilutionManager;
 import org.labkey.api.assay.dilution.DilutionMaterialKey;
 import org.labkey.api.assay.dilution.DilutionSummary;
 import org.labkey.api.assay.nab.Luc5Assay;
+import org.labkey.api.assay.nab.view.RunDetailOptions;
 import org.labkey.api.data.statistics.FitFailedException;
 import org.labkey.api.data.statistics.StatsService;
 import org.labkey.api.exp.PropertyDescriptor;
@@ -136,7 +137,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
                 if (!summary.isBlank())
                 {
                     DilutionMaterialKey key = summary.getMaterialKey();
-                    String shortCaption = key.getDisplayString(false);
+                    String shortCaption = key.getDisplayString(RunDetailOptions.DataIdentifier.DefaultFormat);
                     if (captions.contains(shortCaption))
                         longCaptions = true;
                     captions.add(shortCaption);
@@ -256,7 +257,6 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
             if (_materialKey == null)
             {
                 WellGroup firstWellGroup = getFirstWellGroup();
-                String specimenId = (String) firstWellGroup.getProperty(AbstractAssayProvider.SPECIMENID_PROPERTY_NAME);
                 Double visitId = (Double) firstWellGroup.getProperty(AbstractAssayProvider.VISITID_PROPERTY_NAME);
                 String participantId = (String) firstWellGroup.getProperty(AbstractAssayProvider.PARTICIPANTID_PROPERTY_NAME);
                 Date visitDate = (Date) firstWellGroup.getProperty(AbstractAssayProvider.DATE_PROPERTY_NAME);
