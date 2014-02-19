@@ -21,7 +21,10 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
+
+import static org.junit.Assert.*;
 
 @Category({DailyA.class})
 public class SpecimenImportTest extends SpecimenBaseTest
@@ -119,10 +122,11 @@ public class SpecimenImportTest extends SpecimenBaseTest
     {
         click(Locator.linkContainingText("Data"));
         waitAndClick(Locator.linkContainingText("By Individual Vial"));
-        assertTextAtPlaceInTable("1", "dataregion_SpecimenDetail", 5, 1);
-        assertTextAtPlaceInTable("1", "dataregion_SpecimenDetail", 5, 2);
-        assertTextAtPlaceInTable("3", "dataregion_SpecimenDetail", 7, 1);
-        assertTextAtPlaceInTable("3", "dataregion_SpecimenDetail", 7, 2);
+        DataRegionTable region = new DataRegionTable("SpecimenDetail", this);
+        assertTrue("Failed to find Participant ID 1", region.getRow("Participant Id", "1") == 0);
+        assertTrue("Failed to find Global Unique ID 1", region.getRow("Global Unique Id", "1") == 0);
+        assertTrue("Failed to find Participant ID 3", region.getRow("Participant Id", "3") == 2);
+        assertTrue("Failed to find Global Unique ID 3", region.getRow("Global Unique Id", "3") == 2);
     }
 
 
