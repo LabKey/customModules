@@ -153,7 +153,7 @@ LABKEY.icemr.fixupLookup = function(meta, metaType) {
 
     // the getDefaultEditorConfig code in util.js expects a lookup object, so create one here
     // if our metadata has lookup information
-    if (meta.lookupContainer && meta.lookupQuery && meta.lookupSchema && !meta.lookup)    {
+    if (meta.lookupQuery && meta.lookupSchema && !meta.lookup)    {
         meta.lookup = {
             container : meta.lookupContainer,
             schemaName : meta.lookupSchema,
