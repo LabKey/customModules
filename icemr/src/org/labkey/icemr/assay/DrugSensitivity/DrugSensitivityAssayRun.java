@@ -262,7 +262,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
                 Date visitDate = (Date) firstWellGroup.getProperty(AbstractAssayProvider.DATE_PROPERTY_NAME);
                 String treatmentName = firstWellGroup.getProperty(DrugSensitivityAssayProvider.TREATMENT_NAME_PROPERTY_NAME).toString();
 
-                _materialKey = new DilutionMaterialKey(treatmentName, participantId, visitId, visitDate);
+                _materialKey = new DilutionMaterialKey(_container, treatmentName, participantId, visitId, visitDate);
             }
             return _materialKey;
         }
