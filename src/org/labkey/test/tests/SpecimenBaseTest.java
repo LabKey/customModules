@@ -59,7 +59,7 @@ public abstract class SpecimenBaseTest extends StudyBaseTestWD
                         "FROM " + SPECIMEN_DETAIL + "\n" +
                         "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
         clickButton("Save", 0);
-        waitForText("Saved", WAIT_FOR_JAVASCRIPT);
+        waitForElement(Locator.css(".labkey-status-info").withText("Saved"));
 
         clickFolder(getFolderName());
         waitAndClick(Locator.linkWithText("Manage Study"));

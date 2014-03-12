@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -145,6 +146,8 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Submit");
     }
 
+    private static String[] requestColumns = {"Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count"};
+
     private void verifyRequestEnabled()
     {
         clickFolder(getFolderName());
@@ -152,7 +155,12 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementPresent(Locator.navButton("Request Options"));
-        assertTextPresent("Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count");
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this, true, true);
+        List<String> columnHeaders = specimenTable.getColumnHeaders();
+        for (String column : requestColumns)
+        {
+            assertTrue("Request column not found: " + column, columnHeaders.contains(column));
+        }
         clickAndWait(Locator.linkWithText("Reports"));
         assertTextPresent("Requested Vials by Type and Timepoint", "Request Summary");
         clickButton("View");
@@ -166,7 +174,12 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextNotPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementNotPresent(Locator.navButton("Request Options"));
-        assertTextNotPresent("Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count");
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this, true, true);
+        List<String> columnHeaders = specimenTable.getColumnHeaders();
+        for (String column : requestColumns)
+        {
+            assertFalse("Request column found when requests are disabled: " + column, columnHeaders.contains(column));
+        }
         clickAndWait(Locator.linkWithText("Reports"));
         assertTextNotPresent("Requested Vials by Type and Timepoint", "Request Summary");
         clickButton("View");
