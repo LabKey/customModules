@@ -33,7 +33,7 @@ import java.util.TreeMap;
 import static org.junit.Assert.*;
 
 @Category({CustomModules.class, Study.class})
-public class CAVDStudyTest extends StudyBaseTestWD
+public class CAVDStudyTest extends StudyBaseTest
 {
     private static final String PROJECT_NAME = "CAVDStudyTest Project";
     private static final String FOLDER_NAME = "CAVDStudyTest Folder";
