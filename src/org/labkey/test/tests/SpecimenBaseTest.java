@@ -26,7 +26,7 @@ import org.labkey.test.util.LogMethod;
  */
 
 // Base class for SpecimenTest and AliquotTest
-public abstract class SpecimenBaseTest extends StudyBaseTestWD
+public abstract class SpecimenBaseTest extends StudyBaseTest
 {
     public static final String SPECIMEN_DETAIL = "SpecimenDetail";
     protected static final String DESTINATION_SITE = "Aurum Health KOSH Lab, Orkney, South Africa (Endpoint Lab, Repository)";

@@ -28,7 +28,7 @@ import org.labkey.test.util.LogMethod;
  * Time: 1:44 PM
  */
 @Category({DailyA.class, Specimen.class})
-public class SpecimenMultipleImportTest extends StudyBaseTestWD
+public class SpecimenMultipleImportTest extends StudyBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
 
