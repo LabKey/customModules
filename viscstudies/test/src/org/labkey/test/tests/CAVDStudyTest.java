@@ -22,8 +22,7 @@ import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.Study;
 import org.labkey.test.util.Ext4HelperWD;
-import org.labkey.test.util.ListHelper;
-import org.openqa.selenium.NoSuchElementException;
+import org.labkey.test.util.ListHelperWD;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -89,12 +88,6 @@ public class CAVDStudyTest extends StudyBaseTest
         createSubfolder(PROJECT_NAME, PROJECT_NAME, folderName, "Collaboration", null);
         importFolderFromZip(new File(getLabKeyRoot(), CAVD_TEST_STUDY_ZIP));
         waitForPipelineJobsToComplete(1, "Folder import", false);
-    }
-
-    @Override
-    protected boolean isFileUploadTest()
-    {
-        return true; // for importFolderFromZip
     }
 
     @Override
@@ -332,10 +325,10 @@ public class CAVDStudyTest extends StudyBaseTest
         clickAndWait(Locator.linkWithText("Manage Datasets"));
 
         assertTextPresent("Placeholder", 4);
-        assertLinkPresentWithText("ELISPOT");
-        assertLinkPresentWithText("Neutralizing Antibodies Panel 1");
-        assertLinkPresentWithText("ICS");
-        assertLinkPresentWithText("CAVDTestAssay");
+        assertElementPresent(Locator.linkWithText("ELISPOT"));
+        assertElementPresent(Locator.linkWithText("Neutralizing Antibodies Panel 1"));
+        assertElementPresent(Locator.linkWithText("ICS"));
+        assertElementPresent(Locator.linkWithText("CAVDTestAssay"));
 
         clickAndWait(Locator.linkWithText("Manage"));
         clickAndWait(Locator.linkWithText("Manage Timepoints"));
@@ -415,8 +408,8 @@ public class CAVDStudyTest extends StudyBaseTest
         clickFolder(FOLDER_NAME4);
         enableModule("ViscStudies", false);
         goToViscStudiesQuery(FOLDER_NAME4);
-        assertLinkPresentWithText(study2name);
-        assertLinkPresentWithText(study3name);
+        assertElementPresent(Locator.linkWithText(study2name));
+        assertElementPresent(Locator.linkWithText(study3name));
         for (String datasetName : DATASETS.values())
         {
             assertElementPresent(Locator.xpath("//td[text()='"+datasetName+"']"), 2);
@@ -451,11 +444,11 @@ public class CAVDStudyTest extends StudyBaseTest
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
         addWebPart("Lists");
-        ListHelper.ListColumn[] columns = new ListHelper.ListColumn[] {
-                new ListHelper.ListColumn("MyStudyName", "MyStudyName", ListHelper.ListColumnType.String, ""),
-                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies"))
+        ListHelperWD.ListColumn[] columns = new ListHelperWD.ListColumn[] {
+                new ListHelperWD.ListColumn("MyStudyName", "MyStudyName", ListHelperWD.ListColumnType.String, ""),
+                new ListHelperWD.ListColumn("StudyLookup", "StudyLookup", ListHelperWD.ListColumnType.String, "", new ListHelperWD.LookupInfo(null, "viscstudies", "studies"))
         };
-        _listHelper.createList(FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
+        _listHelper.createList(FOLDER_NAME4, "AllStudiesList", ListHelperWD.ListColumnType.AutoInteger, "Key", columns);
         clickButton("Done");
 
         log("Add records to list for each study.");
