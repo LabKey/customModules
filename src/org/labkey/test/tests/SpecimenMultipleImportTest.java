@@ -45,12 +45,6 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
     }
 
     @Override
-    protected boolean isFileUploadTest()
-    {
-        return true;
-    }
-
-    @Override
     protected BrowserType bestBrowser()
     {
         return BrowserType.CHROME;

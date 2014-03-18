@@ -48,12 +48,6 @@ public class AliquotTest extends SpecimenBaseTest
     }
 
     @Override
-    protected boolean isFileUploadTest()
-    {
-        return true;
-    }
-
-    @Override
     protected BrowserType bestBrowser()
     {
         return BrowserType.CHROME;

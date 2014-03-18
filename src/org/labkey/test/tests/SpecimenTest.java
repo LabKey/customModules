@@ -73,12 +73,6 @@ public class SpecimenTest extends SpecimenBaseTest
     }
 
     @Override
-    protected boolean isFileUploadTest()
-    {
-        return true;
-    }
-
-    @Override
     protected BrowserType bestBrowser()
     {
         return BrowserType.CHROME;
@@ -195,7 +189,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
         setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
-        assertLinkPresentWithTextCount("[history]", 1);
+        assertElementPresent(Locator.linkWithText("[history]"), 1);
         // There's a conflict in TubeType for this vial's events; verify that no TubeType is populated at the vial level
         assertTextNotPresent("Cryovial");
         clickAndWait(Locator.linkWithText("[history]"));
@@ -207,7 +201,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitAndClick(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitAndClickAndWait(Locator.linkWithText("Tear Flo Strips"));
         // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
-        assertLinkPresentWithTextCount("[history]", 3);
+        assertElementPresent(Locator.linkWithText("[history]"), 3);
         assertTextPresent("15ml Cryovial", 3);
     }
 
@@ -592,12 +586,12 @@ public class SpecimenTest extends SpecimenBaseTest
         checkCheckbox("viewPtidList");
         uncheckCheckbox("viewVialCount");
         clickButton("Refresh");
-        assertLinkPresentWithTextCount(PTIDS[0], 3);
-        assertLinkPresentWithTextCount(PTIDS[1], 5);
+        assertElementPresent(Locator.linkWithText(PTIDS[0]), 3);
+        assertElementPresent(Locator.linkWithText(PTIDS[1]), 5);
         selectOptionByText(Locator.name("participantGroupFilter"), "Category1");
         clickButton("Refresh");
-        assertLinkPresentWithTextCount(PTIDS[0], 3);
-        assertLinkPresentWithTextCount(PTIDS[1], 5);
+        assertElementPresent(Locator.linkWithText(PTIDS[0]), 3);
+        assertElementPresent(Locator.linkWithText(PTIDS[1]), 5);
     }
 
     @LogMethod
