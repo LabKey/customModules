@@ -562,7 +562,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // flask header row for experiment 1
         checkTemplateFlaskHeader(sheet, row);
         row ++;
-        int numFlasks = (expId == EXPERIMENT1_ID) ? EXPERIMENT1_NUM_FLASKS : EXPERIMENT2_NUM_FLASKS;
+        int numFlasks = (expId.equals(EXPERIMENT1_ID)) ? EXPERIMENT1_NUM_FLASKS : EXPERIMENT2_NUM_FLASKS;
         for (int i = 1; i <= numFlasks; i++)
         {
             checkTemplateFlask(sheet, row, expId + "Flask" + String.valueOf(i));
@@ -577,8 +577,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     private String checkTemplate()
     {
         waitForElement(Locator.name("dailyUpload"));
-        clickButtonContainingText("Get Template", "Daily Upload");
-        File templateFile = new File(getDownloadDir(), "dailyUpload.xls");
+        File templateFile = clickAndWaitForDownload(Locator.ext4Button("Get Template"));
+        assertEquals("dailyUpload.xls", templateFile.getName());
         String firstExp = null;
         try
         {
@@ -620,13 +620,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             throw new RuntimeException("Template file has invalid format.", e);
         }
 
+        templateFile.delete();
         return firstExp;
     }
 
     @LogMethod
     private void checkResultsPage(){
         Locator.XPathLocator link = Locator.xpath("//a[text()='"+EXPERIMENT1_ID+"100101']");
-        waitAndClick(link);
+        waitAndClickAndWait(link);
         //Make sure the header is there and we are in the right place
         waitForText(EXPERIMENT1_ID);
         //Make sure the flasks we'd expect are there
@@ -747,8 +748,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         clickProject(getProjectName());
         clickButton("Import Sample Set");
-        setFormElement("name", samplesetName);
-        setFormElement("data", "SampleID\n" + "1");
+        setFormElement(Locator.id("name"), samplesetName);
+        setFormElement(Locator.name("data"), "SampleID\n" + "1");
         clickButton("Submit");
         deleteSample("1");
 
@@ -757,7 +758,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitAndClickButton("Import Fields", 0);
         waitForElement(Locator.xpath("//textarea[@id='schemaImportBox']"), WAIT_FOR_JAVASCRIPT);
         String samplesetCols = getFileContents(new File(getLabKeyRoot(), samplesetFilename));
-        setFormElement("schemaImportBox", samplesetCols);
+        setFormElement(Locator.id("schemaImportBox"), samplesetCols);
 
         clickButton("Import", 0);
         waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
