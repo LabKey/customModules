@@ -30,7 +30,7 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PortalHelper;
-import org.labkey.test.util.ext4cmp.Ext4FieldRefWD;
+import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 
 import java.io.File;
 import java.io.IOException;
@@ -859,9 +859,9 @@ public class SpecimenTest extends SpecimenBaseTest
         clickFolder(getFolderName());
         clickTab("Specimen Data");
         waitForVialSearch();
-        Ext4FieldRefWD additiveType = Ext4FieldRefWD.getForLabel(this, "Additive Type");
+        Ext4FieldRef additiveType = Ext4FieldRef.getForLabel(this, "Additive Type");
         additiveType.setValue("Heparin");
-        Ext4FieldRefWD.getForLabel(this, "Participant").setValue("999320812");
+        Ext4FieldRef.getForLabel(this, "Participant").setValue("999320812");
         clickButtonContainingText("Search");
         assertTextNotPresent("Serum Separator");
         assertTextPresent("(ParticipantId = 999320812) AND (AdditiveType = Heparin)");
