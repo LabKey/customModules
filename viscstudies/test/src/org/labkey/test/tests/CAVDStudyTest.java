@@ -21,8 +21,8 @@ import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.Study;
-import org.labkey.test.util.Ext4HelperWD;
-import org.labkey.test.util.ListHelperWD;
+import org.labkey.test.util.Ext4Helper;
+import org.labkey.test.util.ListHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -107,14 +107,14 @@ public class CAVDStudyTest extends StudyBaseTest
 
         // Change timepoint type.
         clickAndWait(Locator.linkWithText("Edit"));
-        waitForElement(Ext4HelperWD.Locators.radiobutton(this, "DATE"));
+        waitForElement(Ext4Helper.Locators.radiobutton(this, "DATE"));
         _ext4Helper.selectRadioButton("DATE");
 
         clickButton("Submit");
 
         //Check to see if date is checked.
         clickAndWait(Locator.linkWithText("Edit"));
-        waitForElement(Ext4HelperWD.Locators.radiobutton(this, "DATE"));
+        waitForElement(Ext4Helper.Locators.radiobutton(this, "DATE"));
         assertTrue(_ext4Helper.isChecked(Locator.ext4Radio("DATE")));
     }
 
@@ -444,11 +444,11 @@ public class CAVDStudyTest extends StudyBaseTest
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
         addWebPart("Lists");
-        ListHelperWD.ListColumn[] columns = new ListHelperWD.ListColumn[] {
-                new ListHelperWD.ListColumn("MyStudyName", "MyStudyName", ListHelperWD.ListColumnType.String, ""),
-                new ListHelperWD.ListColumn("StudyLookup", "StudyLookup", ListHelperWD.ListColumnType.String, "", new ListHelperWD.LookupInfo(null, "viscstudies", "studies"))
+        ListHelper.ListColumn[] columns = new ListHelper.ListColumn[] {
+                new ListHelper.ListColumn("MyStudyName", "MyStudyName", ListHelper.ListColumnType.String, ""),
+                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies"))
         };
-        _listHelper.createList(FOLDER_NAME4, "AllStudiesList", ListHelperWD.ListColumnType.AutoInteger, "Key", columns);
+        _listHelper.createList(FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
         clickButton("Done");
 
         log("Add records to list for each study.");
