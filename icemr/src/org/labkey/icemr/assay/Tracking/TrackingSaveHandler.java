@@ -26,7 +26,6 @@ import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.exp.api.ExperimentJSONConverter;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.query.ValidationException;
-
 import org.labkey.api.study.assay.AssayRunUploadContext;
 import org.labkey.api.study.assay.AssaySaveHandler;
 import org.labkey.api.view.ViewBackgroundInfo;
@@ -35,6 +34,7 @@ import org.labkey.icemr.assay.IcemrSaveHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,7 +82,7 @@ public class TrackingSaveHandler extends IcemrSaveHandler
     }
 
     @Override
-    public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
+    public void afterSave(ViewContext context, List<? extends ExpExperiment> batches, ExpProtocol protocol) throws Exception
     {
         if (null != _delegate)
             _delegate.afterSave(context, batches, protocol);

@@ -124,7 +124,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     // as the adaptation date.
     //
     @Override
-    public void afterSave(ViewContext context, ExpExperiment[] batches, ExpProtocol protocol) throws Exception
+    public void afterSave(ViewContext context, List<? extends ExpExperiment> batches, ExpProtocol protocol) throws Exception
     {
         if (_samplesToCheckForAdaptation.size() > 0)
         {
