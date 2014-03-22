@@ -206,7 +206,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     { throw new IllegalStateException(INVALID_ACTION); }
     public ExpData handleData(ViewContext context, JSONObject dataJson) throws ValidationException
     { throw new IllegalStateException(INVALID_ACTION); }
-    public void handleProperties(ViewContext context, ExpObject object, DomainProperty[] dps, JSONObject propertiesJson) throws ValidationException, JSONException
+    public void handleProperties(ViewContext context, ExpObject object, List<? extends DomainProperty> dps, JSONObject propertiesJson) throws ValidationException, JSONException
     { throw new IllegalStateException(INVALID_ACTION); }
     public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)throws Exception
     { throw new IllegalStateException(INVALID_ACTION); }
