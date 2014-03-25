@@ -21,7 +21,6 @@ import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.PropertyManager;
-import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
@@ -35,7 +34,6 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -108,14 +106,7 @@ public class PeptideCountUpdater
             {
                 Map<String, Object> toInsert = new CaseInsensitiveHashMap<>(result);
                 toInsert.put("container", container.getEntityId());
-                try
-                {
-                    Table.insert(null, DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getTable("Ms2RunAggregates"), toInsert);
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeSQLException(e);
-                }
+                Table.insert(null, DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getTable("Ms2RunAggregates"), toInsert);
             }
         }
         return null;
