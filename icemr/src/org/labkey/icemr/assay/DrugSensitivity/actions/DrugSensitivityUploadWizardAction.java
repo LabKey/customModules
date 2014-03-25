@@ -26,8 +26,6 @@ import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityAssayProvider;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-
 /**
  * User: klum
  * Date: 5/14/13
@@ -40,7 +38,7 @@ public class DrugSensitivityUploadWizardAction extends PlateBasedUploadWizardAct
         setCommandClass(DrugSensitivityRunUploadForm.class);
     }
 
-    protected ModelAndView afterRunCreation(DrugSensitivityRunUploadForm form, ExpRun run, BindException errors) throws ServletException, ExperimentException
+    protected ModelAndView afterRunCreation(DrugSensitivityRunUploadForm form, ExpRun run, BindException errors) throws ExperimentException
     {
         if (form.getReRun() != null)
             form.getReRun().delete(getUser());
