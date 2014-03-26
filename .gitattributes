@@ -156,6 +156,7 @@ icemr/src/org/labkey/icemr/assay/IcemrSaveHandler.java -text
 icemr/src/org/labkey/icemr/assay/Tracking/AdaptationSaveHandler.java -text
 icemr/src/org/labkey/icemr/assay/Tracking/TrackingSaveHandler.java -text
 icemr/test/src/org/labkey/test/tests/ICEMRModuleTest.java -text
+icemr/test/test_icemr.iml -text
 ms2extensions/Ms2extensions.iml -text
 ms2extensions/module.properties -text
 ms2extensions/resources/folderTypes/MS2Extensions.folderType.xml -text
@@ -211,6 +212,7 @@ viscstudies/src/org/labkey/viscstudies/ViscStudyFolderTabs.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderType.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudySchema.java -text
 viscstudies/test/src/org/labkey/test/tests/CAVDStudyTest.java -text
+viscstudies/test/test_viscstudies.iml -text
 viscstudies/viscstudies.iml -text
 viscstudies/webapp/viscstudies/study.js -text
 viscstudies/webapp/viscstudies/syringe2.jpg -text
