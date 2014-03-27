@@ -578,7 +578,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         waitForElement(Locator.name("dailyUpload"));
         File templateFile = clickAndWaitForDownload(Locator.ext4Button("Get Template"));
-        assertEquals("dailyUpload.xls", templateFile.getName());
+        assertTrue("Wrong file name", templateFile.getName().matches("dailyUpload( ?\\()?[0-9]?\\)?\\.xls"));
         String firstExp = null;
         try
         {
@@ -620,7 +620,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             throw new RuntimeException("Template file has invalid format.", e);
         }
 
-        templateFile.delete();
         return firstExp;
     }
 
