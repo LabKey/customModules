@@ -15,27 +15,16 @@
  */
 package org.labkey.test.tests;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
-import org.labkey.test.BaseWebDriverTest;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.LogMethod;
-import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PortalHelper;
-import static org.junit.Assert.*;
-
-/**
- * User: RyanS
- * Date: 11/19/13
- */
 
 @Category(DailyA.class)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest

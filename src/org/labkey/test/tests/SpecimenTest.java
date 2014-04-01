@@ -42,11 +42,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * User: brittp
- * Date: Mar 9, 2006
- * Time: 1:54:57 PM
- */
 @Category({DailyA.class})
 public class SpecimenTest extends SpecimenBaseTest
 {

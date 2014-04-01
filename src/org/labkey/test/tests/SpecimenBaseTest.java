@@ -20,12 +20,6 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.util.LogMethod;
 
-/**
- * User: davebradlee
- * Date: 5/16/13
- */
-
-// Base class for SpecimenTest and AliquotTest
 public abstract class SpecimenBaseTest extends StudyBaseTest
 {
     public static final String SPECIMEN_DETAIL = "SpecimenDetail";

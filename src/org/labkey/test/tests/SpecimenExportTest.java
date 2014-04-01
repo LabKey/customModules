@@ -26,10 +26,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
-/**
- * User: cnathe
- * Date: 6/26/13
- */
 @Category({DailyB.class, Specimen.class})
 public class SpecimenExportTest extends SpecimenBaseTest
 {

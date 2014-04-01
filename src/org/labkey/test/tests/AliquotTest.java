@@ -23,11 +23,6 @@ import org.labkey.test.categories.DailyA;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
 
-/**
- * User: davebradlee
- * Date: 5/14/13
- * Time: 1:44 PM
- */
 @Category({DailyA.class, Specimen.class})
 public class AliquotTest extends SpecimenBaseTest
 {

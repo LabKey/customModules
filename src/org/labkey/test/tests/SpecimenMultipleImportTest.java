@@ -22,11 +22,6 @@ import org.labkey.test.categories.DailyA;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
 
-/**
- * User: gktaylor
- * Date: 7/8/13
- * Time: 1:44 PM
- */
 @Category({DailyA.class, Specimen.class})
 public class SpecimenMultipleImportTest extends StudyBaseTest
 {
