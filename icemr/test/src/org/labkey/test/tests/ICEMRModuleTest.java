@@ -18,6 +18,7 @@ package org.labkey.test.tests;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
@@ -35,11 +36,6 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-/**
- * User: elvan
- * Date: 12/27/12
- * Time: 7:02 PM
- */
 @Category({CustomModules.class})
 public class ICEMRModuleTest extends BaseWebDriverTest
 {
@@ -77,8 +73,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         return "ICEMR assay test";
     }
 
-    @Override
-    protected void doTestSteps() throws Exception
+    @Test
+    public void testSteps()
     {
         setupAssays();
         doVerification();
