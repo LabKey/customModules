@@ -436,19 +436,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private Locator.XPathLocator selectDailyMaintenance()
-    {
-        checkCheckbox(Locator.checkboxByTitle("Select/unselect all on current page"));      // all individual item checkboxes have same name/title; should be first one
-        Locator.XPathLocator link = Locator.linkContainingText("Daily Maintenance");
-        waitAndClick(link);
-        return link;
-    }
-
-    @LogMethod
     private void enterDailyTrackingData()
     {
         //Navigate to Daily Upload page
-        Locator.XPathLocator link = selectDailyMaintenance();
+        checkCheckbox(Locator.checkboxByTitle("Select/unselect all on current page"));      // all individual item checkboxes have same name/title; should be first one
+        clickButton("Daily Maintenance");
 
         String firstExp = checkTemplate();
         waitForElement(Locator.name("dailyUpload"));
@@ -476,7 +468,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitAndClick(Locator.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
-        waitAndClick(link);
+        clickButton("Daily Maintenance");
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
         completeUpload(null);
