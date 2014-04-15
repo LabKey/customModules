@@ -1,0 +1,804 @@
+<script type="text/javascript">
+
+var _migrateControl =
+{
+    _studyDesigns : null,
+    _studiesByContainer : {},
+    _migrations : [],
+    _doneMigrations : [],
+
+    getStudyDesigns: function(config)
+    {
+        var params = {includeSubfolders:config.includeSubfolders};
+        Ext4.Ajax.request({
+            url : LABKEY.ActionURL.buildURL('study-designer', 'getStudyDesigns', config.containerPath, params),
+            method : 'GET',
+            success: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnSuccess(config), config.scope, true),
+            failure: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnFailure(config), config.scope, true),
+            scope: this
+        });
+
+    } ,
+
+    initStudyDesigns : function(result)
+    {
+        console.log(result);
+        this._studyDesigns = result.studyDesigns;
+        var scope = this;
+        LABKEY.Query.selectRows({
+            schemaName: "study",
+            queryName: "studyProperties",
+            columns: "*",
+            containerFilter: LABKEY.Query.containerFilter.currentAndSubfolders,
+            success: function(result) {
+                    scope.initMigrationStudies(result);
+            },
+            failure: function(err) {
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
+            scope: this
+        });
+    },
+
+    initMigrationStudies : function(result)
+    {
+        Ext4.each(result.rows, function (study){
+            this._studiesByContainer[study["Container"]] = study;
+        }, this);
+
+        Ext4.each(this._studyDesigns, function(design) {
+            if (design.active)
+            {
+                this.checkStudy(design);
+            }
+        }, this);
+
+        console.log(this._migrations);
+    },
+
+    checkStudy: function(design)
+    {
+        var sql = "SELECT A.Ct + T.Ct + PR.Ct + PA.Ct + PE.Ct As TotCount FROM " +
+                  "(SELECT COUNT(*) AS Ct FROM AssaySpecimen) A, " +
+                  "(SELECT COUNT(*) AS Ct FROM Treatment) T, " +
+                  "(SELECT COUNT(*) AS Ct FROM Product) PR, " +
+                  "(SELECT COUNT(*) AS Ct FROM ProductAntigen) PA," +
+                  "(SELECT COUNT(*) AS Ct FROM Personnel) PE";
+        LABKEY.Query.executeSql({
+            schemaName: "study",
+            sql: sql,
+            containerPath: design.container.path,
+            success: function(result) {
+                var migrationDone = false
+                if (result.rows.length > 0 && result.rows[0]["TotCount"] > 0)
+                    migrationDone = true;
+                this.addDesign(design, migrationDone);
+            },
+            failure: function(err) {
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
+            scope: this
+        });
+    },
+
+    addDesign: function(design, migrationDone)
+    {
+        var study = this._studiesByContainer[design.container.id];
+        study.migrationDone = migrationDone;
+        var html = "<li id='" + design.container.id + "'>" + study.Label + ": " + design.container.path +
+                (study.migrationDone ? " [already done]" : "") + "</li>";
+        if (!study.migrationDone)
+            this._migrations.push({design: design, study: this._studiesByContainer[design.container.id]});
+        else
+            this._doneMigrations.push({design: design, study: this._studiesByContainer[design.container.id]});
+        var el = Ext4.get("migrateList");
+        el.setHTML(el.getHTML().replace("</ul>", "") + html + "</ul>");
+
+    },
+
+    //Since this is multi-container, need to do seperate update statements.
+    //Theoretically should be able to do many of these async, but
+    //update one at a time for a little more predictability.
+    nextMigration : 0,
+
+    doMigration: function()
+    {
+        this.nextMigration = 0;
+        this.doNextMigration();
+    },
+
+    doNextMigration: function()
+    {
+        if (this.nextMigration >= this._migrations.length)
+            return;
+        this.updateMigrationStatus(" - Migrating...");
+        var migrate = this._migrations[this.nextMigration];
+        this.preMigrateCohorts(migrate);
+    },
+
+    handleSuccess: function(res)
+    {
+        this.updateMigrationStatus("...Complete!");
+        this.nextMigration++;
+        this.doNextMigration();
+    },
+
+    handleFailure: function(res, text)
+    {
+        var migrate = this._migrations[this.nextMigration];
+        this.deleteAllRowsMigration(migrate);
+        this.updateMigrationStatus("...Failure!" + (text ? "[Cause: " + text + "]" : ""));
+        console.log("Failure: ", res);
+        this.nextMigration++;
+        this.doNextMigration();
+    },
+
+    preMigrateCohorts: function(migrate)
+    {
+        var config = {
+            schemaName: "study",
+            queryName: "Cohort",
+            containerPath: migrate.design.container.path,
+            success: function(data) {
+                this.cohorts = {};      // map Label to Cohort
+                Ext4.each(data.rows, function (row) {
+                    this.cohorts[row.label] = row;
+                }, this);
+                this.ensureCohorts(migrate);
+            },
+            failure: function(err) {
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
+            scope: this
+        };
+        LABKEY.Query.selectRows(config);
+    },
+
+    ensureCohorts: function(migrate)
+    {
+        // Cohorts: Make sure all cohorts are there; add if needed; update count if needed
+        var def = migrate.design.studyDefinition;
+        var insertCohortRows = [];
+        var updateCohortRows = [];
+        Ext4.each(def.cohorts, function(cohort) {
+            if (this.cohorts[cohort.name])
+            {
+                if (this.cohorts[cohort.name].subjectCount != cohort.count)
+                {
+                    this.cohorts[cohort.name].subjectCount = cohort.count;
+                    updateCohortRows.push(this.cohorts[cohort.name]);
+                }
+            }
+            else
+                insertCohortRows.push({label: cohort.name, subjectCount: count});
+        }, this);
+        var saveConfig = {
+            commands : [],
+            success: function(result) {
+                Ext4.each(result, function(data) {
+                    Ext4.each(data.rows, function(row) {
+                        this.cohorts[row.label] = row;
+                    }, this);
+                }, this);
+                this.preMigrateVisits(migrate);
+            },
+            failure : function(err) {
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
+            scope   : this
+        };
+        if (insertCohortRows.length > 0)
+        {
+            saveConfig.commands.push({
+                schemaName: "study",
+                queryName: "Cohort",
+                command: "insert",
+                containerPath: migrate.design.container.path,
+                rows: insertCohortRows
+            });
+        }
+        if (updateCohortRows.length > 0)
+        {
+            saveConfig.commands.push({
+                schemaName: "study",
+                queryName: "Cohort",
+                command: "update",
+                rows: updateCohortRows
+            });
+        }
+        if (saveConfig.commands.length > 0)
+            LABKEY.Query.saveRows(saveConfig);
+        else
+            this.preMigrateVisits(migrate);
+    },
+
+    preMigrateVisits: function(migrate)
+    {
+        var isDateBased = migrate.study.TimepointType == "DATE";
+        var config = {
+            schemaName: "study",
+            queryName: "Visit",
+            containerPath: migrate.design.container.path,
+            success: function(data) {
+                this.visits = {};       // map Label to Visit
+                Ext4.each(data.rows, function (row) {
+                    var key = this.getVisitKey(row.Label, row.SequenceNumMin, isDateBased);
+                    this.visits[key] = row;
+                }, this);
+                this.ensureVisits(migrate);
+            },
+            failure: function(err) {
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
+            scope: this
+        };
+        LABKEY.Query.selectRows(config);
+    },
+
+    ensureVisits: function(migrate)
+    {
+        // Visits: Make sure all visits are there; add if needed
+        var def = migrate.design.studyDefinition;
+        var isDateBased = migrate.study.TimepointType == "DATE";
+        var insertVisitRows = {};
+        Ext4.each(def.assaySchedule.assays, function(assay) {
+            if (!this.ensureVisit(insertVisitRows, assay.timepoint, isDateBased))
+                return; // failure
+        }, this);
+
+        Ext4.each(def.immunizations, function(immunization) {
+            if (!this.ensureVisit(insertVisitRows, immunization.timepoint, isDateBased))
+                return; // failure
+        }, this);
+
+        this.visitsToInsert = [];
+        for (var key in insertVisitRows)
+        {
+            this.visitsToInsert.push(insertVisitRows[key]);
+        }
+        if (!Ext4.isEmpty(this.visitsToInsert))
+        {
+            this.doInsertVisits(migrate);
+        }
+        else
+            this.migrateStudy(migrate);
+
+    },
+
+    ensureVisit: function(insertVisitRows, timepoint, isDateBased)
+    {
+        var label = this.makeVisitLabel(timepoint);
+        var seqNum = this.makeVisitSequenceNum(timepoint);
+        var key = this.getVisitKey(label, seqNum, isDateBased);
+        if (!this.visits[key])
+        {
+            if (!isDateBased)
+            {
+                this.handleFailure("no visit", "visit not found in Visit-based study");
+                return false;
+            }
+            insertVisitRows[key] = ({Label: label, SequenceNumMin: seqNum, SequenceNumMax: seqNum});
+        }
+        return true;
+    },
+
+    doInsertVisits: function(migrate)
+    {
+        this.nextVisitToInsert = 0;
+        this.doNextInsertVisit(migrate);
+    },
+
+    doNextInsertVisit: function(migrate)
+    {
+        if (this.nextVisitToInsert >= this.visitsToInsert.length)
+        {
+            this.migrateStudy(migrate)
+            return;
+        }
+
+        var row = this.visitsToInsert[this.nextVisitToInsert];
+        Ext4.Ajax.request({
+            url     : LABKEY.ActionURL.buildURL('study-design', 'createVisit.api'),
+            method  : 'POST',
+            jsonData: {
+                label: row.Label,
+                sequenceNumMin: row.SequenceNumMin.toString(),
+                sequenceNumMax: row.SequenceNumMax.toString(),
+                showByDefault: true
+            },
+            success: function(response) {
+                var data = Ext4.decode(response.responseText);
+                row.RowId = data.RowId;
+                var key = this.getVisitKey(row.Label, row.SequenceNumMin, migrate.study.TimepointType == "DATE");
+                this.visits[key] = row;
+                this.nextVisitToInsert++;
+                this.doNextInsertVisit(migrate);
+            },
+            failure: function(response) {
+                var resp = Ext4.decode(response.responseText);
+                this.handleFailure(resp);
+            },
+            scope   : this
+        });
+    },
+
+    makeVisitLabel: function(timepoint)
+    {
+        return timepoint.name + ": " + timepoint.days + (timepoint.displayUnit == "days" ? " days" : " weeks");
+    },
+
+    makeVisitSequenceNum: function(timepoint)
+    {
+        return (timepoint.displayUnit == "days" ? timepoint.days : timepoint.days * 7);
+    },
+
+    getVisitKey: function(label, sequenceNumMin, isDateBased)
+    {
+        if (isDateBased)
+            return sequenceNumMin;
+        else
+            return label.toLowerCase();
+    },
+
+    // Migrate study: build up set a maps to avoid duplicates in some tables; then insert/update the tables
+    migrateStudy: function(migrate)
+    {
+        var def = migrate.design.studyDefinition;
+
+        // Populate map for each table we'll be saving rows to
+        var products = {};          // key = label (name)
+        var treatments = {};        // key = label (name)
+        var productAntigens = {};   // key = gene/subtype/genbankid/sequence
+        var assaySpecimens = {};     // key = name
+        var assaySpecimenVisits = {};   // key = name/timepoint
+        var treatmentVisitMap = {};     // key = cohort/treatment/timepoint
+        var treatmentProductMap = {};   // key = treatment/product/dose/route
+
+        Ext4.each(def.immunogens, function(immunogen) {
+            var product = {label: immunogen.name, type: immunogen.type, role: "immunogen", dose: immunogen.dose, route: immunogen.admin};
+            products[immunogen.name] = product;
+
+            Ext4.each(immunogen.antigens, function(antigen) {
+                var productAntigen = {gene: antigen.gene, subtype: antigen.subtype, sequence: null, genBankId: null, product: product};
+                var key = antigen.gene + "/" + antigen.subtype;
+                if (antigen.genBankId)
+                {
+                    productAntigen.genBankId = antigen.genBankId;
+                    key += "/" + antigen.genBankId;
+                }
+                if (antigen.sequence)
+                {
+                    productAntigen.sequence = antigen.sequence;
+                    key += "/" + antigen.sequence;
+                }
+                productAntigens[key] = productAntigen;
+            }, this);
+        }, this);
+
+        Ext4.each(def.adjuvants, function(adjuvant) {
+            var product = {label: adjuvant.name, type: null, role: "adjuvant", dose: adjuvant.dose, route: adjuvant.admin};
+            products[adjuvant.name] = product;
+        }, this);
+
+        Ext4.each(def.immunizations, function(immunization) {
+            var treatmentName = "";
+            var sepChar = "";
+            Ext4.each(immunization.immunogens, function(productName) {
+                treatmentName += sepChar + productName;
+                sepChar = "|";
+            }, this);
+
+            Ext4.each(immunization.adjuvants, function(productName) {
+                treatmentName += sepChar + productName;
+                sepChar = "|";
+            }, this);
+
+            var treatment = {label: treatmentName};
+            treatments[treatmentName] = treatment;
+
+            Ext4.each(immunization.immunogens, function(immunogenName) {
+                this.addTreatmentProductMapEntry(products[immunogenName], treatment, treatmentProductMap);
+            }, this);
+
+            Ext4.each(immunization.adjuvants, function(adjuvantName) {
+                this.addTreatmentProductMapEntry(products[adjuvantName], treatment, treatmentProductMap);
+            }, this);
+
+            var treatmentVisitMapValue = {cohort: immunization.groupName, treatment: treatment, visit: immunization.timepoint};
+            var treatmentVisitMapKey = immunization.groupName + "/" + treatmentName + "/" + immunization.timepoint.days;
+            treatmentVisitMap[treatmentVisitMapKey] = treatmentVisitMapValue;
+        }, this);
+
+        var assaySchedule = def.assaySchedule;      // TODO: where does description go?
+        Ext4.each(assaySchedule.assays, function(assay) {
+            var assaySpecimen = {assayName: assay.name, sampleType: assay.sampleMeasure};
+            assaySpecimens[assay.name] = assaySpecimen;
+
+            var assaySpecimenVisit = {assaySpecimen: assaySpecimen, visit: assay.timepoint};
+            assaySpecimenVisits[assay.name + "/" + assay.timepoint.days] = assaySpecimenVisit;
+        }, this);
+
+        //        this.getEl().mask("Migrating information...");
+
+        this.products = products;
+        this.treatments = treatments;
+        this.productAntigens = productAntigens;
+        this.assaySpecimens = assaySpecimens;
+        this.assaySpecimenVisits = assaySpecimenVisits;
+        this.treatmentVisitMap = treatmentVisitMap;
+        this.treatmentProductMap = treatmentProductMap;
+
+        this.insertTreatmentRows(migrate.design.container.path);
+    },
+
+    addTreatmentProductMapEntry: function(product, treatment, treatmentProductMap)
+    {
+        var treatmentProductMapValue = {treatment: treatment, product: product, dose: product.dose, route: product.route};
+        var treatmentProductMapKey = treatment.label + "/" + product.label + "/" + product.dose + "/" + product.route;
+        treatmentProductMap[treatmentProductMapKey] = treatmentProductMapValue;
+    },
+
+    insertTreatmentRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.treatments)
+        {
+            var row = {label: this.treatments[key].label};
+            rows.push(row);
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 treatments");
+            console.log("0 treatments");
+            this.insertProductRows(containerPath);
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "Treatment",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.recordInsertedRows(data, this.treatments);
+                this.updateMigrationStatus("Treatment");
+                console.log("Success inserting: " + "Treatment");
+                this.insertProductRows(containerPath);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    insertProductRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.products)
+        {
+            var product = this.products[key];
+            var row = {label: product.label, role: product.role, type: product.type};
+            rows.push(row);
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 products");
+            console.log("0 products");
+            this.insertAssaySpecimenRows(containerPath);
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "Product",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.recordInsertedRows(data, this.products);
+                this.updateMigrationStatus("Product");
+                console.log("Success inserting: " + "Product");
+                this.insertAssaySpecimenRows(containerPath);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    insertAssaySpecimenRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.assaySpecimens)
+        {
+            var assay = this.assaySpecimens[key];
+            var row = {assayName: assay.assayName};
+            rows.push(row);
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 assaySpecimens");
+            console.log("0 assaySpecimens");
+            this.insertProductAntigenRows(containerPath);
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "AssaySpecimen",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.recordInsertedRows(data, this.assaySpecimens);
+                this.updateMigrationStatus("AssaySpecimen");
+                console.log("Success inserting: " + "AssaySpecimen");
+                this.insertProductAntigenRows(containerPath);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    insertProductAntigenRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.productAntigens)
+        {
+            var antigen = this.productAntigens[key];
+            var row = {gene: antigen.gene, subtype: antigen.subtype, sequence: antigen.sequence, genBankId: antigen.genBankId,
+                       productId: antigen.product.insertedRow.rowid};
+            rows.push(row);
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 productAntigens");
+            console.log("0 productAntigens");
+            this.insertTreatmentProductMapRows(containerPath);
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "ProductAntigen",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.recordInsertedRows(data, this.productAntigens);
+                this.updateMigrationStatus("ProductAntigen");
+                console.log("Success inserting: " + "ProductAntigen");
+                this.insertTreatmentProductMapRows(containerPath);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    insertTreatmentProductMapRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.treatmentProductMap)
+        {
+            var treatmentProductValue = this.treatmentProductMap[key];
+            var row = {dose: treatmentProductValue.dose, route: treatmentProductValue.route,
+                       productId: treatmentProductValue.product.insertedRow.rowid,
+                       treatmentId: treatmentProductValue.treatment.insertedRow.rowid};
+            rows.push(row);
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 treatmentProductMap");
+            console.log("0 treatmentProductMap");
+            this.insertTreatmentVisitMapRows(containerPath);
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "TreatmentProductMap",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.updateMigrationStatus("TreatmentProductMap");
+                console.log("Success inserting: " + "TreatmentProductMap");
+                this.insertTreatmentVisitMapRows(containerPath);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    insertTreatmentVisitMapRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.treatmentVisitMap)
+        {
+            var treatmentVisitValue = this.treatmentVisitMap[key];
+            var cohort = this.cohorts[treatmentVisitValue.cohort];
+            var visit = this.visits[treatmentVisitValue.visit.days];
+            if (cohort && visit)
+            {
+                var row = {visitId: visit.RowId, cohortId: cohort.rowid,
+                           treatmentId: treatmentVisitValue.treatment.insertedRow.rowid};
+                rows.push(row);
+            }
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 treatmentVisitMap");
+            console.log("0 treatmentVisitMap");
+            this.insertAssaySpecimenVisitRows(containerPath);
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "TreatmentVisitMap",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.updateMigrationStatus("TreatmentVisitMap");
+                console.log("Success inserting: " + "TreatmentVisitMap");
+                this.insertAssaySpecimenVisitRows(containerPath);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    insertAssaySpecimenVisitRows: function(containerPath)
+    {
+        var rows = [];
+        for (var key in this.assaySpecimenVisits)
+        {
+            var assaySpecimenVisit = this.assaySpecimenVisits[key];
+            var visit = this.visits[assaySpecimenVisit.visit.days];
+            if (visit)
+            {
+                var row = {visitId: visit.RowId,
+                           assaySpecimenId: this.assaySpecimens[assaySpecimenVisit.assaySpecimen.assayName].insertedRow.rowid};
+                rows.push(row);
+            }
+        }
+
+        if (Ext4.isEmpty(rows))
+        {
+            this.updateMigrationStatus("0 assaySpecimenVisits");
+            console.log("0 assaySpecimenVisits");
+            this.handleSuccess({});
+            return;
+        }
+
+        var config = {
+            schemaName: "study",
+            queryName: "AssaySpecimenVisit",
+            containerPath: containerPath,
+            rows: rows,
+            success: function(data) {
+                this.updateMigrationStatus("AssaySpecimenVisit");
+                console.log("Success inserting: " + "AssaySpecimenVisit");
+                this.handleSuccess(data);
+            },
+            failure : function(err) {
+                console.log(err);
+                this.handleFailure(err);
+            },
+            scope   : this
+        };
+        LABKEY.Query.insertRows(config);
+    },
+
+    recordInsertedRows: function(data, tableMap)
+    {
+        var rowIx = 0;
+        for (var key in tableMap)
+        {
+            tableMap[key]["insertedRow"] = data.rows[rowIx];
+            rowIx += 1;
+        }
+    },
+
+
+    // TEMP: delete all rows from these tables to help debug
+    deleteAllRows: function()
+    {
+        if (this._doneMigrations.length == 0)
+            return;
+        var migrate = this._doneMigrations[0];
+        this.deleteAllRowsMigration(migrate);
+    },
+
+    deleteAllRowsMigration: function(migrate)
+    {
+        this.deleteAllRowsFromTable(migrate.design.container.path, "AssaySpecimenVisit");
+        this.deleteAllRowsFromTable(migrate.design.container.path, "TreatmentVisitMap");
+        this.deleteAllRowsFromTable(migrate.design.container.path, "TreatmentProductMap");
+        this.deleteAllRowsFromTable(migrate.design.container.path, "ProductAntigen");
+        this.deleteAllRowsFromTable(migrate.design.container.path, "AssaySpecimen");
+        this.deleteAllRowsFromTable(migrate.design.container.path, "Product");
+        this.deleteAllRowsFromTable(migrate.design.container.path, "Treatment");
+    },
+
+    deleteAllRowsFromTable: function (containerPath, queryName)
+    {
+        var config = {
+            schemaName: "study",
+            queryName: queryName,
+            containerPath: containerPath,
+            success: function(data) {
+                if (data.rows.length > 0)
+                {
+                    var delConfig = {
+                        schemaName: "study",
+                        queryName: queryName,
+                        containerPath: containerPath,
+                        rows: data.rows,
+                        success: function(data) {
+                            console.log("Success clearing: " + queryName);
+                        },
+                        failure : function(err) {
+                            console.log("Fail clearing: " + queryName + "; " + err);
+                        },
+                        scope   : this
+                    };
+                    LABKEY.Query.deleteRows(delConfig);
+                }
+            },
+            failure : function() {},
+            scope   : this
+        };
+        LABKEY.Query.selectRows(config);
+    },
+
+    updateMigrationStatus: function(text)
+    {
+        var migrate = this._migrations[this.nextMigration];
+        Ext4.get(migrate.study.Container).insertHtml('beforeEnd', ", " + text);
+    }
+};
+
+Ext4.onReady(function() {
+    _migrateControl.getStudyDesigns({successCallback: _migrateControl.initStudyDesigns, includeSubfolders: true});
+    LABKEY.NavTrail.setTrail("Migrate Study Designs");
+});
+
+</script>
+
+<div>Each of the following studies has an XML study design. Those marked '[already done]' have already been migrated or already
+    have data in study design tables, such as Treatment, Product or Personnel. Clicking 'Migrate' will migrate those not yet migrated.</div>
+<div id="migrateList"><ul>
+
+</ul></div>
+<button id="migrateButton" onclick="_migrateControl.doMigration();">Migrate</button>
+<button id="deleteButton" onclick="_migrateControl.deleteAllRows();">Delete Migrated Data</button>

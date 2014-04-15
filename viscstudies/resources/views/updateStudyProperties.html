@@ -58,7 +58,7 @@
     {
         var nextUpdate = 0;
         function doNextUpdate() {
-            if (nextUpdate > _updates.length)
+            if (nextUpdate >= _updates.length)
                 return;
             var update = _updates[nextUpdate];
             var def = update.design.studyDefinition;
