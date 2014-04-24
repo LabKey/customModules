@@ -797,7 +797,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
         assertTextPresent("NICD - Joberg", 2);
         clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
-        assertTextPresent("Vials", "(ProcessingLocation = The McMichael Lab, Oxford, UK)");
+        assertTextPresent("Vials", "(ProcessingLocation = 'The McMichael Lab, Oxford, UK')");
 
         // Put groupings back for other tests
         clickTab("Manage");
