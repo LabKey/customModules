@@ -173,12 +173,12 @@ var _migrateControl =
                 }
             }
             else
-                insertCohortRows.push({label: cohort.name, subjectCount: count});
+                insertCohortRows.push({label: cohort.name, subjectCount: cohort.count});
         }, this);
         var saveConfig = {
             commands : [],
             success: function(result) {
-                Ext4.each(result, function(data) {
+                Ext4.each(result.result, function(data) {
                     Ext4.each(data.rows, function(row) {
                         this.cohorts[row.label] = row;
                     }, this);
@@ -329,12 +329,20 @@ var _migrateControl =
 
     makeVisitLabel: function(timepoint)
     {
-        return timepoint.name + ": " + timepoint.days + (timepoint.displayUnit == "days" ? " days" : " weeks");
+        var label = timepoint.name;
+        var suffix;
+        if (timepoint.displayUnit == "days")
+            suffix = timepoint.days + " days";
+        else
+            suffix = (timepoint.days / 7) + " weeks";
+        if (suffix != label)
+            label += ": " + suffix;
+        return label;
     },
 
     makeVisitSequenceNum: function(timepoint)
     {
-        return (timepoint.displayUnit == "days" ? timepoint.days : timepoint.days * 7);
+        return timepoint.days;
     },
 
     getVisitKey: function(label, sequenceNumMin, isDateBased)
@@ -360,7 +368,7 @@ var _migrateControl =
         var treatmentProductMap = {};   // key = treatment/product/dose/route
 
         Ext4.each(def.immunogens, function(immunogen) {
-            var product = {label: immunogen.name, type: immunogen.type, role: "immunogen", dose: immunogen.dose, route: immunogen.admin};
+            var product = {label: immunogen.name, type: immunogen.type, role: "Immunogen", dose: immunogen.dose, route: immunogen.admin};
             products[immunogen.name] = product;
 
             Ext4.each(immunogen.antigens, function(antigen) {
@@ -381,7 +389,7 @@ var _migrateControl =
         }, this);
 
         Ext4.each(def.adjuvants, function(adjuvant) {
-            var product = {label: adjuvant.name, type: null, role: "adjuvant", dose: adjuvant.dose, route: adjuvant.admin};
+            var product = {label: adjuvant.name, type: null, role: "Adjuvant", dose: adjuvant.dose, route: adjuvant.admin};
             products[adjuvant.name] = product;
         }, this);
 
@@ -414,9 +422,10 @@ var _migrateControl =
             treatmentVisitMap[treatmentVisitMapKey] = treatmentVisitMapValue;
         }, this);
 
-        var assaySchedule = def.assaySchedule;      // TODO: where does description go?
+        var assaySchedule = def.assaySchedule;
+        var assayPlan = assaySchedule.description;
         Ext4.each(assaySchedule.assays, function(assay) {
-            var assaySpecimen = {assayName: assay.name, sampleType: assay.sampleMeasure};
+            var assaySpecimen = {assayName: assay.name, sampleType: assay.sampleMeasure.type, lab: assay.lab};
             assaySpecimens[assay.name] = assaySpecimen;
 
             var assaySpecimenVisit = {assaySpecimen: assaySpecimen, visit: assay.timepoint};
@@ -433,7 +442,7 @@ var _migrateControl =
         this.treatmentVisitMap = treatmentVisitMap;
         this.treatmentProductMap = treatmentProductMap;
 
-        this.insertTreatmentRows(migrate.design.container.path);
+        this.updateAssayPlan(migrate.design.container.path, assayPlan);
     },
 
     addTreatmentProductMapEntry: function(product, treatment, treatmentProductMap)
@@ -441,6 +450,25 @@ var _migrateControl =
         var treatmentProductMapValue = {treatment: treatment, product: product, dose: product.dose, route: product.route};
         var treatmentProductMapKey = treatment.label + "/" + product.label + "/" + product.dose + "/" + product.route;
         treatmentProductMap[treatmentProductMapKey] = treatmentProductMapValue;
+    },
+
+    updateAssayPlan: function(containerPath, assayPlan)
+    {
+        Ext4.Ajax.request({
+            url     : LABKEY.ActionURL.buildURL('study-design', 'updateAssayPlan.api'),
+            method  : 'POST',
+            jsonData: {
+                assayPlan: assayPlan
+            },
+            success: function(result) {
+                this.insertTreatmentRows(containerPath);
+            },
+            failure: function(err) {
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
+            scope: this
+        });
     },
 
     insertTreatmentRows: function(containerPath)
@@ -524,7 +552,7 @@ var _migrateControl =
         for (var key in this.assaySpecimens)
         {
             var assay = this.assaySpecimens[key];
-            var row = {assayName: assay.assayName};
+            var row = {assayName: assay.assayName, sampleType: assay.sampleType, lab: assay.lab};
             rows.push(row);
         }
 
@@ -640,12 +668,13 @@ var _migrateControl =
         for (var key in this.treatmentVisitMap)
         {
             var treatmentVisitValue = this.treatmentVisitMap[key];
+            var treatment = this.treatments[treatmentVisitValue.treatment.label];
             var cohort = this.cohorts[treatmentVisitValue.cohort];
             var visit = this.visits[treatmentVisitValue.visit.days];
-            if (cohort && visit)
+            if (cohort && visit && treatment)
             {
                 var row = {visitId: visit.RowId, cohortId: cohort.rowid,
-                           treatmentId: treatmentVisitValue.treatment.insertedRow.rowid};
+                           treatmentId: treatment.insertedRow.rowid};
                 rows.push(row);
             }
         }
