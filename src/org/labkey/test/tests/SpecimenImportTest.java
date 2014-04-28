@@ -22,6 +22,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 
 import static org.junit.Assert.*;
@@ -102,7 +103,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
         waitAndClick(Locator.linkContainingText("Change Study Properties"));
         waitForText("Timepoint Type:");
         _ext4Helper.selectRadioButton("Timepoint Type:", "VISIT");
-        click(Locator.ext4Button("Submit"));
+        click(Ext4Helper.Locators.ext4Button("Submit"));
     }
     protected void doUploads()
     {
