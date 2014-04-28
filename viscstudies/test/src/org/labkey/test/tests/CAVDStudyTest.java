@@ -115,7 +115,7 @@ public class CAVDStudyTest extends StudyBaseTest
         //Check to see if date is checked.
         clickAndWait(Locator.linkWithText("Edit"));
         waitForElement(Ext4Helper.Locators.radiobutton(this, "DATE"));
-        assertTrue(_ext4Helper.isChecked(Locator.ext4Radio("DATE")));
+        assertTrue(_ext4Helper.isChecked(Ext4Helper.Locators.ext4Radio("DATE")));
     }
 
     private void doVerifyStudyDesign()
@@ -686,7 +686,7 @@ public class CAVDStudyTest extends StudyBaseTest
         setFormElement(Locator.xpath("//label[text() = 'Name:']/..//input"), "ImportedDataset");
 
 
-        click(Locator.ext4Radio("Import data from file"));
+        click(Ext4Helper.Locators.ext4Radio("Import data from file"));
         clickButton("Next");
 
         String datasetFileName = getStudySampleDataPath() + "/datasets/plate001.tsv";

@@ -25,6 +25,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.ExcelHelper;
+import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
@@ -465,7 +466,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
         completeUpload(null);
-        waitAndClick(Locator.ext4Button("Submit"));
+        waitAndClick(Ext4Helper.Locators.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         clickButton("Daily Maintenance");
@@ -476,7 +477,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         _extHelper.waitForExtDialog("Daily Maintenance Error");
         clickButtonContainingText("OK", "Result");
         _extHelper.waitForExtDialogToDisappear("Daily Maintenance Error");
-        click(Locator.ext4Button("Cancel"));
+        click(Ext4Helper.Locators.ext4Button("Cancel"));
     }
 
     @LogMethod
@@ -565,7 +566,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     private String checkTemplate()
     {
         waitForElement(Locator.name("dailyUpload"));
-        File templateFile = clickAndWaitForDownload(Locator.ext4Button("Get Template"));
+        File templateFile = clickAndWaitForDownload(Ext4Helper.Locators.ext4Button("Get Template"));
         assertTrue("Wrong file name", templateFile.getName().matches("dailyUpload( ?\\()?[0-9]?\\)?\\.xls"));
         String firstExp = null;
         try
