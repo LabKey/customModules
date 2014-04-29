@@ -52,9 +52,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String SPECIES_ASSAY_NAME = "Species";
     public static final String FOLD_INCREASE_DEFAULT = "4";
     public static final String ADAPTATION_CRITERIA_DEFAULT = "2";
-    public static final String ADAPTATION_FLASK_FILE = "sampledata/icemr/adaptFlaskFields2.txt";
+    public static final String ADAPTATION_FLASK_FILE = "sampledata/icemr/adaptFlaskFields.txt";
     public static final String ADAPTATION_FLASKS_NAME = "Adaptation Flasks";
-    public static final String SELECTION_FLASK_FILE = "sampledata/icemr/selectFlaskFields2.txt";
+    public static final String SELECTION_FLASK_FILE = "sampledata/icemr/selectFlaskFields.txt";
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
     public static final String GEL_IMAGE_FIELD = "GelImage";
     public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
