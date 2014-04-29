@@ -25,6 +25,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.ExcelHelper;
+import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -34,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -50,9 +52,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String SPECIES_ASSAY_NAME = "Species";
     public static final String FOLD_INCREASE_DEFAULT = "4";
     public static final String ADAPTATION_CRITERIA_DEFAULT = "2";
-    public static final String ADAPTATION_FLASK_FILE = "sampledata/icemr/adaptFlaskFields.txt";
+    public static final String ADAPTATION_FLASK_FILE = "sampledata/icemr/adaptFlaskFields2.txt";
     public static final String ADAPTATION_FLASKS_NAME = "Adaptation Flasks";
-    public static final String SELECTION_FLASK_FILE = "sampledata/icemr/selectFlaskFields.txt";
+    public static final String SELECTION_FLASK_FILE = "sampledata/icemr/selectFlaskFields2.txt";
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
     public static final String GEL_IMAGE_FIELD = "GelImage";
     public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
@@ -743,19 +745,24 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         // now add our real fields with rich metadata
         clickButton("Edit Fields");
-        waitAndClickButton("Import Fields", 0);
-        waitForElement(Locator.xpath("//textarea[@id='schemaImportBox']"), WAIT_FOR_JAVASCRIPT);
-        String samplesetCols = getFileContents(new File(getLabKeyRoot(), samplesetFilename));
-        setFormElement(Locator.id("schemaImportBox"), samplesetCols);
 
-        clickButton("Import", 0);
-        waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
+
+
+        ListHelper listHelper = new ListHelper(this);
+        listHelper.deleteField("Field Properties", 0);
+        clickButton("Save");
+        clickButton("Edit Fields");
+        String samplesetCols = getFileContents(new File(getLabKeyRoot(), samplesetFilename));
+        listHelper.addFieldsNoImport(samplesetCols);
+
+      // waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
         // set the scientist column type to a user instead of just an int
         // this will make it be a combobox in the drop down.
         setFormElement(Locator.xpath("//input[@name='ff_type2']"), "User");
         clickButton("Save");
         clickProject(getProjectName());
     }
+
 
     @LogMethod
     private void testJavaScript()
