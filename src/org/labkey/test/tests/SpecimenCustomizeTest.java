@@ -1,19 +1,19 @@
 package org.labkey.test.tests;
 
+import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.categories.DailyA;
+import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.LogMethod;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * User: RyanS
@@ -23,6 +23,8 @@ import java.util.NoSuchElementException;
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
+
+    protected static final String SPECIMEN_ARCHIVE = getStudySampleDataPath() + "specimens/Rollup.specimens";
 
     @Override
     protected String getProjectName()
@@ -40,43 +42,169 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     protected void doCreateSteps()
     {
         initializeFolder();
-        importStudyFromZip(new File(getSampledataPath(), "/study/LabkeyDemoStudy.zip"));
+        importFolderFromZip(new File(getSampledataPath(), "/study/SpecimenCustomizeStudy.folder.zip"));
     }
 
     @Override
+    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
     protected void doVerifySteps() throws Exception
     {
         goToEditSpecimenProperties();
         clickAddField("SpecimenEvent");
-        specimenPropertyTable specimenEventTable = new specimenPropertyTable("SpecimenEvent");
-        propertyRow row = specimenEventTable.getPropertyRowByName("");
-        row.editName("newValue");
+        SpecimenPropertyTable specimenEventTable = new SpecimenPropertyTable("SpecimenEvent");
+        PropertyRow row = specimenEventTable.getPropertyRowByName("");
+        row.editName("Tally");
+        row.editType("Integer");
+        save();
+        clickAddField("SpecimenEvent");
+        specimenEventTable.refresh();
+        row = specimenEventTable.getPropertyRowByName("");
+        row.editName("Note");
         row.editType("Text (String)");
         save();
+        clickAddField("SpecimenEvent");
         specimenEventTable.refresh();
+        row = specimenEventTable.getPropertyRowByName("");
+        row.editName("Minutes");
+        row.editType("Number (Double)");
+        save();
+        clickAddField("SpecimenEvent");
+        specimenEventTable.refresh();
+        row = specimenEventTable.getPropertyRowByName("");
+        row.editName("Flag");
+        row.editType("Boolean");
+        save();
+
         clickAddField("Vial");
-        specimenPropertyTable specimenVialTable = new specimenPropertyTable("Vial");
+        SpecimenPropertyTable specimenVialTable = new SpecimenPropertyTable("Vial");
         row = specimenVialTable.getPropertyRowByName("");
-        row.editName("FirstComments");
+        row.editName("Tally");
+        row.editType("Integer");
         save();
         clickAddField("Vial");
-        specimenVialTable = new specimenPropertyTable("Vial");
+        specimenVialTable.refresh();
         row = specimenVialTable.getPropertyRowByName("");
-        row.editName("LatestNonBlankComments");
+        row.editName("FirstTally");
+        row.editType("Integer");
         save();
-        specimenPropertyTable specimenTable = new specimenPropertyTable("Specimen");
-        clickAddField("Specimen");
-        propertyRow specimenRow = specimenTable.getPropertyRowByName("");
-        specimenRow.editName("CountComments");
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestTally");
+        row.editType("Integer");
         save();
-        specimenTable = new specimenPropertyTable("Specimen");
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestNonBlankTally");
+        row.editType("Integer");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("CombineTally");
+        row.editType("Integer");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("FirstNote");
+        row.editType("Text (String)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestNote");
+        row.editType("Text (String)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestNonBlankNote");
+        row.editType("Text (String)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("CombineNote");
+        row.editType("Text (String)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("FirstMinutes");
+        row.editType("Number (Double)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestMinutes");
+        row.editType("Number (Double)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestNonBlankMinutes");
+        row.editType("Number (Double)");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("CombineMinutes");
+        row.editType("Number (Double)");
+        setFormat("Vial", "0.####");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("FirstFlag");
+        row.editType("Boolean");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestFlag");
+        row.editType("Boolean");
+        save();
+        clickAddField("Vial");
+        specimenVialTable.refresh();
+        row = specimenVialTable.getPropertyRowByName("");
+        row.editName("LatestNonBlankFlag");
+        row.editType("Boolean");
+        save();
+
         clickAddField("Specimen");
+        SpecimenPropertyTable specimenTable = new SpecimenPropertyTable("Specimen");
+        PropertyRow specimenRow = specimenTable.getPropertyRowByName("");
+        specimenRow.editName("TotalLatestNonBlankTally");
+        specimenRow.editType("Integer");
+        save();
+        clickAddField("Specimen");
+        specimenTable.refresh();
         specimenRow = specimenTable.getPropertyRowByName("");
-        specimenRow.editName("CombineComments");
+        specimenRow.editName("SumOfLatestNonBlankMinutes");
+        specimenRow.editType("Number (Double)");
+        setFormat("Specimen", "0.####");
         save();
+        clickAddField("Specimen");
+        specimenTable.refresh();
+        specimenRow = specimenTable.getPropertyRowByName("");
+        specimenRow.editName("SumOfCombineMinutes");
+        specimenRow.editType("Number (Double)");
+        setFormat("Specimen", "0.####");
+        save();
+        clickAddField("Specimen");
+        specimenTable.refresh();
+        specimenRow = specimenTable.getPropertyRowByName("");
+        specimenRow.editName("CountLatestNonBlankFlag");
+        specimenRow.editType("Integer");
+        save();
+        saveAndClose();
         setPipelineRoot(getPipelinePath());
-        startSpecimenImport(2);
+        startSpecimenImport(2, SPECIMEN_ARCHIVE);
         waitForSpecimenImport();
+
+        verifySpecimenDetailContents();
     }
 
     private void goToEditSpecimenProperties()
@@ -86,13 +214,13 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         waitForElement(Locator.xpath("//td[.='SpecimenEvent']//../..//span[@id='button_Add Field']/a"));
     }
 
-    private ArrayList<propertyRow> getRowsFromTable(WebElement table)
+    private ArrayList<PropertyRow> getRowsFromTable(WebElement table)
     {
-        ArrayList<propertyRow> rows = new ArrayList<>();
+        ArrayList<PropertyRow> rows = new ArrayList<>();
         int i = 1;
         for(WebElement row : table.findElements(By.xpath(".//tr")))
         {
-            rows.add(new propertyRow(row, i));
+            rows.add(new PropertyRow(row, i));
             i++;
         }
         return rows;
@@ -134,12 +262,12 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         click(Locator.xpath("//td[.='" + type + "']/../..//span[@id='button_Export Fields']/a"));
     }
 
-    class specimenPropertyTable
+    class SpecimenPropertyTable
     {
-        List<propertyRow> _propertyRows;
+        List<PropertyRow> _propertyRows;
         String _label;
 
-        public specimenPropertyTable (String label)
+        public SpecimenPropertyTable(String label)
         {
             _label = label;
             _propertyRows = new ArrayList<>();
@@ -149,7 +277,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             int i = 1;
             for(WebElement row : table.findElements(By.xpath(".//tr")))
             {
-                _propertyRows.add(new propertyRow(row, i));
+                _propertyRows.add(new PropertyRow(row, i));
                 i++;
             }
         }
@@ -164,14 +292,14 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             int i = 1;
             for(WebElement row : table.findElements(By.xpath(".//tr")))
             {
-                _propertyRows.add(new propertyRow(row, i));
+                _propertyRows.add(new PropertyRow(row, i));
                 i++;
             }
         }
 
-        public propertyRow getPropertyRowByName(String name)
+        public PropertyRow getPropertyRowByName(String name)
         {
-            propertyRow theRow = null;
+            PropertyRow theRow = null;
             for(int i = 1; i <= _propertyRows.size(); i++)
             {
                 if(name.equals(_propertyRows.get(i).getName()))
@@ -183,9 +311,9 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             return theRow;
         }
 
-        public propertyRow getPropertyRowByLabel(String label)
+        public PropertyRow getPropertyRowByLabel(String label)
         {
-            propertyRow theRow = null;
+            PropertyRow theRow = null;
             for(int i = 1; i < _propertyRows.size(); i++)
             {
                 if(label.equals(_propertyRows.get(i).getLabel()))
@@ -198,12 +326,12 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     }
 
     //wrapper for <tr> element in specimen tables
-    private class propertyRow
+    private class PropertyRow
     {
         protected WebElement _tr;
         protected int _index;
 
-        public propertyRow(WebElement tr, int index)
+        public PropertyRow(WebElement tr, int index)
         {
          _tr = tr;
         }
@@ -284,5 +412,54 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         {
             _tr.findElement(By.xpath("//div[contains(@id, 'partdelete']/input")).click();
         }
+    }
+
+    public void setFormat(String where, String value)
+    {
+        String prefix = "//td[text() = '" + where + "']/../..";
+        click(Locator.xpath(prefix + "//span[contains(@class,'x-tab-strip-text') and text()='Format']"));
+        Locator formatLoc = Locator.tagWithId("input", "propertyFormat");
+        setFormElement(formatLoc, value);
+    }
+
+    private void verifySpecimenDetailContents()
+    {
+        clickTab("Specimen Data");
+        waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
+        DataRegionTable table = new DataRegionTable("SpecimenDetail", this);
+
+        List<String> actual = table.getColumnDataAsText("CombineNote");
+        List<String> expected = Arrays.asList("novials1002", "novials1001, novials1003", " ", " ", " ", " ", " ",
+                "unavailable2", "unavailable1, unavailable22", " ", "note1, note101", "note2", " ", " ", " ", " ", " ");
+        if (!compareLists(actual, expected))
+            Assert.fail("CombineNote values incorrect");
+
+        actual = table.getColumnDataAsText("CombineTally");
+        expected = Arrays.asList("1002", "2004", " ", " ", " ", " ", " ",
+                "12", "33", " ", "102", "2", " ", " ", " ", " ", " ");
+        if (!compareLists(actual, expected))
+            Assert.fail("CombineTally values incorrect");
+
+        actual = table.getColumnDataAsText("SumOfLatestNonBlankMinutes");
+        expected = Arrays.asList("200.5", "200.5", " ", " ", " ", " ", "47.12",
+                "47.12", "47.12", "47.12", "5.794", "5.794", "5.794", "5.794", " ", " ", " ");
+        if (!compareLists(actual, expected))
+            Assert.fail("SumOfLatestNonBlankMinutes values incorrect");
+
+        actual = table.getColumnDataAsText("SumOfCombineMinutes");
+        expected = Arrays.asList("300.6", "300.6", " ", " ", " ", " ", "59.46",
+                "59.46", "59.46", "59.46", "7.024", "7.024", "7.024", "7.024", " ", " ", " ");
+        if (!compareLists(actual, expected))
+            Assert.fail("SumOfCombineMinutes values incorrect");
+    }
+
+    private boolean compareLists(List<String> actual, List<String> expected)
+    {
+        if (actual.size() != expected.size())
+            return false;
+        for (int i = 0; i < actual.size(); i += 1)
+            if (!actual.get(i).equals(expected.get(i)))
+                return false;
+        return true;
     }
 }
