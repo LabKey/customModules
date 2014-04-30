@@ -664,9 +664,10 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             setICEMRField(field, fieldAndValue.get(field));
         }
 
+        verifyError(3);
         // Issue 16875: decimals in certain icemr module fields causes js exception
         assertFormElementEquals(Locator.name("GametocyteDensity"), "3.4"); // '.' can't be entered, The value must be a positive integer
-        fieldAndValue.put("GametocyteDensity", "34"); // update value
+        setICEMRField("GametocyteDensity", "34"); // update value
 
         // we have 2 errors total, fix one at a time
         // Issue 16876: need to screen invalid entries in ICEMR module
@@ -807,7 +808,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         {
             Locator.XPathLocator comboBox = Locator.xpath("//tr["+Locator.NOT_HIDDEN+" and ./td/label[@id='"+field+"-labelEl']]");
             waitForElement(comboBox);
-            _extHelper.selectExt4ComboBoxItem(comboBox, value, true);
+            _ext4Helper.selectComboBoxItem(comboBox, true, value);
         }
         else
         {
