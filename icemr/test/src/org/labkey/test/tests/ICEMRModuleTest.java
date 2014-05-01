@@ -664,7 +664,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             setICEMRField(field, fieldAndValue.get(field));
         }
 
-        verifyError(3);
         // Issue 16875: decimals in certain icemr module fields causes js exception
         assertFormElementEquals(Locator.name("GametocyteDensity"), "3.4"); // '.' can't be entered, The value must be a positive integer
         setICEMRField("GametocyteDensity", "34"); // update value
