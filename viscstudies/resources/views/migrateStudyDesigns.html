@@ -7,31 +7,36 @@ var _migrateControl =
     _migrations : [],
     _doneMigrations : [],
 
-    getStudyDesigns: function(config)
+    getStudyDesigns: function()
     {
-        var params = {includeSubfolders:config.includeSubfolders};
         Ext4.Ajax.request({
-            url : LABKEY.ActionURL.buildURL('study-designer', 'getStudyDesigns', config.containerPath, params),
+            url : LABKEY.ActionURL.buildURL('study-designer', 'getStudyDesigns', null, {includeSubfolders: true}),
             method : 'GET',
-            success: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnSuccess(config), config.scope, true),
-            failure: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnFailure(config), config.scope, true),
+            success: function(response) {
+                var data = Ext4.decode(response.responseText);
+                this.initStudyDesigns(data);
+            },
+            failure: function(response) {
+                var err = Ext4.decode(response.responseText);
+                console.log(err);
+                alert("Failed to load studies, see an administrator");
+            },
             scope: this
         });
 
     } ,
 
-    initStudyDesigns : function(result)
+    initStudyDesigns : function(data)
     {
-        console.log(result);
-        this._studyDesigns = result.studyDesigns;
-        var scope = this;
+        console.log(data);
+        this._studyDesigns = data.studyDesigns;
         LABKEY.Query.selectRows({
             schemaName: "study",
             queryName: "studyProperties",
             columns: "*",
             containerFilter: LABKEY.Query.containerFilter.currentAndSubfolders,
             success: function(result) {
-                    scope.initMigrationStudies(result);
+                this.initMigrationStudies(result);
             },
             failure: function(err) {
                 console.log(err);
@@ -41,10 +46,19 @@ var _migrateControl =
         });
     },
 
+    studyCount : 0,
+
     initMigrationStudies : function(result)
     {
         Ext4.each(result.rows, function (study){
             this._studiesByContainer[study["Container"]] = study;
+        }, this);
+
+        Ext4.each(this._studyDesigns, function(design) {
+            if (design.active)
+            {
+                this.studyCount += 1;
+            }
         }, this);
 
         Ext4.each(this._studyDesigns, function(design) {
@@ -59,12 +73,11 @@ var _migrateControl =
 
     checkStudy: function(design)
     {
-        var sql = "SELECT A.Ct + T.Ct + PR.Ct + PA.Ct + PE.Ct As TotCount FROM " +
+        var sql = "SELECT A.Ct + T.Ct + PR.Ct + PA.Ct As TotCount FROM " +
                   "(SELECT COUNT(*) AS Ct FROM AssaySpecimen) A, " +
                   "(SELECT COUNT(*) AS Ct FROM Treatment) T, " +
                   "(SELECT COUNT(*) AS Ct FROM Product) PR, " +
-                  "(SELECT COUNT(*) AS Ct FROM ProductAntigen) PA," +
-                  "(SELECT COUNT(*) AS Ct FROM Personnel) PE";
+                  "(SELECT COUNT(*) AS Ct FROM ProductAntigen) PA";
         LABKEY.Query.executeSql({
             schemaName: "study",
             sql: sql,
@@ -74,6 +87,9 @@ var _migrateControl =
                 if (result.rows.length > 0 && result.rows[0]["TotCount"] > 0)
                     migrationDone = true;
                 this.addDesign(design, migrationDone);
+
+                if (0 == this.studyCount)
+                    Ext4.get("migrateButton").dom.removeAttribute("disabled");
             },
             failure: function(err) {
                 console.log(err);
@@ -95,7 +111,7 @@ var _migrateControl =
             this._doneMigrations.push({design: design, study: this._studiesByContainer[design.container.id]});
         var el = Ext4.get("migrateList");
         el.setHTML(el.getHTML().replace("</ul>", "") + html + "</ul>");
-
+        this.studyCount -= 1;
     },
 
     //Since this is multi-container, need to do seperate update statements.
@@ -129,7 +145,7 @@ var _migrateControl =
     {
         var migrate = this._migrations[this.nextMigration];
         this.deleteAllRowsMigration(migrate);
-        this.updateMigrationStatus("...Failure!" + (text ? "[Cause: " + text + "]" : ""));
+        this.updateMigrationStatus("...Failure!" + (text ? " [Cause: " + text + "]" : ""));
         console.log("Failure: ", res);
         this.nextMigration++;
         this.doNextMigration();
@@ -149,8 +165,7 @@ var _migrateControl =
                 this.ensureCohorts(migrate);
             },
             failure: function(err) {
-                console.log(err);
-                alert("Failed to load studies, see an administrator");
+                this.handleFailure(err, "Getting cohorts failed.")
             },
             scope: this
         };
@@ -177,6 +192,7 @@ var _migrateControl =
         }, this);
         var saveConfig = {
             commands : [],
+            containerPath: migrate.design.container.path,
             success: function(result) {
                 Ext4.each(result.result, function(data) {
                     Ext4.each(data.rows, function(row) {
@@ -186,8 +202,7 @@ var _migrateControl =
                 this.preMigrateVisits(migrate);
             },
             failure : function(err) {
-                console.log(err);
-                alert("Failed to load studies, see an administrator");
+                this.handleFailure(err, "Updating cohorts failed.")
             },
             scope   : this
         };
@@ -197,7 +212,6 @@ var _migrateControl =
                 schemaName: "study",
                 queryName: "Cohort",
                 command: "insert",
-                containerPath: migrate.design.container.path,
                 rows: insertCohortRows
             });
         }
@@ -216,9 +230,11 @@ var _migrateControl =
             this.preMigrateVisits(migrate);
     },
 
+    isDateBased: true,
+
     preMigrateVisits: function(migrate)
     {
-        var isDateBased = migrate.study.TimepointType == "DATE";
+        this.isDateBased = migrate.study.TimepointType == "DATE";
         var config = {
             schemaName: "study",
             queryName: "Visit",
@@ -226,14 +242,13 @@ var _migrateControl =
             success: function(data) {
                 this.visits = {};       // map Label to Visit
                 Ext4.each(data.rows, function (row) {
-                    var key = this.getVisitKey(row.Label, row.SequenceNumMin, isDateBased);
+                    var key = this.getVisitKey(row.Label, row.SequenceNumMin);
                     this.visits[key] = row;
                 }, this);
                 this.ensureVisits(migrate);
             },
             failure: function(err) {
-                console.log(err);
-                alert("Failed to load studies, see an administrator");
+                this.handleFailure(err, "Getting visits failed.")
             },
             scope: this
         };
@@ -244,42 +259,54 @@ var _migrateControl =
     {
         // Visits: Make sure all visits are there; add if needed
         var def = migrate.design.studyDefinition;
-        var isDateBased = migrate.study.TimepointType == "DATE";
         var insertVisitRows = {};
+        var ensureVisitsFailed = false;
         Ext4.each(def.assaySchedule.assays, function(assay) {
-            if (!this.ensureVisit(insertVisitRows, assay.timepoint, isDateBased))
-                return; // failure
+            if (assay.timepoint && !this.ensureVisit(insertVisitRows, assay.timepoint))
+            {
+                ensureVisitsFailed = true;
+                return false; // failure
+            }
         }, this);
 
         Ext4.each(def.immunizations, function(immunization) {
-            if (!this.ensureVisit(insertVisitRows, immunization.timepoint, isDateBased))
-                return; // failure
+            if (!this.ensureVisit(insertVisitRows, immunization.timepoint))
+            {
+                ensureVisitsFailed = true;
+                return false; // failure
+            }
         }, this);
 
-        this.visitsToInsert = [];
-        for (var key in insertVisitRows)
+        if (!ensureVisitsFailed)
         {
-            this.visitsToInsert.push(insertVisitRows[key]);
-        }
-        if (!Ext4.isEmpty(this.visitsToInsert))
-        {
-            this.doInsertVisits(migrate);
+            this.visitsToInsert = [];
+            for (var key in insertVisitRows)
+            {
+                this.visitsToInsert.push(insertVisitRows[key]);
+            }
+            if (!Ext4.isEmpty(this.visitsToInsert))
+            {
+                this.doInsertVisits(migrate);
+            }
+            else
+                this.migrateStudy(migrate);
         }
         else
-            this.migrateStudy(migrate);
+        {
+            this.handleFailure("no visit", "visit not found in Visit-based study");
+        }
 
     },
 
-    ensureVisit: function(insertVisitRows, timepoint, isDateBased)
+    ensureVisit: function(insertVisitRows, timepoint)
     {
         var label = this.makeVisitLabel(timepoint);
         var seqNum = this.makeVisitSequenceNum(timepoint);
-        var key = this.getVisitKey(label, seqNum, isDateBased);
+        var key = this.getVisitKey(label, seqNum);
         if (!this.visits[key])
         {
-            if (!isDateBased)
+            if (!this.isDateBased)
             {
-                this.handleFailure("no visit", "visit not found in Visit-based study");
                 return false;
             }
             insertVisitRows[key] = ({Label: label, SequenceNumMin: seqNum, SequenceNumMax: seqNum});
@@ -303,7 +330,7 @@ var _migrateControl =
 
         var row = this.visitsToInsert[this.nextVisitToInsert];
         Ext4.Ajax.request({
-            url     : LABKEY.ActionURL.buildURL('study-design', 'createVisit.api'),
+            url     : LABKEY.ActionURL.buildURL('study-design', 'createVisit.api', migrate.design.container.path),
             method  : 'POST',
             jsonData: {
                 label: row.Label,
@@ -314,7 +341,7 @@ var _migrateControl =
             success: function(response) {
                 var data = Ext4.decode(response.responseText);
                 row.RowId = data.RowId;
-                var key = this.getVisitKey(row.Label, row.SequenceNumMin, migrate.study.TimepointType == "DATE");
+                var key = this.getVisitKey(row.Label, row.SequenceNumMin);
                 this.visits[key] = row;
                 this.nextVisitToInsert++;
                 this.doNextInsertVisit(migrate);
@@ -345,9 +372,9 @@ var _migrateControl =
         return timepoint.days;
     },
 
-    getVisitKey: function(label, sequenceNumMin, isDateBased)
+    getVisitKey: function(label, sequenceNumMin)
     {
-        if (isDateBased)
+        if (this.isDateBased)
             return sequenceNumMin;
         else
             return label.toLowerCase();
@@ -373,7 +400,7 @@ var _migrateControl =
 
             Ext4.each(immunogen.antigens, function(antigen) {
                 var productAntigen = {gene: antigen.gene, subtype: antigen.subtype, sequence: null, genBankId: null, product: product};
-                var key = antigen.gene + "/" + antigen.subtype;
+                var key = product.label + "/" + antigen.gene + "/" + antigen.subtype;
                 if (antigen.genBankId)
                 {
                     productAntigen.genBankId = antigen.genBankId;
@@ -393,6 +420,7 @@ var _migrateControl =
             products[adjuvant.name] = product;
         }, this);
 
+        var error = false;
         Ext4.each(def.immunizations, function(immunization) {
             var treatmentName = "";
             var sepChar = "";
@@ -406,6 +434,13 @@ var _migrateControl =
                 sepChar = "|";
             }, this);
 
+            if (0 == treatmentName.trim().length)
+            {
+                this.handleFailure("Empty treatment in schedule.", "Empty treatment in schedule.");
+                error = true;
+                return false; // break
+            }
+
             var treatment = {label: treatmentName};
             treatments[treatmentName] = treatment;
 
@@ -417,19 +452,27 @@ var _migrateControl =
                 this.addTreatmentProductMapEntry(products[adjuvantName], treatment, treatmentProductMap);
             }, this);
 
-            var treatmentVisitMapValue = {cohort: immunization.groupName, treatment: treatment, visit: immunization.timepoint};
+            var treatmentVisitMapValue = {cohort: immunization.groupName, treatment: treatment,
+                visitKey: this.getVisitKey(this.makeVisitLabel(immunization.timepoint), this.makeVisitSequenceNum(immunization.timepoint))};
             var treatmentVisitMapKey = immunization.groupName + "/" + treatmentName + "/" + immunization.timepoint.days;
             treatmentVisitMap[treatmentVisitMapKey] = treatmentVisitMapValue;
         }, this);
 
+        if (error)
+            return;
+
         var assaySchedule = def.assaySchedule;
         var assayPlan = assaySchedule.description;
         Ext4.each(assaySchedule.assays, function(assay) {
-            var assaySpecimen = {assayName: assay.name, sampleType: assay.sampleMeasure.type, lab: assay.lab};
+            var assaySpecimen = {assayName: assay.name, sampleType: assay.sampleMeasure ? assay.sampleMeasure.type : null, lab: assay.lab};
             assaySpecimens[assay.name] = assaySpecimen;
 
-            var assaySpecimenVisit = {assaySpecimen: assaySpecimen, visit: assay.timepoint};
-            assaySpecimenVisits[assay.name + "/" + assay.timepoint.days] = assaySpecimenVisit;
+            if (assay.timepoint)
+            {
+                var assaySpecimenVisit = {assaySpecimen: assaySpecimen,
+                    visitKey: this.getVisitKey(this.makeVisitLabel(assay.timepoint), this.makeVisitSequenceNum(assay.timepoint))};
+                assaySpecimenVisits[assay.name + "/" + assay.timepoint.days] = assaySpecimenVisit;
+            }
         }, this);
 
         //        this.getEl().mask("Migrating information...");
@@ -455,7 +498,7 @@ var _migrateControl =
     updateAssayPlan: function(containerPath, assayPlan)
     {
         Ext4.Ajax.request({
-            url     : LABKEY.ActionURL.buildURL('study-design', 'updateAssayPlan.api'),
+            url     : LABKEY.ActionURL.buildURL('study-design', 'updateAssayPlan.api', containerPath),
             method  : 'POST',
             jsonData: {
                 assayPlan: assayPlan
@@ -464,8 +507,7 @@ var _migrateControl =
                 this.insertTreatmentRows(containerPath);
             },
             failure: function(err) {
-                console.log(err);
-                alert("Failed to load studies, see an administrator");
+                this.handleFailure(err, "Update assay plan failed.")
             },
             scope: this
         });
@@ -500,8 +542,7 @@ var _migrateControl =
                 this.insertProductRows(containerPath);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting Treatment rows failed.");
             },
             scope   : this
         };
@@ -538,8 +579,7 @@ var _migrateControl =
                 this.insertAssaySpecimenRows(containerPath);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting Product rows failed.");
             },
             scope   : this
         };
@@ -576,8 +616,7 @@ var _migrateControl =
                 this.insertProductAntigenRows(containerPath);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting AssaySpecimen rows failed.");
             },
             scope   : this
         };
@@ -615,8 +654,7 @@ var _migrateControl =
                 this.insertTreatmentProductMapRows(containerPath);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting ProductAntigen rows failed.");
             },
             scope   : this
         };
@@ -654,8 +692,7 @@ var _migrateControl =
                 this.insertTreatmentVisitMapRows(containerPath);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting TreatmentProductMap rows failed.");
             },
             scope   : this
         };
@@ -670,7 +707,7 @@ var _migrateControl =
             var treatmentVisitValue = this.treatmentVisitMap[key];
             var treatment = this.treatments[treatmentVisitValue.treatment.label];
             var cohort = this.cohorts[treatmentVisitValue.cohort];
-            var visit = this.visits[treatmentVisitValue.visit.days];
+            var visit = this.visits[treatmentVisitValue.visitKey];
             if (cohort && visit && treatment)
             {
                 var row = {visitId: visit.RowId, cohortId: cohort.rowid,
@@ -698,8 +735,7 @@ var _migrateControl =
                 this.insertAssaySpecimenVisitRows(containerPath);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting TreatmentVisitMap rows failed.");
             },
             scope   : this
         };
@@ -712,7 +748,7 @@ var _migrateControl =
         for (var key in this.assaySpecimenVisits)
         {
             var assaySpecimenVisit = this.assaySpecimenVisits[key];
-            var visit = this.visits[assaySpecimenVisit.visit.days];
+            var visit = this.visits[assaySpecimenVisit.visitKey];
             if (visit)
             {
                 var row = {visitId: visit.RowId,
@@ -740,8 +776,7 @@ var _migrateControl =
                 this.handleSuccess(data);
             },
             failure : function(err) {
-                console.log(err);
-                this.handleFailure(err);
+                this.handleFailure(err, "Inserting AssaySpecimenVisit rows failed.");
             },
             scope   : this
         };
@@ -818,7 +853,7 @@ var _migrateControl =
 };
 
 Ext4.onReady(function() {
-    _migrateControl.getStudyDesigns({successCallback: _migrateControl.initStudyDesigns, includeSubfolders: true});
+    _migrateControl.getStudyDesigns();
     LABKEY.NavTrail.setTrail("Migrate Study Designs");
 });
 
@@ -829,5 +864,5 @@ Ext4.onReady(function() {
 <div id="migrateList"><ul>
 
 </ul></div>
-<button id="migrateButton" onclick="_migrateControl.doMigration();">Migrate</button>
+<button id="migrateButton" onclick="_migrateControl.doMigration();" disabled>Migrate</button>
 <button id="deleteButton" onclick="_migrateControl.deleteAllRows();">Delete Migrated Data</button>
