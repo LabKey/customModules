@@ -14,7 +14,7 @@
 var _start = "start";
 var _finish = "finish";
 var _sampleId = "sampleId";
-var _parasitemia = "parasitemia"
+var _parasitemia = "parasitemia";
 
 function done()
 {
@@ -63,7 +63,7 @@ function init()
                     this.patientId = "";
                     this.experimentId = "";
                 }
-                resultHeader += '<p/>'
+                resultHeader += '<p/>';
                 Ext4.fly('resultHeader').update(resultHeader);
             }
             LABKEY.icemr.tracking.interface.checkFlasks(onCheckFlasksSuccess);
@@ -147,7 +147,7 @@ function showCalculator(calculator)
         cancelHandler = hideFoldIncrease;
     }
     else {
-        title = 'First Day Positive'
+        title = 'First Day Positive';
         submitHandler = renderFirstDayPositive;
         cancelHandler = hideFirstDayPositive;
     }
@@ -373,6 +373,7 @@ function renderResults()
         schemaName : 'assay.Tracking.' + LABKEY.page.assay.name,
         queryName  : LABKEY.icemr.tracking.isSelection ? 'select_results' : 'adapt_results',
         buttonBar: buttonBar,
+        timeout: Ext4.Ajax.timeout,
         filters    : [ LABKEY.Filter.create("Rowid", params["Data.Run/RowId~eq"])]
     });
 }
