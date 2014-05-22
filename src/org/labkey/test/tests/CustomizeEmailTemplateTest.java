@@ -117,7 +117,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         clickTab("Specimen Data");
         waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
         click(Locator.xpath("//img[@src=\"/labkey/_images/cart.png\"]/../../../../..//td[@class=\"labkey-selectors\"]/input"));
-        clickMenuButton("Request Options", "Create New Request");
+        _extHelper.clickMenuButton("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), _assayPlan);
         setFormElement(Locator.id("input2"), _comments);

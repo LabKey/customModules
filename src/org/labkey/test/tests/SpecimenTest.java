@@ -268,14 +268,14 @@ public class SpecimenTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'This vial is unavailable because it was found in the set called \"" + REQUESTABILITY_QUERY + "\".')]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
-        checkCheckbox(".toggle");
+        checkCheckbox(Locator.checkboxByName(".toggle"));
 
-        clickMenuButton("Page Size", "Show All");
-         clickAndWait(Locator.linkContainingText("history"));
+        _extHelper.clickMenuButton("Page Size", "Show All");
+        clickAndWait(Locator.linkContainingText("history"));
         assertTextPresent("Vial History");
         goBack();
 
-        clickMenuButton("Request Options", "Create New Request");
+        _extHelper.clickMenuButton("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
@@ -306,14 +306,14 @@ public class SpecimenTest extends SpecimenBaseTest
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
-        checkCheckbox(".toggle");
-        clickMenuButtonAndContinue("Request Options", "Add To Existing Request");
+        checkCheckbox(Locator.checkboxByName(".toggle"));
+        _extHelper.clickMenuButton(false, "Request Options", "Add To Existing Request");
         _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
         waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
         clickButton("Add 8 Vials to Request", 0);
         _extHelper.waitForExtDialog("Success", WAIT_FOR_JAVASCRIPT * 5);
         clickButton("OK", 0);
-        clickMenuButton("Request Options", "View Existing Requests");
+        _extHelper.clickMenuButton("Request Options", "View Existing Requests");
         clickButton("Details");
         assertTextPresent("sample last one input");
         assertTextPresent("IRB");
@@ -348,9 +348,9 @@ public class SpecimenTest extends SpecimenBaseTest
         setFormElement(Locator.name("newDescription"), "Other SLG Approval");
         clickButton("Add Requirement");
         clickAndWait(Locator.linkWithText("Details"));
-        checkCheckbox("complete");
-        checkCheckbox("notificationIdPairs");
-        checkCheckbox("notificationIdPairs", 1);
+        checkCheckbox(Locator.checkboxByName("complete"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
         clickButton("Save Changes and Send Notifications");
         waitForElement(Locator.css(".labkey-message").withText("Complete"));
     }
@@ -368,20 +368,20 @@ public class SpecimenTest extends SpecimenBaseTest
         // Ordering of locations is nondeterministic
         if (isPresentInThisOrder("The McMichael Lab, Oxford, UK", "KCMC, Moshi, Tanzania") == null)
         {
-            checkCheckbox("notify"); // MCMichael - SLG
+            checkCheckbox(Locator.checkboxByName("notify"));
             _specimen_McMichael = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
-            checkCheckbox("notify", 4); // KCMC - IRB, Aurum Health KOSH
+            checkCheckbox(Locator.checkboxByName("notify").index(4));
             _specimen_KCMC = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
         }
         else
         {
-            checkCheckbox("notify", 1); // KCMC - IRB, Aurum Health KOSH
+            checkCheckbox(Locator.checkboxByName("notify").index(1));
             _specimen_KCMC = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
-            checkCheckbox("notify", 3); // MCMichael - SLG
+            checkCheckbox(Locator.checkboxByName("notify").index(3));
             _specimen_McMichael = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
         }
-        checkCheckbox("sendXls");
-        checkCheckbox("sendTsv");
+        checkCheckbox(Locator.checkboxByName("sendXls"));
+        checkCheckbox(Locator.checkboxByName("sendTsv"));
         clickButton("Send Email");
         _requestId = Integer.parseInt(getUrlParam(getURL().toString(), "id", false));
         clickAndWait(Locator.linkWithText("Providing Location Specimen Lists"));
@@ -553,8 +553,8 @@ public class SpecimenTest extends SpecimenBaseTest
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
-        checkCheckbox(".toggle");
-        clickMenuButton("Request Options", "Create New Request");
+        checkCheckbox(Locator.checkboxByName(".toggle"));
+        _extHelper.clickMenuButton("Request Options", "Create New Request");
         clickButton("Cancel");
     }
 
@@ -578,8 +578,8 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Refresh");
         assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
         //Verify by ptid list
-        checkCheckbox("viewPtidList");
-        uncheckCheckbox("viewVialCount");
+        checkCheckbox(Locator.checkboxByName("viewPtidList"));
+        uncheckCheckbox(Locator.checkboxByName("viewVialCount"));
         clickButton("Refresh");
         assertElementPresent(Locator.linkWithText(PTIDS[0]), 3);
         assertElementPresent(Locator.linkWithText(PTIDS[1]), 5);
