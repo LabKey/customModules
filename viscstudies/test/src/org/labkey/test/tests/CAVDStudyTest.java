@@ -457,11 +457,11 @@ public class CAVDStudyTest extends StudyBaseTest
         clickAndWait(Locator.linkWithText("AllStudiesList"));
         clickButton("Insert New");
         setFormElement("quf_MyStudyName", "Something");
-        selectOptionByText("quf_StudyLookup", study2name);
+        selectOptionByText(Locator.name("quf_StudyLookup"), study2name);
         clickButton("Submit");
         clickButton("Insert New");
         setFormElement("quf_MyStudyName", "TheOtherOne");
-        selectOptionByText("quf_StudyLookup", study3name);
+        selectOptionByText(Locator.name("quf_StudyLookup"), study3name);
         clickButton("Submit");
 
         log("Verify that the list lookup displays dataset status values.");
@@ -552,18 +552,18 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void deleteStudyDesignRow(RowType type, int row)
     {
-        int count = getXpathCount(Locator.xpath("//table[@id='"+type+"Grid']//div[starts-with(@title, 'Click to delete ')]"));
+        int count = getElementCount(Locator.xpath("//table[@id='" + type + "Grid']//div[starts-with(@title, 'Click to delete ')]"));
         click(Locator.xpath("//table[@id='"+type+"Grid']//div[starts-with(@title, 'Click to delete ')][text()='"+row+"']"));
         waitAndClick(Locator.xpath("//td[@role='menuitem'][starts-with(text(), 'Delete ')]"));
         waitForElementToDisappear(Locator.xpath("(//table[@id='"+type+"Grid']//div[starts-with(@title, 'Click to delete ')])["+count+"]"), WAIT_FOR_JAVASCRIPT);
-        mouseDown(Locator.xpath("/html/body"));
+        click(Locator.xpath("/html/body"));
     }
 
     private void addStudyDesignRow(RowType type, String... values)
     {
         waitForElement(Locator.navButton("Finished"));
-        int rowCount = getXpathCount(Locator.xpath("//table[@id='"+type+"Grid']//div[starts-with(@title, 'Click to delete ')]"));
-        int rowOffset = getXpathCount(Locator.xpath("//table[@id='"+type+"Grid']/tbody/tr[not(.//input or .//select)]")) + 1;
+        int rowCount = getElementCount(Locator.xpath("//table[@id='" + type + "Grid']//div[starts-with(@title, 'Click to delete ')]"));
+        int rowOffset = getElementCount(Locator.xpath("//table[@id='" + type + "Grid']/tbody/tr[not(.//input or .//select)]")) + 1;
         String tablePath = "//table[@id='"+type+"Grid']";
         assertElementPresent(Locator.xpath(tablePath));
         String rowPath = tablePath + "/tbody/tr["+(rowCount+rowOffset)+"]";
@@ -601,7 +601,7 @@ public class CAVDStudyTest extends StudyBaseTest
     {
         String tablePath = "(//table[starts-with(@id, 'AntigenGrid')])["+immunogenNumber+"]";
         assertElementPresent(Locator.xpath(tablePath));
-        int rowCount = getXpathCount(Locator.xpath(tablePath+"//div[@title='Click to delete antigen']"));
+        int rowCount = getElementCount(Locator.xpath(tablePath + "//div[@title='Click to delete antigen']"));
         String rowPath = tablePath + "/tbody/tr["+(rowCount+2)+"]";
         assertElementPresent(Locator.xpath(rowPath));
         for(int i = 0; i < values.length; i++)
