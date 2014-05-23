@@ -242,7 +242,7 @@ var _migrateControl =
             success: function(data) {
                 this.visits = {};       // map Label to Visit
                 Ext4.each(data.rows, function (row) {
-                    var key = this.getVisitKey(row.Label, row.SequenceNumMin);
+                    var key = this.getVisitKey(this.getVisitLabel(row.Label, row.SequenceNumMin), row.SequenceNumMin);
                     this.visits[key] = row;
                 }, this);
                 this.ensureVisits(migrate);
@@ -307,7 +307,14 @@ var _migrateControl =
         {
             if (!this.isDateBased)
             {
-                return false;
+                var altKey = this.makeAlternateVisitLabel(timepoint);      // try alternate;
+                if (this.visits[altKey])
+                {
+                    this.visits[key] = this.visits[altKey];     // remember it
+                    return true;
+                }
+                else
+                    return false;
             }
             insertVisitRows[key] = ({Label: label, SequenceNumMin: seqNum, SequenceNumMax: seqNum});
         }
@@ -354,6 +361,13 @@ var _migrateControl =
         });
     },
 
+    getVisitLabel: function(label, sequenceNum)
+    {
+        if (undefined == label || null == label || "" == label)
+            label = sequenceNum.toString();
+        return label
+    },
+
     makeVisitLabel: function(timepoint)
     {
         var label = timepoint.name;
@@ -365,6 +379,12 @@ var _migrateControl =
         if (suffix != label)
             label += ": " + suffix;
         return label;
+    },
+
+    makeAlternateVisitLabel: function(timepoint)
+    {
+        // Alternative to look up visits that were not labeled
+        return timepoint.days.toString();
     },
 
     makeVisitSequenceNum: function(timepoint)
