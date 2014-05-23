@@ -134,7 +134,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         goToModule("Dumbster");
         waitForElement(Locator.linkContainingText(_projectName));
         click(Locator.linkContainingText(_projectName));
-        String emailBody= getTextFromElement(Locator.xpath("//Div[@id='body']"));
+        String emailBody= getText(Locator.xpath("//Div[@id='body']"));
         String[] bodyContents = emailBody.split(_delim);
         Map<String, String> emailNVPs = new HashMap<>();
         for (String line : bodyContents)
