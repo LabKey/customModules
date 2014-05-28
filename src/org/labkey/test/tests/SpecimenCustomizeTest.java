@@ -81,54 +81,33 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     {
         ListHelper propertiesHelper = new ListHelper(this);
         propertiesHelper.addField("SpecimenEvent", "Tally", null, ListHelper.ListColumnType.Integer);
-        save();
         propertiesHelper.addField("SpecimenEvent", "Note", null, ListHelper.ListColumnType.String);
-        save();
         propertiesHelper.addField("SpecimenEvent", "Minutes", null, ListHelper.ListColumnType.Double);
-        save();
         propertiesHelper.addField("SpecimenEvent", "Flag", null, ListHelper.ListColumnType.Boolean);
-        save();
         propertiesHelper.addField("Vial", "Tally", null, ListHelper.ListColumnType.Integer);
-        save();
         propertiesHelper.addField("Vial", "FirstTally", null, ListHelper.ListColumnType.Integer);
-        save();
         propertiesHelper.addField("Vial", "LatestTally", null, ListHelper.ListColumnType.Integer);
-        save();
         propertiesHelper.addField("Vial", "LatestNonBlankTally", null, ListHelper.ListColumnType.Integer);
-        save();
         propertiesHelper.addField("Vial", "CombineTally", null, ListHelper.ListColumnType.Integer);
-        save();
         propertiesHelper.addField("Vial", "FirstNote", null, ListHelper.ListColumnType.String);
-        save();
         propertiesHelper.addField("Vial", "LatestNote", null, ListHelper.ListColumnType.String);
-        save();
         propertiesHelper.addField("Vial", "LatestNonBlankNote", null, ListHelper.ListColumnType.String);
-        save();
         propertiesHelper.addField("Vial", "CombineNote", null, ListHelper.ListColumnType.String);
-        save();
         propertiesHelper.addField("Vial", "FirstMinutes", null, ListHelper.ListColumnType.Double);
-        save();
         propertiesHelper.addField("Vial", "LatestMinutes", null, ListHelper.ListColumnType.Double);
-        save();
         propertiesHelper.addField("Vial", "LatestNonBlankMinutes", null, ListHelper.ListColumnType.Double);
-        save();
         propertiesHelper.addField("Vial", "CombineMinutes", null, ListHelper.ListColumnType.Double);
         setFormat("Vial", "0.####");
-        save();
         propertiesHelper.addField("Vial", "FirstFlag", null, ListHelper.ListColumnType.Boolean);
-        save();
         propertiesHelper.addField("Vial", "LatestFlag", null, ListHelper.ListColumnType.Boolean);
-        save();
         propertiesHelper.addField("Vial", "LatestNonBlankFlag", null, ListHelper.ListColumnType.Boolean);
-        save();
         propertiesHelper.addField("Specimen", "TotalLatestNonBlankTally", null, ListHelper.ListColumnType.Integer);
-        save();
+        save();// make sure there is only one format field visible
         propertiesHelper.addField("Specimen", "SumOfLatestNonBlankMinutes", null, ListHelper.ListColumnType.Double);
         setFormat("Specimen", "0.####");
-        save();
+        save();// make sure there is only one format field visible
         propertiesHelper.addField("Specimen", "SumOfCombineMinutes", null, ListHelper.ListColumnType.Double);
         setFormat("Specimen", "0.####");
-        save();
         propertiesHelper.addField("Specimen", "CountLatestNonBlankFlag", null, ListHelper.ListColumnType.Integer);
         save();
     }
