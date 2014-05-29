@@ -24,6 +24,7 @@ import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExcelHelper;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.Ext4Helper;
@@ -616,18 +617,21 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
     @LogMethod
     private void checkResultsPage(){
-        Locator.XPathLocator link = Locator.xpath("//a[text()='"+EXPERIMENT1_ID+"100101']");
-        waitAndClickAndWait(link);
+        Locator experimentRunsLink = Locator.linkWithText(EXPERIMENT1_ID + "100101");
+        waitAndClickAndWait(experimentRunsLink);
         //Make sure the header is there and we are in the right place
-        waitForText(EXPERIMENT1_ID);
+        waitForText("Showing data for " + EXPERIMENT1_ID);
         //Make sure the flasks we'd expect are there
-        waitForText(EXPERIMENT1_ID + "Flask1");
-        waitForText(EXPERIMENT1_ID + "Flask2");
+        Locator flask1Link = Locator.linkWithText(EXPERIMENT1_ID + "Flask1");
+        Locator flask2Link = Locator.linkWithText(EXPERIMENT1_ID + "Flask2");
+        waitForElement(flask1Link);
+        assertElementPresent(flask2Link);
         //Hop into one of the flasks to make sure that they have data
-        link = Locator.xpath("//a[text()='"+EXPERIMENT1_ID+"Flask1']");
-        waitAndClick(link);
-        waitForText(EXPERIMENT1_ID+"100101", WAIT_FOR_PAGE);
-        waitForText(EXPERIMENT1_ID+"Flask1");
+        clickAndWait(flask1Link);
+        DataRegionTable qwp = new DataRegionTable(DataRegionTable.getQueryWebPartName(this), this, false);
+        assertEquals("Should only be one row in flask summary", 1, qwp.getDataRowCount());
+        assertEquals(EXPERIMENT1_ID+"100101", qwp.getDataAsText(0, "Patient ID"));
+        assertEquals(EXPERIMENT1_ID+"Flask1", qwp.getDataAsText(0, "Sample ID"));
     }
 
     private void verifyError(int errorCount)
