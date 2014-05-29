@@ -151,7 +151,7 @@ public class SpecimenTest extends SpecimenBaseTest
             assertTrue("Request column not found: " + column, columnHeaders.contains(column));
         }
         clickAndWait(Locator.linkWithText("Reports"));
-        assertTextPresent("Requested Vials by Type and Timepoint", "Request Summary");
+        assertTextPresent("Requested Vials by Type and Timepoint", "Requested Summary");
         clickButton("View");
         assertTextPresent("Availability status");
     }
@@ -170,7 +170,7 @@ public class SpecimenTest extends SpecimenBaseTest
             assertFalse("Request column found when requests are disabled: " + column, columnHeaders.contains(column));
         }
         clickAndWait(Locator.linkWithText("Reports"));
-        assertTextNotPresent("Requested Vials by Type and Timepoint", "Request Summary");
+        assertTextNotPresent("Requested Vials by Type and Timepoint", "Requested Summary");
         clickButton("View");
         assertTextNotPresent("Availability status");
     }
