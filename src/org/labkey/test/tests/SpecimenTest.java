@@ -90,6 +90,7 @@ public class SpecimenTest extends SpecimenBaseTest
         setupRequestabilityRules();
         startSpecimenImport(1);
         waitForSpecimenImport();
+        checkSpecimenReport();
         _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
         checkTubeType();
         setupRequestStatuses();
@@ -121,6 +122,43 @@ public class SpecimenTest extends SpecimenBaseTest
         disableRequests();
         verifyRequestsDisabled();
         verifyDrawTimestamp();
+    }
+
+    private void checkSpecimenReport()
+    {
+        clickFolder ("My Study");
+        PortalHelper portalHelper = new PortalHelper(this);
+        portalHelper.addWebPart("Specimen Report");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Type Summary Report", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Type by Participant");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Type by Participant", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Type by Cohort");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Type by Cohort", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested Summary");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested Summary", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested by Requesting Location");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested by Requesting Location", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested by Enrollment Location");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested by Enrollment Location", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested by Participant");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested by Participant", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Participant Summary");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Participant Summary", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Participant by Specimen Type");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Participant by Specimen Type", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Participant by Enrollment Location");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Participant by Enrollment Location", "Customize");
+
     }
 
     private void disableRequests()
