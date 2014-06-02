@@ -38,7 +38,6 @@ import org.labkey.api.view.ViewContext;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.api.view.WebPartView;
 
-import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -120,22 +119,13 @@ public class MS2ExtensionsModule extends DefaultModule
 
         AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()));
 
-        ContainerManager.addContainerListener(new ContainerManager.ContainerListener()
+        ContainerManager.addContainerListener(new ContainerManager.AbstractContainerListener()
         {
-            @Override
-            public void containerCreated(Container c, User user) {}
-
             @Override
             public void containerDeleted(Container c, User user)
             {
                 new SqlExecutor(DbSchema.get("ms2extensions")).execute(new SQLFragment("DELETE FROM ms2extensions.Ms2RunAggregates WHERE container = ?", c.getEntityId()));
             }
-
-            @Override
-            public void containerMoved(Container c, Container oldParent, User user) {}
-
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {}
         });
 
         DefaultSchema.registerProvider(SCHEMA_NAME, new DefaultSchema.SchemaProvider(this)
