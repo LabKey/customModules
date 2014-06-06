@@ -628,8 +628,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         assertElementPresent(flask2Link);
         //Hop into one of the flasks to make sure that they have data
         clickAndWait(flask1Link);
-        waitForElement(Locator.id("flasks-div"));
-        waitForElementToDisappear(Locator.css("#flasks-div.x-masked"));
+        waitForElement(Locator.css(".labkey-data-region"), WAIT_FOR_PAGE); // Data region takes a long time to appear
         DataRegionTable qwp = new DataRegionTable(DataRegionTable.getQueryWebPartName(this), this, false);
         assertEquals("Should only be one row in flask summary", 1, qwp.getDataRowCount());
         assertEquals(EXPERIMENT1_ID+"100101", qwp.getDataAsText(0, "Patient ID"));
