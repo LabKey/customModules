@@ -36,7 +36,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -157,7 +156,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     private void checkVisualization()
     {
         goBack();
-        Locator.XPathLocator visButton = Locator.navButtonContainingText("Visualization");
+        Locator.XPathLocator visButton = Locator.lkButtonContainingText("Visualization");
         waitAndClick(visButton);
         waitForText("ICEMR Visualization");
         Locator.CssLocator datapoint = Locator.css("svg g a.point");
@@ -230,7 +229,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         Locator.XPathLocator link = Locator.linkContainingText(assayName);
         waitAndClick(link);
-        link = Locator.navButtonContainingText("Import Data");
+        link = Locator.lkButtonContainingText("Import Data");
         waitAndClick(link);
         waitForElement(locator);
         enterData(assayName, fileUploadField);
@@ -255,7 +254,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             link = Locator.linkContainingText(assayName);
             waitAndClick(link);
         }
-        link = Locator.navButtonContainingText("New Experiment");
+        link = Locator.lkButtonContainingText("New Experiment");
         waitAndClick(link);
         waitForElement(Locator.id("SampleID1"));
     }
@@ -631,8 +630,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.css(".labkey-data-region"), WAIT_FOR_PAGE); // Data region takes a long time to appear
         DataRegionTable qwp = new DataRegionTable(DataRegionTable.getQueryWebPartName(this), this, false);
         assertEquals("Should only be one row in flask summary", 1, qwp.getDataRowCount());
-        assertEquals(EXPERIMENT1_ID+"100101", qwp.getDataAsText(0, "Patient ID"));
-        assertEquals(EXPERIMENT1_ID+"Flask1", qwp.getDataAsText(0, "Sample ID"));
+        assertEquals(EXPERIMENT1_ID + "100101", qwp.getDataAsText(0, "Patient ID"));
+        assertEquals(EXPERIMENT1_ID + "Flask1", qwp.getDataAsText(0, "Sample ID"));
     }
 
     private void verifyError(int errorCount)

@@ -192,7 +192,7 @@ public class CAVDStudyTest extends StudyBaseTest
         // 2. verify that the Canarypox option, although inactive is still present.
         clickTab("Vaccine Design");
         waitAndClickButton("Edit");
-        waitForElement(Locator.navButton("Finished"));
+        waitForElement(Locator.lkButton("Finished"));
         selectOptionByText(Locator.xpath("//select[@title='Immunogen 1 type']"), "Canarypox");
     }
 
@@ -498,7 +498,7 @@ public class CAVDStudyTest extends StudyBaseTest
         log("Verify data status exports to text as expected.");
         pushLocation();
         addUrlParameter("exportAsWebPage=true");
-        waitForElement(Locator.navButton("Export"), WAIT_FOR_JAVASCRIPT);
+        waitForElement(Locator.lkButton("Export"), WAIT_FOR_JAVASCRIPT);
         clickExportToText();
         // verify column names
         assertTextPresentInThisOrder("myStudyName", "studyLookupLabel", "studyLookupDatasetStatus");
@@ -561,7 +561,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void addStudyDesignRow(RowType type, String... values)
     {
-        waitForElement(Locator.navButton("Finished"));
+        waitForElement(Locator.lkButton("Finished"));
         int rowCount = getElementCount(Locator.xpath("//table[@id='" + type + "Grid']//div[starts-with(@title, 'Click to delete ')]"));
         int rowOffset = getElementCount(Locator.xpath("//table[@id='" + type + "Grid']/tbody/tr[not(.//input or .//select)]")) + 1;
         String tablePath = "//table[@id='"+type+"Grid']";
@@ -638,7 +638,7 @@ public class CAVDStudyTest extends StudyBaseTest
     private void clickEditDesign()
     {
         waitAndClickButton("Edit");
-        waitForElement(Locator.navButton("Finished"));
+        waitForElement(Locator.lkButton("Finished"));
     }
 
     private void addGroup(String name, boolean cohortExists, String count, int groupCount)
