@@ -181,7 +181,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.linkWithText("By Individual Vial"));
         assertTextPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
-        assertElementPresent(Locator.navButton("Request Options"));
+        assertElementPresent(Locator.lkButton("Request Options"));
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this, true, true);
         List<String> columnHeaders = specimenTable.getColumnHeaders();
         for (String column : requestColumns)
@@ -200,7 +200,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.linkWithText("By Individual Vial"));
         assertTextNotPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
-        assertElementNotPresent(Locator.navButton("Request Options"));
+        assertElementNotPresent(Locator.lkButton("Request Options"));
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this, true, true);
         List<String> columnHeaders = specimenTable.getColumnHeaders();
         for (String column : requestColumns)
