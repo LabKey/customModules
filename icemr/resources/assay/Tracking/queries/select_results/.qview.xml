@@ -1,6 +1,5 @@
 <customView xmlns="http://labkey.org/data/xml/queryCustomView">
     <columns>
-        <column name="FlaskDetails"/>
         <column name="PatientID"/>
         <column name="ExperimentID"/>
         <column name="SampleID"/>

@@ -75,7 +75,6 @@ icemr/resources/assay/Tracking/queries/adapt_flasks_viz.sql -text
 icemr/resources/assay/Tracking/queries/adapt_generic_foldincrease.sql -text
 icemr/resources/assay/Tracking/queries/adapt_parasitemia_increase.sql -text
 icemr/resources/assay/Tracking/queries/adapt_parasitemia_pass.sql -text
-icemr/resources/assay/Tracking/queries/adapt_results.query.xml -text
 icemr/resources/assay/Tracking/queries/adapt_results.sql -text
 icemr/resources/assay/Tracking/queries/adapt_results/.qview.xml -text
 icemr/resources/assay/Tracking/queries/adapted_numdays.sql -text
@@ -88,7 +87,6 @@ icemr/resources/assay/Tracking/queries/generic_daysfromdates.sql -text
 icemr/resources/assay/Tracking/queries/generic_daysfromday0.sql -text
 icemr/resources/assay/Tracking/queries/generic_foldincrease.query.xml -text
 icemr/resources/assay/Tracking/queries/generic_numdays.sql -text
-icemr/resources/assay/Tracking/queries/results_flaskdetails.sql -text
 icemr/resources/assay/Tracking/queries/runs_viewresults.sql -text
 icemr/resources/assay/Tracking/queries/select_all_calcs.sql -text
 icemr/resources/assay/Tracking/queries/select_all_firstdaypositive_growth.sql -text
@@ -104,7 +102,6 @@ icemr/resources/assay/Tracking/queries/select_generic_foldincrease.sql -text
 icemr/resources/assay/Tracking/queries/select_parasitemia_increase.sql -text
 icemr/resources/assay/Tracking/queries/select_resistance_days.sql -text
 icemr/resources/assay/Tracking/queries/select_resistance_fold.sql -text
-icemr/resources/assay/Tracking/queries/select_results.query.xml -text
 icemr/resources/assay/Tracking/queries/select_results.sql -text
 icemr/resources/assay/Tracking/queries/select_results/.qview.xml -text
 icemr/resources/assay/Tracking/queries/stored_dates_numdays.sql -text

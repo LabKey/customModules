@@ -24,6 +24,7 @@ function init()
         renderTo   : 'flasks-div',
         schemaName : schemaName,
         queryName  : LABKEY.icemr.tracking.interface.getCalcQuery(),
+        timeout: Ext4.Ajax.timeout,
         frame : 'none',
         removeableFilters    : [ LABKEY.Filter.create("SampleID", params["sampleId"])]
     });
