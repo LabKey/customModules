@@ -191,7 +191,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickAndWait(Locator.linkWithText("Submit"));
         // 2. verify that the Canarypox option, although inactive is still present.
         clickTab("Vaccine Design");
-        waitAndClickButton("Edit");
+        clickButton("Edit", defaultWaitForPage);
         waitForElement(Locator.lkButton("Finished"));
         selectOptionByText(Locator.xpath("//select[@title='Immunogen 1 type']"), "Canarypox");
     }
@@ -279,7 +279,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickFolder("CAVDStudyTest Folder");
         clickTab("Assays");
-        waitAndClickButton("Edit");
+        clickButton("Edit", defaultWaitForPage);
         waitAndClick(Locator.linkContainingText("Configure Dropdown Options"));
         waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
     }
@@ -297,7 +297,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickFolder("CAVDStudyTest Folder");
         clickTab("Vaccine Design");
-        waitAndClickButton("Edit");
+        clickButton("Edit", defaultWaitForPage);
         waitAndClick(Locator.linkContainingText("Configure Dropdown Options"));
         waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
     }
@@ -315,10 +315,10 @@ public class CAVDStudyTest extends StudyBaseTest
         clickFolder(STUDY_NAME);
         clickAndWait(Locator.linkWithText("Assays"));
 
-        waitAndClickButton("Create Assay Datasets", 0);
+        clickButton("Create Assay Datasets", 0);
         waitForAlert("Placeholder datasets created. Use Manage/Study Schedule to define datasets or link to assay data.", WAIT_FOR_JAVASCRIPT);
 
-        waitAndClickButton("Create Study Timepoints", 0);
+        clickButton("Create Study Timepoints", 0);
         waitForAlert("2 timepoints created.", WAIT_FOR_JAVASCRIPT);
 
         clickAndWait(Locator.linkWithText("Manage"));
@@ -637,7 +637,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void clickEditDesign()
     {
-        waitAndClickButton("Edit");
+        clickButton("Edit", defaultWaitForPage);
         waitForElement(Locator.lkButton("Finished"));
     }
 
