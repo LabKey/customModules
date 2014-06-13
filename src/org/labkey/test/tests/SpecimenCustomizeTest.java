@@ -65,11 +65,10 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     @LogMethod(category = LogMethod.MethodType.VERIFICATION)
     protected void doVerifySteps() throws Exception
     {
-        goToEditSpecimenProperties();
-
+        addSpecimenEventFields();
+        addVialFields();
         addSpecimenFields();
 
-        saveAndClose();
         setPipelineRoot(getPipelinePath());
         startSpecimenImport(2, SPECIMEN_ARCHIVE);
         waitForSpecimenImport();
@@ -77,13 +76,22 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         verifySpecimenDetailContents();
     }
 
-    private void addSpecimenFields()
+    private void addSpecimenEventFields()
     {
+        goToEditSpecimenProperties();
         ListHelper propertiesHelper = new ListHelper(this);
         propertiesHelper.addField("SpecimenEvent", "Tally", null, ListHelper.ListColumnType.Integer);
         propertiesHelper.addField("SpecimenEvent", "Note", null, ListHelper.ListColumnType.String);
         propertiesHelper.addField("SpecimenEvent", "Minutes", null, ListHelper.ListColumnType.Double);
         propertiesHelper.addField("SpecimenEvent", "Flag", null, ListHelper.ListColumnType.Boolean);
+        save();
+        saveAndClose();
+    }
+
+    private void addVialFields()
+    {
+        goToEditSpecimenProperties();
+        ListHelper propertiesHelper = new ListHelper(this);
         propertiesHelper.addField("Vial", "Tally", null, ListHelper.ListColumnType.Integer);
         propertiesHelper.addField("Vial", "FirstTally", null, ListHelper.ListColumnType.Integer);
         propertiesHelper.addField("Vial", "LatestTally", null, ListHelper.ListColumnType.Integer);
@@ -101,15 +109,22 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         propertiesHelper.addField("Vial", "FirstFlag", null, ListHelper.ListColumnType.Boolean);
         propertiesHelper.addField("Vial", "LatestFlag", null, ListHelper.ListColumnType.Boolean);
         propertiesHelper.addField("Vial", "LatestNonBlankFlag", null, ListHelper.ListColumnType.Boolean);
+        save();
+        saveAndClose();
+    }
+
+    private void addSpecimenFields()
+    {
+        goToEditSpecimenProperties();
+        ListHelper propertiesHelper = new ListHelper(this);
         propertiesHelper.addField("Specimen", "TotalLatestNonBlankTally", null, ListHelper.ListColumnType.Integer);
-        save();// make sure there is only one format field visible
         propertiesHelper.addField("Specimen", "SumOfLatestNonBlankMinutes", null, ListHelper.ListColumnType.Double);
         setFormat("Specimen", "0.####");
-        save();// make sure there is only one format field visible
         propertiesHelper.addField("Specimen", "SumOfCombineMinutes", null, ListHelper.ListColumnType.Double);
         setFormat("Specimen", "0.####");
         propertiesHelper.addField("Specimen", "CountLatestNonBlankFlag", null, ListHelper.ListColumnType.Integer);
         save();
+        saveAndClose();
     }
 
     private void goToEditSpecimenProperties()
@@ -141,7 +156,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         Locator saveButtonLocator = Locator.xpath("//span[@id='button_Save']/a");
         shortWait().until(ExpectedConditions.elementToBeClickable(saveButtonLocator.toBy()));
         click(saveButtonLocator);
-        waitForElementToDisappear(Locator.xpath("//span[@id='button_Save']/a[@class='labkey-disabled-button']"), 60000);
+//        waitForElementToDisappear(Locator.xpath("//span[@id='button_Save']/a[@class='labkey-disabled-button']"), 60000);
         waitForText("Save successful");
     }
 
