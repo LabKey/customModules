@@ -426,7 +426,7 @@ public class SpecimenTest extends SpecimenBaseTest
         checkCheckbox(Locator.checkboxByName("sendXls"));
         checkCheckbox(Locator.checkboxByName("sendTsv"));
         clickButton("Send Email");
-        _requestId = Integer.parseInt(getUrlParam(getURL().toString(), "id", false));
+        _requestId = Integer.parseInt(getUrlParam("id"));
         clickAndWait(Locator.linkWithText("Providing Location Specimen Lists"));
         assertTextPresent(SOURCE_SITE);
         clickButton("Cancel");
