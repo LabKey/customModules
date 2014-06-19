@@ -37,8 +37,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -288,9 +290,10 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.css("span.labkey-wp-title-text").withText("Associated Specimens"));
         assertTextPresent("AAA07XK5-01", "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
 
-
+        prepForPageLoad();
         clickButton("Cancel Request", 0);
         assertAlert("Canceling will permanently delete this pending request.  Continue?");
+        waitForPageToLoad();
         waitForElement(Locator.id("dataregion_SpecimenRequest"));
     }
 
@@ -369,8 +372,10 @@ public class SpecimenTest extends SpecimenBaseTest
         // submit request
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
+        prepForPageLoad();
         clickButton("Submit Request", 0);
         assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+        waitForPageToLoad();
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
 
@@ -583,8 +588,10 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Not Yet Submitted");
         clickButton("Save Changes and Send Notifications");
+        prepForPageLoad();
         clickButton("Cancel Request", 0);
         assertAlert("Canceling will permanently delete this pending request.  Continue?");
+        waitForPageToLoad();
         waitForText("No data to show.");
         clickTab("Specimen Data");
         waitForVialSearch();
@@ -992,18 +999,26 @@ public class SpecimenTest extends SpecimenBaseTest
         return false;
     }
 
-    private void verifyDrawTimestampExpectedConflict(String id, String qcControl)
+    private void verifyDrawTimestampExpectedConflict(String id, String qcControlComments)
     {
-        if (StringUtils.isBlank(qcControl))
+        if (!_drawTimestampConflicts.containsKey(id))
         {
-            assertFalse(id + " should not have a QC conflict", _drawTimestampConflicts.containsKey(id));
+            assertTrue(id + " should not have a QC conflict. Found: " + qcControlComments, StringUtils.isBlank(qcControlComments));
         }
         else
         {
-            assertTrue(id + " should have a QC conflict",_drawTimestampConflicts.containsKey(id));
-            String expectedConflict = _drawTimestampConflicts.get(id);
-            assertTrue(id + " " + expectedConflict + " is not equal to " + qcControl, expectedConflict.equalsIgnoreCase(qcControl));
+            assertFalse(id + " should have a QC conflict: " + _drawTimestampConflicts.get(id), StringUtils.isBlank(qcControlComments));
+            String expectedComment = _drawTimestampConflicts.get(id);
+            Set<String> expectedConflicts = getConflictedColumnsFromQCComment(expectedComment);
+            Set<String> actualConflicts = getConflictedColumnsFromQCComment(qcControlComments);
+            assertEquals(id + " did not have the expected conflict(s)", expectedConflicts, actualConflicts);
         }
+    }
+
+    private Set<String> getConflictedColumnsFromQCComment(String qcControlComment)
+    {
+        String columns = qcControlComment.split(": ")[1];
+        return new HashSet<>(Arrays.asList(columns.toLowerCase().split(", ")));
     }
 
     private void verifyDrawTimestampConflict(String qcControl, String timestamp, String date, String time)
