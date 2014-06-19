@@ -180,7 +180,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         log("Create ICEMR assays and samplesets");
         _containerHelper.createProject(getProjectName(), "ICEMR");
-        enableModule(getProjectName(), "Study");
+        _containerHelper.enableModule(getProjectName(), "Study");
 
         setupUsers();
 
