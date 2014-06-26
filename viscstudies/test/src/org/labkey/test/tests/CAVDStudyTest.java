@@ -456,11 +456,11 @@ public class CAVDStudyTest extends StudyBaseTest
         clickFolder(FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
         clickButton("Insert New");
-        setFormElement("quf_MyStudyName", "Something");
+        setFormElement(Locator.name("quf_MyStudyName"), "Something");
         selectOptionByText(Locator.name("quf_StudyLookup"), study2name);
         clickButton("Submit");
         clickButton("Insert New");
-        setFormElement("quf_MyStudyName", "TheOtherOne");
+        setFormElement(Locator.name("quf_MyStudyName"), "TheOtherOne");
         selectOptionByText(Locator.name("quf_StudyLookup"), study3name);
         clickButton("Submit");
 
