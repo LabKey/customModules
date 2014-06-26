@@ -140,6 +140,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         _fileBrowserHelper.selectFileBrowserItem("/export/");
         waitAndClick(Locator.tag("tr").withClass("x4-grid-data-row").withAttributeContaining("data-recordid", "My Study_"));
         _fileBrowserHelper.selectImportDataAction("Import Folder");
+        clickButton("Start Import"); // Validate queries page
         waitForPipelineJobsToComplete(2, "Folder import", false);
     }
 
