@@ -168,7 +168,7 @@ public class DrugSensitivityAssayProvider extends AbstractDilutionAssayProvider<
     @Override
     public AssayProtocolSchema createProtocolSchema(User user, Container container, @NotNull ExpProtocol protocol, @Nullable Container targetStudy)
     {
-        return new DrugSensitivityProtocolSchema(user, container, protocol, targetStudy);
+        return new DrugSensitivityProtocolSchema(user, container, this, protocol, targetStudy);
     }
 
     @Override

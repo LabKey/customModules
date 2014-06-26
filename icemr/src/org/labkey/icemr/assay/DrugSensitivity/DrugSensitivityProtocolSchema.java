@@ -15,6 +15,7 @@
  */
 package org.labkey.icemr.assay.DrugSensitivity;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.assay.dilution.query.DilutionResultsQueryView;
 import org.labkey.api.data.CompareType;
@@ -44,9 +45,9 @@ import org.springframework.validation.BindException;
  */
 public class DrugSensitivityProtocolSchema extends AssayProtocolSchema
 {
-    public DrugSensitivityProtocolSchema(User user, Container container, ExpProtocol protocol, Container targetStudy)
+    public DrugSensitivityProtocolSchema(User user, Container container, @NotNull DrugSensitivityAssayProvider provider, @NotNull ExpProtocol protocol, @Nullable Container targetStudy)
     {
-        super(user, container, protocol, targetStudy);
+        super(user, container, provider, protocol, targetStudy);
     }
 
     @Override
