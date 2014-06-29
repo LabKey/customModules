@@ -38,7 +38,7 @@ public class ViscStudiesModule extends DefaultModule
 
     public double getVersion()
     {
-        return 14.10;
+        return 14.20;
     }
 
     public boolean hasScripts()
