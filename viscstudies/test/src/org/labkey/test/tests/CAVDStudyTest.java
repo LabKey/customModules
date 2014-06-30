@@ -17,6 +17,7 @@
 package org.labkey.test.tests;
 
 import org.junit.experimental.categories.Category;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
@@ -124,7 +125,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickFolder(FOLDER_NAME);
 
-        clickAndWait(Locator.linkWithText("Vaccine Design"));
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         clickEditDesign();
 
         addStudyDesignRow(RowType.Immunogen, "Immunogen1", IMMUNOGEN_TYPES[0], "1.5e10 Ad vg", ROUTES[0]);
@@ -137,7 +138,7 @@ public class CAVDStudyTest extends StudyBaseTest
         saveRevision();
         assertElementPresent(Locator.xpath("//a[@class='labkey-disabled-button']/span[text()='Save']"));
 
-        clickAndWait(Locator.linkWithText("Vaccine Design"));
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         waitForText("Immunogens");
         assertTextPresent(_expectedVaccineDesignText);
 
@@ -153,7 +154,7 @@ public class CAVDStudyTest extends StudyBaseTest
         waitForText("Immunogens");
         assertTextPresent(_expectedVaccineDesignText);
 
-        clickAndWait(Locator.linkWithText("Immunizations"));
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "IMMUNIZATIONS");
         clickEditDesign();
         addGroup("Vaccine", false, "1", 1);
         addGroup("Placebo", false, "2", 2);
@@ -167,7 +168,7 @@ public class CAVDStudyTest extends StudyBaseTest
         waitForText("Placebo");
         assertTextPresentInThisOrder("Vaccine", "Placebo", "Vaccine2");
 
-        clickAndWait(Locator.linkWithText("Immunizations"));
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "IMMUNIZATIONS");
         clickEditDesign();
         addGroup("Vaccine2", true, "3", 3);
         addTimepoint("CAVDImmTimepoint", "0", TimeUnit.Days);
@@ -180,7 +181,7 @@ public class CAVDStudyTest extends StudyBaseTest
         // Test 'inactive' study design option
         //
         // 1. inactivate the Canarypox type
-        clickTab("Vaccine Design");
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         waitForText("Adjuvants");
         clickAndWait(Locator.linkContainingText("Edit"));
         waitForText("Configure Dropdown Options");
@@ -190,16 +191,21 @@ public class CAVDStudyTest extends StudyBaseTest
         click(Locator.checkboxByName("quf_Inactive"));
         clickAndWait(Locator.linkWithText("Submit"));
         // 2. verify that the Canarypox option, although inactive is still present.
-        clickTab("Vaccine Design");
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         clickButton("Edit", defaultWaitForPage);
         waitForElement(Locator.lkButton("Finished"));
         selectOptionByText(Locator.xpath("//select[@title='Immunogen 1 type']"), "Canarypox");
     }
 
+    private void goToGWTStudyDesignerPanel(String folderName, String panel)
+    {
+        beginAt("/study-designer/" + getProjectName() + "/" + folderName + "/designer.view?panel=" + panel);
+    }
+
     private void doVerifyAssaySchedule()
     {
         clickFolder(STUDY_NAME);
-        clickAndWait(Locator.linkWithText("Assays"));
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "ASSAYS");
         clickEditDesign();
         addStudyDesignRow(RowType.Assay, ASSAYS[0], LABS[0]);
         addStudyDesignRow(RowType.Assay, ASSAYS[1], LABS[1]);
@@ -277,8 +283,8 @@ public class CAVDStudyTest extends StudyBaseTest
 
         String projectStr = project ? "project" : "folder";
 
-        clickFolder("CAVDStudyTest Folder");
-        clickTab("Assays");
+        clickFolder(FOLDER_NAME);
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "ASSAYS");
         clickButton("Edit", defaultWaitForPage);
         waitAndClick(Locator.linkContainingText("Configure Dropdown Options"));
         waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
@@ -295,8 +301,8 @@ public class CAVDStudyTest extends StudyBaseTest
 
         String projectStr = project ? "project" : "folder";
 
-        clickFolder("CAVDStudyTest Folder");
-        clickTab("Vaccine Design");
+        clickFolder(FOLDER_NAME);
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         clickButton("Edit", defaultWaitForPage);
         waitAndClick(Locator.linkContainingText("Configure Dropdown Options"));
         waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
@@ -313,7 +319,7 @@ public class CAVDStudyTest extends StudyBaseTest
     private void doVerifyDatasets()
     {
         clickFolder(STUDY_NAME);
-        clickAndWait(Locator.linkWithText("Assays"));
+        goToGWTStudyDesignerPanel(FOLDER_NAME, "ASSAYS");
 
         clickButton("Create Assay Datasets", 0);
         waitForAlert("Placeholder datasets created. Use Manage/Study Schedule to define datasets or link to assay data.", WAIT_FOR_JAVASCRIPT);

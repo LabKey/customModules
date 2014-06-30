@@ -80,40 +80,7 @@ public class ViscStudyFolderTabs
         }
     }
 
-    public static abstract class VaccineProtocolPage extends FolderTab
-    {
-
-        protected VaccineProtocolPage(@NotNull String name, @Nullable String caption)
-        {
-            super(name, caption);
-        }
-
-        protected abstract String getPanelName();
-
-        @Override
-        public boolean isSelectedPage(ViewContext viewContext)
-        {
-            ActionURL url = viewContext.getActionURL();
-            return url.getController().equalsIgnoreCase("study-designer") && url.getAction().equalsIgnoreCase("designer") && getPanelName().equals(url.getParameter("panel"));
-        }
-
-        @Override
-        public ActionURL getURL(Container container, User user)
-        {
-            ActionURL actionURL = new ActionURL("study-designer", "designer", container);
-            actionURL.addParameter("panel", getPanelName());
-            return actionURL;
-        }
-
-        @Override
-        public boolean isVisible(Container c, User user)
-        {
-            Study study = StudyService.get().getStudy(c);
-            return (study != null);
-        }
-    }
-
-    public static class VaccineDesignPage extends VaccineProtocolPage
+    public static class VaccineDesignPage extends BasePage
     {
         public static final String PAGE_ID = "viscstudy.VACCINE_DESIGN";
 
@@ -123,13 +90,23 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        protected String getPanelName()
+        public boolean isSelectedPage(ViewContext viewContext)
         {
-            return "VACCINE";
+            ActionURL currentURL = viewContext.getActionURL();
+            return super.isSelectedPage(viewContext) ||
+                    currentURL.getAction().equalsIgnoreCase("manageStudyProducts");
+        }
+
+        @Override
+        public List<Portal.WebPart> createWebParts()
+        {
+            List<Portal.WebPart> parts = new ArrayList<>();
+            parts.add(Portal.getPortalPart("Vaccine Design").createWebPart());
+            return parts;
         }
     }
 
-    public static class ImmunizationsPage extends VaccineProtocolPage
+    public static class ImmunizationsPage extends BasePage
     {
         public static final String PAGE_ID = "viscstudy.IMMUNIZATIONS";
 
@@ -139,13 +116,23 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        protected String getPanelName()
+        public boolean isSelectedPage(ViewContext viewContext)
         {
-            return "IMMUNIZATIONS";
+            ActionURL currentURL = viewContext.getActionURL();
+            return super.isSelectedPage(viewContext) ||
+                    currentURL.getAction().equalsIgnoreCase("manageTreatments");
+        }
+
+        @Override
+        public List<Portal.WebPart> createWebParts()
+        {
+            List<Portal.WebPart> parts = new ArrayList<>();
+            parts.add(Portal.getPortalPart("Immunization Schedule").createWebPart());
+            return parts;
         }
     }
 
-    public static class AssaysPage extends VaccineProtocolPage
+    public static class AssaysPage extends BasePage
     {
         public static final String PAGE_ID = "viscstudy.ASSAYS";
 
@@ -155,9 +142,19 @@ public class ViscStudyFolderTabs
         }
 
         @Override
-        protected String getPanelName()
+        public boolean isSelectedPage(ViewContext viewContext)
         {
-            return "ASSAYS";
+            ActionURL currentURL = viewContext.getActionURL();
+            return super.isSelectedPage(viewContext) ||
+                    currentURL.getAction().equalsIgnoreCase("manageAssaySchedule");
+        }
+
+        @Override
+        public List<Portal.WebPart> createWebParts()
+        {
+            List<Portal.WebPart> parts = new ArrayList<>();
+            parts.add(Portal.getPortalPart("Assay Schedule").createWebPart());
+            return parts;
         }
     }
 
