@@ -41,13 +41,10 @@ public class SpecimenGridExportTest extends AbstractExportTest
     @BeforeClass
     public static void doSetup() throws Exception
     {
-        SpecimenGridExportTest initTest = new SpecimenGridExportTest();
-        initTest.doCleanup(false);
+        SpecimenGridExportTest initTest = (SpecimenGridExportTest)getCurrentTest();
 
         initTest._containerHelper.createProject(initTest.getProjectName(), "Study");
         initTest.importSpecimens();
-
-        currentTest = initTest;
     }
 
     private void importSpecimens()
