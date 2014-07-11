@@ -137,7 +137,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
         hoverProjectBar();
         int response = -1;
         try{
-            response = WebTestHelper.getHttpGetResponse(getBaseURL() + "/" + stripContextPath(getAttribute(Locator.linkWithText(getProjectName()), "href")));
+            response = WebTestHelper.getHttpGetResponse(getBaseURL() + "/" + WebTestHelper.stripContextPath(getAttribute(Locator.linkWithText(getProjectName()), "href")));
         }
         catch(Exception e){/*No link or bad response*/}
 

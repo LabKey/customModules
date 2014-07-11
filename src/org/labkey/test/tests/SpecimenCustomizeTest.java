@@ -18,6 +18,7 @@ package org.labkey.test.tests;
 import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ListHelper;
@@ -58,7 +59,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     protected void doCreateSteps()
     {
         initializeFolder();
-        importFolderFromZip(new File(getSampledataPath(), "/study/SpecimenCustomizeStudy.folder.zip"));
+        importFolderFromZip(new File(TestFileUtils.getSampledataPath(), "/study/SpecimenCustomizeStudy.folder.zip"));
     }
 
     @Override

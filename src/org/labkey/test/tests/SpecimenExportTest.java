@@ -17,6 +17,7 @@ package org.labkey.test.tests;
 
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyB;
 import org.labkey.test.categories.Specimen;
@@ -147,13 +148,13 @@ public class SpecimenExportTest extends SpecimenBaseTest
     private void verifySpecimenSettingsInArchive()
     {
         log("verify specimen settings in study.xml");
-        File studyXml = new File(getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/study.xml");
-        String studyXmlText = getFileContents(studyXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
+        File studyXml = new File(TestFileUtils.getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/study.xml");
+        String studyXmlText = TestFileUtils.getFileContents(studyXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
         assertTrue(studyXmlText.contains("<specimens dir=\"specimens\" settings=\"specimen_settings.xml\" file=\"Study.specimens\"/>"));
 
         log("verify specimen_settings.xml");
-        File specimenSettingsXml = new File(getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/specimens/specimen_settings.xml");
-        String specimenSettingsXmlText = getFileContents(specimenSettingsXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
+        File specimenSettingsXml = new File(TestFileUtils.getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/specimens/specimen_settings.xml");
+        String specimenSettingsXmlText = TestFileUtils.getFileContents(specimenSettingsXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
 
         assertTrue(specimenSettingsXmlText.contains("<specimens repositoryType=\"ADVANCED\" enableRequests=\"true\" editableRepository=\"true\""));
         assertTrue(specimenSettingsXmlText.contains(
