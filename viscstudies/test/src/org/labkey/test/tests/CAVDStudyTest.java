@@ -17,9 +17,8 @@
 package org.labkey.test.tests;
 
 import org.junit.experimental.categories.Category;
-import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
-import org.labkey.test.WebTestHelper;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.Study;
 import org.labkey.test.util.Ext4Helper;
@@ -87,7 +86,7 @@ public class CAVDStudyTest extends StudyBaseTest
     public void configureStudy(String folderName)
     {
         createSubfolder(PROJECT_NAME, PROJECT_NAME, folderName, "Collaboration", null);
-        importFolderFromZip(new File(getLabKeyRoot(), CAVD_TEST_STUDY_ZIP));
+        importFolderFromZip(new File(TestFileUtils.getLabKeyRoot(), CAVD_TEST_STUDY_ZIP));
         waitForPipelineJobsToComplete(1, "Folder import", false);
     }
 
@@ -696,7 +695,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickButton("Next");
 
         String datasetFileName = getStudySampleDataPath() + "/datasets/plate001.tsv";
-        File file = new File(WebTestHelper.getLabKeyRoot(), datasetFileName);
+        File file = new File(TestFileUtils.getLabKeyRoot(), datasetFileName);
 
         if (file.exists())
         {

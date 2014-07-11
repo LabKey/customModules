@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.DataRegionTable;
@@ -449,14 +450,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.name("dailyUpload"));
 
         //Try to upload a form with bad columns
-        setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/missingColumns.xls"));
+        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/missingColumns.xls"));
         clickButtonContainingText("Upload", "The data file header row does not match the daily results schema");
         _extHelper.waitForExtDialog("Daily Upload Failed");
         clickButtonContainingText("OK", "Daily Upload");
         _extHelper.waitForExtDialogToDisappear("Daily Upload Failed");
 
         //Try to upload a form with bad flasks (invalid IDs)
-        setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/badFlasks.xls"));
+        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/badFlasks.xls"));
         completeUpload(firstExp);
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
@@ -466,14 +467,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         //Upload test
         refresh();
         waitForElement(Locator.name("dailyUpload"));
-        setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
+        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
         completeUpload(null);
         waitAndClick(Ext4Helper.Locators.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         clickButton("Daily Maintenance");
         waitForElement(Locator.name("dailyUpload"));
-        setFormElement(Locator.name("dailyUpload"), new File(getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
+        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
         completeUpload(null);
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
@@ -718,7 +719,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         if (fileUploadField != null)
         {
-            File f = new File(getLabKeyRoot(), fileUploadField);
+            File f = new File(TestFileUtils.getLabKeyRoot(), fileUploadField);
             setFormElement(Locator.name(GEL_IMAGE_FIELD), f);
             // verify that a "GelImage" field exists and that its value is the file name without the path
             fieldAndValue.put(GEL_IMAGE_FIELD, f.getName());
@@ -756,7 +757,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         listHelper.deleteField("Field Properties", 0);
         clickButton("Save");
         clickButton("Edit Fields");
-        String samplesetCols = getFileContents(new File(getLabKeyRoot(), samplesetFilename));
+        String samplesetCols = TestFileUtils.getFileContents(new File(TestFileUtils.getLabKeyRoot(), samplesetFilename));
         listHelper.addFieldsNoImport(samplesetCols);
 
       // waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
