@@ -21,6 +21,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.categories.Specimen;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 
 @Category({DailyA.class, Specimen.class})
@@ -316,7 +317,8 @@ public class AliquotTest extends SpecimenBaseTest
 
     private void createNewRequestFromQueryView()
     {
-        _extHelper.clickMenuButton("Request Options", "Create New Request");
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
+        specimenTable.clickHeaderButton("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
