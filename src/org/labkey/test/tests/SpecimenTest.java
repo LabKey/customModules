@@ -51,9 +51,9 @@ public class SpecimenTest extends SpecimenBaseTest
     private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);
 
-    public String getAssociatedModuleDirectory()
+    public List<String> getAssociatedModules()
     {
-        return "server/modules/study";
+        return Arrays.asList("study");
     }
 
     @Override

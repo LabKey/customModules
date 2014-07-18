@@ -23,6 +23,8 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyB;
 import org.labkey.test.categories.Specimen;
 
+import java.util.Arrays;
+
 /**
  * Test exporting rows from a specimen grid (not folder/study specimen export.)
  */
@@ -119,8 +121,8 @@ public class SpecimenGridExportTest extends AbstractExportTest
     }
 
     @Override
-    public String getAssociatedModuleDirectory()
+    public java.util.List<String> getAssociatedModules()
     {
-        return "server/modules/study";
+        return Arrays.asList("study");
     }
 }
