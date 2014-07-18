@@ -35,6 +35,7 @@ import org.labkey.test.util.PortalHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -800,9 +801,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @Override
-    public String getAssociatedModuleDirectory()
+    public java.util.List<String> getAssociatedModules()
     {
-        return "server/customModules/icemr";
+        return Arrays.asList("icemr");
     }
 
     @LogMethod(quiet = true)
