@@ -55,6 +55,32 @@ public class ViscStudyFolderTabs
             Study study = StudyService.get().getStudy(c);
             return (study != null);
         }
+
+        protected abstract String getPanelName();
+
+        @Override
+        public ActionURL getURL(Container container, User user)
+        {
+            if (showGWTStudyDesigner(container, user) && getPanelName() != null)
+            {
+                ActionURL actionURL = new ActionURL("study-designer", "designer", container);
+                actionURL.addParameter("panel", getPanelName());
+                return actionURL;
+            }
+            else
+                return super.getURL(container, user);
+        }
+
+        public boolean showGWTStudyDesigner(Container c, User user)
+        {
+            // Issue 21092: show depricated GWT study designer if we have a non-empty XML study design and no data in the study design hard tables
+            Study study = StudyService.get().getStudy(c);
+            return study != null
+                    && study.hasGWTStudyDesign(c, user)
+                    && study.getStudyProducts(user, null).size() == 0
+                    && study.getStudyTreatments(user).size() == 0
+                    && study.getAssaySpecimenConfigs("AssayName").size() == 0;
+        }
     }
 
     public static class OverviewPage extends FolderTab
@@ -104,6 +130,12 @@ public class ViscStudyFolderTabs
             parts.add(Portal.getPortalPart("Vaccine Design").createWebPart());
             return parts;
         }
+
+        @Override
+        protected String getPanelName()
+        {
+            return "VACCINE";
+        }
     }
 
     public static class ImmunizationsPage extends BasePage
@@ -130,6 +162,12 @@ public class ViscStudyFolderTabs
             parts.add(Portal.getPortalPart("Immunization Schedule").createWebPart());
             return parts;
         }
+
+        @Override
+        protected String getPanelName()
+        {
+            return "IMMUNIZATIONS";
+        }
     }
 
     public static class AssaysPage extends BasePage
@@ -155,6 +193,12 @@ public class ViscStudyFolderTabs
             List<Portal.WebPart> parts = new ArrayList<>();
             parts.add(Portal.getPortalPart("Assay Schedule").createWebPart());
             return parts;
+        }
+
+        @Override
+        protected String getPanelName()
+        {
+            return "ASSAYS";
         }
     }
 
@@ -194,6 +238,12 @@ public class ViscStudyFolderTabs
             parts.add(filesWebPart);
 
             return parts;
+        }
+
+        @Override
+        protected String getPanelName()
+        {
+            return null;
         }
     }
 
