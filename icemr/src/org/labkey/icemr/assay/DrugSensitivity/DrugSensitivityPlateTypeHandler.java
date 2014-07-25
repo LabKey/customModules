@@ -43,7 +43,7 @@ public class DrugSensitivityPlateTypeHandler extends AbstractPlateTypeHandler
     }
 
     @Override
-    public List<String> getTemplateTypes()
+    public List<String> getTemplateTypes(Pair<Integer, Integer> size)
     {
         return Arrays.asList(DEFAULT_PLATE);
     }

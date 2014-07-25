@@ -128,11 +128,13 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
             if (null == outputObject)
                 throw new IllegalStateException("Expected a single data file output for this NAb run, but none matching the expected datatype found. Found a total of " + outputDatas.size());
 
-            Map<String, DilutionResultProperties> allProperties = getSampleProperties(outputObject);
+            Map<String, Map<PropertyDescriptor, Object>> samplePropertiesMap = getSampleProperties();
+            DilutionSummary[] dilutionSummaries = getSummaries();
+            Map<String, DilutionResultProperties> allProperties = getSampleProperties(outputObject, dilutionSummaries, samplePropertiesMap);
             Set<String> captions = new HashSet<>();
             boolean longCaptions = false;
 
-            for (DilutionSummary summary : getSummaries())
+            for (DilutionSummary summary : dilutionSummaries)
             {
                 if (!summary.isBlank())
                 {
@@ -142,8 +144,9 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
                         longCaptions = true;
                     captions.add(shortCaption);
 
+                    Map<PropertyDescriptor, Object> sampleProperties = samplePropertiesMap.get(getSampleKey(summary));
                     DilutionResultProperties props = allProperties.get(getSampleKey(summary));
-                    sampleResults.add(new SampleResult(_provider, outputObject, summary, key, props.getSampleProperties(), props.getDataProperties()));
+                    sampleResults.add(new SampleResult(_provider, outputObject, summary, key, sampleProperties, props));
                 }
             }
 
@@ -262,7 +265,7 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
                 Date visitDate = (Date) firstWellGroup.getProperty(AbstractAssayProvider.DATE_PROPERTY_NAME);
                 String treatmentName = firstWellGroup.getProperty(DrugSensitivityAssayProvider.TREATMENT_NAME_PROPERTY_NAME).toString();
 
-                _materialKey = new DilutionMaterialKey(_container, treatmentName, participantId, visitId, visitDate);
+                _materialKey = new DilutionMaterialKey(_container, treatmentName, participantId, visitId, visitDate, null);
             }
             return _materialKey;
         }
