@@ -3,4 +3,7 @@
    <permissions>
        <permission name="admin"/>
    </permissions>
+    <dependencies>
+        <dependency path="Ext4" />
+    </dependencies>
 </view>

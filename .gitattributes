@@ -202,6 +202,7 @@ viscstudies/module.properties -text
 viscstudies/resources/views/migrateStudyDesigns.html -text
 viscstudies/resources/views/migrateStudyDesigns.view.xml -text
 viscstudies/resources/views/studydesigns.html -text
+viscstudies/resources/views/studydesigns.view.xml -text
 viscstudies/resources/views/updateStudyProperties.html -text
 viscstudies/resources/views/updateStudyProperties.view.xml -text
 viscstudies/src/org/labkey/viscstudies/DatasetListWithStatusColumn.java -text

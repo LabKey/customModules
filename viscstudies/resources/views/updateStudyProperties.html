@@ -7,7 +7,7 @@
     function getStudyDesigns(config)
     {
         var params = {includeSubfolders:config.includeSubfolders};
-        Ext.Ajax.request({
+        Ext4.Ajax.request({
             url : LABKEY.ActionURL.buildURL('study-designer', 'getStudyDesigns', config.containerPath, params),
             method : 'GET',
             success: LABKEY.Utils.getCallbackWrapper(LABKEY.Utils.getOnSuccess(config), config.scope),
@@ -16,7 +16,7 @@
 
     }
 
-        Ext.onReady(function() {
+        Ext4.onReady(function() {
             getStudyDesigns({successCallback:initStudyDesigns, includeSubfolders:true });
         });
 
@@ -32,12 +32,12 @@
 
     function initUpdateStudies(result)
     {
-        Ext.each(result.rows, function (study){
+        Ext4.each(result.rows, function (study){
              _studiesByContainer[study["Container"]] = study;
         });
 
-        var html = "The following studies will be updated.<ul>"
-        Ext.each(_studyDesigns, function(design) {
+        var html = "The following studies will be updated.<ul>";
+        Ext4.each(_studyDesigns, function(design) {
             if (design.active)
             {
                 var study = _studiesByContainer[design.container.id];
@@ -47,7 +47,7 @@
         });
         html += "</ul>";
 
-        Ext.get("updateList").update(html);
+        Ext4.get("updateList").update(html);
         console.log(_updates);
     }
 
@@ -71,14 +71,14 @@
 
         function handleSuccess(res) {
             var update = _updates[nextUpdate];
-            Ext.get(update.study.Container).insertHtml('beforeEnd', " - Update Complete");
+            Ext4.get(update.study.Container).insertHtml('beforeEnd', " - Update Complete");
             nextUpdate++;
             doNextUpdate();
         }
 
         function handleFailure(res) {
             var update = _updates[nextUpdate];
-            Ext.get(update.study.Container).insertHtml('beforeEnd', " - Update Failed");
+            Ext4.get(update.study.Container).insertHtml('beforeEnd', " - Update Failed");
             console.log("Failure: ", res);
             nextUpdate++;
             doNextUpdate();
