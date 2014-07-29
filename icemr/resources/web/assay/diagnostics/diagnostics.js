@@ -14,7 +14,7 @@
  * to know about the LABKEY.icemr.tracking namespace
  *
  */
-Ext.namespace("LABKEY.icemr.diagnostics");
+Ext4.namespace("LABKEY.icemr.diagnostics");
 // -------------------------------------------------------------------
 // dependencies
 // -------------------------------------------------------------------

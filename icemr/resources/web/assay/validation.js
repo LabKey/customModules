@@ -8,7 +8,7 @@
  * Date: 1/10/13
  * Time: 11:03 AM
  */
-Ext.namespace("LABKEY.icemr");
+Ext4.namespace("LABKEY.icemr");
 //
 // numeric field validation
 //

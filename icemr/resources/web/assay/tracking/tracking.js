@@ -17,8 +17,8 @@
 // -------------------------------------------------------------------
 // namespaces
 // -------------------------------------------------------------------
-Ext.namespace("LABKEY.icemr.tracking");
-Ext.namespace("LABKEY.icemr.flask");
+Ext4.namespace("LABKEY.icemr.tracking");
+Ext4.namespace("LABKEY.icemr.flask");
 
 // -------------------------------------------------------------------
 // dependencies
@@ -736,7 +736,7 @@ LABKEY.icemr.tracking.processDailyFileUpload = function(result, success) {
             format: 'jsonTSV',
             success: LABKEY.icemr.tracking.getProcessDailyFileUploadCallbackWrapper(success),
             failure: function (error, format) {
-                Ext.Msg.alert("Upload Failed", "An error occurred while fetching the contents of the data file.");
+                Ext4.Msg.alert("Upload Failed", "An error occurred while fetching the contents of the data file.");
             }
         })
     }

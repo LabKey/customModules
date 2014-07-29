@@ -10,7 +10,7 @@
  *
  *  Code and utility functions common to all ICEMR assays goes here
  */
-Ext.namespace("LABKEY.icemr");
+Ext4.namespace("LABKEY.icemr");
 // -------------------------------------------------------------------
 // configuration errors
 // -------------------------------------------------------------------
@@ -39,8 +39,8 @@ LABKEY.icemr.getFieldConfigsSuccessCallback = function(fn) {
     {
         if (assays.length != 1)
         {
-            Ext.Msg.hide();
-            Ext.Msg.alert(LABKEY.icemr.errConfigTitle,  LABKEY.icemr.errConfigMissingAssayDesign);
+            Ext4.Msg.hide();
+            Ext4.Msg.alert(LABKEY.icemr.errConfigTitle,  LABKEY.icemr.errConfigMissingAssayDesign);
         }
 
         var assay = assays[0];
@@ -74,7 +74,7 @@ LABKEY.icemr.buildConfigs = function(fields, metaType) {
 
 LABKEY.icemr.buildConfig = function(meta, metaType){
     LABKEY.icemr.fixupLookup(meta, metaType);
-    config = LABKEY.ext4.Util.getFormEditorConfig(meta);
+    var config = LABKEY.ext4.Util.getFormEditorConfig(meta);
     //
     // set an id so that we use this is as the key name for the field
     // in any form we bind to
@@ -126,19 +126,19 @@ LABKEY.icemr.showParamError = function(title, message, param, failure)
     }
 
     LABKEY.icemr.showError(title, replacedMessage, failure)
-}
+};
 
 LABKEY.icemr.showError = function(title, message, failure){
     if (failure)
     {
-        var json = new Object();
+        var json = {};
         json.exception = title + ": " + message;
         failure.call(this, json);
     }
     else
     {
-                                                                                                                                                                                                                                                                      Ext.Msg.hide();
-        Ext.Msg.alert(title, message);
+        Ext4.Msg.hide();
+        Ext4.Msg.alert(title, message);
     }
 };
 
@@ -158,7 +158,7 @@ LABKEY.icemr.fixupLookup = function(meta, metaType) {
             container : meta.lookupContainer,
             schemaName : meta.lookupSchema,
             queryName : meta.lookupQuery
-        }
+        };
 
         //
         // handle users special case for our scientist column
@@ -322,4 +322,4 @@ LABKEY.icemr.reorderList = function(list, item, itemAfter) {
     }
 
     return list;
-}
+};
