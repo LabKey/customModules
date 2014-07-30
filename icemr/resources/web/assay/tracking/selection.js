@@ -24,6 +24,7 @@ LABKEY.icemr.tracking.selection = new function() {
 
     function fetchCompounds()
     {
+        // TODO: Update this to use a LABKEY.ext4.data.Store
         var storeCompounds = new LABKEY.ext.Store({
             schemaName : 'icemr',
             queryName  : 'lk_compound'
