@@ -264,11 +264,11 @@ var _migrateControl =
     {
         // Visits: Make sure all visits are there; add if needed
         var def = migrate.design.studyDefinition;
-        var isWeekBasedVisitBased = this.isWeekBasedVisitBased(def);
+        this.isWeekBasedVisitBased = this.calculateIsWeekBasedVisitBased(def);
         var insertVisitRows = {};
         var ensureVisitsFailed = false;
         Ext4.each(def.assaySchedule.assays, function(assay) {
-            if (assay.timepoint && !this.ensureVisit(insertVisitRows, assay.timepoint, isWeekBasedVisitBased))
+            if (assay.timepoint && !this.ensureVisit(insertVisitRows, assay.timepoint))
             {
                 ensureVisitsFailed = true;
                 return false; // failure
@@ -276,7 +276,7 @@ var _migrateControl =
         }, this);
 
         Ext4.each(def.immunizations, function(immunization) {
-            if (!this.ensureVisit(insertVisitRows, immunization.timepoint, isWeekBasedVisitBased))
+            if (!this.ensureVisit(insertVisitRows, immunization.timepoint))
             {
                 ensureVisitsFailed = true;
                 return false; // failure
@@ -304,17 +304,17 @@ var _migrateControl =
 
     },
 
-    ensureVisit: function(insertVisitRows, timepoint, isWeekBasedVisitBased)
+    ensureVisit: function(insertVisitRows, timepoint)
     {
         var label = this.makeVisitLabel(timepoint);
         var seqNum = this.makeVisitSequenceNum(timepoint);
-        if (isWeekBasedVisitBased)
+        if (this.isWeekBasedVisitBased)
         {
             // lookup by seqNum / 7
             var key = seqNum / 7;
             if (!this.visits[key])
             {
-                insertVisitRows[key] = ({Label: '', SequenceNumMin: key, SequenceNumMax: key});
+                insertVisitRows[key] = ({Label: null, SequenceNumMin: key, SequenceNumMax: key});
             }
         }
         else
@@ -374,7 +374,7 @@ var _migrateControl =
             },
             success: function(response) {
                 var data = Ext4.decode(response.responseText);
-                row.RowId = data.RowId;
+                row.RowId = this.getRowId(data);
                 var key = this.getVisitKey(row.Label, row.SequenceNumMin);
                 this.visits[key] = row;
                 this.nextVisitToInsert++;
@@ -412,6 +412,9 @@ var _migrateControl =
 
     makeVisitLabel: function(timepoint)
     {
+        if (this.isWeekBasedVisitBased)
+            return (this.makeVisitSequenceNum(timepoint) / 7).toString();
+
         var label = timepoint.name;
         var suffix;
         if (timepoint.displayUnit == "days")
@@ -436,7 +439,7 @@ var _migrateControl =
 
     getVisitKey: function(label, sequenceNumMin)
     {
-        if (this.isDateBased)
+        if (this.isDateBased || null == label)
             return sequenceNumMin;
         else
             return label.toLowerCase();
@@ -708,7 +711,7 @@ var _migrateControl =
         {
             var antigen = this.productAntigens[key];
             var row = {gene: antigen.gene, subtype: antigen.subtype, sequence: antigen.sequence, genBankId: antigen.genBankId,
-                       productId: antigen.product.insertedRow.rowid};
+                       productId: this.getRowId(antigen.product.insertedRow)};
             rows.push(row);
         }
 
@@ -746,8 +749,8 @@ var _migrateControl =
         {
             var treatmentProductValue = this.treatmentProductMap[key];
             var row = {dose: treatmentProductValue.dose, route: treatmentProductValue.route,
-                       productId: treatmentProductValue.product.insertedRow.rowid,
-                       treatmentId: treatmentProductValue.treatment.insertedRow.rowid};
+                       productId: this.getRowId(treatmentProductValue.product.insertedRow),
+                       treatmentId: this.getRowId(treatmentProductValue.treatment.insertedRow)};
             rows.push(row);
         }
 
@@ -788,8 +791,8 @@ var _migrateControl =
             var visit = this.visits[treatmentVisitValue.visitKey];
             if (cohort && visit && treatment)
             {
-                var row = {visitId: visit.RowId, cohortId: cohort.rowid,
-                           treatmentId: treatment.insertedRow.rowid};
+                var row = {visitId: this.getRowId(visit), cohortId: this.getRowId(cohort),
+                           treatmentId: this.getRowId(treatment.insertedRow)};
                 rows.push(row);
             }
         }
@@ -829,8 +832,8 @@ var _migrateControl =
             var visit = this.visits[assaySpecimenVisit.visitKey];
             if (visit)
             {
-                var row = {visitId: visit.RowId,
-                           assaySpecimenId: this.assaySpecimens[assaySpecimenVisit.assaySpecimen.assayName].insertedRow.rowid};
+                var row = {visitId: this.getRowId(visit),
+                           assaySpecimenId: this.getRowId(this.assaySpecimens[assaySpecimenVisit.assaySpecimen.assayName].insertedRow)};
                 rows.push(row);
             }
         }
@@ -871,7 +874,7 @@ var _migrateControl =
         }
     },
 
-    isWeekBasedVisitBased: function (def)
+    calculateIsWeekBasedVisitBased: function (def)
     {
         if (this.isDateBased)
             return false;
@@ -953,6 +956,19 @@ var _migrateControl =
         if (!isGoodSoFar)
             return false;
         return true;
+    },
+
+    getRowId: function(obj) {
+        if (obj.rowid)
+            return obj.rowid;
+        if (obj.rowId)
+            return obj.rowId;
+        if (obj.RowId)
+            return obj.RowId;
+        if (obj.Rowid)
+            return obj.Rowid;
+        this.handleWarning("rowId not found");
+        return null;
     },
 
     // TEMP: delete all rows from these tables to help debug
