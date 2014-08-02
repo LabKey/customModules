@@ -23,6 +23,7 @@ hvtnFlow/resources/queries/flow/AnalysisPlan007.cd57.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan007.excl.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan007.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan008.sql -text
+hvtnFlow/resources/queries/flow/AnalysisPlan009.excl.5bool.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan009.excl.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan009.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan024.7bool.sql -text
