@@ -217,20 +217,20 @@ public class DrugSensitivityAssayRun extends DilutionAssayRun
     }
 
     @Override
-    public double getControlRange(Plate plate)
+    public double getControlRange(Plate plate, String virusWellGroupName)
     {
         WellData virusControl = plate.getWellGroup(WellGroup.Type.CONTROL, DilutionManager.VIRUS_CONTROL_SAMPLE);
         return virusControl.getMean();
     }
 
     @Override
-    public double getCellControlMean(Plate plate)
+    public double getCellControlMean(Plate plate, String virusWellGroupName)
     {
         return 0.0;
     }
 
     @Override
-    public double getCellControlPlusMinus(Plate plate)
+    public double getCellControlPlusMinus(Plate plate, String virusWellGroupName)
     {
         return 0.0;
     }
