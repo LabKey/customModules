@@ -38,11 +38,25 @@
         <exp:Label>Processing Protocol</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
-        <exp:Name>InitParasitemia</exp:Name>
-        <exp:Description>Initial Parasitemia percentage</exp:Description>
+        <exp:Name>InitPvParasitemia</exp:Name>
+        <exp:Description>Initial Pv Parasitemia percentage</exp:Description>
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
-        <exp:Label>Initial Parasitemia</exp:Label>
+        <exp:Label>Initial Pv Parasitemia</exp:Label>
+    </exp:PropertyDescriptor>
+    <exp:PropertyDescriptor>
+        <exp:Name>InitPfParasitemia</exp:Name>
+        <exp:Description>Initial Pf Parasitemia percentage</exp:Description>
+        <exp:Required>true</exp:Required>
+        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
+        <exp:Label>Initial Pf Parasitemia</exp:Label>
+    </exp:PropertyDescriptor>
+    <exp:PropertyDescriptor>
+        <exp:Name>InitPmParasitemia</exp:Name>
+        <exp:Description>Initial Pm Parasitemia percentage</exp:Description>
+        <exp:Required>true</exp:Required>
+        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#double</exp:RangeURI>
+        <exp:Label>Initial Pm Parasitemia</exp:Label>
     </exp:PropertyDescriptor>
     <exp:PropertyDescriptor>
         <exp:Name>ParasiteDensity</exp:Name>
@@ -106,5 +120,19 @@
         <exp:Required>true</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
         <exp:Label>FreezerPro IDs</exp:Label>
+    </exp:PropertyDescriptor>
+    <exp:PropertyDescriptor>
+        <exp:Name>BacteriaSeen</exp:Name>
+        <exp:Description>Bacteria seen in slide</exp:Description>
+        <exp:Required>true</exp:Required>
+        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+        <exp:Label>Bacteria seen in slide</exp:Label>
+    </exp:PropertyDescriptor>
+    <exp:PropertyDescriptor>
+        <exp:Name>Comments</exp:Name>
+        <exp:Description>Comments</exp:Description>
+        <exp:Required>true</exp:Required>
+        <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
+        <exp:Label>Comments</exp:Label>
     </exp:PropertyDescriptor>
 </ap:domain>

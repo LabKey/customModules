@@ -113,6 +113,12 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
             LABKEY.icemr.setComboConfig(config, LABKEY.icemr.diagnostics.speciesOptions)
         }
 
+        if (config.name == LABKEY.icemr.diagnostics.bacteria)
+
+        {
+            LABKEY.icemr.setComboConfig(config, LABKEY.icemr.diagnostics.bacteriaOptions)
+        }
+
         //
         // show the time picker for measurement time
         //

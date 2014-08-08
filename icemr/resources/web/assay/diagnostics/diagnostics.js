@@ -29,10 +29,12 @@ LABKEY.icemr.diagnostics.hemoglobin='PatientHemoglobin';
 LABKEY.icemr.diagnostics.thick = 'ThickBloodSmear';
 LABKEY.icemr.diagnostics.thin = 'ThinBloodSmear';
 LABKEY.icemr.diagnostics.RDT = 'RDT';
+LABKEY.icemr.diagnostics.bacteria = 'BacteriaSeen';
 LABKEY.icemr.diagnostics.time = 'Time';
 LABKEY.icemr.diagnostics.date = 'Date';
 LABKEY.icemr.diagnostics.scientist = 'Scientist';
-LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['mixed'], ['negative']];
+LABKEY.icemr.diagnostics.speciesOptions = [['Pf'], ['Pv'], ['Pm'], ['mixed Pf/Pv'], ['mixed Pf/Pm'], ['negative']];
+LABKEY.icemr.diagnostics.bacteriaOptions = [['Yes'], ['No'], ['Missing'], ['Uncertain']];
 // -------------------------------------------------------------------
 // enums
 // -------------------------------------------------------------------
