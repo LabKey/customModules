@@ -73,7 +73,7 @@ public class DatasetListWithStatusColumn extends DataColumn
                 Study study = StudyService.get().getStudy(container);
                 if (study != null)
                 {
-                    return study.getDataSets();
+                    return study.getDatasets();
                 }
             }
         }
