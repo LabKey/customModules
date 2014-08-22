@@ -131,7 +131,7 @@
     <exp:PropertyDescriptor>
         <exp:Name>Comments</exp:Name>
         <exp:Description>Comments</exp:Description>
-        <exp:Required>true</exp:Required>
+        <exp:Required>false</exp:Required>
         <exp:RangeURI>http://www.w3.org/2001/XMLSchema#string</exp:RangeURI>
         <exp:Label>Comments</exp:Label>
     </exp:PropertyDescriptor>

@@ -648,14 +648,16 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterDiagnosticsData()
     {
-        verifyError(10);
+        verifyError(12);
 
         fieldAndValue = new HashMap<>();
 
         fieldAndValue.put("Scientist", ICEMR_AUTHOR_USER_DISPLAY);
         fieldAndValue.put("ParticipantID", ID);
         fieldAndValue.put("ProcessingProtocol", "1");
-        fieldAndValue.put("InitParasitemia", "0.3");
+        fieldAndValue.put("InitPvParasitemia", "0.3");
+        fieldAndValue.put("InitPfParasitemia", "0.01");
+        fieldAndValue.put("InitPmParasitemia", "0.02");
         fieldAndValue.put("ParasiteDensity", "-34"); // invalid: can't have negative number
         fieldAndValue.put("InitGametocytemia", "3.5");
         fieldAndValue.put("GametocyteDensity", "3.4"); // invalid: can't have a float for an int
