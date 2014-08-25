@@ -673,7 +673,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         }
 
         // Issue 16875: decimals in certain icemr module fields causes js exception
-        assertFormElementEquals(Locator.name("GametocyteDensity"), "3.4"); // '.' can't be entered, The value must be a positive integer
+        checkJsErrors();
+        if(getFormElement(Locator.name("GametocyteDensity")).equals("3.4"))
+            verifyError(3); // Some browsers allow the decimal; if so, there should be an error
+        else
+            assertFormElementEquals(Locator.name("GametocyteDensity"), "3"); // Other browsers round the decimal value (3.4 -> 3)
         setICEMRField("GametocyteDensity", "34"); // update value
 
         // we have 2 errors total, fix one at a time
