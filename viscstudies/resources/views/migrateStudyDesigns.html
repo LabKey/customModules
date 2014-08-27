@@ -891,7 +891,7 @@ var _migrateControl =
                     assayDaySet[assay.timepoint.days] = {};
                 assayDaySet[assay.timepoint.days][assay.name] = true;
             }
-            else
+            else if (assay.timepoint)   // ignore assay with no timepoint
             {
                 isGoodSoFar = false;
                 return false;
@@ -911,7 +911,7 @@ var _migrateControl =
                     immDaySet[immunization.timepoint.days] = {};
                 immDaySet[immunization.timepoint.days][immunization.groupName] = true;
             }
-            else
+            else if (immunization.timepoint)    // ignore immunization with no timepoint
             {
                 isGoodSoFar = false;
                 return false;
@@ -935,6 +935,9 @@ var _migrateControl =
 
         var expectedSeqNum = 0;
         var visitKeys = Object.keys(this.visits);
+        if (0 == visitKeys.length)
+            return true;
+
         visitKeys.sort();
         if (visitKeys[0] == 1)
             expectedSeqNum = 1;
