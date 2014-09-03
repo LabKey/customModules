@@ -85,10 +85,10 @@ public class SpecimenExportTest extends SpecimenBaseTest
     {
         // verify the specimen settings roundtrip by 1. exporting folder zip, 2. deleting the study,
         // 3. importing folder zip, 4. exporting folder expanded, and verifying settings in the XML (instead of in the UI)
-        exportStudy(true, true);
+        exportStudy(true);
         deleteStudy();
         importFromZipExport();
-        exportStudy(true, false);
+        exportStudy(false);
         verifySpecimenSettingsInArchive();
     }
 
