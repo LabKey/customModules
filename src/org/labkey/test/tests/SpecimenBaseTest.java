@@ -44,7 +44,7 @@ public abstract class SpecimenBaseTest extends StudyBaseTest
         // Create custom query to test requestability rules.
         goToSchemaBrowser();
         selectQuery("study", SPECIMEN_DETAIL);
-        clickButton("Create New Query");
+        createNewQuery("study");
         setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
         clickAndWait(Locator.linkWithText("Create and Edit Source"));
         setCodeEditorValue("queryText",
