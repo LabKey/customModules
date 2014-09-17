@@ -20,6 +20,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.DailyA;
+import org.labkey.test.util.CustomizeViewsHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
@@ -42,6 +43,10 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
 
     protected static final String SPECIMEN_ARCHIVE = getStudySampleDataPath() + "specimens/Rollup.specimens";
+
+    protected static final String SPECIMEN_AVAILABLE_REASON = "This vial's availability status was set by an administrator. Please contact an administrator for more information.";
+    protected static final String SPECIMEN_UNAVAILABLE_REASON = "This vial is unavailable because it is not currently held by a repository.";
+
 
     @Override
     protected String getProjectName()
@@ -74,6 +79,8 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         startSpecimenImport(2, SPECIMEN_ARCHIVE);
         waitForSpecimenImport();
 
+        addFieldsToSpecimenView();
+
         verifySpecimenDetailContents();
     }
 
@@ -85,6 +92,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         propertiesHelper.addField("SpecimenEvent", "Note", null, ListHelper.ListColumnType.String);
         propertiesHelper.addField("SpecimenEvent", "Minutes", null, ListHelper.ListColumnType.Double);
         propertiesHelper.addField("SpecimenEvent", "Flag", null, ListHelper.ListColumnType.Boolean);
+
         save();
         saveAndClose();
     }
@@ -110,6 +118,8 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         propertiesHelper.addField("Vial", "FirstFlag", null, ListHelper.ListColumnType.Boolean);
         propertiesHelper.addField("Vial", "LatestFlag", null, ListHelper.ListColumnType.Boolean);
         propertiesHelper.addField("Vial", "LatestNonBlankFlag", null, ListHelper.ListColumnType.Boolean);
+        propertiesHelper.addField("Vial", "LatestDrawTimestamp", null, ListHelper.ListColumnType.DateTime);
+        propertiesHelper.addField("Vial", "FirstDrawTimestamp", null, ListHelper.ListColumnType.DateTime);
         save();
         saveAndClose();
     }
@@ -124,6 +134,8 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         propertiesHelper.addField("Specimen", "SumOfCombineMinutes", null, ListHelper.ListColumnType.Double);
         setFormat("Specimen", "0.####");
         propertiesHelper.addField("Specimen", "CountLatestNonBlankFlag", null, ListHelper.ListColumnType.Integer);
+        propertiesHelper.addField("Specimen", "MaxAvailabilityReason", null, ListHelper.ListColumnType.String);
+        propertiesHelper.addField("Specimen", "MinAvailabilityReason", null, ListHelper.ListColumnType.String);
         save();
         saveAndClose();
     }
@@ -343,6 +355,34 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         setFormElement(formatLoc, value);
     }
 
+    private void addFieldsToSpecimenView()
+    {
+        clickTab("Specimen Data");
+        shortWait().until(ExpectedConditions.elementToBeClickable(Locator.linkWithText("By Individual Vial").toBy()));
+        click(Locator.linkWithText("By Individual Vial"));
+        waitForText("Vials");
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
+        CustomizeViewsHelper specimenTableCustomizer = new CustomizeViewsHelper(specimenTable);
+        specimenTableCustomizer.openCustomizeViewPanel();
+        waitForText("Available Fields");
+        specimenTableCustomizer.addCustomizeViewColumn("MaxAvailabilityReason");
+        specimenTableCustomizer.addCustomizeViewColumn("MinAvailabilityReason");
+        specimenTableCustomizer.addCustomizeViewColumn("LatestDrawTimestamp");
+        specimenTableCustomizer.addCustomizeViewColumn("FirstDrawTimestamp");
+        specimenTableCustomizer.saveDefaultView();
+    }
+
+    private void importSpecimenArchives()
+    {
+        startSpecimenImport(2, SPECIMEN_ARCHIVE);
+        waitForSpecimenImport();
+    }
+
+    private void addField(String field)
+    {
+        click(Locator.xpath("//div[@fieldkey='" + field + "']/a"));
+    }
+
     private void verifySpecimenDetailContents()
     {
         clickTab("Specimen Data");
@@ -362,16 +402,44 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             Assert.fail("CombineTally values incorrect");
 
         actual = table.getColumnDataAsText("SumOfLatestNonBlankMinutes");
-        expected = Arrays.asList("200.5", "200.5", " ", " ", " ", " ", "47.12",
+        expected = Arrays.asList("100.2", "100.3", " ", " ", " ", " ", "47.12",
                 "47.12", "47.12", "47.12", "5.794", "5.794", "5.794", "5.794", " ", " ", " ");
         if (!compareLists(actual, expected))
             Assert.fail("SumOfLatestNonBlankMinutes values incorrect");
 
         actual = table.getColumnDataAsText("SumOfCombineMinutes");
-        expected = Arrays.asList("300.6", "300.6", " ", " ", " ", " ", "59.46",
+        expected = Arrays.asList("100.2", "200.4", " ", " ", " ", " ", "59.46",
                 "59.46", "59.46", "59.46", "7.024", "7.024", "7.024", "7.024", " ", " ", " ");
         if (!compareLists(actual, expected))
             Assert.fail("SumOfCombineMinutes values incorrect");
+
+        actual = table.getColumnDataAsText("MaxAvailabilityReason");
+        expected = Arrays.asList(SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
+                SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON,
+                SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, " ", " ",
+                SPECIMEN_UNAVAILABLE_REASON);
+        if (!compareLists(actual, expected))
+            Assert.fail("MaxAvailabilityReason values incorrect");
+
+        actual = table.getColumnDataAsText("MinAvailabilityReason");
+        expected = Arrays.asList(SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
+                SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
+                SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, " ", " ",
+                SPECIMEN_UNAVAILABLE_REASON);
+        if (!compareLists(actual, expected))
+            Assert.fail("MinAvailabilityReason values incorrect");
+
+        actual = table.getColumnDataAsText("LatestDrawTimestamp");
+        expected = Arrays.asList("2009-01-07", "2009-01-06", "2008-09-17", "2008-09-17", "2008-09-17", "2008-09-17", "2008-07-30", "2008-07-30", "2008-07-30",
+                "2008-07-30", "2009-03-16", "2009-03-16", "2009-03-16", "2009-03-16", "2009-06-15", "2009-06-15", "2009-05-09");
+        if (!compareLists(actual, expected))
+            Assert.fail("LatestDrawTimestamp values incorrect");
+
+        actual = table.getColumnDataAsText("FirstDrawTimestamp");
+        expected = Arrays.asList("2009-01-06", "2009-01-06", "2008-09-17", "2008-09-17", "2008-09-17", "2008-09-17", "2008-07-30", "2008-07-30", "2008-07-30",
+                "2008-07-30", "2009-03-16", "2009-03-16", "2009-03-16", "2009-03-16", "2009-06-15", "2009-06-15", "2009-05-09");
+        if (!compareLists(actual, expected))
+            Assert.fail("FirstDrawTimestamp values incorrect");
     }
 
     private boolean compareLists(List<String> actual, List<String> expected)
