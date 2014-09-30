@@ -1,0 +1,198 @@
+<ns:tables xmlns:ns="http://labkey.org/data/xml">
+    <ns:table tableName="peptideGroup" tableDbType="TABLE">
+        <ns:updateUrl></ns:updateUrl>
+        <ns:insertUrl></ns:insertUrl>
+        <ns:deleteUrl></ns:deleteUrl>
+        <ns:columns>
+            <ns:column columnName="peptide_group_id">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="container"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="seq_ref"/>
+            <ns:column columnName="pathogen"/>
+            <ns:column columnName="clade"/>
+            <ns:column columnName="groupType"/>
+            <ns:column columnName="alignRef"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="peptidePool" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="peptide_pool_id">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="container"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="comment"/>
+            <ns:column columnName="poolType"/>
+            <ns:column columnName="archived"/>
+            <ns:column columnName="parent_pool_id"/>
+            <ns:column columnName="matrix_peptide_pool_id"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="peptide" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="peptide_id">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="container"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+
+            <ns:column columnName="peptide_sequence"/>
+            <ns:column columnName="proteinCategory"/>
+            <ns:column columnName="amino_acid_start_pos"/>
+            <ns:column columnName="amino_acid_end_pos"/>
+            <ns:column columnName="sequence_length"/>
+            <ns:column columnName="child"/>
+            <ns:column columnName="parent"/>
+            <ns:column columnName="src_file_name"/>
+            <ns:column columnName="storage_location"/>
+            <ns:column columnName="optimalEpitopeList"/>
+            <ns:column columnName="hla_restriction"/>
+            <ns:column columnName="peptide_flag"/>
+            <ns:column columnName="peptide_notes"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="peptidePoolAssignment" tableDbType="TABLE" hidden="false">
+        <ns:columns>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+
+            <ns:column columnName="peptide_pool_assignment_id"/>
+            <ns:column columnName="peptide_pool_id"/>
+            <ns:column columnName="peptide_id"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="peptideGroupAssignment" tableDbType="TABLE" hidden="false">
+        <ns:columns>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+
+            <ns:column columnName="peptide_group_assignment_id"/>
+            <ns:column columnName="peptide_group_id"/>
+            <ns:column columnName="peptide_id_in_group"/>
+            <ns:column columnName="peptide_id"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="freezer" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="rowId">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="entityId"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="description"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="shelf" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="rowId">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="entityId"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="description"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="rack" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="rowId">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="entityId"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="description"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="drawer" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="rowId">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="entityId"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="description"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="box" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="rowId">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="entityId"/>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="name"/>
+            <ns:column columnName="description"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="vial" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="peptideId">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="storageCondition"/>
+            <ns:column columnName="thawCycles"/>
+            <ns:column columnName="freezer"/>
+            <ns:column columnName="shelf"/>
+            <ns:column columnName="rack"/>
+            <ns:column columnName="drawer"/>
+            <ns:column columnName="box"/>
+            <ns:column columnName="slot"/>
+            <ns:column columnName="checkedOut"/>
+            <ns:column columnName="owner"/>
+            <ns:column columnName="concentration"/>
+        </ns:columns>
+    </ns:table>
+</ns:tables>

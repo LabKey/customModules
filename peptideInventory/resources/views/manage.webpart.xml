@@ -1,0 +1,6 @@
+<webpart xmlns="http://labkey.org/data/xml/webpart" title="Manage Peptide Inventory">
+    <view name="manage"/>
+    <locations>
+        <location name="body"/>
+    </locations>
+</webpart>

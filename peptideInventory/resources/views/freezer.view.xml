@@ -1,0 +1,7 @@
+<view xmlns="http://labkey.org/data/xml/view" title="Peptide Freezer Diagram">
+    <dependencies>
+        <dependency path="clientapi/ext3" />
+        <dependency path="clientapi/ext4" />
+        <dependency path="peptideInventory/freezer.js" />
+    </dependencies>
+</view>

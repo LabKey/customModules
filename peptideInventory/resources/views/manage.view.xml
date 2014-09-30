@@ -1,0 +1,10 @@
+<view xmlns="http://labkey.org/data/xml/view" title="Manage Peptide Inventory">
+    <permissions>
+        <permission name="insert"/>
+    </permissions>
+    <dependencies>
+        <dependency path="clientapi/ext3" />
+        <dependency path="clientapi/ext4" />
+        <dependency path="peptideInventory/inventory.js" />
+    </dependencies>
+</view>

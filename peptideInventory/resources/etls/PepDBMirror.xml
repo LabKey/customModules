@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>Mirror Peptide DB Tables</name>
+    <transforms>
+        <transform type="RemoteQueryTransformStep" id="step1">
+            <description>Copy to target</description>
+            <source remoteSource="remote_pepdb" schemaName="pepdb" queryName="peptideGroupRollup" />
+            <destination schemaName="peptideInventory" queryName="peptideGroup" targetOption="merge"/>
+        </transform>
+        <transform type="RemoteQueryTransformStep" id="step2">
+            <description>Copy to target</description>
+            <source remoteSource="remote_pepdb" schemaName="pepdb" queryName="peptidePoolRollup" />
+            <destination schemaName="peptideInventory" queryName="peptidePool" targetOption="merge"/>
+        </transform>
+        <transform type="RemoteQueryTransformStep" id="step3">
+            <description>Copy to target</description>
+            <source remoteSource="remote_pepdb" schemaName="pepdb" queryName="peptideRollup" />
+            <destination schemaName="peptideInventory" queryName="peptide" targetOption="merge"/>
+        </transform>
+        <transform type="RemoteQueryTransformStep" id="step4">
+            <description>Copy to target</description>
+            <source remoteSource="remote_pepdb" schemaName="pepdb" queryName="peptide_pool_assignment" />
+            <destination schemaName="peptideInventory" queryName="peptidePoolAssignment" targetOption="merge"/>
+        </transform>
+        <transform type="RemoteQueryTransformStep" id="step5">
+            <description>Copy to target</description>
+            <source remoteSource="remote_pepdb" schemaName="pepdb" queryName="peptide_group_assignment" />
+            <destination schemaName="peptideInventory" queryName="peptideGroupAssignment" targetOption="merge"/>
+        </transform>
+    </transforms>
+</etl>
