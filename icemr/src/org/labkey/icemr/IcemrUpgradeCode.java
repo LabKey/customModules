@@ -257,7 +257,7 @@ public class IcemrUpgradeCode implements UpgradeCode
         User u = UserManager.getUser(email);
         if (u == null)
         {
-            SecurityManager.NewUserStatus status = SecurityManager.addUser(email);
+            SecurityManager.NewUserStatus status = SecurityManager.addUser(email, null);
             SecurityManager.verify(email, status.getVerification());
             SecurityManager.setVerification(email, null);
             SecurityManager.setPassword(email, SecurityManager.createTempPassword());
