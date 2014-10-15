@@ -790,7 +790,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
                 String s = Locator.id("log-info").findElement(getDriver()).getText();
                 return s.contains("DONE:");
             }
-        }, "Test did not finish!", WAIT_FOR_PAGE * 2);
+        }, "Test did not finish!", WAIT_FOR_PAGE * 4);
 
         assertFalse("At least one of the javascript tests failed", Locator.id("log-info").findElement(getDriver()).getText().contains("FAILED"));
     }
