@@ -1,6 +1,5 @@
 * text=auto !eol
 atlastools/atlastools.iml -text
-atlastools/build.xml -text
 atlastools/module.properties -text
 atlastools/resources/queries/exp/BaseDataUploadDashboard.sql -text
 atlastools/resources/queries/exp/RunGroupMap/Data[!!-~]Upload[!!-~]Dashboard[!!-~]Runs.qview.xml -text
