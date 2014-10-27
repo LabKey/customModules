@@ -193,6 +193,7 @@ ms2extensions/resources/schemas/dbscripts/sqlserver/obsolete/ms2extensions-13.21
 ms2extensions/resources/schemas/ms2extensions.xml -text
 ms2extensions/src/org/labkey/ms2extensions/FilterView.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsController.java -text
+ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsExperimentRunType.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsModule.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsUpgradeCode.java -text
 ms2extensions/src/org/labkey/ms2extensions/PeptideCountUpdater.java -text

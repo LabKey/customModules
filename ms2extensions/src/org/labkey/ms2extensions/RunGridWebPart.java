@@ -69,24 +69,30 @@ public class RunGridWebPart extends VBox
         protected void populateButtonBar(DataView view, ButtonBar bar)
         {
             super.populateButtonBar(view, bar);
-            
-            ActionButton comparePeptidesButton = new ActionButton("Compare Peptides");
-            comparePeptidesButton.setScript("comparePeptides(" + PageFlowUtil.jsString(getDataRegionName()) + "); return false;", false);
-            comparePeptidesButton.setActionType(ActionButton.Action.SCRIPT);
-            comparePeptidesButton.setRequiresSelection(true);
-            bar.add(comparePeptidesButton);
 
-            ActionButton spectraCountButton = new ActionButton("Spectra Count");
-            spectraCountButton.setScript("spectraCount(" + PageFlowUtil.jsString(getDataRegionName()) + "); return false;", false);
-            spectraCountButton.setActionType(ActionButton.Action.SCRIPT);
-            spectraCountButton.setRequiresSelection(true);
-            bar.add(spectraCountButton);
-
-            ActionButton exportBluemap = new ActionButton("Export Protein Coverage");
-            exportBluemap.setScript("exportPeptideBluemap(" + PageFlowUtil.jsString(getDataRegionName()) + "); return false;", false);
-            exportBluemap.setActionType(ActionButton.Action.SCRIPT);
-            exportBluemap.setRequiresSelection(true);
-            bar.add(exportBluemap);
+            RunGridWebPart.populateButtonBar(bar, getDataRegionName());
         }
     }
+
+    public static void populateButtonBar(ButtonBar bar, String dataRegionName)
+    {
+        ActionButton comparePeptidesButton = new ActionButton("Compare Peptides");
+        comparePeptidesButton.setScript("comparePeptides(" + PageFlowUtil.jsString(dataRegionName) + "); return false;", false);
+        comparePeptidesButton.setActionType(ActionButton.Action.SCRIPT);
+        comparePeptidesButton.setRequiresSelection(true);
+        bar.add(comparePeptidesButton);
+
+        ActionButton spectraCountButton = new ActionButton("Spectra Count");
+        spectraCountButton.setScript("spectraCount(" + PageFlowUtil.jsString(dataRegionName) + "); return false;", false);
+        spectraCountButton.setActionType(ActionButton.Action.SCRIPT);
+        spectraCountButton.setRequiresSelection(true);
+        bar.add(spectraCountButton);
+
+        ActionButton exportBluemap = new ActionButton("Export Protein Coverage");
+        exportBluemap.setScript("exportPeptideBluemap(" + PageFlowUtil.jsString(dataRegionName) + "); return false;", false);
+        exportBluemap.setActionType(ActionButton.Action.SCRIPT);
+        exportBluemap.setRequiresSelection(true);
+        bar.add(exportBluemap);
+    }
+
 }

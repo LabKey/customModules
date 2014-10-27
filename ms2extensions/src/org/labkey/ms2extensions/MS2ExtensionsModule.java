@@ -16,12 +16,16 @@
 package org.labkey.ms2extensions;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.data.UpgradeCode;
+import org.labkey.api.exp.ExperimentRunType;
+import org.labkey.api.exp.ExperimentRunTypeSource;
+import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
@@ -40,6 +44,7 @@ import org.labkey.api.view.WebPartView;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 /**
  * User: jeckels
@@ -51,6 +56,8 @@ public class MS2ExtensionsModule extends DefaultModule
     public static final String PEPTIDE_COUNT_SCHEMA_PROPERTY = "peptideCountSchema";
     public static final String PEPTIDE_COUNT_QUERY_PROPERTY = "peptideCountQuery";
     public static final String SCHEMA_NAME = "ms2extensions";
+    public static final ExperimentRunType EXP_RUN_TYPE = new MS2ExtensionsExperimentRunType();
+
 
     @Override
     public String getName()
@@ -133,6 +140,20 @@ public class MS2ExtensionsModule extends DefaultModule
             public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
                 return new SimpleUserSchema(SCHEMA_NAME, null, schema.getUser(), schema.getContainer(), DbSchema.get(SCHEMA_NAME));
+            }
+        });
+
+        ExperimentService.get().registerExperimentRunTypeSource(new ExperimentRunTypeSource()
+        {
+            @NotNull
+            @Override
+            public Set<ExperimentRunType> getExperimentRunTypes(@Nullable Container container)
+            {
+                if (container == null || container.getActiveModules().contains(MS2ExtensionsModule.this))
+                {
+                    return Collections.singleton(EXP_RUN_TYPE);
+                }
+                return Collections.emptySet();
             }
         });
     }
