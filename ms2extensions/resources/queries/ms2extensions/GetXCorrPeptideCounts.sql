@@ -9,6 +9,6 @@ SELECT
   MAX(X.totalPeptides) AS totalPeptides,
   MAX(X.distinctPeptides) as distinctPeptides
 FROM
-  (SELECT ms2Run, totalPeptides, distinctPeptides FROM GetCometPeptideCounts UNION
-  SELECT ms2Run, totalPeptides, distinctPeptides FROM GetSequestPeptideCounts) X
+  (SELECT ms2Run, totalPeptides, distinctPeptides FROM GetCometPeptideCounts WHERE ms2Run.StatusId = 1 UNION
+  SELECT ms2Run, totalPeptides, distinctPeptides FROM GetSequestPeptideCounts WHERE ms2Run.StatusId = 1) X
 GROUP BY ms2Run

@@ -29,6 +29,7 @@ hvtnFlow/resources/queries/flow/AnalysisPlan024.7bool.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan024.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan035.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan037.sql -text
+hvtnFlow/resources/queries/flow/AnalysisPlan038.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlanBase.query.xml -text
 hvtnFlow/resources/queries/flow/AnalysisPlanBase.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlanTemplate.query.xml -text

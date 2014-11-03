@@ -20,6 +20,7 @@ import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbScope;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
@@ -37,6 +38,8 @@ import org.labkey.api.security.User;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Updates the cached total and distinct peptide counts stored in the ms2extensions.ms2runaggregates table.
@@ -45,6 +48,8 @@ import java.util.Map;
  */
 public class PeptideCountUpdater
 {
+    private static final Lock LOCK = new ReentrantLock();
+
     /** @return error message with any problems encountered during the update */
     public String update(Container container, User user)
     {
@@ -97,16 +102,21 @@ public class PeptideCountUpdater
                 return "Could not expected columns ('ms2Run', 'totalPeptides', and 'distinctPeptides') in query '" + schemaName + "." + queryName + "' specified in Module Properties for " + container.getPath();
             }
 
-            // Execute the query, filtering to just the runs that need aggregates calculated
-            SimpleFilter filter = new SimpleFilter(new SimpleFilter.InClause(ms2RunColumn.getFieldKey(), runIds));
-            Collection<Map<String, Object>> results = new TableSelector(table, Arrays.asList(ms2RunColumn, totalPeptidesColumn, distinctPeptidesColumn), filter, null).getMapCollection();
-
-            // Iterate through the results and insert them into the table so they're cached and fast to show
-            for (Map<String, Object> result : results)
+            // Only allow one thread to update at a time
+            try (DbScope.Transaction transaction = DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getScope().ensureTransaction(LOCK))
             {
-                Map<String, Object> toInsert = new CaseInsensitiveHashMap<>(result);
-                toInsert.put("container", container.getEntityId());
-                Table.insert(null, DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getTable("Ms2RunAggregates"), toInsert);
+                // Execute the query, filtering to just the runs that need aggregates calculated
+                SimpleFilter filter = new SimpleFilter(new SimpleFilter.InClause(ms2RunColumn.getFieldKey(), runIds));
+                Collection<Map<String, Object>> results = new TableSelector(table, Arrays.asList(ms2RunColumn, totalPeptidesColumn, distinctPeptidesColumn), filter, null).getMapCollection();
+
+                // Iterate through the results and insert them into the table so they're cached and fast to show
+                for (Map<String, Object> result : results)
+                {
+                    Map<String, Object> toInsert = new CaseInsensitiveHashMap<>(result);
+                    toInsert.put("container", container.getEntityId());
+                    Table.insert(null, DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getTable("Ms2RunAggregates"), toInsert);
+                }
+                transaction.commit();
             }
         }
         return null;
