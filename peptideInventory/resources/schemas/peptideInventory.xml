@@ -191,8 +191,36 @@
             <ns:column columnName="box"/>
             <ns:column columnName="slot"/>
             <ns:column columnName="checkedOut"/>
+            <ns:column columnName="used"/>
             <ns:column columnName="owner"/>
             <ns:column columnName="concentration"/>
+            <ns:column columnName="lotNumber"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="boxLocation" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="identifier">
+                <ns:isKeyField>true</ns:isKeyField>
+            </ns:column>
+            <ns:column columnName="label"/>
+        </ns:columns>
+    </ns:table>
+    <ns:table tableName="lotAssignment" tableDbType="TABLE">
+        <ns:columns>
+            <ns:column columnName="created"/>
+            <ns:column columnName="createdBy"/>
+            <ns:column columnName="modified"/>
+            <ns:column columnName="modifiedBy"/>
+            <ns:column columnName="container"/>
+
+            <ns:column columnName="peptideId"/>
+            <ns:column columnName="lotNumber"/>
         </ns:columns>
     </ns:table>
 </ns:tables>
