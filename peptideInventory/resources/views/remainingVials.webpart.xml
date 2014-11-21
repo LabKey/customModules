@@ -1,0 +1,6 @@
+<webpart xmlns="http://labkey.org/data/xml/webpart" title="Remaining Vials Report">
+    <view name="remainingVials"/>
+    <locations>
+        <location name="body"/>
+    </locations>
+</webpart>

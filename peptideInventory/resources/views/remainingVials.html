@@ -1,0 +1,29 @@
+<style type="text/css">
+
+    th.lk-remaining-vial-th
+    {
+        padding-right: 8px;
+        border-bottom:solid 1px;
+    }
+
+    div.lk-remaining-vial-div
+    {
+        padding: 3px;
+    }
+
+</style>
+
+<script type="text/javascript">
+
+    Ext4.onReady(function(){
+
+        var fp = new LABKEY.ext4.RemainingVialsPanel({
+            height      : 600,
+            renderTo    : 'vialReportDiv'
+        });
+    });
+
+</script>
+
+<div id="vialReportDiv"></div>
+

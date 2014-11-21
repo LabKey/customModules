@@ -211,8 +211,12 @@ peptideInventory/resources/views/freezer.webpart.xml -text
 peptideInventory/resources/views/manage.html -text
 peptideInventory/resources/views/manage.view.xml -text
 peptideInventory/resources/views/manage.webpart.xml -text
+peptideInventory/resources/views/remainingVials.html -text
+peptideInventory/resources/views/remainingVials.view.xml -text
+peptideInventory/resources/views/remainingVials.webpart.xml -text
 peptideInventory/resources/web/peptideInventory/freezer.js -text
 peptideInventory/resources/web/peptideInventory/inventory.js -text
+peptideInventory/resources/web/peptideInventory/remainingVials.js -text
 viscstudies/module.properties -text
 viscstudies/resources/views/migrateStudyDesigns.html -text
 viscstudies/resources/views/migrateStudyDesigns.view.xml -text

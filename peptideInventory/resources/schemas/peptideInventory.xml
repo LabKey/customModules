@@ -194,7 +194,6 @@
             <ns:column columnName="used"/>
             <ns:column columnName="owner"/>
             <ns:column columnName="concentration"/>
-            <ns:column columnName="lotNumber"/>
         </ns:columns>
     </ns:table>
     <ns:table tableName="boxLocation" tableDbType="TABLE">

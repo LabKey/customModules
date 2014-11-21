@@ -3,8 +3,8 @@
 
     Ext4.onReady(function(){
 
-        var fp = new LABKEY.ext4.InventoryPanel({
-            renderTo    : 'inventoryDiv',
+        var fp = new LABKEY.ext4.FreezerDiagramPanel({
+            renderTo    : 'freezerDiv',
             schemaName  : 'peptideinventory',
             queryName   : 'vial'
         });
@@ -13,5 +13,5 @@
 </script>
 
 
-<div id="inventoryDiv"></div>
+<div id="freezerDiv"></div>
 

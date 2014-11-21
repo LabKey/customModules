@@ -1,6 +1,6 @@
 <webpart xmlns="http://labkey.org/data/xml/webpart" title="Peptide Freezer Diagram">
-    <view name="freezer"/>
-    <locations>
-        <location name="body"/>
-    </locations>
+<view name="freezer"/>
+<locations>
+    <location name="body"/>
+</locations>
 </webpart>

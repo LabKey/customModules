@@ -488,13 +488,15 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
      */
     getPeptidesInPoolSql : function(poolId) {
         return 'SELECT x.peptide_id, x.peptide_sequence, x.proteinCategory, pg.name AS peptideGroup, pg.pathogen, pg.clade, ' +
-                'pg.groupType, pg.alignRef, ga.peptide_id_in_group, la.lotNumber ' +
+                'pg.groupType, pg.alignRef, ga.peptide_id_in_group, la.lotNumber, v.checkedOut, v.used ' +
                 'FROM (' +
                 'SELECT * FROM peptideInventory.peptide p ' +
                 'WHERE p.peptide_id IN (SELECT peptide_id FROM peptideInventory.peptidePoolAssignment WHERE peptide_pool_id = ' + poolId + ')' +
                 ') x LEFT JOIN peptideInventory.peptideGroupAssignment ga ON x.peptide_id = ga.peptide_id ' +
                 'LEFT JOIN peptideInventory.peptideGroup pg ON ga.peptide_group_id = pg.peptide_group_id ' +
-                'LEFT JOIN peptideInventory.lotAssignment la ON x.peptide_id = la.peptideId';
+                'LEFT JOIN peptideInventory.lotAssignment la ON x.peptide_id = la.peptideId ' +
+                'LEFT JOIN peptideInventory.vial v ON x.peptide_id = v.peptideId ' +
+                'WHERE ((v.used = false OR v.used IS NULL) AND (v.checkedOut = false OR v.checkedOut IS NULL))';
     },
 
     /**
@@ -599,7 +601,6 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
                 url    : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
                 extraParams : {
                     schemaName  : 'peptideinventory',
-                    queryName   : 'peptidepool',
                     sql         : 'SELECT * FROM peptidePool WHERE peptide_pool_id IN (SELECT DISTINCT(peptide_pool_id) FROM peptidePoolAssignment) ORDER BY name',
                     sort        : 'name'
                 },

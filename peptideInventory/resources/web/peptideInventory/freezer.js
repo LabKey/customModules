@@ -500,11 +500,11 @@ Ext4.define('LABKEY.ext4.FreezerPanel', {
 });
 
 
-Ext4.define('LABKEY.ext4.InventoryPanel', {
+Ext4.define('LABKEY.ext4.FreezerDiagramPanel', {
 
     extend: 'Ext.tab.Panel',
 
-    alias: 'widget.labkey-inventory-panel',
+    alias: 'widget.labkey-freezer-diagram-panel',
 
     border: false,
 
