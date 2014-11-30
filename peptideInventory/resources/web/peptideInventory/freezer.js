@@ -27,11 +27,27 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
     {
         this.callParent([config]);
 
-        this.tootipTpl = new Ext4.XTemplate('<b>Freezer</b>&nbsp;{freezer}<br>',
+        this.tooltipTpl = new Ext4.XTemplate(
+                '<b>Freezer</b>&nbsp;{freezer}<br>',
                 '<b>Rack</b>&nbsp;{rack}<br>',
                 '<b>Shelf</b>&nbsp;{shelf}<br>',
                 '<b>Drawer</b>&nbsp;{drawer}<br>',
                 '<b>Box</b>&nbsp;{box}<br>'
+        );
+
+        this.summaryTpl = new Ext4.XTemplate(
+                '<table>',
+                    '<tr><td><b>Box Label</b></td><td>{boxLabel}</td></tr>',
+                    '<tr><td><b>Freezer</b></td><td>{freezer}</td></tr>',
+                    '<tr><td><b>Rack</b></td><td>{rack}</td></tr>',
+                    '<tr><td><b>Shelf</b></td><td>{shelf}</td></tr>',
+                    '<tr><td><b>Drawer</b></td><td>{drawer}</td></tr>',
+                    '<tr><td><b>Box</b></td><td>{box}</td></tr>',
+                    '<tr><td></td></tr>',
+                    '<tr><td><b>Available Vials</b></td><td>{available}</td></tr>',
+                    '<tr><td><b>Used</b></td><td>{used}</td></tr>',
+                    '<tr><td><b>Checked Out</b></td><td>{checkedOut}</td></tr>',
+                '</table>'
         );
 
         this.tpl = new Ext4.XTemplate(
@@ -54,7 +70,7 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
 
                 getLocationTip : function(cmp, box, drawer) {
                     var me = cmp.initialConfig.me;
-                    return me.tootipTpl.apply({freezer : me.freezer.name, rack : me.rack.name, shelf : me.shelf.name, drawer : drawer['name'], box : box['name']});
+                    return me.tooltipTpl.apply({freezer : me.freezer.name, rack : me.rack.name, shelf : me.shelf.name, drawer : drawer['name'], box : box['name']});
                 },
 
                 getRack : function(cmp) {
@@ -206,21 +222,9 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
             }
         }, this);
 
-        var formItems = [];
-        formItems.push({
-                    xtype       : 'displayfield',
-                    fieldLabel  : 'Location Detail',
-                    value       : this.tootipTpl.apply({
-                        freezer     : this.freezer.name,
-                        rack        : this.rack.name,
-                        shelf       : this.shelf.name,
-                        drawer      : drawerRec.name,
-                        box         : boxRec.name
-                    })
-                }
-        );
-
         this.boxLabel = (locationRec) ? locationRec.data.label : undefined;
+
+        var formItems = [];
         formItems.push({
             xtype       : 'textfield',
             fieldLabel  : 'Box Label',
@@ -256,11 +260,23 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
                                 a.peptideId == b.peptideId ? 0 : 1;
             });
 
+            var vialCount=0, checkedOut=0, used=0;
+
             Ext4.each(peptides, function(rec){
 
+                vialCount++;
+                if (rec.used)
+                    used++;
+                else if (rec.checkedOut)
+                    checkedOut++;
+
+                var label = "" + rec.peptideId;
+                if (rec.rcPoolId != -1) {
+                    label = rec.rcLotNumber + "-" + rec.slot;
+                }
                 formItems.push({
                     xtype       : 'combo',
-                    fieldLabel  : "" + rec.peptideId,
+                    fieldLabel  : label,
                     name        : "" + rec.peptideId,
                     store       : statusStore,
                     editable    : false,
@@ -281,6 +297,45 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
             }, this);
         }
 
+        // first tab in the dialog
+        var infoItems = [];
+        infoItems.push({
+                    xtype       : 'displayfield',
+                    fieldLabel  : '',
+                    value       : this.summaryTpl.apply({
+                        boxLabel    : this.boxLabel ? this.boxLabel : 'default',
+                        freezer     : this.freezer.name,
+                        rack        : this.rack.name,
+                        shelf       : this.shelf.name,
+                        drawer      : drawerRec.name,
+                        box         : boxRec.name,
+                        available   : vialCount - used - checkedOut,
+                        used        : used,
+                        checkedOut  : checkedOut
+                    })
+                }
+        );
+
+        var infoTab = {
+            title       : 'Summary',
+            xtype       : 'form',
+            items       : infoItems,
+            border      : false
+        };
+
+        // create the second tab
+        var editTab = {
+            title       : 'Edit Vials',
+            xtype       : 'form',
+            items       : formItems,
+            autoScroll  : true,
+            border      : false,
+            layout      : {
+                type  : 'vbox',
+                align : 'stretch'
+            }
+        };
+
         var dialog = Ext4.create('Ext.window.Window', {
             width   : 500,
             height  : 500,
@@ -289,17 +344,13 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
             modal       : true,
             title  : 'Update Status for Vials',
             defaults: {
-                border: false, frame: false
+                border  : false,
+                frame   : false,
+                bodyPadding : 20
             },
-            bodyPadding : 20,
             items   : [{
-                xtype       : 'form',
-                items       : formItems,
-                autoScroll  : true,
-                layout      : {
-                    type  : 'vbox',
-                    align : 'stretch'
-                }
+                xtype : 'tabpanel',
+                items : [infoTab, editTab]
             }],
             buttons     : [{
                 text : 'Save',
@@ -319,7 +370,8 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
                                     peptideId   : id,
                                     container   : LABKEY.container.id,
                                     checkedOut  : false,
-                                    used        : false
+                                    used        : false,
+                                    rcPoolId    : rec.rcPoolId
                                 };
 
                                 var status = this.vialStatus[id];
@@ -445,17 +497,21 @@ Ext4.define('LABKEY.ext4.FreezerPanel', {
         this.callParent(arguments);
         var items = [];
 
-        var filterArray = [
-            LABKEY.Filter.create('freezer', this.freezer['rowId'])
-        ];
-        var params = LABKEY.Query.buildQueryParams('peptideinventory', 'vial', filterArray);
+        var selectSQL = 'SELECT v.peptideId, v.freezer, v.shelf, v.rack, v.drawer, v.box, ' +
+                'v.slot, v.used, v.checkedOut, v.rcPoolId, rc.lotNumber AS rcLotNumber ' +
+                'FROM vial v LEFT JOIN rcPool rc ON v.rcPoolId = rc.rowId ' +
+                'WHERE v.freezer = ' + this.freezer.rowId;
 
         Ext4.define('Freezer.Vial', {
             extend: 'Ext.data.Model',
             proxy : {
                 type : 'ajax',
-                url : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
-                extraParams : params,
+                url : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
+                extraParams : {
+                    schemaName  : 'peptideinventory',
+                    sql         : selectSQL,
+                    sort        : 'proteinCategory'
+                },
                 reader : { type : 'json', root : 'rows' }
             },
             fields : [
@@ -466,7 +522,10 @@ Ext4.define('LABKEY.ext4.FreezerPanel', {
                 {name: 'drawer'},
                 {name: 'box'},
                 {name: 'slot'},
-                {name: 'checkedOut',    type : 'boolean'}
+                {name: 'checkedOut',    type : 'boolean'},
+                {name: 'used',          type : 'boolean'},
+                {name: 'rcPoolId'},
+                {name: 'rcLotNumber'}
             ]
         });
         var vialStore = Ext4.create('Ext.data.Store', {

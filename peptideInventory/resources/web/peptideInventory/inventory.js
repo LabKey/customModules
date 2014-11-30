@@ -26,9 +26,17 @@ Ext4.define('LABKEY.ext4.InventoryPanel', {
     {
         this.items = [
             {xtype : 'search-peptide-panel', title : 'Search Peptides'},
-            {xtype : 'search-pool-panel', title : 'Search Pools'}
+            {xtype : 'search-pooled-peptide-panel', title : 'Search Pooled Peptides'}
         ];
 
+        this.listeners = {
+            poolCreated : {fn : function(){
+                for (var i=0; i < this.items.items.length; i++) {
+
+                    this.items.items[i].onPoolCreated();
+                }
+            }, scope : this}
+        };
         this.callParent();
     }
 });
@@ -39,6 +47,8 @@ Ext4.define('LABKEY.ext4.InventoryPanel', {
 Ext4.define('LABKEY.ext4.BaseSearchPanel', {
 
     extend : 'Ext.panel.Panel',
+
+    bubbleEvents : ['poolCreated'],
 
     initComponent : function() {
 
@@ -251,6 +261,7 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
                                     var values = form.getValues();
                                     var insertedRows = [];
                                     var updatedRows = [];
+                                    var slotNum = 1;
 
                                     Ext4.each(peptides, function(rec){
                                         var id = rec.peptide_id;
@@ -260,8 +271,9 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
                                             rack    : values.rack,
                                             drawer  : values.drawer,
                                             box     : values.box,
-                                            slot    : me.peptideSlots[id],
+                                            slot    : assignSlots ? me.peptideSlots[id] : slotNum++,
                                             peptideId   : id,
+                                            rcpoolId    : rec.rcPoolId,
                                             container   : LABKEY.container.id
                                         };
 
@@ -271,46 +283,43 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
                                             insertedRows.push(row);
                                     }, this);
 
+                                    var multi = new LABKEY.MultiRequest();
+
                                     // handle inserts & updates
                                     if (insertedRows.length > 0) {
 
-                                        LABKEY.Query.insertRows({
+                                        multi.add(LABKEY.Query.insertRows, {
                                             schemaName  : 'peptideInventory',
                                             queryName   : 'vial',
                                             rows        : insertedRows,
                                             scope       : this,
-                                            success     : function() {
-                                                if (dialog){
-                                                    dialog.close();
-                                                    dialog = null;
-                                                    this.showFadeOutMessage('Success', 'Vials successfully assigned');
-                                                }
-                                            },
+                                            success     : function() {},
                                             failure     : function(){
                                                 Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Vials to the freezer location.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                                             }
-                                        });
+                                        }, this);
                                     }
 
                                     if (updatedRows.length > 0) {
 
-                                        LABKEY.Query.updateRows({
+                                        multi.add(LABKEY.Query.updateRows, {
                                             schemaName  : 'peptideInventory',
                                             queryName   : 'vial',
                                             rows        : updatedRows,
                                             scope       : this,
-                                            success     : function() {
-                                                if (dialog){
-                                                    dialog.close();
-                                                    dialog = null;
-                                                    this.showFadeOutMessage('Success', 'Vials successfully assigned');
-                                                }
-                                            },
+                                            success     : function() {},
                                             failure     : function(){
                                                 Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Vials to the freezer location.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                                             }
-                                        });
+                                        }, this);
                                     }
+
+                                    // perform the updates
+                                    multi.send(function(){
+                                        dialog.close();
+                                        this.showFadeOutMessage('Success', 'Vials successfully assigned');
+                                        this.dataStore.reload();
+                                    }, this);
                                 },
                                 scope: this
                             });
@@ -404,48 +413,47 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
                                     insertedRows.push(row);
                             }, this);
 
+                            var multi = new LABKEY.MultiRequest();
+
                             // handle inserts & updates
                             if (insertedRows.length > 0) {
 
-                                LABKEY.Query.insertRows({
+                                multi.add(LABKEY.Query.insertRows,{
                                     schemaName  : 'peptideInventory',
                                     queryName   : 'lotAssignment',
                                     rows        : insertedRows,
                                     scope       : this,
                                     success     : function() {
-                                        if (dialog){
-                                            dialog.close();
-                                            dialog = null;
-                                            this.showFadeOutMessage('Success', 'Lot numbers successfully assigned');
-                                            this.dataStore.reload();
-                                        }
+                                        console.log('sucessfully added lot assignments')
                                     },
                                     failure     : function(){
                                         Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                                     }
-                                });
+                                }, this);
                             }
 
                             if (updatedRows.length > 0) {
 
-                                LABKEY.Query.updateRows({
+                                multi.add(LABKEY.Query.updateRows,{
                                     schemaName  : 'peptideInventory',
                                     queryName   : 'lotAssignment',
                                     rows        : updatedRows,
                                     scope       : this,
                                     success     : function() {
-                                        if (dialog){
-                                            dialog.close();
-                                            dialog = null;
-                                            this.showFadeOutMessage('Success', 'Lot numbers successfully assigned');
-                                            this.dataStore.reload();
-                                        }
+                                        console.log('sucessfully updated lot assignments')
                                     },
                                     failure     : function(){
                                         Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                                     }
-                                });
+                                }, this);
                             }
+
+                            // perform the updates
+                            multi.send(function(){
+                                dialog.close();
+                                this.showFadeOutMessage('Success', 'Lot numbers successfully assigned');
+                                this.dataStore.reload();
+                            }, this);
                         }
                         else
                         {
@@ -455,6 +463,259 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
                                 buttons: Ext4.MessageBox.OK,
                                 icon: Ext4.MessageBox.ERROR
                             });
+                        }
+                    },
+                    scope   : this
+                },{
+                    text : 'Cancel',
+                    handler : function(btn) {
+                        dialog.close();
+                    }
+                }],
+                scope : this
+            });
+
+            dialog.show();
+        });
+    },
+
+    createPool : function() {
+
+        // get the selected peptides passed back through the callback
+        this.getSelectedPeptides(function(peptides){
+
+            var formItems = [];
+            var lotNumber = null;
+            var vialCount = null;
+
+            formItems.push({
+                xtype       : 'displayfield',
+                value       : 'Specify the lot number and the number of vials to be created from the reconstituted peptides.'
+            });
+
+            formItems.push({
+                xtype       : 'textfield',
+                fieldLabel  : 'Lot Number',
+                width       : 100,
+                allowBlank : false,
+                listeners : {
+                    scope: this,
+                    change : function(cmp, value) {
+                        lotNumber = value;
+                    }
+                }
+            });
+
+            formItems.push({
+                xtype       : 'numberfield',
+                fieldLabel  : 'Vial Count',
+                width       : 100,
+                allowBlank : false,
+                listeners : {
+                    scope: this,
+                    change : function(cmp, value) {
+                        vialCount = value;
+                    }
+                }
+            });
+
+            var dialog = Ext4.create('Ext.window.Window', {
+                width   : 400,
+                height  : 250,
+                layout  : 'fit',
+                draggable   : false,
+                modal       : true,
+                title  : 'Create Peptide Pool for Selections',
+                defaults: {
+                    border: false, frame: false
+                },
+                bodyPadding : 20,
+                items   : [{
+                    xtype       : 'form',
+                    items       : formItems,
+                    autoScroll  : true,
+                    layout      : {
+                        type  : 'vbox',
+                        align : 'stretch'
+                    }
+                }],
+                buttons     : [{
+                    text : 'Save',
+                    formBind: true,
+                    handler : function(btn)
+                    {
+                        var form = dialog.down('form').getForm();
+                        if (form.isValid())
+                        {
+                            var newVials = [];
+                            var poolAssignments = [];
+
+                            // create the new pool
+                            var createNewPool = function(scope, callback) {
+                                LABKEY.Query.insertRows({
+                                    schemaName  : 'peptideInventory',
+                                    queryName   : 'RCPool',
+                                    rows        : [{container : LABKEY.container.id, lotnumber : lotNumber, vialcount : vialCount}],
+                                    scope       : scope,
+                                    success     : function(res) {
+                                        if (res.rows && res.rows.length === 1)
+                                        {
+                                            var rec = res.rows[0];
+                                            var poolId = rec.rowid;
+                                            var vialCount = rec.vialcount;
+                                            var lotNumber = rec.lotnumber;
+
+                                            // create the new pooled vials
+                                            for (var i = 0; i < vialCount; i++)
+                                            {
+                                                newVials.push({container: LABKEY.container.id, rcpoolid: poolId, peptideid: i + 1});
+                                            }
+
+                                            Ext4.each(peptides, function (rec)
+                                            {
+                                                poolAssignments.push({container: LABKEY.container.id, peptideid: rec.peptide_id, rcpoolid: poolId})
+                                            });
+
+                                        }
+                                        if (callback)
+                                            callback.call(scope);
+                                    },
+                                    failure     : function(){
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+                            };
+
+                            var createPooledVials = function(scope, callback){
+                                LABKEY.Query.insertRows({
+                                    schemaName  : 'peptideInventory',
+                                    queryName   : 'vial',
+                                    rows        : newVials,
+                                    scope       : scope,
+                                    success     : function(){
+                                        if (callback)
+                                            callback.call(scope);
+                                    },
+                                    failure     : function(){
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+                            };
+
+                            var markUsedPeptides = function(scope, callback) {
+                                LABKEY.Query.selectRows({
+                                    schemaName  : 'peptideinventory',
+                                    queryName   : 'vial',
+                                    columns     : 'peptideId',
+                                    scope       : this,
+                                    success     : function(data)
+                                    {
+                                        var me = this;
+                                        var existingVials = {};
+
+                                        Ext4.each(data.rows, function (row)
+                                        {
+                                            existingVials[row['peptideId']] = row['peptideId'];
+                                        }, me);
+
+                                        // mark the parent peptides as used & handle inserts and updates
+                                        var usedPeptides = [];
+                                        var newUsedPeptides = [];
+                                        Ext4.each(peptides, function (rec)
+                                        {
+                                            if (existingVials[rec.peptide_id])
+                                                usedPeptides.push({container: LABKEY.container.id, peptideid: rec.peptide_id, rcpoolid: -1, used: true})
+                                            else
+                                                newUsedPeptides.push({container: LABKEY.container.id, peptideid: rec.peptide_id, rcpoolid: -1, used: true})
+                                        }, me);
+
+                                        var multi = new LABKEY.MultiRequest();
+
+                                        if (usedPeptides.length > 0){
+                                            multi.add(LABKEY.Query.updateRows, {
+                                                schemaName  : 'peptideInventory',
+                                                queryName   : 'vial',
+                                                rows        : usedPeptides,
+                                                scope       : this,
+                                                success     : function(){},
+                                                failure     : function(){
+                                                    Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                                }
+                                            }, me);
+                                        }
+
+                                        if (newUsedPeptides.length > 0){
+                                            multi.add(LABKEY.Query.insertRows, {
+                                                schemaName  : 'peptideInventory',
+                                                queryName   : 'vial',
+                                                rows        : newUsedPeptides,
+                                                scope       : this,
+                                                success     : function(){},
+                                                failure     : function(){
+                                                    Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                                }
+                                            }, me);
+                                        }
+
+                                        // perform the updates
+                                        multi.send(function(){
+                                            if (callback)
+                                                callback.call(scope);
+                                        }, me);
+                                    },
+                                    failure     : function(){
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+
+                                LABKEY.Query.updateRows({
+                                    schemaName  : 'peptideInventory',
+                                    queryName   : 'vial',
+                                    rows        : usedPeptides,
+                                    scope       : this,
+                                    success     : function(){
+                                        if (callback)
+                                            callback.call(scope);
+                                    },
+                                    failure     : function(){
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+                            };
+
+                            var setRCPoolAssignment = function(scope, callback) {
+                                LABKEY.Query.insertRows({
+                                    schemaName  : 'peptideInventory',
+                                    queryName   : 'rcPoolAssignment',
+                                    rows        : poolAssignments,
+                                    scope       : this,
+                                    success     : function(){
+                                        dialog.close();
+                                        scope.showFadeOutMessage('Success', 'Peptide Pool successfully created');
+                                        scope.dataStore.reload();
+                                        scope.fireEvent('poolCreated');
+
+                                        if (callback)
+                                            callback.call(scope);
+                                    },
+                                    failure     : function(){
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred creating the Peptide Pool.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+                            };
+
+                            // chain together the requests
+                            createNewPool(this, function(){
+                                createPooledVials(this, function(){
+                                    markUsedPeptides(this, function(){
+                                        setRCPoolAssignment(this);
+                                    });
+                                });
+                            });
+                        }
+                        else
+                        {
+                            Ext4.Msg.show({title: "Error", msg: 'All required fields must be specified.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                         }
                     },
                     scope   : this
@@ -486,17 +747,28 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
     /**
      * Returns the select SQL to return the list of peptides in a specified pool
      */
-    getPeptidesInPoolSql : function(poolId) {
+    getPeptidesInCategorySql : function(proteinCategory) {
         return 'SELECT x.peptide_id, x.peptide_sequence, x.proteinCategory, pg.name AS peptideGroup, pg.pathogen, pg.clade, ' +
-                'pg.groupType, pg.alignRef, ga.peptide_id_in_group, la.lotNumber, v.checkedOut, v.used ' +
+                'pg.groupType, pg.alignRef, ga.peptide_id_in_group, la.lotNumber, v.checkedOut, v.used, v.rcPoolId, ' +
+                'v.freezer, v.rack, v.shelf, v.drawer, v.box ' +
                 'FROM (' +
                 'SELECT * FROM peptideInventory.peptide p ' +
-                'WHERE p.peptide_id IN (SELECT peptide_id FROM peptideInventory.peptidePoolAssignment WHERE peptide_pool_id = ' + poolId + ')' +
+                'WHERE p.proteinCategory = \'' + proteinCategory + '\'' +
                 ') x LEFT JOIN peptideInventory.peptideGroupAssignment ga ON x.peptide_id = ga.peptide_id ' +
                 'LEFT JOIN peptideInventory.peptideGroup pg ON ga.peptide_group_id = pg.peptide_group_id ' +
                 'LEFT JOIN peptideInventory.lotAssignment la ON x.peptide_id = la.peptideId ' +
                 'LEFT JOIN peptideInventory.vial v ON x.peptide_id = v.peptideId ' +
                 'WHERE ((v.used = false OR v.used IS NULL) AND (v.checkedOut = false OR v.checkedOut IS NULL))';
+    },
+
+    locationRenderer : function(value, meta, rec){
+
+        if (rec.raw.freezer.displayValue && rec.raw.rack.displayValue && rec.raw.shelf.displayValue && rec.raw.drawer.displayValue){
+            var delim = '/';
+            return rec.raw.freezer.displayValue + delim + rec.raw.rack.displayValue + delim + rec.raw.shelf.displayValue + delim +
+                    rec.raw.drawer.displayValue + delim + rec.raw.box.displayValue;
+        }
+        return 'not assigned';
     },
 
     /**
@@ -505,6 +777,10 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
     getSelectedPeptides : function() {
 
         console.error('This function must be overridden');
+    },
+
+    onPoolCreated : function() {
+        console.log('callback : on pool created');
     }
 });
 
@@ -562,11 +838,19 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
                 },{
                     text    : 'Assign Location',
                     disabled: true,
+                    tooltip : 'Assign selected peptides to a freezer location',
                     handler : function() {this.assignLocation(true);},
+                    scope   : this
+                },{
+                    text    : 'Create Pool',
+                    disabled: true,
+                    tooltip : 'Combined selected peptides into a new pool',
+                    handler : function() {this.createPool();},
                     scope   : this
                 },{
                     text    : 'Assign Lot Number',
                     disabled: true,
+                    tooltip : 'Assign a lot number to the selected peptides',
                     handler : function() {this.assignLotNumber();},
                     scope   : this
                 }]
@@ -582,8 +866,10 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
             region      : 'north',
             items : [{
                 xtype       : 'displayfield',
-                value       : 'This tab is used to assign individual peptides to a freezer location. Start by selecting a specific peptide pool from the dropdown ' +
-                        'check the individual peptides before clicking on the "Assign Location" button to assign the set of peptides to a specific freezer location</p>'
+                value       : 'This tab is used to assign individual peptides to a freezer location. Start by selecting a specific peptide protein category from the dropdown ' +
+                        'check the individual peptides before clicking on the <strong>Assign Location</strong> button to assign the set of peptides to a specific freezer location</p>' +
+                        'Individual peptides can also be pooled and then aliquoted into separate vials. To do this, select the individual peptides to be combined and click on the ' +
+                        '<strong>Create Pool</strong> button</p>'
             }]
         });
         this.items.push(this.northPanel);
@@ -594,50 +880,51 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
 
     initNorthPanel : function() {
 
-        Ext4.define('LABKEY.Peptide.Pools', {
-            extend: 'Ext.data.Model',
-            proxy : {
-                type : 'ajax',
-                url    : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
-                extraParams : {
-                    schemaName  : 'peptideinventory',
-                    sql         : 'SELECT * FROM peptidePool WHERE peptide_pool_id IN (SELECT DISTINCT(peptide_pool_id) FROM peptidePoolAssignment) ORDER BY name',
-                    sort        : 'name'
+        if (!Ext4.ModelManager.isRegistered('LABKEY.Peptide.ProteinCategories')) {
+            Ext4.define('LABKEY.Peptide.ProteinCategories', {
+                extend: 'Ext.data.Model',
+                proxy : {
+                    type : 'ajax',
+                    url    : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
+                    extraParams : {
+                        schemaName  : 'peptideinventory',
+                        sql         : 'SELECT DISTINCT(proteinCategory) FROM peptide',
+                        sort        : 'proteinCategory'
+                    },
+                    reader : { type : 'json', root : 'rows' }
                 },
-                reader : { type : 'json', root : 'rows' }
-            },
-            fields : [
-                {name: 'peptide_pool_id'},
-                {name: 'name'}
-            ]
-        });
+                fields : [
+                    {name: 'proteinCategory'}
+                ]
+            });
+        }
 
-        var poolStore = Ext4.create('Ext.data.Store', {
-            model : 'LABKEY.Peptide.Pools',
+        var categoryStore = Ext4.create('Ext.data.Store', {
+            model : 'LABKEY.Peptide.ProteinCategories',
             pageSize    : 10000,
             autoLoad: true
         });
 
-        this.peptidePools = Ext4.create('Ext.form.field.ComboBox', {
+        var proteinCategory = Ext4.create('Ext.form.field.ComboBox', {
             width : 800,
-            fieldLabel : 'Peptide Pools',
+            fieldLabel : 'Protein Categories',
             labelWidth : 150,
             labelSeparator : '',
-            store : poolStore,
-            valueField : 'peptide_pool_id',
-            displayField : 'name',
+            store : categoryStore,
+            valueField : 'proteinCategory',
+            displayField : 'proteinCategory',
             forceSelection : true,
             editable : false,
             listeners : {
                 scope: this,
                 change : function(combo, value) {
-                    this.peptidePool = value;
+                    this.proteinCategory = value;
                     this.getPeptidesInPool();
                 }
             }
         });
 
-        this.northPanel.add(this.peptidePools);
+        this.northPanel.add(proteinCategory);
     },
 
     /**
@@ -647,31 +934,41 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
 
         if (!this.peptideResultsGrid) {
 
-            Ext4.define('LABKEY.Peptide.Peptides', {
-                extend: 'Ext.data.Model',
-                proxy : {
-                    type : 'ajax',
-                    url    : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
-                    extraParams : {
-                        schemaName  : 'peptideinventory',
-                        queryName   : 'peptide',
-                        sort        : 'name'
+            if (!Ext4.ModelManager.isRegistered('LABKEY.Peptide.Peptides'))
+            {
+                Ext4.define('LABKEY.Peptide.Peptides', {
+                    extend: 'Ext.data.Model',
+                    proxy: {
+                        type: 'ajax',
+                        url: LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
+                        extraParams: {
+                            schemaName  : 'peptideinventory',
+                            queryName   : 'peptide',
+                            sort        : 'name',
+                            apiVersion  : 9.1
+                        },
+                        reader: { type: 'json', root: 'rows', metaProperty : 'none' }
                     },
-                    reader : { type : 'json', root : 'rows' }
-                },
-                fields : [
-                    {name: 'peptide_id'},
-                    {name: 'peptide_sequence'},
-                    {name: 'lotNumber'},
-                    {name: 'proteinCategory'},
-                    {name: 'peptideGroup'},
-                    {name: 'pathogen'},
-                    {name: 'clade'},
-                    {name: 'groupType'},
-                    {name: 'alignRef'},
-                    {name: 'peptide_id_in_group'}
-                ]
-            });
+                    fields: [
+                        {name: 'peptide_id', mapping : 'peptide_id.value'},
+                        {name: 'peptide_sequence', mapping : 'peptide_sequence.value'},
+                        {name: 'lotNumber', mapping : 'lotNumber.value'},
+                        {name: 'proteinCategory', mapping : 'proteinCategory.value'},
+                        {name: 'peptideGroup', mapping : 'peptideGroup.value'},
+                        {name: 'pathogen', mapping : 'pathogen.value'},
+                        {name: 'clade', mapping : 'clade.value'},
+                        {name: 'groupType', mapping : 'groupType.value'},
+                        {name: 'alignRef', mapping : 'alignRef.value'},
+                        {name: 'peptide_id_in_group', mapping : 'peptide_id_in_group.value'},
+                        {name: 'rcPoolId', mapping : 'rcPoolId.value'},
+                        {name: 'freezer'},
+                        {name: 'rack'},
+                        {name: 'shelf'},
+                        {name: 'drawer'},
+                        {name: 'box'}
+                    ]
+                });
+            }
 
             this.dataStore = Ext4.create('Ext.data.Store', {
                 model : 'LABKEY.Peptide.Peptides',
@@ -698,7 +995,7 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
                 emptyText : '<h3>There were no rows returned that matched the specified peptide pool.</h3>',
                 columns : [
                     {header : 'Peptide Id', dataIndex : 'peptide_id'},
-                    {header : 'Peptide Sequence', dataIndex : 'peptide_sequence', flex : 1.1},
+                    {header : 'Peptide Sequence', dataIndex : 'peptide_sequence', flex : 1.2},
                     {header : 'Lot Number', dataIndex : 'lotNumber', width : 150},
                     {header : 'Protein Category', dataIndex : 'proteinCategory', width : 150},
                     {header : 'Group', dataIndex : 'peptideGroup', width : 75},
@@ -706,7 +1003,8 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
                     {header : 'Clade', dataIndex : 'clade', width : 100},
                     {header : 'Group Type', dataIndex : 'groupType', width : 75},
                     {header : 'Align Ref', dataIndex : 'alignRef', width : 75},
-                    {header : 'Id in Group', dataIndex : 'peptide_id_in_group', width : 125}
+                    {header : 'Id in Group', dataIndex : 'peptide_id_in_group', width : 125},
+                    {header : 'Freezer Location', dataIndex : 'freezer', width : 125, scope : this, renderer : this.locationRenderer, flex : 1.1}
                 ],
                 dockedItems : [{
                     xtype   : 'pagingtoolbar',
@@ -718,10 +1016,13 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
                     selectionchange : function(cmp, selected){
                         var editBtn = this.down('button[text="Assign Location"]');
                         var lotBtn = this.down('button[text="Assign Lot Number"]');
+                        var poolBtn = this.down('button[text="Create Pool"]');
                         if (editBtn)
                             editBtn.setDisabled(selected.length == 0);
                         if (lotBtn)
                             lotBtn.setDisabled(selected.length == 0);
+                        if (poolBtn)
+                            poolBtn.setDisabled(selected.length == 0);
                     },
                     scope: this
                 }
@@ -730,7 +1031,7 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
             this.centerPanel.add(this.peptideResultsGrid);
             this.centerPanel.enable();
         }
-        this.dataStore.proxy.extraParams.sql = this.getPeptidesInPoolSql(this.peptidePool);
+        this.dataStore.proxy.extraParams.sql = this.getPeptidesInCategorySql(this.proteinCategory);
         this.dataStore.load();
     },
 
@@ -752,13 +1053,13 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
 });
 
 /**
- * Assign locations by peptide pool or subpool
+ * Assign locations by pooled peptide
  */
-Ext4.define('LABKEY.ext4.SearchPoolPanel', {
+Ext4.define('LABKEY.ext4.SearchPooledPeptidePanel', {
 
     extend : 'LABKEY.ext4.BaseSearchPanel',
 
-    alias: 'widget.search-pool-panel',
+    alias: 'widget.search-pooled-peptide-panel',
 
     constructor : function(config) {
 
@@ -777,10 +1078,69 @@ Ext4.define('LABKEY.ext4.SearchPoolPanel', {
 
         this.items = [];
 
-        this.centerPanel = Ext4.create('Ext.panel.Panel', {
+        Ext4.define('LABKEY.Peptide.PooledPeptides', {
+            extend: 'Ext.data.Model',
+            fields : [
+                {name: 'peptide_id', mapping : 'peptide_id.value'},
+                {name: 'lotNumber', mapping : 'lotNumber.value'},
+                {name: 'vialCount', mapping : 'vialCount.value'},
+                {name: 'rcPoolId', mapping : 'rcPoolId.value'},
+                {name: 'freezer'},
+                {name: 'rack'},
+                {name: 'shelf'},
+                {name: 'drawer'},
+                {name: 'box'}
+            ]
+        });
+
+        this.dataStore = Ext4.create('Ext.data.Store', {
+            model : 'LABKEY.Peptide.PooledPeptides',
+            autoLoad: true,
+            proxy : {
+                type : 'ajax',
+                url    : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
+                extraParams : {
+                    schemaName  : 'peptideinventory',
+                    queryName   : 'peptide',
+                    sql         : this.getPooledPeptidesSql(),
+                    apiVersion  : 9.1
+                },
+                reader : { type : 'json', root : 'rows', metaProperty : 'none'}
+            },
+            pageSize: 200
+        });
+
+        this.pooledPeptidesGrid = Ext4.create('Ext.grid.Panel', {
+            store   : this.dataStore,
+            border  : false, frame : false,
+            selType : 'checkboxmodel',
+            scope   : this,
+            emptyText : '<h3>There are no Pooled Petides.</h3>',
+            columns : [
+                {header : 'Peptide Id', dataIndex : 'peptide_id'},
+                {header : 'Lot Number', dataIndex : 'lotNumber', width : 200},
+                {header : 'Vials in Lot', dataIndex : 'vialCount', width : 125},
+                {header : 'Freezer Location', dataIndex : 'freezer', width : 125, scope : this, renderer : this.locationRenderer, flex : 1.1}
+            ],
+            dockedItems : [{
+                xtype   : 'pagingtoolbar',
+                store   : this.dataStore,
+                dock    : 'bottom',
+                displayInfo : true
+            }],
+            listeners : {
+                selectionchange : function(cmp, selected){
+                    var editBtn = this.down('button[text="Assign Location"]');
+                    if (editBtn)
+                        editBtn.setDisabled(selected.length == 0);
+                },
+                scope: this
+            }
+        });
+
+        var centerPanel = Ext4.create('Ext.panel.Panel', {
             border   : false, frame : false,
             layout   : 'fit',
-            disabled : true,
             region   : 'center',
             dockedItems : [{
                 xtype : 'toolbar',
@@ -791,134 +1151,267 @@ Ext4.define('LABKEY.ext4.SearchPoolPanel', {
                     disabled: true,
                     handler : function() {this.assignLocation();},
                     scope   : this
+                },{
+                    text    : 'Delete Pool',
+                    handler : function() {this.deletePool();},
+                    scope   : this
                 }]
-            }]
+            }],
+            items : this.pooledPeptidesGrid
         });
 
-        this.items.push(this.centerPanel);
+        this.items.push(centerPanel);
 
-        this.northPanel = Ext4.create('Ext.panel.Panel', {
+        var northPanel = Ext4.create('Ext.panel.Panel', {
             bodyPadding : 20,
             border      : false,
-            height      : 100,
+            height      : 150,
             region      : 'north',
             items : [{
                 xtype       : 'displayfield',
-                value       : 'This tab is used to assign peptide pools or subpools to a freezer location. Start by checking the specific peptide pool(s) from the grid ' +
-                        'before clicking on the "Assign Location" button to assign the set of peptide pools to a specific freezer location</p>'
+                value       : 'This tab is used to assign vials created from pooled peptides to a freezer location. Check the individual vials before clicking ' +
+                        'on the "Assign Location" button to assign the set of vials to a specific freezer location</p>'
             }]
         });
-        this.items.push(this.northPanel);
+        this.items.push(northPanel);
 
-        this.initGridPanel();
         this.callParent();
     },
 
     /**
-     * Populate the grid with the set of peptides in the selected pool
+     * Returns the select SQL to return the list of peptides in a specified pool
      */
-    initGridPanel : function() {
-
-        if (!this.poolResultsGrid) {
-
-            Ext4.define('LABKEY.Peptide.Pools', {
-                extend: 'Ext.data.Model',
-                proxy : {
-                    type : 'ajax',
-                    url    : LABKEY.ActionURL.buildURL('query', 'executeSql.api'),
-                    extraParams : {
-                        schemaName  : 'peptideinventory',
-                        queryName   : 'peptidepool',
-                        sql         : 'SELECT * FROM peptidePool WHERE peptide_pool_id IN (SELECT DISTINCT(peptide_pool_id) FROM peptidePoolAssignment) ORDER BY name',
-                        sort        : 'name'
-                    },
-                    reader : { type : 'json', root : 'rows' }
-                },
-                fields : [
-                    {name: 'peptide_pool_id'},
-                    {name: 'name'},
-                    {name: 'comment'},
-                    {name: 'poolType'},
-                    {name: 'parent_pool_id'}
-                ]
-            });
-
-            this.dataStore = Ext4.create('Ext.data.Store', {
-                model : 'LABKEY.Peptide.Pools',
-                autoLoad: true,
-                pageSize: 200,
-                listeners : {
-                    beforeload : function(){
-                        if (this.poolResultsGrid)
-                            this.poolResultsGrid.setLoading(true);
-                    },
-                    load : function(){
-                        if (this.poolResultsGrid)
-                            this.poolResultsGrid.setLoading(false);
-                    },
-                    scope: this
-                }
-            });
-
-            this.poolResultsGrid = Ext4.create('Ext.grid.Panel', {
-                store   : this.dataStore,
-                border  : false, frame : false,
-                //selType : 'checkboxmodel',
-                scope   : this,
-                emptyText : '<h3>There were no rows returned that matched the specified peptide pool.</h3>',
-                columns : [
-                    {header : 'Pool Id', dataIndex : 'peptide_pool_id'},
-                    {header : 'Pool Name', dataIndex : 'name', flex : 1.1},
-                    {header : 'Comment', dataIndex : 'comment', width : 250},
-                    {header : 'Pool Type', dataIndex : 'poolType', width : 150},
-                    {header : 'Parent Pool Id', dataIndex : 'parent_pool_id', width : 150}
-                ],
-                dockedItems : [{
-                    xtype   : 'pagingtoolbar',
-                    store   : this.dataStore,
-                    dock    : 'bottom',
-                    displayInfo : true
-                }],
-                listeners : {
-                    selectionchange : function(cmp, selected){
-                        var editBtn = this.down('button[text="Assign Location"]');
-                        if (editBtn)
-                            editBtn.setDisabled(selected.length == 0);
-                    },
-                    scope: this
-                }
-            });
-
-            this.centerPanel.add(this.poolResultsGrid);
-            this.centerPanel.enable();
-        }
+    getPooledPeptidesSql : function() {
+        return 'SELECT v.peptideId AS peptide_id, rc.lotNumber, rc.vialCount, v.rcPoolId, ' +
+                    'v.freezer, v.rack, v.shelf, v.drawer, v.box ' +
+                    'FROM peptideInventory.vial v JOIN peptideInventory.rcPool rc ON v.rcPoolId = rc.rowId ORDER BY rc.lotNumber, v.peptideId';
     },
 
     getSelectedPeptides : function(callback) {
+        var peptides = [];
+        var peptideMap = {};
 
-        var pools = this.poolResultsGrid.getSelectionModel().getSelection();
-        if (pools) {
+        Ext4.each(this.pooledPeptidesGrid.getSelectionModel().getSelection(), function(rec){
 
-            LABKEY.Query.executeSql({
-                schemaName  : 'peptideinventory',
-                sql         : this.getPeptidesInPoolSql(pools[0].data.peptide_pool_id),
-                success     : function(data) {
-                    var me = this;
-                    var peptides = [];
-                    var peptideMap = {};
+            if (!peptideMap[rec.data.peptide_id]) {
+                peptides.push(rec.data);
+                peptideMap[rec.data.peptide_id] = true;
+            }
+        }, this);
 
-                    Ext4.each(data.rows, function(rec){
+        if (callback)
+            callback.call(this, peptides);
+    },
 
-                        if (!peptideMap[rec.peptide_id]) {
-                            peptides.push(rec);
-                            peptideMap[rec.peptide_id] = true;
-                        }
-                    });
-                    if (callback)
-                        callback.call(me, peptides);
-                },
-                scope: this
+    deletePool : function() {
+
+        var formItems = [];
+
+        formItems.push({
+            xtype       : 'displayfield',
+            value       : 'Select the lot number of the combined Peptide Pool to delete, all vials associated with the pool will be deleted as well.</p>'
+        });
+
+        if (!Ext4.ModelManager.isRegistered('LABKEY.Peptide.RCPools'))
+        {
+            Ext4.define('LABKEY.Peptide.RCPools', {
+                extend: 'Ext.data.Model',
+                fields: [
+                    {name: 'rowid'},
+                    {name: 'vialCount'},
+                    {name: 'lotNumber'}
+                ]
             });
         }
+        formItems.push({
+            xtype           : 'combo',
+            fieldLabel      : 'Combined Pools',
+            name            : 'rcPoolId',
+            labelSeparator  : '',
+            store : {
+                model   : 'LABKEY.Peptide.RCPools',
+                proxy : {
+                    type : 'ajax',
+                    url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
+                    extraParams : {
+                        schemaName  : 'peptideinventory',
+                        queryName   : 'rcPool',
+                        sort        : 'name'
+                    },
+                    reader : { type : 'json', root : 'rows' }
+                }
+            },
+            valueField      : 'rowid',
+            displayField    : 'lotNumber',
+            allowBlank      : false,
+            editable        : false
+        });
+
+        var dialog = Ext4.create('Ext.window.Window', {
+            width   : 450,
+            height  : 275,
+            layout  : 'fit',
+            draggable   : false,
+            modal       : true,
+            title  : 'Delete Selected Pool',
+            defaults: {
+                border: false, frame: false
+            },
+            bodyPadding : 20,
+            items   : [{
+                xtype       : 'form',
+                items       : formItems,
+                autoScroll  : true,
+                layout      : {
+                    type  : 'vbox',
+                    align : 'stretch'
+                }
+            }],
+            buttons     : [{
+                text : 'Delete',
+                formBind: true,
+                handler : function(btn)
+                {
+                    var form = dialog.down('form').getForm();
+                    if (form.isValid())
+                    {
+                        var values = form.getValues();
+                        var multi = new LABKEY.MultiRequest();
+                        var rcPoolId = values.rcPoolId;
+                        var oldAssignments = [];
+
+                        // delete the created vials
+                        multi.add(LABKEY.Query.executeSql,{
+                            schemaName  : 'peptideInventory',
+                            sql         : 'SELECT container, peptideId, rcPoolId FROM vial WHERE rcPoolId = ' + rcPoolId,
+                            scope       : this,
+                            success     : function(rec)
+                            {
+                                if (rec.rows.length > 0){
+                                    LABKEY.Query.deleteRows({
+                                        schemaName: 'peptideInventory',
+                                        queryName: 'vial',
+                                        rows: rec.rows,
+                                        scope: this,
+                                        failure: function()
+                                        {
+                                            Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                        }
+                                    });
+                                }
+                            },
+                            failure     : function(){
+                                Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                            }
+                        }, this);
+
+                        // make the source peptides as available
+                        multi.add(LABKEY.Query.executeSql,{
+                            schemaName  : 'peptideInventory',
+                            sql         : 'SELECT peptideId FROM rcPoolAssignment WHERE rcPoolId = ' + rcPoolId,
+                            scope       : this,
+                            success     : function(rec) {
+
+                                var updated = [];
+                                Ext4.each(rec.rows, function(rec){
+                                    updated.push({container : LABKEY.container.id, peptideId : rec.peptideId, rcPoolId : -1, used : false, checkedOut : false});
+                                    oldAssignments.push({container : LABKEY.container.id, peptideId : rec.peptideId});
+                                });
+
+                                if (updated.length > 0){
+                                    LABKEY.Query.updateRows({
+                                        schemaName: 'peptideInventory',
+                                        queryName: 'vial',
+                                        rows: updated,
+                                        scope: this,
+                                        failure: function()
+                                        {
+                                            Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                        }
+                                    });
+                                }
+                            },
+                            failure     : function(){
+                                Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                            }
+                        }, this);
+
+                        // perform the updates
+                        multi.send(function(){
+                            // delete the peptide to pool assignments
+                            if (oldAssignments.length > 0){
+                                LABKEY.Query.deleteRows({
+                                    schemaName  : 'peptideInventory',
+                                    queryName   : 'rcPoolAssignment',
+                                    rows        : oldAssignments,
+                                    scope: this,
+                                    success: function ()
+                                    {
+                                        // delete the pool
+                                        LABKEY.Query.deleteRows({
+                                            schemaName  : 'peptideInventory',
+                                            queryName   : 'rcPool',
+                                            rows        : [{rowId : rcPoolId}],
+                                            scope       : this,
+                                            success     : function(){
+                                                dialog.close();
+                                                this.showFadeOutMessage('Success', 'Pool successfully deleted');
+                                                this.dataStore.reload();
+                                            },
+                                            failure     : function(){
+                                                Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                            }
+                                        });
+                                    },
+                                    failure: function ()
+                                    {
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+                            }
+                            else {
+                                // delete the pool
+                                LABKEY.Query.deleteRows({
+                                    schemaName  : 'peptideInventory',
+                                    queryName   : 'rcPool',
+                                    rows        : [{rowId : rcPoolId}],
+                                    scope       : this,
+                                    success     : function(){
+                                        dialog.close();
+                                        this.showFadeOutMessage('Success', 'Pool successfully deleted');
+                                        this.dataStore.reload();
+                                    },
+                                    failure     : function(){
+                                        Ext4.Msg.show({title: "Error", msg: 'An error occurred assigning the Lot number to the Vials.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                    }
+                                });
+                            }
+                        }, this);
+                    }
+                    else
+                    {
+                        Ext4.Msg.show({
+                            title: "Error",
+                            msg: 'All required fields must be specified.',
+                            buttons: Ext4.MessageBox.OK,
+                            icon: Ext4.MessageBox.ERROR
+                        });
+                    }
+                },
+                scope   : this
+            },{
+                text : 'Cancel',
+                handler : function(btn) {
+                    dialog.close();
+                }
+            }],
+            scope : this
+        });
+
+        dialog.show();
+    },
+
+    onPoolCreated : function() {
+        this.dataStore.reload();
     }
 });

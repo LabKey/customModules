@@ -204,6 +204,7 @@ peptideInventory/module.properties -text
 peptideInventory/resources/etls/PepDBMirror.xml -text
 peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-0.00-14.20.sql -text
 peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-14.30-14.31.sql -text
+peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-14.31-14.32.sql -text
 peptideInventory/resources/schemas/peptideInventory.xml -text
 peptideInventory/resources/views/freezer.html -text
 peptideInventory/resources/views/freezer.view.xml -text
