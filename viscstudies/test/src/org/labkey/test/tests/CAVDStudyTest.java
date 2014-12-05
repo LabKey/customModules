@@ -23,6 +23,8 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.categories.Study;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ListHelper;
+import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.LoggedParam;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class CAVDStudyTest extends StudyBaseTest
         return Arrays.asList("viscstudies");
     }
 
-    @Override
+    @Override @LogMethod
     protected void doCreateSteps()
     {
         _containerHelper.createProject(PROJECT_NAME, "None");
@@ -74,7 +76,7 @@ public class CAVDStudyTest extends StudyBaseTest
         createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME4, "Collaboration", null);
     }
 
-    @Override
+    @Override @LogMethod
     protected void  doVerifySteps()
     {
         doVerifyEmptyStudy();
@@ -84,6 +86,7 @@ public class CAVDStudyTest extends StudyBaseTest
         doVerifyCrossContainerDatasetStatus();
     }
 
+    @LogMethod
     public void configureStudy(String folderName)
     {
         createSubfolder(PROJECT_NAME, PROJECT_NAME, folderName, "Collaboration", null);
@@ -97,6 +100,7 @@ public class CAVDStudyTest extends StudyBaseTest
         return PROJECT_NAME;
     }
 
+    @LogMethod
     private void doVerifyEmptyStudy()
     {
         log("Verifying that the study is empty.");
@@ -119,6 +123,7 @@ public class CAVDStudyTest extends StudyBaseTest
         assertTrue(_ext4Helper.isChecked(Ext4Helper.Locators.ext4Radio("DATE")));
     }
 
+    @LogMethod
     private void doVerifyStudyDesign()
     {
         populateStudyDesignLookups();
@@ -130,13 +135,10 @@ public class CAVDStudyTest extends StudyBaseTest
 
         addStudyDesignRow(RowType.Immunogen, "Immunogen1", IMMUNOGEN_TYPES[0], "1.5e10 Ad vg", ROUTES[0]);
         addStudyDesignRow(RowType.Immunogen, "gp120", IMMUNOGEN_TYPES[1], "1.6e8 Ad vg", ROUTES[0]);
-
         saveRevision();
-        assertElementPresent(Locator.xpath("//a[@class='labkey-disabled-button']/span[text()='Save']"));
 
         addStudyDesignRow(RowType.Adjuvant, "Adjuvant1", "1cc");
-        saveRevision();
-        assertElementPresent(Locator.xpath("//a[@class='labkey-disabled-button']/span[text()='Save']"));
+        finishRevision();
 
         goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         waitForText("Immunogens");
@@ -158,7 +160,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickEditDesign();
         addGroup("Vaccine", false, "1", 1);
         addGroup("Placebo", false, "2", 2);
-        saveRevision();
+        finishRevision();
 
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Cohorts"));
@@ -197,11 +199,13 @@ public class CAVDStudyTest extends StudyBaseTest
         selectOptionByText(Locator.xpath("//select[@title='Immunogen 1 type']"), "Canarypox");
     }
 
-    private void goToGWTStudyDesignerPanel(String folderName, String panel)
+    @LogMethod(quiet = true)
+    private void goToGWTStudyDesignerPanel(String folderName, @LoggedParam String panel)
     {
         beginAt("/study-designer/" + getProjectName() + "/" + folderName + "/designer.view?panel=" + panel);
     }
 
+    @LogMethod
     private void doVerifyAssaySchedule()
     {
         clickFolder(STUDY_NAME);
@@ -223,42 +227,36 @@ public class CAVDStudyTest extends StudyBaseTest
         finishRevision();
     }
 
+    @LogMethod
     private void populateStudyDesignLookups()
     {
         // StudyDesignAssays
         goToAssayConfigureLookupValues(true, 0);
-        for (String assay : ASSAYS)
-            insertLookupRecord(assay, assay + " Label");
+        importLookupRecords(ASSAYS);
 
         // StudyDesignLabs
         goToAssayConfigureLookupValues(false, 1);
-        for (String lab : LABS)
-            insertLookupRecord(lab, lab + " Label");
+        importLookupRecords(LABS);
 
         // StudyDesignRoutes
         goToVaccineConfigureLookupValues(true, 1);
-        for (String route : ROUTES)
-            insertLookupRecord(route, route + " Label");
+        importLookupRecords(ROUTES);
 
         // StudyDesignImmunogenTypes
         goToVaccineConfigureLookupValues(false, 0);
-        for (String immunogenType : IMMUNOGEN_TYPES)
-            insertLookupRecord(immunogenType, immunogenType + " Label");
+        importLookupRecords(IMMUNOGEN_TYPES);
 
         // StudyDesignGenes
         goToVaccineConfigureLookupValues(true, 2);
-        for (String gene : GENES)
-            insertLookupRecord(gene, gene + " Label");
+        importLookupRecords(GENES);
 
         // StudyDesignSubTypes
         goToVaccineConfigureLookupValues(false, 3);
-        for (String subType : SUB_TYPES)
-            insertLookupRecord(subType, subType + " Label");
+        importLookupRecords(SUB_TYPES);
 
         // StudyDesignUnits
         goToAssayConfigureLookupValues(true, 2);
-        for (String unit : UNITS)
-            insertLookupRecord(unit, unit + " Label");
+        importLookupRecords(UNITS);
 
         // StudyDesignSampleTypes
         goToAssayConfigureLookupValues(false, 3);
@@ -308,14 +306,23 @@ public class CAVDStudyTest extends StudyBaseTest
         waitAndClickAndWait(Locator.linkWithText(projectStr).index(index));
     }
 
-    private void insertLookupRecord(String name, String label)
+    private void importLookupRecords(String... names)
     {
-        clickButton("Insert New");
-        if (name != null) setFormElement(Locator.name("quf_Name"), name);
-        if (label != null) setFormElement(Locator.name("quf_Label"), label);
+        clickButton("Import Data");
+        StringBuilder tsvBuilder = new StringBuilder("Name\tLabel");
+        for (String name : names)
+        {
+            tsvBuilder.append("\n");
+            tsvBuilder.append(name);
+            tsvBuilder.append("\t");
+            tsvBuilder.append(name);
+            tsvBuilder.append(" Label");
+        }
+        setFormElement(Locator.id("tsv3"), tsvBuilder.toString());
         clickButton("Submit");
     }
 
+    @LogMethod
     private void doVerifyDatasets()
     {
         clickFolder(STUDY_NAME);
@@ -354,6 +361,7 @@ public class CAVDStudyTest extends StudyBaseTest
 //        assertEquals(2, getXpathCount(Locator.xpath("//input[@type='radio'][@name='TimepointType'][@disabled]")));
     }
 
+    @LogMethod
     private void doVerifyCrossContainerDatasetStatus()
     {
         // setup the dataset map (ID > Name)
