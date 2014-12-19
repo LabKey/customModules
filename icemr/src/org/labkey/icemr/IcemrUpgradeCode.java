@@ -184,7 +184,7 @@ public class IcemrUpgradeCode implements UpgradeCode
                 {
                     upgradeItem.beforeUpdate();
                     QueryUpdateService qus = ti.getUpdateService();
-                    qus.updateRows(user, container, rows, rows, null);
+                    qus.updateRows(user, container, rows, rows, null, null);
                 }
                 finally
                 {

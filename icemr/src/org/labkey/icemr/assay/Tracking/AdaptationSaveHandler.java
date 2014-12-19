@@ -137,7 +137,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
 
                 try (DbScope.Transaction transaction = table.getSchema().getScope().ensureTransaction())
                 {
-                    qus.updateRows(context.getUser(), context.getContainer(), samples, samples, null);
+                    qus.updateRows(context.getUser(), context.getContainer(), samples, samples, null, null);
                     transaction.commit();
                 }
             }
