@@ -17,6 +17,7 @@ package org.labkey.test.tests;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
@@ -160,9 +161,8 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 
 
     @Override
-    public java.util.List<String> getAssociatedModules()
+    public List<String> getAssociatedModules()
     {
         return Arrays.asList("study");
     }
-
 }

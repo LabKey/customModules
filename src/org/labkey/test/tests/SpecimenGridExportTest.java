@@ -24,6 +24,7 @@ import org.labkey.test.categories.DailyB;
 import org.labkey.test.categories.Specimen;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Test exporting rows from a specimen grid (not folder/study specimen export.)
@@ -121,7 +122,7 @@ public class SpecimenGridExportTest extends AbstractExportTest
     }
 
     @Override
-    public java.util.List<String> getAssociatedModules()
+    public List<String> getAssociatedModules()
     {
         return Arrays.asList("study");
     }
