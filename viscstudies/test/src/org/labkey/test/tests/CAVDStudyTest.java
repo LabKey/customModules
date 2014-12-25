@@ -29,6 +29,7 @@ import org.labkey.test.util.LoggedParam;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -59,7 +60,7 @@ public class CAVDStudyTest extends StudyBaseTest
     private static final String[] SAMPLE_TYPES = {"Platelets"};
 
     @Override
-    public java.util.List<String> getAssociatedModules()
+    public List<String> getAssociatedModules()
     {
         return Arrays.asList("viscstudies");
     }
