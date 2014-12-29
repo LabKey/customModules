@@ -90,7 +90,7 @@ public class MS2ExtensionsModule extends DefaultModule
         return Collections.<WebPartFactory>singleton(new BaseWebPartFactory("MS2 Runs With Peptide Counts")
         {
             @Override
-            public WebPartView getWebPartView(ViewContext portalCtx, Portal.WebPart webPart) throws Exception
+            public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
             {
                 return new RunGridWebPart(portalCtx);
             }
