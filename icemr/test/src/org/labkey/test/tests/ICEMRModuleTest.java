@@ -147,7 +147,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private void verifyTrackingAssay(String assayName)
+    private void verifyTrackingAssay(@LoggedParam String assayName)
     {
         enterDataPointTracking(assayName);
         enterDailyTrackingData();
@@ -228,7 +228,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private void enterDataPoint(String assayName, Locator.IdLocator locator, String fileUploadField)
+    private void enterDataPoint(@LoggedParam String assayName, Locator.IdLocator locator, String fileUploadField)
     {
         Locator.XPathLocator link = Locator.linkContainingText(assayName);
         waitAndClick(link);
