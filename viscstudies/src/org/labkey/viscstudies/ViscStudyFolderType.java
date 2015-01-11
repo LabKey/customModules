@@ -16,22 +16,16 @@
 package org.labkey.viscstudies;
 
 import org.labkey.api.data.Container;
-import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.MultiPortalFolderType;
-import org.labkey.api.reports.report.ReportUrls;
 import org.labkey.api.security.User;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
-import org.labkey.api.study.StudyUrls;
 import org.labkey.api.study.TimepointType;
-import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.FolderTab;
-import org.labkey.api.view.NavTree;
 import org.labkey.api.view.Portal;
 import org.labkey.api.view.ViewContext;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,26 +72,7 @@ public class ViscStudyFolderType extends MultiPortalFolderType
     {
         super.configureContainer(c, user);
         //Create Study here
-        try
-        {
-            if (null == StudyService.get().getStudy(c))
-                StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE, true);
-
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeSQLException(e);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void addManageLinks(NavTree adminNavTree, Container container)
-    {
-        super.addManageLinks(adminNavTree, container);
-        adminNavTree.addChild(new NavTree("Manage Views", PageFlowUtil.urlProvider(ReportUrls.class).urlManageViews(container)));
+        if (null == StudyService.get().getStudy(c))
+            StudyService.get().createStudy(c, user, c.getName() + " Study", TimepointType.DATE, true);
     }
 }
