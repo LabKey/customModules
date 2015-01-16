@@ -1,0 +1,17 @@
+analysisPlanSort	analysisPlanId	description	NAME1	STAT1	NAME2	STAT2	NAME3	STAT3	NAME4	STAT4	NAME5	STAT5	NAME6	STAT6	NAME7	STAT7	NAME8	STAT8	NAME9	STAT9	NAME10	STAT10
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen0	S/Lv/L/3+/4+/Gen0:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen1	S/Lv/L/3+/4+/Gen1:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen2	S/Lv/L/3+/4+/Gen2:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen3	S/Lv/L/3+/4+/Gen3:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen4	S/Lv/L/3+/4+/Gen4:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen5	S/Lv/L/3+/4+/Gen5:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen6	S/Lv/L/3+/4+/Gen6:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD4+	S/Lv/L/3+/4+:Count	Gen7	S/Lv/L/3+/4+/Gen7:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen0	S/Lv/L/3+/8+/Gen0:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen1	S/Lv/L/3+/8+/Gen1:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen2	S/Lv/L/3+/8+/Gen2:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen3	S/Lv/L/3+/8+/Gen3:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen4	S/Lv/L/3+/8+/Gen4:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen5	S/Lv/L/3+/8+/Gen5:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen6	S/Lv/L/3+/8+/Gen6:Count
+AP-008	8	CFSE	Singlets	S:Count	Live	S/Lv:Count	Lymphocytes	S/Lv/L:Count	CD3+	S/Lv/L/3+:Count	CD8+	S/Lv/L/3+/8+:Count	Gen7	S/Lv/L/3+/8+/Gen7:Count

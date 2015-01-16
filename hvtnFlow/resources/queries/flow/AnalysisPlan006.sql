@@ -59,8 +59,7 @@ A.METHOD,
 A.REPLACE,
 A.MODDT,
 A.COMMENTS,
-A._well, A._fcsfile
-
+A._well @hidden, A._fcsfile @hidden, A._sample @hidden
 
 FROM AnalysisPlanTemplate A
 WHERE A.ANALYSIS_PLAN_ID = '6'

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 LabKey Corporation
+ * Copyright (c) 2014 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT 
+SELECT
 --A._sample.property.NETWORK as NETWORK,
-A.NETWORK, 
+A.NETWORK,
 A.PROTOCOL,
 A.LABID,
 A.ASSAYID,
@@ -68,4 +68,4 @@ A.COMMENTS,
 A._well @hidden, A._fcsfile @hidden, A._sample @hidden
 
 FROM AnalysisPlanTemplate A
-WHERE A.ANALYSIS_PLAN_ID = '24.7bool'
+WHERE A.ANALYSIS_PLAN_ID = '41'

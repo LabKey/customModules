@@ -1,0 +1,29 @@
+<folderType xmlns="http://labkey.org/data/xml/folderType">
+    <name>HVTN Flow</name>
+    <description>HVTN Flow folder</description>
+    <preferredWebParts>
+        <webPart>
+            <name>Flow Overview</name>
+            <location>body</location>
+        </webPart>
+        <webPart>
+            <name>Flow Summary</name>
+            <location>right</location>
+        </webPart>
+        <webPart>
+            <name>Flow Analyses</name>
+            <location>body</location>
+        </webPart>
+        <webPart>
+            <name>Flow Reports</name>
+            <location>body</location>
+        </webPart>
+    </preferredWebParts>
+    <modules>
+        <moduleName>Pipeline</moduleName>
+        <moduleName>Query</moduleName>
+        <moduleName>Core</moduleName>
+        <moduleName>Flow</moduleName>
+    </modules>
+    <defaultModule>Flow</defaultModule>
+</folderType>
