@@ -128,8 +128,10 @@ public class AliquotTest extends SpecimenBaseTest
     public static final String ALIQUOT_THREE = "AAA07XK5-01";
     public static final String ALIQUOT_FOUR = "AAA07XK5-04";
     public static final String ALIQUOT_ONE_CHECKBOX = "//input[@id='check_" + ALIQUOT_ONE + "']";
+    public static final String ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX = "//td[contains(text(), '" + ALIQUOT_ONE + "')]/../td/input[@type='checkbox' and @title='Select/unselect row']";
     public static final String ALIQUOT_ONE_EDITLINK = "//input[@id='check_" + ALIQUOT_ONE + "']/../../td/a[contains(text(), 'edit')]";
     public static final String ALIQUOT_THREE_CHECKBOX = "//input[@id='check_" + ALIQUOT_THREE + "']";
+    public static final String ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX = "//td[contains(text(), '" + ALIQUOT_THREE + "')]/../td/input[@type='checkbox' and @title='Select/unselect row']";
     public static final String ALIQUOT_FOUR_CHECKBOX = "//input[@id='check_" + ALIQUOT_FOUR + "']";
     public static final String ALIQUOT_FOUR_EDITLINK = "//input[@id='check_" + ALIQUOT_FOUR + "']/../../td/a[contains(text(), 'edit')]";
     public static final String ALIQUOT_ONE_CHECKBOX_DISABLED = "//input[@id='check_" + ALIQUOT_ONE + "' and @disabled]";
@@ -235,21 +237,20 @@ public class AliquotTest extends SpecimenBaseTest
         clickButton("Save Changes and Send Notifications");
 
         // Now try to delete ALIQUOT_ONE
-        clickFolder(getFolderName());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
-        waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
-        assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
-        checkCheckbox(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
+        navigateToQuery("study", "SpecimenDetail");
+        assertElementPresent(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
+        checkCheckbox(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
         click(Locator.linkWithText("Delete"));
         assertAlert("Are you sure you want to delete the selected row?");
         waitForText("Specimen may not be deleted because it has been used in a request.");
         clickButton("Back");
 
         // Now delete a different aliquot
-        checkCheckbox(Locator.xpath(ALIQUOT_THREE_CHECKBOX));
+        checkCheckbox(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
         click(Locator.linkWithText("Delete"));
         assertAlert("Are you sure you want to delete the selected row?");
-        waitForElementToDisappear(Locator.xpath(ALIQUOT_THREE_CHECKBOX));
+        waitForElementToDisappear(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
+        clickFolder(getFolderName());
     }
 
     @LogMethod
