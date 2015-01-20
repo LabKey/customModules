@@ -133,6 +133,7 @@ public class MS2ExtensionsController extends SpringActionController
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
         {
             Map<String, String> props;
+            PropertyManager.PropertyMap mapToSave = null;
             if (getUser().isGuest())
             {
                 // Use session for guests
@@ -146,7 +147,8 @@ public class MS2ExtensionsController extends SpringActionController
             }
             else
             {
-                props = PropertyManager.getWritableProperties(getUser(), getContainer(), PREFERENCES_KEY_NAME, true);
+                mapToSave = PropertyManager.getWritableProperties(getUser(), getContainer(), PREFERENCES_KEY_NAME, true);
+                props = mapToSave;
             }
 
             JSONObject jsonObject = simpleApiJsonForm.getJsonObject();
@@ -159,9 +161,9 @@ public class MS2ExtensionsController extends SpringActionController
                 props.put(PEPTIDE_FILTER_PREFERENCE_NAME, jsonObject.getString(PEPTIDE_FILTER_PREFERENCE_NAME));
             }
 
-            if (!getUser().isGuest())
+            if (mapToSave != null)
             {
-                PropertyManager.saveProperties(props);
+                mapToSave.save();
             }
             return new ApiSimpleResponse();
         }
