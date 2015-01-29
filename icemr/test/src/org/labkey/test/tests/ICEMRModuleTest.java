@@ -32,6 +32,7 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
+import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.IOException;
@@ -203,7 +204,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-       deleteUsers(afterTest, ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
+        deleteUsers(afterTest, ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
         deleteProject(getProjectName(), afterTest);
     }
 
@@ -283,6 +284,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterAdaptationExperiment(String experimentId, int numFlasks)
     {
+        clickButton("Submit", 0);
         verifyError(7);
 
         // verify our default values for fold increase and adaptation criteria are correct
@@ -340,6 +342,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterSelectionExperiment(String experimentId, int numFlasks)
     {
+        clickButton("Submit", 0);
         verifyError(8);
 
         // verify our default values for fold increase and adaptation criteria are correct
@@ -392,6 +395,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void makeAdaptationFlask(String experimentId, int flaskNum)
     {
+        clickButton("Submit", 0);
         verifyError(5);
         fieldAndValue = new HashMap<>();
         fieldAndValue.put("SampleID" + flaskNum, experimentId + "Flask" + String.valueOf(flaskNum));
@@ -417,6 +421,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void makeSelectionFlask(String experimentId, int flaskNum)
     {
+        clickButton("Submit", 0);
         verifyError(6);
 
         fieldAndValue = new HashMap<>();
@@ -639,7 +644,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
     private void verifyError(int errorCount)
     {
-        clickButton("Submit", 0);
         waitForElementToDisappear(Locator.css(".x4-form-invalid-field").index(errorCount), WAIT_FOR_JAVASCRIPT);
         waitForElement(Locator.css(".x4-form-invalid-field").index(errorCount - 1), WAIT_FOR_JAVASCRIPT);
         assertElementPresent(Locator.id("error-div").withText("> Errors in your submission. See below."));
@@ -649,6 +653,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterDiagnosticsData()
     {
+        clickButton("Submit", 0);
         verifyError(12);
 
         fieldAndValue = new HashMap<>();
@@ -699,6 +704,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterSpeciesData(String fileUploadField)
     {
+        clickButton("Submit", 0);
         verifyError(7);
 
         fieldAndValue = new HashMap<>();
@@ -820,13 +826,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         {
             Locator.XPathLocator comboBox = Locator.xpath("//tr["+Locator.NOT_HIDDEN+" and ./td/label[@id='"+field+"-labelEl']]");
             waitForElement(comboBox);
-            _ext4Helper.selectComboBoxItem(comboBox, true, value);
+            _ext4Helper.selectComboBoxItem(comboBox, Ext4Helper.TextMatchTechnique.CONTAINS, value);
         }
         else
         {
-            Locator surveyField = Locator.name(field);
-            waitForElement(surveyField);
+            Locator surveyFieldLoc = Locator.name(field);
+            WebElement surveyField = surveyFieldLoc.waitForElement(getDriver(), shortWait());
             setFormElement(surveyField, value);
+            fireEvent(surveyField, SeleniumEvent.blur);
         }
 
         fieldAndValue.put(field, value);
