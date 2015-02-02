@@ -167,7 +167,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         WebElement datapoint = datapointLoc.waitForElement(getDriver(), shortWait());
         String datapointData = datapoint.getText();
         for(String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
-            assertTrue(datapointData.contains(s));
+            assertTrue("Datapoint data ['" + datapointData + "'] doesn't contain ['" + s + "']", datapointData.contains(s));
     }
 
     @LogMethod
