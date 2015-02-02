@@ -24,7 +24,7 @@ import org.labkey.api.data.RenderContext;
 import org.labkey.api.data.views.DataViewProvider;
 import org.labkey.api.reports.model.ReportPropsManager;
 import org.labkey.api.settings.AppProps;
-import org.labkey.api.study.DataSet;
+import org.labkey.api.study.Dataset;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.util.PageFlowUtil;
@@ -62,7 +62,7 @@ public class DatasetListWithStatusColumn extends DataColumn
     }
 
     /** Figure out the datasets associated with the study for this row */
-    private List<? extends DataSet> getDataSets(RenderContext ctx)
+    private List<? extends Dataset> getDatasets(RenderContext ctx)
     {
         Object value = getBoundColumn().getValue(ctx);
         if (value != null)
@@ -85,7 +85,7 @@ public class DatasetListWithStatusColumn extends DataColumn
     {
         // Show an icon for the dataset status (if set) and the dataset name, one per row, in a table
         out.write("<table>");
-        for (DataSet dataset : getDataSets(ctx))
+        for (Dataset dataset : getDatasets(ctx))
         {
             Object status = ReportPropsManager.get().getPropertyValue(dataset.getEntityId(), dataset.getContainer(), DataViewProvider.EditInfo.Property.status.toString());
             out.write("<tr><td style=\"width: 16px; border-style: none\">");
@@ -118,7 +118,7 @@ public class DatasetListWithStatusColumn extends DataColumn
         // Create a string with one dataset/status pair per line, suitable for Excel or TSV export
         StringBuilder sb = new StringBuilder();
         String separator = "";
-        for (DataSet dataset : getDataSets(ctx))
+        for (Dataset dataset : getDatasets(ctx))
         {
             sb.append(separator);
             separator = "\n";

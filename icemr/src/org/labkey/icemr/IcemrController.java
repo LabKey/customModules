@@ -39,7 +39,7 @@ import org.labkey.api.study.assay.AssayProtocolSchema;
 import org.labkey.api.study.assay.AssayProvider;
 import org.labkey.api.study.assay.AssayService;
 import org.labkey.api.study.assay.AssayUrls;
-import org.labkey.api.study.assay.RunDataSetContextualRoles;
+import org.labkey.api.study.assay.RunDatasetContextualRoles;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.DataView;
@@ -153,7 +153,7 @@ public class IcemrController extends SpringActionController
     }
 
     @RequiresPermissionClass(ReadPermission.class)
-    @ContextualRoles(RunDataSetContextualRoles.class)
+    @ContextualRoles(RunDatasetContextualRoles.class)
     public class DrugSensitivityMultiGraphAction extends MultiGraphAction<GraphSelectedForm>
     {
         @Override
