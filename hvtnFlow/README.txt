@@ -1,6 +1,6 @@
 This is the HVTN flow module.
 
-Updating AnalysisPlans.txt:
+Updating analysis plans on the server:
 
 - Obtain clojure:
     (via macports)
@@ -11,7 +11,7 @@ Updating AnalysisPlans.txt:
     also install the "lien-exec" plugin
         https://github.com/kumarshantanu/lein-exec
 
-- Execute the "gen-plans.clj" clojure script:
+- Execute the "gen-plans.clj" script:
     (via macports)
     > clj gen-plans.clj
 
@@ -23,25 +23,10 @@ Updating AnalysisPlans.txt:
 
 - The generated plans will be written to out/<plan-id>.tsv
 
-
-----
-
-CLEANUP:
-
-- [x] flow folder type
-
-- [ ] make sure hvtnFlow module is enabled in all /HVTN and /CHIL folders
-
-- [ ] find all custom queries under /HVTN and /CHIL folders overriding hvtnFlow module queries
-    - get full container list for /CHIL and /HVTN
-    - for each container:
-        - get module details to check if hvtnFlow module is enabled
-        - get query details for the following queries
-            - if the query is defined in the folder, print it out
-
-- [ ] delete queries in /HVTN
-
-- [ ] move AnalysisPlans list to /Shared
-- [ ] fix queries to point at /Shared.lists.AnalysisPlans
+- Upload the analysis plans to the server:
+    - go to the AnalysisPlans list
+    - filter by <plan-id>
+    - make sure all rows for the <plan-id> are visible, then delete the rows
+    - import the out/<plan-id>.tsv via copy/paste
 
 

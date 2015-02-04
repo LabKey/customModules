@@ -1,44 +1,3 @@
-
-;(def singlets
-;  {:name "Singlets" :population "S"})
-;
-;(def exclude
-;  {:name "Excluded" :population "Exclude"})
-;
-;(def cd14-
-;  {:name "CD14-" :population "14-"})
-;
-;(def live
-;  {:name "Live" :population "Lv"})
-;
-;(def lymphocytes
-;  {:name "Lymphocytes" :population "L"})
-;
-;(def cd3+
-;  {:name "CD3+" :population "3+"})
-;
-;(def cd3+long
-;  {:name "CD3+" :population "CD3+"})
-;
-;(def cd4+cd8+
-;  {:type "alternate"
-;   :children [{:name "CD4+" :population "4+"}
-;              {:name "CD8+" :population "8+"}]})
-;
-;(def cd4+cd8+excl
-;  {:type "alternate"
-;   :children [{:name "CD4+" :population "Excl/4+"}
-;              {:name "CD8+" :population "Excl/8+"}]})
-;
-;(def cd4+cd8+long
-;  {:type "alternate"
-;   :children [{:name "CD4+" :population "CD4+"}
-;              {:name "CD8+" :population "CD8+"}]})
-;
-;(def shared-stats
-;  [singlets exclude cd14- live lymphocytes cd3+ cd4+cd8+])
-;
-
 (defrecord Subset [name gate children])
 
 (defn subset
@@ -68,6 +27,8 @@
 (defn L [& children] (Subset. "Lymphocytes" "L" children))
 
 (defn CD3+ [& children] (subset "CD3+" "3+" children))
+(defn CD3- [& children] (subset "CD3-" "3-" children))
+
 (defn CD4+ [& children] (subset "CD4+" "4+" children))
 (defn CD8+ [& children] (subset "CD8+" "8+" children))
 
@@ -139,6 +100,13 @@
 ; marginals and marginals for each set of memory cells
 (def ap39-marginals-memory
   (conj CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2
+        ; extra boolean subsets only in CD4+ and CD8+
+        (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+        (subset  "IFNg+IL2+")
+        (subset  "IFNg+TNFa+")
+        (subset  "IL2+TNFa+")
+        (subset  "IFNg+IL2+TNFa+")
+        ; memory cells
         (Subset. "Naive" "Naive" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
         (Subset. "CM"    "CM"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
         (Subset. "EM"    "EM"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
@@ -153,6 +121,17 @@
    (Subset. "IL10+"  "IL10+"  nil)
    (Subset. "IL13+"  "IL13+"  nil)
    (Subset. "IL17+"  "IL17+"  nil)
+   (Subset. "IL2+"   "IL2+"  nil)
+   (Subset. "IL4+"   "IL4+"  nil)
+   (Subset. "TNFa+"  "TNFa+" nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan041 marginals and IFNg\IL2
+(def CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "154+"   "154+"  nil)
+   (Subset. "GzB+"   "GzB+"  nil)
+   (Subset. "IFNg+"  "IFNg+" nil)
+   (Subset. "IL17a+"  "IL17a+"  nil)
    (Subset. "IL2+"   "IL2+"  nil)
    (Subset. "IL4+"   "IL4+"  nil)
    (Subset. "TNFa+"  "TNFa+" nil)
@@ -420,12 +399,12 @@
                               [(Subset. "PD1+" "PD1+" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)])
                      (Subset. "CXCR5+CD45RA-" "CXCR5+CD45RA-"
                               [(Subset. "PD1+CCR7-" "PD1+CCR7-" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)])))
-             (apply CD8+ ap39-marginals-memory))
+             (apply CD8+ ap39-marginals-memory)
              (Subset. "CD4-CD8-"  "CD4-CD8-"     CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-           (Blank
+             (Subset. "NKT cells" "NKT cells"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))
+           (CD3-
              (Subset. "CD56dim"   "CD56dim"   CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-             (Subset. "CD56hi"    "CD56hi"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-             (Subset. "NKT cells" "NKT cells" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))))) ]}
+             (Subset. "CD56hi"    "CD56hi"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))))) ]}
 
   {:id "40"
    :sort-id "AP-040"
@@ -440,15 +419,15 @@
               (CD4+    CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
               (CD8+    CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
               (Subset. "CD4-CD8-"  "CD4-CD8-"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2))
-            (Blank
-              (Subset. "CD56dim"   "CD56dim"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
-              (Subset. "CD56hi"    "CD56hi"
                        CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
               (Subset. "gd+"        "gd+"
                        CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
               (Subset. "NKT cells" "NKT cells"
+                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2))
+            (CD3-
+              (Subset. "CD56dim"   "CD56dim"
+                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
+              (Subset. "CD56hi"    "CD56hi"
                        CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
 
 
@@ -464,6 +443,6 @@
            (L
             (CD3+
               (CD4+|CD8+
-                CD154*GzB*IFNg*IL2*IL4*IL17*TNFa+IFNgOrIL2)))))))] }
+                CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
 
 ]
