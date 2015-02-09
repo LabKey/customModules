@@ -163,9 +163,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         Locator.XPathLocator visButton = Locator.lkButtonContainingText("Visualization");
         waitAndClick(visButton);
         waitForText("ICEMR Visualization");
-        Locator.CssLocator datapointLoc = Locator.css("svg g a.point title");
+        Locator.CssLocator datapointLoc = Locator.css("svg g a.point");
         WebElement datapoint = datapointLoc.waitForElement(getDriver(), shortWait());
-        String datapointData = datapoint.getText();
+        String datapointData = datapoint.getAttribute("title");
         for(String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
             assertTrue("Datapoint data ['" + datapointData + "'] doesn't contain ['" + s + "']", datapointData.contains(s));
     }
