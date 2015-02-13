@@ -746,10 +746,13 @@ Ext4.define('LABKEY.ext4.BaseSearchPanel', {
 
     /**
      * Returns the select SQL to return the list of peptides in a specified pool
+     *
+     * Note: be aware of the left join on the vial table introducing nulls into the assign location query
      */
     getPeptidesInCategorySql : function(proteinCategory) {
         return 'SELECT x.peptide_id, x.peptide_sequence, x.proteinCategory, pg.name AS peptideGroup, pg.pathogen, pg.clade, ' +
-                'pg.groupType, pg.alignRef, ga.peptide_id_in_group, la.lotNumber, v.checkedOut, v.used, v.rcPoolId, ' +
+                'pg.groupType, pg.alignRef, ga.peptide_id_in_group, la.lotNumber, v.checkedOut, v.used, ' +
+                'CASE WHEN v.rcPoolId IS NULL THEN -1 ELSE v.rcPoolId END AS rcPoolId, ' +
                 'v.freezer, v.rack, v.shelf, v.drawer, v.box ' +
                 'FROM (' +
                 'SELECT * FROM peptideInventory.peptide p ' +
