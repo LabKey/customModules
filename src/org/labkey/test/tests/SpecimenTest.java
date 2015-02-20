@@ -452,8 +452,7 @@ public class SpecimenTest extends SpecimenBaseTest
         pushLocation();
         goToSchemaBrowser();
         selectQuery("study", "LocationSpecimenList");
-        waitForText("view data");
-         clickAndWait(Locator.linkContainingText("view data"));
+        waitAndClickAndWait(Locator.linkContainingText("view data"));
 
         _customizeViewsHelper.openCustomizeViewPanel();
         _customizeViewsHelper.removeCustomizeViewColumn("Freezer");
