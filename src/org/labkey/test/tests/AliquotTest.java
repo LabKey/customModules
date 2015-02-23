@@ -98,7 +98,7 @@ public class AliquotTest extends SpecimenBaseTest
                         "FROM " + SPECIMEN_DETAIL + "\n" +
                         "WHERE " + SPECIMEN_DETAIL + ".GlobalUniqueId='" + UNREQUESTABLE_SAMPLE + "'");
         clickButton("Save", 0);
-        waitForText("Saved", WAIT_FOR_JAVASCRIPT);
+        waitForText(WAIT_FOR_JAVASCRIPT, "Saved");
 
         clickFolder(getFolderName());
         waitAndClick(Locator.linkWithText("Manage Study"));

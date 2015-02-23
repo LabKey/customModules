@@ -262,10 +262,10 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.xpath("//textarea[@id='tsv3']"));
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // try to add again
         clickButton("Submit", 0);    // Submit button
-        waitForText("Specimen AAA07XK5-01 is unavailable", 20000);
+        waitForText(20000, "Specimen AAA07XK5-01 is unavailable");
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-02");     // try to add one that doesn't exist
         clickButton("Submit", 0);    // Submit button
-        waitForText("Specimen AAA07XK5-02 is unavailable", 20000);
+        waitForText(20000, "Specimen AAA07XK5-02 is unavailable");
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03");     // add different one
         clickButton("Submit");    // Submit button
     }
