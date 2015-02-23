@@ -221,7 +221,7 @@ public class CAVDStudyTest extends StudyBaseTest
         assertAlert("No timepoints are defined in the assay schedule.");
         
         addTimepoint("CAVDTestTimepoint", "13", TimeUnit.Days);
-        waitForText("CAVDTestTimepoint: 13 days", WAIT_FOR_JAVASCRIPT);
+        waitForText(WAIT_FOR_JAVASCRIPT,"CAVDTestTimepoint: 13 days");
 
         addStudyDesignRow(RowType.Assay, ASSAYS[3], LABS[3]);
 
