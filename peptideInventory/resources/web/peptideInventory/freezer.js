@@ -243,7 +243,7 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
 
             formItems.push({
                 xtype       : 'displayfield',
-                value       : 'Chenge the status for each peptide by selecting one of the options available.'
+                value       : 'Change the status for each peptide by selecting one of the options available.'
             });
 
             var statusStore = Ext4.create('Ext.data.Store', {
@@ -621,7 +621,8 @@ Ext4.define('LABKEY.ext4.FreezerDiagramPanel', {
                             racks       : this.racks,
                             drawers     : this.drawers,
                             boxes       : this.boxes,
-                            locationStore : this.boxLocationStore
+                            locationStore : this.boxLocationStore,
+                            autoScroll  : true
                         }));
 
                     }, me);
