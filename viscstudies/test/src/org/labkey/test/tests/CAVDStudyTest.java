@@ -347,8 +347,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickAndWait(Locator.linkWithText("Manage"));
         clickAndWait(Locator.linkWithText("Manage Timepoints"));
 
-        assertTextPresent("Study Start: 0 days");
-        assertTextPresent("CAVDTestTimepoint: 13 days");
+        assertTextPresent("Study Start: 0 days", "CAVDTestTimepoint: 13 days");
 //
 //        addDataset();
 //
@@ -372,10 +371,10 @@ public class CAVDStudyTest extends StudyBaseTest
         DATASETS.put(5004, "ELISATest");
 
         String[][] statuses = {
-            {"Draft", "/labkey/reports/icon_draft.png", "D"},
-            {"Final", "/labkey/reports/icon_final.png", "F"},
-            {"Locked", "/labkey/reports/icon_locked.png", "L"},
-            {"Unlocked", "/labkey/reports/icon_unlocked.png", "U"}
+                {"Draft", "/labkey/reports/icon_draft.png", "D"},
+                {"Final", "/labkey/reports/icon_final.png", "F"},
+                {"Locked", "/labkey/reports/icon_locked.png", "L"},
+                {"Unlocked", "/labkey/reports/icon_unlocked.png", "U"}
         };
 
         String study2name = FOLDER_NAME2 + " Study";
@@ -427,7 +426,7 @@ public class CAVDStudyTest extends StudyBaseTest
         assertElementPresent(Locator.linkWithText(study3name));
         for (String datasetName : DATASETS.values())
         {
-            assertElementPresent(Locator.xpath("//td[text()='"+datasetName+"']"), 2);
+            assertElementPresent(Locator.xpath("//td[text()='" + datasetName + "']"), 2);
         }
         // verify that there are no status icons to start
         for (String[] status : statuses)
@@ -447,7 +446,7 @@ public class CAVDStudyTest extends StudyBaseTest
             setDatasetStatus(dataset, statuses[statusCounter][0]);
             statusCounter++;
         }
-        
+
         log("Verify each status icon appears once in the studies list.");
         goToViscStudiesQuery(FOLDER_NAME4);
         for (String[] status : statuses)
@@ -459,7 +458,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
         addWebPart("Lists");
-        ListHelper.ListColumn[] columns = new ListHelper.ListColumn[] {
+        ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
                 new ListHelper.ListColumn("MyStudyName", "MyStudyName", ListHelper.ListColumnType.String, ""),
                 new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies"))
         };
@@ -505,8 +504,7 @@ public class CAVDStudyTest extends StudyBaseTest
         assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size());
         clickButton("Save Changes", defaultWaitForPage);
         // verify that we are back on the list view
-        assertTextPresent("AllStudiesList");
-        assertTextPresent("Dataset Status");
+        assertTextPresent("AllStudiesList", "Dataset Status");
         // locked icon should now appear once for study2 and for all datasets in study3
         assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size() + 1);
 
