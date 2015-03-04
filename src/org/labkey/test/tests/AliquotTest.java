@@ -186,8 +186,7 @@ public class AliquotTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), ALIQUOT_TWO);     // add specimen
         clickButton("Submit");    // Submit button
-        assertTextPresent(ALIQUOT_ONE);
-        assertTextPresent(ALIQUOT_TWO);
+        assertTextPresent(ALIQUOT_ONE, ALIQUOT_TWO);
         checkCheckbox(Locator.checkboxByTitle("Select/unselect row"));      // all individual item checkboxes have same name/title; should be first one
         clickButton("Remove Selected");
         assertTextNotPresent(ALIQUOT_ONE);
@@ -195,8 +194,7 @@ public class AliquotTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
         setFormElement(Locator.xpath("//textarea[@id='tsv3']"), ALIQUOT_ONE);     // add specimen
         clickButton("Submit");    // Submit button
-        assertTextPresent(ALIQUOT_ONE);
-        assertTextPresent(ALIQUOT_TWO);
+        assertTextPresent(ALIQUOT_ONE, ALIQUOT_TWO);
     }
 
     @LogMethod

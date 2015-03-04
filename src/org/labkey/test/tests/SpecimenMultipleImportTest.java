@@ -80,7 +80,6 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
         assertTextPresent("75,990,002.5");
 
         // look for a specimen that came from 1st and 3rd file
-        assertTextPresent("999320895");
-        assertTextPresent("999320422");
+        assertTextPresent("999320895", "999320422");
     }
 }

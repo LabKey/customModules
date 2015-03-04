@@ -229,9 +229,9 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextNotPresent("Cryovial");
         clickAndWait(Locator.linkWithText("[history]"));
         // This vial has three events, each of which list a different tube type:
-        assertTextPresent("15ml Cryovial");
-        assertTextPresent("20ml Cryovial");
-        assertTextPresent("25ml Cryovial");
+        assertTextPresent(
+                "15ml Cryovial", "20ml Cryovial",
+                "25ml Cryovial");
         clickAndWait(Locator.linkWithText("Specimen Overview"));
         waitAndClick(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitAndClickAndWait(Locator.linkWithText("Tear Flo Strips"));
@@ -325,21 +325,13 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("Please provide all required input.");
         setFormElement(Locator.id("input3"), "sample last one input");
         clickButton("Create and View Details");
-        assertTextPresent("sample last one input");
-        assertTextPresent("IRB");
-        assertTextPresent("KCMC, Moshi, Tanzania");
-        assertTextPresent("Originating IRB Approval");
-        assertTextPresent(SOURCE_SITE);
-        assertTextPresent("Providing IRB Approval");
-        assertTextPresent(DESTINATION_SITE);
-        assertTextPresent("Receiving IRB Approval");
-        assertTextPresent("SLG");
-        assertTextPresent("SLG Approval");
-        assertTextPresent("BAA07XNP-01");
-        assertTextNotPresent(UNREQUESTABLE_SAMPLE);
-        // verify that the swab specimen isn't present yet
-        assertTextNotPresent("DAA07YGW-01");
-        assertTextNotPresent("Complete");
+        assertTextPresent("sample last one input", "IRB", "KCMC, Moshi, Tanzania", "Originating IRB Approval",
+                SOURCE_SITE, "Providing IRB Approval", DESTINATION_SITE, "Receiving IRB Approval", "SLG",
+                "SLG Approval", "BAA07XNP-01");
+        assertTextNotPresent(
+                UNREQUESTABLE_SAMPLE,
+                // verify that the swab specimen isn't present yet
+                "DAA07YGW-01", "Complete");
 
         // add additional specimens
         clickTab("Specimen Data");
@@ -356,18 +348,9 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("OK", 0);
         _extHelper.clickMenuButton("Request Options", "View Existing Requests");
         clickButton("Details");
-        assertTextPresent("sample last one input");
-        assertTextPresent("IRB");
-        assertTextPresent("KCMC, Moshi, Tanzania");
-        assertTextPresent("Originating IRB Approval");
-        assertTextPresent(SOURCE_SITE);
-        assertTextPresent("Providing IRB Approval");
-        assertTextPresent(DESTINATION_SITE);
-        assertTextPresent("Receiving IRB Approval");
-        assertTextPresent("SLG");
-        assertTextPresent("SLG Approval");
-        assertTextPresent("BAA07XNP-01");
-        assertTextPresent("DAA07YGW-01");
+        assertTextPresent("sample last one input", "IRB", "KCMC, Moshi, Tanzania", "Originating IRB Approval",
+                SOURCE_SITE, "Providing IRB Approval", DESTINATION_SITE, "Receiving IRB Approval", "SLG",
+                "SLG Approval", "BAA07XNP-01", "DAA07YGW-01");
 
         // submit request
         assertTextPresent("Not Yet Submitted");
@@ -402,10 +385,8 @@ public class SpecimenTest extends SpecimenBaseTest
     private void verifyViews()
     {
         clickAndWait(Locator.linkWithText("View History"));
-        assertTextPresent("Request submitted for processing.");
+        assertTextPresent("Request submitted for processing.", USER1, USER2);
         assertTextPresent("Notification Sent", 2);
-        assertTextPresent(USER1);
-        assertTextPresent(USER2);
         clickAndWait(Locator.linkWithText("View Request"));
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
         // Ordering of locations is nondeterministic
