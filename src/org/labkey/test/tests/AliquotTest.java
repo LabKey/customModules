@@ -39,7 +39,7 @@ public class AliquotTest extends SpecimenBaseTest
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        deleteUsers(afterTest, USER1, USER2);
+        deleteUsersIfPresent(USER1, USER2);
         super.doCleanup(afterTest);
     }
 
