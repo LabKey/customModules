@@ -204,7 +204,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        deleteUsers(afterTest, ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
+        deleteUsersIfPresent(ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
         deleteProject(getProjectName(), afterTest);
     }
 
