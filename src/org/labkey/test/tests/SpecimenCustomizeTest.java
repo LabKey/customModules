@@ -64,7 +64,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     protected void doCreateSteps()
     {
         initializeFolder();
-        importFolderFromZip(new File(TestFileUtils.getSampledataPath(), "/study/SpecimenCustomizeStudy.folder.zip"));
+        importFolderFromZip(TestFileUtils.getSampleData("studies/SpecimenCustomizeStudy.folder.zip"));
     }
 
     @Override
