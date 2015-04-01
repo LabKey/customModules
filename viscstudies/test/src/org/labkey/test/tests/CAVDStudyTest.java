@@ -44,7 +44,7 @@ public class CAVDStudyTest extends StudyBaseTest
     private static final String FOLDER_NAME2 = "CAVDStudy2";
     private static final String FOLDER_NAME3 = "CAVDStudy3";
     private static final String FOLDER_NAME4 = "VerifyStudyList";
-    private static final String CAVD_TEST_STUDY_ZIP = "/sampledata/study/CAVDTestStudy.folder.zip";
+    private static final File CAVD_TEST_STUDY_ZIP = TestFileUtils.getSampleData("studies/CAVDTestStudy.folder.zip");
     private static Map<Integer, String> DATASETS = new TreeMap<>();
     private ArrayList<String> _expectedVaccineDesignText = new ArrayList<>();
     private ArrayList<String> _expectedImmunizationText = new ArrayList<>();
@@ -91,7 +91,7 @@ public class CAVDStudyTest extends StudyBaseTest
     public void configureStudy(String folderName)
     {
         createSubfolder(PROJECT_NAME, PROJECT_NAME, folderName, "Collaboration", null);
-        importFolderFromZip(new File(TestFileUtils.getLabKeyRoot(), CAVD_TEST_STUDY_ZIP));
+        importFolderFromZip(CAVD_TEST_STUDY_ZIP);
         waitForPipelineJobsToComplete(1, "Folder import", false);
     }
 
