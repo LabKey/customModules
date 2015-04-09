@@ -146,6 +146,6 @@ public class SpecimenImportTest extends SpecimenBaseTest
             _containerHelper.createProject(getProjectName(), null);
         }
 
-        createSubfolder(getProjectName(), getProjectName(), getFolderName(), "CAVD Study", null, true);
+        _containerHelper.createSubfolder(getProjectName(), getProjectName(), getFolderName(), "CAVD Study", null, true);
     }
 }
