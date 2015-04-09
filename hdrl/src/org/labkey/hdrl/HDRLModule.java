@@ -80,6 +80,6 @@ public class HDRLModule extends DefaultModule
     @NotNull
     public Set<String> getSchemaNames()
     {
-        return Collections.singleton(hdrlSchema.NAME);
+        return Collections.singleton(HDRLSchema.NAME);
     }
 }
