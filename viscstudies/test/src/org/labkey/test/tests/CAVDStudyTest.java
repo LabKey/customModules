@@ -69,12 +69,12 @@ public class CAVDStudyTest extends StudyBaseTest
     protected void doCreateSteps()
     {
         _containerHelper.createProject(PROJECT_NAME, "None");
-        createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "CAVD Study", null);
+        _containerHelper.createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "CAVD Study", null);
 
         // used for doVerifyCrossContainerDatasetStatus
         configureStudy(FOLDER_NAME2);
         configureStudy(FOLDER_NAME3);
-        createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME4, "Collaboration", null);
+        _containerHelper.createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME4, "Collaboration", null);
     }
 
     @Override @LogMethod
@@ -90,7 +90,7 @@ public class CAVDStudyTest extends StudyBaseTest
     @LogMethod
     public void configureStudy(String folderName)
     {
-        createSubfolder(PROJECT_NAME, PROJECT_NAME, folderName, "Collaboration", null);
+        _containerHelper.createSubfolder(PROJECT_NAME, PROJECT_NAME, folderName, "Collaboration", null);
         importFolderFromZip(CAVD_TEST_STUDY_ZIP);
         waitForPipelineJobsToComplete(1, "Folder import", false);
     }
