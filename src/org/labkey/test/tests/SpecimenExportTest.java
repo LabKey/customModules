@@ -188,20 +188,20 @@ public class SpecimenExportTest extends SpecimenBaseTest
                 "<requestActors>\n" +
                     "<actor label=\"SLG\" type=\"study\">\n" +
                         "<groups>\n" +
-                            "<group name=\"SLG\" type=\"project\">\n" +
-                                "<ns:users xmlns:ns=\"http://labkey.org/security/xml\">\n" +
+                            "<ns:group name=\"SLG\" type=\"project\">\n" +
+                                "<ns:users>\n" +
                                     "<ns:user name=\"user1@specimen.test\"/>\n" +
                                 "</ns:users>\n" +
-                            "</group>\n" +
+                            "</ns:group>\n" +
                         "</groups>\n" +
                     "</actor>\n" +
                     "<actor label=\"IRB\" type=\"location\">\n" +
                         "<groups>\n" +
-                            "<group name=\"Aurum Health KOSH Lab, Orkney, South Africa\" type=\"project\">\n" +
-                                "<ns:users xmlns:ns=\"http://labkey.org/security/xml\">\n" +
+                            "<ns:group name=\"Aurum Health KOSH Lab, Orkney, South Africa\" type=\"project\">\n" +
+                                "<ns:users>\n" +
                                     "<ns:user name=\"user2@specimen.test\"/>\n" +
                                 "</ns:users>\n" +
-                            "</group>\n" +
+                            "</ns:group>\n" +
                         "</groups>\n" +
                     "</actor>\n" +
                 "</requestActors>"));
