@@ -242,6 +242,7 @@ peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-0.00-14
 peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-14.30-14.31.sql -text
 peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-14.31-14.32.sql -text
 peptideInventory/resources/schemas/dbscripts/postgresql/peptideInventory-14.32-14.33.sql -text
+peptideInventory/resources/schemas/dbscripts/postgresql/peptideinventory-14.30-15.10.sql -text
 peptideInventory/resources/schemas/peptideInventory.xml -text
 peptideInventory/resources/views/freezer.html -text
 peptideInventory/resources/views/freezer.view.xml -text
