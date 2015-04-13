@@ -1,0 +1,27 @@
+PatientID	Patient ID	String		TRUE	FALSE	FALSE	
+SampleID	Sample ID	String		TRUE	FALSE	FALSE	Flask (Sample) ID
+Scientist	Scientist	Integer		TRUE	FALSE	FALSE	
+Parasitemia		Double		TRUE	FALSE	FALSE	Initial Parasitemia %
+Gametocytemia		Double		TRUE	FALSE	FALSE	Gametocytemia %
+PatientpRBCs	Patient pRBCs	String		TRUE	FALSE	FALSE	
+Hematocrit		Double		TRUE	FALSE	FALSE	Hematocrit %
+CultureMedia	Culture Media	String		TRUE	FALSE	FALSE	
+SerumBatchID	Serum Batch ID	String		FALSE	FALSE	FALSE	Batch ID for serum supplemental media
+AlbumaxBatchID	Albumax Batch ID	String		FALSE	FALSE	FALSE	Batch ID for Albumax supplemental media
+FoldIncrease1	Fold-Increase Test 1	Integer		TRUE	FALSE	FALSE	Fold-increase for successful growth test 1
+FoldIncrease2	Fold-Increase Test 2	Integer		TRUE	FALSE	FALSE	Fold-increase for successful growth test 2
+FoldIncrease3	Fold-Increase Test 3	Integer		TRUE	FALSE	FALSE	Fold-increase for successful growth test 3
+Stage	Stage	String		TRUE	FALSE	FALSE	
+AdaptationCriteria	Adaptation Criteria	Integer		TRUE	FALSE	FALSE	Successful adaptation criteria
+Comments		MultiLine		FALSE	FALSE	FALSE	
+AdaptationDate	Adaptation Date	DateTime		FALSE	FALSE	FALSE	Date of successful adaptation
+MaintenanceDate	Maintenance Date	DateTime		FALSE	FALSE	FALSE	The most recent daily maintenance upload
+MaintenanceStopped	Maintenance Stopped	DateTime		FALSE	FALSE	FALSE	The date when flask maintenance is stopped
+StartParasitemia1	Parasitemia Test 1 Start	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 1 is started
+FinishParasitemia1	Parasitemia Test 1 Finish	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 1 is finished
+StartParasitemia2	Parasitemia Test 2 Start	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 2 is started
+FinishParasitemia2	Parasitemia Test 2 Finish	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 2 is finished
+StartParasitemia3	Parasitemia Test 3 Start	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 3 is started
+FinishParasitemia3	Parasitemia Test 3 Finish	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 3 is finished
+StartDate1	Start Date Test 1	DateTime		FALSE	FALSE	FALSE	The measurement date when the Growth Fold Test 1 is started.
+FinishDate1	Finish Date Test 1	DateTime		FALSE	FALSE	FALSE	The measurement date when the Growth Fold Test 1 is finished.

@@ -1,0 +1,33 @@
+PatientID	Patient ID	String		TRUE	FALSE	FALSE	
+SampleID	Sample ID	String		TRUE	FALSE	FALSE	Flask (Sample) ID
+Scientist	Scientist	Integer		TRUE	FALSE	FALSE	
+AdaptationSampleID	Adaptation Flask ID	String		FALSE	FALSE	FALSE	If selections started from cultures never frozen, enter flask sample id from adaptation
+FreezerProID	FreezerPro ID	String		FALSE	FALSE	FALSE	If thawed, FreezerPro ID of line used
+InitialPopulation	Initial Population	Integer		TRUE	FALSE	FALSE	(10^#)
+Compound	Selection Compound	String		TRUE	FALSE	FALSE	
+Concentration	Selection Concentration	String		TRUE	FALSE	FALSE	micromolar or % based on selection compound
+Control	Control	String		FALSE	FALSE	FALSE	positive, negative, or no
+CultureMedia	Culture Media	String		TRUE	FALSE	FALSE	
+SuperstockBatchID	Super Stock Batch ID	String		FALSE	FALSE	FALSE	Batch ID of super stock selection solutions
+WorkingstockBatchID	Working Stock Batch ID	String		FALSE	FALSE	FALSE	Batch ID of working stock selection solutions
+RBCBatchID	RBC Batch ID	String		FALSE	FALSE	FALSE	Batch ID of RPBCs
+SerumBatchID	Serum Batch ID	String		FALSE	FALSE	FALSE	Batch ID for serum supplemental media
+AlbumaxBatchID	Albumax Batch ID	String		FALSE	FALSE	FALSE	Batch ID for Albumax supplemental media
+ResistanceProtocol	Resistance Protocol	String		TRUE	FALSE	FALSE	Protocol used to classify preliminary resistance (growth-fold or consecutive days)
+ResistanceNumber	Resistance Number	Integer		TRUE	FALSE	FALSE	Number of growth-fold or days for preliminary resistance
+FoldIncrease1	Fold-Increase Test 1	Integer		TRUE	FALSE	FALSE	Fold-increase for successful growth test 1
+FoldIncrease2	Fold-Increase Test 2	Integer		TRUE	FALSE	FALSE	Fold-increase for successful growth test 2
+FoldIncrease3	Fold-Increase Test 3	Integer		TRUE	FALSE	FALSE	Fold-increase for successful growth test 3
+MinimumParasitemia	Minimum Parasitemia	Double		TRUE	FALSE	FALSE	Minimum parasitemia required for preliminary resistance.
+Comments		MultiLine		FALSE	FALSE	FALSE	
+MaintenanceDate	Maintenance Date	DateTime		FALSE	FALSE	FALSE	The most recent daily maintenance upload
+MaintenanceStopped	Maintenance Stopped	DateTime		FALSE	FALSE	FALSE	The date when flask maintenance is stopped
+StartParasitemia1	Parasitemia Test 1 Start	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 1 is started
+FinishParasitemia1	Parasitemia Test 1 Finish	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 1 is finished
+StartParasitemia2	Parasitemia Test 2 Start	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 2 is started
+FinishParasitemia2	Parasitemia Test 2 Finish	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 2 is finished
+StartParasitemia3	Parasitemia Test 3 Start	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 3 is started
+FinishParasitemia3	Parasitemia Test 3 Finish	Double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 3 is finished
+StartDate1	Start Date Test 1	DateTime		FALSE	FALSE	FALSE	The measurement date when the Growth Fold Test 1 is started.
+FinishDate1	Finish Date Test 1	DateTime		FALSE	FALSE	FALSE	The measurement date when the Growth Fold Test 1 is finished.
+ConsecutiveDays	Consecutive Days	Integer		FALSE	FALSE	FALSE

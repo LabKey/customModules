@@ -56,12 +56,17 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     public static final String SPECIES_ASSAY_NAME = "Species";
     public static final String FOLD_INCREASE_DEFAULT = "4";
     public static final String ADAPTATION_CRITERIA_DEFAULT = "2";
-    public static final String ADAPTATION_FLASK_FILE = "sampledata/icemr/adaptFlaskFields.txt";
     public static final String ADAPTATION_FLASKS_NAME = "Adaptation Flasks";
-    public static final String SELECTION_FLASK_FILE = "sampledata/icemr/selectFlaskFields.txt";
     public static final String SELECTION_FLASKS_NAME = "Selection Flasks";
     public static final String GEL_IMAGE_FIELD = "GelImage";
-    public static final String GEL_IMAGE_FILE = "sampledata/icemr/piggy.JPG";
+
+    /* Sample data files */
+    public static final String ADAPTATION_FLASK_FILE = "icemr/adaptFlaskFields.txt";
+    public static final String GEL_IMAGE_FILE = "icemr/piggy.JPG";
+    public static final String SELECTION_FLASK_FILE = "icemr/selectFlaskFields.txt";
+    public static final String MISSING_COLUMNS_FILE = "icemr/missingColumns.xls";
+    public static final String BAD_FLASKS_FILE = "icemr/badFlasks.xls";
+    public static final String DAILY_UPLOAD_FILLED_FILE = "icemr/dailyUploadFilled.xls";
 
     protected static final String ICEMR_AUTHOR_USER = "maverick@labkey.test";
     protected static final String ICEMR_AUTHOR_USER_DISPLAY = "maverick";
@@ -74,7 +79,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     protected static final int EXPERIMENT2_NUM_FLASKS = 4;
 
     @Override
-//    @LogMethod(category = LogMethod.MethodType.SETUP)
     protected String getProjectName()
     {
         return "ICEMR assay test";
@@ -166,7 +170,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         Locator.CssLocator datapointLoc = Locator.css("svg g a.point");
         WebElement datapoint = datapointLoc.waitForElement(getDriver(), shortWait());
         String datapointData = datapoint.getAttribute("title");
-        for(String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
+        for (String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
             assertTrue("Datapoint data ['" + datapointData + "'] doesn't contain ['" + s + "']", datapointData.contains(s));
     }
 
@@ -311,7 +315,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("AdaptationCriteria1", "24");
         fieldAndValue.put("Comments1", "Lorem ipsum");
 
-        for(String field : fieldAndValue.keySet())
+        for (String field : fieldAndValue.keySet())
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
@@ -367,7 +371,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("ResistanceNumber1", "2");
         fieldAndValue.put("Comments1", "Lorem ipsum");
 
-        for(String field : fieldAndValue.keySet())
+        for (String field : fieldAndValue.keySet())
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
@@ -411,7 +415,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("AdaptationCriteria"+ flaskNum, "20");
         fieldAndValue.put("Comments"+ flaskNum, "Lorem ipsum");
 
-        for(String field : fieldAndValue.keySet())
+        for (String field : fieldAndValue.keySet())
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
@@ -439,7 +443,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("MinimumParasitemia" + flaskNum, ".5");
         fieldAndValue.put("Comments"+ flaskNum, "Lorem ipsum");
 
-        for(String field : fieldAndValue.keySet())
+        for (String field : fieldAndValue.keySet())
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
@@ -457,14 +461,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.name("dailyUpload"));
 
         //Try to upload a form with bad columns
-        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/missingColumns.xls"));
+        setFormElement(Locator.name("dailyUpload"), TestFileUtils.getSampleData(MISSING_COLUMNS_FILE));
         clickButtonContainingText("Upload", "The data file header row does not match the daily results schema");
         _extHelper.waitForExtDialog("Daily Upload Failed");
         clickButtonContainingText("OK", "Daily Upload");
         _extHelper.waitForExtDialogToDisappear("Daily Upload Failed");
 
         //Try to upload a form with bad flasks (invalid IDs)
-        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/badFlasks.xls"));
+        setFormElement(Locator.name("dailyUpload"), TestFileUtils.getSampleData(BAD_FLASKS_FILE));
         completeUpload(firstExp);
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
@@ -474,14 +478,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         //Upload test
         refresh();
         waitForElement(Locator.name("dailyUpload"));
-        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
+        setFormElement(Locator.name("dailyUpload"), TestFileUtils.getSampleData(DAILY_UPLOAD_FILLED_FILE));
         completeUpload(null);
         waitAndClick(Ext4Helper.Locators.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         clickButton("Daily Maintenance");
         waitForElement(Locator.name("dailyUpload"));
-        setFormElement(Locator.name("dailyUpload"), new File(TestFileUtils.getLabKeyRoot(), "sampledata/icemr/dailyUploadFilled.xls"));
+        setFormElement(Locator.name("dailyUpload"), TestFileUtils.getSampleData(DAILY_UPLOAD_FILLED_FILE));
         completeUpload(null);
         clickButtonContainingText("Submit", "Invalid flask specified");
         _extHelper.waitForExtDialog("Daily Maintenance Error");
@@ -520,7 +524,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     private void checkTemplateFlaskHeader(Sheet sheet, int row)
     {
         // flask column titles
-        for(int i = 0; i < 18; i++)
+        for (int i = 0; i < 18; i++)
         {
             assertNotNull(ExcelHelper.getCell(sheet, i, 1));
         }
@@ -593,7 +597,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
             //Warnings about possible null pointers can be ignored, as all cells in question are tested for null before loading them.
             int row = 0;
-            if(sheet != null){
+            if (sheet != null)
+            {
                 // find the order first (it doesn't appear to be guaranteed)
                 firstExp = ExcelHelper.getCell(sheet, 0, row).toString();
                 if (firstExp.contains(EXPERIMENT1_ID))
@@ -623,7 +628,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private void checkResultsPage(){
+    private void checkResultsPage()
+    {
         Locator experimentRunsLink = Locator.linkWithText(EXPERIMENT1_ID + "100101");
         waitAndClickAndWait(experimentRunsLink);
         //Make sure the header is there and we are in the right place
@@ -673,14 +679,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("RDT", "3.4"); //this should be ignored
         fieldAndValue.put("FreezerProID", "3.4");
 
-        for(String field : fieldAndValue.keySet())
+        for (String field : fieldAndValue.keySet())
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
 
         // Issue 16875: decimals in certain icemr module fields causes js exception
         checkJsErrors();
-        if(getFormElement(Locator.name("GametocyteDensity")).equals("3.4"))
+        if (getFormElement(Locator.name("GametocyteDensity")).equals("3.4"))
             verifyError(3); // Some browsers allow the decimal; if so, there should be an error
         else
             assertFormElementEquals(Locator.name("GametocyteDensity"), "3"); // Other browsers round the decimal value (3.4 -> 3)
@@ -722,7 +728,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("DNADilution", "20.0");
         fieldAndValue.put("PfBand", "500");
 
-        for(String field : fieldAndValue.keySet())
+        for (String field : fieldAndValue.keySet())
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
@@ -733,7 +739,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         if (fileUploadField != null)
         {
-            File f = new File(TestFileUtils.getLabKeyRoot(), fileUploadField);
+            File f = TestFileUtils.getSampleData(fileUploadField);
             setFormElement(Locator.name(GEL_IMAGE_FIELD), f);
             // verify that a "GelImage" field exists and that its value is the file name without the path
             fieldAndValue.put(GEL_IMAGE_FIELD, f.getName());
@@ -771,7 +777,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         listHelper.deleteField("Field Properties", 0);
         clickButton("Save");
         clickButton("Edit Fields");
-        String samplesetCols = TestFileUtils.getFileContents(new File(TestFileUtils.getLabKeyRoot(), samplesetFilename));
+        String samplesetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(samplesetFilename));
         listHelper.addFieldsNoImport(samplesetCols);
 
       // waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);

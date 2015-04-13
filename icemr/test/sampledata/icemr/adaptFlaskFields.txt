@@ -1,0 +1,28 @@
+Property	Label	RangeURI	Format	NotNull	Hidden	MvEnabled	Description
+PatientID	Patient ID	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+SampleID	Sample ID	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE	Flask (Sample) ID
+Scientist	Scientist	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE
+Parasitemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Initial Parasitemia %
+Gametocytemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Gametocytemia %
+PatientpRBCs	Patient pRBCs	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+Hematocrit		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Hematocrit %
+CultureMedia	Culture Media	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+SerumBatchID	Serum Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID for serum supplemental media
+AlbumaxBatchID	Albumax Batch ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	Batch ID for Albumax supplemental media
+FoldIncrease1	Fold-Increase Test 1	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Fold-increase for successful growth test 1
+FoldIncrease2	Fold-Increase Test 2	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Fold-increase for successful growth test 2
+FoldIncrease3	Fold-Increase Test 3	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Fold-increase for successful growth test 3
+Stage	Stage	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+AdaptationCriteria	Adaptation Criteria	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE	Successful adaptation criteria
+Comments		http://www.w3.org/2001/XMLSchema#multiLine		FALSE	FALSE	FALSE
+AdaptationDate	Adaptation Date	http://www.w3.org/2001/XMLSchema#dateTime		FALSE	FALSE	FALSE	Date of successful adaptation
+MaintenanceDate	Maintenance Date	http://www.w3.org/2001/XMLSchema#dateTime		FALSE	FALSE	FALSE	The most recent daily maintenance upload
+MaintenanceStopped	Maintenance Stopped	http://www.w3.org/2001/XMLSchema#dateTime		FALSE	FALSE	FALSE	The date when flask maintenance is stopped
+StartParasitemia1	Parasitemia Test 1 Start	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 1 is started
+FinishParasitemia1	Parasitemia Test 1 Finish	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 1 is finished
+StartParasitemia2	Parasitemia Test 2 Start	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 2 is started
+FinishParasitemia2	Parasitemia Test 2 Finish	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 2 is finished
+StartParasitemia3	Parasitemia Test 3 Start	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 3 is started
+FinishParasitemia3	Parasitemia Test 3 Finish	http://www.w3.org/2001/XMLSchema#double		FALSE	FALSE	FALSE	Parasitemia % when Growth Fold Test 3 is finished
+StartDate1	Start Date Test 1	http://www.w3.org/2001/XMLSchema#dateTime		FALSE	FALSE	FALSE	The measurement date when the Growth Fold Test 1 is started.
+FinishDate1	Finish Date Test 1	http://www.w3.org/2001/XMLSchema#dateTime		FALSE	FALSE	FALSE	The measurement date when the Growth Fold Test 1 is finished.

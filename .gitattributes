@@ -190,6 +190,14 @@ icemr/src/org/labkey/icemr/assay/DrugSensitivity/query/DrugSensitivityResultsTab
 icemr/src/org/labkey/icemr/assay/IcemrSaveHandler.java -text
 icemr/src/org/labkey/icemr/assay/Tracking/AdaptationSaveHandler.java -text
 icemr/src/org/labkey/icemr/assay/Tracking/TrackingSaveHandler.java -text
+icemr/test/sampledata/icemr/adaptFlaskFields.txt -text
+icemr/test/sampledata/icemr/adaptFlaskFields2.txt -text
+icemr/test/sampledata/icemr/badFlasks.xls -text
+icemr/test/sampledata/icemr/dailyUploadFilled.xls -text
+icemr/test/sampledata/icemr/missingColumns.xls -text
+icemr/test/sampledata/icemr/piggy.JPG -text
+icemr/test/sampledata/icemr/selectFlaskFields.txt -text
+icemr/test/sampledata/icemr/selectFlaskFields2.txt -text
 icemr/test/src/org/labkey/test/tests/ICEMRModuleTest.java -text
 icemr/test/test_icemr.iml -text
 ms2extensions/Ms2extensions.iml -text
