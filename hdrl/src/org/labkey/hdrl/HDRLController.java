@@ -16,10 +16,15 @@
 
 package org.labkey.hdrl;
 
+import org.json.JSONObject;
+import org.labkey.api.action.ApiAction;
+import org.labkey.api.action.ApiResponse;
+import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.security.RequiresPermissionClass;
 import org.labkey.api.security.permissions.ReadPermission;
+import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.springframework.validation.BindException;
@@ -40,11 +45,32 @@ public class HDRLController extends SpringActionController
     {
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
+            // TODO Return QueryView for table.
+            // VBox for stacking components (perhaps HTML view with a button from PageFlowUtil)
             return new JspView("/org/labkey/hdrl/view/hello.jsp");
         }
 
         public NavTree appendNavTrail(NavTree root)
         {
+            return root;
+        }
+    }
+
+
+    @RequiresPermissionClass(ReadPermission.class)
+    public class GetRequestDetailsAction extends SimpleViewAction
+    {
+        @Override
+        public ModelAndView getView(Object o, BindException errors) throws Exception
+        {
+            //TODO
+            return null;
+        }
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            //TODO
             return root;
         }
     }
