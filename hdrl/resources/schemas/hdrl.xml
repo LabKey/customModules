@@ -114,7 +114,9 @@
          <ns:column columnName="FirstName"/>
          <ns:column columnName="BirthDate"/>
          <ns:column columnName="SSN"/>
-         <ns:column columnName="InboundRequestId"/>
+         <ns:column columnName="InboundRequestId">
+            <ns:columnTitle>Request Id</ns:columnTitle>
+         </ns:column>
          <ns:column columnName="FMPId">
             <ns:columnTitle>FMP</ns:columnTitle>
          </ns:column>
