@@ -94,6 +94,10 @@ public class HDRLSchema extends SimpleUserSchema
         {
             return new InboundRequestTable(this);
         }
+        else if (TABLE_SPECIMEN.equalsIgnoreCase(name))
+        {
+            return new InboundSpecimenTable(this);
+        }
 
         //just return a filtered table over the db table if it exists
         SchemaTableInfo tableInfo = getDbSchema().getTable(name);

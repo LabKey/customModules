@@ -30,7 +30,7 @@ import java.util.Set;
 
 public class HDRLModule extends DefaultModule
 {
-    public static final String NAME = "hdrl";
+    public static final String NAME = "HDRL";
 
 
     @Override
