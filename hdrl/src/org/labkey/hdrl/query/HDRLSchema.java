@@ -24,6 +24,7 @@ import org.labkey.api.data.DisplayColumn;
 import org.labkey.api.data.RenderContext;
 import org.labkey.api.data.SchemaTableInfo;
 import org.labkey.api.data.SimpleDisplayColumn;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.dialect.SqlDialect;
 import org.labkey.api.module.Module;
@@ -131,17 +132,19 @@ public class HDRLSchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
                             Integer status = (Integer) ctx.get(FieldKey.fromParts("RequestStatusId"));
+                            FieldKey requestFieldKey = FieldKey.fromParts("InboundRequestId");
+                            SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                             if ((status == 1 && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
                                 // TODO change action to edit action when available
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
-                                actionUrl.addParameter("InboundRequestId", ctx.get(FieldKey.fromParts("requestId")).toString());
+                                filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
                                 out.write(PageFlowUtil.textLink("Edit", actionUrl));
                             }
                             else
                             {
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
-                                actionUrl.addParameter("InboundRequestId", ctx.get(FieldKey.fromParts("requestId")).toString());
+                                filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
                                 out.write(PageFlowUtil.textLink("View", actionUrl));
                             }
 

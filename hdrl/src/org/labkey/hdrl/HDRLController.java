@@ -50,6 +50,7 @@ public class HDRLController extends SpringActionController
         {
             VBox vbox = new VBox();
 
+            // TODO change this to edit action when available
             HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.textLink("Submit new test request", new ActionURL(RequestDetailsAction.class, getViewContext().getContainer())));
             vbox.addView(submitView);
 
@@ -73,7 +74,6 @@ public class HDRLController extends SpringActionController
         @Override
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
-            // TODO filter by requestId parameter in URL
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLSchema.NAME);
             QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLSchema.TABLE_SPECIMEN);
             QueryView queryView = schema.createView(getViewContext(), settings, errors);
