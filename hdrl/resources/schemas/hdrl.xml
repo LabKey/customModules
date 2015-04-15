@@ -65,7 +65,7 @@
    </ns:table>
 
    <ns:table tableName="InboundRequest" tableDbType="TABLE">
-      <ns:titleColumn>Title</ns:titleColumn>
+      <ns:titleColumn>RequestId</ns:titleColumn>
       <ns:columns>
          <ns:column columnName="RequestId"/>
          <ns:column columnName="Title"/>

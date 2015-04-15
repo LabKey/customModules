@@ -12,6 +12,7 @@ hdrl/hdrl.iml -text
 hdrl/module.properties -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.31-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.11.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.11-15.12.sql -text
 hdrl/resources/schemas/hdrl.xml -text
 hdrl/src/org/labkey/hdrl/HDRLContainerListener.java -text
 hdrl/src/org/labkey/hdrl/HDRLController.java -text

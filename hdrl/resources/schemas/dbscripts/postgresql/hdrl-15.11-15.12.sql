@@ -1,0 +1,4 @@
+ALTER TABLE hdrl.InboundRequest DROP COLUMN IF EXISTS Title;
+ALTER TABLE hdrl.InboundRequest ADD COLUMN Title VARCHAR(64);
+
+ALTER TABLE hdrl.InboundSpecimen ALTER COLUMN SSN TYPE VARCHAR(11);
