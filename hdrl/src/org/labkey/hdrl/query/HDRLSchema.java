@@ -18,19 +18,36 @@ package org.labkey.hdrl.query;
 
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DisplayColumn;
+import org.labkey.api.data.RenderContext;
 import org.labkey.api.data.SchemaTableInfo;
+import org.labkey.api.data.SimpleDisplayColumn;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.dialect.SqlDialect;
 import org.labkey.api.module.Module;
 import org.labkey.api.query.DefaultSchema;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.FilteredTable;
 import org.labkey.api.query.QuerySchema;
+import org.labkey.api.query.QuerySettings;
+import org.labkey.api.query.QueryView;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
+import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.UpdatePermission;
+import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.view.ActionURL;
+import org.labkey.api.view.ViewContext;
+import org.labkey.hdrl.HDRLController;
 import org.labkey.hdrl.HDRLModule;
+import org.springframework.validation.BindException;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class HDRLSchema extends SimpleUserSchema
@@ -91,5 +108,51 @@ public class HDRLSchema extends SimpleUserSchema
     public Set<String> getTableNames()
     {
         return new HashSet<>(getDbSchema().getTableNames());
+    }
+
+    @Override
+    public QueryView createView(ViewContext context, QuerySettings settings, BindException errors)
+    {
+
+        if (settings.getQueryName().equalsIgnoreCase(TABLE_INBOUND_REQUEST))
+        {
+            return new QueryView(this, settings, errors)
+            {
+                QuerySettings s = getSettings();
+
+                @Override
+                protected void addDetailsAndUpdateColumns(List<DisplayColumn> ret, TableInfo table)
+                {
+
+                    SimpleDisplayColumn actionColumn = new SimpleDisplayColumn()
+                    {
+                        @Override
+                        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+                        {
+                            Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
+                            Integer status = (Integer) ctx.get(FieldKey.fromParts("RequestStatusId"));
+                            if ((status == 1 && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
+                            {
+                                // TODO change action to edit action when available
+                                ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
+                                actionUrl.addParameter("InboundRequestId", ctx.get(FieldKey.fromParts("requestId")).toString());
+                                out.write(PageFlowUtil.textLink("Edit", actionUrl));
+                            }
+                            else
+                            {
+                                ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
+                                actionUrl.addParameter("InboundRequestId", ctx.get(FieldKey.fromParts("requestId")).toString());
+                                out.write(PageFlowUtil.textLink("View", actionUrl));
+                            }
+
+                        }
+                    };
+                    ret.add(actionColumn);
+
+                }
+            };
+        }
+        return super.createView(context, settings, errors);
+
     }
 }

@@ -65,8 +65,10 @@
    </ns:table>
 
    <ns:table tableName="InboundRequest" tableDbType="TABLE">
+      <ns:titleColumn>Title</ns:titleColumn>
       <ns:columns>
          <ns:column columnName="RequestId"/>
+         <ns:column columnName="Title"/>
          <ns:column columnName="RequestStatusId">
             <ns:columnTitle>Request Status</ns:columnTitle>
          </ns:column>
@@ -115,7 +117,7 @@
          <ns:column columnName="BirthDate"/>
          <ns:column columnName="SSN"/>
          <ns:column columnName="InboundRequestId">
-            <ns:columnTitle>Request Id</ns:columnTitle>
+            <ns:columnTitle>Request</ns:columnTitle>
          </ns:column>
          <ns:column columnName="FMPId">
             <ns:columnTitle>FMP</ns:columnTitle>

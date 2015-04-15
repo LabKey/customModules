@@ -19,7 +19,6 @@ hdrl/src/org/labkey/hdrl/HDRLModule.java -text
 hdrl/src/org/labkey/hdrl/query/HDRLSchema.java -text
 hdrl/src/org/labkey/hdrl/query/InboundRequestTable.java -text
 hdrl/src/org/labkey/hdrl/query/PatientCountColumn.java -text
-hdrl/src/org/labkey/hdrl/view/hello.jsp -text
 hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/README.txt -text
 hvtnFlow/analysis-plans.clj -text
