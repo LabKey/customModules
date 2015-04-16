@@ -160,7 +160,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         checkVisualization();
     }
 
-    @LogMethod(category = LogMethod.MethodType.SETUP)
+    @LogMethod
     private void checkVisualization()
     {
         goBack();
