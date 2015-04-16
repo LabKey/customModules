@@ -24,6 +24,7 @@ hdrl/src/org/labkey/hdrl/query/InboundRequestUpdateService.java -text
 hdrl/src/org/labkey/hdrl/query/InboundSpecimenTable.java -text
 hdrl/src/org/labkey/hdrl/query/PatientCountColumn.java -text
 hdrl/src/org/labkey/hdrl/view/InboundRequestBean.java -text
+hdrl/src/org/labkey/hdrl/view/requestDetails.jsp -text
 hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/README.txt -text
 hvtnFlow/analysis-plans.clj -text
