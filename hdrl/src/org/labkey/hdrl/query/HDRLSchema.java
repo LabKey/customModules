@@ -123,8 +123,6 @@ public class HDRLSchema extends SimpleUserSchema
         {
             return new QueryView(this, settings, errors)
             {
-                QuerySettings s = getSettings();
-
                 @Override
                 protected void addDetailsAndUpdateColumns(List<DisplayColumn> ret, TableInfo table)
                 {

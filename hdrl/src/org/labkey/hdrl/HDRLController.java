@@ -18,6 +18,11 @@ package org.labkey.hdrl;
 
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.SqlSelector;
+import org.labkey.api.data.TableInfo;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.QueryView;
@@ -27,9 +32,12 @@ import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HtmlView;
+import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.VBox;
+import org.labkey.api.view.ViewContext;
 import org.labkey.hdrl.query.HDRLSchema;
+import org.labkey.hdrl.view.InboundRequestBean;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,9 +83,36 @@ public class HDRLController extends SpringActionController
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLSchema.NAME);
+            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, r.Title, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
+            sql.append("(SELECT * FROM hdrl.InboundRequest WHERE (Container = ?) AND (RequestId = ?)) r ");
+            sql.add(getViewContext().getContainer());
+            sql.add(Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")));
+            sql.append("JOIN hdrl.ShippingCarrier c on r.ShippingCarrierId = c.RowId ")
+                    .append("JOIN hdrl.TestType t on r.TestTypeId = t.RowId ")
+                    .append("JOIN hdrl.RequestStatus s on r.RequestStatusId = s.RowId ");
+//            DbSchema dbSchema = schema.getDbSchema();
+//            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, r.Title, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
+//            sql.append("(SELECT * FROM ")
+//                    .append(dbSchema.getTable("InboundRequest").getFromSQL())
+//                    .append(" WHERE (Container = ?) AND (RequestId = ?)) r ");
+//            sql.add(getViewContext().getContainer());
+//            sql.add(Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")));
+//            sql.append("JOIN ").append(dbSchema.getTable("ShippingCarrier").getFromSQL("c")).append(" ON r.ShippingCarrierId = c.RowId ")
+//                    .append("JOIN ").append(dbSchema.getTable("TestType").getFromSQL("t")).append(" ON r.TestTypeId = t.RowId ")
+//                    .append("JOIN ").append(dbSchema.getTable("RequestStatus").getFromSQL("s")).append(" ON r.RequestStatusId = s.RowId ");
+
+
+            SqlSelector sqlSelector = new SqlSelector(schema.getDbSchema(), sql);
+            InboundRequestBean bean = sqlSelector.getObject(InboundRequestBean.class);
+            JspView jsp = new JspView("/org/labkey/hdrl/view/requestDetails.jsp", bean);
+            jsp.setTitle("Test Request");
+
             QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLSchema.TABLE_SPECIMEN);
             QueryView queryView = schema.createView(getViewContext(), settings, errors);
-            return queryView;
+
+            jsp.setView("queryView", queryView);
+
+            return jsp;
         }
 
         @Override
