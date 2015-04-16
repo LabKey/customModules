@@ -28,6 +28,7 @@ import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.QueryView;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
@@ -59,7 +60,7 @@ public class HDRLController extends SpringActionController
             VBox vbox = new VBox();
 
             // TODO change this to edit action when available
-            HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.textLink("Submit new test request", new ActionURL(RequestDetailsAction.class, getViewContext().getContainer())));
+            HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.textLink("Submit new test request", new ActionURL(EditRequestAction.class, getViewContext().getContainer())));
             vbox.addView(submitView);
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLSchema.NAME);
@@ -119,6 +120,43 @@ public class HDRLController extends SpringActionController
         public NavTree appendNavTrail(NavTree root)
         {
             return root;
+        }
+    }
+
+    @RequiresPermissionClass(ReadPermission.class)
+    public class EditRequestAction extends SimpleViewAction<RequestForm>
+    {
+        private String _navLabel = "Create a new Test Request";
+
+        @Override
+        public ModelAndView getView(RequestForm form, BindException errors) throws Exception
+        {
+            if (form.getRequestId() != -1)
+            {
+                _navLabel = "Edit a Test Request";
+            }
+            return new JspView("/org/labkey/hdrl/view/editRequest.jsp", form, errors);
+        }
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            return root.addChild(_navLabel);
+        }
+    }
+
+    public static class RequestForm
+    {
+        private int _requestId = -1;
+
+        public int getRequestId()
+        {
+            return _requestId;
+        }
+
+        public void setRequestId(int requestId)
+        {
+            _requestId = requestId;
         }
     }
 }

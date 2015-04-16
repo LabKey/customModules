@@ -14,6 +14,7 @@ hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.31-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.11.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.11-15.12.sql -text
 hdrl/resources/schemas/hdrl.xml -text
+hdrl/resources/web/hdrl/requests.js -text
 hdrl/src/org/labkey/hdrl/HDRLContainerListener.java -text
 hdrl/src/org/labkey/hdrl/HDRLController.java -text
 hdrl/src/org/labkey/hdrl/HDRLManager.java -text
@@ -24,6 +25,7 @@ hdrl/src/org/labkey/hdrl/query/InboundRequestUpdateService.java -text
 hdrl/src/org/labkey/hdrl/query/InboundSpecimenTable.java -text
 hdrl/src/org/labkey/hdrl/query/PatientCountColumn.java -text
 hdrl/src/org/labkey/hdrl/view/InboundRequestBean.java -text
+hdrl/src/org/labkey/hdrl/view/editRequest.jsp -text
 hdrl/src/org/labkey/hdrl/view/requestDetails.jsp -text
 hvtnFlow/AnalysisPlans.txt -text
 hvtnFlow/README.txt -text
