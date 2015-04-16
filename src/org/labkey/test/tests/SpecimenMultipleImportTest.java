@@ -46,7 +46,7 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.SETUP)
+    @LogMethod
     protected void doCreateSteps()
     {
         enableEmailRecorder();
@@ -69,7 +69,7 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
+    @LogMethod
     protected void doVerifySteps()
     {
         clickFolder(getFolderName());

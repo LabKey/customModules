@@ -68,7 +68,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
+    @LogMethod
     protected void doVerifySteps() throws Exception
     {
         addSpecimenEventFields();

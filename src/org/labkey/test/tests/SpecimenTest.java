@@ -76,7 +76,7 @@ public class SpecimenTest extends SpecimenBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.SETUP)
+    @LogMethod
     protected void doCreateSteps()
     {
         enableEmailRecorder();
@@ -104,7 +104,7 @@ public class SpecimenTest extends SpecimenBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
+    @LogMethod
     protected void doVerifySteps() throws IOException, HttpException
     {
         verifyActorDetails();

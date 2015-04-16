@@ -52,7 +52,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.SETUP)
+    @LogMethod
     protected void doCreateSteps()
     {
         enableEmailRecorder();
@@ -80,7 +80,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.VERIFICATION)
+    @LogMethod
     protected void doVerifySteps()
     {
         // verify the specimen settings roundtrip by 1. exporting folder zip, 2. deleting the study,

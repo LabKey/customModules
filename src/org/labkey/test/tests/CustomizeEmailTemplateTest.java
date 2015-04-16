@@ -76,7 +76,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     }
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.SETUP)
+    @LogMethod
     protected void doCreateSteps()
     {
         enableEmailRecorder();

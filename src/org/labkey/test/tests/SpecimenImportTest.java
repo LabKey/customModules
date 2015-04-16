@@ -51,7 +51,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
                     "4\t4\t\t4\t";
 
     @Override
-    @LogMethod(category = LogMethod.MethodType.SETUP)
+    @LogMethod
     protected void doCreateSteps()
     {
         initializeFolder();
