@@ -9,6 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="API" />
     <orderEntry type="module" module-name="Internal" />
+    <orderEntry type="module" module-name="MS2-API" />
   </component>
 </module>
-
