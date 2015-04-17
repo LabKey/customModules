@@ -32,7 +32,7 @@
     <% if (bean.getTitle() != null)
     {
     %>
-        <%= bean.getTitle() %>
+        <br> <%= bean.getTitle() %>
     <%
     }
     %>
@@ -55,7 +55,7 @@
     </tr>
     <tr>
         <td>Tracking #</td>
-        <td><%= bean.getShippingNumber() %></td>
+        <td><%= bean.getShippingNumber() == null ? "unknown" : bean.getShippingNumber() %></td>
     </tr>
 </table>
 <%

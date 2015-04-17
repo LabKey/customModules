@@ -88,9 +88,9 @@ public class HDRLController extends SpringActionController
             sql.append("(SELECT * FROM hdrl.InboundRequest WHERE (Container = ?) AND (RequestId = ?)) r ");
             sql.add(getViewContext().getContainer());
             sql.add(Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")));
-            sql.append("JOIN hdrl.ShippingCarrier c on r.ShippingCarrierId = c.RowId ")
-                    .append("JOIN hdrl.TestType t on r.TestTypeId = t.RowId ")
-                    .append("JOIN hdrl.RequestStatus s on r.RequestStatusId = s.RowId ");
+            sql.append("LEFT JOIN hdrl.ShippingCarrier c on r.ShippingCarrierId = c.RowId ")
+                    .append("LEFT JOIN hdrl.TestType t on r.TestTypeId = t.RowId ")
+                    .append("LEFT JOIN hdrl.RequestStatus s on r.RequestStatusId = s.RowId ");
 //            DbSchema dbSchema = schema.getDbSchema();
 //            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, r.Title, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
 //            sql.append("(SELECT * FROM ")

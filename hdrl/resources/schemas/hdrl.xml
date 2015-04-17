@@ -129,6 +129,7 @@
             <ns:columnTitle>SOT</ns:columnTitle>
          </ns:column>
          <ns:column columnName="DrawDate"/>
+         <ns:column columnName="ValidationStatus"/>
          <ns:column columnName="CreatedBy">
             <ns:fk>
                <ns:fkColumnName>UserId</ns:fkColumnName>
