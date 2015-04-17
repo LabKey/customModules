@@ -15,6 +15,8 @@ hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.11.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.11-15.12.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.12-15.13.sql -text
 hdrl/resources/schemas/hdrl.xml -text
+hdrl/resources/views/HDRL.html -text
+hdrl/resources/views/HDRL.webpart.xml -text
 hdrl/resources/web/hdrl/requests.js -text
 hdrl/src/org/labkey/hdrl/HDRLContainerListener.java -text
 hdrl/src/org/labkey/hdrl/HDRLController.java -text
