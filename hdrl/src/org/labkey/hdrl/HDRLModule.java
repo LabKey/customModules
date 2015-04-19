@@ -22,7 +22,7 @@ import org.labkey.api.data.ContainerManager;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.view.WebPartFactory;
-import org.labkey.hdrl.query.HDRLSchema;
+import org.labkey.hdrl.query.HDRLQuerySchema;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -70,7 +70,7 @@ public class HDRLModule extends DefaultModule
         // add a container listener so we'll know when our container is deleted:
         ContainerManager.addContainerListener(new HDRLContainerListener());
 
-        HDRLSchema.register(this);
+        HDRLQuerySchema.register(this);
 
     }
 
@@ -85,6 +85,6 @@ public class HDRLModule extends DefaultModule
     @NotNull
     public Set<String> getSchemaNames()
     {
-        return Collections.singleton(HDRLSchema.NAME);
+        return Collections.singleton(HDRLQuerySchema.NAME);
     }
 }

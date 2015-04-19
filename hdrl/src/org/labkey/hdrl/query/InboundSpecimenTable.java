@@ -12,9 +12,9 @@ import org.labkey.api.security.permissions.Permission;
 /**
  * Created by klum on 4/15/2015.
  */
-public class InboundSpecimenTable extends FilteredTable<HDRLSchema>
+public class InboundSpecimenTable extends FilteredTable<HDRLQuerySchema>
 {
-    public InboundSpecimenTable(HDRLSchema schema)
+    public InboundSpecimenTable(HDRLQuerySchema schema)
     {
         super(schema.getDbSchema().getTable(schema.TABLE_SPECIMEN), schema);
 

@@ -29,9 +29,9 @@ import org.labkey.api.security.permissions.Permission;
 /**
  * Created by susanh on 4/13/15.
  */
-public class InboundRequestTable extends FilteredTable<HDRLSchema>
+public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
 {
-    public InboundRequestTable(HDRLSchema schema)
+    public InboundRequestTable(HDRLQuerySchema schema)
     {
         super(schema.getDbSchema().getTable(schema.TABLE_INBOUND_REQUEST), schema);
 

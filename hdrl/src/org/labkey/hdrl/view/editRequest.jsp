@@ -15,17 +15,15 @@
      * limitations under the License.
      */
 %>
-<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.labkey.api.data.Container" %>
 <%@ page import="org.labkey.api.security.User" %>
+<%@ page import="org.labkey.api.util.UniqueID" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.api.view.ViewContext" %>
 <%@ page import="org.labkey.api.view.template.ClientDependency" %>
-<%@ page import="org.labkey.api.util.UniqueID" %>
-<%@ page import="java.util.LinkedHashSet" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
-<%@ page import="org.labkey.api.reports.actions.ReportForm" %>
+<%@ page import="java.util.LinkedHashSet" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
 
@@ -57,7 +55,11 @@
 
         Ext4.create('LABKEY.ext4.EditRequestPanel', {
             renderTo    : <%=q(renderId)%>,
-            requestId   : <%=bean.getRequestId()%>
+            requestId   : <%=bean.getRequestId()%>,
+            requestStatusId : <%=bean.getRequestStatusId()%>,
+            shippingCarrierId : <%=bean.getShippingCarrierId()%>,
+            testTypeId  : <%=bean.getTestTypeId()%>,
+            shippingNumber : <%=q(bean.getShippingNumber())%>
         });
     });
 </script>

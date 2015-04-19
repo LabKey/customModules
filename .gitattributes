@@ -22,7 +22,8 @@ hdrl/src/org/labkey/hdrl/HDRLContainerListener.java -text
 hdrl/src/org/labkey/hdrl/HDRLController.java -text
 hdrl/src/org/labkey/hdrl/HDRLManager.java -text
 hdrl/src/org/labkey/hdrl/HDRLModule.java -text
-hdrl/src/org/labkey/hdrl/query/HDRLSchema.java -text
+hdrl/src/org/labkey/hdrl/HDRLSchema.java -text
+hdrl/src/org/labkey/hdrl/query/HDRLQuerySchema.java -text
 hdrl/src/org/labkey/hdrl/query/InboundRequestTable.java -text
 hdrl/src/org/labkey/hdrl/query/InboundRequestUpdateService.java -text
 hdrl/src/org/labkey/hdrl/query/InboundSpecimenTable.java -text

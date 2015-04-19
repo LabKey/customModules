@@ -24,6 +24,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             border    : false
         });
 
+        // map for display values to keys
+        this.lkMap = {};
+
         this.createDataModels();
         this.callParent([config]);
     },
@@ -34,8 +37,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             Ext4.define('LABKEY.HDRL.Specimen', {
                 extend: 'Ext.data.Model',
                 fields : [
-                    {name: 'RowId'},
-                    {name: 'InboundRequestId'},
+                    {name: 'RowId', mapping : 'RowId.value'},
+                    {name: 'InboundRequestId', mapping : 'InboundRequestId.value'},
                     {name: 'CustomerBarcode', mapping : 'CustomerBarcode.value'},
                     {name: 'LastName', mapping : 'LastName.value'},
                     {name: 'FirstName', mapping : 'FirstName.value'},
@@ -49,6 +52,20 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 ]
             });
         }
+
+        this.specimenModelMap = {
+            inboundrequestid : 'InboundRequestId',
+            customerbarcode : 'CustomerBarcode',
+            lastname : 'LastName',
+            firstname : 'FirstName',
+            birthdate : 'BirthDate',
+            ssn : 'SSN',
+            fmpid : 'FMPId',
+            dutycodeid : 'DutyCodeId',
+            testingsourceid : 'TestingSourceId',
+            drawdate : 'DrawDate',
+            status : 'status'
+        };
 
         if (!Ext4.ModelManager.isRegistered('LABKEY.HDRL.SpecimenLK')) {
             Ext4.define('LABKEY.HDRL.SpecimenLK', {
@@ -77,9 +94,13 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
         this.items = [];
 
-        this.items.push(this.createNorthPanel());
-        this.items.push(this.createGridPanel());
-        //this.items.push(this.createSouthPanel());
+        this.northPanel = this.createNorthPanel();
+        this.gridPanel = this.createGridPanel();
+        this.southPanel = this.createSouthPanel();
+
+        this.items.push(this.northPanel);
+        this.items.push(this.gridPanel);
+        this.items.push(this.southPanel);
 
         this.callParent();
     },
@@ -92,7 +113,16 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         this.roweditor = Ext4.create('Ext.grid.plugin.RowEditing', {
             clicksToMoveEditor  : 1,
             autoCancel          : false,
-            triggerEvent        : 'cellclick'
+            triggerEvent        : 'cellclick',
+            listeners           : {
+                beforeedit : {fn : function(editor, context){
+
+                    // don't activate the editor for checkbox selector or status field
+                    if (context.colIdx <= 1){
+                        return false;
+                    }
+                }, scope : this}
+            }
         });
 
         // add the request id to the select rows filter
@@ -115,19 +145,21 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     reader: { type: 'json', root: 'rows', metaProperty : 'none' }
                 },
                 listeners : {
-                    update : {fn : function(cmp, rec){console.log('store update : ', rec);}, scope : this}
+                    update : {fn : function(cmp, rec, opt, modified){this.verifyRows([rec], modified);}, scope : this}
                 }
             },
             columns: [
-                { text: 'Customer Barcode',  dataIndex: 'CustomerBarcode', width : 150, editor: {xtype: 'textfield'}},
-                { text: 'Last Name', dataIndex: 'LastName', editor: {xtype: 'textfield'}},
-                { text: 'First Name', dataIndex: 'FirstName', editor: {xtype: 'textfield'}},
-                { text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, editor : {xtype: 'datefield'}},
-                { text: 'FMP', dataIndex: 'FMPId', width : 250,
+                {text: 'Status', dataIndex: 'status', minWidth : 150, flex : 1},
+                {text: 'Customer Barcode',  dataIndex: 'CustomerBarcode', width : 150, editor: {xtype: 'textfield'}},
+                {text: 'Last Name', dataIndex: 'LastName', editor: {xtype: 'textfield'}},
+                {text: 'First Name', dataIndex: 'FirstName', editor: {xtype: 'textfield'}},
+                {text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, editor : {xtype: 'datefield'}},
+                {text: 'FMP', dataIndex: 'FMPId', width : 250,
                     editor : {
                         xtype : 'combo',
                         store : {
                             model   : 'LABKEY.HDRL.SpecimenLK',
+                            autoLoad: true,
                             proxy : {
                                 type : 'ajax',
                                 url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -136,6 +168,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                                     queryName   : 'familyMemberPrefix'
                                 },
                                 reader : { type : 'json', root : 'rows' }
+                            },
+                            listeners : {
+                                load : {fn: function(cmp, recs){this.createDisplayValueMap('FMPId', recs, 'RowId', 'Description');}, scope : this}
                             }
                         },
                         valueField      : 'Description',
@@ -143,12 +178,13 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                { text: 'SSN', dataIndex: 'SSN', width : 150, editor: {xtype: 'textfield'}},
-                { text: 'DUC', dataIndex: 'DutyCodeId',
+                {text: 'SSN', dataIndex: 'SSN', width : 150, editor: {xtype: 'textfield'}},
+                {text: 'DUC', dataIndex: 'DutyCodeId',
                     editor : {
                         xtype : 'combo',
                         store : {
                             model   : 'LABKEY.HDRL.SpecimenLK',
+                            autoLoad: true,
                             proxy : {
                                 type : 'ajax',
                                 url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -157,6 +193,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                                     queryName   : 'dutyCode'
                                 },
                                 reader : { type : 'json', root : 'rows' }
+                            },
+                            listeners : {
+                                load : {fn: function(cmp, recs){this.createDisplayValueMap('DutyCodeId', recs, 'RowId', 'Code');}, scope : this}
                             }
                         },
                         valueField      : 'Code',
@@ -164,11 +203,12 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                { text: 'DOT', dataIndex: 'TestingSourceId',
+                {text: 'DOT', dataIndex: 'TestingSourceId',
                     editor : {
                         xtype : 'combo',
                         store : {
                             model   : 'LABKEY.HDRL.SpecimenLK',
+                            autoLoad: true,
                             proxy : {
                                 type : 'ajax',
                                 url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -177,6 +217,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                                     queryName   : 'sourceOfTesting'
                                 },
                                 reader : { type : 'json', root : 'rows' }
+                            },
+                            listeners : {
+                                load : {fn: function(cmp, recs){this.createDisplayValueMap('TestingSourceId', recs, 'RowId', 'Code');}, scope : this}
                             }
                         },
                         valueField      : 'Code',
@@ -184,8 +227,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                { text: 'Date of Draw', dataIndex: 'DrawDate', width : 150, editor : {xtype : 'datefield'}},
-                { text: 'Status', dataIndex: 'status', flex : 1}
+                {text: 'Date of Draw', dataIndex: 'DrawDate', width : 150, editor : {xtype : 'datefield'}}
             ],
             dockedItems : [{
                 xtype   : 'toolbar',
@@ -217,49 +259,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         items.push(this.grid);
 
         return Ext4.create('Ext.panel.Panel', {
-            bodyPadding : 20,
-            border      : false,
-            height      : 400,
+            border      : true,
+            minHeight   : 150,
+            flex        : 1.2,
             layout      : 'fit',
-            items       : items,
-            buttonAlign : 'left',
-            buttons     : [{
-                text: 'Submit Requests',
-                formBind: true,
-                handler : function(){Ext4.Msg.show({title: "Error", msg: 'E_NOT_IMPL', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});}
-            },{
-                text    : 'Save',
-                formBind: true,
-                scope   : this,
-                handler : function(){
-                    var form = this.down('form').getForm();
-                    if (form.isValid()) {
-                        var multi = new LABKEY.MultiRequest();
-
-                        // handle inserts & updates
-                        multi.add(LABKEY.Query.insertRows, {
-                            schemaName  : 'hdrl',
-                            queryName   : 'inboundRequest',
-                            rows        : [{requestStatusId : 1, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.trackingNumber}],
-                            scope       : this,
-                            success     : function() {},
-                            failure     : function(){
-                                Ext4.Msg.show({title: "Error", msg: 'An error saving the test request.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
-                            }
-                        }, this);
-
-                        // perform the updates
-                        multi.send(function(){
-                        }, this);
-                    }
-                    else {
-                        Ext4.Msg.show({title: "Error", msg: 'Please enter all required fields.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
-                    }
-                }
-            },{
-                text: 'Cancel',
-                formBind: true
-            }]
+            items       : items
         });
     },
 
@@ -278,9 +282,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             xtype           : 'combo',
             fieldLabel      : 'Request Type',
             name            : 'requestType',
+            itemId          : 'requestTypeCombo',
             labelSeparator  : '',
             store : {
                 model   : 'LABKEY.HDRL.Lookup',
+                autoLoad : true,
                 proxy : {
                     type : 'ajax',
                     url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -290,6 +296,13 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         sort        : 'name'
                     },
                     reader : { type : 'json', root : 'rows' }
+                },
+                listeners : {
+                    load : {fn: function(cmp, recs){
+                        if (this.testTypeId){
+                            this.northPanel.getComponent('requestTypeCombo').setValue(this.testTypeId);
+                        }
+                    }, scope : this}
                 }
             },
             listeners : {
@@ -304,13 +317,107 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             editable        : false
         });
 
+        return Ext4.create('Ext.form.Panel', {
+            bodyPadding : 20,
+            border      : false,
+            //height      : 250,
+            flex        : 1.2,
+            items       : formItems,
+            defaults    : {
+                width       : 550,
+                labelWidth  : 150
+            }
+        });
+    },
+
+    createSouthPanel : function() {
+
+        var formItems = [];
+
+        formItems.push({xtype: 'hidden', name: 'X-LABKEY-CSRF', value: LABKEY.CSRF});
+
+        formItems.push({
+            xtype       : 'fileuploadfield',
+            fieldLabel  : 'Upload Request Details',
+            name        : 'file',
+            listeners   : {
+                change : {fn: function(cmp, value){
+                    this.southPanel.getComponent('specimenUploadButton').enable();
+
+                }, scope : this}
+            }
+        });
+
+        formItems.push({
+            xtype       : 'button',
+            itemId      : 'specimenUploadButton',
+            text        : 'upload file',
+            width       : 150,
+            disabled    : true,
+            scope       : this,
+            handler     : function(){
+                var form = new Ext4.form.BasicForm(this.southPanel);
+
+                var processResponse = function(form, action) {
+
+                    var fileContents = Ext4.decode(action.response.responseText);
+                    var data = fileContents.sheets[0].data;
+
+                    // create the model records and load them into the store
+                    var newRecords = [];
+                    var validatedRecords = [];
+                    var cols = [];
+
+                    // need to convert the parsed column names so they match our model names (case sensitive)
+                    Ext4.each(data[0], function(field){
+
+                        var key = field.replace(/\s+/g, '').toLowerCase();
+                        if (this.specimenModelMap[key])
+                            cols.push(this.specimenModelMap[key]);
+                        else
+                            cols.push(undefined);
+                    }, this);
+
+                    for (var i = 1; i < data.length; i++){
+
+                        var row = data[i];
+                        var rec = Ext4.create('LABKEY.HDRL.Specimen');
+                        for (var j=0; j< cols.length; j++){
+
+                            if (cols[j])
+                                rec.set(cols[j], row[j]);
+                        }
+                        newRecords.push(rec);
+                    }
+
+                    this.verifyRows(newRecords);
+                    this.grid.getStore().loadData(newRecords, true);
+                };
+
+                form.submit({
+                    url     : LABKEY.ActionURL.buildURL('experiment', 'parseFile'),
+                    scope   : this,
+                    success : processResponse,
+                    failure : processResponse
+                });
+
+            }
+        })
+
+        formItems.push({
+            xtype       : 'displayfield',
+            value       : '<p/><strong>Shipping Information</strong><p/>'
+        });
+
         formItems.push({
             xtype           : 'combo',
             fieldLabel      : 'Carrier',
             name            : 'shippingCarrier',
+            itemId          : 'shippingCarrierCombo',
             labelSeparator  : '',
             store : {
                 model   : 'LABKEY.HDRL.Lookup',
+                autoLoad : true,
                 proxy : {
                     type : 'ajax',
                     url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -320,6 +427,13 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         sort        : 'name'
                     },
                     reader : { type : 'json', root : 'rows' }
+                },
+                listeners : {
+                    load : {fn: function(cmp, recs){
+                        if (this.shippingCarrierId){
+                            this.southPanel.getComponent('shippingCarrierCombo').setValue(this.shippingCarrierId);
+                        }
+                    }, scope : this}
                 }
             },
             listeners : {
@@ -330,7 +444,6 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             },
             valueField      : 'RowId',
             displayField    : 'Name',
-            allowBlank      : false,
             editable        : false
         });
 
@@ -339,7 +452,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             fieldLabel      : 'Tracking #',
             name            : 'trackingNumber',
             labelSeparator  : '',
-            allowBlank      : false,
+            value           : this.shippingNumber,
             listeners : {
                 scope: this,
                 change : function(cmp, value) {
@@ -351,62 +464,263 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         return Ext4.create('Ext.form.Panel', {
             bodyPadding : 20,
             border      : false,
-            height      : 250,
+            flex        : 1,
             items       : formItems,
             defaults    : {
-                width : 350
+                width       : 550,
+                labelWidth  : 150
+            },
+            buttonAlign : 'left',
+            buttons     : [{
+                text    : 'Submit Requests',
+                formBind: true,
+                scope   : this,
+                handler : this.handleSubmit
+            },{
+                text    : 'Save',
+                formBind: true,
+                scope   : this,
+                handler : function(){this.handleSave(1);}
+            },{
+                text    : 'Cancel',
+                handler : function(){window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');}
+            }]
+        });
+    },
+
+    handleSubmit : function() {
+
+        var form = this.down('form').getForm();
+        if (form.isValid()) {
+
+            // validate the store before we save
+            var records = [];
+            for (var i=0; i < this.grid.getStore().getCount(); i++){
+                records.push(this.grid.getStore().getAt(i));
+            }
+
+            this.verifyRows(records, null, function(success){
+
+                if (success) {
+                    this.handleSave(2);
+                }
+                else {
+                    Ext4.Msg.show({title: 'Error', msg: 'Unable to submit the request, there are invalid specimen records.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                }
+            });
+        }
+        else {
+            Ext4.Msg.show({title: "Error", msg: 'Please enter all required fields.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+        }
+    },
+
+    handleSave : function(requestStatusId) {
+
+        var form = this.down('form').getForm();
+        var fn = this.requestId != -1 ? LABKEY.Query.updateRows : LABKEY.Query.insertRows;
+        if (form.isValid()) {
+
+            var row = {requestStatusId : requestStatusId, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.trackingNumber};
+            if (this.requestId != -1){
+                row.requestId = this.requestId;
+            }
+
+            var extraContext = null;
+            if (requestStatusId == 1){
+                extraContext = {validationMode : 'OFF'};
+            }
+
+            // handle inserts & updates
+            fn({
+                schemaName  : 'hdrl',
+                queryName   : 'inboundRequest',
+                rows        : [row],
+                scope       : this,
+                success     : function(res) {
+                    if (res.rows && res.rows.length === 1)
+                    {
+                        this.requestId = res.rows[0].requestid;
+
+                        // save any specimen requests
+                        var insertedRows = [];
+                        var updatedRows = [];
+                        var deletedRows = [];
+
+                        Ext4.each(this.grid.getStore().getModifiedRecords(), function(rec){
+
+                            var row = this.prepareRow(rec.data);
+                            if (!row.RowId){
+                                row.RowId = null;
+                                insertedRows.push(row);
+                            }
+                            else {
+                                updatedRows.push(row);
+                            }
+                        }, this);
+
+                        Ext4.each(this.grid.getStore().getRemovedRecords(), function(rec){
+
+                            var row = this.prepareRow(rec.data);
+                            if (row.RowId){
+                                deletedRows.push(row);
+                            }
+                        }, this);
+
+                        var multi = new LABKEY.MultiRequest();
+                        this.error = false;
+
+                        if (insertedRows.length > 0){
+                            multi.add(LABKEY.Query.insertRows, {
+                                schemaName  : 'hdrl',
+                                queryName   : 'inboundSpecimen',
+                                rows        : insertedRows,
+                                extraContext: extraContext,
+                                scope       : this,
+                                success     : function(res) {},
+                                failure     : function(res){
+                                    this.error = true;
+                                    var message = 'An error saving the test request.';
+                                    if (res.exception)
+                                        message = res.exception;
+                                    Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                }
+                            }, this);
+                        }
+
+                        if (updatedRows.length > 0){
+                            multi.add(LABKEY.Query.updateRows, {
+                                schemaName  : 'hdrl',
+                                queryName   : 'inboundSpecimen',
+                                rows        : updatedRows,
+                                extraContext: extraContext,
+                                scope       : this,
+                                success     : function(res) {},
+                                failure     : function(res){
+                                    this.error = true;
+                                    var message = 'An error saving the test request.';
+                                    if (res.exception)
+                                        message = res.exception;
+                                    Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                }
+                            }, this);
+                        }
+
+                        if (deletedRows.length > 0){
+                            multi.add(LABKEY.Query.deleteRows, {
+                                schemaName  : 'hdrl',
+                                queryName   : 'inboundSpecimen',
+                                rows        : deletedRows,
+                                scope       : this,
+                                success     : function(res) {},
+                                failure     : function(res){
+                                    this.error = true;
+                                    var message = 'An error saving the test request.';
+                                    if (res.exception)
+                                        message = res.exception;
+                                    Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                                }
+                            }, this);
+                        }
+
+                        // perform the updates
+                        if (insertedRows.length > 0 || updatedRows.length > 0 || deletedRows.length > 0){
+                            multi.send(function(){
+                                if (!this.error)
+                                    window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                            }, this);
+                        }
+                        else{
+                            window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                        }
+                    }
+                },
+                failure     : function(){
+                    Ext4.Msg.show({title: "Error", msg: 'An error saving the test request.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                }
+            });
+        }
+        else {
+            Ext4.Msg.show({title: "Error", msg: 'Please enter all required fields.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+        }
+    },
+
+    /**
+     * Update the status field based on the server validation of the record
+     */
+    verifyRows : function(rows, modifiedFields, callback){
+
+        if (modifiedFields && (modifiedFields.length == 0 || (modifiedFields.length ==1 && modifiedFields[0] == 'status'))) {
+
+            if (callback)
+                callback.call(this, true);
+            else
+                return;
+        }
+
+        var ret = true;
+        var data = [];
+        Ext4.each(rows, function(rec){
+            data.push(this.prepareRow(rec.copy().data));
+        }, this);
+
+        LABKEY.Ajax.request({
+            url : LABKEY.ActionURL.buildURL("hdrl", "verifySpecimen.api"),
+            method : 'POST',
+            scope : this,
+            jsonData: {
+                rows : data
+            },
+            success : function(res) {
+                var o = Ext4.decode(res.responseText);
+
+                for (var i=0; i < o.rows.length; i++){
+                    if (o.rows[i].ValidationStatus)
+                        ret = false;
+                    rows[i].set('status', o.rows[i].ValidationStatus);
+                }
+
+                if (callback)
+                    callback.call(this, ret);
             }
         });
     },
 
-    createSouthPanel : function() {
+    /**
+     * Prepares the client side row for inserting or updating to the server
+     * @private
+     */
+    prepareRow : function(row){
 
-        var formItems = [];
+        // convert any lookup display values back to keys
+        for (var key in row){
+            if (row.hasOwnProperty(key)){
 
-        formItems.push({
-            xtype       : 'displayfield',
-            value       : '<strong>Shipping Information</strong></p>'
-        });
-
-        formItems.push({
-            xtype           : 'combo',
-            fieldLabel      : 'Carrier',
-            name            : 'shippingCarrier',
-            labelSeparator  : '',
-            store : {
-                model   : 'LABKEY.HDRL.Lookup',
-                proxy : {
-                    type : 'ajax',
-                    url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
-                    extraParams : {
-                        schemaName  : 'hdrl',
-                        queryName   : 'shippingCarrier',
-                        sort        : 'name'
-                    },
-                    reader : { type : 'json', root : 'rows' }
+                if (this.lkMap[key]){
+                    row[key] = this.lkMap[key][row[key]];
                 }
-            },
-            valueField      : 'RowId',
-            displayField    : 'Name',
-            allowBlank      : false,
-            editable        : false
-        });
+            }
+        }
 
-        formItems.push({
-            xtype           : 'textfield',
-            fieldLabel      : 'Tracking #',
-            name            : 'trackingNumber',
-            labelSeparator  : ''
-        });
+        row.InboundRequestId = this.requestId;
+        return row;
+    },
 
-        return Ext4.create('Ext.form.Panel', {
-            bodyPadding : 20,
-            border      : false,
-            height      : 250,
-            items       : formItems,
-            defaults    : {
-                width : 350
+    /**
+     * Need to build the map from display value to key for the combo editors so that we can translate the store records
+     * at insert or update time.
+     * @private
+     */
+    createDisplayValueMap : function(colName, recs, keyName, valueName) {
+
+        var map = this.lkMap[colName] || {};
+        Ext4.each(recs, function(rec){
+
+            var data = rec.data;
+            if (data[keyName] && data[valueName]) {
+                map[data[valueName]] = data[keyName];
             }
         });
+
+        this.lkMap[colName] = map;
     }
 });

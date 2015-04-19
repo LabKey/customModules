@@ -51,7 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class HDRLSchema extends SimpleUserSchema
+public class HDRLQuerySchema extends SimpleUserSchema
 {
     public static final String NAME = "hdrl";
     public static final String DESCRIPTION = "Provides information on test requests and sample sets";
@@ -66,12 +66,12 @@ public class HDRLSchema extends SimpleUserSchema
             @Override
             public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
-                return new HDRLSchema(schema.getUser(), schema.getContainer());
+                return new HDRLQuerySchema(schema.getUser(), schema.getContainer());
             }
         });
     }
 
-    public HDRLSchema(User user, Container container)
+    public HDRLQuerySchema(User user, Container container)
     {
         super(NAME, DESCRIPTION, user, container, DbSchema.get(NAME));
     }
@@ -134,13 +134,11 @@ public class HDRLSchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
                             Integer status = (Integer) ctx.get(FieldKey.fromParts("RequestStatusId"));
-                            FieldKey requestFieldKey = FieldKey.fromParts("InboundRequestId");
+                            FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                             SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                             if ((status == 1 && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
-                                // TODO change action to edit action when available
-                                ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
-                                filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
+                                ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
                                 out.write(PageFlowUtil.textLink("Edit", actionUrl));
                             }
                             else

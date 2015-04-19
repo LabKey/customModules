@@ -7,6 +7,7 @@ import org.labkey.api.gwt.client.util.StringUtils;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.DefaultQueryUpdateService;
 import org.labkey.api.query.DuplicateKeyException;
+import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
@@ -21,7 +22,8 @@ import java.util.Map;
  */
 public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 {
-    public enum ValidationMode {OFF, ON, ONLY};
+    public enum ValidationMode {OFF, ON, ONLY}
+
     private ValidationMode validationMode = ValidationMode.ON;
 
     public InboundSpecimenUpdateService(TableInfo queryTable, TableInfo dbTable)
@@ -33,11 +35,23 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
     public List<Map<String, Object>> insertRows(User user, Container container, List<Map<String, Object>> rows, BatchValidationException errors, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
             throws DuplicateKeyException, QueryUpdateServiceException, SQLException
     {
-        if (configParameters != null && configParameters.containsKey("validationMode"))
-        {
-            validationMode = ValidationMode.valueOf(configParameters.get("validationMode").toString().toUpperCase());
-        }
+        parseValidationMode(extraScriptContext);
         return super.insertRows(user, container, rows, errors, configParameters, extraScriptContext);
+    }
+
+    private void parseValidationMode(Map<String,Object> extraScriptContext)
+    {
+        if (extraScriptContext != null && extraScriptContext.containsKey("validationMode"))
+        {
+            validationMode = ValidationMode.valueOf(extraScriptContext.get("validationMode").toString().toUpperCase());
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> updateRows(User user, Container container, List<Map<String, Object>> rows, List<Map<String, Object>> oldKeys, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext) throws InvalidKeyException, BatchValidationException, QueryUpdateServiceException, SQLException
+    {
+        parseValidationMode(extraScriptContext);
+        return super.updateRows(user, container, rows, oldKeys, configParameters, extraScriptContext);
     }
 
     @Override
@@ -67,8 +81,7 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
     }
 
-
-    private void validate(Map<String, Object> row) throws ValidationException
+    public static void validate(Map<String, Object> row) throws ValidationException
     {
         // TODO doValidation that bar codes are unique and SSN+FMP+SOT is unique?
         List<String> errors = new ArrayList<String>();
