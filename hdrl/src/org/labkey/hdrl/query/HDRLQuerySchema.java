@@ -134,15 +134,17 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
                             Integer status = (Integer) ctx.get(FieldKey.fromParts("RequestStatusId"));
-                            FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
-                            SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                             if ((status == 1 && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
+                                FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
                                 out.write(PageFlowUtil.textLink("Edit", actionUrl));
                             }
                             else
                             {
+                                // FIXME would it be better to change the schema so the Specimen table uses "RequestId" instead of InboundRequestId?
+                                FieldKey requestFieldKey = FieldKey.fromParts("InboundRequestId");
+                                SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
                                 filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
                                 out.write(PageFlowUtil.textLink("View", actionUrl));
@@ -154,6 +156,15 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
                 }
             };
+        }
+        else if (settings.getQueryName().equalsIgnoreCase(TABLE_SPECIMEN))
+        {
+            QueryView queryView = new QueryView(this, settings, errors);
+            queryView.setShowDeleteButton(false);
+            queryView.setShowUpdateColumn(false);
+            queryView.setShowInsertNewButton(false);
+            queryView.setShowImportDataButton(false);
+            return queryView;
         }
         return super.createView(context, settings, errors);
 
