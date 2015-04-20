@@ -71,7 +71,6 @@ public class HDRLController extends SpringActionController
         {
             VBox vbox = new VBox();
 
-            // TODO change this to edit action when available
             HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.textLink("Submit new test request", new ActionURL(EditRequestAction.class, getViewContext().getContainer())));
             vbox.addView(submitView);
 
@@ -103,16 +102,6 @@ public class HDRLController extends SpringActionController
             sql.append("LEFT JOIN hdrl.ShippingCarrier c on r.ShippingCarrierId = c.RowId ")
                     .append("LEFT JOIN hdrl.TestType t on r.TestTypeId = t.RowId ")
                     .append("LEFT JOIN hdrl.RequestStatus s on r.RequestStatusId = s.RowId ");
-//            DbSchema dbSchema = schema.getDbSchema();
-//            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, r.Title, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
-//            sql.append("(SELECT * FROM ")
-//                    .append(dbSchema.getTable("InboundRequest").getFromSQL())
-//                    .append(" WHERE (Container = ?) AND (RequestId = ?)) r ");
-//            sql.add(getViewContext().getContainer());
-//            sql.add(Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")));
-//            sql.append("JOIN ").append(dbSchema.getTable("ShippingCarrier").getFromSQL("c")).append(" ON r.ShippingCarrierId = c.RowId ")
-//                    .append("JOIN ").append(dbSchema.getTable("TestType").getFromSQL("t")).append(" ON r.TestTypeId = t.RowId ")
-//                    .append("JOIN ").append(dbSchema.getTable("RequestStatus").getFromSQL("s")).append(" ON r.RequestStatusId = s.RowId ");
 
 
             SqlSelector sqlSelector = new SqlSelector(schema.getDbSchema(), sql);
