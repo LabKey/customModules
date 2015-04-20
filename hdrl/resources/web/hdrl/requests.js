@@ -103,6 +103,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         this.items.push(this.southPanel);
 
         this.callParent();
+        window.onbeforeunload = LABKEY.beforeunload(this.beforeUnload, this);
     },
 
     createGridPanel : function() {
@@ -203,7 +204,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                {text: 'DOT', dataIndex: 'TestingSourceId',
+                {text: 'SOT', dataIndex: 'TestingSourceId',
                     editor : {
                         xtype : 'combo',
                         store : {
@@ -300,16 +301,17 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 listeners : {
                     load : {fn: function(cmp, recs){
                         if (this.testTypeId){
-                            this.northPanel.getComponent('requestTypeCombo').setValue(this.testTypeId);
+                            var c = this.northPanel.getComponent('requestTypeCombo');
+                            c.suspendEvent('dirtychange');
+                            c.setValue(this.testTypeId);
+                            c.resumeEvent('dirtychange');
                         }
                     }, scope : this}
                 }
             },
             listeners : {
-                scope: this,
-                change : function(cmp, value) {
-                    this.requestType = value;
-                }
+                scope       : this,
+                change      : function(cmp, value) {this.requestType = value;}
             },
             valueField      : 'RowId',
             displayField    : 'Name',
@@ -320,12 +322,14 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         return Ext4.create('Ext.form.Panel', {
             bodyPadding : 20,
             border      : false,
-            //height      : 250,
             flex        : 1.2,
             items       : formItems,
             defaults    : {
                 width       : 550,
                 labelWidth  : 150
+            },
+            listeners : {
+                dirtychange : {fn : function(cmp, dirty){this.markDirty(dirty);}, scope : this}
             }
         });
     },
@@ -337,16 +341,36 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         formItems.push({xtype: 'hidden', name: 'X-LABKEY-CSRF', value: LABKEY.CSRF});
 
         formItems.push({
-            xtype       : 'fileuploadfield',
+            xtype       : 'fieldcontainer',
             fieldLabel  : 'Upload Request Details',
-            name        : 'file',
-            listeners   : {
-                change : {fn: function(cmp, value){
-                    this.southPanel.getComponent('specimenUploadButton').enable();
+            width       : 650,
+            layout      : 'hbox',
+            items       : [
+                {
+                    xtype       : 'fileuploadfield',
+                    name        : 'file',
+                    width       : 300,
+                    listeners   : {
+                        change : {fn: function(cmp, value){
+                            this.southPanel.getComponent('specimenUploadButton').enable();
 
-                }, scope : this}
-            }
-        });
+                        }, scope : this}
+                    }
+                },{
+                    xtype       : 'button',
+                    text        : 'download template',
+                    width       : 150,
+                    margin      : '0 0 0 10',
+                    scope       : this,
+                    handler     : function(){
+                        var form = new Ext4.form.BasicForm(this.southPanel);
+                        form.submit({
+                            url     : LABKEY.ActionURL.buildURL('hdrl', 'downloadSpecimenTemplate')
+                        });
+                    }
+                }
+            ]
+        })
 
         formItems.push({
             xtype       : 'button',
@@ -431,16 +455,15 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 listeners : {
                     load : {fn: function(cmp, recs){
                         if (this.shippingCarrierId){
-                            this.southPanel.getComponent('shippingCarrierCombo').setValue(this.shippingCarrierId);
+                            var c = this.southPanel.getComponent('shippingCarrierCombo');
+                            c.setValue(this.shippingCarrierId);
                         }
                     }, scope : this}
                 }
             },
             listeners : {
-                scope: this,
-                change : function(cmp, value) {
-                    this.shippingCarrier = value;
-                }
+                scope       : this,
+                change      : function(cmp, value) {this.shippingCarrier = value;}
             },
             valueField      : 'RowId',
             displayField    : 'Name',
@@ -483,8 +506,15 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 handler : function(){this.handleSave(1);}
             },{
                 text    : 'Cancel',
-                handler : function(){window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');}
-            }]
+                scope   : this,
+                handler : function(){
+                    this.resetDirty();
+                    window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                }
+            }],
+            listeners : {
+                dirtychange : {fn : function(cmp, dirty){this.markDirty(dirty);}, scope : this}
+            }
         });
     },
 
@@ -626,10 +656,12 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         if (insertedRows.length > 0 || updatedRows.length > 0 || deletedRows.length > 0){
                             multi.send(function(){
                                 if (!this.error)
+                                    this.resetDirty();
                                     window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
                             }, this);
                         }
                         else{
+                            this.resetDirty();
                             window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
                         }
                     }
@@ -722,5 +754,25 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         });
 
         this.lkMap[colName] = map;
+    },
+
+    markDirty : function(dirty) {
+        this.dirty = dirty;
+    },
+
+    resetDirty : function() {
+        this.dirty = false;
+    },
+
+    isDirty : function() {
+        return this.dirty;
+    },
+
+    beforeUnload : function() {
+/*
+        if (this.isDirty()) {
+            return 'please save your changes';
+        }
+*/
     }
 });

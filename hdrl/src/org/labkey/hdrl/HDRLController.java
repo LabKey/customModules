@@ -22,25 +22,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiSimpleResponse;
+import org.labkey.api.action.ExportAction;
 import org.labkey.api.action.SimpleApiJsonForm;
-import org.labkey.api.action.SimpleResponse;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableSelector;
+import org.labkey.api.module.Module;
+import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.QueryView;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
+import org.labkey.api.resource.Resource;
 import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.util.Path;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HtmlView;
-import org.labkey.api.view.HttpRedirectView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.VBox;
@@ -50,7 +54,10 @@ import org.labkey.hdrl.view.InboundRequestBean;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -140,7 +147,7 @@ public class HDRLController extends SpringActionController
                 BeanUtils.copyProperties(form, selector.getObject(form.getRequestId(), RequestForm.class));
             }
 
-            if (form.getRequestStatusId() >= 2)
+            if (form.getRequestStatusId() >= 2 && !getContainer().hasPermission(getUser(), AdminPermission.class))
                 return new HtmlView("This request has been submitted and is locked from editing.");
             else
                 return new JspView("/org/labkey/hdrl/view/editRequest.jsp", form, errors);
@@ -260,5 +267,29 @@ public class HDRLController extends SpringActionController
 
     public static class VerifyForm extends SimpleApiJsonForm
     {
+    }
+
+    @RequiresPermissionClass(ReadPermission.class)
+    public class DownloadSpecimenTemplateAction extends ExportAction
+    {
+        @Override
+        public void export(Object o, HttpServletResponse response, BindException errors) throws Exception
+        {
+            // just download the example file checked into the repository
+            Module module = ModuleLoader.getInstance().getModule(HDRLModule.NAME);
+            Path path = Path.parse("template/").append("specimenTemplate.xlsx");
+            Resource r = module.getModuleResource(path);
+            if (r != null && r.isFile())
+            {
+                try
+                {
+                    PageFlowUtil.streamFile(response, Collections.<String, String>emptyMap(), r.getName(), r.getInputStream(), false);
+                }
+                catch (IOException ioe)
+                {
+                    throw new RuntimeException(ioe);
+                }
+            }
+        }
     }
 }
