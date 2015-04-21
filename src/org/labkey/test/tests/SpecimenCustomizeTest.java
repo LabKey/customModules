@@ -392,63 +392,45 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         List<String> actual = table.getColumnDataAsText("CombineNote");
         List<String> expected = Arrays.asList("novials1002", "novials1001, novials1003", " ", " ", " ", " ", " ",
                 "unavailable2", "unavailable1, unavailable22", " ", "note1, note101", "note2", " ", " ", " ", " ", " ");
-        if (!compareLists(actual, expected))
-            Assert.fail("CombineNote values incorrect");
+        Assert.assertEquals("CombineNote values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("CombineTally");
         expected = Arrays.asList("1002", "2004", " ", " ", " ", " ", " ",
                 "12", "33", " ", "102", "2", " ", " ", " ", " ", " ");
-        if (!compareLists(actual, expected))
-            Assert.fail("CombineTally values incorrect");
+        Assert.assertEquals("CombineTally values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("SumOfLatestNonBlankMinutes");
         expected = Arrays.asList("100.2", "100.3", " ", " ", " ", " ", "47.12",
                 "47.12", "47.12", "47.12", "5.794", "5.794", "5.794", "5.794", " ", " ", " ");
-        if (!compareLists(actual, expected))
-            Assert.fail("SumOfLatestNonBlankMinutes values incorrect");
+        Assert.assertEquals("SumOfLatestNonBlankMinutes values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("SumOfCombineMinutes");
         expected = Arrays.asList("100.2", "200.4", " ", " ", " ", " ", "59.46",
                 "59.46", "59.46", "59.46", "7.024", "7.024", "7.024", "7.024", " ", " ", " ");
-        if (!compareLists(actual, expected))
-            Assert.fail("SumOfCombineMinutes values incorrect");
+        Assert.assertEquals("SumOfCombineMinutes values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("MaxAvailabilityReason");
         expected = Arrays.asList(SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
                 SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON,
                 SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, " ", " ",
                 SPECIMEN_UNAVAILABLE_REASON);
-        if (!compareLists(actual, expected))
-            Assert.fail("MaxAvailabilityReason values incorrect");
+        Assert.assertEquals("MaxAvailabilityReason values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("MinAvailabilityReason");
         expected = Arrays.asList(SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
                 SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
                 SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, " ", " ",
                 SPECIMEN_UNAVAILABLE_REASON);
-        if (!compareLists(actual, expected))
-            Assert.fail("MinAvailabilityReason values incorrect");
+        Assert.assertEquals("MinAvailabilityReason values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("LatestDrawTimestamp");
         expected = Arrays.asList("2009-01-07", "2009-01-06", "2008-09-17", "2008-09-17", "2008-09-17", "2008-09-17", "2008-07-30", "2008-07-30", "2008-07-30",
                 "2008-07-30", "2009-03-16", "2009-03-16", "2009-03-16", "2009-03-16", "2009-06-15", "2009-06-15", "2009-05-09");
-        if (!compareLists(actual, expected))
-            Assert.fail("LatestDrawTimestamp values incorrect");
+        Assert.assertEquals("LatestDrawTimestamp values incorrect", expected, actual);
 
         actual = table.getColumnDataAsText("FirstDrawTimestamp");
         expected = Arrays.asList("2009-01-06", "2009-01-06", "2008-09-17", "2008-09-17", "2008-09-17", "2008-09-17", "2008-07-30", "2008-07-30", "2008-07-30",
                 "2008-07-30", "2009-03-16", "2009-03-16", "2009-03-16", "2009-03-16", "2009-06-15", "2009-06-15", "2009-05-09");
-        if (!compareLists(actual, expected))
-            Assert.fail("FirstDrawTimestamp values incorrect");
-    }
-
-    private boolean compareLists(List<String> actual, List<String> expected)
-    {
-        if (actual.size() != expected.size())
-            return false;
-        for (int i = 0; i < actual.size(); i += 1)
-            if (!actual.get(i).equals(expected.get(i)))
-                return false;
-        return true;
+        Assert.assertEquals("FirstDrawTimestamp values incorrect", expected, actual);
     }
 }
