@@ -535,7 +535,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     this.handleSave(2);
                 }
                 else {
-                    Ext4.Msg.show({title: 'Error', msg: 'Unable to submit the request, there are invalid specimen records.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                    Ext4.Msg.show({title: 'Error', msg: 'Unable to submit the request. There are invalid specimen records.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                 }
             });
         }
