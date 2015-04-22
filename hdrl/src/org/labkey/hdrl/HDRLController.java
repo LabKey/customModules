@@ -84,6 +84,8 @@ public class HDRLController extends SpringActionController
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
             QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLQuerySchema.TABLE_INBOUND_REQUEST);
             QueryView queryView = schema.createView(getViewContext(), settings, errors);
+            queryView.setShowInsertNewButton(false);
+            queryView.setShowImportDataButton(false);
             vbox.addView(queryView);
             return vbox;
         }
