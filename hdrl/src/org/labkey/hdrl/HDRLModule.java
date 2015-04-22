@@ -42,7 +42,7 @@ public class HDRLModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 15.14;
+        return 15.15;
     }
 
     @Override

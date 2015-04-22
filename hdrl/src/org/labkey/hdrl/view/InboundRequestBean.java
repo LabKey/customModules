@@ -6,7 +6,6 @@ package org.labkey.hdrl.view;
 public class InboundRequestBean
 {
     private int _requestId;
-    private String _title;
     private String _shippingNumber;
     private String _requestStatus;
     private String _testType;
@@ -30,16 +29,6 @@ public class InboundRequestBean
     public void setShippingNumber(String shippingNumber)
     {
         _shippingNumber = shippingNumber;
-    }
-
-    public String getTitle()
-    {
-        return _title;
-    }
-
-    public void setTitle(String title)
-    {
-        _title = title;
     }
 
     public String getRequestStatus()

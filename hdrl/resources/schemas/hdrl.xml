@@ -68,7 +68,6 @@
       <ns:titleColumn>RequestId</ns:titleColumn>
       <ns:columns>
          <ns:column columnName="RequestId"/>
-         <ns:column columnName="Title"/>
          <ns:column columnName="RequestStatusId">
             <ns:columnTitle>Request Status</ns:columnTitle>
          </ns:column>
@@ -128,6 +127,7 @@
          <ns:column columnName="TestingSourceId">
             <ns:columnTitle>SOT</ns:columnTitle>
          </ns:column>
+         <ns:column columnName="DODId"/>
          <ns:column columnName="DrawDate"/>
          <ns:column columnName="ValidationStatus"/>
          <ns:column columnName="CreatedBy">
