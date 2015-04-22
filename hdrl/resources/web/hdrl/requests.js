@@ -21,7 +21,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
         Ext4.applyIf(config, {
             frame     : false,
-            border    : false
+            border    : false,
+            bodyStyle   : {background  : 'transparent'}
         });
 
         // map for display values to keys
@@ -61,8 +62,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             birthdate : 'BirthDate',
             ssn : 'SSN',
             fmpid : 'FMPId',
+            fmp : 'FMPId',
             dutycodeid : 'DutyCodeId',
+            duc : 'DutyCodeId',
             testingsourceid : 'TestingSourceId',
+            sot : 'TestingSourceId',
             drawdate : 'DrawDate',
             status : 'status'
         };
@@ -133,6 +137,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         this.grid = Ext4.create('Ext.grid.Panel', {
             title   : '',
             flex    : 1.2,
+            maxHeight   : 400,
+            autoScroll  : true,
             border  : false, frame : false,
             selType : 'checkboxmodel',
             store : {
@@ -146,7 +152,12 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     reader: { type: 'json', root: 'rows', metaProperty : 'none' }
                 },
                 listeners : {
-                    update : {fn : function(cmp, rec, opt, modified){this.verifyRows([rec], modified);}, scope : this}
+                    load : {fn : function(){this.resetDirty();}, scope : this},
+                    update : {fn : function(cmp, rec, opt, modified){
+                        this.markDirty(true);
+                        this.verifyRows([rec], modified);
+                    }, scope : this},
+                    datachanged : {fn : function(){this.markDirty(true);}, scope : this}
                 }
             },
             columns: [
@@ -155,7 +166,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 {text: 'Last Name', dataIndex: 'LastName', editor: {xtype: 'textfield'}},
                 {text: 'First Name', dataIndex: 'FirstName', editor: {xtype: 'textfield'}},
                 {text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, editor : {xtype: 'datefield'}},
-                {text: 'FMP', dataIndex: 'FMPId', width : 250,
+                {text: 'FMP', dataIndex: 'FMPId',
                     editor : {
                         xtype : 'combo',
                         store : {
@@ -171,11 +182,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                                 reader : { type : 'json', root : 'rows' }
                             },
                             listeners : {
-                                load : {fn: function(cmp, recs){this.createDisplayValueMap('FMPId', recs, 'RowId', 'Description');}, scope : this}
+                                load : {fn: function(cmp, recs){this.createDisplayValueMap('FMPId', recs, 'RowId', 'Code');}, scope : this}
                             }
                         },
-                        valueField      : 'Description',
-                        displayField    : 'Description',
+                        valueField      : 'Code',
+                        displayField    : 'Code',
                         editable        : false
                     }
                 },
@@ -250,7 +261,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         var r = Ext4.create('LABKEY.HDRL.Specimen', {InboundRequestId : this.requestId});
 
                         this.grid.getStore().insert(0, r);
-                        this.roweditor.startEdit(0, 0);
+                        this.roweditor.startEdit(0, 2);
                     }, scope : this},
                 ]
             }],
@@ -301,17 +312,18 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 listeners : {
                     load : {fn: function(cmp, recs){
                         if (this.testTypeId){
-                            var c = this.northPanel.getComponent('requestTypeCombo');
-                            c.suspendEvent('dirtychange');
-                            c.setValue(this.testTypeId);
-                            c.resumeEvent('dirtychange');
+                            this.northPanel.getComponent('requestTypeCombo').setValue(this.testTypeId);
                         }
                     }, scope : this}
                 }
             },
             listeners : {
                 scope       : this,
-                change      : function(cmp, value) {this.requestType = value;}
+                change      : function(cmp, value) {
+                    if (this.testTypeId != value)
+                        this.markDirty(true);
+                    this.requestType = value;
+                }
             },
             valueField      : 'RowId',
             displayField    : 'Name',
@@ -328,9 +340,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 width       : 550,
                 labelWidth  : 150
             },
-            listeners : {
-                dirtychange : {fn : function(cmp, dirty){this.markDirty(dirty);}, scope : this}
-            }
+            bodyStyle   : {background  : 'transparent'}
         });
     },
 
@@ -359,7 +369,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 },{
                     xtype       : 'button',
                     text        : 'download template',
-                    width       : 150,
+                    width       : 175,
                     margin      : '0 0 0 10',
                     scope       : this,
                     handler     : function(){
@@ -385,6 +395,13 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 var processResponse = function(form, action) {
 
                     var fileContents = Ext4.decode(action.response.responseText);
+
+                    // unable to parse the file
+                    if (!fileContents.sheets && fileContents.exception){
+                        Ext4.Msg.show({title: 'Error', msg: fileContents.exception, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                        return;
+                    }
+
                     var data = fileContents.sheets[0].data;
 
                     // create the model records and load them into the store
@@ -463,7 +480,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             },
             listeners : {
                 scope       : this,
-                change      : function(cmp, value) {this.shippingCarrier = value;}
+                change      : function(cmp, value) {
+                    if (this.shippingCarrierId != value)
+                        this.markDirty(true);
+                    this.shippingCarrier = value;
+                }
             },
             valueField      : 'RowId',
             displayField    : 'Name',
@@ -479,6 +500,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             listeners : {
                 scope: this,
                 change : function(cmp, value) {
+                    if (this.shippingNumber != value)
+                        this.markDirty(true);
                     this.trackingNumber = value;
                 }
             }
@@ -493,6 +516,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 width       : 550,
                 labelWidth  : 150
             },
+            bodyStyle   : {background  : 'transparent'},
             buttonAlign : 'left',
             buttons     : [{
                 text    : 'Submit Requests',
@@ -511,10 +535,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     this.resetDirty();
                     window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
                 }
-            }],
-            listeners : {
-                dirtychange : {fn : function(cmp, dirty){this.markDirty(dirty);}, scope : this}
-            }
+            }]
         });
     },
 
@@ -550,6 +571,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         var fn = this.requestId != -1 ? LABKEY.Query.updateRows : LABKEY.Query.insertRows;
         if (form.isValid()) {
 
+            this.roweditor.completeEdit();
             var row = {requestStatusId : requestStatusId, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.trackingNumber};
             if (this.requestId != -1){
                 row.requestId = this.requestId;
@@ -655,9 +677,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         // perform the updates
                         if (insertedRows.length > 0 || updatedRows.length > 0 || deletedRows.length > 0){
                             multi.send(function(){
-                                if (!this.error)
+                                if (!this.error) {
                                     this.resetDirty();
                                     window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                                }
                             }, this);
                         }
                         else{
@@ -769,10 +792,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
     },
 
     beforeUnload : function() {
-/*
         if (this.isDirty()) {
             return 'please save your changes';
         }
-*/
     }
 });

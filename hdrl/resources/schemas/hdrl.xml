@@ -33,6 +33,7 @@
    </ns:table>
 
    <ns:table tableName="FamilyMemberPrefix" tableDbType="TABLE">
+      <ns:titleColumn>Code</ns:titleColumn>
       <ns:columns>
          <ns:column columnName="RowId"/>
          <ns:column columnName="Code"/>
