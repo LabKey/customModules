@@ -81,23 +81,38 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
     }
 
+    public static void reformatFields(Map<String, Object> row)
+    {
+        String ssn = (String) row.get("SSN");
+        if (ssn.length() > 11)
+        {
+            ssn = ssn.substring(0, 11);
+        }
+        if (ssn.matches("^\\d{9}$"))
+        {
+            ssn = ssn.substring(0, 3) + "-" + ssn.substring(3,5) + "-" + ssn.substring(5,9);
+        }
+        row.put("SSN", ssn);
+
+    }
+
     public static void validate(Map<String, Object> row) throws ValidationException
     {
-        // TODO doValidation that bar codes are unique and SSN+FMP+SOT is unique?
+        reformatFields(row);
         List<String> errors = new ArrayList<String>();
         List<String> missingFields = new ArrayList<String>();
-        if (row.get("CustomerBarcode") == null)
+        if (StringUtils.isEmpty((String) row.get("CustomerBarcode")))
             missingFields.add("Customer Barcode");
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
             missingFields.add("Draw Date");
-        if (row.get("SSN") == null)
+        if (StringUtils.isEmpty((String) row.get("SSN")))
             missingFields.add("SSN");
         else
         {
             String ssn = (String) row.get("SSN");
-            if (!ssn.matches("\\d{3}-\\d{2}-\\d{4}"))
+            if (!ssn.matches("^\\d{3}-\\d{2}-\\d{4}$"))
             {
                 errors.add("Invalid SSN");
             }
