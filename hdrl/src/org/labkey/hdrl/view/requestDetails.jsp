@@ -29,13 +29,6 @@
 %>
 <div>
     Request <%= bean.getRequestId() %> - <%= bean.getTestType() %> (Status: <%= bean.getRequestStatus() %>)
-    <% if (bean.getTitle() != null)
-    {
-    %>
-        <br> <%= bean.getTitle() %>
-    <%
-    }
-    %>
 </div>
 
 <div>
