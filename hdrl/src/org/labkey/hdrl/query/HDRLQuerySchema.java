@@ -54,7 +54,7 @@ import java.util.Set;
 public class HDRLQuerySchema extends SimpleUserSchema
 {
     public static final String NAME = "hdrl";
-    public static final String DESCRIPTION = "Provides information on test requests and sample sets";
+    public static final String DESCRIPTION = "Provides information on test requests and specimen sets";
 
     public static final String TABLE_INBOUND_REQUEST = "InboundRequest";
     public static final String TABLE_SPECIMEN = "InboundSpecimen";
