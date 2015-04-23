@@ -193,7 +193,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     }
                 },
                 {text: 'SSN', dataIndex: 'SSN', width : 150, editor: {xtype: 'textfield'}, renderer : this.SSNRenderer, scope : this},
-                {text: 'DoD ID', dataIndex: 'DODId', editor: {xtype: 'numberfield'}},
+                {text: 'DoD ID', dataIndex: 'DODId', editor: {xtype: 'numberfield', hideTrigger : true}},
                 {text: 'DUC', dataIndex: 'DutyCodeId',
                     editor : {
                         xtype : 'combo',
@@ -605,7 +605,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
                         Ext4.each(this.grid.getStore().getModifiedRecords(), function(rec){
 
-                            var row = this.prepareRow(rec.data);
+                            var row = this.prepareRow(rec.copy().data);
                             if (!row.RowId){
                                 row.RowId = null;
                                 insertedRows.push(row);
@@ -617,7 +617,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
                         Ext4.each(this.grid.getStore().getRemovedRecords(), function(rec){
 
-                            var row = this.prepareRow(rec.data);
+                            var row = this.prepareRow(rec.copy().data);
                             if (row.RowId){
                                 deletedRows.push(row);
                             }
@@ -758,12 +758,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 if (this.lkMap[key]){
                     row[key] = this.lkMap[key][row[key]];
                 }
-/*
                 else if ('SSN' === key){
                     // remove hyphens and whitespace from the SSN
                     row[key] = row[key].replace(/-|\s+/g, '');
                 }
-*/
             }
         }
 
@@ -782,7 +780,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         Ext4.each(recs, function(rec){
 
             var data = rec.data;
-            if (data[keyName] && data[valueName]) {
+            if ((data[keyName] != undefined) && (data[valueName] != undefined)) {
                 map[data[valueName]] = data[keyName];
             }
         });
