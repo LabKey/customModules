@@ -814,7 +814,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
      */
     SSNRenderer : function(value, meta, rec, idx){
 
-        if (value.indexOf('-') == -1 && value.length == 9){
+        if (value && value.indexOf('-') == -1 && value.length == 9){
             return value.substr(0,3) + '-' + value.substr(3,2) + '-' + value.substr(5,4);
         }
         return value;
