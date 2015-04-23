@@ -583,6 +583,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             var extraContext = null;
             if (requestStatusId == 1){
                 extraContext = {validationMode : 'OFF'};
+            } else if (requestStatusId == 2) {
+                extraContext = {validationMode : 'WITH_UQ'};
             }
 
             // handle inserts & updates
