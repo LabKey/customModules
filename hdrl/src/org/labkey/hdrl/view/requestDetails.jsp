@@ -28,8 +28,9 @@
     InboundRequestBean bean = (InboundRequestBean) me.getModelBean();
 %>
 <div>
-    Request <%= bean.getRequestId() %> - <%= bean.getTestType() %> (Status: <%= bean.getRequestStatus() %>)
+    <strong>Request <%= bean.getRequestId() %> - <%= bean.getTestType() %></strong> (Status: <%= bean.getRequestStatus() %>)
 </div>
+<br>
 
 <div>
     <% me.include(me.getView("queryView"),out); %>
@@ -38,9 +39,10 @@
     if (bean.getShippingCarrier() != null)
     {
 %>
+<br>
 <table>
     <tr>
-        <td colspan="2" align="left">Shipping Information</td>
+        <td colspan="2" align="left"><strong>Shipping Information</strong></td>
     </tr>
     <tr>
         <td>Carrier</td>
