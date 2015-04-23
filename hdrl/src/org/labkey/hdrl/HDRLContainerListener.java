@@ -19,7 +19,11 @@ package org.labkey.hdrl;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager.ContainerListener;
+import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbScope;
 import org.labkey.api.security.User;
+import org.labkey.api.util.ContainerUtil;
+
 import java.util.Collections;
 import java.util.Collection;
 
@@ -35,6 +39,12 @@ public class HDRLContainerListener implements ContainerListener
     @Override
     public void containerDeleted(Container c, User user)
     {
+        DbSchema hdrl = DbSchema.get("hdrl");
+        try (DbScope.Transaction transaction = hdrl.getScope().ensureTransaction())
+        {
+            ContainerUtil.purgeTable(hdrl.getTable("InboundRequest"), c, null);
+            transaction.commit();
+        }
     }
 
     @Override
