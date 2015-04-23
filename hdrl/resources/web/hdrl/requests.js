@@ -45,6 +45,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     {name: 'FirstName', mapping : 'FirstName.value'},
                     {name: 'BirthDate', type : 'date', mapping : 'BirthDate.value'},
                     {name: 'SSN', mapping : 'SSN.value'},
+                    {name: 'DODId', mapping : 'DODId.value'},
                     {name: 'FMPId', mapping : 'FMPId.displayValue'},
                     {name: 'DutyCodeId', mapping : 'DutyCodeId.displayValue'},
                     {name: 'TestingSourceId', mapping : 'TestingSourceId.displayValue'},
@@ -61,6 +62,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             firstname : 'FirstName',
             birthdate : 'BirthDate',
             ssn : 'SSN',
+            dodid : 'DODId',
             fmpid : 'FMPId',
             fmp : 'FMPId',
             dutycodeid : 'DutyCodeId',
@@ -190,7 +192,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                {text: 'SSN', dataIndex: 'SSN', width : 150, editor: {xtype: 'textfield'}},
+                {text: 'SSN', dataIndex: 'SSN', width : 150, editor: {xtype: 'textfield'}, renderer : this.SSNRenderer, scope : this},
+                {text: 'DoD ID', dataIndex: 'DODId', editor: {xtype: 'numberfield'}},
                 {text: 'DUC', dataIndex: 'DutyCodeId',
                     editor : {
                         xtype : 'combo',
@@ -426,7 +429,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         for (var j=0; j< cols.length; j++){
 
                             if (cols[j])
-                                rec.set(cols[j], row[j]);
+                                rec.set(cols[j], row[j] ? new String(row[j]) : row[j]);
                         }
                         newRecords.push(rec);
                     }
@@ -753,6 +756,12 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 if (this.lkMap[key]){
                     row[key] = this.lkMap[key][row[key]];
                 }
+/*
+                else if ('SSN' === key){
+                    // remove hyphens and whitespace from the SSN
+                    row[key] = row[key].replace(/-|\s+/g, '');
+                }
+*/
             }
         }
 
@@ -795,5 +804,17 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         if (this.isDirty()) {
             return 'please save your changes';
         }
+    },
+
+    /**
+     * grid column renderer for SSN's
+     * @private
+     */
+    SSNRenderer : function(value, meta, rec, idx){
+
+        if (value.indexOf('-') == -1 && value.length == 9){
+            return value.substr(0,3) + '-' + value.substr(3,2) + '-' + value.substr(5,4);
+        }
+        return value;
     }
 });

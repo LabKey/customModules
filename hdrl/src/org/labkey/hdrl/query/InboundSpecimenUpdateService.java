@@ -83,7 +83,7 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
     public static void reformatFields(Map<String, Object> row)
     {
-        String ssn = (String) row.get("SSN");
+        String ssn = String.valueOf(row.get("SSN"));
         if (ssn.length() > 11)
         {
             ssn = ssn.substring(0, 11);
@@ -101,17 +101,17 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
         reformatFields(row);
         List<String> errors = new ArrayList<String>();
         List<String> missingFields = new ArrayList<String>();
-        if (StringUtils.isEmpty((String) row.get("CustomerBarcode")))
+        if (StringUtils.isEmpty(String.valueOf(row.get("CustomerBarcode"))))
             missingFields.add("Customer Barcode");
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
             missingFields.add("Draw Date");
-        if (StringUtils.isEmpty((String) row.get("SSN")))
+        if (StringUtils.isEmpty(String.valueOf(row.get("SSN"))))
             missingFields.add("SSN");
         else
         {
-            String ssn = (String) row.get("SSN");
+            String ssn = String.valueOf(row.get("SSN"));
             if (!ssn.matches("^\\d{3}-\\d{2}-\\d{4}$"))
             {
                 errors.add("Invalid SSN");
