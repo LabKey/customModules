@@ -104,7 +104,7 @@ public class HDRLController extends SpringActionController
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
-            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, r.Title, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
+            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
             sql.append("(SELECT * FROM hdrl.InboundRequest WHERE (Container = ?) AND (RequestId = ?)) r ");
             sql.add(getViewContext().getContainer());
             sql.add(Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")));
