@@ -429,7 +429,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         for (var j=0; j< cols.length; j++){
 
                             if (cols[j])
-                                rec.set(cols[j], row[j] ? new String(row[j]) : row[j]);
+                                rec.set(cols[j], row[j] ? '' +  row[j] : row[j]);
                         }
                         newRecords.push(rec);
                     }
@@ -758,7 +758,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 if (this.lkMap[key]){
                     row[key] = this.lkMap[key][row[key]];
                 }
-                else if ('SSN' === key){
+                else if ('SSN' === key && row[key]){
                     // remove hyphens and whitespace from the SSN
                     row[key] = row[key].replace(/-|\s+/g, '');
                 }
