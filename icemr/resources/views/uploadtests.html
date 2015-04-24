@@ -1032,7 +1032,9 @@
     function VerifyFailure(response)
     {
         if (response.exception !=  _expectedError)
-            logFailure("expected error not returned");
+        {
+            logFailure(" expected [" + _expectedError + "] reported [" + response.exception + "]");
+        }
 
         runTest();
     }
@@ -1619,7 +1621,8 @@
         return page;
     }
 
-    function init(){
+    function init()
+    {
         var btn = new Ext4.Button({
             id: 'test-button',
             renderTo: 'start-test',
