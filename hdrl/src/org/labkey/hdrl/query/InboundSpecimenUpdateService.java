@@ -172,9 +172,17 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
         else
         {
             String ssn = String.valueOf(row.get("SSN"));
-            if (!ssn.matches("^\\d{3}-\\d{2}-\\d{4}$") && !ssn.matches("^\\d{9}$"))
+            if (!ssn.matches("^\\d{9}$"))
             {
                 errors.add("Invalid SSN");
+            }
+        }
+        if (row.get("DoDId") != null)
+        {
+            String dodId = String.valueOf(row.get("DoDId"));
+            if (!dodId.matches("^\\d{10}$"))
+            {
+                errors.add("Invalid DoD Id");
             }
         }
         if (!missingFields.isEmpty())
