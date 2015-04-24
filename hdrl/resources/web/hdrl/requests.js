@@ -40,16 +40,16 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 fields : [
                     {name: 'RowId', mapping : 'RowId.value'},
                     {name: 'InboundRequestId', mapping : 'InboundRequestId.value'},
-                    {name: 'CustomerBarcode', mapping : 'CustomerBarcode.value'},
-                    {name: 'LastName', mapping : 'LastName.value'},
-                    {name: 'FirstName', mapping : 'FirstName.value'},
-                    {name: 'BirthDate', type : 'date', mapping : 'BirthDate.value'},
-                    {name: 'SSN', mapping : 'SSN.value'},
-                    {name: 'DODId', mapping : 'DODId.value'},
-                    {name: 'FMPId', mapping : 'FMPId.displayValue'},
-                    {name: 'DutyCodeId', mapping : 'DutyCodeId.displayValue'},
-                    {name: 'TestingSourceId', mapping : 'TestingSourceId.displayValue'},
-                    {name: 'DrawDate', type : 'date', mapping : 'DrawDate.value'},
+                    {name: 'CustomerBarcode', mapping : 'CustomerBarcode.value', defaultValue : null},
+                    {name: 'LastName', mapping : 'LastName.value', defaultValue : null},
+                    {name: 'FirstName', mapping : 'FirstName.value', defaultValue : null},
+                    {name: 'BirthDate', type : 'date', mapping : 'BirthDate.value', defaultValue : null},
+                    {name: 'SSN', mapping : 'SSN.value', defaultValue : null},
+                    {name: 'DODId', mapping : 'DODId.value', defaultValue : null},
+                    {name: 'FMPId', mapping : 'FMPId.displayValue', defaultValue : null},
+                    {name: 'DutyCodeId', mapping : 'DutyCodeId.displayValue', defaultValue : null},
+                    {name: 'TestingSourceId', mapping : 'TestingSourceId.displayValue', defaultValue : null},
+                    {name: 'DrawDate', type : 'date', mapping : 'DrawDate.value', defaultValue : null},
                     {name: 'status'}
                 ]
             });
@@ -154,7 +154,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     reader: { type: 'json', root: 'rows', metaProperty : 'none' }
                 },
                 listeners : {
-                    load : {fn : function(){this.resetDirty();}, scope : this},
+                    load : {fn : function(cmp, records){
+                        this.verifyRows(records, null, function(success){
+                            this.resetDirty();
+                        });
+                    }, scope : this},
                     update : {fn : function(cmp, rec, opt, modified){
                         this.markDirty(true);
                         this.verifyRows([rec], modified);
@@ -393,6 +397,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             disabled    : true,
             scope       : this,
             handler     : function(){
+                this.grid.getEl().mask('uploading file');
                 var form = new Ext4.form.BasicForm(this.southPanel);
 
                 var processResponse = function(form, action) {
@@ -402,6 +407,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     // unable to parse the file
                     if (!fileContents.sheets && fileContents.exception){
                         Ext4.Msg.show({title: 'Error', msg: fileContents.exception, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                        this.grid.getEl().unmask();
                         return;
                     }
 
@@ -409,7 +415,6 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
                     // create the model records and load them into the store
                     var newRecords = [];
-                    var validatedRecords = [];
                     var cols = [];
 
                     // need to convert the parsed column names so they match our model names (case sensitive)
@@ -436,6 +441,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
                     this.verifyRows(newRecords);
                     this.grid.getStore().loadData(newRecords, true);
+                    this.grid.getEl().unmask();
                 };
 
                 form.submit({

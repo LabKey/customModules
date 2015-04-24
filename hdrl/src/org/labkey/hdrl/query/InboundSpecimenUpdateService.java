@@ -161,13 +161,13 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
     {
         List<String> errors = new ArrayList<String>();
         List<String> missingFields = new ArrayList<String>();
-        if (StringUtils.isEmpty(String.valueOf(row.get("CustomerBarcode"))))
+        if (row.get("CustomerBarcode") == null || StringUtils.isEmpty(String.valueOf(row.get("CustomerBarcode"))))
             missingFields.add("Customer Barcode");
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
             missingFields.add("Draw Date");
-        if (StringUtils.isEmpty(String.valueOf(row.get("SSN"))))
+        if (row.get("SSN") == null || StringUtils.isEmpty(String.valueOf(row.get("SSN"))))
             missingFields.add("SSN");
         else
         {
