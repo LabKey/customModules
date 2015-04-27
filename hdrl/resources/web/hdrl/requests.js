@@ -178,6 +178,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         store : {
                             model   : 'LABKEY.HDRL.SpecimenLK',
                             autoLoad: true,
+                            pageSize: 200,
                             proxy : {
                                 type : 'ajax',
                                 url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -204,6 +205,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         store : {
                             model   : 'LABKEY.HDRL.SpecimenLK',
                             autoLoad: true,
+                            pageSize: 200,
                             proxy : {
                                 type : 'ajax',
                                 url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
