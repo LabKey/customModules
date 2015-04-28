@@ -131,6 +131,7 @@
          <ns:column columnName="DODId"/>
          <ns:column columnName="DrawDate"/>
          <ns:column columnName="ValidationStatus"/>
+         <ns:column columnName="Container"/>
          <ns:column columnName="CreatedBy">
             <ns:fk>
                <ns:fkColumnName>UserId</ns:fkColumnName>
