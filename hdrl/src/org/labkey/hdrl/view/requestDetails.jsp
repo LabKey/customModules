@@ -15,20 +15,18 @@
  * limitations under the License.
  */
 %>
-<%@ page import="org.labkey.api.data.Container" %>
-<%@ page import="org.labkey.api.security.User" %>
-<%@ page import="org.labkey.api.view.HttpView" %>
-<%@ page import="org.labkey.hdrl.view.InboundRequestBean" %>
-<%@ page import="org.labkey.hdrl.HDRLController" %>
-<%@ page import="org.labkey.api.view.ActionURL" %>
 <%@ page import="org.labkey.api.util.PageFlowUtil" %>
+<%@ page import="org.labkey.api.view.ActionURL" %>
+<%@ page import="org.labkey.api.view.HttpView" %>
+<%@ page import="org.labkey.hdrl.HDRLController" %>
+<%@ page import="org.labkey.hdrl.view.InboundRequestBean" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%
     HttpView me = HttpView.currentView();
     InboundRequestBean bean = (InboundRequestBean) me.getModelBean();
 %>
 <div>
-    <strong>Request <%= bean.getRequestId() %> - <%= bean.getTestType() %></strong> (Status: <%= bean.getRequestStatus() %>)
+    <strong>Request <%= bean.getRequestId() %> - <%=h(bean.getTestType()) %></strong> (Status: <%= h(bean.getRequestStatus()) %>)
 </div>
 <br>
 
@@ -46,11 +44,11 @@
     </tr>
     <tr>
         <td>Carrier</td>
-        <td> <%= bean.getShippingCarrier() %></td>
+        <td> <%= h(bean.getShippingCarrier()) %></td>
     </tr>
     <tr>
         <td>Tracking #</td>
-        <td><%= bean.getShippingNumber() == null ? "unknown" : bean.getShippingNumber() %></td>
+        <td><%= h(bean.getShippingNumber() == null ? "unknown" : bean.getShippingNumber()) %></td>
     </tr>
 </table>
 <%

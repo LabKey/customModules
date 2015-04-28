@@ -16,6 +16,15 @@
 
 package org.labkey.hdrl;
 
+import org.labkey.api.data.Container;
+import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.SqlSelector;
+import org.labkey.api.query.QueryService;
+import org.labkey.api.query.UserSchema;
+import org.labkey.api.security.User;
+import org.labkey.hdrl.query.HDRLQuerySchema;
+import org.labkey.hdrl.view.InboundRequestBean;
+
 public class HDRLManager
 {
     private static final HDRLManager _instance = new HDRLManager();
@@ -28,5 +37,21 @@ public class HDRLManager
     public static HDRLManager get()
     {
         return _instance;
+    }
+
+    public InboundRequestBean getInboundRequest(User user, Container container, Integer requestId)
+    {
+        UserSchema schema = QueryService.get().getUserSchema(user, container, HDRLQuerySchema.NAME);
+        SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
+        sql.append("(SELECT * FROM hdrl.InboundRequest WHERE (Container = ?) AND (RequestId = ?)) r ");
+        sql.add(container);
+        sql.add(requestId);
+        sql.append("LEFT JOIN hdrl.ShippingCarrier c on r.ShippingCarrierId = c.RowId ")
+                .append("LEFT JOIN hdrl.TestType t on r.TestTypeId = t.RowId ")
+                .append("LEFT JOIN hdrl.RequestStatus s on r.RequestStatusId = s.RowId ");
+
+
+        SqlSelector sqlSelector = new SqlSelector(schema.getDbSchema(), sql);
+        return sqlSelector.getObject(InboundRequestBean.class);
     }
 }

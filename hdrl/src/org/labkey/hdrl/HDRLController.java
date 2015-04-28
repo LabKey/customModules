@@ -103,18 +103,8 @@ public class HDRLController extends SpringActionController
         @Override
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
+            InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(),Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")) );
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
-            SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
-            sql.append("(SELECT * FROM hdrl.InboundRequest WHERE (Container = ?) AND (RequestId = ?)) r ");
-            sql.add(getViewContext().getContainer());
-            sql.add(Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")));
-            sql.append("LEFT JOIN hdrl.ShippingCarrier c on r.ShippingCarrierId = c.RowId ")
-                    .append("LEFT JOIN hdrl.TestType t on r.TestTypeId = t.RowId ")
-                    .append("LEFT JOIN hdrl.RequestStatus s on r.RequestStatusId = s.RowId ");
-
-
-            SqlSelector sqlSelector = new SqlSelector(schema.getDbSchema(), sql);
-            InboundRequestBean bean = sqlSelector.getObject(InboundRequestBean.class);
             JspView jsp = new JspView("/org/labkey/hdrl/view/requestDetails.jsp", bean);
             jsp.setTitle("Test Request");
 
