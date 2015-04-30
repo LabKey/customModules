@@ -176,8 +176,6 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
     {
         List<String> errors = new ArrayList<String>();
         List<String> missingFields = new ArrayList<String>();
-        if (row.get("CustomerBarcode") == null || StringUtils.isEmpty(String.valueOf(row.get("CustomerBarcode"))))
-            missingFields.add("Customer Barcode");
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
