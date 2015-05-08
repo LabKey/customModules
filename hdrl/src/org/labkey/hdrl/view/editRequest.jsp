@@ -33,6 +33,7 @@
         LinkedHashSet<ClientDependency> resources = new LinkedHashSet<>();
         resources.add(ClientDependency.fromPath("Ext4"));
         resources.add(ClientDependency.fromPath("hdrl/requests.js"));
+        resources.add(ClientDependency.fromPath("hdrl/fonts/barcode.css"));
 
         return resources;
     }

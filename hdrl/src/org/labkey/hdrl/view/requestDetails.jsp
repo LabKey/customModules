@@ -20,7 +20,18 @@
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
 <%@ page import="org.labkey.hdrl.view.InboundRequestBean" %>
+<%@ page import="org.labkey.api.view.template.ClientDependency" %>
+<%@ page import="java.util.LinkedHashSet" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
+<%!
+    public LinkedHashSet<ClientDependency> getClientDependencies()
+    {
+        LinkedHashSet<ClientDependency> resources = new LinkedHashSet<>();
+        resources.add(ClientDependency.fromPath("hdrl/fonts/barcode.css"));
+
+        return resources;
+    }
+%>
 <%
     HttpView me = HttpView.currentView();
     InboundRequestBean bean = (InboundRequestBean) me.getModelBean();

@@ -10,6 +10,7 @@ atlastools/resources/views/dataUploadDashboard.html -text
 atlastools/resources/views/dataUploadDashboard.view.xml -text
 hdrl/hdrl.iml -text
 hdrl/module.properties -text
+hdrl/resources/credits/scripts.txt -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.31-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.11.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.11-15.12.sql -text
@@ -23,6 +24,12 @@ hdrl/resources/schemas/hdrl.xml -text
 hdrl/resources/template/specimenTemplate.xlsx -text
 hdrl/resources/views/HDRL.html -text
 hdrl/resources/views/HDRL.webpart.xml -text
+hdrl/resources/web/hdrl/fonts/Code39Azalea.eot -text
+hdrl/resources/web/hdrl/fonts/Code39Azalea.otf -text
+hdrl/resources/web/hdrl/fonts/Code39Azalea.svg -text
+hdrl/resources/web/hdrl/fonts/Code39Azalea.ttf -text
+hdrl/resources/web/hdrl/fonts/Code39Azalea.woff -text
+hdrl/resources/web/hdrl/fonts/barcode.css -text
 hdrl/resources/web/hdrl/requests.js -text
 hdrl/src/org/labkey/hdrl/HDRLContainerListener.java -text
 hdrl/src/org/labkey/hdrl/HDRLController.java -text

@@ -1,0 +1,15 @@
+/* for custom barcode fonts */
+@font-face {
+    font-family: barcode;
+    src: url(Code39Azalea.eot) format('embedded-opentype'),
+        url(Code39Azalea.woff) format('woff'),
+        url(Code39Azalea.ttf) format('truetype'),
+        url(Code39Azalea.svg#Code39Azalea) format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+div.barcode {
+    font-family: barcode;
+    font-size: 36pt;
+}

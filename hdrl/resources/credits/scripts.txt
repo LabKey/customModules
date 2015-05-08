@@ -1,0 +1,4 @@
+{table}
+Library|Version|Source|License|LabKey Dev|Purpose
+Code39Azalea| |{link:Azalea Software|http://azalea.com/web-fonts/}|{link:Creative Commons|http://creativecommons.org/licenses/by-nd/3.0/deed.en_US}|klum|Barcode Web Fonts
+{table}
