@@ -17,6 +17,7 @@
 package org.labkey.icemr;
 
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.data.dialect.SqlDialect;
 
 public class IcemrSchema
@@ -37,7 +38,7 @@ public class IcemrSchema
 
     public DbSchema getSchema()
     {
-        return DbSchema.get("icemr");
+        return DbSchema.get("icemr", DbSchemaType.Module);
     }
 
     public SqlDialect getSqlDialect()

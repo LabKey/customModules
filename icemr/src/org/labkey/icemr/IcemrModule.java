@@ -76,13 +76,11 @@ public class IcemrModule extends DefaultModule
     {
         for (final String schemaName : getSchemaNames())
         {
-            final DbSchema dbschema = DbSchema.get(schemaName);
-
             DefaultSchema.registerProvider(schemaName, new DefaultSchema.SchemaProvider(this)
             {
                 public QuerySchema createSchema(final DefaultSchema schema, Module module)
                 {
-                    return QueryService.get().createSimpleUserSchema(schemaName, null, schema.getUser(), schema.getContainer(), dbschema);
+                    return QueryService.get().createSimpleUserSchema(schemaName, null, schema.getUser(), schema.getContainer(), IcemrSchema.getInstance().getSchema());
                 }
             });
         }
