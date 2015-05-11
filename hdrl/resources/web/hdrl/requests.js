@@ -43,6 +43,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     {name: 'CustomerBarcode', mapping : 'CustomerBarcode.value', defaultValue : null},
                     {name: 'LastName', mapping : 'LastName.value', defaultValue : null},
                     {name: 'FirstName', mapping : 'FirstName.value', defaultValue : null},
+                    {name: 'MiddleName', mapping : 'MiddleName.value', defaultValue : null},
                     {name: 'BirthDate', type : 'date', mapping : 'BirthDate.value', defaultValue : null},
                     {name: 'SSN', mapping : 'SSN.value', defaultValue : null},
                     {name: 'DODId', mapping : 'DODId.value', defaultValue : null},
@@ -60,6 +61,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             customerbarcode : 'CustomerBarcode',
             lastname : 'LastName',
             firstname : 'FirstName',
+            middlename : 'MiddleName',
             birthdate : 'BirthDate',
             ssn : 'SSN',
             dodid : 'DODId',
@@ -171,6 +173,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 {text: 'Customer Barcode',  dataIndex: 'CustomerBarcode', width : 150, editor: {xtype: 'textfield'}},
                 {text: 'Last Name', dataIndex: 'LastName', editor: {xtype: 'textfield'}},
                 {text: 'First Name', dataIndex: 'FirstName', editor: {xtype: 'textfield'}},
+                {text: 'Middle Name', dataIndex: 'MiddleName', editor: {xtype: 'textfield'}},
                 {text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, editor : {xtype: 'datefield'}},
                 {text: 'FMP', dataIndex: 'FMPId',
                     editor : {

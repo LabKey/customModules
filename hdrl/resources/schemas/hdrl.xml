@@ -114,6 +114,7 @@
          <ns:column columnName="CustomerBarcode"/>
          <ns:column columnName="LastName"/>
          <ns:column columnName="FirstName"/>
+         <ns:column columnName="MiddleName"/>
          <ns:column columnName="BirthDate"/>
          <ns:column columnName="SSN"/>
          <ns:column columnName="InboundRequestId">
