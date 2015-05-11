@@ -20,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.module.DefaultModule;
+import org.labkey.api.module.FolderTypeManager;
 import org.labkey.api.module.ModuleContext;
-import org.labkey.api.module.ModuleLoader;
 import org.labkey.api.util.SystemMaintenance;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.hdrl.query.HDRLQuerySchema;
@@ -74,7 +74,7 @@ public class HDRLModule extends DefaultModule
 
         HDRLQuerySchema.register(this);
 
-        ModuleLoader.getInstance().registerFolderType(this, new HDRLFolderType(this));
+        FolderTypeManager.get().registerFolderType(this, new HDRLFolderType(this));
 
         SystemMaintenance.addTask(new HDRLMaintenanceTask());
     }
