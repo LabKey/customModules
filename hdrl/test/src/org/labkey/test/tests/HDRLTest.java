@@ -288,11 +288,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @LogMethod
     protected void setupFolder()
     {
-        _containerHelper.createProject(getProjectName(), "Collaboration");
-        _containerHelper.enableModule(getProjectName(), "HDRL");
-
-        PortalHelper portalHelper = new PortalHelper(this);
-        portalHelper.addWebPart("HDRL Summary");
+        _containerHelper.createProject(getProjectName(), "HDRL Request Portal");
     }
 
     @Override

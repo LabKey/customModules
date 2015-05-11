@@ -33,6 +33,8 @@ hdrl/resources/web/hdrl/fonts/barcode.css -text
 hdrl/resources/web/hdrl/requests.js -text
 hdrl/src/org/labkey/hdrl/HDRLContainerListener.java -text
 hdrl/src/org/labkey/hdrl/HDRLController.java -text
+hdrl/src/org/labkey/hdrl/HDRLFolderType.java -text
+hdrl/src/org/labkey/hdrl/HDRLMaintenanceTask.java -text
 hdrl/src/org/labkey/hdrl/HDRLManager.java -text
 hdrl/src/org/labkey/hdrl/HDRLModule.java -text
 hdrl/src/org/labkey/hdrl/HDRLSchema.java -text
