@@ -18,12 +18,18 @@ package org.labkey.hdrl;
 
 import org.labkey.api.data.Container;
 import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
+import org.labkey.api.data.TableSelector;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.hdrl.query.HDRLQuerySchema;
 import org.labkey.hdrl.view.InboundRequestBean;
+import org.labkey.hdrl.view.InboundSpecimenBean;
+
+import java.util.List;
 
 public class HDRLManager
 {
@@ -54,4 +60,11 @@ public class HDRLManager
         SqlSelector sqlSelector = new SqlSelector(schema.getDbSchema(), sql);
         return sqlSelector.getObject(InboundRequestBean.class);
     }
+
+    public List<InboundSpecimenBean> getInboundSpecimen(int requestId)
+    {
+        TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getTableInfoInboundSpecimen(), new SimpleFilter(new FieldKey(null, "inboundRequestId"), requestId), null);
+        return selector.getArrayList(InboundSpecimenBean.class);
+    }
+
 }

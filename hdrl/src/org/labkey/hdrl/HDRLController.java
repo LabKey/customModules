@@ -27,8 +27,6 @@ import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
-import org.labkey.api.data.SQLFragment;
-import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleLoader;
@@ -40,17 +38,22 @@ import org.labkey.api.query.ValidationException;
 import org.labkey.api.resource.Resource;
 import org.labkey.api.security.RequiresPermissionClass;
 import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.Path;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HtmlView;
+import org.labkey.api.view.HttpView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.VBox;
+import org.labkey.api.view.template.PageConfig;
+import org.labkey.api.view.template.PrintTemplate;
 import org.labkey.hdrl.query.HDRLQuerySchema;
 import org.labkey.hdrl.query.InboundSpecimenUpdateService;
 import org.labkey.hdrl.view.InboundRequestBean;
+import org.labkey.hdrl.view.InboundSpecimenBean;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -123,7 +126,7 @@ public class HDRLController extends SpringActionController
         }
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermissionClass(InsertPermission.class)
     public class EditRequestAction extends SimpleViewAction<RequestForm>
     {
         private String _navLabel = "Create a new Test Request";
@@ -159,6 +162,8 @@ public class HDRLController extends SpringActionController
         private Integer _shippingCarrierId;
         private String _shippingNumber;
         private Integer _testTypeId;
+
+        private List<InboundSpecimenBean> _inboundSpecimens;
 
         public int getRequestId()
         {
@@ -208,6 +213,16 @@ public class HDRLController extends SpringActionController
         public void setTestTypeId(Integer testTypeId)
         {
             _testTypeId = testTypeId;
+        }
+
+        public List<InboundSpecimenBean> getInboundSpecimens()
+        {
+            return _inboundSpecimens;
+        }
+
+        public void setInboundSpecimens(List<InboundSpecimenBean> inboundSpecimens)
+        {
+            _inboundSpecimens = inboundSpecimens;
         }
     }
 
@@ -284,4 +299,28 @@ public class HDRLController extends SpringActionController
             }
         }
     }
+
+    @RequiresPermissionClass(ReadPermission.class)
+    public class PrintPackingListAction extends SimpleViewAction<RequestForm>
+    {
+        @Override
+        public ModelAndView getView(RequestForm form, BindException errors) throws Exception
+        {
+            List<InboundSpecimenBean> inboundSpecimenRows = HDRLManager.get().getInboundSpecimen(form.getRequestStatusId()); //TODO: I want getRequestId(), but that returns -1. However, getRequestStatusId() seem to have the value i want
+            form.setInboundSpecimens(inboundSpecimenRows);
+
+            JspView view = new JspView("/org/labkey/hdrl/view/printPackingList.jsp", form, errors);
+            HttpView template = new PrintTemplate(view, "Shipping Manifest");
+            getPageConfig().setTemplate(PageConfig.Template.Print);
+
+            return template;
+        }
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            return null;
+        }
+    }
+
 }
