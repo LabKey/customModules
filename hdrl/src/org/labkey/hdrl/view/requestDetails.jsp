@@ -16,11 +16,12 @@
  */
 %>
 <%@ page import="org.labkey.api.util.PageFlowUtil" %>
+<%@ page import="org.labkey.api.util.UniqueID" %>
 <%@ page import="org.labkey.api.view.ActionURL" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
+<%@ page import="org.labkey.api.view.template.ClientDependency" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
 <%@ page import="org.labkey.hdrl.view.InboundRequestBean" %>
-<%@ page import="org.labkey.api.view.template.ClientDependency" %>
 <%@ page import="java.util.LinkedHashSet" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%!
@@ -28,7 +29,6 @@
     {
         LinkedHashSet<ClientDependency> resources = new LinkedHashSet<>();
         resources.add(ClientDependency.fromPath("hdrl/fonts/barcode.css"));
-
         return resources;
     }
 %>
@@ -45,6 +45,8 @@
     <% me.include(me.getView("queryView"),out); %>
 </div>
 <%
+    String renderId = "labkey-wp-"+ UniqueID.getRequestScopedUID(HttpView.currentRequest());
+
     if (bean.getShippingCarrier() != null)
     {
 %>
@@ -65,8 +67,26 @@
 <%
     }
 %>
+
+<br>
+<div id="<%= h(renderId)%>" class="labkey-wp-body"></div>
+<br>
+
+<script type="text/javascript">
+    Ext4.onReady(function()
+    {
+        Ext4.create('Ext.button.Button', {
+            text: 'Print Packing List',
+            renderTo: <%=q(renderId)%>,
+            name: 'printPackingList',
+            width: 150,
+            handler: function(){
+                window.location = LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : <%=h(bean.getRequestId())%>});
+            }
+        });
+    });
+</script>
+
 <div>
-<%=PageFlowUtil.textLink("Return to test status", new ActionURL(HDRLController.BeginAction.class, getViewContext().getContainer()))%>
+    <%=PageFlowUtil.textLink("Return to test status", new ActionURL(HDRLController.BeginAction.class, getViewContext().getContainer()))%>
 </div>
-
-

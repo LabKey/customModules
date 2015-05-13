@@ -521,6 +521,16 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             }
         });
 
+        formItems.push({
+            xtype           : 'button',
+            text            : 'Print Packing List',
+            name            : 'printPackingList',
+            width           : 150,
+            handler : function(){
+                window.location = LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : this.requestId});
+            }
+        });
+
         return Ext4.create('Ext.form.Panel', {
             bodyPadding : 20,
             border      : false,
