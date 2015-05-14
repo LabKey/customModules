@@ -163,8 +163,6 @@ public class HDRLController extends SpringActionController
         private String _shippingNumber;
         private Integer _testTypeId;
 
-        private List<InboundSpecimenBean> _inboundSpecimens;
-
         public int getRequestId()
         {
             return _requestId;
@@ -215,15 +213,6 @@ public class HDRLController extends SpringActionController
             _testTypeId = testTypeId;
         }
 
-        public List<InboundSpecimenBean> getInboundSpecimens()
-        {
-            return _inboundSpecimens;
-        }
-
-        public void setInboundSpecimens(List<InboundSpecimenBean> inboundSpecimens)
-        {
-            _inboundSpecimens = inboundSpecimens;
-        }
     }
 
     @RequiresPermissionClass(ReadPermission.class)
@@ -301,15 +290,21 @@ public class HDRLController extends SpringActionController
     }
 
     @RequiresPermissionClass(ReadPermission.class)
-    public class PrintPackingListAction extends SimpleViewAction<RequestForm>
+    public class PrintPackingListAction extends SimpleViewAction<PackingListBean>
     {
         @Override
-        public ModelAndView getView(RequestForm form, BindException errors) throws Exception
+        public ModelAndView getView(PackingListBean packingListBean, BindException errors) throws Exception
         {
-            List<InboundSpecimenBean> inboundSpecimenRows = HDRLManager.get().getInboundSpecimen(form.getRequestStatusId()); //TODO: I want getRequestId(), but that returns -1. However, getRequestStatusId() seem to have the value i want
-            form.setInboundSpecimens(inboundSpecimenRows);
+            List<InboundSpecimenBean> inboundSpecimenRows = HDRLManager.get().getInboundSpecimen(packingListBean.getRequestId());
+            InboundRequestBean inboundRequestBean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), packingListBean.getRequestId());
 
-            JspView view = new JspView("/org/labkey/hdrl/view/printPackingList.jsp", form, errors);
+            packingListBean.setInboundSpecimens(inboundSpecimenRows);
+            packingListBean.setTotalSamples(inboundSpecimenRows.size());
+            packingListBean.setTestType(inboundRequestBean.getTestType());
+            packingListBean.setShippingNumber(inboundRequestBean.getShippingNumber());
+            packingListBean.setShippingCarrier(inboundRequestBean.getShippingCarrier());
+
+            JspView view = new JspView("/org/labkey/hdrl/view/printPackingList.jsp", packingListBean, errors);
             HttpView template = new PrintTemplate(view, "Shipping Manifest");
             getPageConfig().setTemplate(PageConfig.Template.Print);
 
@@ -323,4 +318,74 @@ public class HDRLController extends SpringActionController
         }
     }
 
+    public static class PackingListBean
+    {
+        private int _requestId = -1;
+        private String _shippingCarrier;
+        private int _totalSamples;
+        private String _testType;
+        private String _shippingNumber;
+        private List<InboundSpecimenBean> _inboundSpecimens;
+
+        public int getRequestId()
+        {
+            return _requestId;
+        }
+
+        public void setRequestId(int requestId)
+        {
+            _requestId = requestId;
+        }
+
+        public List<InboundSpecimenBean> getInboundSpecimens()
+        {
+            return _inboundSpecimens;
+        }
+
+        public void setInboundSpecimens(List<InboundSpecimenBean> inboundSpecimens)
+        {
+            _inboundSpecimens = inboundSpecimens;
+        }
+
+        public String getShippingCarrier()
+        {
+            return _shippingCarrier;
+        }
+
+        public void setShippingCarrier(String shippingCarrier)
+        {
+            _shippingCarrier = shippingCarrier;
+        }
+
+        public int getTotalSamples()
+        {
+            return _totalSamples;
+        }
+
+        public void setTotalSamples(int totalSamples)
+        {
+            _totalSamples = totalSamples;
+        }
+
+        public String getTestType()
+        {
+            return _testType;
+        }
+
+        public void setTestType(String testType)
+        {
+            _testType = testType;
+        }
+        public String getShippingNumber()
+        {
+            return _shippingNumber;
+        }
+
+        public void setShippingNumber(String shippingNumber)
+        {
+            _shippingNumber = shippingNumber;
+        }
+
+
+    }
 }

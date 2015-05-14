@@ -81,7 +81,9 @@
             name: 'printPackingList',
             width: 150,
             handler: function(){
-                window.location = LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : <%=h(bean.getRequestId())%>});
+                window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {
+                    requestId : <%=h(bean.getRequestId())%>
+                }));
             }
         });
     });

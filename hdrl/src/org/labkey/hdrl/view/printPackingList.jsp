@@ -16,13 +16,15 @@
      */
 %>
 <%@ page import="org.labkey.api.view.HttpView" %>
-<%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.api.view.template.ClientDependency" %>
-<%@ page import="org.labkey.api.view.template.PrintTemplate" %>
-<%@ page import="org.labkey.hdrl.HDRLController.RequestForm" %>
+<%@ page import="org.labkey.hdrl.HDRLController.PackingListBean" %>
 <%@ page import="org.labkey.hdrl.view.InboundSpecimenBean" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <%@ page import="java.util.LinkedHashSet" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.labkey.hdrl.HDRLController" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%!
     public LinkedHashSet<ClientDependency> getClientDependencies()
@@ -34,12 +36,16 @@
 %>
 <%
     HttpView httpView =  HttpView.currentView();
-    RequestForm requestForm = (RequestForm) httpView.getModelBean();
-    List<InboundSpecimenBean> inboundSpecimens = requestForm.getInboundSpecimens();
+    PackingListBean packingListBean = (PackingListBean) httpView.getModelBean();
+    List<InboundSpecimenBean> inboundSpecimens = packingListBean.getInboundSpecimens();
 
-
-    //TODO: find out how to show this view in a new window
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    Date date = new Date();
+    String dateToday = dateFormat.format(date);
 %>
+<style type="text/css" media="print">
+    @page { size: landscape; }
+</style>
 
 <header>
     <h1 align="center">Shipping Manifest</h1>
@@ -47,43 +53,36 @@
 <section>
     <h3 align="center"><i>HIPAA warning message here</i></h3>
 </section>
-<table>
-    <table>
-        <td>
-            <tr>Customer Name:</tr>
-            <br>
-            <tr>Customer Address: </tr>
-            <br>
-            <br>
-            <tr><b>Shipping Information:</b></tr>
-            <br>
-            <tr>Courier:</tr>
-            <br>
-            <tr>Tracking Number:</tr>
-        </td>
-    </table>
-    <table>
-        <tr>Total Samples: </tr>
-        <br>
-        <tr>Test Requested (if bulk request)</tr>
-        <br>
-        <tr>Date: </tr>
-    </table>
-
+<table style="width:100%">
+    <tr>
+        <td col width="50%">Customer Name: </td>
+        <td col width="50%"align="right">Date: <%=h(dateToday)%></td>
+    </tr>
+    <tr><td col width="50%">Customer Address:</td></tr>
+    <tr><td col width="50%"><br><b>Shipment Information:</b></td></tr>
+    <tr>
+        <td col width="50%">Courier: <%=h(packingListBean.getShippingCarrier())%></td>
+        <td  col width="50%" align="left">Total Samples: <%=h(packingListBean.getTotalSamples())%> </td>
+    </tr>
+    <tr>
+        <td col width="50%">Tracking Number: <%=h(packingListBean.getShippingNumber())%></td>
+        <td col width="50%" align="left">Test Requested (if bulk request): </td>
+    </tr>
 </table>
+<br>
 
 <table style="width:100%">
     <tr bgcolor="#d3d3d3">
-        <th>Barcode</th>
-        <th>FMP/SSN</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Middle Name</th>
-        <th>Date of Birth</th>
-        <th>SOT</th>
-        <th>DUC</th>
-        <th>Specimen Type</th>
-        <th>Test Requested</th>
+        <th col width="10%">Barcode</th>
+        <th col width="10%">FMP/SSN</th>
+        <th col width="10%">Last Name</th>
+        <th col width="10%">First Name</th>
+        <th col width="10%">Middle Name</th>
+        <th col width="10%">Date of Birth</th>
+        <th col width="10%">SOT</th>
+        <th col width="10%">DUC</th>
+        <th col width="10%">Specimen Type</th>
+        <th col width="10%">Test Requested</th>
     </tr>
     <%
         int count = 1;
@@ -104,16 +103,16 @@
             count++;
     %>
 
-            <td><div class="barcode"><%=h(isb.getCustomerBarCode())%></div></td>
-            <td><div class="barcode"> <%=h(Integer.parseInt(isb.getFmpId())+Integer.parseInt(isb.getSsn()))%></div></td>
-            <td><%=h(isb.getLastName())%></td>
-            <td><%=h(isb.getFirstName())%></td>
-            <td><%=h(isb.getMiddleName())%></td>
-            <td><%=h(isb.getBirthDate())%></td>
-            <td><%=h(isb.getTestingSourceId())%></td>
-            <td><%=h(isb.getDutyCodeId())%></td>
-            <td><%=h(isb.getSpecimenType())%></td>
-            <td><%=h(requestForm.getTestTypeId())%></td>
+            <td col width="10%"><div class="barcode"><%=h(isb.getCustomerBarCode())%></div><div><%=h(isb.getCustomerBarCode())%></div></td>
+            <td col width="10%"><div class="barcode"><%=h(Integer.parseInt(isb.getFmpId())+Integer.parseInt(isb.getSsn()))%></div><div><%=h(Integer.parseInt(isb.getFmpId())+Integer.parseInt(isb.getSsn()))%></div></td>
+            <td col width="10%"><%=h(isb.getLastName())%></td>
+            <td col width="10%"><%=h(isb.getFirstName())%></td>
+            <td col width="10%"><%=h(isb.getMiddleName())%></td>
+            <td col width="10%"><%=h(isb.getBirthDate())%></td>
+            <td col width="10%"><%=h(isb.getTestingSourceId())%></td>
+            <td col width="10%"><%=h(isb.getDutyCodeId())%></td>
+            <td col width="10%"><%=h(isb.getSpecimenType())%></td>
+            <td col width="10%"><%=h(packingListBean.getTestType())%></td>
             </tr>
     <%
         }

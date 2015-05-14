@@ -525,9 +525,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             xtype           : 'button',
             text            : 'Print Packing List',
             name            : 'printPackingList',
+            scope           : this,
             width           : 150,
             handler : function(){
-                window.location = LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : this.requestId});
+                window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : this.requestId}));
             }
         });
 

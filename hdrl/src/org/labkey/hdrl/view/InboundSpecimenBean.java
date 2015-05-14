@@ -2,17 +2,17 @@ package org.labkey.hdrl.view;
 
 public class InboundSpecimenBean
 {
-    String _customerBarCode;
-    String _lastName;
-    String _firstName;
-    String _middleName;
-    String _birthDate;
-    String _ssn;
-    String _fmpId;
-    String _dutyCodeId;
-    String _testingSourceId;
-    String _drawDate;
-    String _specimenType = "Serum"; //for now.
+    private String _customerBarCode;
+    private String _lastName;
+    private String _firstName;
+    private String _middleName;
+    private String _birthDate;
+    private String _ssn;
+    private String _fmpId;
+    private String _dutyCodeId;
+    private String _testingSourceId;
+    private String _drawDate;
+    private String _specimenType = "Serum"; //for now.
 
     public String getCustomerBarCode()
     {
