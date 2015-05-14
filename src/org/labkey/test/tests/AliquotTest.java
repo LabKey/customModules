@@ -18,6 +18,7 @@ package org.labkey.test.tests;
 
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.categories.Specimen;
@@ -238,10 +239,11 @@ public class AliquotTest extends SpecimenBaseTest
         navigateToQuery("study", "SpecimenDetail");
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
         checkCheckbox(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
+        pushLocation();
         click(Locator.linkWithText("Delete"));
         assertAlert("Are you sure you want to delete the selected row?");
-        waitForText("Specimen may not be deleted because it has been used in a request.");
-        clickButton("Back");
+        waitForElement(Locators.labkeyError.withText("Specimen may not be deleted because it has been used in a request."));
+        popLocation();
 
         // Now delete a different aliquot
         checkCheckbox(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
