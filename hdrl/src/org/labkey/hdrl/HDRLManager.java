@@ -16,7 +16,9 @@
 
 package org.labkey.hdrl;
 
+import org.apache.log4j.Logger;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
@@ -30,9 +32,15 @@ import org.labkey.hdrl.view.InboundRequestBean;
 import org.labkey.hdrl.view.InboundSpecimenBean;
 
 import java.util.List;
+import java.util.Map;
 
 public class HDRLManager
 {
+    private static final Logger LOG = Logger.getLogger(HDRLManager.class);
+    private static final String HDRL_SENSITIVE_DATA_TIME_WINDOW = "hdrlSensitiveDataDeletionTimeWindow";
+
+    private static final String NUM_OF_DAYS = "NumberOfDays";
+
     private static final HDRLManager _instance = new HDRLManager();
 
     private HDRLManager()
@@ -65,6 +73,24 @@ public class HDRLManager
     {
         TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getTableInfoInboundSpecimen(), new SimpleFilter(new FieldKey(null, "inboundRequestId"), requestId), null);
         return selector.getArrayList(InboundSpecimenBean.class);
+    }
+
+    public static void saveProperties(HDRLController.SensitiveDataForm sensitiveDataForm)
+    {
+        PropertyManager.PropertyMap map = PropertyManager.getNormalStore().getWritableProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW, true);
+        map.clear();
+        map.put("NumberOfDays", String.valueOf(sensitiveDataForm.getTimeWindowInDays()));
+        map.save();
+    }
+
+    private static Map<String, String> getProperties()
+    {
+        return PropertyManager.getNormalStore().getProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW);
+    }
+
+    public static String getNumberOfDays()
+    {
+        return getProperties().get(NUM_OF_DAYS);
     }
 
 }

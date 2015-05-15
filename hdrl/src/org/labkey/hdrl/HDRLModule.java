@@ -77,6 +77,8 @@ public class HDRLModule extends DefaultModule
         FolderTypeManager.get().registerFolderType(this, new HDRLFolderType(this));
 
         SystemMaintenance.addTask(new HDRLMaintenanceTask());
+
+        HDRLController.registerAdminConsoleLinks();
     }
 
     @Override

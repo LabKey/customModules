@@ -17,16 +17,19 @@
 package org.labkey.hdrl;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ExportAction;
+import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
+import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleLoader;
@@ -37,11 +40,14 @@ import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.resource.Resource;
 import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.RequiresSiteAdmin;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.ReadPermission;
+import org.labkey.api.settings.AdminConsole;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.Path;
+import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HtmlView;
 import org.labkey.api.view.HttpView;
@@ -55,6 +61,7 @@ import org.labkey.hdrl.query.InboundSpecimenUpdateService;
 import org.labkey.hdrl.view.InboundRequestBean;
 import org.labkey.hdrl.view.InboundSpecimenBean;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -72,6 +79,11 @@ public class HDRLController extends SpringActionController
     public HDRLController()
     {
         setActionResolver(_actionResolver);
+    }
+
+    public static void registerAdminConsoleLinks()
+    {
+        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "HDRL Sensitive Data", new ActionURL(HDRLSensitiveDataAdminAction.class, ContainerManager.getRoot()));
     }
 
     @RequiresPermissionClass(ReadPermission.class)
@@ -385,7 +397,70 @@ public class HDRLController extends SpringActionController
         {
             _shippingNumber = shippingNumber;
         }
+    }
 
+    @RequiresSiteAdmin
+    public class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
+    {
 
+        @Override
+        public void validateCommand(SensitiveDataForm target, Errors errors)
+        {
+            if (Integer.valueOf(target.getTimeWindowInDays()) < 0)
+            {
+                errors.reject(ERROR_MSG, "'Number of Days' cannot be negative, it should be greater than or equal to 0.");
+            }
+        }
+
+        @Override
+        public ModelAndView getView(SensitiveDataForm sensitiveDataForm, boolean reshow, BindException errors) throws Exception
+        {
+            String numberOfDays = HDRLManager.getNumberOfDays();
+
+            //first time to the 'HDRL Sensitive Data' admin console
+            if(StringUtils.isEmpty(numberOfDays))
+            {
+                sensitiveDataForm.setTimeWindowInDays("30");
+                HDRLManager.saveProperties(sensitiveDataForm);
+            }
+
+            JspView view = new JspView("/org/labkey/hdrl/view/sensitiveData.jsp", sensitiveDataForm, errors);
+            return view;
+        }
+
+        @Override
+        public boolean handlePost(SensitiveDataForm sensitiveDataForm, BindException errors) throws Exception
+        {
+            HDRLManager.saveProperties(sensitiveDataForm);
+
+            return true;
+        }
+
+        @Override
+        public URLHelper getSuccessURL(SensitiveDataForm sensitiveDataForm)
+        {
+            return null;
+        }
+
+        @Override
+        public NavTree appendNavTrail(NavTree root)
+        {
+            return null;
+        }
+    }
+
+    public static class SensitiveDataForm
+    {
+        private String timeWindowInDays = HDRLManager.getNumberOfDays();
+
+        public String getTimeWindowInDays()
+        {
+            return timeWindowInDays;
+        }
+
+        public void setTimeWindowInDays(String timeWindowInDays)
+        {
+            this.timeWindowInDays = timeWindowInDays;
+        }
     }
 }

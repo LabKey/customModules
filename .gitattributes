@@ -50,6 +50,7 @@ hdrl/src/org/labkey/hdrl/view/InboundSpecimenBean.java -text
 hdrl/src/org/labkey/hdrl/view/editRequest.jsp -text
 hdrl/src/org/labkey/hdrl/view/printPackingList.jsp -text
 hdrl/src/org/labkey/hdrl/view/requestDetails.jsp -text
+hdrl/src/org/labkey/hdrl/view/sensitiveData.jsp -text
 hdrl/test/src/org/labkey/test/tests/HDRLTest.java -text
 hdrl/test/test_hdrl.iml -text
 hvtnFlow/AnalysisPlans.txt -text
