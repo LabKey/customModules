@@ -17,7 +17,6 @@
 package org.labkey.hdrl;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -415,15 +414,6 @@ public class HDRLController extends SpringActionController
         @Override
         public ModelAndView getView(SensitiveDataForm sensitiveDataForm, boolean reshow, BindException errors) throws Exception
         {
-            String numberOfDays = HDRLManager.getNumberOfDays();
-
-            //first time to the 'HDRL Sensitive Data' admin console
-            if(StringUtils.isEmpty(numberOfDays))
-            {
-                sensitiveDataForm.setTimeWindowInDays("30");
-                HDRLManager.saveProperties(sensitiveDataForm);
-            }
-
             JspView view = new JspView("/org/labkey/hdrl/view/sensitiveData.jsp", sensitiveDataForm, errors);
             return view;
         }

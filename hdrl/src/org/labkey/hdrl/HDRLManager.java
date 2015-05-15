@@ -16,6 +16,7 @@
 
 package org.labkey.hdrl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
@@ -38,8 +39,8 @@ public class HDRLManager
 {
     private static final Logger LOG = Logger.getLogger(HDRLManager.class);
     private static final String HDRL_SENSITIVE_DATA_TIME_WINDOW = "hdrlSensitiveDataDeletionTimeWindow";
-
-    private static final String NUM_OF_DAYS = "NumberOfDays";
+    private static final String NUM_OF_DAYS = "HDRLSensitiveDataDeletionWindow";
+    private static final int DEFAULT_NUM_OF_DAYS = 30;
 
     private static final HDRLManager _instance = new HDRLManager();
 
@@ -79,7 +80,7 @@ public class HDRLManager
     {
         PropertyManager.PropertyMap map = PropertyManager.getNormalStore().getWritableProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW, true);
         map.clear();
-        map.put("NumberOfDays", String.valueOf(sensitiveDataForm.getTimeWindowInDays()));
+        map.put(NUM_OF_DAYS, String.valueOf(sensitiveDataForm.getTimeWindowInDays()));
         map.save();
     }
 
@@ -90,7 +91,14 @@ public class HDRLManager
 
     public static String getNumberOfDays()
     {
-        return getProperties().get(NUM_OF_DAYS);
+        String days = getProperties().get(NUM_OF_DAYS);
+
+        if(StringUtils.isEmpty(days))
+        {
+            return String.valueOf(DEFAULT_NUM_OF_DAYS);
+        }
+
+        return days;
     }
 
 }
