@@ -657,7 +657,7 @@ public class SpecimenTest extends SpecimenBaseTest
         setFormElement(Locator.id("input3"), "Comments");
         clickButton("Create and View Details");
         clickButton("Submit Request", 0);
-        getAlert();
+        acceptAlert();
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
         log("Setup text specimen attachment");
@@ -678,7 +678,7 @@ public class SpecimenTest extends SpecimenBaseTest
         setFormElement(Locator.id("input3"), "Comments");
         clickButton("Create and View Details");
         clickButton("Submit Request", 0);
-        getAlert();
+        acceptAlert();
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
         log("Verify specimen list attachments");
