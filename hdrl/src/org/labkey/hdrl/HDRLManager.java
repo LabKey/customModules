@@ -39,8 +39,8 @@ public class HDRLManager
 {
     private static final Logger LOG = Logger.getLogger(HDRLManager.class);
     private static final String HDRL_SENSITIVE_DATA_TIME_WINDOW = "hdrlSensitiveDataDeletionTimeWindow";
-    private static final String NUM_OF_DAYS = "HDRLSensitiveDataDeletionWindow";
-    private static final int DEFAULT_NUM_OF_DAYS = 30;
+    private static final String NUM_OF_DAYS_KEY = "HDRLSensitiveDataDeletionWindow";
+    private static final int DEFAULT_NUM_OF_DAYS = 30; //default number of days after which data will be deleted
 
     private static final HDRLManager _instance = new HDRLManager();
 
@@ -80,7 +80,7 @@ public class HDRLManager
     {
         PropertyManager.PropertyMap map = PropertyManager.getNormalStore().getWritableProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW, true);
         map.clear();
-        map.put(NUM_OF_DAYS, String.valueOf(sensitiveDataForm.getTimeWindowInDays()));
+        map.put(NUM_OF_DAYS_KEY, String.valueOf(sensitiveDataForm.getTimeWindowInDays()));
         map.save();
     }
 
@@ -89,16 +89,16 @@ public class HDRLManager
         return PropertyManager.getNormalStore().getProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW);
     }
 
-    public static String getNumberOfDays()
+    public static int getNumberOfDays()
     {
-        String days = getProperties().get(NUM_OF_DAYS);
+        String days = getProperties().get(NUM_OF_DAYS_KEY);
 
         if(StringUtils.isEmpty(days))
         {
-            return String.valueOf(DEFAULT_NUM_OF_DAYS);
+            return DEFAULT_NUM_OF_DAYS;
         }
 
-        return days;
+        return Integer.parseInt(days);
     }
 
 }

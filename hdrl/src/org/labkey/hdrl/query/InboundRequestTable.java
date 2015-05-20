@@ -40,11 +40,14 @@ public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
 
         ColumnInfo containerCol = getColumn("Container");
         ContainerForeignKey.initColumn(containerCol, schema);
+        containerCol.setLabel("Folder");
+
+        ColumnInfo archivedRequestCountCol = getColumn("ArchivedRequestCount");
+        archivedRequestCountCol.setHidden(true);
 
         // add column for the number of patients
         addColumn(wrapColumn("Number of Patients", new PatientCountColumn(getRealTable().getColumn("RequestId"))));
     }
-
 
     @Nullable
     @Override

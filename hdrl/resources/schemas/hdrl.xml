@@ -105,6 +105,7 @@
             </ns:fk>
          </ns:column>
          <ns:column columnName="Modified"/>
+         <ns:column columnName="ArchivedRequestCount"/>
       </ns:columns>
    </ns:table>
 

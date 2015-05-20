@@ -31,6 +31,6 @@ public class PatientCountColumn extends ColumnInfo
     @Override
     public SQLFragment getValueSql(String tableAliasName)
     {
-        return new SQLFragment("(SELECT COUNT(DISTINCT(SSN,FMPId)) FROM hdrl.InboundSpecimen spec WHERE spec.InboundRequestId = " + tableAliasName + ".RequestId)");
+        return new SQLFragment("COALESCE(" + tableAliasName + "."+ HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + ", (SELECT COUNT(DISTINCT(SSN,FMPId)) FROM hdrl.InboundSpecimen spec WHERE spec.InboundRequestId = " + tableAliasName + ".RequestId))");
     }
 }

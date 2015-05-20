@@ -28,7 +28,7 @@
 <%
     JspView<HDRLController.SensitiveDataForm> sensitiveDataFormJspView = (JspView<HDRLController.SensitiveDataForm>)HttpView.currentView();
     HDRLController.SensitiveDataForm bean = sensitiveDataFormJspView.getModelBean();
-    String timeWindow = bean.getTimeWindowInDays();
+    String timeWindow = String.valueOf(bean.getTimeWindowInDays());
 %>
 <labkey:errors></labkey:errors>
 <h3>HDRL Sensitive Data deletion time window:</h3>

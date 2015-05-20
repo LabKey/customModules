@@ -52,6 +52,7 @@ import org.labkey.api.view.HtmlView;
 import org.labkey.api.view.HttpView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
+import org.labkey.api.view.NotFoundException;
 import org.labkey.api.view.VBox;
 import org.labkey.api.view.template.PageConfig;
 import org.labkey.api.view.template.PrintTemplate;
@@ -96,6 +97,12 @@ public class HDRLController extends SpringActionController
             vbox.addView(submitView);
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
+
+            if(schema == null)
+            {
+                throw new NotFoundException("HDRL schema not found in the current folder.");
+            }
+
             QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLQuerySchema.TABLE_INBOUND_REQUEST);
             QueryView queryView = schema.createView(getViewContext(), settings, errors);
             queryView.setShowInsertNewButton(false);
@@ -441,14 +448,14 @@ public class HDRLController extends SpringActionController
 
     public static class SensitiveDataForm
     {
-        private String timeWindowInDays = HDRLManager.getNumberOfDays();
+        private int timeWindowInDays = HDRLManager.getNumberOfDays();
 
-        public String getTimeWindowInDays()
+        public int getTimeWindowInDays()
         {
             return timeWindowInDays;
         }
 
-        public void setTimeWindowInDays(String timeWindowInDays)
+        public void setTimeWindowInDays(int timeWindowInDays)
         {
             this.timeWindowInDays = timeWindowInDays;
         }

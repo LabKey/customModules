@@ -26,6 +26,7 @@ import org.labkey.api.data.SchemaTableInfo;
 import org.labkey.api.data.SimpleDisplayColumn;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.data.TableSelector;
 import org.labkey.api.data.dialect.SqlDialect;
 import org.labkey.api.module.Module;
 import org.labkey.api.query.DefaultSchema;
@@ -47,8 +48,10 @@ import org.springframework.validation.BindException;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class HDRLQuerySchema extends SimpleUserSchema
@@ -58,6 +61,40 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     public static final String TABLE_INBOUND_REQUEST = "InboundRequest";
     public static final String TABLE_SPECIMEN = "InboundSpecimen";
+
+    public static final String TABLE_REQUEST_STATUS = "RequestStatus";
+    public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";
+    public static final String COL_INBOUND_REQUEST_ID = "InboundRequestId";
+    public static final String COL_ARCHIVED_REQUEST_COUNT = "ArchivedRequestCount";
+
+    public static final String STATUS_SUBMITTED = "Submitted";
+    public static final String STATUS_ARCHIVED = "Archived";
+
+
+    private Map<Integer, String> statusMap = null;
+
+    public String getStatus(int s)
+    {
+        if(statusMap == null)
+        {
+            statusMap = new HashMap<Integer, String>();
+            TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
+            for (Map<String, Object> stringObjectMap : selector.getMapCollection())
+            {
+                Integer key = new Integer(-1);
+                String value = "";
+                for (String s1 : stringObjectMap.keySet())
+                {
+                    if(s1.equals("name"))
+                        value = (String) stringObjectMap.get(s1);
+                    else if(s1.equals("rowid"))
+                        key = (Integer) stringObjectMap.get(s1);
+                }
+                statusMap.put(key, value);
+            }
+        }
+        return statusMap.get((Integer)s);
+    }
 
     public static void register(final HDRLModule module)
     {
@@ -118,7 +155,6 @@ public class HDRLQuerySchema extends SimpleUserSchema
     @Override
     public QueryView createView(ViewContext context, QuerySettings settings, BindException errors)
     {
-
         if (settings.getQueryName().equalsIgnoreCase(TABLE_INBOUND_REQUEST))
         {
             return new QueryView(this, settings, errors)
@@ -133,8 +169,10 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
-                            Integer status = (Integer) ctx.get(FieldKey.fromParts("RequestStatusId"));
-                            if ((status == 1 && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
+
+                            int status = ((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
+
+                            if ((getStatus(status).equals(STATUS_SUBMITTED) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
@@ -143,11 +181,13 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             else
                             {
                                 // FIXME would it be better to change the schema so the Specimen table uses "RequestId" instead of InboundRequestId?
-                                FieldKey requestFieldKey = FieldKey.fromParts("InboundRequestId");
+                                FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
                                 SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
                                 filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
-                                out.write(PageFlowUtil.textLink("View", actionUrl));
+
+                                if(!getStatus(status).equals(STATUS_ARCHIVED))
+                                    out.write(PageFlowUtil.textLink("View", actionUrl));
                             }
 
                         }

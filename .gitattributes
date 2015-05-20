@@ -21,6 +21,7 @@ hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.15-15.16.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.16-15.17.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.17-15.171.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.171-15.172.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.172-15.173.sql -text
 hdrl/resources/schemas/hdrl.xml -text
 hdrl/resources/template/specimenTemplate.xlsx -text
 hdrl/resources/views/HDRL.html -text
