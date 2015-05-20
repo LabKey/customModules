@@ -61,6 +61,9 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
     {
         // Get this from the configurable setting
         int retentionDays = HDRLManager.getNumberOfDays();
+        final String requestStatusStatement = HDRLQuerySchema.COL_REQUEST_STATUS_ID + " = " + "(SELECT rowid FROM hdrl.requeststatus WHERE name = ?)";
+        final String submittedCondition1 = " WHERE (" + HDRLSchema.getInstance().getSchema().getSqlDialect().getDateDiff(Calendar.DATE, "NOW()", "i.Modified") + " >= ?";
+        final String submittedCondition2 = " AND i." + requestStatusStatement + ")";
 
         // Depending on strategy for remembering the number of specimens in the request, might need to stash the value
         // here, prior to deleting the specimen rows
@@ -68,13 +71,10 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
         addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "i");
         addToArchivedRequestCountColSQL.append(" SET " + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + " = (SELECT COUNT(*) FROM ");
         addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen());
-
         addToArchivedRequestCountColSQL.append(" WHERE " + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " = RequestId)");
-        addToArchivedRequestCountColSQL.append(" WHERE (");
-        addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getSchema().getSqlDialect().getDateDiff(Calendar.DATE, "NOW()", "i.Modified"));
-        addToArchivedRequestCountColSQL.append(" >= ?");
+        addToArchivedRequestCountColSQL.append(submittedCondition1);
         addToArchivedRequestCountColSQL.add(retentionDays);
-        addToArchivedRequestCountColSQL.append(" AND i." + HDRLQuerySchema.COL_REQUEST_STATUS_ID + " = (SELECT rowid FROM hdrl.requeststatus WHERE name = ?))");
+        addToArchivedRequestCountColSQL.append(submittedCondition2);
         addToArchivedRequestCountColSQL.add(HDRLQuerySchema.STATUS_SUBMITTED);
 
         LOG.info("Adding specimen count to column '" + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + "' in table " + HDRLSchema.getInstance().getTableInfoInboundRequest().getName());
@@ -89,11 +89,11 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
         SQLFragment specimenDeleteSQL = new SQLFragment("DELETE FROM ");
         specimenDeleteSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen());
         specimenDeleteSQL.append(" WHERE " + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " IN (SELECT RequestId FROM ");
-        specimenDeleteSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "r");
-        specimenDeleteSQL.append(" WHERE ");
-        specimenDeleteSQL.append(HDRLSchema.getInstance().getSchema().getSqlDialect().getDateDiff(Calendar.DATE, "NOW()", "r.Modified"));
-        specimenDeleteSQL.append(" >= ?)");
+        specimenDeleteSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "i");
+        specimenDeleteSQL.append(submittedCondition1);
         specimenDeleteSQL.add(retentionDays);
+        specimenDeleteSQL.append(submittedCondition2 + ")");
+        specimenDeleteSQL.add(HDRLQuerySchema.STATUS_SUBMITTED);
 
         LOG.info("Starting to delete HDRL specimen data");
 
@@ -104,9 +104,9 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
         //Modify Request Status to 'Archived' from 'Submitted'
         SQLFragment requestStatusSQL = new SQLFragment("UPDATE ");
         requestStatusSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "s");
-        requestStatusSQL.append(" SET " + HDRLQuerySchema.COL_REQUEST_STATUS_ID + " = (SELECT rowid FROM hdrl.requeststatus WHERE name = ?)");
+        requestStatusSQL.append(" SET " + requestStatusStatement);
         requestStatusSQL.add("Archived");
-        requestStatusSQL.append(" WHERE s." + HDRLQuerySchema.COL_REQUEST_STATUS_ID + " = (SELECT rowid FROM hdrl.requeststatus WHERE name = ?)");
+        requestStatusSQL.append(" WHERE s." + requestStatusStatement);
         requestStatusSQL.add(HDRLQuerySchema.STATUS_SUBMITTED);
 
         LOG.info("Modifying Request Status to 'Archived'");
