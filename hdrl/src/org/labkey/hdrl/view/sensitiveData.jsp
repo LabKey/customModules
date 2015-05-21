@@ -31,9 +31,8 @@
     String timeWindow = String.valueOf(bean.getTimeWindowInDays());
 %>
 <labkey:errors></labkey:errors>
-<h3>HDRL Sensitive Data deletion time window:</h3>
 <br>
-<labkey:form action="HDRLSensitiveDataAdmin.post" method="post">
+<labkey:form method="post">
     Number of Days<%= PageFlowUtil.helpPopup("Number of Days", "Enter days after which sensitive data will be deleted.")%>:
     <input type="number" name="timeWindowInDays" value=<%=h(timeWindow)%> min="0">
     <tr>
