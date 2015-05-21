@@ -24,6 +24,9 @@ import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
+import org.openqa.selenium.NoSuchElementException;
+
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -139,7 +142,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
         try{
             response = WebTestHelper.getHttpGetResponse(getBaseURL() + "/" + WebTestHelper.stripContextPath(getAttribute(Locator.linkWithText(getProjectName()), "href")));
         }
-        catch(Exception e){/*No link or bad response*/}
+        catch (NoSuchElementException | IOException ignore){/*No link or bad response*/}
 
         if (HttpStatus.SC_OK != response)
         {
