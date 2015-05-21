@@ -61,15 +61,17 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     public static final String TABLE_INBOUND_REQUEST = "InboundRequest";
     public static final String TABLE_SPECIMEN = "InboundSpecimen";
-
     public static final String TABLE_REQUEST_STATUS = "RequestStatus";
+    public static final String TABLE_FAMILY_MEMBER_PREFIX = "FamilyMemberPrefix";
+    public static final String TABLE_DUTY_CODE = "DutyCode";
+    public static final String TABLE_SOURCE_OF_TESTING = "SourceOfTesting";
+
     public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";
     public static final String COL_INBOUND_REQUEST_ID = "InboundRequestId";
     public static final String COL_ARCHIVED_REQUEST_COUNT = "ArchivedRequestCount";
 
     public static final String STATUS_SUBMITTED = "Submitted";
     public static final String STATUS_ARCHIVED = "Archived";
-
 
     private Map<Integer, String> statusMap = null;
 
@@ -172,7 +174,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
                             int status = ((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
 
-                            if ((getStatus(status).equals(STATUS_SUBMITTED) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
+                            if ((STATUS_SUBMITTED.equals(getStatus(status)) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
@@ -180,16 +182,16 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             }
                             else
                             {
-                                // FIXME would it be better to change the schema so the Specimen table uses "RequestId" instead of InboundRequestId?
-                                FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
-                                SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
-                                ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
-                                filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
-
-                                if(!getStatus(status).equals(STATUS_ARCHIVED))
+                                if(!STATUS_ARCHIVED.equals(getStatus(status)))
+                                {
+                                    // FIXME would it be better to change the schema so the Specimen table uses "RequestId" instead of InboundRequestId?
+                                    FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
+                                    SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
+                                    ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
+                                    filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
                                     out.write(PageFlowUtil.textLink("View", actionUrl));
+                                }
                             }
-
                         }
                     };
                     ret.add(actionColumn);
