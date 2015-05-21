@@ -39,7 +39,7 @@ public class HDRLContainerListener implements ContainerListener
     @Override
     public void containerDeleted(Container c, User user)
     {
-        DbSchema hdrl = DbSchema.get("hdrl");
+        DbSchema hdrl = HDRLSchema.getInstance().getSchema();
         try (DbScope.Transaction transaction = hdrl.getScope().ensureTransaction())
         {
             ContainerUtil.purgeTable(hdrl.getTable("InboundRequest"), c, null);
