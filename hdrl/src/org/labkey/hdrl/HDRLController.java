@@ -27,6 +27,7 @@ import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.admin.AdminUrls;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.TableSelector;
@@ -408,11 +409,12 @@ public class HDRLController extends SpringActionController
     @RequiresSiteAdmin
     public class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
     {
+        private String _navLabel = "HDRL Sensitive Data Time Window";
 
         @Override
         public void validateCommand(SensitiveDataForm target, Errors errors)
         {
-            if (Integer.valueOf(target.getTimeWindowInDays()) < 0)
+            if (target.getTimeWindowInDays() < 0)
             {
                 errors.reject(ERROR_MSG, "'Number of Days' cannot be negative, it should be greater than or equal to 0.");
             }
@@ -429,20 +431,19 @@ public class HDRLController extends SpringActionController
         public boolean handlePost(SensitiveDataForm sensitiveDataForm, BindException errors) throws Exception
         {
             HDRLManager.saveProperties(sensitiveDataForm);
-
             return true;
         }
 
         @Override
         public URLHelper getSuccessURL(SensitiveDataForm sensitiveDataForm)
         {
-            return null;
+            return PageFlowUtil.urlProvider(AdminUrls.class).getAdminConsoleURL();
         }
 
         @Override
         public NavTree appendNavTrail(NavTree root)
         {
-            return null;
+            return root.addChild(_navLabel);
         }
     }
 
