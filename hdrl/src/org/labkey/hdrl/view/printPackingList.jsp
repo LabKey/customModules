@@ -15,16 +15,15 @@
      * limitations under the License.
      */
 %>
+<%@ page import="org.labkey.api.util.DateUtil" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.template.ClientDependency" %>
 <%@ page import="org.labkey.hdrl.HDRLController.PackingListBean" %>
 <%@ page import="org.labkey.hdrl.view.InboundSpecimenBean" %>
-<%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.LinkedHashSet" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.labkey.hdrl.HDRLController" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%!
     public LinkedHashSet<ClientDependency> getClientDependencies()
@@ -39,9 +38,8 @@
     PackingListBean packingListBean = (PackingListBean) httpView.getModelBean();
     List<InboundSpecimenBean> inboundSpecimens = packingListBean.getInboundSpecimens();
 
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     Date date = new Date();
-    String dateToday = dateFormat.format(date);
+    String dateToday = DateUtil.formatDate(getContainer(), date);
 %>
 <style type="text/css" media="print">
     @page { size: landscape; }
@@ -91,26 +89,26 @@
             if(count % 2 == 0)
             {
     %>
-                <tr bgcolor="#d3d3d3" align="center">
+                <tr class="labkey-alternate-row" align="center">
     <%
             }
             else
             {
     %>
-                <tr align="center">
+                <tr class="labkey-row" align="center">
     <%
             }
             count++;
     %>
 
             <td col width="10%"><div class="barcode"><%=h(isb.getCustomerBarCode())%></div><div><%=h(isb.getCustomerBarCode())%></div></td>
-            <td col width="10%"><div class="barcode"><%=h(Integer.parseInt(isb.getFmpId())+Integer.parseInt(isb.getSsn()))%></div><div><%=h(Integer.parseInt(isb.getFmpId())+Integer.parseInt(isb.getSsn()))%></div></td>
+            <td col width="10%"><div class="barcode"><%=h(getConcatenatedVal(isb.getFmpCode(), isb.getSsn()))%></div><div><%=h(getConcatenatedVal(isb.getFmpCode(), isb.getSsn()))%></div></td>
             <td col width="10%"><%=h(isb.getLastName())%></td>
             <td col width="10%"><%=h(isb.getFirstName())%></td>
             <td col width="10%"><%=h(isb.getMiddleName())%></td>
             <td col width="10%"><%=h(isb.getBirthDate())%></td>
-            <td col width="10%"><%=h(isb.getTestingSourceId())%></td>
-            <td col width="10%"><%=h(isb.getDutyCodeId())%></td>
+            <td col width="10%"><%=h(isb.getSotCode())%></td>
+            <td col width="10%"><%=h(isb.getDucCode())%></td>
             <td col width="10%"><%=h(isb.getSpecimenType())%></td>
             <td col width="10%"><%=h(packingListBean.getTestType())%></td>
             </tr>
@@ -119,3 +117,13 @@
     %>
 
 </table>
+
+<%!
+    public String getConcatenatedVal(String fmpCode, String SSN)
+    {
+        if(StringUtils.isBlank(fmpCode) || StringUtils.isBlank(SSN))
+            return null;
+
+        return fmpCode + SSN;
+    }
+%>

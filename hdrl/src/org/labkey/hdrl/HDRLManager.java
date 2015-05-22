@@ -21,10 +21,7 @@ import org.apache.log4j.Logger;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.SQLFragment;
-import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
-import org.labkey.api.data.TableSelector;
-import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
@@ -72,7 +69,21 @@ public class HDRLManager
 
     public List<InboundSpecimenBean> getInboundSpecimen(int requestId)
     {
-        TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getTableInfoInboundSpecimen(), new SimpleFilter(new FieldKey(null, "inboundRequestId"), requestId), null);
+        String joinStatement = "SELECT hdrl.inboundspecimen.*, hdrl.familymemberprefix.code as fmpCode, hdrl.dutycode.code as ducCode, hdrl.sourceoftesting.code as sotCode" +
+                " FROM hdrl.inboundspecimen" +
+                " LEFT JOIN hdrl.familymemberprefix" +
+                " ON hdrl.inboundspecimen.fmpid=hdrl.familymemberprefix.rowid" +
+                " LEFT JOIN hdrl.dutycode" +
+                " ON hdrl.inboundspecimen.dutycodeid=hdrl.dutycode.rowid" +
+                " LEFT JOIN hdrl.sourceoftesting" +
+                " ON hdrl.inboundspecimen.testingsourceid=hdrl.sourceoftesting.rowid" +
+                " WHERE hdrl.inboundspecimen.inboundrequestid = ?";
+
+        SQLFragment sql = new SQLFragment();
+        sql.append(joinStatement);
+        sql.add(requestId);
+
+        SqlSelector selector = new SqlSelector(HDRLSchema.getInstance().getTableInfoInboundSpecimen().getSchema(), sql);
         return selector.getArrayList(InboundSpecimenBean.class);
     }
 
@@ -93,7 +104,7 @@ public class HDRLManager
     {
         String days = getProperties().get(NUM_OF_DAYS_KEY);
 
-        if(StringUtils.isEmpty(days))
+        if (StringUtils.isEmpty(days))
         {
             return DEFAULT_NUM_OF_DAYS;
         }

@@ -28,6 +28,7 @@
     public LinkedHashSet<ClientDependency> getClientDependencies()
     {
         LinkedHashSet<ClientDependency> resources = new LinkedHashSet<>();
+        resources.add(ClientDependency.fromPath("Ext4"));
         resources.add(ClientDependency.fromPath("hdrl/fonts/barcode.css"));
         return resources;
     }
@@ -78,7 +79,6 @@
         Ext4.create('Ext.button.Button', {
             text: 'Print Packing List',
             renderTo: <%=q(renderId)%>,
-            name: 'printPackingList',
             width: 150,
             handler: function(){
                 window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {
