@@ -174,8 +174,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 {text: 'Last Name', dataIndex: 'LastName', editor: {xtype: 'textfield'}},
                 {text: 'First Name', dataIndex: 'FirstName', editor: {xtype: 'textfield'}},
                 {text: 'Middle Name', dataIndex: 'MiddleName', editor: {xtype: 'textfield'}},
-                {text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, editor : {xtype: 'datefield'}},
-                {text: 'FMP', dataIndex: 'FMPId',
+                {text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, renderer : Ext4.util.Format.dateRenderer('m/d/Y') , editor : {xtype: 'datefield'}},
+                {text: 'FMP', width : 75, dataIndex: 'FMPId',
                     editor : {
                         xtype : 'combo',
                         store : {
@@ -200,9 +200,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                {text: 'SSN', dataIndex: 'SSN', width : 150, editor: {xtype: 'textfield'}, renderer : this.SSNRenderer, scope : this},
-                {text: 'DoD ID', dataIndex: 'DODId', editor: {xtype: 'numberfield', hideTrigger : true}},
-                {text: 'DUC', dataIndex: 'DutyCodeId',
+                {text: 'SSN', dataIndex: 'SSN', width : 110, editor: {xtype: 'textfield'}, renderer : this.SSNRenderer, scope : this},
+                {text: 'DoD ID', width : 75, dataIndex: 'DODId', editor: {xtype: 'numberfield', hideTrigger : true}},
+                {text: 'DUC', width : 50, dataIndex: 'DutyCodeId',
                     editor : {
                         xtype : 'combo',
                         store : {
@@ -227,7 +227,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                {text: 'SOT', dataIndex: 'TestingSourceId',
+                {text: 'SOT', width : 50, dataIndex: 'TestingSourceId',
                     editor : {
                         xtype : 'combo',
                         store : {
@@ -251,7 +251,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         editable        : false
                     }
                 },
-                {text: 'Date of Draw', dataIndex: 'DrawDate', width : 150, editor : {xtype : 'datefield'}}
+                {text: 'Date of Draw', dataIndex: 'DrawDate', width : 150, renderer : Ext4.util.Format.dateRenderer('m/d/Y'), editor : {xtype : 'datefield'}}
             ],
             dockedItems : [{
                 xtype   : 'toolbar',
@@ -524,7 +524,6 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         formItems.push({
             xtype           : 'button',
             text            : 'Print Packing List',
-            name            : 'printPackingList',
             scope           : this,
             width           : 150,
             handler : function(){
@@ -543,23 +542,34 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             },
             bodyStyle   : {background  : 'transparent'},
             buttonAlign : 'left',
-            buttons     : [{
-                text    : 'Submit Requests',
-                formBind: true,
-                scope   : this,
-                handler : this.handleSubmit
-            },{
-                text    : 'Save',
-                formBind: true,
-                scope   : this,
-                handler : function(){this.handleSave(1);}
-            },{
-                text    : 'Cancel',
-                scope   : this,
-                handler : function(){
-                    this.resetDirty();
-                    window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
-                }
+            dockedItems : [{
+                style   : {background : 'transparent'},
+                xtype   : 'toolbar',
+                ui      : 'footer',
+                dock    : 'bottom',
+                items: [
+                    {
+                        xtype: 'button',
+                        text    : 'Submit Requests',
+                        formBind: true,
+                        scope   : this,
+                        handler : this.handleSubmit
+                    },{
+                        xtype: 'button',
+                        text    : 'Save',
+                        formBind: true,
+                        scope   : this,
+                        handler : function(){this.handleSave(1);}
+                    }, {
+                        xtype: 'button',
+                        text: 'Cancel',
+                        scope: this,
+                        handler: function () {
+                            this.resetDirty();
+                            window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                        }
+                    }
+                ]
             }]
         });
     },
