@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%
     /*
      * Copyright (c) 2015 LabKey Corporation
@@ -79,6 +80,7 @@
         <th col width="10%">Date of Birth</th>
         <th col width="10%">SOT</th>
         <th col width="10%">DUC</th>
+        <th col width="10%">Draw Date</th>
         <th col width="10%">Specimen Type</th>
         <th col width="10%">Test Requested</th>
     </tr>
@@ -103,12 +105,13 @@
 
             <td col width="10%"><div class="barcode"><%=h(isb.getCustomerBarCode())%></div><div><%=h(isb.getCustomerBarCode())%></div></td>
             <td col width="10%"><div class="barcode"><%=h(getConcatenatedVal(isb.getFmpCode(), isb.getSsn()))%></div><div><%=h(getConcatenatedVal(isb.getFmpCode(), isb.getSsn()))%></div></td>
-            <td col width="10%"><%=h(isb.getLastName())%></td>
-            <td col width="10%"><%=h(isb.getFirstName())%></td>
+            <td col width="10%"><div class="labkey-force-word-break"><%=h(isb.getLastName())%></div></td>
+            <td col width="10%"><div class="labkey-force-word-break"><%=h(isb.getFirstName())%></div></td>
             <td col width="10%"><%=h(isb.getMiddleName())%></td>
             <td col width="10%"><%=h(isb.getBirthDate())%></td>
-            <td col width="10%"><%=h(isb.getSotCode())%></td>
-            <td col width="10%"><%=h(isb.getDucCode())%></td>
+            <td col width="5%"><%=h(isb.getSotCode())%></td>
+            <td col width="5%"><%=h(isb.getDucCode())%></td>
+            <td col width="10%"><%=h(isb.getDrawDate())%></td>
             <td col width="10%"><%=h(isb.getSpecimenType())%></td>
             <td col width="10%"><%=h(packingListBean.getTestType())%></td>
             </tr>
