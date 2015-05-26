@@ -46,6 +46,12 @@
     @page { size: landscape; }
 </style>
 
+<style type="text/css">
+    .wordbreak {
+            word-break: break-all;
+    }
+</style>
+
 <header>
     <h1 align="center">Shipping Manifest</h1>
 </header>
@@ -105,9 +111,9 @@
 
             <td col width="10%"><div class="barcode"><%=h(isb.getCustomerBarCode())%></div><div><%=h(isb.getCustomerBarCode())%></div></td>
             <td col width="10%"><div class="barcode"><%=h(getConcatenatedVal(isb.getFmpCode(), isb.getSsn()))%></div><div><%=h(getConcatenatedVal(isb.getFmpCode(), isb.getSsn()))%></div></td>
-            <td col width="10%"><div class="labkey-force-word-break"><%=h(isb.getLastName())%></div></td>
-            <td col width="10%"><div class="labkey-force-word-break"><%=h(isb.getFirstName())%></div></td>
-            <td col width="10%"><%=h(isb.getMiddleName())%></td>
+            <td col width="10%"><div class="wordbreak"><%=h(isb.getLastName())%></div></td>
+            <td col width="10%"><div class="wordbreak"><%=h(isb.getFirstName())%></div></td>
+            <td col width="10%"><div class="wordbreak"><%=h(isb.getMiddleName())%></div></td>
             <td col width="10%"><%=h(isb.getBirthDate())%></td>
             <td col width="5%"><%=h(isb.getSotCode())%></td>
             <td col width="5%"><%=h(isb.getDucCode())%></td>
