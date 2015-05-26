@@ -25,7 +25,6 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
-import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.PostgresOnlyTest;
 
 import java.io.File;
@@ -114,15 +113,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @Test
     public void testFileUpload()
     {
-        log("creating a new test request by uploading a file");
-
-        click(Locator.linkContainingText("Create a new test request"));
-        _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
-
-        log("upload specimen data from a .tsv file");
-        File file1 = new File(TEST_SPECIMEN_UPLOAD_FILE_1);
-        setFormElement(Locator.tagWithName("input", "file"), file1);
-        clickButton("upload file", 0);
+        File file = new File(TEST_SPECIMEN_UPLOAD_FILE_1);
+        uploadFile(file);
 
         log("verify proper SSN formatting");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
@@ -243,6 +235,48 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         stopImpersonatingRole();
     }
 
+    @Test
+    public void testDataDeletion()
+    {
+        File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
+        uploadFile(file);
+        clickButton("Save");
+        goToAdminConsole();
+        click(Locator.linkWithText("System Maintenance"));
+        waitForText("Configure System Maintenance");
+        click(Locator.linkWithText("HDRL Request Portal PHI Deletion"));
+        //waitForText("System maintenance complete");
+        getDriver().close();
+        switchToMainWindow();
+        goToProjectHome();
+        click(Locator.linkWithText("View test requests"));
+        DataRegionTable drt = new DataRegionTable("query", this);
+        int rowCount = drt.getDataRowCount();
+        List<Integer> archivedRows = new ArrayList<>();
+        for(int row = 0; row < rowCount; row++)
+        {
+            List<String> rowData = drt.getRowDataAsText(row);
+            //all 'Submitted' requests should have been archived
+            org.junit.Assert.assertFalse(rowData.contains("Submitted"));
+            if(rowData.contains("Archived"))
+            {
+                archivedRows.add(row);
+            }
+        }
+
+    }
+
+    private void uploadFile(File file)
+    {
+        log("creating a new test request by uploading a file");
+        click(Locator.linkContainingText("Create a new test request"));
+        _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
+
+        log("upload specimen data from a .tsv file");
+        setFormElement(Locator.tagWithName("input", "file"), file);
+        clickButton("upload file", 0);
+    }
+
     private void verifyDataRegionRows(String tableName, List<Map<String, String>> rows, String key)
     {
         log("verifying specimen rows in the schema browser");
@@ -274,7 +308,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         {
             Locator loc = Locator.xpath("//input[contains(@class, 'form-field') and @name='" + field.getKey() + "']");
             waitForElement(loc);
-
+            log("setting " + field.getKey());
             setFormElement(loc, field.getValue());
         }
 
