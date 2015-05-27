@@ -1,0 +1,16 @@
+<customView xmlns="http://labkey.org/data/xml/queryCustomView" label="Details View">
+    <columns>
+        <column name="CustomerBarcode" />
+        <column name="InboundRequestId"/>
+        <column name="LastName"/>
+        <column name="FirstName"/>
+        <column name="MiddleName"/>
+        <column name="BirthDate"/>
+        <column name="SSN"/>
+        <column name="FMPId"/>
+        <column name="DutyCodeId"/>
+        <column name="DODId"/>
+        <column name="TestingSourceId"/>
+        <column name="DrawDate"/>
+    </columns>
+</customView>

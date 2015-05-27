@@ -17,6 +17,8 @@ package org.labkey.hdrl.query;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.ContainerForeignKey;
 import org.labkey.api.data.DatabaseTableType;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.FilteredTable;
@@ -35,6 +37,9 @@ public class InboundSpecimenTable extends FilteredTable<HDRLQuerySchema>
 
         // wrap all the existing columns
         wrapAllColumns(true);
+        ColumnInfo containerCol = getColumn("Container");
+        ContainerForeignKey.initColumn(containerCol, schema);
+        containerCol.setLabel("Folder");
     }
 
     @Nullable
