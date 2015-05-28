@@ -174,6 +174,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         r1.put("CustomerBarcode", "7777");
         r1.put("LastName", "Johnston");
         r1.put("FirstName", "Jack");
+        r1.put("MiddleName", "Sparrow");
         r1.put("SSN", "222334444");
         r1.put("FMP", "01");
         r1.put("DUC", "A13");
@@ -214,6 +215,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickAndWait(drt.link(idx, 0));
 
         waitForElement(Locator.tagContainingText("span", "Edit a Test Request"));
+
+        testPrintPackingList("Admin");
+
         log("verify submitted requests are readonly for non-admins");
 
         impersonateRole("Reader");
@@ -229,7 +233,25 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         waitForElement(Locator.tagContainingText("td", "Carrier"));
         waitForElement(Locator.tagContainingText("td", "FedEx"));
         assertElementNotPresent(Locator.tagContainingText("span", "Edit a Test Request"));
+
+        testPrintPackingList("Reader");
+
         stopImpersonatingRole();
+    }
+
+    private void testPrintPackingList(String role)
+    {
+        log("Begin verifying 'Print Packing List' for role: " + role);
+
+        clickButton("Print Packing List", 0);
+
+        switchToWindow(1);
+        assertTextPresent("Total Samples: 2");
+        getDriver().close();
+        switchToMainWindow();
+
+        log("Finish verifying 'Print Packing List' for role: " + role);
+
     }
 
     @Test
@@ -281,7 +303,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         selectQuery("hdrl", tableName);
         waitForText("view data");
         clickAndWait(Locator.linkContainingText("view data"));
-        DataRegionTable drt = new DataRegionTable("query", this);
+        DataRegionTable drt = new DataRegionTable("query", this, false);
 
         // find the row to verify
         for (Map<String, String> expectedRow : expectedRows)
