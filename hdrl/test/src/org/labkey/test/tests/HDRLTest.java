@@ -37,9 +37,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-/**
- * Created by klum on 4/23/2015.
- */
 @Category({CustomModules.class})
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
@@ -277,7 +274,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton("upload file", 0);
     }
 
-    private void verifyDataRegionRows(String tableName, List<Map<String, String>> rows, String key)
+    private void verifyDataRegionRows(String tableName, List<Map<String, String>> expectedRows, String key)
     {
         log("verifying specimen rows in the schema browser");
         goToSchemaBrowser();
@@ -287,15 +284,17 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         DataRegionTable drt = new DataRegionTable("query", this);
 
         // find the row to verify
-        for (Map<String, String> row : rows)
+        for (Map<String, String> expectedRow : expectedRows)
         {
-            int idx = drt.getRow(key, row.get(key));
-            assertNotEquals(idx, -1);
+            int idx = drt.getRow(key, expectedRow.get(key));
+            assertNotEquals(String.format("Didn't find row with %s = %s", key, expectedRow.get(key)), idx, -1);
 
-            for (Map.Entry<String, String> field : row.entrySet())
+            Map<String, String> actualRow = new HashMap<>();
+            for (Map.Entry<String, String> field : expectedRow.entrySet())
             {
-                assertEquals("Value did not match expected : " + field.getValue(), drt.getDataAsText(idx, field.getKey()), field.getValue());
+                actualRow.put(field.getKey(), drt.getDataAsText(idx, field.getKey()));
             }
+            assertEquals("Bad row data", expectedRow, actualRow);
         }
     }
 
