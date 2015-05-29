@@ -403,8 +403,7 @@
              (Subset. "CD4-CD8-"  "CD4-CD8-"     CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
              (Subset. "NKT cells" "NKT cells"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))
            (CD3-
-             (Subset. "CD56dim"   "CD56dim"   CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-             (Subset. "CD56hi"    "CD56hi"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))))) ]}
+             (Subset. "CD56+"     "CD56+"     CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))))) ]}
 
   {:id "40"
    :sort-id "AP-040"
@@ -425,9 +424,7 @@
               (Subset. "NKT cells" "NKT cells"
                        CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2))
             (CD3-
-              (Subset. "CD56dim"   "CD56dim"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
-              (Subset. "CD56hi"    "CD56hi"
+              (Subset. "CD56+"     "CD56+"
                        CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
 
 

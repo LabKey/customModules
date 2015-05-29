@@ -13,15 +13,18 @@ Updating analysis plans on the server:
 
 - Execute the "gen-plans.clj" script:
     (via macports)
-    > clj gen-plans.clj
+    > clj gen-plans.clj [plan-id]
 
     (via lien)
-    > lien exec gen-plan.clj
+    > lien exec gen-plan.clj [plan-id]
 
     (or directly)
-    > java -classpath /path/to/clojure.jar clojure.main gen-plan.clj
+    > java -classpath /path/to/clojure.jar clojure.main gen-plan.clj [plan-id]
 
-- The generated plans will be written to out/<plan-id>.tsv
+    Where [plan-id] is an optional analysis plan id.
+
+
+- The generated plans will be written to plans/<plan-id>.tsv
 
 - Upload the analysis plans to the server:
     - go to the AnalysisPlans list
