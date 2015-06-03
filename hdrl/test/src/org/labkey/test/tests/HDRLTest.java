@@ -246,9 +246,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton("Print Packing List", 0);
 
         switchToWindow(1);
-        assertTextPresent("Total Samples: 2");
-        assertElementPresent(Locator.divByClassContaining("barcode"));
-        assertTextPresent(shippingCarrier);
+        waitForElement(Locator.divByClassContaining("barcode"));
+        assertTextPresent("Total Samples: 2", shippingCarrier);
         getDriver().close();
         switchToMainWindow();
 
