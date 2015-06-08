@@ -72,13 +72,13 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
         {
             // Depending on strategy for remembering the number of specimens in the request, might need to stash the value
             // here, prior to deleting the specimen rows
+
+            //set ArchivedRequestCount in InboundRequest table
             SQLFragment addToArchivedRequestCountColSQL = new SQLFragment("UPDATE ");
             addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "i");
             addToArchivedRequestCountColSQL.append(" SET " + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + " = (SELECT COUNT(*) FROM ");
             addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen());
             addToArchivedRequestCountColSQL.append(" WHERE " + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " = RequestId)");
-            addToArchivedRequestCountColSQL.append(", " + requestStatusStatement);
-            addToArchivedRequestCountColSQL.add(HDRLQuerySchema.STATUS_ARCHIVED);
             addToArchivedRequestCountColSQL.append(submittedCondition1);
             addToArchivedRequestCountColSQL.add(retentionDays);
             addToArchivedRequestCountColSQL.append(submittedCondition2);
@@ -107,6 +107,20 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
             int rowCount = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(specimenDeleteSQL);
 
             LOG.info("Deleted " + rowCount + " row(s) of HDRL specimen data");
+
+            //Modify Request Status to 'Archived' from 'Submitted' in InboundRequest table
+            SQLFragment requestStatusSQL = new SQLFragment("UPDATE ");
+            requestStatusSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "s");
+            requestStatusSQL.append(" SET " + requestStatusStatement);
+            requestStatusSQL.add("Archived");
+            requestStatusSQL.append(" WHERE s." + requestStatusStatement);
+            requestStatusSQL.add(HDRLQuerySchema.STATUS_SUBMITTED);
+
+            LOG.info("Modifying Request Status to 'Archived'");
+
+            int numRequestsStatuses = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(requestStatusSQL);
+
+            LOG.info("Modified " + numRequestsStatuses + " request statuses to 'Archived'");
 
             transaction.commit();
         }
