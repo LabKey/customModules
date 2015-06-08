@@ -120,7 +120,9 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
                         (rec.get('box') == box['rowId']) &&
                         (rec.get('drawer') == drawer['rowId'])) {
 
-                    peptides.push(rec);
+                    // omit vials that are checked out or used
+                    if (!rec.get('checkedOut') && !rec.get('used'))
+                        peptides.push(rec);
                 }
             }, this);
 
@@ -376,8 +378,9 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
 
                                 var status = this.vialStatus[id];
 
-                                if (status == 'checkedOut')
+                                if (status == 'checkedOut') {
                                     row.checkedOut = true;
+                                }
                                 else if (status == 'used'){
                                     row.checkedOut = true;
                                     row.used = true;
@@ -404,6 +407,7 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
                                     });
                                     msgbox.show();
                                     msgbox.getEl().fadeOut({duration : 3000, callback : function(){ msgbox.close(); }});
+                                    this.vialStore.on('load', function(){this.redrawPanel();}, this, {single : true});
                                     this.vialStore.reload();
                                 }
                             });
@@ -566,6 +570,8 @@ Ext4.define('LABKEY.ext4.FreezerDiagramPanel', {
     alias: 'widget.labkey-freezer-diagram-panel',
 
     border: false,
+
+    shrinkWrap: 3, // both width & height depend on content
 
     constructor: function (config)
     {

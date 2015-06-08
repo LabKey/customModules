@@ -950,7 +950,7 @@ Ext4.define('LABKEY.ext4.SearchPeptidePanel', {
                             sort        : 'name',
                             apiVersion  : 9.1
                         },
-                        reader: { type: 'json', root: 'rows', metaProperty : 'none' }
+                        reader: { type: 'json', root: 'rows', metaProperty : 'none', totalProperty : 'rowCount' }
                     },
                     fields: [
                         {name: 'peptide_id', mapping : 'peptide_id.value'},
