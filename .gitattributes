@@ -12,8 +12,10 @@ hdrl/hdrl.iml -text
 hdrl/module.properties -text
 hdrl/resources/credits/scripts.txt -text
 hdrl/resources/queries/hdrl/InboundSpecimen/.qview.xml -text
+hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.30-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.31-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.11.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.20.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.11-15.12.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.12-15.13.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.13-15.14.sql -text

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+/* hdrl-14.31-15.10.sql */
+
 -- Note: Despite the version number, this script was actually added early in the 15.20 cycle.
 CREATE SCHEMA hdrl;
 
