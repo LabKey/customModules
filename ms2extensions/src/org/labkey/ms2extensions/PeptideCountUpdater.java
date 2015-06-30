@@ -15,6 +15,7 @@
  */
 package org.labkey.ms2extensions;
 
+import org.apache.log4j.Logger;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
@@ -49,6 +50,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PeptideCountUpdater
 {
     private static final Lock LOCK = new ReentrantLock();
+
+    private static final Logger LOG = Logger.getLogger(PeptideCountUpdater.class);
 
     /** @return error message with any problems encountered during the update */
     public String update(Container container, User user)
@@ -103,11 +106,14 @@ public class PeptideCountUpdater
             }
 
             // Only allow one thread to update at a time
+            LOG.info("Starting to update peptide counts for " + runIds);
             try (DbScope.Transaction transaction = DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getScope().ensureTransaction(LOCK))
             {
                 // Execute the query, filtering to just the runs that need aggregates calculated
                 SimpleFilter filter = new SimpleFilter(new SimpleFilter.InClause(ms2RunColumn.getFieldKey(), runIds));
                 Collection<Map<String, Object>> results = new TableSelector(table, Arrays.asList(ms2RunColumn, totalPeptidesColumn, distinctPeptidesColumn), filter, null).getMapCollection();
+
+                LOG.info("Inserting peptide counts for " + runIds);
 
                 // Iterate through the results and insert them into the table so they're cached and fast to show
                 for (Map<String, Object> result : results)
@@ -117,6 +123,7 @@ public class PeptideCountUpdater
                     Table.insert(null, DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getTable("Ms2RunAggregates"), toInsert);
                 }
                 transaction.commit();
+                LOG.info("Finished updating peptide counts for " + runIds);
             }
         }
         return null;
