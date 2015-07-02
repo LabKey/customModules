@@ -168,7 +168,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitAndClick(visButton);
         waitForText("ICEMR Visualization");
         Locator.CssLocator datapointLoc = Locator.css("svg g a.point");
-        WebElement datapoint = datapointLoc.waitForElement(getDriver(), shortWait());
+        WebElement datapoint = datapointLoc.waitForElement(shortWait());
         String datapointData = datapoint.getAttribute("title");
         for (String s : new String[] {"Parasitemia", EXPERIMENT1_ID+"100101", "SampleID"})
             assertTrue("Datapoint data ['" + datapointData + "'] doesn't contain ['" + s + "']", datapointData.contains(s));
@@ -837,7 +837,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         else
         {
             Locator surveyFieldLoc = Locator.name(field);
-            WebElement surveyField = surveyFieldLoc.waitForElement(getDriver(), shortWait());
+            WebElement surveyField = surveyFieldLoc.waitForElement(shortWait());
             setFormElement(surveyField, value);
             fireEvent(surveyField, SeleniumEvent.blur);
         }
