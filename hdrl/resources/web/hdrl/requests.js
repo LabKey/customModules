@@ -44,6 +44,8 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     {name: 'LastName', mapping : 'LastName.value', defaultValue : null},
                     {name: 'FirstName', mapping : 'FirstName.value', defaultValue : null},
                     {name: 'MiddleName', mapping : 'MiddleName.value', defaultValue : null},
+                    {name: 'Initials', mapping: 'Initials.value', defaultValue : null},
+                    {name: 'GenderId', mapping: 'GenderId.displayValue', defaultValue : null},
                     {name: 'BirthDate', type : 'date', mapping : 'BirthDate.value', defaultValue : null},
                     {name: 'SSN', mapping : 'SSN.value', defaultValue : null},
                     {name: 'DODId', mapping : 'DODId.value', defaultValue : null},
@@ -62,6 +64,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             lastname : 'LastName',
             firstname : 'FirstName',
             middlename : 'MiddleName',
+            initials: 'Initials',
+            genderid: 'GenderId',
+            gender: 'GenderId',
             birthdate : 'BirthDate',
             ssn : 'SSN',
             dodid : 'DODId',
@@ -174,6 +179,32 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 {text: 'Last Name', dataIndex: 'LastName', editor: {xtype: 'textfield'}},
                 {text: 'First Name', dataIndex: 'FirstName', editor: {xtype: 'textfield'}},
                 {text: 'Middle Name', dataIndex: 'MiddleName', editor: {xtype: 'textfield'}},
+                {text: 'Initials', dataIndex: 'Initials', editor: {xtype: 'textfield'}},
+                {text: 'Gender', dataIndex: 'GenderId',
+                    editor : {
+                        xtype : 'combo',
+                        store : {
+                            model   : 'LABKEY.HDRL.SpecimenLK',
+                            autoLoad: true,
+                            pageSize: 200,
+                            proxy : {
+                                type : 'ajax',
+                                url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
+                                extraParams : {
+                                    schemaName  : 'hdrl',
+                                    queryName   : 'gender'
+                                },
+                                reader : { type : 'json', root : 'rows' }
+                            },
+                            listeners : {
+                                load : {fn: function(cmp, recs){this.createDisplayValueMap('GenderId', recs, 'RowId', 'Description');}, scope : this}
+                            }
+                        },
+                        valueField      : 'Description',
+                        displayField    : 'Description',
+                        editable        : false
+                    }
+                },
                 {text: 'Date of Birth', dataIndex: 'BirthDate', width : 150, renderer : Ext4.util.Format.dateRenderer('m/d/Y') , editor : {xtype: 'datefield'}},
                 {text: 'FMP', width : 75, dataIndex: 'FMPId',
                     editor : {
@@ -295,6 +326,14 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
         var formItems = [];
 
+        if (this.requestStatusId == 2)
+        {
+            formItems.push({
+                xtype   : 'displayfield',
+                value   :  '<span class="labkey-warning"><b>Warning:</b> This request has already been submitted. Changes here will not be pushed to LabWare.</span></p>'
+            });
+        }
+
         formItems.push({
             xtype       : 'displayfield',
             value       : '<strong>Test Request</strong><br/>' +
@@ -332,9 +371,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             listeners : {
                 scope       : this,
                 change      : function(cmp, value) {
+                    this.requestType = value;
                     if (this.testTypeId != value)
                         this.markDirty(true);
-                    this.requestType = value;
+
                 }
             },
             valueField      : 'RowId',
@@ -523,6 +563,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
         formItems.push({
             xtype           : 'button',
+            itemId          : 'packingListButton',
             text            : 'Print Packing List',
             scope           : this,
             disabled        : (this.requestId == -1),
@@ -551,16 +592,17 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 items: [
                     {
                         xtype: 'button',
-                        text    : 'Submit Requests',
-                        formBind: true,
+                        itemId : 'submitButton',
+                        text    : 'Submit Request',
+                        disabled : (this.isSubmitted() || this.testTypeId == null),
                         scope   : this,
-                        handler : this.handleSubmit
+                        handler : function() {this.handleSave(2);}
                     },{
                         xtype: 'button',
+                        itemId : 'saveButton',
                         text    : 'Save',
-                        formBind: true,
                         scope   : this,
-                        handler : function(){this.handleSave(1);}
+                        handler : function(){this.handleSave(this.requestStatusId);}
                     }, {
                         xtype: 'button',
                         text: 'Cancel',
@@ -575,49 +617,186 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         });
     },
 
-    handleSubmit : function() {
 
-        var form = this.down('form').getForm();
-        if (form.isValid()) {
 
-            // validate the store before we save
-            var records = [];
-            for (var i=0; i < this.grid.getStore().getCount(); i++){
-                records.push(this.grid.getStore().getAt(i));
+    toggleButtons : function() {
+        var submitButton = this.down('button#submitButton');
+        if (submitButton)
+            submitButton.setDisabled(this.isSubmitted() || (this.testTypeId == null && this.requestType == null) || this.grid.getStore().getCount() == 0);
+        var saveButton = this.down('button#saveButton');
+        if (saveButton)
+            saveButton.setDisabled(!this.isDirty() || !this.down('form').getForm().isValid());
+        var packingListButton = this.down('button#packingListButton');
+        if (packingListButton)
+            packingListButton.setDisabled(this.requestId == -1 || this.grid.getStore().getCount() == 0);
+    },
+
+    saveSpecimens : function(newRequestStatusId, callback) {
+        var extraContext = null;
+        if (newRequestStatusId == 1){
+            extraContext = {validationMode : 'OFF'};
+        } else if (newRequestStatusId == 2) {
+            extraContext = {validationMode : 'WITH_UQ'};
+        }
+
+        // save any specimen requests
+        var insertedRows = [];
+        var updatedRows = [];
+        var deletedRows = [];
+
+        Ext4.each(this.grid.getStore().getModifiedRecords(), function(rec){
+
+            var row = this.prepareRow(rec.copy().data);
+            if (!row.RowId){
+                row.RowId = null;
+                insertedRows.push(row);
             }
+            else {
+                updatedRows.push(row);
+            }
+        }, this);
 
-            this.verifyRows(records, null, function(success){
+        Ext4.each(this.grid.getStore().getRemovedRecords(), function(rec){
 
-                if (success) {
-                    this.handleSave(2);
-                }
-                else {
-                    Ext4.Msg.show({title: 'Error', msg: 'Unable to submit the request. There are invalid specimen records.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
-                }
+            var row = this.prepareRow(rec.copy().data);
+            if (row.RowId){
+                deletedRows.push(row);
+            }
+        }, this);
+
+        this.error = false;
+        var commands = [];
+        if (insertedRows.length > 0) {
+            commands.push({
+                schemaName  : 'hdrl',
+                queryName   : 'inboundSpecimen',
+                rows        : insertedRows,
+                extraContext: extraContext,
+                command     : 'insert'
             });
         }
-        else {
-            Ext4.Msg.show({title: "Error", msg: 'Please enter all required fields.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+        if (updatedRows.length > 0) {
+            commands.push({
+                schemaName  : 'hdrl',
+                queryName   : 'inboundSpecimen',
+                rows        : updatedRows,
+                extraContext: extraContext,
+                command     : 'update'
+            });
+        }
+        if (deletedRows.length > 0) {
+            commands.push({
+                schemaName  : 'hdrl',
+                queryName   : 'inboundSpecimen',
+                rows        : deletedRows,
+                command     : 'delete'
+            });
+        }
+        if (commands.length > 0) {}
+        LABKEY.Query.saveRows(
+                {
+                    commands: commands,
+                    scope       : this,
+                    success     : function(res) {
+                        if (!this.error) {
+                            this.resetDirty();
+                            if (callback)
+                                callback.call(this);
+                        }
+                    },
+                    failure     : function(res){
+                        this.error = true;
+                        var message = 'An error occurred saving the specimen data.  See the log for details.';
+                        if (res.exception)
+                            message = res.exception;
+                        Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                    }
+                }
+        );
+    },
+
+    submitRequest : function()
+    {
+        if (this.requestId != -1) {
+
+            var row = {requestId : this.requestId, isNewSubmit: true, requestStatusId : 2, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.trackingNumber};
+
+            // handle inserts & updates
+            LABKEY.Query.updateRows({
+                schemaName  : 'hdrl',
+                queryName   : 'inboundRequest',
+                rows        : [row],
+                scope       : this,
+                success     : function(res) {
+                    window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                },
+                failure     : function(){
+                    this.error = true;
+                    Ext4.Msg.show({title: "Error",
+                        msg: 'An error occurred submitting the test request.  See the log for details.',
+                        buttons: Ext4.MessageBox.OK,
+                        icon: Ext4.MessageBox.ERROR,
+                        scope: this,
+                        fn: function(buttonId, text, opt) {
+                            window.location = LABKEY.ActionURL.buildURL('hdrl', 'editRequest.view', null, {requestId : this.requestId});
+                        }});
+
+                }
+            });
+
+        } else {
+            this.error = true;
+            Ext4.Msg.show({title: "Error", msg: 'The request must be saved before being submitted.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
         }
     },
 
-    handleSave : function(requestStatusId) {
+    isSubmitted : function()
+    {
+        return this.requestStatusId >= 2;
+    },
 
+    handleSave : function(newRequestStatusId) {
+        if (this.isSubmitted())
+        {
+            Ext4.Msg.show({
+                        title: "Confirmation",
+                        msg: '<b>Warning</b>: This request has already been submitted.  ' +
+                        'Changes here will not be pushed to LabWare.  Do you still want to save your changes?',
+                        buttons: Ext4.MessageBox.YESNO,
+                        icon: Ext4.MessageBox.WARNING,
+                        scope: this,
+                        fn: function (buttonId, text, opt)
+                        {
+                            if (buttonId == "yes")
+                                this.saveRequestAndSpecimens(2);
+                        }
+                    }
+            );
+        }
+        else
+        {
+            this.saveRequestAndSpecimens(newRequestStatusId);
+        }
+    },
+
+    saveRequestAndSpecimens : function(newRequestStatusId) {
+
+        // if saving an already-submitted request, we don't want to change the status, just update the request and/or the specimens
+        var changeStatus = newRequestStatusId == 2 && this.requestStatusId == 1;
         var form = this.down('form').getForm();
         var fn = this.requestId != -1 ? LABKEY.Query.updateRows : LABKEY.Query.insertRows;
-        if (form.isValid()) {
+        if (form.isValid()) {  // make sure we have all the required fields
 
-            this.roweditor.completeEdit();
-            var row = {requestStatusId : requestStatusId, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.trackingNumber};
+            this.roweditor.completeEdit(); // check if editing is still in progress
+            // save the request as pending so we can update the specimen rows
+            var row = {
+                requestStatusId : changeStatus ? 1 : this.requestStatusId,
+                isNewSubmit : false,
+                shippingCarrierId : this.shippingCarrier,
+                testTypeId : this.requestType,
+                shippingNumber : this.trackingNumber};
             if (this.requestId != -1){
                 row.requestId = this.requestId;
-            }
-
-            var extraContext = null;
-            if (requestStatusId == 1){
-                extraContext = {validationMode : 'OFF'};
-            } else if (requestStatusId == 2) {
-                extraContext = {validationMode : 'WITH_UQ'};
             }
 
             // handle inserts & updates
@@ -630,105 +809,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     if (res.rows && res.rows.length === 1)
                     {
                         this.requestId = res.rows[0].requestid;
-
-                        // save any specimen requests
-                        var insertedRows = [];
-                        var updatedRows = [];
-                        var deletedRows = [];
-
-                        Ext4.each(this.grid.getStore().getModifiedRecords(), function(rec){
-
-                            var row = this.prepareRow(rec.copy().data);
-                            if (!row.RowId){
-                                row.RowId = null;
-                                insertedRows.push(row);
-                            }
-                            else {
-                                updatedRows.push(row);
-                            }
-                        }, this);
-
-                        Ext4.each(this.grid.getStore().getRemovedRecords(), function(rec){
-
-                            var row = this.prepareRow(rec.copy().data);
-                            if (row.RowId){
-                                deletedRows.push(row);
-                            }
-                        }, this);
-
-                        var multi = new LABKEY.MultiRequest();
-                        this.error = false;
-
-                        if (insertedRows.length > 0){
-                            multi.add(LABKEY.Query.insertRows, {
-                                schemaName  : 'hdrl',
-                                queryName   : 'inboundSpecimen',
-                                rows        : insertedRows,
-                                extraContext: extraContext,
-                                scope       : this,
-                                success     : function(res) {},
-                                failure     : function(res){
-                                    this.error = true;
-                                    var message = 'An error saving the test request.';
-                                    if (res.exception)
-                                        message = res.exception;
-                                    Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
-                                }
-                            }, this);
-                        }
-
-                        if (updatedRows.length > 0){
-                            multi.add(LABKEY.Query.updateRows, {
-                                schemaName  : 'hdrl',
-                                queryName   : 'inboundSpecimen',
-                                rows        : updatedRows,
-                                extraContext: extraContext,
-                                scope       : this,
-                                success     : function(res) {},
-                                failure     : function(res){
-                                    this.error = true;
-                                    var message = 'An error saving the test request.';
-                                    if (res.exception)
-                                        message = res.exception;
-                                    Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
-                                }
-                            }, this);
-                        }
-
-                        if (deletedRows.length > 0){
-                            multi.add(LABKEY.Query.deleteRows, {
-                                schemaName  : 'hdrl',
-                                queryName   : 'inboundSpecimen',
-                                rows        : deletedRows,
-                                scope       : this,
-                                success     : function(res) {},
-                                failure     : function(res){
-                                    this.error = true;
-                                    var message = 'An error saving the test request.';
-                                    if (res.exception)
-                                        message = res.exception;
-                                    Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
-                                }
-                            }, this);
-                        }
-
-                        // perform the updates
-                        if (insertedRows.length > 0 || updatedRows.length > 0 || deletedRows.length > 0){
-                            multi.send(function(){
-                                if (!this.error) {
-                                    this.resetDirty();
-                                    window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
-                                }
-                            }, this);
-                        }
-                        else{
-                            this.resetDirty();
-                            window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
-                        }
+                        this.saveSpecimens(newRequestStatusId, (changeStatus && newRequestStatusId == 2) ? this.submitRequest : null); // save the specimens with the request still pending
                     }
                 },
                 failure     : function(){
-                    Ext4.Msg.show({title: "Error", msg: 'An error saving the test request.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
+                    Ext4.Msg.show({title: "Error", msg: 'An error occurred saving the test request. See the log for details.', buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                 }
             });
         }
@@ -823,10 +908,12 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
     markDirty : function(dirty) {
         this.dirty = dirty;
+        this.toggleButtons();
     },
 
     resetDirty : function() {
         this.dirty = false;
+        this.toggleButtons();
     },
 
     isDirty : function() {

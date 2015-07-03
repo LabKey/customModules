@@ -69,8 +69,10 @@ public class HDRLManager
 
     public List<InboundSpecimenBean> getInboundSpecimen(int requestId)
     {
-        String joinStatement = "SELECT hdrl.inboundspecimen.*, hdrl.familymemberprefix.code as fmpCode, hdrl.dutycode.code as ducCode, hdrl.sourceoftesting.code as sotCode" +
+        String joinStatement = "SELECT hdrl.inboundspecimen.*, hdrl.gender.code as genderId, hdrl.familymemberprefix.code as fmpCode, hdrl.dutycode.code as ducCode, hdrl.sourceoftesting.code as sotCode" +
                 " FROM hdrl.inboundspecimen" +
+                " LEFT JOIN hdrl.gender" +
+                " ON hdrl.inboundspecimen.genderId=hdrl.gender.rowid" +
                 " LEFT JOIN hdrl.familymemberprefix" +
                 " ON hdrl.inboundspecimen.fmpid=hdrl.familymemberprefix.rowid" +
                 " LEFT JOIN hdrl.dutycode" +

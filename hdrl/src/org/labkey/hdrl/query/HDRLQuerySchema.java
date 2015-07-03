@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.data.DisplayColumn;
 import org.labkey.api.data.RenderContext;
 import org.labkey.api.data.SchemaTableInfo;
@@ -62,6 +63,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
     public static final String TABLE_INBOUND_REQUEST = "InboundRequest";
     public static final String TABLE_SPECIMEN = "InboundSpecimen";
     public static final String TABLE_REQUEST_STATUS = "RequestStatus";
+    public static final String TABLE_SHIPPING_CARRIER = "ShippingCarrier";
+    public static final String TABLE_TEST_TYPE = "TestType";
     public static final String TABLE_FAMILY_MEMBER_PREFIX = "FamilyMemberPrefix";
     public static final String TABLE_DUTY_CODE = "DutyCode";
     public static final String TABLE_SOURCE_OF_TESTING = "SourceOfTesting";
@@ -112,12 +115,12 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     public HDRLQuerySchema(User user, Container container)
     {
-        super(NAME, DESCRIPTION, user, container, DbSchema.get(NAME));
+        super(NAME, DESCRIPTION, user, container, DbSchema.get(NAME, DbSchemaType.Module));
     }
 
     public DbSchema getSchema()
     {
-        return DbSchema.get(NAME);
+        return DbSchema.get(NAME, DbSchemaType.Module);
     }
 
     public SqlDialect getSqlDialect()
@@ -184,7 +187,6 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             {
                                 if(!STATUS_ARCHIVED.equals(getStatus(status)))
                                 {
-                                    // FIXME would it be better to change the schema so the Specimen table uses "RequestId" instead of InboundRequestId?
                                     FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
                                     SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                                     ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);

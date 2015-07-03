@@ -15,6 +15,7 @@
  */
 package org.labkey.test.tests;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -44,6 +45,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     protected final String TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/sample_upload_01.tsv";
     protected final String TEST_SPECIMEN_UPLOAD_FILE_2 = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/sample_upload_02.xlsx";
 
+    private static final String SUBMIT_BUTTON_TEXT = "Submit Request";
+    private static final String SAVE_BUTTON_TEXT = "Save";
+    private static final String CONFIRM_SAVE_TEXT = "Do you still want to save your changes?";
 
     @Override
     protected String getProjectName()
@@ -71,14 +75,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         click(Locator.linkContainingText("Create a new test request"));
 
-        // validate required fields
-        log("validate required fields");
-        clickButton("Save", 0);
-        _extHelper.waitForExtDialog("Error");
-        clickButtonContainingText("OK", "Error");
-        _extHelper.waitForExtDialogToDisappear("Error");
-
-        _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
+        // we select this even though there is only one option available because there may be other types in the future
+        // Also, this test will fail without waiting for the combo box to be populated, so this is an easy way to wait
+        // for that.
+        _ext4Helper.selectComboBoxItem("Request Type", "HIV Screening Algorithm");
+        assertElementPresent("Submit button should not be enabled if no specimen data are available", Locators.disabledSubmit, 1);
 
         // add specimen through the row picker
         List<Map<String, String>> rows = new ArrayList<>();
@@ -101,7 +102,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         addSpecimenRequestRow(r2, "Required field(s) missing: FMP, Draw Date", false);
 
         log("ensure row editor saves the currently edited row");
-        clickButton("Save");
+        clickButton("Save", 0);
 
         // verify the inserted row via the data region table
         verifyDataRegionRows("InboundSpecimen", rows, "CustomerBarcode");
@@ -119,14 +120,15 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("verify status message update");
         waitForElement(Locator.tagContainingText("div", "Required field(s) missing: FMP, Draw Date, SSN"));
         waitForElement(Locator.tagContainingText("div", "Required field(s) missing: FMP"));
+        waitForElement(Locator.tagContainingText("div", "Birth date must be before draw date; Required field(s) missing: SSN"));
 
         log("verify submit error");
-        clickButton("Submit Requests", 0);
+        clickButton(SUBMIT_BUTTON_TEXT, 0);
         _extHelper.waitForExtDialog("Error");
         clickButtonContainingText("OK", "Error");
         _extHelper.waitForExtDialogToDisappear("Error");
 
-        clickButton("Save");
+        clickButton(SAVE_BUTTON_TEXT, 0);
 
         List<Map<String, String>> rows = new ArrayList<>();
         Map<String, String> r1 = new HashMap<>();
@@ -167,7 +169,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("verify proper SSN formatting");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
-        clickButton("Save");
+        clickButton(SAVE_BUTTON_TEXT, 0);
 
         List<Map<String, String>> rows = new ArrayList<>();
         Map<String, String> r1 = new HashMap<>();
@@ -175,6 +177,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         r1.put("LastName", "Johnston");
         r1.put("FirstName", "Jack");
         r1.put("MiddleName", "Sparrow");
+        r1.put("Initials", "jsj");
+        r1.put("Gender", "Male");
         r1.put("SSN", "222334444");
         r1.put("FMP", "01");
         r1.put("DUC", "A13");
@@ -185,6 +189,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         r2.put("CustomerBarcode", "8888");
         r2.put("LastName", "Johnston");
         r2.put("FirstName", "Fred");
+        r2.put("Gender", "Unknown");
         r2.put("SSN", "555443333");
         r2.put("FMP", "02");
         r2.put("DUC", "A14");
@@ -205,11 +210,14 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("submitting an existing request");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
-        clickButton("Submit Requests");
+        clickButton(SUBMIT_BUTTON_TEXT);
 
         drt = new DataRegionTable("query", this);
         idx = drt.getRow("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
+        Assert.assertFalse(drt.getDataAsText(idx, 5).trim().isEmpty()); // "submitted by" field should be filled in
+        Assert.assertFalse(drt.getDataAsText(idx, 6).trim().isEmpty()); // submitted date should be filled in
+
         log("ensure submitted requests are still editable by admins");
         assertEquals("EDIT", drt.getDataAsText(idx, 0));
         clickAndWait(drt.link(idx, 0));
@@ -239,6 +247,73 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         stopImpersonatingRole();
     }
 
+    @Test
+    public void testEditSubmittedRequest()
+    {
+        log("creating a new test request by uploading a file");
+
+        click(Locator.linkContainingText("Create a new test request"));
+        log("upload specimen data from a .xlsx file");
+        File file2 = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
+        setFormElement(Locator.tagWithName("input", "file"), file2);
+        clickButton("upload file", 0);
+
+        log("submitting new test request");
+        waitForElement(Locator.tagContainingText("div", "222-33-4444"));
+        waitForElement(Locator.tagContainingText("div", "555-44-3333"));
+        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testEditSubmittedRequest");
+        clickButton(SUBMIT_BUTTON_TEXT);
+        assertTextNotPresent("Create a new test request"); // submit should take us back to the view test requests page
+
+        log("Edit the submitted request as admin");
+        DataRegionTable drt = new DataRegionTable("query", this);
+        int idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
+        assertNotEquals(idx, -1);
+        assertEquals("Submitted", drt.getDataAsText(idx, 2));
+        String submittedDate = drt.getDataAsText(idx, 6).trim();
+
+        log("ensure submitted requests are still editable by admins");
+        assertEquals("EDIT", drt.getDataAsText(idx, 0));
+        clickAndWait(drt.link(idx, 0));
+
+        waitForElement(Locator.tagContainingText("span", "Edit a Test Request"));
+        assertTextPresent("This request has already been submitted");
+        assertElementPresent("Submit button should not be enabled if request has been submitted", Locators.disabledSubmit, 1);
+
+        log("Test edit and cancel save of a submitted request");
+        _ext4Helper.selectComboBoxItem("Carrier","DHL");
+        assertElementPresent("Save button should be enabled if request has been edited", Locators.enabledSave, 1);
+        clickButton("Save", 0);
+        waitForText(CONFIRM_SAVE_TEXT);
+        clickButton("No", 0);
+
+        log("Test that not saving request does not change anything");
+        clickButton("Cancel", 0); // takes you back to the view test requests page
+        idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
+        assertNotEquals(idx, -1);
+        assertEquals("Submitted", drt.getDataAsText(idx, 2));
+        assertNotEquals("DHL", drt.getDataAsText(idx, 3));
+        assertEquals("EDIT", drt.getDataAsText(idx, 0));
+
+        log("Test edit and save of a submitted request");
+        clickAndWait(drt.link(idx, 0));
+        _ext4Helper.selectComboBoxItem("Carrier","DHL");
+        assertElementPresent("Save button should be enabled if request has been edited", Locators.enabledSave, 1);
+        clickButton("Save", 0);
+        waitForText(CONFIRM_SAVE_TEXT);
+        clickButton("Yes", 0);
+
+        log("Test that saving request does not change the request status");
+        goToProjectHome();
+        click(Locator.linkContainingText("View test requests"));
+        idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
+        assertNotEquals(idx, -1);
+        assertEquals("Submitted", drt.getDataAsText(idx, 2));
+        assertEquals("DHL", drt.getDataAsText(idx, 3));
+        // submitted date should still be the same
+        assertEquals(submittedDate, drt.getDataAsText(idx, 6));
+    }
+
     private void testPrintPackingList(String role, String shippingCarrier)
     {
         log("Begin verifying 'Print Packing List' for role: " + role);
@@ -260,7 +335,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     {
         File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
         uploadFile(file);
-        clickButton("Save");
+        clickButton(SAVE_BUTTON_TEXT, 0);
+        clickButton("Cancel");
         goToAdminConsole();
         click(Locator.linkWithText("System Maintenance"));
         waitForText("Configure System Maintenance");
@@ -357,5 +433,10 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public List<String> getAssociatedModules()
     {
         return Arrays.asList("HDRL");
+    }
+
+    public static class Locators {
+        public static final Locator.XPathLocator disabledSubmit = Locator.xpath("//a[contains(normalize-space(@class),'x4-btn-disabled')]//span[text()='" + SUBMIT_BUTTON_TEXT + "']");
+        public static final Locator.XPathLocator enabledSave = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + SAVE_BUTTON_TEXT + "']");
     }
 }

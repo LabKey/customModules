@@ -5,6 +5,8 @@
         <column name="LastName"/>
         <column name="FirstName"/>
         <column name="MiddleName"/>
+        <column name="Initials"/>
+        <column name="GenderId"/>
         <column name="BirthDate"/>
         <column name="SSN"/>
         <column name="FMPId"/>

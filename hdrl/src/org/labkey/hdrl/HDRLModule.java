@@ -16,15 +16,19 @@
 
 package org.labkey.hdrl;
 
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.FolderTypeManager;
 import org.labkey.api.module.ModuleContext;
+import org.labkey.api.query.ValidationException;
+import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.SystemMaintenance;
 import org.labkey.api.view.WebPartFactory;
 import org.labkey.hdrl.query.HDRLQuerySchema;
+import org.labkey.hdrl.query.LabWareQuerySchema;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,8 +36,8 @@ import java.util.Set;
 
 public class HDRLModule extends DefaultModule
 {
+    private static final Logger _log = Logger.getLogger(HDRLModule.class);
     public static final String NAME = "HDRL";
-
 
     @Override
     public String getName()
@@ -44,7 +48,7 @@ public class HDRLModule extends DefaultModule
     @Override
     public double getVersion()
     {
-        return 15.20;
+        return 15.21;
     }
 
     @Override
@@ -73,6 +77,15 @@ public class HDRLModule extends DefaultModule
         ContainerManager.addContainerListener(new HDRLContainerListener());
 
         HDRLQuerySchema.register(this);
+        try
+        {
+            LabWareQuerySchema.verifyLabWareDataSource();
+            LabWareQuerySchema.register(this);
+        }
+        catch (ValidationException e)
+        {
+            _log.error(e.getMessage() + "  Check your data source configuration.");
+        }
 
         FolderTypeManager.get().registerFolderType(this, new HDRLFolderType(this));
 
@@ -92,6 +105,6 @@ public class HDRLModule extends DefaultModule
     @NotNull
     public Set<String> getSchemaNames()
     {
-        return Collections.singleton(HDRLQuerySchema.NAME);
+        return PageFlowUtil.set(HDRLQuerySchema.NAME, LabWareQuerySchema.getFullyQualifiedDataSource());
     }
 }

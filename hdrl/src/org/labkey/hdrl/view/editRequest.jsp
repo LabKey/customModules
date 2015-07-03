@@ -47,6 +47,9 @@
 
     String renderId = "requests-editor-" + UniqueID.getRequestScopedUID(HttpView.currentRequest());
 %>
+<style type="text/css">
+    .labkey-warning  { color: red; }
+</style>
 
 <labkey:errors></labkey:errors>
 <div id="<%= h(renderId)%>" class="requests-editor"></div>

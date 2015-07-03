@@ -25,6 +25,7 @@ import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ExportAction;
 import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.SimpleApiJsonForm;
+import org.labkey.api.action.SimpleErrorView;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.admin.AdminUrls;
@@ -39,7 +40,7 @@ import org.labkey.api.query.QueryView;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.resource.Resource;
-import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.RequiresSiteAdmin;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.InsertPermission;
@@ -87,7 +88,7 @@ public class HDRLController extends SpringActionController
         AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "HDRL Sensitive Data", new ActionURL(HDRLSensitiveDataAdminAction.class, ContainerManager.getRoot()));
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class BeginAction extends SimpleViewAction
     {
         public ModelAndView getView(Object o, BindException errors) throws Exception
@@ -119,23 +120,31 @@ public class HDRLController extends SpringActionController
     }
 
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class RequestDetailsAction extends SimpleViewAction
     {
         @Override
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
-            InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(),Integer.parseInt(getViewContext().getRequest().getParameter("query.InboundRequestId~eq")) );
-            UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
-            JspView jsp = new JspView("/org/labkey/hdrl/view/requestDetails.jsp", bean);
-            jsp.setTitle("Test Request");
+            String requestId = getViewContext().getRequest().getParameter("query.InboundRequestId~eq");
+            if (requestId != null)
+            {
+                InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), Integer.parseInt(requestId));
+                UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
+                JspView jsp = new JspView("/org/labkey/hdrl/view/requestDetails.jsp", bean);
+                jsp.setTitle("Test Request");
 
-            QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLQuerySchema.TABLE_SPECIMEN);
-            QueryView queryView = schema.createView(getViewContext(), settings, errors);
+                QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLQuerySchema.TABLE_SPECIMEN);
+                QueryView queryView = schema.createView(getViewContext(), settings, errors);
 
-            jsp.setView("queryView", queryView);
-
-            return jsp;
+                jsp.setView("queryView", queryView);
+                return jsp;
+            }
+            else
+            {
+                errors.reject("RequestId is required");
+                return new SimpleErrorView(errors);
+            }
         }
 
         @Override
@@ -145,7 +154,7 @@ public class HDRLController extends SpringActionController
         }
     }
 
-    @RequiresPermissionClass(InsertPermission.class)
+    @RequiresPermission(InsertPermission.class)
     public class EditRequestAction extends SimpleViewAction<RequestForm>
     {
         private String _navLabel = "Create a new Test Request";
@@ -159,6 +168,10 @@ public class HDRLController extends SpringActionController
 
                 TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getTableInfoInboundRequest());
                 BeanUtils.copyProperties(form, selector.getObject(form.getRequestId(), RequestForm.class));
+            }
+            else
+            {
+                form.setTestTypeId(1); // default to first test type
             }
 
             if (form.getRequestStatusId() >= 2 && !getContainer().hasPermission(getUser(), AdminPermission.class))
@@ -234,7 +247,7 @@ public class HDRLController extends SpringActionController
 
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class VerifySpecimenAction extends ApiAction<VerifyForm>
     {
         @Override
@@ -284,7 +297,7 @@ public class HDRLController extends SpringActionController
     {
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class DownloadSpecimenTemplateAction extends ExportAction
     {
         @Override
@@ -308,7 +321,7 @@ public class HDRLController extends SpringActionController
         }
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class PrintPackingListAction extends SimpleViewAction<PackingListBean>
     {
         @Override

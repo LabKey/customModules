@@ -114,10 +114,10 @@
             <td col width="10%"><div class="wordbreak"><%=h(isb.getLastName())%></div></td>
             <td col width="10%"><div class="wordbreak"><%=h(isb.getFirstName())%></div></td>
             <td col width="10%"><div class="wordbreak"><%=h(isb.getMiddleName())%></div></td>
-            <td col width="10%"><%=h(isb.getBirthDate())%></td>
+            <td col width="10%"><%=h(formatDate(isb.getBirthDate()))%></td>
             <td col width="5%"><%=h(isb.getSotCode())%></td>
             <td col width="5%"><%=h(isb.getDucCode())%></td>
-            <td col width="10%"><%=h(isb.getDrawDate())%></td>
+            <td col width="10%"><%=h(formatDate(isb.getDrawDate()))%></td>
             <td col width="10%"><%=h(isb.getSpecimenType())%></td>
             <td col width="10%"><%=h(packingListBean.getTestType())%></td>
             </tr>

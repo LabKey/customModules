@@ -15,21 +15,32 @@
  */
 package org.labkey.hdrl.view;
 
+import java.util.Date;
+
 /**
  * Created by binalpatel on 5/12/15.
  */
 public class InboundSpecimenBean
 {
+    private Integer _rowId;
     private String _customerBarCode;
+    private Integer _dodId;
+    private String _gender;
+    private String _initials;
+    private Integer _numberOfContainers;
     private String _lastName;
     private String _firstName;
     private String _middleName;
-    private String _birthDate;
+    private Date _birthDate;
     private String _ssn;
+    private Integer _inboundRequestId;
     private String _fmpCode;
+    private Integer _fmpId;
     private String _ducCode;
+    private Integer _dutyCodeId;
     private String _sotCode;
-    private String _drawDate;
+    private Integer _testingSourceId;
+    private Date _drawDate;
     private String _specimenType = "Serum"; //for now.
 
     public String getCustomerBarCode()
@@ -72,12 +83,12 @@ public class InboundSpecimenBean
         _middleName = middleName;
     }
 
-    public String getBirthDate()
+    public Date getBirthDate()
     {
         return _birthDate;
     }
 
-    public void setBirthDate(String birthDate)
+    public void setBirthDate(Date birthDate)
     {
         _birthDate = birthDate;
     }
@@ -102,6 +113,36 @@ public class InboundSpecimenBean
         _fmpCode = fmpCode;
     }
 
+    public Integer getDutyCodeId()
+    {
+        return _dutyCodeId;
+    }
+
+    public void setDutyCodeId(Integer dutyCodeId)
+    {
+        _dutyCodeId = dutyCodeId;
+    }
+
+    public Integer getFmpId()
+    {
+        return _fmpId;
+    }
+
+    public void setFmpId(Integer fmpId)
+    {
+        _fmpId = fmpId;
+    }
+
+    public Integer getTestingSourceId()
+    {
+        return _testingSourceId;
+    }
+
+    public void setTestingSourceId(Integer testingSourceId)
+    {
+        _testingSourceId = testingSourceId;
+    }
+
     public String getDucCode()
     {
         return _ducCode;
@@ -122,12 +163,12 @@ public class InboundSpecimenBean
         _sotCode = sotCode;
     }
 
-    public String getDrawDate()
+    public Date getDrawDate()
     {
         return _drawDate;
     }
 
-    public void setDrawDate(String drawDate)
+    public void setDrawDate(Date drawDate)
     {
         _drawDate = drawDate;
     }
@@ -142,4 +183,63 @@ public class InboundSpecimenBean
         _specimenType = specimenType;
     }
 
+    public Integer getInboundRequestId()
+    {
+        return _inboundRequestId;
+    }
+
+    public void setInboundRequestId(Integer inboundRequestId)
+    {
+        _inboundRequestId = inboundRequestId;
+    }
+
+    public Integer getRowId()
+    {
+        return _rowId;
+    }
+
+    public void setRowId(Integer rowId)
+    {
+        _rowId = rowId;
+    }
+
+    public Integer getDodId()
+    {
+        return _dodId;
+    }
+
+    public void setDodId(Integer dodId)
+    {
+        _dodId = dodId;
+    }
+
+    public String getGender()
+    {
+        return _gender;
+    }
+
+    public void setGender(String gender)
+    {
+        _gender = gender;
+    }
+
+    public String getInitials()
+    {
+        return _initials;
+    }
+
+    public void setInitials(String initials)
+    {
+        _initials = initials;
+    }
+
+    public Integer getNumberOfContainers()
+    {
+        return _numberOfContainers;
+    }
+
+    public void setNumberOfContainers(Integer numberOfContainers)
+    {
+        _numberOfContainers = numberOfContainers;
+    }
 }

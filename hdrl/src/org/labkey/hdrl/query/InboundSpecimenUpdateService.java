@@ -31,8 +31,11 @@ import org.labkey.api.security.User;
 import org.labkey.hdrl.HDRLSchema;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -174,12 +177,65 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
     public static void validate(Map<String, Object> row) throws ValidationException
     {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date drawDate = null;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date today = calendar.getTime();
         List<String> errors = new ArrayList<String>();
         List<String> missingFields = new ArrayList<String>();
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
             missingFields.add("Draw Date");
+        else
+        {
+            if (row.get("DrawDate") instanceof Date)
+                drawDate = (Date) row.get("DrawDate");
+            else
+            {
+                try
+                {
+                    drawDate = dateFormat.parse((String) row.get("DrawDate"));
+                    if (!today.after(drawDate))
+                    {
+                        errors.add("Draw date must be before today");
+                    }
+                }
+                catch (ParseException e)
+                {
+                    errors.add("Invalid draw date format");
+                }
+            }
+        }
+        if (row.get("BirthDate") != null)
+        {
+            Date birthDate = null;
+            if (row.get("BirthDate") instanceof Date)
+                birthDate = (Date) row.get("BirthDate");
+            else
+            {
+                try
+                {
+                    birthDate = dateFormat.parse((String) row.get("BirthDate"));
+                    if (!today.after(birthDate))
+                    {
+                        errors.add("Birth date must be before today");
+                    }
+                    else if ((drawDate != null) && (!drawDate.after(birthDate)))
+                    {
+                        errors.add("Birth date must be before draw date");
+                    }
+                }
+                catch (ParseException e)
+                {
+                    errors.add("Invalid birth date format");
+                }
+            }
+        }
         if (row.get("SSN") == null || StringUtils.isEmpty(String.valueOf(row.get("SSN"))))
             missingFields.add("SSN");
         else

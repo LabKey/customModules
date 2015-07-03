@@ -58,6 +58,15 @@
       </ns:columns>
    </ns:table>
 
+   <ns:table tableName="Gender" tableDbType="TABLE">
+      <ns:titleColumn>Description</ns:titleColumn>
+      <ns:columns>
+         <ns:column columnName="RowId"/>
+         <ns:column columnName="Code"/>
+         <ns:column columnName="Description"/>
+      </ns:columns>
+   </ns:table>
+
    <ns:table tableName="ShippingCarrier" tableDbType="TABLE">
       <ns:columns>
          <ns:column columnName="RowId"/>
@@ -116,6 +125,10 @@
          <ns:column columnName="LastName"/>
          <ns:column columnName="FirstName"/>
          <ns:column columnName="MiddleName"/>
+         <ns:column columnName="Initials"/>
+         <ns:column columnName="GenderId">
+            <ns:columnTitle>Gender</ns:columnTitle>
+         </ns:column>
          <ns:column columnName="BirthDate"/>
          <ns:column columnName="SSN"/>
          <ns:column columnName="InboundRequestId">
@@ -132,6 +145,7 @@
          </ns:column>
          <ns:column columnName="DODId"/>
          <ns:column columnName="DrawDate"/>
+         <ns:column columnName="NumContainers"/>
          <ns:column columnName="ValidationStatus"/>
          <ns:column columnName="Container"/>
          <ns:column columnName="CreatedBy">
