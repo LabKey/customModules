@@ -120,7 +120,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("verify status message update");
         waitForElement(Locator.tagContainingText("div", "Required field(s) missing: FMP, Draw Date, SSN"));
         waitForElement(Locator.tagContainingText("div", "Required field(s) missing: FMP"));
-        waitForElement(Locator.tagContainingText("div", "Birth date must be before draw date; Required field(s) missing: SSN"));
+        waitForElement(Locator.tagContainingText("div", "Draw date cannot be before birth date; Required field(s) missing: SSN"));
 
         log("verify submit error");
         clickButton(SUBMIT_BUTTON_TEXT, 0);

@@ -125,7 +125,8 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
 
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
 
-        try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction()) {
+        try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction())
+        {
             Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_INBOUND_REQUESTS), labWareData);
             for (InboundSpecimenBean specimen : specimens)
             {

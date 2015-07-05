@@ -200,9 +200,9 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
                 try
                 {
                     drawDate = dateFormat.parse((String) row.get("DrawDate"));
-                    if (!today.after(drawDate))
+                    if (drawDate.after(today))
                     {
-                        errors.add("Draw date must be before today");
+                        errors.add("Draw date cannot be in the future");
                     }
                 }
                 catch (ParseException e)
@@ -221,13 +221,13 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
                 try
                 {
                     birthDate = dateFormat.parse((String) row.get("BirthDate"));
-                    if (!today.after(birthDate))
+                    if (birthDate.after(today))
                     {
-                        errors.add("Birth date must be before today");
+                        errors.add("Birth date cannot be in the future");
                     }
-                    else if ((drawDate != null) && (!drawDate.after(birthDate)))
+                    else if ((drawDate != null) && (drawDate.before(birthDate)))
                     {
-                        errors.add("Birth date must be before draw date");
+                        errors.add("Draw date cannot be before birth date");
                     }
                 }
                 catch (ParseException e)

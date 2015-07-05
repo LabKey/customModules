@@ -80,7 +80,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     public String getStatus(int s)
     {
-        if(statusMap == null)
+        if (statusMap == null)
         {
             statusMap = new HashMap<Integer, String>();
             TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
@@ -175,9 +175,12 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
-                            int status = ((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
+                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
 
-                            if ((STATUS_SUBMITTED.equals(getStatus(status)) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
+                            if (STATUS_ARCHIVED.equals(status))
+                                return;
+
+                            if ((!STATUS_SUBMITTED.equals(status) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
@@ -185,14 +188,11 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             }
                             else
                             {
-                                if(!STATUS_ARCHIVED.equals(getStatus(status)))
-                                {
-                                    FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
-                                    SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
-                                    ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
-                                    filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
-                                    out.write(PageFlowUtil.textLink("View", actionUrl));
-                                }
+                                FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
+                                SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
+                                ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
+                                filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
+                                out.write(PageFlowUtil.textLink("View", actionUrl));
                             }
                         }
                     };
