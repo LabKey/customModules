@@ -93,7 +93,6 @@
             </ns:fk>
          </ns:column>
          <ns:column columnName="Submitted"/>
-         <ns:column columnName="Completed"/>
          <ns:column columnName="TestTypeId">
             <ns:columnTitle>Test Type</ns:columnTitle>
          </ns:column>
@@ -146,7 +145,6 @@
          <ns:column columnName="DODId"/>
          <ns:column columnName="DrawDate"/>
          <ns:column columnName="NumContainers"/>
-         <ns:column columnName="ValidationStatus"/>
          <ns:column columnName="Container"/>
          <ns:column columnName="CreatedBy">
             <ns:fk>
@@ -166,4 +164,65 @@
          <ns:column columnName="Modified"/>
       </ns:columns>
    </ns:table>
+
+  <ns:table tableName="RequestResult" tableDbType="TABLE">
+    <ns:columns>
+      <ns:column columnName="RequestId"/>
+       <ns:column columnName="RequestStatusId">
+          <ns:columnTitle>Request Status</ns:columnTitle>
+       </ns:column>
+      <ns:column columnName="CustomerNote"/>
+      <ns:column columnName="Received"/>
+      <ns:column columnName="Completed"/>
+       <ns:column columnName="Container"/>
+       <ns:column columnName="CreatedBy">
+          <ns:fk>
+             <ns:fkColumnName>UserId</ns:fkColumnName>
+             <ns:fkTable>Users</ns:fkTable>
+             <ns:fkDbSchema>core</ns:fkDbSchema>
+          </ns:fk>
+       </ns:column>
+       <ns:column columnName="Created"/>
+       <ns:column columnName="ModifiedBy">
+          <ns:fk>
+             <ns:fkColumnName>UserId</ns:fkColumnName>
+             <ns:fkTable>Users</ns:fkTable>
+             <ns:fkDbSchema>core</ns:fkDbSchema>
+          </ns:fk>
+       </ns:column>
+       <ns:column columnName="Modified"/>
+    </ns:columns>
+  </ns:table>
+
+  <ns:table tableName="SpecimenResult" tableDbType="TABLE">
+    <ns:columns>
+      <ns:column columnName="SpecimenId"/>
+       <ns:column columnName="RequestStatusId">
+          <ns:columnTitle>Request Status</ns:columnTitle>
+       </ns:column>
+      <ns:column columnName="Received"/>
+      <ns:column columnName="Completed"/>
+      <ns:column columnName="SampleIntegrity"/>
+      <ns:column columnName="TestResult"/>
+      <ns:column columnName="CustomerCode"/>
+       <ns:column columnName="Container"/>
+       <ns:column columnName="CreatedBy">
+          <ns:fk>
+             <ns:fkColumnName>UserId</ns:fkColumnName>
+             <ns:fkTable>Users</ns:fkTable>
+             <ns:fkDbSchema>core</ns:fkDbSchema>
+          </ns:fk>
+       </ns:column>
+       <ns:column columnName="Created"/>
+       <ns:column columnName="ModifiedBy">
+          <ns:fk>
+             <ns:fkColumnName>UserId</ns:fkColumnName>
+             <ns:fkTable>Users</ns:fkTable>
+             <ns:fkDbSchema>core</ns:fkDbSchema>
+          </ns:fk>
+       </ns:column>
+       <ns:column columnName="Modified"/>
+       <ns:column columnName="ModifiedresultFlag"/>
+    </ns:columns>
+  </ns:table>
 </ns:tables>

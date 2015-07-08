@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etl xmlns="http://labkey.org/etl/xml">
+    <name>LabWare Result Tables</name>
+    <description>Update test result data from LabWare tables to LabKey tables.</description>
+    <transforms>
+        <transform id="labwareRequestResult">
+            <source schemaName="gw_labkey" queryName="labwareRequestResults"/>
+            <destination schemaName="hdrl" queryName="requestResult" targetOption="merge"/>
+        </transform>
+        <transform id="labwareSpecimenResult">
+            <source schemaName="gw_labkey" queryName="labwareSpecimenResults"/>
+            <destination schemaName="hdrl" queryName="specimenResult" targetOption="merge"/>
+        </transform>
+    </transforms>
+    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="Modified"/>
+    <schedule><poll interval="30m" /></schedule>
+</etl>

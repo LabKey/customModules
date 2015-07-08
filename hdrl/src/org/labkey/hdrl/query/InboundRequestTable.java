@@ -20,7 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.ContainerForeignKey;
 import org.labkey.api.data.DatabaseTableType;
+import org.labkey.api.data.ForeignKey;
+import org.labkey.api.data.JdbcType;
+import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
+import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.FilteredTable;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.security.UserPrincipal;
@@ -47,6 +51,44 @@ public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
 
         // add column for the number of patients
         addColumn(wrapColumn("Number of Patients", new PatientCountColumn(getRealTable().getColumn("RequestId"))));
+//        addCoalescedStatusColumn();
+        addCustomerNoteColumn();
+        addReceivedColumn();
+        addCompletedColumn();
+    }
+
+    private void addCustomerNoteColumn()
+    {
+        SQLFragment sql = new SQLFragment("(SELECT customerNote FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
+        ExprColumn col = new ExprColumn(this, "Customer Note", sql, JdbcType.VARCHAR);
+        addColumn(col);
+    }
+
+    private void addReceivedColumn()
+    {
+        SQLFragment sql = new SQLFragment("(SELECT received FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
+        ExprColumn col = new ExprColumn(this, "Received", sql, JdbcType.VARCHAR);
+        addColumn(col);
+    }
+
+    private void addCompletedColumn()
+    {
+        SQLFragment sql = new SQLFragment("(SELECT completed FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
+        ExprColumn col = new ExprColumn(this, "Completed", sql, JdbcType.VARCHAR);
+        addColumn(col);
+    }
+
+    private void addCoalescedStatusColumn()
+    {
+        ColumnInfo statusCol = getColumn("RequestStatusId");
+        ForeignKey statusColFk = statusCol.getFk();
+        removeColumn(statusCol);
+        SQLFragment sql = new SQLFragment("COALESCE((SELECT R.requestStatusId FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId), RequestStatusId)");
+
+        ExprColumn col = new ExprColumn(this, "Status", sql, JdbcType.INTEGER);
+//        col.setAlias("Status");
+        col.setFk(statusColFk);
+        addColumn(col);
     }
 
     @Nullable

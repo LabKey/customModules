@@ -18,17 +18,28 @@ package org.labkey.hdrl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
+import org.labkey.api.attachments.InputStreamAttachmentFile;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.DbScope;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlSelector;
+import org.labkey.api.data.Table;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.hdrl.query.HDRLQuerySchema;
+import org.labkey.hdrl.query.LabWareQuerySchema;
 import org.labkey.hdrl.view.InboundRequestBean;
 import org.labkey.hdrl.view.InboundSpecimenBean;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +123,70 @@ public class HDRLManager
         }
 
         return Integer.parseInt(days);
+    }
+
+    public void insertLabWareOutboundRequest(HDRLController.LabWareOutboundRequestForm resultData, User user, Container container)
+    {
+        LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
+        try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction())
+        {
+            // create the request data for LabWare
+            Map<String, Object> labWareData = new HashMap<>();
+            labWareData.put("batch_id", resultData.getBatchId());
+            labWareData.put("hdrl_status", resultData.getHdrlStatus());
+            labWareData.put("customer_note", resultData.getCustomerNote());
+            labWareData.put("date_received", resultData.getDateReceived());
+            labWareData.put("date_completed", resultData.getDateCompleted());
+            labWareData.put("date_modified", resultData.getDateModified());
+            Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_REQUESTS), labWareData);
+            lwTransaction.commit();
+        }
+    }
+
+    public void insertLabWareOutboundSpecimen(HDRLController.LabWareOutboundSpecimenForm resultData, User user, Container container) throws FileNotFoundException, SQLException
+    {
+        LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
+        try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction())
+        {
+            // create the request data for LabWare
+            Map<String, Object> labWareData = new HashMap<>();
+            labWareData.put("test_request_id", resultData.getTestRequestId());
+            labWareData.put("hdrl_status", resultData.getHdrlStatus());
+            labWareData.put("batch_id", resultData.getBatchId());
+            labWareData.put("date_received", resultData.getDateReceived());
+            labWareData.put("date_completed", resultData.getDateCompleted());
+            labWareData.put("date_modified", resultData.getDateModified());
+            labWareData.put("sample_integrity", resultData.getSampleIntegrity());
+            labWareData.put("test_result", resultData.getTestResult());
+            labWareData.put("customer_code", resultData.getCustomerCode());
+            labWareData.put("modified_result_flag", resultData.getModifiedResultFlag());
+            if (resultData.getClinicalReportFile() != null)
+            {
+                FileInputStream stream = new FileInputStream(new File(resultData.getClinicalReportFile()));
+                InputStreamAttachmentFile attachment = new InputStreamAttachmentFile(stream, resultData.getClinicalReportFile());
+                labWareData.put("clinical_report", attachment);
+            }
+            Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), labWareData);
+//            storeClinicalReport(lwTransaction.getConnection(), resultData.getClinicalReportFile(), resultData.getTestRequestId());
+            lwTransaction.commit();
+        }
+
+    }
+
+
+    public void storeClinicalReport(Connection connection, @Nullable String reportFileName, int testRequestId) throws FileNotFoundException, SQLException
+    {
+        if (reportFileName != null)
+        {
+            FileInputStream stream = new FileInputStream(new File(reportFileName));
+            InputStreamAttachmentFile attachment = new InputStreamAttachmentFile(stream, reportFileName);
+
+            // check AttachementServiceImpl
+
+            // get the row and then stream the file into the clinical_report field.
+//        labWareData.put("clinical_report", resultData.getClinicalReport());
+            // TODO
+        }
     }
 
 }

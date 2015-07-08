@@ -24,6 +24,8 @@ import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ExportAction;
 import org.labkey.api.action.FormViewAction;
+import org.labkey.api.action.Marshal;
+import org.labkey.api.action.Marshaller;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleErrorView;
 import org.labkey.api.action.SimpleViewAction;
@@ -70,6 +72,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -474,4 +477,250 @@ public class HDRLController extends SpringActionController
             this.timeWindowInDays = timeWindowInDays;
         }
     }
+
+    @RequiresPermission(AdminPermission.class)
+    @Marshal(Marshaller.Jackson)
+    public class AddLabWareOutboundRequestAction extends ApiAction<LabWareOutboundRequestForm>
+    {
+        @Override
+        public Object execute(LabWareOutboundRequestForm form, BindException errors) throws Exception
+        {
+            HDRLManager.get().insertLabWareOutboundRequest(form, getUser(), getContainer());
+
+            return success();
+        }
+
+        @Override
+        public void validateForm(LabWareOutboundRequestForm form, Errors errors)
+        {
+            if (form.getBatchId() == null)
+                errors.rejectValue("batchId", ERROR_MSG, "batchId is required");
+            if (form.getDateReceived() == null)
+                errors.rejectValue("dateReceived", ERROR_MSG, "dateReceived is required");
+            if (form.getDateModified() == null)
+                errors.rejectValue("dateModified", ERROR_MSG, "dateModified is required");
+        }
+    }
+
+    public static class LabWareOutboundRequestForm
+    {
+        private Integer _batchId;
+        private String _hdrlStatus;
+        private String _customerNote;
+        private Date _dateReceived;
+        private Date _dateCompleted;
+        private Date _dateModified;
+
+        public Integer getBatchId()
+        {
+            return _batchId;
+        }
+
+        public void setBatchId(Integer batchId)
+        {
+            _batchId = batchId;
+        }
+
+        public String getCustomerNote()
+        {
+            return _customerNote;
+        }
+
+        public void setCustomerNote(String customerNote)
+        {
+            _customerNote = customerNote;
+        }
+
+        public Date getDateCompleted()
+        {
+            return _dateCompleted;
+        }
+
+        public void setDateCompleted(Date dateCompleted)
+        {
+            _dateCompleted = dateCompleted;
+        }
+
+        public Date getDateReceived()
+        {
+            return _dateReceived;
+        }
+
+        public void setDateReceived(Date dateReceived)
+        {
+            _dateReceived = dateReceived;
+        }
+
+        public String getHdrlStatus()
+        {
+            return _hdrlStatus;
+        }
+
+        public void setHdrlStatus(String hdrlStatus)
+        {
+            _hdrlStatus = hdrlStatus;
+        }
+
+        public Date getDateModified()
+        {
+            return _dateModified;
+        }
+
+        public void setDateModified(Date dateModified)
+        {
+            _dateModified = dateModified;
+        }
+    }
+
+    @RequiresPermission(AdminPermission.class)
+    @Marshal(Marshaller.Jackson)
+    public class AddLabWareOutboundSpecimenAction extends ApiAction<LabWareOutboundSpecimenForm>
+    {
+        @Override
+        public Object execute(LabWareOutboundSpecimenForm form, BindException errors) throws Exception
+        {
+            HDRLManager.get().insertLabWareOutboundSpecimen(form, getUser(), getContainer());
+
+            return success();
+        }
+
+        @Override
+        public void validateForm(LabWareOutboundSpecimenForm form, Errors errors)
+        {
+            if (form.getTestRequestId() == null)
+                errors.rejectValue("testRequestId", ERROR_MSG, "testRequestId is required");
+            if (form.getBatchId() == null)
+                errors.rejectValue("batchId", ERROR_MSG, "batchId is required");
+            if (form.getDateReceived() == null)
+                errors.rejectValue("dateReceived", ERROR_MSG, "dateReceived is required");
+            if (form.getDateModified() == null)
+                errors.rejectValue("dateModified", ERROR_MSG, "dateModified is required");
+        }
+    }
+
+    public static class LabWareOutboundSpecimenForm
+    {
+        private Integer _testRequestId;
+        private Integer _batchId;
+        private Date _dateReceived;
+        private Date _dateCompleted;
+        private String _sampleIntegrity;
+        private String _testResult;
+        private String _customerCode;
+        private String _clinicalReportFile;
+        private String _hdrlStatus;
+        private Date _dateModified;
+        private String _modifiedResultFlag;
+
+        public Integer getBatchId()
+        {
+            return _batchId;
+        }
+
+        public void setBatchId(Integer batchId)
+        {
+            _batchId = batchId;
+        }
+
+        public String getClinicalReportFile()
+        {
+            return _clinicalReportFile;
+        }
+
+        public void setClinicalReportFile(String clinicalReportFile)
+        {
+            _clinicalReportFile = clinicalReportFile;
+        }
+
+        public String getHdrlStatus()
+        {
+            return _hdrlStatus;
+        }
+
+        public void setHdrlStatus(String hdrlStatus)
+        {
+            _hdrlStatus = hdrlStatus;
+        }
+
+        public String getCustomerCode()
+        {
+            return _customerCode;
+        }
+
+        public void setCustomerCode(String customerCode)
+        {
+            _customerCode = customerCode;
+        }
+
+        public Date getDateCompleted()
+        {
+            return _dateCompleted;
+        }
+
+        public void setDateCompleted(Date dateCompleted)
+        {
+            _dateCompleted = dateCompleted;
+        }
+
+        public Date getDateModified()
+        {
+            return _dateModified;
+        }
+
+        public void setDateModified(Date dateModified)
+        {
+            _dateModified = dateModified;
+        }
+
+        public Date getDateReceived()
+        {
+            return _dateReceived;
+        }
+
+        public void setDateReceived(Date dateReceived)
+        {
+            _dateReceived = dateReceived;
+        }
+
+        public String getModifiedResultFlag()
+        {
+            return _modifiedResultFlag;
+        }
+
+        public void setModifiedResultFlag(String modifiedResultFlag)
+        {
+            _modifiedResultFlag = modifiedResultFlag;
+        }
+
+        public String getSampleIntegrity()
+        {
+            return _sampleIntegrity;
+        }
+
+        public void setSampleIntegrity(String sampleIntegrity)
+        {
+            _sampleIntegrity = sampleIntegrity;
+        }
+
+        public Integer getTestRequestId()
+        {
+            return _testRequestId;
+        }
+
+        public void setTestRequestId(Integer testRequestId)
+        {
+            _testRequestId = testRequestId;
+        }
+
+        public String getTestResult()
+        {
+            return _testResult;
+        }
+
+        public void setTestResult(String testResult)
+        {
+            _testResult = testResult;
+        }
+    }
+
 }

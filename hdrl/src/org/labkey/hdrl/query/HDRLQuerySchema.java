@@ -68,8 +68,11 @@ public class HDRLQuerySchema extends SimpleUserSchema
     public static final String TABLE_FAMILY_MEMBER_PREFIX = "FamilyMemberPrefix";
     public static final String TABLE_DUTY_CODE = "DutyCode";
     public static final String TABLE_SOURCE_OF_TESTING = "SourceOfTesting";
+    public static final String TABLE_REQUEST_RESULT = "RequestResult";
+    public static final String TABLE_SPECIMEN_RESULT = "SpecimenResult";
 
     public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";
+    public static final String COL_STATUS_NAME = "status$name";
     public static final String COL_INBOUND_REQUEST_ID = "InboundRequestId";
     public static final String COL_ARCHIVED_REQUEST_COUNT = "ArchivedRequestCount";
 
@@ -78,28 +81,28 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     private Map<Integer, String> statusMap = null;
 
-    public String getStatus(int s)
-    {
-        if (statusMap == null)
-        {
-            statusMap = new HashMap<Integer, String>();
-            TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
-            for (Map<String, Object> stringObjectMap : selector.getMapCollection())
-            {
-                Integer key = new Integer(-1);
-                String value = "";
-                for (String s1 : stringObjectMap.keySet())
-                {
-                    if(s1.equals("name"))
-                        value = (String) stringObjectMap.get(s1);
-                    else if(s1.equals("rowid"))
-                        key = (Integer) stringObjectMap.get(s1);
-                }
-                statusMap.put(key, value);
-            }
-        }
-        return statusMap.get((Integer)s);
-    }
+//    public String getStatus(int s)
+//    {
+//        if (statusMap == null)
+//        {
+//            statusMap = new HashMap<Integer, String>();
+//            TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
+//            for (Map<String, Object> stringObjectMap : selector.getMapCollection())
+//            {
+//                Integer key = new Integer(-1);
+//                String value = "";
+//                for (String s1 : stringObjectMap.keySet())
+//                {
+//                    if(s1.equals("name"))
+//                        value = (String) stringObjectMap.get(s1);
+//                    else if(s1.equals("rowid"))
+//                        key = (Integer) stringObjectMap.get(s1);
+//                }
+//                statusMap.put(key, value);
+//            }
+//        }
+//        return statusMap.get((Integer)s);
+//    }
 
     public static void register(final HDRLModule module)
     {
@@ -140,6 +143,14 @@ public class HDRLQuerySchema extends SimpleUserSchema
         {
             return new InboundSpecimenTable(this);
         }
+        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name))
+        {
+            return new RequestResultTable(this);
+        }
+        else if (TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
+        {
+            return new SpecimenResultTable(this);
+        }
 
         //just return a filtered table over the db table if it exists
         SchemaTableInfo tableInfo = getDbSchema().getTable(name);
@@ -175,7 +186,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
-                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
+//                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
+                            String status = (String) ctx.get(FieldKey.fromParts(COL_STATUS_NAME));
 
                             if (STATUS_ARCHIVED.equals(status))
                                 return;
