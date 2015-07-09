@@ -16,6 +16,7 @@
 
 package org.labkey.hdrl.query;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
@@ -44,7 +45,9 @@ import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewContext;
 import org.labkey.hdrl.HDRLController;
+import org.labkey.hdrl.HDRLManager;
 import org.labkey.hdrl.HDRLModule;
+import org.labkey.hdrl.HDRLSchema;
 import org.springframework.validation.BindException;
 
 import java.io.IOException;
@@ -81,28 +84,28 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     private Map<Integer, String> statusMap = null;
 
-//    public String getStatus(int s)
-//    {
-//        if (statusMap == null)
-//        {
-//            statusMap = new HashMap<Integer, String>();
-//            TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
-//            for (Map<String, Object> stringObjectMap : selector.getMapCollection())
-//            {
-//                Integer key = new Integer(-1);
-//                String value = "";
-//                for (String s1 : stringObjectMap.keySet())
-//                {
-//                    if(s1.equals("name"))
-//                        value = (String) stringObjectMap.get(s1);
-//                    else if(s1.equals("rowid"))
-//                        key = (Integer) stringObjectMap.get(s1);
-//                }
-//                statusMap.put(key, value);
-//            }
-//        }
-//        return statusMap.get((Integer)s);
-//    }
+    public String getStatus(int s)
+    {
+        if (statusMap == null)
+        {
+            statusMap = new HashMap<Integer, String>();
+            TableSelector selector = new TableSelector(HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
+            for (Map<String, Object> stringObjectMap : selector.getMapCollection())
+            {
+                Integer key = new Integer(-1);
+                String value = "";
+                for (String s1 : stringObjectMap.keySet())
+                {
+                    if(s1.equals("name"))
+                        value = (String) stringObjectMap.get(s1);
+                    else if(s1.equals("rowid"))
+                        key = (Integer) stringObjectMap.get(s1);
+                }
+                statusMap.put(key, value);
+            }
+        }
+        return statusMap.get((Integer)s);
+    }
 
     public static void register(final HDRLModule module)
     {
@@ -186,8 +189,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
-//                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
-                            String status = (String) ctx.get(FieldKey.fromParts(COL_STATUS_NAME));
+                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
+//                            String status = (String) ctx.get(FieldKey.fromParts(COL_STATUS_NAME));
 
                             if (STATUS_ARCHIVED.equals(status))
                                 return;
@@ -200,10 +203,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             }
                             else
                             {
-                                FieldKey requestFieldKey = FieldKey.fromParts(COL_INBOUND_REQUEST_ID);
-                                SimpleFilter filter = new SimpleFilter(requestFieldKey, ctx.get("requestId"));
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
-                                filter.applyToURL(actionUrl, DATAREGIONNAME_DEFAULT);
+                                actionUrl.addParameter("requestId", (Integer) ctx.get("requestId"));
                                 out.write(PageFlowUtil.textLink("View", actionUrl));
                             }
                         }
@@ -215,14 +216,45 @@ public class HDRLQuerySchema extends SimpleUserSchema
         }
         else if (settings.getQueryName().equalsIgnoreCase(TABLE_SPECIMEN))
         {
-            QueryView queryView = new QueryView(this, settings, errors);
+            String requestId = context.getRequest().getParameter("requestId");
+            SimpleFilter baseFilter = settings.getBaseFilter();
+            if (StringUtils.isNotBlank(requestId))
+            {
+                baseFilter.addAllClauses(new SimpleFilter(FieldKey.fromParts("inboundRequestId"), Integer.valueOf(requestId)));
+            }
+
+            QueryView queryView = new QueryView(this, settings, errors)
+            {
+
+                @Override
+                protected void addDetailsAndUpdateColumns(List<DisplayColumn> ret, TableInfo table)
+                {
+                    SimpleDisplayColumn downloadColumn = new SimpleDisplayColumn()
+                    {
+                        @Override
+                        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+                        {
+                            Integer specimenId = (Integer) ctx.get(FieldKey.fromParts("RowId"));
+                            if (HDRLManager.get().hasClinicalReport(specimenId, getUser(), getContainer()))
+                            {
+                                // download button displayed
+                                out.write(PageFlowUtil.button("Download").href(new ActionURL(HDRLController.DownloadClinicalReportAction.class, getContainer()).addParameter("specimenId", specimenId)).toString());
+                            }
+                        }
+                    };
+                    ret.add(downloadColumn);
+                }
+            };
+
             queryView.setShowDeleteButton(false);
             queryView.setShowUpdateColumn(false);
             queryView.setShowInsertNewButton(false);
             queryView.setShowImportDataButton(false);
+
             return queryView;
         }
         return super.createView(context, settings, errors);
 
     }
+
 }

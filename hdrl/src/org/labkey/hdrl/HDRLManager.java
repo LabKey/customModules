@@ -18,14 +18,18 @@ package org.labkey.hdrl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 import org.labkey.api.attachments.InputStreamAttachmentFile;
+import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.PropertyManager;
+import org.labkey.api.data.Results;
 import org.labkey.api.data.SQLFragment;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.Table;
+import org.labkey.api.data.TableSelector;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
@@ -37,7 +41,6 @@ import org.labkey.hdrl.view.InboundSpecimenBean;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -125,6 +128,12 @@ public class HDRLManager
         return Integer.parseInt(days);
     }
 
+    /**
+     * This method is used only for populating results in the Postgres Labware outbound tables for testing.
+     * @param resultData - the data to populate the row in the table
+     * @param user - current user
+     * @param container - current container
+     */
     public void insertLabWareOutboundRequest(HDRLController.LabWareOutboundRequestForm resultData, User user, Container container)
     {
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
@@ -143,7 +152,15 @@ public class HDRLManager
         }
     }
 
-    public void insertLabWareOutboundSpecimen(HDRLController.LabWareOutboundSpecimenForm resultData, User user, Container container) throws FileNotFoundException, SQLException
+    /**
+     * This method is used only for populating results in the Postgres LabWare outbound tables for testing.
+     * If a clinical report file is provided, this will not work when the labwareDataSource is an Oracle database
+     * @param resultData - the data to populate the row in the table
+     * @param user - current user
+     * @param container - current container
+     * @throws FileNotFoundException if the name of the clinical report file supplied is not available
+     */
+    public void insertLabWareOutboundSpecimen(HDRLController.LabWareOutboundSpecimenForm resultData, User user, Container container) throws FileNotFoundException
     {
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
         try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction())
@@ -160,6 +177,7 @@ public class HDRLManager
             labWareData.put("test_result", resultData.getTestResult());
             labWareData.put("customer_code", resultData.getCustomerCode());
             labWareData.put("modified_result_flag", resultData.getModifiedResultFlag());
+
             if (resultData.getClinicalReportFile() != null)
             {
                 FileInputStream stream = new FileInputStream(new File(resultData.getClinicalReportFile()));
@@ -167,25 +185,25 @@ public class HDRLManager
                 labWareData.put("clinical_report", attachment);
             }
             Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), labWareData);
-//            storeClinicalReport(lwTransaction.getConnection(), resultData.getClinicalReportFile(), resultData.getTestRequestId());
             lwTransaction.commit();
         }
 
     }
 
-
-    public void storeClinicalReport(Connection connection, @Nullable String reportFileName, int testRequestId) throws FileNotFoundException, SQLException
+    public boolean hasClinicalReport(int specimenId, User user, Container container)
     {
-        if (reportFileName != null)
+        LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
+        SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("test_request_id"), specimenId);
+        filter.addCondition(FieldKey.fromParts("clinical_report"), null, CompareType.NONBLANK);
+        TableSelector selector = new TableSelector(lwSchema.getSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), filter, null);
+
+        try (Results results = selector.getResults())
         {
-            FileInputStream stream = new FileInputStream(new File(reportFileName));
-            InputStreamAttachmentFile attachment = new InputStreamAttachmentFile(stream, reportFileName);
-
-            // check AttachementServiceImpl
-
-            // get the row and then stream the file into the clinical_report field.
-//        labWareData.put("clinical_report", resultData.getClinicalReport());
-            // TODO
+            return results.next();
+        }
+        catch (SQLException e)
+        {
+            return false;
         }
     }
 

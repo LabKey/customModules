@@ -17,6 +17,7 @@
 package org.labkey.hdrl;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,9 +34,12 @@ import org.labkey.api.action.SpringActionController;
 import org.labkey.api.admin.AdminUrls;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.ContainerManager;
+import org.labkey.api.data.Results;
+import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleLoader;
+import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.QueryView;
@@ -62,6 +66,7 @@ import org.labkey.api.view.template.PageConfig;
 import org.labkey.api.view.template.PrintTemplate;
 import org.labkey.hdrl.query.HDRLQuerySchema;
 import org.labkey.hdrl.query.InboundSpecimenUpdateService;
+import org.labkey.hdrl.query.LabWareQuerySchema;
 import org.labkey.hdrl.view.InboundRequestBean;
 import org.labkey.hdrl.view.InboundSpecimenBean;
 import org.springframework.validation.BindException;
@@ -103,7 +108,7 @@ public class HDRLController extends SpringActionController
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
 
-            if(schema == null)
+            if (schema == null)
             {
                 throw new NotFoundException("HDRL schema not found in the current folder.");
             }
@@ -129,7 +134,7 @@ public class HDRLController extends SpringActionController
         @Override
         public ModelAndView getView(Object o, BindException errors) throws Exception
         {
-            String requestId = getViewContext().getRequest().getParameter("query.InboundRequestId~eq");
+            String requestId = getViewContext().getRequest().getParameter("requestId");
             if (requestId != null)
             {
                 InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), Integer.parseInt(requestId));
@@ -298,6 +303,61 @@ public class HDRLController extends SpringActionController
 
     public static class VerifyForm extends SimpleApiJsonForm
     {
+    }
+
+
+    @RequiresPermission(ReadPermission.class)
+    public class DownloadClinicalReportAction extends ExportAction<SpecimenForm>
+    {
+        @Override
+        public void export(SpecimenForm form, HttpServletResponse response, BindException errors) throws Exception
+        {
+            LabWareQuerySchema lwSchema = new LabWareQuerySchema(getUser(), getContainer());
+            SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("test_request_id"), form.getSpecimenId());
+            TableSelector selector = new TableSelector(lwSchema.getSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), filter, null);
+
+            Results result = selector.getResults(false);
+            try
+            {
+                if (!result.next())
+                    throw new NotFoundException();
+
+                String contentType = "document/pdf";
+
+
+                byte[] documentBytes = IOUtils.toByteArray(result.getBinaryStream("clinical_report"));
+
+                response.setContentType(contentType);
+                response.setHeader("Content-Disposition", "attachment; filename=\"clinicalReport_" + form.getSpecimenId() + ".pdf\"");
+                response.setContentLength(documentBytes.length);
+                response.getOutputStream().write(documentBytes);
+            }
+            finally
+            {
+                result.close();
+            }
+        }
+
+        @Override
+        public void validate(SpecimenForm specimenForm, BindException errors)
+        {
+            super.validate(specimenForm, errors);
+        }
+    }
+
+    public static class SpecimenForm
+    {
+        private int _specimenId;
+
+        public int getSpecimenId()
+        {
+            return _specimenId;
+        }
+
+        public void setSpecimenId(int specimenId)
+        {
+            _specimenId = specimenId;
+        }
     }
 
     @RequiresPermission(ReadPermission.class)

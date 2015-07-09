@@ -52,29 +52,16 @@ public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
         // add column for the number of patients
         addColumn(wrapColumn("Number of Patients", new PatientCountColumn(getRealTable().getColumn("RequestId"))));
 //        addCoalescedStatusColumn();
-        addCustomerNoteColumn();
-        addReceivedColumn();
-        addCompletedColumn();
+        addResultColumn("customerNote", "Customer Note");
+        addResultColumn("received", "Received");
+        addResultColumn("completed", "Completed");
     }
 
-    private void addCustomerNoteColumn()
-    {
-        SQLFragment sql = new SQLFragment("(SELECT customerNote FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
-        ExprColumn col = new ExprColumn(this, "Customer Note", sql, JdbcType.VARCHAR);
-        addColumn(col);
-    }
 
-    private void addReceivedColumn()
+    private void addResultColumn(String fieldName, String alias)
     {
-        SQLFragment sql = new SQLFragment("(SELECT received FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
-        ExprColumn col = new ExprColumn(this, "Received", sql, JdbcType.VARCHAR);
-        addColumn(col);
-    }
-
-    private void addCompletedColumn()
-    {
-        SQLFragment sql = new SQLFragment("(SELECT completed FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
-        ExprColumn col = new ExprColumn(this, "Completed", sql, JdbcType.VARCHAR);
+        SQLFragment sql = new SQLFragment("(SELECT " + fieldName + " FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
+        ExprColumn col = new ExprColumn(this, alias, sql, JdbcType.DATE);
         addColumn(col);
     }
 
