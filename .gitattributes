@@ -15,6 +15,8 @@ hdrl/resources/etls/labware.xml -text
 hdrl/resources/queries/gw_labkey/labwareRequestResults.sql -text
 hdrl/resources/queries/gw_labkey/labwareSpecimenResults.sql -text
 hdrl/resources/queries/hdrl/InboundSpecimen/.qview.xml -text
+hdrl/resources/queries/hdrl/specimens.query.xml -text
+hdrl/resources/queries/hdrl/specimens.sql -text
 hdrl/resources/schemas/dbscripts/oracle/labware.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.30-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.31-15.10.sql -text

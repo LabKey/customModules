@@ -119,7 +119,9 @@
 
    <ns:table tableName="InboundSpecimen" tableDbType="TABLE">
       <ns:columns>
-         <ns:column columnName="RowId"/>
+         <ns:column columnName="RowId">
+                 <ns:columnTitle>SpecimenId</ns:columnTitle>
+         </ns:column>
          <ns:column columnName="CustomerBarcode"/>
          <ns:column columnName="LastName"/>
          <ns:column columnName="FirstName"/>

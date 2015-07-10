@@ -49,6 +49,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     private static final String SAVE_BUTTON_TEXT = "Save";
     private static final String CONFIRM_SAVE_TEXT = "Do you still want to save your changes?";
 
+    private static int CARRIER_COLUMN_INDEX = 2;
+    private static int STATUS_COLUMN_INDEX = 13;
+
     @Override
     protected String getProjectName()
     {
@@ -62,10 +65,40 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         init.setupFolder();
     }
 
+    private void addTestResultData(int requestId)
+    {
+        // TODO
+    }
+
     @Before
     public void preTest()
     {
         goToProjectHome();
+    }
+
+    @Test
+    public void testResults()
+    {
+
+        // Submit a test request
+        File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
+        uploadFile(file);
+        waitForElement(Locator.tagContainingText("div", "555-44-3333"));
+        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testResults");
+        clickButton(SUBMIT_BUTTON_TEXT);
+        DataRegionTable drt = new DataRegionTable("query", this);
+        int idx = drt.getRow("ShippingNumber", "testResults");
+        assertNotEquals(idx, -1);
+        int requestId = Integer.parseInt(drt.getDataAsText(idx, "RequestId"));
+
+        // TODO
+        // Run the ETL with no results in the table and verify there's no extra data
+
+        addTestResultData(requestId); // add results for this test request
+
+        // Run the ETL to pick up the results
+
+        // Verify results data are shown in the grid
     }
 
     @Test
@@ -269,7 +302,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
-        assertEquals("Submitted", drt.getDataAsText(idx, 2));
+        assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         String submittedDate = drt.getDataAsText(idx, 6).trim();
 
         log("ensure submitted requests are still editable by admins");
@@ -291,8 +324,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton("Cancel", 0); // takes you back to the view test requests page
         idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
-        assertEquals("Submitted", drt.getDataAsText(idx, 2));
-        assertNotEquals("DHL", drt.getDataAsText(idx, 3));
+        assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
+        assertNotEquals("DHL", drt.getDataAsText(idx, CARRIER_COLUMN_INDEX));
         assertEquals("EDIT", drt.getDataAsText(idx, 0));
 
         log("Test edit and save of a submitted request");
@@ -308,8 +341,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkContainingText("View test requests"));
         idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
-        assertEquals("Submitted", drt.getDataAsText(idx, 2));
-        assertEquals("DHL", drt.getDataAsText(idx, 3));
+        assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
+        assertEquals("DHL", drt.getDataAsText(idx, CARRIER_COLUMN_INDEX));
         // submitted date should still be the same
         assertEquals(submittedDate, drt.getDataAsText(idx, 6));
     }
@@ -368,7 +401,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
 
-        log("upload specimen data from a .tsv file");
+        log("upload specimen data from a file");
         setFormElement(Locator.tagWithName("input", "file"), file);
         clickButton("upload file", 0);
     }

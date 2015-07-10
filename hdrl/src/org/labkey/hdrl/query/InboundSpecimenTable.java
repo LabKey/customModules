@@ -37,7 +37,7 @@ public class InboundSpecimenTable extends FilteredTable<HDRLQuerySchema>
 {
     public InboundSpecimenTable(HDRLQuerySchema schema)
     {
-        super(schema.getDbSchema().getTable(schema.TABLE_SPECIMEN), schema);
+        super(schema.getDbSchema().getTable(schema.TABLE_INBOUND_SPECIMEN), schema);
 
         // wrap all the existing columns
         wrapAllColumns(true);

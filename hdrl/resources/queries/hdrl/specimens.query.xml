@@ -1,0 +1,74 @@
+<query xmlns="http://labkey.org/data/xml/query">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="Specimens" tableDbType="NOT_IN_DB">
+                <columns>
+                    <column columnName="InboundRequestId">
+                        <columnTitle>Request Id</columnTitle>
+                    </column>
+                    <column columnName="RowId">
+                        <columnTitle>Specimen Id</columnTitle>
+                    </column>
+                    <column columnName="RequestStatusId">
+                        <columnTitle>Status</columnTitle>
+                        <fk>
+                            <fkColumnName>rowId</fkColumnName>
+                            <fkTable>requestStatus</fkTable>
+                            <fkDbSchema>hdrl</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="ModifiedResultFlag">
+                            <columnTitle>Result Modified</columnTitle>
+                    </column>
+                    <column columnName="CustomerBarCode"/>
+                    <column columnName="LastName"/>
+                    <column columnName="FirstName"/>
+                    <column columnName="MiddleName"/>
+                    <column columnName="Initials"/>
+                    <column columnName="GenderId">
+                        <columnTitle>Gender</columnTitle>
+                        <fk>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkTable>gender</fkTable>
+                            <fkDbSchema>hdrl</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="BirthDate"/>
+                    <column columnName="DODId"/>
+                    <column columnName="SSN"/>
+                    <column columnName="FmpId">
+                        <columnTitle>FMP</columnTitle>
+                        <fk>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkTable>familyMemberPrefix</fkTable>
+                            <fkDbSchema>hdrl</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="DutyCodeId">
+                        <columnTitle>DUC</columnTitle>
+                        <fk>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkTable>dutyCode</fkTable>
+                            <fkDbSchema>hdrl</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="TestingSourceId">
+                        <columnTitle>SOT</columnTitle>
+                        <fk>
+                            <fkColumnName>RowId</fkColumnName>
+                            <fkTable>sourceOfTesting</fkTable>
+                            <fkDbSchema>hdrl</fkDbSchema>
+                        </fk>
+                    </column>
+                    <column columnName="DrawDate"/>
+                    <column columnName="Received"/>
+                    <column columnName="Completed"/>
+                    <column columnName="SampleIntegrity"/>
+                    <column columnName="TestResult"/>
+                    <column columnName="CustomerCode"/>
+
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>

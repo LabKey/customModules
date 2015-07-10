@@ -14,11 +14,5 @@
         <column name="DODId"/>
         <column name="TestingSourceId"/>
         <column name="DrawDate"/>
-        <column name="Received"/>
-        <column name="Completed"/>
-        <column name="SampleIntegrity"/>
-        <column name="TestResult"/>
-        <column name="CustomerCode"/>
-        <column name="ModifiedResultFlag"/>
     </columns>
 </customView>

@@ -120,7 +120,7 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
 
         // now get the specimen rows using the requestId from the labKeyTable
         SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("InboundRequestId"), labkeyTableRow.get("RequestId"));
-        TableSelector selector = new TableSelector(lkSchema.getTable(HDRLQuerySchema.TABLE_SPECIMEN), filter, null);
+        TableSelector selector = new TableSelector(lkSchema.getTable(HDRLQuerySchema.TABLE_INBOUND_SPECIMEN), filter, null);
         List<InboundSpecimenBean> specimens = selector.getArrayList(InboundSpecimenBean.class);
 
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);

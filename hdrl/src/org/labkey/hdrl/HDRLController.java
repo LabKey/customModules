@@ -138,11 +138,11 @@ public class HDRLController extends SpringActionController
             if (requestId != null)
             {
                 InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), Integer.parseInt(requestId));
-                UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
                 JspView jsp = new JspView("/org/labkey/hdrl/view/requestDetails.jsp", bean);
                 jsp.setTitle("Test Request");
 
-                QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLQuerySchema.TABLE_SPECIMEN);
+                UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
+                QuerySettings settings = schema.getSettings(getViewContext(), QueryView.DATAREGIONNAME_DEFAULT, HDRLQuerySchema.TABLE_SPECIMENS);
                 QueryView queryView = schema.createView(getViewContext(), settings, errors);
 
                 jsp.setView("queryView", queryView);

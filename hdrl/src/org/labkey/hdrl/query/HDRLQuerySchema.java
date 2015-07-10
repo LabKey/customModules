@@ -64,7 +64,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
     public static final String DESCRIPTION = "Provides information on test requests and specimen sets";
 
     public static final String TABLE_INBOUND_REQUEST = "InboundRequest";
-    public static final String TABLE_SPECIMEN = "InboundSpecimen";
+    public static final String TABLE_INBOUND_SPECIMEN = "InboundSpecimen";
+    public static final String TABLE_SPECIMENS = "Specimens";
     public static final String TABLE_REQUEST_STATUS = "RequestStatus";
     public static final String TABLE_SHIPPING_CARRIER = "ShippingCarrier";
     public static final String TABLE_TEST_TYPE = "TestType";
@@ -142,17 +143,17 @@ public class HDRLQuerySchema extends SimpleUserSchema
         {
             return new InboundRequestTable(this);
         }
-        else if (TABLE_SPECIMEN.equalsIgnoreCase(name))
+        else if (TABLE_INBOUND_SPECIMEN.equalsIgnoreCase(name))
         {
             return new InboundSpecimenTable(this);
         }
         else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name))
         {
-            return new RequestResultTable(this);
+            return new RequestResultTable(this).init();
         }
         else if (TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
         {
-            return new SpecimenResultTable(this);
+            return new SpecimenResultTable(this).init();
         }
 
         //just return a filtered table over the db table if it exists
@@ -174,7 +175,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
     @Override
     public QueryView createView(ViewContext context, QuerySettings settings, BindException errors)
     {
-        if (settings.getQueryName().equalsIgnoreCase(TABLE_INBOUND_REQUEST))
+        String queryName = settings.getQueryName();
+        if (TABLE_INBOUND_REQUEST.equalsIgnoreCase(queryName))
         {
             return new QueryView(this, settings, errors)
             {
@@ -189,8 +191,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
-                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts(COL_REQUEST_STATUS_ID)));
-//                            String status = (String) ctx.get(FieldKey.fromParts(COL_STATUS_NAME));
+                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts("Status")));
 
                             if (STATUS_ARCHIVED.equals(status))
                                 return;
@@ -214,7 +215,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
                 }
             };
         }
-        else if (settings.getQueryName().equalsIgnoreCase(TABLE_SPECIMEN))
+        else if (TABLE_INBOUND_SPECIMEN.equalsIgnoreCase(settings.getQueryName()) || TABLE_SPECIMENS.equalsIgnoreCase(settings.getQueryName()))
         {
             String requestId = context.getRequest().getParameter("requestId");
             SimpleFilter baseFilter = settings.getBaseFilter();
@@ -253,6 +254,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
             return queryView;
         }
+
         return super.createView(context, settings, errors);
 
     }

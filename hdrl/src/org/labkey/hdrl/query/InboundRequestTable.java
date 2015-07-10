@@ -51,29 +51,28 @@ public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
 
         // add column for the number of patients
         addColumn(wrapColumn("Number of Patients", new PatientCountColumn(getRealTable().getColumn("RequestId"))));
-//        addCoalescedStatusColumn();
-        addResultColumn("customerNote", "Customer Note");
-        addResultColumn("received", "Received");
-        addResultColumn("completed", "Completed");
+        addCoalescedStatusColumn();
+        addResultColumn("customerNote", "Customer Note", JdbcType.VARCHAR);
+        addResultColumn("received", "Received", JdbcType.DATE);
+        addResultColumn("completed", "Completed", JdbcType.DATE);
     }
 
 
-    private void addResultColumn(String fieldName, String alias)
+    private void addResultColumn(String fieldName, String alias, JdbcType type)
     {
         SQLFragment sql = new SQLFragment("(SELECT " + fieldName + " FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R  WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId)");
-        ExprColumn col = new ExprColumn(this, alias, sql, JdbcType.DATE);
+        ExprColumn col = new ExprColumn(this, alias, sql, type);
         addColumn(col);
     }
 
     private void addCoalescedStatusColumn()
     {
-        ColumnInfo statusCol = getColumn("RequestStatusId");
-        ForeignKey statusColFk = statusCol.getFk();
-        removeColumn(statusCol);
+        ColumnInfo requestStatusCol = getColumn("RequestStatusId");
+        requestStatusCol.setHidden(true);
+        ForeignKey statusColFk = requestStatusCol.getFk();
         SQLFragment sql = new SQLFragment("COALESCE((SELECT R.requestStatusId FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId), RequestStatusId)");
 
         ExprColumn col = new ExprColumn(this, "Status", sql, JdbcType.INTEGER);
-//        col.setAlias("Status");
         col.setFk(statusColFk);
         addColumn(col);
     }
