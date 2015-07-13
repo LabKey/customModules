@@ -809,7 +809,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     if (res.rows && res.rows.length === 1)
                     {
                         this.requestId = res.rows[0].requestid;
-                        this.saveSpecimens(newRequestStatusId, (changeStatus && newRequestStatusId == 2) ? this.submitRequest : null); // save the specimens with the request still pending
+                        if (this.isDirty())
+                            this.saveSpecimens(newRequestStatusId, (changeStatus && newRequestStatusId == 2) ? this.submitRequest : null); // save the specimens with the request still pending
+                        else
+                            this.submitRequest();
                     }
                 },
                 failure     : function(){
