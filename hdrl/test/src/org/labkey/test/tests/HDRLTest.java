@@ -20,17 +20,25 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.labkey.remoteapi.Command;
+import org.labkey.remoteapi.CommandException;
+import org.labkey.remoteapi.Connection;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
+import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
+import org.labkey.test.etl.ETLHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PostgresOnlyTest;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +52,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public static final String PROJECT_NAME = "HDRL Verification";
     protected final String TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/sample_upload_01.tsv";
     protected final String TEST_SPECIMEN_UPLOAD_FILE_2 = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/sample_upload_02.xlsx";
+    protected final String CLINICAL_REPORT_FILE = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/clinical_report.pdf";
 
     private static final String SUBMIT_BUTTON_TEXT = "Submit Request";
     private static final String SAVE_BUTTON_TEXT = "Save";
@@ -65,10 +74,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         init.setupFolder();
     }
 
-    private void addTestResultData(int requestId)
-    {
-        // TODO
-    }
 
     @Before
     public void preTest()
@@ -76,29 +81,202 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
     }
 
-    @Test
-    public void testResults()
+    @Override
+    protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
+        super.doCleanup(afterTest);
+//        removeTestResultData();
+    }
+
+    private void addTestResultData(Map<String, String> requestData, List<Map<String, String>> specimenData)
+    {
+        addRequestResultData(requestData);
+        addSpecimenResultData(specimenData);
+    }
+
+    private void removeTestResultData()
+    {
+        removeLabWareData("x_lk_outbd_specimens");
+        removeLabWareData("x_lk_outbd_requests");
+        removeLabWareData("x_lk_inbnd_specimens");
+        removeLabWareData("x_lk_inbnd_requests");
+    }
+
+    /**
+     * This function removes ALL data from the gw_labkey tables.
+     */
+    private void removeLabWareData(String tableName)
+    {
+        Connection connection = new Connection(getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        // FIXME this currently does not work because the Query api does not handle data source qualified schema names
+        Command command = new Command("query", "truncateTable");
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("schemaName", "labware.gw_labkey");
+        parameters.put("queryName", tableName);
+        command.setParameters(parameters);
+        try
+        {
+            command.execute(connection, getCurrentContainerPath());
+        }
+        catch (IOException | CommandException e)
+        {
+            throw new RuntimeException("Error posting request results", e);
+        }
+    }
+
+    private void addRequestResultData(Map<String, String> data)
+    {
+        Connection connection = new Connection(getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        Command command = new Command("hdrl", "addLabwareOutboundRequest");
+        command.setParameters(data);
+
+        try
+        {
+            command.execute(connection, getCurrentContainerPath());
+        }
+        catch (IOException | CommandException e)
+        {
+            throw new RuntimeException("Error posting request results", e);
+        }
+    }
+
+    private void addSpecimenResultData(List<Map<String, String>> results)
+    {
+        Connection connection = new Connection(getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        for (Map<String, String> result : results)
+        {
+            Command command = new Command("hdrl", "addLabwareOutboundSpecimen");
+            command.setParameters(result);
+
+            try
+            {
+                command.execute(connection, getCurrentContainerPath());
+            }
+            catch (IOException | CommandException e)
+            {
+                throw new RuntimeException("Error posting specimen results", e);
+            }
+        }
+
+    }
+
+    private void showHiddenSchemasAndQueries()
+    {
+        goToSchemaBrowser();
+    }
+
+
+//    @Test - commented out until the removal of the labware data is working.
+    public void testRetrievalOfResults()
+    {
+        ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
 
         // Submit a test request
         File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
         uploadFile(file);
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
-        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testResults");
+        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testRetrievalOfResults");
         clickButton(SUBMIT_BUTTON_TEXT);
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRow("ShippingNumber", "testResults");
+        int idx = drt.getRow("ShippingNumber", "testRetrievalOfResults");
         assertNotEquals(idx, -1);
-        int requestId = Integer.parseInt(drt.getDataAsText(idx, "RequestId"));
+        String requestId = drt.getDataAsText(idx, "RequestId");
 
-        // TODO
-        // Run the ETL with no results in the table and verify there's no extra data
+        Map<String, String> result = new HashMap<>();
+        result.put("batchId", requestId);
+        result.put("dateReceived", "2015-06-01");
+        result.put("dateModified", "2015-06-15");
+        result.put("hdrlStatus", "Received");
+        result.put("customerNote", "Note for id " + requestId);
 
-        addTestResultData(requestId); // add results for this test request
+        List<String> specimenIds = getSpecimenIds(requestId);
+
+        List<Map<String, String>> lwSpecimens = new ArrayList<>();
+
+        Map<String, String> specimenResult1 = new HashMap<>();
+        specimenResult1.put("batchId", String.valueOf(requestId));
+        specimenResult1.put("testRequestId", specimenIds.get(0));
+        specimenResult1.put("dateReceived", "2015-06-01");
+        specimenResult1.put("dateCompleted", "2015-06-03");
+        specimenResult1.put("dateModified", "2015-06-03");
+        specimenResult1.put("sampleIntegrity", "Hemolyzed");
+        specimenResult1.put("testResult", "HIV Negative");
+        specimenResult1.put("customerCode", "5B");
+        specimenResult1.put("clinicalReportFile", CLINICAL_REPORT_FILE);
+        specimenResult1.put("reportFileName", "testReportFileName.pdf");
+        specimenResult1.put("hdrlStatus", "Completed");
+        specimenResult1.put("modifiedResultFlag", "F");
+        lwSpecimens.add(specimenResult1);
+
+        Map<String, String> specimenResult2 = new HashMap<>();
+        specimenResult2.put("batchId", requestId);
+        specimenResult2.put("testRequestId", specimenIds.get(1));
+        specimenResult2.put("dateReceived", "2015-06-01");
+        specimenResult2.put("dateModified", "2015-06-03");
+        specimenResult2.put("hdrlStatus", "Exception");
+        specimenResult2.put("modifiedResultFlag", "F");
+        lwSpecimens.add(specimenResult2);
+
+        addTestResultData(result, lwSpecimens); // add results for this test request
 
         // Run the ETL to pick up the results
+        _etlHelper.runETL("{HDRL}/labware");
+
+        Map<String, String> request = new HashMap<>();
+        request.put("ShippingNumber", "testRetrievalOfResults");
+        result.put("requestId", requestId);
+        result.put("received", "2015-06-01");
+        result.put("modified", "2015-06-15");
+        result.put("Status", "Received");
+        result.put("CustomerNote", "Note for id " + requestId);
+
+        // add in the request data for verification
+        Map<String, String> specimen1 = new HashMap<>();
+        specimen1.put("RequestId", String.valueOf(requestId));
+        specimen1.put("SpecimenId", specimenIds.get(0));
+        specimen1.put("Received", "2015-06-01");
+        specimen1.put("Completed", "2015-06-03");
+        specimen1.put("SampleIntegrity", "Hemolyzed");
+        specimen1.put("TestResult", "HIV Negative");
+        specimen1.put("CustomerCode", "5B");
+        specimen1.put("RequestStatus", "Completed");
+        specimen1.put("ModifiedResultFlag", "F");
+
+        Map<String, String> specimen2 = new HashMap<>();
+
+        specimen2.put("RequestId", requestId);
+        specimen2.put("SpecimenId", specimenIds.get(1));
+        specimen2.put("Received", "2015-06-01");
+        specimen2.put("RequestStatus", "Exception");
+        specimen2.put("ModifiedResultFlag", "F");
+
+        List<Map<String, String>> specimens = new ArrayList<>();
+        specimens.add(specimen1);
+        specimens.add(specimen2);
 
         // Verify results data are shown in the grid
+        verifyDataRegionRows("InboundRequest", Collections.singletonList(request), "ShippingNumber");
+        verifyDataRegionRows("SpecimenResult", specimens, "SpecimenId");
+
+        // TODO Verify download
+        goToProjectHome();
+        impersonateRole("Reader");
+        click(Locator.linkContainingText("View test requests"));
+        drt = new DataRegionTable("query", this);
+        idx = drt.getRow("RequestId", requestId);
+        assertNotEquals(idx, -1);
+        log("ensure submitted requests are still editable by admins");
+        assertEquals("VIEW", drt.getDataAsText(idx, -1));
+        clickAndWait(drt.link(idx, -1));
+
+
+        waitForElement(Locator.tagContainingText("td", specimenIds.get(0)));
+        drt = new DataRegionTable("query", this);
+        idx = drt.getRow("SpecimenId", specimenIds.get(0));
+        assertEquals("DOWNLOAD", drt.getDataAsText(idx, -1));
+
+        stopImpersonatingRole();
+
     }
 
     @Test
@@ -404,6 +582,17 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("upload specimen data from a file");
         setFormElement(Locator.tagWithName("input", "file"), file);
         clickButton("upload file", 0);
+    }
+
+    private List<String> getSpecimenIds(String requestId)
+    {
+        goToSchemaBrowser();
+        selectQuery("hdrl", "InboundSpecimen");
+        waitForText("view data");
+        clickAndWait(Locator.linkContainingText("view data"));
+        DataRegionTable drt = new DataRegionTable("query", this, false);
+        drt.ensureColumnPresent("RowId");
+        return drt.getColumnDataAsText(15);
     }
 
     private void verifyDataRegionRows(String tableName, List<Map<String, String>> expectedRows, String key)

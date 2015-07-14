@@ -75,8 +75,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
     public static final String TABLE_REQUEST_RESULT = "RequestResult";
     public static final String TABLE_SPECIMEN_RESULT = "SpecimenResult";
 
-    public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";
-    public static final String COL_STATUS_NAME = "status$name";
+    public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";;
     public static final String COL_INBOUND_REQUEST_ID = "InboundRequestId";
     public static final String COL_ARCHIVED_REQUEST_COUNT = "ArchivedRequestCount";
 
@@ -252,6 +251,25 @@ public class HDRLQuerySchema extends SimpleUserSchema
             queryView.setShowInsertNewButton(false);
             queryView.setShowImportDataButton(false);
 
+            return queryView;
+        }
+        else if (TABLE_SPECIMEN_RESULT.equalsIgnoreCase(settings.getQueryName()))
+        {
+            QueryView queryView = new QueryView(this, settings, errors);
+
+            queryView.setShowDeleteButton(false);
+            queryView.setShowUpdateColumn(false);
+            queryView.setShowInsertNewButton(false);
+            queryView.setShowImportDataButton(false);
+            return queryView;
+        }
+        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(settings.getQueryName()))
+        {
+            QueryView queryView = new QueryView(this, settings, errors);
+
+            queryView.setShowUpdateColumn(false);
+            queryView.setShowInsertNewButton(false);
+            queryView.setShowImportDataButton(false);
             return queryView;
         }
 

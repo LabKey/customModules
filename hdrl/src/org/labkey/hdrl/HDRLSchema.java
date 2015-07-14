@@ -16,6 +16,7 @@
 package org.labkey.hdrl;
 
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.TableInfo;
 
@@ -43,7 +44,7 @@ public class HDRLSchema
 
     public DbSchema getSchema()
     {
-        return DbSchema.get(SCHEMA_NAME);
+        return DbSchema.get(SCHEMA_NAME, DbSchemaType.Module);
     }
 
     public DbScope getScope()
@@ -59,5 +60,15 @@ public class HDRLSchema
     public TableInfo getTableInfoInboundSpecimen()
     {
         return getSchema().getTable("InboundSpecimen");
+    }
+
+    public TableInfo getTableInfoRequestResult()
+    {
+        return getSchema().getTable("RequestResult");
+    }
+
+    public TableInfo getTableInfoSpecimenResult()
+    {
+        return getSchema().getTable("SpecimenResult");
     }
 }

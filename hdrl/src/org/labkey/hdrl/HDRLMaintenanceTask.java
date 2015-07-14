@@ -64,21 +64,21 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
         // Get this from the configurable setting
         int retentionDays = HDRLManager.getNumberOfDays();
         final String requestStatusStatement = HDRLQuerySchema.COL_REQUEST_STATUS_ID + " = " + "(SELECT rowid FROM hdrl.requeststatus WHERE name = ?)";
-        final String submittedCondition1 = " WHERE (" + HDRLSchema.getInstance().getSchema().getSqlDialect().getDateDiff(Calendar.DATE, "NOW()", "i.Modified") + " >= ?";
+        final String submittedCondition1 = " WHERE (" + HDRLSchema.getInstance().getSchema().getSqlDialect().getDateDiff(Calendar.DATE, "NOW()", "r.Completed") + " >= ?";
         final String submittedCondition2 = " AND i." + requestStatusStatement + ")";
 
         DbSchema hdrl = HDRLSchema.getInstance().getSchema();
         try (DbScope.Transaction transaction = hdrl.getScope().ensureTransaction())
         {
-            // Depending on strategy for remembering the number of specimens in the request, might need to stash the value
-            // here, prior to deleting the specimen rows
+            // Need to stash the number of specimens in the request table, prior to deleting the specimen rows
             SQLFragment addToArchivedRequestCountColSQL = new SQLFragment("UPDATE ");
             addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "i");
             addToArchivedRequestCountColSQL.append(" SET " + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + " = (SELECT COUNT(*) FROM ");
-            addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen());
-            addToArchivedRequestCountColSQL.append(" WHERE " + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " = RequestId)");
+            addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen(), "s");
+            addToArchivedRequestCountColSQL.append(" WHERE s." + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " = i.RequestId)");
             addToArchivedRequestCountColSQL.append(", " + requestStatusStatement);
             addToArchivedRequestCountColSQL.add(HDRLQuerySchema.STATUS_ARCHIVED);
+            addToArchivedRequestCountColSQL.append(" FROM ").append(HDRLSchema.getInstance().getTableInfoRequestResult(), "r");
             addToArchivedRequestCountColSQL.append(submittedCondition1);
             addToArchivedRequestCountColSQL.add(retentionDays);
             addToArchivedRequestCountColSQL.append(submittedCondition2);
@@ -92,24 +92,25 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
                     + HDRLSchema.getInstance().getTableInfoInboundRequest().getName()
                     +". Added specimen counts to " + numRequests +" rows.");
 
-            // Delete based on the completion date being at least X days in the past
+            LOG.info("Starting to delete HDRL specimen data");
+
+            // Delete specimens for requests that have been archived
+            // specimen results are deleted via cascading
             SQLFragment specimenDeleteSQL = new SQLFragment("DELETE FROM ");
-            specimenDeleteSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen());
-            specimenDeleteSQL.append(" WHERE " + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " IN (SELECT RequestId FROM ");
+            specimenDeleteSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen(), "s");
+            specimenDeleteSQL.append(" WHERE " + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " IN (SELECT i.RequestId FROM ");
             specimenDeleteSQL.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "i");
             specimenDeleteSQL.append(" WHERE " + requestStatusStatement);
             specimenDeleteSQL.add(HDRLQuerySchema.STATUS_ARCHIVED);
             specimenDeleteSQL.append(")");
 
+            int inboundRowCount = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(specimenDeleteSQL);
 
-            LOG.info("Starting to delete HDRL specimen data");
 
-            int rowCount = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(specimenDeleteSQL);
-
-            LOG.info("Deleted " + rowCount + " row(s) of HDRL specimen data");
+            LOG.info("Deleted " + inboundRowCount + " row(s) of HDRL inbound specimen data");
 
             transaction.commit();
         }
-        // Also delete from specimen results when we're mapping them back from LabWare
+
     }
 }

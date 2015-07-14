@@ -177,6 +177,7 @@ public class HDRLManager
             labWareData.put("test_result", resultData.getTestResult());
             labWareData.put("customer_code", resultData.getCustomerCode());
             labWareData.put("modified_result_flag", resultData.getModifiedResultFlag());
+            labWareData.put("report_file_name", resultData.getReportFileName());
 
             if (resultData.getClinicalReportFile() != null)
             {

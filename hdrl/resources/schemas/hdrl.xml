@@ -118,6 +118,7 @@
    </ns:table>
 
    <ns:table tableName="InboundSpecimen" tableDbType="TABLE">
+      <ns:titleColumn>RowId</ns:titleColumn>
       <ns:columns>
          <ns:column columnName="RowId">
                  <ns:columnTitle>SpecimenId</ns:columnTitle>
@@ -197,8 +198,17 @@
   </ns:table>
 
   <ns:table tableName="SpecimenResult" tableDbType="TABLE">
+     <ns:titleColumn>SpecimenId</ns:titleColumn>
     <ns:columns>
-      <ns:column columnName="SpecimenId"/>
+      <ns:column columnName="SpecimenId">
+         <ns:fk>
+            <ns:fkDisplayColumnName>RowId</ns:fkDisplayColumnName>
+            <ns:fkColumnName>RowId</ns:fkColumnName>
+            <ns:fkTable>InboundSpecimen</ns:fkTable>
+            <ns:fkDbSchema>hdrl</ns:fkDbSchema>
+         </ns:fk>
+      </ns:column>
+
        <ns:column columnName="RequestStatusId">
           <ns:columnTitle>Request Status</ns:columnTitle>
        </ns:column>
@@ -224,7 +234,9 @@
           </ns:fk>
        </ns:column>
        <ns:column columnName="Modified"/>
-       <ns:column columnName="ModifiedresultFlag"/>
+       <ns:column columnName="ModifiedResultFlag"/>
+       <ns:column columnName="ReportFileName"/>
+       <ns:column columnName="RequestId"/>
     </ns:columns>
   </ns:table>
 </ns:tables>

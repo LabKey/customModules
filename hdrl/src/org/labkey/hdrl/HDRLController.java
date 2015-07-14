@@ -328,7 +328,7 @@ public class HDRLController extends SpringActionController
                 byte[] documentBytes = IOUtils.toByteArray(result.getBinaryStream("clinical_report"));
 
                 response.setContentType(contentType);
-                response.setHeader("Content-Disposition", "attachment; filename=\"clinicalReport_" + form.getSpecimenId() + ".pdf\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + result.getString("report_file_name") + "\"");
                 response.setContentLength(documentBytes.length);
                 response.getOutputStream().write(documentBytes);
             }
@@ -559,6 +559,8 @@ public class HDRLController extends SpringActionController
                 errors.rejectValue("dateReceived", ERROR_MSG, "dateReceived is required");
             if (form.getDateModified() == null)
                 errors.rejectValue("dateModified", ERROR_MSG, "dateModified is required");
+            if (form.getHdrlStatus() == null)
+                errors.rejectValue("hdrlStatus", ERROR_MSG, "hdrlStatus is required");
         }
     }
 
@@ -655,6 +657,8 @@ public class HDRLController extends SpringActionController
                 errors.rejectValue("dateReceived", ERROR_MSG, "dateReceived is required");
             if (form.getDateModified() == null)
                 errors.rejectValue("dateModified", ERROR_MSG, "dateModified is required");
+            if (form.getHdrlStatus() == null)
+                errors.rejectValue("hdrlStatus", ERROR_MSG, "hdrlStatus is required");
         }
     }
 
@@ -671,6 +675,7 @@ public class HDRLController extends SpringActionController
         private String _hdrlStatus;
         private Date _dateModified;
         private String _modifiedResultFlag;
+        private String _reportFileName;
 
         public Integer getBatchId()
         {
@@ -780,6 +785,16 @@ public class HDRLController extends SpringActionController
         public void setTestResult(String testResult)
         {
             _testResult = testResult;
+        }
+
+        public String getReportFileName()
+        {
+            return _reportFileName;
+        }
+
+        public void setReportFileName(String reportFileName)
+        {
+            _reportFileName = reportFileName;
         }
     }
 

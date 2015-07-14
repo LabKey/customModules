@@ -20,5 +20,6 @@ SELECT
   res.Completed AS Completed,
   res.SampleIntegrity AS SampleIntegrity,
   res.TestResult AS TestResult,
-  res.CustomerCode AS CustomerCode
+  res.CustomerCode AS CustomerCode,
+  res.ReportFileName as ReportFileName
 FROM hdrl.InboundSpecimen spec LEFT JOIN hdrl.SpecimenResult res ON spec.RowId = res.specimenId;
