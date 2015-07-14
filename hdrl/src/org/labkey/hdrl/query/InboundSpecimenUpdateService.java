@@ -18,8 +18,6 @@ package org.labkey.hdrl.query;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
-import org.labkey.api.data.SQLFragment;
-import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.DefaultQueryUpdateService;
@@ -28,7 +26,6 @@ import org.labkey.api.query.InvalidKeyException;
 import org.labkey.api.query.QueryUpdateServiceException;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
-import org.labkey.hdrl.HDRLSchema;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -62,7 +59,7 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
         if (this.validationMode == ValidationMode.WITH_UQ)
         {
-            validateUniqueness((Integer) rows.get(0).get("InboundRequestId"));
+            InboundRequestUpdateService.validateUniqueness((Integer) rows.get(0).get("InboundRequestId"));
         }
 
         return ret;
@@ -84,7 +81,7 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
         if (this.validationMode == ValidationMode.WITH_UQ)
         {
-            validateUniqueness((Integer) rows.get(0).get("InboundRequestId"));
+            InboundRequestUpdateService.validateUniqueness((Integer) rows.get(0).get("InboundRequestId"));
         }
 
         return ret;
@@ -117,63 +114,6 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
 
     }
 
-    public static void validateUniqueness(Integer requestId) throws QueryUpdateServiceException
-    {
-        // check that there are no duplicate barcodes
-        List<String> duplicates = findDuplicates(requestId, "CustomerBarcode");
-        StringBuilder message = new StringBuilder();
-        if (duplicates.size() > 0)
-        {
-            message.append("Request has specimens with duplicate fields: Customer Barcode - ").append(StringUtils.join(duplicates, ", "));
-        }
-
-        // check that all existing DODId in the specimens in this request are unique
-        duplicates = findDuplicates(requestId, "DoDId");
-        if (duplicates.size() > 0)
-        {
-            if (message.length() == 0)
-                message.append("Request has specimens with duplicate fields: ");
-            else
-                message.append("; ");
-            message.append("DoDID - ").append(StringUtils.join(duplicates, ", "));
-        }
-        // check that all the existing SSN + FMP pairs in this request are unique
-        duplicates = findDuplicates(requestId, "SSN, FMPId");
-        if (duplicates.size() > 0)
-        {
-            if (message.length() == 0)
-                message.append("Request has specimens with duplicate fields: ");
-            else
-                message.append("; ");
-            message.append("SSN + FMP - ").append(StringUtils.join(duplicates, ", "));
-        }
-
-        if (message.length() > 0)
-            throw new QueryUpdateServiceException(message.toString());
-
-    }
-
-    /**
-     * Returns a list of duplicates for the combination of fields given where the field values are not null.
-     *
-     * @param requestId id of the test request
-     * @param fields comma-separated list of fields to check for unique combinations of
-     * @return value of the fields that are duplicates; for the case of multiple fields the value of the first field in @fields will be in the returned list
-     */
-    private static List<String> findDuplicates(Integer requestId, String fields)
-    {
-        SQLFragment sql = new SQLFragment("SELECT ")
-                .append(fields).append(" FROM hdrl.inboundspecimen WHERE inboundrequestid = ").append(requestId);
-        for (String field : fields.split(", "))
-        {
-            sql.append(" AND ").append(field).append(" IS NOT NULL ");
-        }
-        sql.append(" GROUP BY ").append(fields)
-                .append(" HAVING COUNT(*) > 1 ");
-        SqlSelector sqlSelector = new SqlSelector(HDRLSchema.getInstance().getScope(), sql);
-        return sqlSelector.getArrayList(String.class);
-
-    }
 
     public static void validate(Map<String, Object> row) throws ValidationException
     {

@@ -628,7 +628,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             saveButton.setDisabled(!this.isDirty() || !this.down('form').getForm().isValid());
         var packingListButton = this.down('button#packingListButton');
         if (packingListButton)
-            packingListButton.setDisabled(this.requestId == -1 || this.grid.getStore().getCount() == 0);
+            packingListButton.setDisabled(this.requestId == -1 || this.grid.getStore().getCount() == 0 || this.isDirty());
     },
 
     saveSpecimens : function(newRequestStatusId, callback) {
@@ -692,27 +692,39 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 command     : 'delete'
             });
         }
-        if (commands.length > 0) {}
-        LABKEY.Query.saveRows(
-                {
-                    commands: commands,
-                    scope       : this,
-                    success     : function(res) {
-                        if (!this.error) {
-                            this.resetDirty();
-                            if (callback)
-                                callback.call(this);
+        if (commands.length > 0)
+        {
+            LABKEY.Query.saveRows(
+                    {
+                        commands: commands,
+                        scope: this,
+                        success: function (res)
+                        {
+                            if (!this.error)
+                            {
+                                this.resetDirty();
+                                if (callback)
+                                    callback.call(this);
+                                else
+                                    window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
+                            }
+                        },
+                        failure: function (res)
+                        {
+                            this.error = true;
+                            var message = 'An error occurred saving the specimen data.  See the log for details.';
+                            if (res.exception)
+                                message = res.exception;
+                            Ext4.Msg.show({
+                                title: "Error",
+                                msg: message,
+                                buttons: Ext4.MessageBox.OK,
+                                icon: Ext4.MessageBox.ERROR
+                            });
                         }
-                    },
-                    failure     : function(res){
-                        this.error = true;
-                        var message = 'An error occurred saving the specimen data.  See the log for details.';
-                        if (res.exception)
-                            message = res.exception;
-                        Ext4.Msg.show({title: "Error", msg: message, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                     }
-                }
-        );
+            );
+        }
     },
 
     submitRequest : function()
@@ -730,17 +742,21 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 success     : function(res) {
                     window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
                 },
-                failure     : function(){
+                failure     : function(res){
                     this.error = true;
-                    Ext4.Msg.show({title: "Error",
-                        msg: 'An error occurred submitting the test request.  See the log for details.',
+                    var message = 'An error occurred submitting the specimen data.  See the log for details.';
+                    if (res.exception)
+                        message = res.exception;
+                    Ext4.Msg.show({
+                        title: "Error",
+                        msg: message,
                         buttons: Ext4.MessageBox.OK,
                         icon: Ext4.MessageBox.ERROR,
                         scope: this,
                         fn: function(buttonId, text, opt) {
                             window.location = LABKEY.ActionURL.buildURL('hdrl', 'editRequest.view', null, {requestId : this.requestId});
-                        }});
-
+                        }
+                    });
                 }
             });
 
