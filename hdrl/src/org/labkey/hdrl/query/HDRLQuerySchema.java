@@ -81,6 +81,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     public static final String STATUS_SUBMITTED = "Submitted";
     public static final String STATUS_ARCHIVED = "Archived";
+    public static final String STATUS_PENDING = "Pending";
 
     private Map<Integer, String> statusMap = null;
 
@@ -195,7 +196,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             if (STATUS_ARCHIVED.equals(status))
                                 return;
 
-                            if ((!STATUS_SUBMITTED.equals(status) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
+                            if ((STATUS_PENDING.equals(status) && getContainer().hasPermission(getUser(), UpdatePermission.class)) || getContainer().hasPermission(getUser(), AdminPermission.class))
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
