@@ -339,22 +339,25 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public void validate(SpecimenForm specimenForm, BindException errors)
+        public void validate(SpecimenForm form, BindException errors)
         {
-            super.validate(specimenForm, errors);
+            if (form.getSpecimenId() == null)
+            {
+                errors.reject(ERROR_MSG, "SpecimenId is required");
+            }
         }
     }
 
     public static class SpecimenForm
     {
-        private int _specimenId;
+        private Integer _specimenId;
 
-        public int getSpecimenId()
+        public Integer getSpecimenId()
         {
             return _specimenId;
         }
 
-        public void setSpecimenId(int specimenId)
+        public void setSpecimenId(Integer specimenId)
         {
             _specimenId = specimenId;
         }
