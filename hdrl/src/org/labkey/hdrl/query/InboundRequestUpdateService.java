@@ -56,18 +56,24 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
     @Override
     protected Map<String, Object> insertRow(User user, Container container, Map<String, Object> row) throws DuplicateKeyException, ValidationException, QueryUpdateServiceException, SQLException
     {
-        boolean isSubmit = ((int) row.get("requestStatusId")) == 2;
-        if (isSubmit)
+        HDRLQuerySchema lkSchema = new HDRLQuerySchema(user, container);
+
+        try (DbScope.Transaction lkTransaction = lkSchema.getSchema().getScope().ensureTransaction())
         {
-            row.put("SubmittedBy", user.getUserId());
-            row.put("Submitted", new Date());
+            boolean isSubmit = ((int) row.get("requestStatusId")) == 2; // this is a "Submitted" status from the requestStatus lookup table
+            if (isSubmit)
+            {
+                row.put("SubmittedBy", user.getUserId());
+                row.put("Submitted", new Date());
+            }
+            Map<String, Object> insertedRow = super.insertRow(user, container, row);
+            if (isSubmit)
+            {
+                pushDataToLabWare(user, container, insertedRow);
+            }
+            lkTransaction.commit();
+            return insertedRow;
         }
-        Map<String, Object> insertedRow = super.insertRow(user, container, row);
-        if (isSubmit)
-        {
-            pushDataToLabWare(user, container, insertedRow);
-        }
-        return insertedRow;
 
     }
 
