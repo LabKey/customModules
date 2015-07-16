@@ -622,7 +622,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
     toggleButtons : function() {
         var submitButton = this.down('button#submitButton');
         if (submitButton)
-            submitButton.setDisabled(this.isSubmitted() || (this.testTypeId == null && this.requestType == null) || this.grid.getStore().getCount() == 0);
+            submitButton.setDisabled(!this.validData || this.isSubmitted() || (this.testTypeId == null && this.requestType == null) || this.grid.getStore().getCount() == 0);
         var saveButton = this.down('button#saveButton');
         if (saveButton)
             saveButton.setDisabled(!this.isDirty() || !this.down('form').getForm().isValid());
@@ -870,14 +870,16 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             success : function(res) {
                 var o = Ext4.decode(res.responseText);
 
-                for (var i=0; i < o.rows.length; i++){
+                this.validData = true;
+                for (var i=0; i < o.rows.length; i++)
+                {
                     if (o.rows[i].ValidationStatus)
-                        ret = false;
+                        this.validData = false;
                     rows[i].set('status', o.rows[i].ValidationStatus);
                 }
 
                 if (callback)
-                    callback.call(this, ret);
+                    callback.call(this, this.validData);
             }
         });
     },

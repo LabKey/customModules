@@ -24,6 +24,8 @@
 <%@ page import="org.labkey.api.view.template.ClientDependency" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
 <%@ page import="java.util.LinkedHashSet" %>
+<%@ page import="org.labkey.api.util.PageFlowUtil" %>
+<%@ page import="org.labkey.api.view.ActionURL" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
 
@@ -67,4 +69,6 @@
         });
     });
 </script>
-
+<div>
+    <%=PageFlowUtil.textLink("Return to test status", new ActionURL(HDRLController.BeginAction.class, getViewContext().getContainer()))%>
+</div>

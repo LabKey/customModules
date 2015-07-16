@@ -85,43 +85,12 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
         super.doCleanup(afterTest);
-//        removeTestResultData();
     }
 
     private void addTestResultData(Map<String, String> requestData, List<Map<String, String>> specimenData)
     {
         addRequestResultData(requestData);
         addSpecimenResultData(specimenData);
-    }
-
-    private void removeTestResultData()
-    {
-        removeLabWareData("x_lk_outbd_specimens");
-        removeLabWareData("x_lk_outbd_requests");
-        removeLabWareData("x_lk_inbnd_specimens");
-        removeLabWareData("x_lk_inbnd_requests");
-    }
-
-    /**
-     * This function removes ALL data from the gw_labkey tables.
-     */
-    private void removeLabWareData(String tableName)
-    {
-        Connection connection = new Connection(getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
-        // FIXME this currently does not work because the Query api does not handle data source qualified schema names
-        Command command = new Command("query", "truncateTable");
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("schemaName", "labware.gw_labkey");
-        parameters.put("queryName", tableName);
-        command.setParameters(parameters);
-        try
-        {
-            command.execute(connection, getCurrentContainerPath());
-        }
-        catch (IOException | CommandException e)
-        {
-            throw new RuntimeException("Error posting request results", e);
-        }
     }
 
     private void addRequestResultData(Map<String, String> data)
@@ -160,13 +129,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     }
 
-    private void showHiddenSchemasAndQueries()
-    {
-        goToSchemaBrowser();
-    }
 
-
-//    @Test - commented out until the removal of the labware data is working.
+    @Test
     public void testRetrievalOfResults()
     {
         ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
@@ -186,7 +150,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         result.put("batchId", requestId);
         result.put("dateReceived", "2015-06-01");
         result.put("dateModified", "2015-06-15");
-        result.put("hdrlStatus", "Received");
+        result.put("dateCompleted", "2015-07-01");
+        result.put("hdrlStatus", "Completed");
         result.put("customerNote", "Note for id " + requestId);
 
         List<String> specimenIds = getSpecimenIds(requestId);
@@ -203,7 +168,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimenResult1.put("testResult", "HIV Negative");
         specimenResult1.put("customerCode", "5B");
         specimenResult1.put("clinicalReportFile", CLINICAL_REPORT_FILE);
-        specimenResult1.put("reportFileName", "testReportFileName.pdf");
+        specimenResult1.put("reportFileName", "reportFileName.pdf");
         specimenResult1.put("hdrlStatus", "Completed");
         specimenResult1.put("modifiedResultFlag", "F");
         lwSpecimens.add(specimenResult1);
@@ -258,7 +223,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         verifyDataRegionRows("InboundRequest", Collections.singletonList(request), "ShippingNumber");
         verifyDataRegionRows("SpecimenResult", specimens, "SpecimenId");
 
-        // TODO Verify download
+        // Verify download
         goToProjectHome();
         impersonateRole("Reader");
         click(Locator.linkContainingText("View test requests"));
@@ -276,6 +241,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals("DOWNLOAD", drt.getDataAsText(idx, -1));
 
         stopImpersonatingRole();
+
+        testDataDeletion();
 
     }
 
@@ -313,7 +280,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         addSpecimenRequestRow(r2, "Required field(s) missing: FMP, Draw Date", false);
 
         log("ensure row editor saves the currently edited row");
-        clickButton("Save", 0);
+        clickButton(SAVE_BUTTON_TEXT);
 
         // verify the inserted row via the data region table
         verifyDataRegionRows("InboundSpecimen", rows, "CustomerBarcode");
@@ -333,13 +300,14 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         waitForElement(Locator.tagContainingText("div", "Required field(s) missing: FMP"));
         waitForElement(Locator.tagContainingText("div", "Draw date cannot be before birth date; Required field(s) missing: SSN"));
 
-        log("verify submit error");
-        clickButton(SUBMIT_BUTTON_TEXT, 0);
-        _extHelper.waitForExtDialog("Error");
-        clickButtonContainingText("OK", "Error");
-        _extHelper.waitForExtDialogToDisappear("Error");
+        log("verify submit disabled when there are validation errors");
+        assertElementPresent("Submit button should not be enabled if request has been submitted", Locators.disabledSubmit, 1);
+//        clickButton(SUBMIT_BUTTON_TEXT, 0);
+//        _extHelper.waitForExtDialog("Error");
+//        clickButtonContainingText("OK", "Error");
+//        _extHelper.waitForExtDialogToDisappear("Error");
 
-        clickButton(SAVE_BUTTON_TEXT, 0);
+        clickButton(SAVE_BUTTON_TEXT);
 
         List<Map<String, String>> rows = new ArrayList<>();
         Map<String, String> r1 = new HashMap<>();
@@ -380,7 +348,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("verify proper SSN formatting");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
-        clickButton(SAVE_BUTTON_TEXT, 0);
+        clickButton(SAVE_BUTTON_TEXT);
 
         List<Map<String, String>> rows = new ArrayList<>();
         Map<String, String> r1 = new HashMap<>();
@@ -494,7 +462,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("Test edit and cancel save of a submitted request");
         _ext4Helper.selectComboBoxItem("Carrier","DHL");
         assertElementPresent("Save button should be enabled if request has been edited", Locators.enabledSave, 1);
-        clickButton("Save", 0);
+        clickButton(SAVE_BUTTON_TEXT, 0);
         waitForText(CONFIRM_SAVE_TEXT);
         clickButton("No", 0);
 
@@ -510,13 +478,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickAndWait(drt.link(idx, 0));
         _ext4Helper.selectComboBoxItem("Carrier","DHL");
         assertElementPresent("Save button should be enabled if request has been edited", Locators.enabledSave, 1);
-        clickButton("Save", 0);
+        clickButton(SAVE_BUTTON_TEXT, 0);
         waitForText(CONFIRM_SAVE_TEXT);
-        clickButton("Yes", 0);
+        clickButton("Yes");
 
         log("Test that saving request does not change the request status");
-        goToProjectHome();
-        click(Locator.linkContainingText("View test requests"));
         idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
@@ -541,13 +507,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     }
 
-    @Test
     public void testDataDeletion()
     {
-        File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
-        uploadFile(file);
-        clickButton(SAVE_BUTTON_TEXT, 0);
-        clickButton("Cancel");
         goToAdminConsole();
         click(Locator.linkWithText("System Maintenance"));
         waitForText("Configure System Maintenance");
