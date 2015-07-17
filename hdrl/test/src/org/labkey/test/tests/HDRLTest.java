@@ -129,7 +129,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     }
 
-
     @Test
     public void testRetrievalOfResults()
     {

@@ -76,8 +76,6 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
             addToArchivedRequestCountColSQL.append(" SET " + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + " = (SELECT COUNT(*) FROM ");
             addToArchivedRequestCountColSQL.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen(), "s");
             addToArchivedRequestCountColSQL.append(" WHERE s." + HDRLQuerySchema.COL_INBOUND_REQUEST_ID + " = i.RequestId)");
-//            addToArchivedRequestCountColSQL.append(", " + requestStatusStatement);
-//            addToArchivedRequestCountColSQL.add(HDRLQuerySchema.STATUS_ARCHIVED);
             addToArchivedRequestCountColSQL.append(" FROM ").append(HDRLSchema.getInstance().getTableInfoRequestResult(), "r");
             addToArchivedRequestCountColSQL.append(submittedCondition1);
             addToArchivedRequestCountColSQL.add(retentionDays);
