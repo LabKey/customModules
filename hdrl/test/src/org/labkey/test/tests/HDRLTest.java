@@ -130,10 +130,21 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     }
 
     @Test
+    public void testTestRequests()
+    {
+        testNewRequest();
+        testFileUpload();
+        testFileUploadAndSubmit();
+        testEditSubmittedRequest();
+        testRetrievalOfResults();
+        testDataDeletion();
+    }
+
+    //@Test
     public void testRetrievalOfResults()
     {
         ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
-
+        goToProjectHome();
         // Submit a test request
         File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
         uploadFile(file);
@@ -233,23 +244,43 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals("VIEW", drt.getDataAsText(idx, -1));
         clickAndWait(drt.link(idx, -1));
 
-
         waitForElement(Locator.tagContainingText("td", specimenIds.get(0)));
         drt = new DataRegionTable("query", this);
         idx = drt.getRow("SpecimenId", specimenIds.get(0));
         assertEquals("DOWNLOAD", drt.getDataAsText(idx, -1));
-
+        assertEquals( Arrays.asList("Completed","Exception"),drt.getColumnDataAsText(2));
+        assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText(3));
+        assertEquals( Arrays.asList("7777","8888"),drt.getColumnDataAsText(4));
+        assertEquals( Arrays.asList("Johnston","Johnston"),drt.getColumnDataAsText(5));
+        assertEquals( Arrays.asList("Jack","Fred"),drt.getColumnDataAsText(6));
+        assertEquals( Arrays.asList("Sparrow"," "),drt.getColumnDataAsText(7));
+        assertEquals( Arrays.asList("jsj"," "),drt.getColumnDataAsText(8));
+        assertEquals( Arrays.asList("Male","Unknown"),drt.getColumnDataAsText(9));
+        assertEquals( Arrays.asList("2000-12-01","1940-06-06"),drt.getColumnDataAsText(10));
+        assertEquals( Arrays.asList("222334444","555443333"),drt.getColumnDataAsText(12));
+        assertEquals( Arrays.asList("01","02"),drt.getColumnDataAsText(13));
+        assertEquals( Arrays.asList("A13","A14"),drt.getColumnDataAsText(14));
+        assertEquals( Arrays.asList("P","B"),drt.getColumnDataAsText(15));
+        assertEquals( Arrays.asList("2015-03-01","1975-03-03"),drt.getColumnDataAsText(16));
+        assertEquals( Arrays.asList("2015-06-01","2015-06-01"),drt.getColumnDataAsText(17));
+        assertEquals( Arrays.asList("2015-06-03"," "),drt.getColumnDataAsText(18));
+        assertEquals( Arrays.asList("Hemolyzed"," "),drt.getColumnDataAsText(19));
+        assertEquals( Arrays.asList("HIV Negative"," "),drt.getColumnDataAsText(20));
+        assertEquals( Arrays.asList("5B"," "),drt.getColumnDataAsText(21));
+        assertEquals( Arrays.asList("reportFileName.pdf"," "),drt.getColumnDataAsText(22));
+        File report = clickAndWaitForDownload(Locator.linkWithSpan("Download"));
+        assert(report.getName().contains("reportFileName"));
         stopImpersonatingRole();
 
-        testDataDeletion();
+        //testDataDeletion();
 
     }
 
-    @Test
+    //@Test
     public void testNewRequest()
     {
         log("creating a new test request");
-
+        goToProjectHome();
         click(Locator.linkContainingText("Create a new test request"));
 
         // we select this even though there is only one option available because there may be other types in the future
@@ -285,9 +316,10 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         verifyDataRegionRows("InboundSpecimen", rows, "CustomerBarcode");
     }
 
-    @Test
+    //@Test
     public void testFileUpload()
     {
+        goToProjectHome();
         File file = new File(TEST_SPECIMEN_UPLOAD_FILE_1);
         uploadFile(file);
 
@@ -330,11 +362,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         verifyDataRegionRows("InboundSpecimen", rows, "CustomerBarcode");
     }
 
-    @Test
+    //@Test
     public void testFileUploadAndSubmit()
     {
         log("creating a new test request by uploading a file");
-
+        goToProjectHome();
         click(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type", "HIV Screening Algorithm");
         _ext4Helper.selectComboBoxItem("Carrier","FedEx");
@@ -425,11 +457,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         stopImpersonatingRole();
     }
 
-    @Test
+    //@Test
     public void testEditSubmittedRequest()
     {
         log("creating a new test request by uploading a file");
-
+        goToProjectHome();
         click(Locator.linkContainingText("Create a new test request"));
         log("upload specimen data from a .xlsx file");
         File file2 = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
@@ -519,23 +551,17 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
         int rowCount = drt.getDataRowCount();
-        List<Integer> archivedRows = new ArrayList<>();
-        for(int row = 0; row < rowCount; row++)
-        {
-            List<String> rowData = drt.getRowDataAsText(row);
-            //all 'Submitted' requests should have been archived
-            org.junit.Assert.assertFalse(rowData.contains("Submitted"));
-            if(rowData.contains("Archived"))
-            {
-                archivedRows.add(row);
-            }
-        }
-
+        Assert.assertTrue(rowCount == 5);
+        List<String> statuses = drt.getColumnDataAsText("Status");
+        Assert.assertFalse("Completed test request should have been archived",statuses.contains("Completed"));
+        Assert.assertTrue("Completed test request should have been archived",statuses.contains("Archived"));
+        //TODO: ensure specimens in request and result aren't present
     }
 
     private void uploadFile(File file)
     {
         log("creating a new test request by uploading a file");
+        goToProjectHome();
         click(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
 
@@ -552,7 +578,20 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickAndWait(Locator.linkContainingText("view data"));
         DataRegionTable drt = new DataRegionTable("query", this, false);
         drt.ensureColumnPresent("RowId");
-        return drt.getColumnDataAsText(15);
+        List<String> specimenIds = new ArrayList<>();
+        List<Integer> targetRows = new ArrayList<>();
+        List<String> requestIds = drt.getColumnDataAsText(2);
+        for(int i = 0; i < requestIds.size(); i++)
+        {
+            if (requestIds.get(i).equals(requestId))
+            targetRows.add(i);
+        }
+        List<String> requestCol = drt.getColumnDataAsText(15);
+        for(int i : targetRows)
+        {
+            specimenIds.add(requestCol.get(i));
+        }
+        return specimenIds;
     }
 
     private void verifyDataRegionRows(String tableName, List<Map<String, String>> expectedRows, String key)
@@ -603,6 +642,14 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     protected void setupFolder()
     {
         _containerHelper.createProject(getProjectName(), "HDRL Request Portal");
+    }
+
+    protected void setTimeWindow()
+    {
+        goToAdminConsole();
+        click(Locator.linkWithText("HDRL Sensitive Data"));
+        setFormElement(Locator.name("timeWindowInDays"), "0");
+        click(Locator.linkWithSpan("Save"));
     }
 
     @Override
