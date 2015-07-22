@@ -547,7 +547,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
         int rowCount = drt.getDataRowCount();
-        Assert.assertTrue(rowCount == 5);
         List<String> statuses = drt.getColumnDataAsText("Status");
         Assert.assertFalse("Completed test request should have been archived",statuses.contains("Completed"));
         Assert.assertTrue("Completed test request should have been archived",statuses.contains("Archived"));
