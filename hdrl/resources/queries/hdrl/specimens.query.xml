@@ -66,6 +66,7 @@
                     <column columnName="SampleIntegrity"/>
                     <column columnName="TestResult"/>
                     <column columnName="CustomerCode"/>
+                    <column columnName="ReportFileName"/>
                 </columns>
             </table>
         </tables>

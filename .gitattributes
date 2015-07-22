@@ -37,6 +37,7 @@ hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.22-15.23.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.20-15.21.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.21-15.22.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.22-15.23.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.23-15.24.sql -text
 hdrl/resources/schemas/hdrl.xml -text
 hdrl/resources/template/specimenTemplate.xlsx -text
 hdrl/resources/views/HDRL.html -text
@@ -62,8 +63,7 @@ hdrl/src/org/labkey/hdrl/query/InboundSpecimenTable.java -text
 hdrl/src/org/labkey/hdrl/query/InboundSpecimenUpdateService.java -text
 hdrl/src/org/labkey/hdrl/query/LabWareQuerySchema.java -text
 hdrl/src/org/labkey/hdrl/query/PatientCountColumn.java -text
-hdrl/src/org/labkey/hdrl/query/RequestResultTable.java -text
-hdrl/src/org/labkey/hdrl/query/SpecimenResultTable.java -text
+hdrl/src/org/labkey/hdrl/query/ResultTable.java -text
 hdrl/src/org/labkey/hdrl/view/InboundRequestBean.java -text
 hdrl/src/org/labkey/hdrl/view/InboundSpecimenBean.java -text
 hdrl/src/org/labkey/hdrl/view/RequestResultBean.java -text

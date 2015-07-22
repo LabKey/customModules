@@ -293,6 +293,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         this.roweditor.cancelEdit();
 
                         this.grid.getStore().remove(sm.getSelection());
+                        this.markDirty(true);
                         if (this.grid.getStore().getCount() > 0) {
                             sm.select(0);
                         }
@@ -566,10 +567,13 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             itemId          : 'packingListButton',
             text            : 'Print Packing List',
             scope           : this,
-            disabled        : (this.requestId == -1),
+            disabled        : (this.grid.getStore().getCount() == 0),
             width           : 150,
             handler : function(){
-                window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : this.requestId}));
+                if (this.isDirty())
+                    this.saveRequestAndSpecimens(this.requestStatusId, this.showPackingList);
+                else
+                    this.showPackingList();
             }
         });
 
@@ -618,6 +622,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
     },
 
 
+    showPackingList : function() {
+        window.location = window.location; // hack to get it to reload the grid so the modified rows no longer look modified and won't be saved again
+        window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : this.requestId}));
+    },
 
     toggleButtons : function() {
         var submitButton = this.down('button#submitButton');
@@ -628,7 +636,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
             saveButton.setDisabled(!this.isDirty() || !this.down('form').getForm().isValid());
         var packingListButton = this.down('button#packingListButton');
         if (packingListButton)
-            packingListButton.setDisabled(this.requestId == -1 || this.grid.getStore().getCount() == 0 || this.isDirty());
+            packingListButton.setDisabled(!this.validData || this.grid.getStore().getCount() == 0 || !this.down('form').getForm().isValid());
     },
 
     saveSpecimens : function(newRequestStatusId, callback) {
@@ -704,7 +712,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                             {
                                 this.resetDirty();
                                 if (callback)
+                                {
                                     callback.call(this);
+                                }
                                 else
                                     window.location = LABKEY.ActionURL.buildURL('hdrl', 'begin.view');
                             }
@@ -724,6 +734,10 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                         }
                     }
             );
+        }
+        else // no specimens to update, so our state is no longer dirty
+        {
+            this.resetDirty();
         }
     },
 
@@ -795,7 +809,9 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
         }
     },
 
-    saveRequestAndSpecimens : function(newRequestStatusId) {
+    // @param saveCallback is used when you want to save the data on the page before executing another function
+    //        (e.g., saving the data before printing the packing list)
+    saveRequestAndSpecimens : function(newRequestStatusId, saveCallback) {
 
         // if saving an already-submitted request, we don't want to change the status, just update the request and/or the specimens
         var changeStatus = newRequestStatusId == 2 && this.requestStatusId == 1;
@@ -826,7 +842,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     {
                         this.requestId = res.rows[0].requestid;
                         if (this.isDirty())
-                            this.saveSpecimens(newRequestStatusId, (changeStatus && newRequestStatusId == 2) ? this.submitRequest : null); // save the specimens with the request still pending
+                            this.saveSpecimens(newRequestStatusId, (changeStatus && newRequestStatusId == 2) ? this.submitRequest : saveCallback); // save the specimens with the request still pending
                         else
                             this.submitRequest();
                     }

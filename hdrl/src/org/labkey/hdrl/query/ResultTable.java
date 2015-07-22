@@ -35,11 +35,11 @@ import java.util.Map;
 /**
  * Created by susanh on 7/7/15.
  */
-public class SpecimenResultTable extends SimpleUserSchema.SimpleTable<HDRLQuerySchema>
+public class ResultTable extends SimpleUserSchema.SimpleTable<HDRLQuerySchema>
 {
-    public SpecimenResultTable(@NotNull HDRLQuerySchema schema)
+    public ResultTable(@NotNull HDRLQuerySchema schema, String tableName)
     {
-        super(schema, schema.getDbSchema().getTable(schema.TABLE_SPECIMEN_RESULT));
+        super(schema, schema.getDbSchema().getTable(tableName));
     }
 
     @Override
@@ -57,9 +57,8 @@ public class SpecimenResultTable extends SimpleUserSchema.SimpleTable<HDRLQueryS
             return new DefaultQueryUpdateService(this, table) {
 
                 @Override
-                public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException
-                errors, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
-                throws SQLException
+                public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
+                        throws SQLException
                 {
                     return _importRowsUsingETL(user, container, rows, null,  getDataIteratorContext(errors, InsertOption.MERGE, configParameters), extraScriptContext);
                 }
@@ -67,4 +66,5 @@ public class SpecimenResultTable extends SimpleUserSchema.SimpleTable<HDRLQueryS
 
         return null;
     }
+
 }

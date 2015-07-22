@@ -20,12 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.ContainerForeignKey;
 import org.labkey.api.data.DatabaseTableType;
-import org.labkey.api.data.JdbcType;
-import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.query.ExprColumn;
 import org.labkey.api.query.FilteredTable;
-import org.labkey.api.query.LookupForeignKey;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.security.permissions.Permission;
@@ -44,41 +40,6 @@ public class InboundSpecimenTable extends FilteredTable<HDRLQuerySchema>
         ColumnInfo containerCol = getColumn("Container");
         ContainerForeignKey.initColumn(containerCol, schema);
         containerCol.setLabel("Folder");
-
-        addResultColumns(schema);
-    }
-
-    private void addResultColumns(HDRLQuerySchema schema)
-    {
-        addStatusColumn(schema);
-        addResultColumn("received", "Received");
-        addResultColumn("completed", "Completed");
-        addResultColumn("sampleIntegrity", "Sample Integrity");
-        addResultColumn("testResult", "Test Result");
-        addResultColumn("customerCode", "Customer Code");
-        addResultColumn("modifiedResultFlag", "Results Modified");
-    }
-
-    private void addStatusColumn(HDRLQuerySchema schema)
-    {
-        SQLFragment sql = new SQLFragment("(SELECT requestStatusId FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_SPECIMEN_RESULT + " R  WHERE R.SpecimenId = " + ExprColumn.STR_TABLE_ALIAS + ".rowId)");
-        ExprColumn col = new ExprColumn(this, "Status", sql, JdbcType.VARCHAR);
-        col.setFk(new LookupForeignKey("RowId")
-        {
-            @Override
-            public TableInfo getLookupTableInfo()
-            {
-                return schema.getTable(HDRLQuerySchema.TABLE_REQUEST_STATUS);
-            }
-        });
-        addColumn(col);
-    }
-
-    private void addResultColumn(String fieldName, String alias)
-    {
-        SQLFragment sql = new SQLFragment("(SELECT " + fieldName + " FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_SPECIMEN_RESULT + " R  WHERE R.SpecimenId = " + ExprColumn.STR_TABLE_ALIAS + ".rowId)");
-        ExprColumn col = new ExprColumn(this, alias, sql, JdbcType.DATE);
-        addColumn(col);
     }
 
 

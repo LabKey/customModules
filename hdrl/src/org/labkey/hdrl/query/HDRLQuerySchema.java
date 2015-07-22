@@ -147,13 +147,9 @@ public class HDRLQuerySchema extends SimpleUserSchema
         {
             return new InboundSpecimenTable(this);
         }
-        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name))
+        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name) || TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
         {
-            return new RequestResultTable(this).init();
-        }
-        else if (TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
-        {
-            return new SpecimenResultTable(this).init();
+            return new ResultTable(this, name).init();
         }
 
         //just return a filtered table over the db table if it exists

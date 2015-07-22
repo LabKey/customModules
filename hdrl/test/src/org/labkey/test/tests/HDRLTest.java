@@ -129,7 +129,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     }
 
-    @Test
+//    @Test
     public void testTestRequests()
     {
         testNewRequest();
@@ -140,7 +140,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         testDataDeletion();
     }
 
-    //@Test
+    @Test
     public void testRetrievalOfResults()
     {
         ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
@@ -240,7 +240,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         drt = new DataRegionTable("query", this);
         idx = drt.getRow("RequestId", requestId);
         assertNotEquals(idx, -1);
-        log("ensure submitted requests are still editable by admins");
+        log("view test results");
         assertEquals("VIEW", drt.getDataAsText(idx, -1));
         clickAndWait(drt.link(idx, -1));
 
@@ -272,11 +272,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assert(report.getName().contains("reportFileName"));
         stopImpersonatingRole();
 
-        //testDataDeletion();
+        testDataDeletion();
 
     }
 
-    //@Test
+    @Test
     public void testNewRequest()
     {
         log("creating a new test request");
@@ -316,7 +316,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         verifyDataRegionRows("InboundSpecimen", rows, "CustomerBarcode");
     }
 
-    //@Test
+    @Test
     public void testFileUpload()
     {
         goToProjectHome();
@@ -333,10 +333,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("verify submit disabled when there are validation errors");
         assertElementPresent("Submit button should not be enabled if request has been submitted", Locators.disabledSubmit, 1);
-//        clickButton(SUBMIT_BUTTON_TEXT, 0);
-//        _extHelper.waitForExtDialog("Error");
-//        clickButtonContainingText("OK", "Error");
-//        _extHelper.waitForExtDialogToDisappear("Error");
 
         clickButton(SAVE_BUTTON_TEXT);
 
@@ -362,12 +358,12 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         verifyDataRegionRows("InboundSpecimen", rows, "CustomerBarcode");
     }
 
-    //@Test
+    @Test
     public void testFileUploadAndSubmit()
     {
         log("creating a new test request by uploading a file");
         goToProjectHome();
-        click(Locator.linkContainingText("Create a new test request"));
+        clickAndWait(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type", "HIV Screening Algorithm");
         _ext4Helper.selectComboBoxItem("Carrier","FedEx");
 
@@ -440,7 +436,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         impersonateRole("Reader");
         goToProjectHome();
-        click(Locator.linkContainingText("View test requests"));
+        clickAndWait(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
         idx = drt.getRow("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
@@ -457,7 +453,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         stopImpersonatingRole();
     }
 
-    //@Test
+    @Test
     public void testEditSubmittedRequest()
     {
         log("creating a new test request by uploading a file");
@@ -562,7 +558,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     {
         log("creating a new test request by uploading a file");
         goToProjectHome();
-        click(Locator.linkContainingText("Create a new test request"));
+        clickAndWait(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
 
         log("upload specimen data from a file");

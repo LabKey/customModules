@@ -320,7 +320,7 @@ public class HDRLController extends SpringActionController
             try
             {
                 if (!result.next())
-                    throw new NotFoundException();
+                    throw new NotFoundException("No report available for specimen " + form.getSpecimenId());
 
                 String contentType = "document/pdf";
 

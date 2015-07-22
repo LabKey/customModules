@@ -185,7 +185,6 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
         labWareData.put("Carrier", getLookupValue(lkSchema, HDRLQuerySchema.TABLE_SHIPPING_CARRIER, (Integer) labkeyTableRow.get("ShippingCarrierId"), "Name"));
         labWareData.put("Tracking_Number", labkeyTableRow.get("ShippingNumber"));
         labWareData.put("Customer", user.getEmail());
-        labWareData.put("Status", "Submitted");
 
         // now get the specimen rows using the requestId from the labKeyTable
         SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("InboundRequestId"), labkeyTableRow.get("RequestId"));

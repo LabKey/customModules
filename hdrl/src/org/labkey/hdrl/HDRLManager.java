@@ -21,9 +21,9 @@ import org.apache.log4j.Logger;
 import org.labkey.api.attachments.InputStreamAttachmentFile;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
-import org.labkey.api.data.DbScope;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.Results;
+import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
@@ -137,19 +137,15 @@ public class HDRLManager
     public void insertLabWareOutboundRequest(HDRLController.LabWareOutboundRequestForm resultData, User user, Container container)
     {
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
-        try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction())
-        {
-            // create the request data for LabWare
-            Map<String, Object> labWareData = new HashMap<>();
-            labWareData.put("batch_id", resultData.getBatchId());
-            labWareData.put("hdrl_status", resultData.getHdrlStatus());
-            labWareData.put("customer_note", resultData.getCustomerNote());
-            labWareData.put("date_received", resultData.getDateReceived());
-            labWareData.put("date_completed", resultData.getDateCompleted());
-            labWareData.put("date_modified", resultData.getDateModified());
-            Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_REQUESTS), labWareData);
-            lwTransaction.commit();
-        }
+        // create the request data for LabWare
+        Map<String, Object> labWareData = new HashMap<>();
+        labWareData.put("batch_id", resultData.getBatchId());
+        labWareData.put("hdrl_status", resultData.getHdrlStatus());
+        labWareData.put("customer_note", resultData.getCustomerNote());
+        labWareData.put("date_received", resultData.getDateReceived());
+        labWareData.put("date_completed", resultData.getDateCompleted());
+        labWareData.put("date_modified", resultData.getDateModified());
+        Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_REQUESTS), labWareData);
     }
 
     /**
@@ -163,32 +159,27 @@ public class HDRLManager
     public void insertLabWareOutboundSpecimen(HDRLController.LabWareOutboundSpecimenForm resultData, User user, Container container) throws FileNotFoundException
     {
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
-        try (DbScope.Transaction lwTransaction = lwSchema.getSchema().getScope().ensureTransaction())
+        // create the request data for LabWare
+        Map<String, Object> labWareData = new HashMap<>();
+        labWareData.put("test_request_id", resultData.getTestRequestId());
+        labWareData.put("hdrl_status", resultData.getHdrlStatus());
+        labWareData.put("batch_id", resultData.getBatchId());
+        labWareData.put("date_received", resultData.getDateReceived());
+        labWareData.put("date_completed", resultData.getDateCompleted());
+        labWareData.put("date_modified", resultData.getDateModified());
+        labWareData.put("sample_integrity", resultData.getSampleIntegrity());
+        labWareData.put("test_result", resultData.getTestResult());
+        labWareData.put("customer_code", resultData.getCustomerCode());
+        labWareData.put("modified_result_flag", resultData.getModifiedResultFlag());
+        labWareData.put("report_file_name", resultData.getReportFileName());
+
+        if (resultData.getClinicalReportFile() != null)
         {
-            // create the request data for LabWare
-            Map<String, Object> labWareData = new HashMap<>();
-            labWareData.put("test_request_id", resultData.getTestRequestId());
-            labWareData.put("hdrl_status", resultData.getHdrlStatus());
-            labWareData.put("batch_id", resultData.getBatchId());
-            labWareData.put("date_received", resultData.getDateReceived());
-            labWareData.put("date_completed", resultData.getDateCompleted());
-            labWareData.put("date_modified", resultData.getDateModified());
-            labWareData.put("sample_integrity", resultData.getSampleIntegrity());
-            labWareData.put("test_result", resultData.getTestResult());
-            labWareData.put("customer_code", resultData.getCustomerCode());
-            labWareData.put("modified_result_flag", resultData.getModifiedResultFlag());
-            labWareData.put("report_file_name", resultData.getReportFileName());
-
-            if (resultData.getClinicalReportFile() != null)
-            {
-                FileInputStream stream = new FileInputStream(new File(resultData.getClinicalReportFile()));
-                InputStreamAttachmentFile attachment = new InputStreamAttachmentFile(stream, resultData.getClinicalReportFile());
-                labWareData.put("clinical_report", attachment);
-            }
-            Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), labWareData);
-            lwTransaction.commit();
+            FileInputStream stream = new FileInputStream(new File(resultData.getClinicalReportFile()));
+            InputStreamAttachmentFile attachment = new InputStreamAttachmentFile(stream, resultData.getClinicalReportFile());
+            labWareData.put("clinical_report", attachment);
         }
-
+        Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), labWareData);
     }
 
     public boolean hasClinicalReport(int specimenId, User user, Container container)
@@ -204,7 +195,7 @@ public class HDRLManager
         }
         catch (SQLException e)
         {
-            return false;
+            throw new RuntimeSQLException(e);
         }
     }
 
