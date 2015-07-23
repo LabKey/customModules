@@ -322,7 +322,7 @@ public class HDRLController extends SpringActionController
                 if (!result.next())
                     throw new NotFoundException("No report available for specimen " + form.getSpecimenId());
 
-                String contentType = "document/pdf";
+                String contentType = "application/pdf";
 
 
                 byte[] documentBytes = IOUtils.toByteArray(result.getBinaryStream("clinical_report"));
