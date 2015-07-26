@@ -21,7 +21,7 @@ CREATE TABLE hdrl.labwareOutboundRequests
   date_received DATE NOT NULL,
   date_completed DATE,
   date_modified DATE NOT NULL,
-  CONSTRAINT PK_LabwareOutboundRequests PRIMARY KEY (batch_id)
+  CONSTRAINT PK_LabwareOutboundRequests PRIMARY KEY (batch_id),
   CONSTRAINT FK_LabwareOutboundRequests_InboundRequest FOREIGN KEY (batch_id) REFERENCES hdrl.InboundRequest (RequestId) ON DELETE CASCADE;
 );
 
@@ -40,6 +40,6 @@ CREATE TABLE hdrl.labwareOutboundSpecimens
   report_file_name VARCHAR(20),
 
   CONSTRAINT PK_LabwareOutboundSpecimens PRIMARY KEY (test_request_id),
-  CONSTRAINT FK_LabwareOutboundSpecimens_LabwareOutboundRequests FOREIGN KEY (batch_id) REFERENCES hdrl.labwareOutboundRequests (batch_id) ON DELETE CASCADE
+  CONSTRAINT FK_LabwareOutboundSpecimens_LabwareOutboundRequests FOREIGN KEY (batch_id) REFERENCES hdrl.labwareOutboundRequests (batch_id) ON DELETE CASCADE,
   CONSTRAINT FK_LabwareOutboundSpecimens_InboundSpecimen FOREIGN KEY (test_request_id) REFERENCES hdrl.InboundSpecimen (RowId) ON DELETE CASCADE;
 );
