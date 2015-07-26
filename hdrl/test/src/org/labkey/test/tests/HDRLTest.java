@@ -129,19 +129,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     }
 
-//    @Test
-    public void testTestRequests()
-    {
-        testNewRequest();
-        testFileUpload();
-        testFileUploadAndSubmit();
-        testEditSubmittedRequest();
-        testRetrievalOfResults();
-        testDataDeletion();
-    }
-
     @Test
-    public void testRetrievalOfResults()
+    public void testRetrievalOfResultsAndArchiving()
     {
         ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
         goToProjectHome();
@@ -164,7 +153,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         result.put("hdrlStatus", "Completed");
         result.put("customerNote", "Note for id " + requestId);
 
-        List<String> specimenIds = getSpecimenIds(requestId);
+        List<String> specimenIds = getSpecimenIds(requestId, "hdrl", "InboundSpecimen", "RowId");
 
         List<Map<String, String>> lwSpecimens = new ArrayList<>();
 
@@ -522,7 +511,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     {
         log("Begin verifying 'Print Packing List' for role: " + role);
 
-        clickButton("Print Packing List", 0);
+        clickButton("Print Packing List");
 
         switchToWindow(1);
         waitForElement(Locator.divByClassContaining("barcode"));
@@ -546,11 +535,17 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
         click(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
-        int rowCount = drt.getDataRowCount();
-        List<String> statuses = drt.getColumnDataAsText("Status");
-        Assert.assertFalse("Completed test request should have been archived",statuses.contains("Completed"));
-        Assert.assertTrue("Completed test request should have been archived",statuses.contains("Archived"));
-        //TODO: ensure specimens in request and result aren't present
+        int idx = drt.getRow("ShippingNumber", "testRetrievalOfResults");
+        assertNotEquals(idx, -1);
+        String requestId = drt.getDataAsText(idx, "RequestId");
+        Assert.assertEquals(drt.getDataAsText(idx, "Status"), "Archived");
+        List<String> specimenIds = getSpecimenIds(requestId, "hdrl", "InboundSpecimen", "RowId");
+        Assert.assertTrue("There should be no specimens associated with the archived request", specimenIds.isEmpty());
+        specimenIds = getSpecimenIds(requestId, "hdrl", "SpecimenResult", "SpecimenId");
+        Assert.assertTrue("There should be no specimen results associated with the archived request", specimenIds.isEmpty());
+        specimenIds = getSpecimenIds(requestId, "hdrl", "labwareoutboundspecimens", "test_request_id");
+        Assert.assertTrue("There should be no specimen results in the labware transfer table associated with the archived request", specimenIds.isEmpty());
+
     }
 
     private void uploadFile(File file)
@@ -565,14 +560,14 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton("upload file", 0);
     }
 
-    private List<String> getSpecimenIds(String requestId)
+    private List<String> getSpecimenIds(String requestId, String schema, String query, String idField)
     {
         goToSchemaBrowser();
-        selectQuery("hdrl", "InboundSpecimen");
+        selectQuery(schema, query);
         waitForText("view data");
         clickAndWait(Locator.linkContainingText("view data"));
         DataRegionTable drt = new DataRegionTable("query", this, false);
-        drt.ensureColumnPresent("RowId");
+        drt.ensureColumnPresent(idField);
         List<String> specimenIds = new ArrayList<>();
         List<Integer> targetRows = new ArrayList<>();
         List<String> requestIds = drt.getColumnDataAsText(2);

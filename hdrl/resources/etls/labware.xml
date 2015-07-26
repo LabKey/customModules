@@ -4,14 +4,22 @@
     <description>Update test result data from LabWare tables to LabKey tables.</description>
     <transforms>
         <transform id="labwareRequestResult">
-            <source schemaName="gw_labkey" queryName="labwareRequestResults"/>
+            <source schemaName="gw_labkey" queryName="x_lk_outbd_requests" timestampColumnName="date_modified"/>
+            <destination schemaName="hdrl" queryName="labwareOutboundRequests" targetOption="truncate"/>
+        </transform>
+        <transform id="outboundRequestToResult">
+            <source schemaName="hdrl" queryName="labwareRequestResults" timestampColumnName="Modified"/>
             <destination schemaName="hdrl" queryName="requestResult" targetOption="merge"/>
         </transform>
         <transform id="labwareSpecimenResult">
-            <source schemaName="gw_labkey" queryName="labwareSpecimenResults"/>
+            <source schemaName="gw_labkey" queryName="specimensWithoutReport" timestampColumnName="date_modified"/>
+            <destination schemaName="hdrl" queryName="labwareOutboundSpecimens" targetOption="truncate"/>
+        </transform>
+        <transform id="outboundSpecimenToResult">
+            <source schemaName="hdrl" queryName="labwareSpecimenResults" timestampColumnName="Modified"/>
             <destination schemaName="hdrl" queryName="specimenResult" targetOption="merge"/>
         </transform>
     </transforms>
-    <incrementalFilter className="ModifiedSinceFilterStrategy" timestampColumnName="Modified"/>
+    <incrementalFilter className="ModifiedSinceFilterStrategy"/>
     <schedule><poll interval="30m" /></schedule>
 </etl>

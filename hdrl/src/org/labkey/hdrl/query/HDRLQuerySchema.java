@@ -74,6 +74,8 @@ public class HDRLQuerySchema extends SimpleUserSchema
     public static final String TABLE_SOURCE_OF_TESTING = "SourceOfTesting";
     public static final String TABLE_REQUEST_RESULT = "RequestResult";
     public static final String TABLE_SPECIMEN_RESULT = "SpecimenResult";
+    public static final String TABLE_LABWARE_OUTBOUND_RESULTS = "LabwareOutboundRequests";
+    public static final String TABLE_LABWARE_OUTBOUND_SPECIMENS = "LabwareOutboundSpecimens";
 
     public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";;
     public static final String COL_INBOUND_REQUEST_ID = "InboundRequestId";
@@ -147,7 +149,10 @@ public class HDRLQuerySchema extends SimpleUserSchema
         {
             return new InboundSpecimenTable(this);
         }
-        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name) || TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
+        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name) ||
+                TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name) ||
+                TABLE_LABWARE_OUTBOUND_RESULTS.equalsIgnoreCase(name) ||
+                TABLE_LABWARE_OUTBOUND_SPECIMENS.equalsIgnoreCase(name))
         {
             return new ResultTable(this, name).init();
         }
