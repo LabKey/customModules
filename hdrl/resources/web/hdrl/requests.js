@@ -154,6 +154,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 model   : 'LABKEY.HDRL.Specimen',
                 autoLoad: true,
                 pageSize: 200,
+                pruneModifiedRecords : true,
                 proxy : {
                     type : 'ajax',
                     url    : LABKEY.ActionURL.buildURL('query', 'selectRows.api'),
@@ -624,7 +625,6 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
     showPackingList : function() {
         window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {'requestId' : this.requestId}));
-        window.location = window.location; // hack to get it to reload the grid so the modified rows no longer look modified and won't be saved again
     },
 
     toggleButtons : function() {
