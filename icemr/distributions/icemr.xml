@@ -25,6 +25,7 @@
         <copy todir="${dist.modules.dir}">
             <filelist dir="${staging.modules.dir}">
                 <file name="icemr.module" />
+                <file name="redcap.module"/>
             </filelist>
         </copy>
     </target>
