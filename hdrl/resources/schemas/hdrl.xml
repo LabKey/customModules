@@ -239,4 +239,31 @@
        <ns:column columnName="RequestId"/>
     </ns:columns>
   </ns:table>
+
+   <ns:table tableName="labwareOutboundRequests" tableDbType="TABLE">
+      <ns:columns>
+         <ns:column columnName="batch_id"/>
+         <ns:column columnName="hdrl_status"/>
+         <ns:column columnName="customer_note"/>
+         <ns:column columnName="date_received"/>
+         <ns:column columnName="date_completed"/>
+         <ns:column columnName="date_modified"/>
+      </ns:columns>
+   </ns:table>
+
+   <ns:table tableName="labwareOutboundSpecimens" tableDbType="TABLE">
+      <ns:columns>
+         <ns:column columnName="test_request_id"/>
+         <ns:column columnName="batch_id"/>
+         <ns:column columnName="date_received"/>
+         <ns:column columnName="date_completed"/>
+         <ns:column columnName="sample_integrity"/>
+         <ns:column columnName="test_result"/>
+         <ns:column columnName="customer_code"/>
+         <ns:column columnName="hdrl_status"/>
+         <ns:column columnName="date_modified"/>
+         <ns:column columnName="modified_result_flag"/>
+         <ns:column columnName="report_file_name"/>
+      </ns:columns>
+   </ns:table>
 </ns:tables>
