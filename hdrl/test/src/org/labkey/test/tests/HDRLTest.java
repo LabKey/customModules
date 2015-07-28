@@ -543,7 +543,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         Assert.assertTrue("There should be no specimens associated with the archived request", specimenIds.isEmpty());
         specimenIds = getSpecimenIds(requestId, "hdrl", "SpecimenResult", "SpecimenId");
         Assert.assertTrue("There should be no specimen results associated with the archived request", specimenIds.isEmpty());
-        specimenIds = getSpecimenIds(requestId, "hdrl", "labwareoutboundspecimens", "test_request_id");
+        specimenIds = getSpecimenIds(requestId, "hdrl", "labwareOutboundSpecimens", "test_request_id");
         Assert.assertTrue("There should be no specimen results in the labware transfer table associated with the archived request", specimenIds.isEmpty());
 
     }
