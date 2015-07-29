@@ -511,7 +511,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     {
         log("Begin verifying 'Print Packing List' for role: " + role);
 
-        clickButton("Print Packing List");
+        clickButton("Print Packing List", 0);
 
         switchToWindow(1);
         waitForElement(Locator.divByClassContaining("barcode"));
