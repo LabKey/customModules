@@ -403,10 +403,10 @@ public class HDRLController extends SpringActionController
             packingListBean.setShippingCarrier(inboundRequestBean.getShippingCarrier());
 
             JspView view = new JspView("/org/labkey/hdrl/view/printPackingList.jsp", packingListBean, errors);
-            HttpView template = new PrintTemplate(view, "Shipping Manifest");
+            getPageConfig().setTitle("Shipping Manifest");
             getPageConfig().setTemplate(PageConfig.Template.Print);
 
-            return template;
+            return view;
         }
 
         @Override
