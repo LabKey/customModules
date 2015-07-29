@@ -538,7 +538,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         int idx = drt.getRow("ShippingNumber", "testRetrievalOfResults");
         assertNotEquals(idx, -1);
         String requestId = drt.getDataAsText(idx, "RequestId");
-        Assert.assertEquals(drt.getDataAsText(idx, "Status"), "Archived");
+        Assert.assertEquals("Archived", drt.getDataAsText(idx, "Status"));
         List<String> specimenIds = getSpecimenIds(requestId, "hdrl", "InboundSpecimen", "RowId");
         Assert.assertTrue("There should be no specimens associated with the archived request", specimenIds.isEmpty());
         specimenIds = getSpecimenIds(requestId, "hdrl", "SpecimenResult", "SpecimenId");
