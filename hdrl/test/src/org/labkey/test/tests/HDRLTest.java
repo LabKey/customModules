@@ -270,7 +270,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     {
         log("creating a new test request");
         goToProjectHome();
-        click(Locator.linkContainingText("Create a new test request"));
+        clickAndWait(Locator.linkContainingText("Create a new test request"), defaultWaitForPage);
 
         // we select this even though there is only one option available because there may be other types in the future
         // Also, this test will fail without waiting for the combo box to be populated, so this is an easy way to wait
