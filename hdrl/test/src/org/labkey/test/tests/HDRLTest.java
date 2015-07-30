@@ -133,7 +133,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public void testRetrievalOfResultsAndArchiving()
     {
         ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
-        goToProjectHome();
         // Submit a test request
         File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
         uploadFile(file);
