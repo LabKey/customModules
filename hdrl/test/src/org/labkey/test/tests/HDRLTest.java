@@ -56,6 +56,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     private static final String SUBMIT_BUTTON_TEXT = "Submit Request";
     private static final String SAVE_BUTTON_TEXT = "Save";
+    private static final String PRINT_PACKING_LIST_TEXT = "Print Packing List";
     private static final String CONFIRM_SAVE_TEXT = "Do you still want to save your changes?";
 
     private static int CARRIER_COLUMN_INDEX = 2;
@@ -136,8 +137,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         // Submit a test request
         File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
         uploadFile(file);
+        log("File uploaded waiting for content");
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
+        log("setting tracking number");
         setFormElement(Locator.tagWithName("input", "trackingNumber"), "testRetrievalOfResults");
+        log("submitting requests");
         clickButton(SUBMIT_BUTTON_TEXT);
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRow("ShippingNumber", "testRetrievalOfResults");
@@ -509,8 +513,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     private void testPrintPackingList(String role, String shippingCarrier)
     {
         log("Begin verifying 'Print Packing List' for role: " + role);
-
-        clickButton("Print Packing List", 0);
+        waitForElement(Locators.enabledPrintPackingList);
+        clickButton(PRINT_PACKING_LIST_TEXT,0);
 
         switchToWindow(1);
         waitForElement(Locator.divByClassContaining("barcode"));
@@ -556,6 +560,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("upload specimen data from a file");
         setFormElement(Locator.tagWithName("input", "file"), file);
+        log("clicking 'upload file'");
         clickButton("upload file", 0);
     }
 
@@ -656,5 +661,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public static class Locators {
         public static final Locator.XPathLocator disabledSubmit = Locator.xpath("//a[contains(normalize-space(@class),'x4-btn-disabled')]//span[text()='" + SUBMIT_BUTTON_TEXT + "']");
         public static final Locator.XPathLocator enabledSave = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + SAVE_BUTTON_TEXT + "']");
+        public static final Locator.XPathLocator enabledPrintPackingList = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + PRINT_PACKING_LIST_TEXT + "']");
     }
 }
