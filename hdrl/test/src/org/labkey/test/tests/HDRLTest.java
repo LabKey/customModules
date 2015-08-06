@@ -31,6 +31,7 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.etl.ETLHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PostgresOnlyTest;
 
@@ -49,10 +50,9 @@ import static org.junit.Assert.assertNotEquals;
 @Category({CustomModules.class})
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
-    public static final String PROJECT_NAME = "HDRL Verification";
-    protected final String TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/sample_upload_01.tsv";
-    protected final String TEST_SPECIMEN_UPLOAD_FILE_2 = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/sample_upload_02.xlsx";
-    protected final String CLINICAL_REPORT_FILE = TestFileUtils.getLabKeyRoot() + "/sampledata/hdrl/clinical_report.pdf";
+    protected final File TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getSampleData("hdrl/sample_upload_01.tsv");
+    protected final File TEST_SPECIMEN_UPLOAD_FILE_2 = TestFileUtils.getSampleData("hdrl/sample_upload_02.xlsx");
+    protected final File CLINICAL_REPORT_FILE = TestFileUtils.getSampleData("hdrl/clinical_report.pdf");
 
     private static final String SUBMIT_BUTTON_TEXT = "Submit Request";
     private static final String SAVE_BUTTON_TEXT = "Save";
@@ -65,7 +65,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @Override
     protected String getProjectName()
     {
-        return PROJECT_NAME;
+        return "HDRL Verification";
     }
 
     @BeforeClass
@@ -133,10 +133,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @Test
     public void testRetrievalOfResultsAndArchiving()
     {
-        ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
-        // Submit a test request
-        File file = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
-        uploadFile(file);
+        createTestRequest();
+        uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
         log("File uploaded waiting for content");
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
         log("setting tracking number");
@@ -169,7 +167,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimenResult1.put("sampleIntegrity", "Hemolyzed");
         specimenResult1.put("testResult", "HIV Negative");
         specimenResult1.put("customerCode", "5B");
-        specimenResult1.put("clinicalReportFile", CLINICAL_REPORT_FILE);
+        specimenResult1.put("clinicalReportFile", CLINICAL_REPORT_FILE.getAbsolutePath());
         specimenResult1.put("reportFileName", "reportFileName.pdf");
         specimenResult1.put("hdrlStatus", "Completed");
         specimenResult1.put("modifiedResultFlag", "F");
@@ -187,6 +185,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         addTestResultData(result, lwSpecimens); // add results for this test request
 
         // Run the ETL to pick up the results
+        ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
         _etlHelper.runETL("{HDRL}/labware");
 
         Map<String, String> request = new HashMap<>();
@@ -311,9 +310,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @Test
     public void testFileUpload()
     {
-        goToProjectHome();
-        File file = new File(TEST_SPECIMEN_UPLOAD_FILE_1);
-        uploadFile(file);
+        createTestRequest();
+        uploadFile(TEST_SPECIMEN_UPLOAD_FILE_1);
 
         log("verify proper SSN formatting");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
@@ -357,12 +355,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type", "HIV Screening Algorithm");
-        _ext4Helper.selectComboBoxItem("Carrier","FedEx");
+        _ext4Helper.selectComboBoxItem("Carrier", "FedEx");
 
-        log("upload specimen data from a .xlsx file");
-        File file2 = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
-        setFormElement(Locator.tagWithName("input", "file"), file2);
-        clickButton("upload file", 0);
+        uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
 
         log("verify proper SSN formatting");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
@@ -452,9 +447,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
         click(Locator.linkContainingText("Create a new test request"));
         log("upload specimen data from a .xlsx file");
-        File file2 = new File(TEST_SPECIMEN_UPLOAD_FILE_2);
-        setFormElement(Locator.tagWithName("input", "file"), file2);
-        clickButton("upload file", 0);
+        uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
 
         log("submitting new test request");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
@@ -551,17 +544,22 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     }
 
-    private void uploadFile(File file)
+    @LogMethod(quiet = true)
+    private void createTestRequest()
     {
         log("creating a new test request by uploading a file");
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("Create a new test request"));
         _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
+    }
 
+    @LogMethod(quiet = true)
+    private void uploadFile(@LoggedParam File file)
+    {
         log("upload specimen data from a file");
         setFormElement(Locator.tagWithName("input", "file"), file);
         log("clicking 'upload file'");
-        clickButton("upload file", 0);
+        log(doAndWaitForPageSignal(() -> clickButton("upload file", 0), "uploadFile"));
     }
 
     private List<String> getSpecimenIds(String requestId, String schema, String query, String idField)

@@ -455,6 +455,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     if (!fileContents.sheets && fileContents.exception){
                         Ext4.Msg.show({title: 'Error', msg: fileContents.exception, buttons: Ext4.MessageBox.OK, icon: Ext4.MessageBox.ERROR});
                         this.grid.getEl().unmask();
+                        LABKEY.Utils.signalWebDriverTest('uploadFile', 'Error');
                         return;
                     }
 
@@ -489,6 +490,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     this.verifyRows(newRecords);
                     this.grid.getStore().loadData(newRecords, true);
                     this.grid.getEl().unmask();
+                    LABKEY.Utils.signalWebDriverTest('uploadFile', 'Success');
                 };
 
                 form.submit({
@@ -842,7 +844,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                     {
                         this.requestId = res.rows[0].requestid;
                         if (this.isDirty())
-                            this.saveSpecimens(newRequestStatusId, (changeStatus && newRequestStatusId == 2) ? this.submitRequest : saveCallback); // save the specimens with the request still pending
+                            this.saveSpecimens(newRequestStatusId, changeStatus ? this.submitRequest : saveCallback); // save the specimens with the request still pending
                         else
                             this.submitRequest();
                     }
