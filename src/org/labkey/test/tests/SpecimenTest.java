@@ -246,7 +246,7 @@ public class SpecimenTest extends SpecimenBaseTest
         log("Check Upload Specimen List from file");
         clickTab("Specimen Data");
         waitForVialSearch();
-        click(Locator.tagWithAttribute("img", "alt", "New Request Icon"));
+        click(Locator.tagWithAttribute("img", "alt", "[New Request Icon]"));
         waitForElement(Locator.name("destinationLocation"));
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
@@ -775,7 +775,7 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         clickTab("Specimen Data");
         waitForVialSearch();
-        click(Locator.tag("img").withAttributeContaining("alt", "New Request Icon"));
+        click(Locator.tag("img").withAttributeContaining("alt", "[New Request Icon]"));
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("New Specimen Request"));
 
         int expectedLocationCount = StudyLocationType.untypedSites();
