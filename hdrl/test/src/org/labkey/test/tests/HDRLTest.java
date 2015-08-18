@@ -138,7 +138,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("File uploaded waiting for content");
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
         log("setting tracking number");
-        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testRetrievalOfResults");
+        doAndWaitForPageSignal(() -> setFormElement(Locator.tagWithName("input", "trackingNumber"), "testRetrievalOfResults"), "pageDirty");
         log("submitting requests");
         clickButton(SUBMIT_BUTTON_TEXT);
         DataRegionTable drt = new DataRegionTable("query", this);

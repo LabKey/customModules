@@ -948,11 +948,11 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
     markDirty : function(dirty) {
         this.dirty = dirty;
         this.toggleButtons();
+        LABKEY.Utils.signalWebDriverTest("pageDirty", dirty);
     },
 
     resetDirty : function() {
-        this.dirty = false;
-        this.toggleButtons();
+        this.markDirty(false);
     },
 
     isDirty : function() {
