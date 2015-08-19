@@ -16,6 +16,7 @@
 package org.labkey.icemr.assay.DrugSensitivity;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.assay.dilution.DilutionAssayProvider;
 import org.labkey.api.assay.dilution.DilutionAssayRun;
 import org.labkey.api.assay.dilution.DilutionDataHandler;
@@ -81,16 +82,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
         return "txt";
     }
 
-    @Override
-    protected List<Plate> createPlates(File dataFile, PlateTemplate template) throws ExperimentException
-    {
-        double[][] cellValues = getCellValues(dataFile, template);
-        Plate plate = PlateService.get().createPlate(template, cellValues);
-
-        return Collections.singletonList(plate);
-    }
-
-    private double[][] getCellValues(File dataFile, PlateTemplate template) throws ExperimentException
+    protected double[][] getCellValues(File dataFile, PlateTemplate template) throws ExperimentException
     {
         double[][] cellValues = new double[template.getRows()][template.getColumns()];
 
@@ -179,6 +171,15 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     }
 
     @Override
+    public DilutionAssayRun getAssayResults(ExpRun run, User user, @Nullable StatsService.CurveFitType fit) throws ExperimentException
+    {
+        File dataFile = getDataFile(run);
+        if (dataFile == null)
+            throw new MissingDataFileException(getResourceName(run) +  " data file could not be found for run " + run.getName() + ".  Deleted from file system?");
+        return getAssayResults(run, user, dataFile, fit, false);
+    }
+
+    @Override
     /**
      * consider pushing this into the base data handler class
      */
@@ -228,7 +229,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     /**
      * consider pushing this into the base class
      */
-    protected void importRows(ExpData data, ExpRun run, ExpProtocol protocol, List<Map<String, Object>> rawData) throws ExperimentException
+    protected void importRows(ExpData data, ExpRun run, ExpProtocol protocol, List<Map<String, Object>> rawData, User user) throws ExperimentException
     {
         try
         {
