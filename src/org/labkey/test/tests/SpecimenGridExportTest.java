@@ -104,6 +104,12 @@ public class SpecimenGridExportTest extends AbstractExportTest
     }
 
     @Override
+    protected String getDataRegionColumnName()
+    {
+        return "ParticipantId";
+    }
+
+    @Override
     protected String getExportedFilePrefixRegex()
     {
         return "SpecimenSummary";
