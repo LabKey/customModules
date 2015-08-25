@@ -33,7 +33,7 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.QueryView;
 import org.labkey.api.security.ContextualRoles;
-import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.study.assay.AssayProtocolSchema;
 import org.labkey.api.study.assay.AssayProvider;
@@ -65,7 +65,7 @@ public class IcemrController extends SpringActionController
         setActionResolver(_actionResolver);
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class DetailsAction extends RunDetailsAction<RenderAssayBean>
     {
         @Override
@@ -86,7 +86,7 @@ public class IcemrController extends SpringActionController
         }
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class GraphAction extends DilutionGraphAction
     {
         @Override
@@ -100,7 +100,7 @@ public class IcemrController extends SpringActionController
         }
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     public class DrugSensitivityGraphSelectedAction extends GraphSelectedAction<GraphSelectedForm>
     {
         @Override
@@ -152,7 +152,7 @@ public class IcemrController extends SpringActionController
         }
     }
 
-    @RequiresPermissionClass(ReadPermission.class)
+    @RequiresPermission(ReadPermission.class)
     @ContextualRoles(RunDatasetContextualRoles.class)
     public class DrugSensitivityMultiGraphAction extends MultiGraphAction<GraphSelectedForm>
     {

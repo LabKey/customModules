@@ -18,7 +18,7 @@ package org.labkey.icemr.assay.DrugSensitivity.actions;
 import org.labkey.api.assay.dilution.DilutionAssayProvider;
 import org.labkey.api.exp.ExperimentException;
 import org.labkey.api.exp.api.ExpRun;
-import org.labkey.api.security.RequiresPermissionClass;
+import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.study.actions.PlateBasedUploadWizardAction;
 import org.labkey.api.view.ActionURL;
@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
  * User: klum
  * Date: 5/14/13
  */
-@RequiresPermissionClass(InsertPermission.class)
+@RequiresPermission(InsertPermission.class)
 public class DrugSensitivityUploadWizardAction extends PlateBasedUploadWizardAction<DrugSensitivityRunUploadForm, DrugSensitivityAssayProvider>
 {
     public DrugSensitivityUploadWizardAction()
