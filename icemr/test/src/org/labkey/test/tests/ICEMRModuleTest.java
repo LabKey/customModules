@@ -795,15 +795,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // run the test script
         clickButton("Start Test", 0);
 
-        waitFor(new Checker()
-        {
-            @Override
-            public boolean check()
-            {
-                String s = Locator.id("log-info").findElement(getDriver()).getText();
-                return s.contains("DONE:");
-            }
-        }, "Test did not finish!", WAIT_FOR_PAGE * 4);
+        waitFor(() -> Locator.id("log-info").findElement(getDriver()).getText().contains("DONE:"),
+                "Test did not finish!", WAIT_FOR_PAGE * 4);
 
         assertFalse("At least one of the javascript tests failed", Locator.id("log-info").findElement(getDriver()).getText().contains("FAILED"));
     }
