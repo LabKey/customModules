@@ -298,6 +298,7 @@ ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsController.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsExperimentRunType.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsModule.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsUpgradeCode.java -text
+ms2extensions/src/org/labkey/ms2extensions/PeptideCountPepXmlDataHandler.java -text
 ms2extensions/src/org/labkey/ms2extensions/PeptideCountUpdater.java -text
 ms2extensions/src/org/labkey/ms2extensions/RunGridWebPart.java -text
 ms2extensions/src/org/labkey/ms2extensions/runGridFilters.jsp -text

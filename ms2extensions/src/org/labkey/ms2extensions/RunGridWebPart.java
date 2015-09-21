@@ -24,7 +24,6 @@ import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.DataView;
-import org.labkey.api.view.HtmlView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.VBox;
 import org.labkey.api.view.ViewContext;
@@ -38,12 +37,6 @@ public class RunGridWebPart extends VBox
     {
         setFrame(FrameType.PORTAL);
         setTitle("MS2 Runs With Peptide Counts");
-
-        String errorMessage = new PeptideCountUpdater().update(viewContext.getContainer(), viewContext.getUser());
-        if (errorMessage != null)
-        {
-            addView(new HtmlView("<span class=\"labkey-error\">Unable to update peptide counts: " + PageFlowUtil.filter(errorMessage) + "</span>"));
-        }
 
         JspView<ViewContext> v = new JspView<>("/org/labkey/ms2extensions/runGridFilters.jsp", viewContext);
         addClientDependencies(Collections.singleton(ClientDependency.fromPath("/MS2/inlineViewDesigner.js")));

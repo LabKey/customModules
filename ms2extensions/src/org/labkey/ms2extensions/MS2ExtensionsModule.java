@@ -156,5 +156,7 @@ public class MS2ExtensionsModule extends DefaultModule
                 return Collections.emptySet();
             }
         });
+
+        ExperimentService.get().registerExperimentDataHandler(new PeptideCountPepXmlDataHandler());
     }
 }
