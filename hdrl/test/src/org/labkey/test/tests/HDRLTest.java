@@ -232,33 +232,33 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         idx = drt.getRow("RequestId", requestId);
         assertNotEquals(idx, -1);
         log("view test results");
-        assertEquals("VIEW", drt.getDataAsText(idx, -1));
-        clickAndWait(drt.link(idx, -1));
+        assertEquals("VIEW", drt.getDataAsText(idx, 0));
+        clickAndWait(drt.link(idx, 0));
 
         waitForElement(Locator.tagContainingText("td", specimenIds.get(0)));
         drt = new DataRegionTable("query", this);
         idx = drt.getRow("SpecimenId", specimenIds.get(0));
-        assertEquals("DOWNLOAD", drt.getDataAsText(idx, -1));
-        assertEquals( Arrays.asList("Completed","Exception"),drt.getColumnDataAsText(2));
-        assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText(3));
-        assertEquals( Arrays.asList("7777","8888"),drt.getColumnDataAsText(4));
-        assertEquals( Arrays.asList("Johnston","Johnston"),drt.getColumnDataAsText(5));
-        assertEquals( Arrays.asList("Jack","Fred"),drt.getColumnDataAsText(6));
-        assertEquals( Arrays.asList("Sparrow"," "),drt.getColumnDataAsText(7));
-        assertEquals( Arrays.asList("jsj"," "),drt.getColumnDataAsText(8));
-        assertEquals( Arrays.asList("Male","Unknown"),drt.getColumnDataAsText(9));
-        assertEquals( Arrays.asList("2000-12-01","1940-06-06"),drt.getColumnDataAsText(10));
-        assertEquals( Arrays.asList("222334444","555443333"),drt.getColumnDataAsText(12));
-        assertEquals( Arrays.asList("01","02"),drt.getColumnDataAsText(13));
-        assertEquals( Arrays.asList("A13","A14"),drt.getColumnDataAsText(14));
-        assertEquals( Arrays.asList("P","B"),drt.getColumnDataAsText(15));
-        assertEquals( Arrays.asList("2015-03-01","1975-03-03"),drt.getColumnDataAsText(16));
-        assertEquals( Arrays.asList("2015-06-01","2015-06-01"),drt.getColumnDataAsText(17));
-        assertEquals( Arrays.asList("2015-06-03"," "),drt.getColumnDataAsText(18));
-        assertEquals( Arrays.asList("Hemolyzed"," "),drt.getColumnDataAsText(19));
-        assertEquals( Arrays.asList("HIV Negative"," "),drt.getColumnDataAsText(20));
-        assertEquals( Arrays.asList("5B"," "),drt.getColumnDataAsText(21));
-        assertEquals( Arrays.asList("reportFileName.pdf"," "),drt.getColumnDataAsText(22));
+        assertEquals("DOWNLOAD", drt.getDataAsText(idx, 0));
+        assertEquals( Arrays.asList("Completed","Exception"),drt.getColumnDataAsText("Status"));
+        assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText("ResultModified"));
+        assertEquals( Arrays.asList("7777","8888"),drt.getColumnDataAsText("CustomerBarcode"));
+        assertEquals( Arrays.asList("Johnston","Johnston"),drt.getColumnDataAsText("LastName"));
+        assertEquals( Arrays.asList("Jack","Fred"),drt.getColumnDataAsText("FirstName"));
+        assertEquals( Arrays.asList("Sparrow"," "),drt.getColumnDataAsText("MiddleName"));
+        assertEquals( Arrays.asList("jsj"," "),drt.getColumnDataAsText("Initials"));
+        assertEquals( Arrays.asList("Male","Unknown"),drt.getColumnDataAsText("Gender"));
+        assertEquals( Arrays.asList("2000-12-01","1940-06-06"),drt.getColumnDataAsText("BirthDate"));
+        assertEquals( Arrays.asList("222334444","555443333"),drt.getColumnDataAsText("SSN"));
+        assertEquals( Arrays.asList("01","02"),drt.getColumnDataAsText("FMP"));
+        assertEquals( Arrays.asList("A13","A14"),drt.getColumnDataAsText("DUC"));
+        assertEquals( Arrays.asList("P","B"),drt.getColumnDataAsText("SOT"));
+        assertEquals( Arrays.asList("2015-03-01","1975-03-03"),drt.getColumnDataAsText("DrawDate"));
+        assertEquals( Arrays.asList("2015-06-01","2015-06-01"),drt.getColumnDataAsText("Received"));
+        assertEquals( Arrays.asList("2015-06-03"," "),drt.getColumnDataAsText("Completed"));
+        assertEquals( Arrays.asList("Hemolyzed"," "),drt.getColumnDataAsText("SampleIntegrity"));
+        assertEquals( Arrays.asList("HIV Negative"," "),drt.getColumnDataAsText("TestResult"));
+        assertEquals( Arrays.asList("5B"," "),drt.getColumnDataAsText("CustomerCode"));
+        assertEquals( Arrays.asList("reportFileName.pdf"," "),drt.getColumnDataAsText("ReportFileName"));
         File report = clickAndWaitForDownload(Locator.linkWithSpan("Download"));
         assert(report.getName().contains("reportFileName"));
         stopImpersonatingRole();
@@ -408,8 +408,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         drt = new DataRegionTable("query", this);
         idx = drt.getRow("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
-        Assert.assertFalse(drt.getDataAsText(idx, 5).trim().isEmpty()); // "submitted by" field should be filled in
-        Assert.assertFalse(drt.getDataAsText(idx, 6).trim().isEmpty()); // submitted date should be filled in
+        Assert.assertFalse(drt.getDataAsText(idx, "Submitted By").trim().isEmpty()); // "submitted by" field should be filled in
+        Assert.assertFalse(drt.getDataAsText(idx, "Submitted").trim().isEmpty()); // submitted date should be filled in
 
         log("ensure submitted requests are still editable by admins");
         assertEquals("EDIT", drt.getDataAsText(idx, 0));
@@ -428,8 +428,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         idx = drt.getRow("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
         log("ensure submitted requests are still editable by admins");
-        assertEquals("VIEW", drt.getDataAsText(idx, -1));
-        clickAndWait(drt.link(idx, -1));
+        assertEquals("VIEW", drt.getDataAsText(idx, 0));
+        clickAndWait(drt.link(idx, 0));
 
         waitForElement(Locator.tagContainingText("td", "Carrier"));
         waitForElement(Locator.tagContainingText("td", "FedEx"));
@@ -568,7 +568,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         selectQuery(schema, query);
         waitForText("view data");
         clickAndWait(Locator.linkContainingText("view data"));
-        DataRegionTable drt = new DataRegionTable("query", this, false);
+        DataRegionTable drt = new DataRegionTable("query", this, true);
         drt.ensureColumnPresent(idField);
         List<String> specimenIds = new ArrayList<>();
         List<Integer> targetRows = new ArrayList<>();
