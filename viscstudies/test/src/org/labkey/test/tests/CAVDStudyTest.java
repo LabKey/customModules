@@ -650,7 +650,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void clickEditDesign()
     {
-        clickButton("Edit", defaultWaitForPage);
+        clickButton("Edit", defaultWaitForPage * 2);
         waitForElement(Locator.lkButton("Finished"));
     }
 
