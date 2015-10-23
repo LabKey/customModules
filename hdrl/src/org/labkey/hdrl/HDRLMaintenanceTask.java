@@ -20,6 +20,7 @@ import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
+import org.labkey.api.util.DefaultSystemMaintenanceTask;
 import org.labkey.api.util.SystemMaintenance;
 import org.labkey.hdrl.query.HDRLQuerySchema;
 
@@ -29,7 +30,7 @@ import java.util.Calendar;
  * Created by: jeckels
  * Date: 5/10/15
  */
-public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
+public class HDRLMaintenanceTask extends DefaultSystemMaintenanceTask
 {
     private static final Logger LOG = Logger.getLogger(HDRLMaintenanceTask.class);
 
@@ -44,18 +45,6 @@ public class HDRLMaintenanceTask implements SystemMaintenance.MaintenanceTask
     public String getName()
     {
         return "HdrlPhiDeletion";
-    }
-
-    @Override
-    public boolean canDisable()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean hideFromAdminPage()
-    {
-        return false;
     }
 
     @Override
