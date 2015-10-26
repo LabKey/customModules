@@ -209,7 +209,6 @@ public class CAVDStudyTest extends StudyBaseTest
     @LogMethod
     private void doVerifyAssaySchedule()
     {
-        clickFolder(STUDY_NAME);
         goToGWTStudyDesignerPanel(FOLDER_NAME, "ASSAYS");
         clickEditDesign();
         addStudyDesignRow(RowType.Assay, ASSAYS[0], LABS[0]);
