@@ -89,8 +89,7 @@ public class AliquotTest extends SpecimenBaseTest
     {
         // Create custom query to test requestability rules.
         goToSchemaBrowser();
-        selectQuery("study", SPECIMEN_DETAIL);
-        createNewQuery("study");
+        createNewQuery("study", SPECIMEN_DETAIL);
         setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
         clickAndWait(Locator.linkWithText("Create and Edit Source"));
         setCodeEditorValue("queryText",
