@@ -137,7 +137,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
     @Override
     protected void initializeFolder()
     {
-        hoverProjectBar();
+        openProjectMenu();
         int response = -1;
         try{
             response = WebTestHelper.getHttpGetResponse(getBaseURL() + "/" + WebTestHelper.stripContextPath(getAttribute(Locator.linkWithText(getProjectName()), "href")));
