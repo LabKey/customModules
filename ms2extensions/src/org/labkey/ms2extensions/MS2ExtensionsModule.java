@@ -22,7 +22,6 @@ import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
-import org.labkey.api.data.UpgradeCode;
 import org.labkey.api.exp.ExperimentRunType;
 import org.labkey.api.exp.ExperimentRunTypeSource;
 import org.labkey.api.exp.api.ExperimentService;
@@ -69,12 +68,6 @@ public class MS2ExtensionsModule extends DefaultModule
     public double getVersion()
     {
         return 15.30;
-    }
-
-    @Override
-    public UpgradeCode getUpgradeCode()
-    {
-        return new MS2ExtensionsUpgradeCode();
     }
 
     @Override

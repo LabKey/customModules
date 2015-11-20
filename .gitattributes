@@ -238,7 +238,6 @@ icemr/src/org/labkey/icemr/IcemrController.java -text
 icemr/src/org/labkey/icemr/IcemrManager.java -text
 icemr/src/org/labkey/icemr/IcemrModule.java -text
 icemr/src/org/labkey/icemr/IcemrSchema.java -text
-icemr/src/org/labkey/icemr/IcemrUpgradeCode.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityAssayProvider.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityAssayRun.java -text
 icemr/src/org/labkey/icemr/assay/DrugSensitivity/DrugSensitivityDataHandler.java -text
@@ -303,7 +302,6 @@ ms2extensions/src/org/labkey/ms2extensions/FilterView.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsController.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsExperimentRunType.java -text
 ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsModule.java -text
-ms2extensions/src/org/labkey/ms2extensions/MS2ExtensionsUpgradeCode.java -text
 ms2extensions/src/org/labkey/ms2extensions/PeptideCountPepXmlDataHandler.java -text
 ms2extensions/src/org/labkey/ms2extensions/PeptideCountUpdater.java -text
 ms2extensions/src/org/labkey/ms2extensions/RunGridWebPart.java -text
