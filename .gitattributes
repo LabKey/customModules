@@ -207,9 +207,10 @@ icemr/resources/assay/Tracking/views/results.view.xml -text
 icemr/resources/assay/Tracking/views/upload.html -text
 icemr/resources/assay/Tracking/views/upload.view.xml -text
 icemr/resources/folderTypes/icemr.foldertype.xml -text
-icemr/resources/schemas/dbscripts/postgresql/icemr-12.30-13.10.sql -text
-icemr/resources/schemas/dbscripts/postgresql/icemr-13.20-13.30.sql -text
+icemr/resources/schemas/dbscripts/postgresql/icemr-0.00-13.30.sql -text
+icemr/resources/schemas/dbscripts/postgresql/obsolete/icemr-12.30-13.10.sql -text
 icemr/resources/schemas/dbscripts/postgresql/obsolete/icemr-13.20-13.21.sql -text
+icemr/resources/schemas/dbscripts/postgresql/obsolete/icemr-13.20-13.30.sql -text
 icemr/resources/schemas/dbscripts/sqlserver/icemr-12.30-13.10.sql -text
 icemr/resources/schemas/dbscripts/sqlserver/icemr-13.20-13.30.sql -text
 icemr/resources/schemas/dbscripts/sqlserver/obsolete/icemr-13.20-13.21.sql -text
@@ -286,9 +287,10 @@ ms2extensions/resources/queries/ms2extensions/GetSequestPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/GetXCorrPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/GetXTandemPeptideCounts.sql -text
 ms2extensions/resources/queries/ms2extensions/Ms2RunAggregates.query.xml -text
-ms2extensions/resources/schemas/dbscripts/postgresql/ms2extensions-12.30-13.10.sql -text
-ms2extensions/resources/schemas/dbscripts/postgresql/ms2extensions-13.20-13.30.sql -text
+ms2extensions/resources/schemas/dbscripts/postgresql/ms2extensions-0.00-13.30.sql -text
+ms2extensions/resources/schemas/dbscripts/postgresql/obsolete/ms2extensions-12.30-13.10.sql -text
 ms2extensions/resources/schemas/dbscripts/postgresql/obsolete/ms2extensions-13.20-13.21.sql -text
+ms2extensions/resources/schemas/dbscripts/postgresql/obsolete/ms2extensions-13.20-13.30.sql -text
 ms2extensions/resources/schemas/dbscripts/postgresql/obsolete/ms2extensions-13.21-13.22.sql -text
 ms2extensions/resources/schemas/dbscripts/sqlserver/ms2extensions-12.30-13.10.sql -text
 ms2extensions/resources/schemas/dbscripts/sqlserver/ms2extensions-13.20-13.30.sql -text
