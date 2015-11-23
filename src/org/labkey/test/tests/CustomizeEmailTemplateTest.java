@@ -104,7 +104,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         checkCheckbox(Locator.checkboxById("newRequestNotifyCheckbox"));
         waitForElement(Locator.xpath("//textarea[@id='newRequestNotify']"));
-        setFormElement(Locator.id("newRequestNotify"), "ryans@labkey.com");
+        setFormElement(Locator.id("newRequestNotify"), "notify@emailtemplate.test");
         clickButton("Save");
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         clickAndWait(Locator.linkWithText("Edit Email Template"));
