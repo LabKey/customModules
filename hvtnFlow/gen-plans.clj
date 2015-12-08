@@ -1,4 +1,4 @@
-(ns gen-plan
+(ns gen-plans
   (:require [clojure.string :as s]
             [clojure.java.io :as io]
             [clojure.zip :as zip]))

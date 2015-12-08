@@ -6,20 +6,20 @@ Updating analysis plans on the server:
     (via macports)
     > /opt/local/bin/port install clojure
 
-    (via lien)
+    (via lein)
     http://leiningen.org/#install
-    also install the "lien-exec" plugin
+    also install the "lein-exec" plugin
         https://github.com/kumarshantanu/lein-exec
 
 - Execute the "gen-plans.clj" script:
     (via macports)
     > clj gen-plans.clj [plan-id]
 
-    (via lien)
-    > lien exec gen-plan.clj [plan-id]
+    (via lein)
+    > lein exec gen-plans.clj [plan-id]
 
     (or directly)
-    > java -classpath /path/to/clojure.jar clojure.main gen-plan.clj [plan-id]
+    > java -classpath /path/to/clojure.jar clojure.main gen-plans.clj [plan-id]
 
     Where [plan-id] is an optional analysis plan id.
 
@@ -29,7 +29,7 @@ Updating analysis plans on the server:
 - Upload the analysis plans to the server:
     - go to the AnalysisPlans list
     - filter by <plan-id>
-    - make sure all rows for the <plan-id> are visible, then delete the rows
+    - **make sure all rows for the <plan-id> are visible**, then delete the rows
     - import the out/<plan-id>.tsv via copy/paste
 
 

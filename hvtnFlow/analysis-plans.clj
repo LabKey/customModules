@@ -61,8 +61,8 @@
 
 (defn make-bools
   [names gates oldstyle]
-  (let [bool-names (gen-plan/boolean-strings names false)
-        bool-gates (gen-plan/boolean-strings gates oldstyle)]
+  (let [bool-names (gen-plans/boolean-strings names false)
+        bool-gates (gen-plans/boolean-strings gates oldstyle)]
     (mapv #(Subset. %1 %2 nil) bool-names bool-gates)))
 
 (def IFNg*IL2
@@ -100,6 +100,8 @@
 ; marginals and marginals for each set of memory cells
 (def ap39-marginals-memory
   (conj CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2
+        ; added in version 3.0 of analysis plan 039
+        (subset "PD1+")
         ; extra boolean subsets only in CD4+ and CD8+
         (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
         (subset  "IFNg+IL2+")
@@ -395,6 +397,7 @@
            (CD3+
              (apply CD4+
                (conj ap39-marginals-memory
+                     (subset "CXCR5+")
                      (Subset. "CXCR5+" "CXCR5+"
                               [(Subset. "PD1+" "PD1+" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)])
                      (Subset. "CXCR5+CD45RA-" "CXCR5+CD45RA-"
