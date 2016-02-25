@@ -560,7 +560,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 change : function(cmp, value) {
                     if (this.shippingNumber != value)
                         this.markDirty(true);
-                    this.trackingNumber = value;
+                    this.shippingNumber = value;
                 }
             }
         });
@@ -747,7 +747,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
     {
         if (this.requestId != -1) {
 
-            var row = {requestId : this.requestId, isNewSubmit: true, requestStatusId : 2, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.trackingNumber};
+            var row = {requestId : this.requestId, isNewSubmit: true, requestStatusId : 2, shippingCarrierId : this.shippingCarrier, testTypeId : this.requestType, shippingNumber : this.shippingNumber};
 
             // handle inserts & updates
             LABKEY.Query.updateRows({
@@ -828,7 +828,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
                 isNewSubmit : false,
                 shippingCarrierId : this.shippingCarrier,
                 testTypeId : this.requestType,
-                shippingNumber : this.trackingNumber};
+                shippingNumber : this.shippingNumber};
             if (this.requestId != -1){
                 row.requestId = this.requestId;
             }
