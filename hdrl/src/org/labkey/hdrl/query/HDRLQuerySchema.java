@@ -192,7 +192,11 @@ public class HDRLQuerySchema extends SimpleUserSchema
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
-                            String status = getStatus((Integer) ctx.get(FieldKey.fromParts("Status")));
+                            Integer intStatus = (Integer) ctx.get(FieldKey.fromParts("Status"));
+                            if (intStatus == null)
+                                return;
+
+                            String status = getStatus(intStatus);
 
                             if (STATUS_ARCHIVED.equals(status))
                                 return;
