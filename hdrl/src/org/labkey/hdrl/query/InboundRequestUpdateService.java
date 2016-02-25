@@ -215,7 +215,7 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
                 lwSpecimen.put("Middle_Name", specimen.getMiddleName());
                 lwSpecimen.put("Last_Name", specimen.getLastName());
                 lwSpecimen.put("Birth_Date", specimen.getBirthDate());
-                lwSpecimen.put("Gender", specimen.getGender());
+                lwSpecimen.put("Gender", specimen.getGenderId());
                 lwSpecimen.put("Initials", specimen.getInitials());
 
                 Table.insert(user, lwSchema.getDbSchema().getTable(LabWareQuerySchema.TABLE_INBOUND_SPECIMENS), lwSpecimen);

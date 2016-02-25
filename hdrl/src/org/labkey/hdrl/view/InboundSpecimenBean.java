@@ -25,7 +25,7 @@ public class InboundSpecimenBean
     private Integer _rowId;
     private String _customerBarCode;
     private Integer _dodId;
-    private String _gender;
+    private String _genderId;
     private String _initials;
     private Integer _numberOfContainers;
     private String _lastName;
@@ -213,14 +213,14 @@ public class InboundSpecimenBean
         _dodId = dodId;
     }
 
-    public String getGender()
+    public String getGenderId()
     {
-        return _gender;
+        return _genderId;
     }
 
-    public void setGender(String gender)
+    public void setGenderId(String genderId)
     {
-        _gender = gender;
+        _genderId = genderId;
     }
 
     public String getInitials()
