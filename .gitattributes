@@ -33,6 +33,7 @@ hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.21-15.22.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.22-15.23.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.24-15.25.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.30-15.31.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.30-16.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.20-15.21.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.20-15.30.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.21-15.22.sql -text
