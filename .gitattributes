@@ -266,7 +266,7 @@ icemr/test/sampledata/icemr/missingColumns.xls -text
 icemr/test/sampledata/icemr/piggy.JPG -text
 icemr/test/sampledata/icemr/selectFlaskFields.txt -text
 icemr/test/sampledata/icemr/selectFlaskFields2.txt -text
-icemr/test/src/org/labkey/test/tests/ICEMRModuleTest.java -text
+icemr/test/src/org/labkey/test/tests/icemr/ICEMRModuleTest.java -text
 icemr/test/test_icemr.iml -text
 ms2extensions/Ms2extensions.iml -text
 ms2extensions/module.properties -text
@@ -348,7 +348,7 @@ viscstudies/src/org/labkey/viscstudies/ViscStudiesModule.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderTabs.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderType.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudySchema.java -text
-viscstudies/test/src/org/labkey/test/tests/CAVDStudyTest.java -text
+viscstudies/test/src/org/labkey/test/tests/viscstudies/CAVDStudyTest.java -text
 viscstudies/test/test_viscstudies.iml -text
 viscstudies/viscstudies.iml -text
 viscstudies/webapp/viscstudies/study.js -text
