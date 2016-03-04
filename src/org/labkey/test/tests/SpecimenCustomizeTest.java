@@ -21,7 +21,6 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.CustomizeViewsHelper;
-import org.labkey.test.components.CustomizeView;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
@@ -29,7 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -207,7 +205,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             _propertyRows = new ArrayList<>();
             String xPath = "//td[.='" + _label + "']/../..//table[@class='labkey-pad-cells']";
             Locator locator = Locator.xpath(xPath);
-            WebElement table = getElement(locator);
+            WebElement table = locator.findElement(getDriver());
             int i = 1;
             for(WebElement row : table.findElements(By.xpath(".//tr")))
             {
@@ -222,7 +220,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             String xPath = "//td[.='" + _label + "']/../..//table[@class='labkey-pad-cells']";
             Locator locator = Locator.xpath(xPath);
             waitForElement(locator);
-            WebElement table = getElement(locator);
+            WebElement table = locator.findElement(getDriver());
             int i = 1;
             for(WebElement row : table.findElements(By.xpath(".//tr")))
             {
