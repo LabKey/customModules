@@ -184,7 +184,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementPresent(Locator.lkButton("Request Options"));
-        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this, true, true);
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
         List<String> columnHeaders = specimenTable.getColumnHeaders();
         for (String column : requestColumns)
         {
@@ -203,7 +203,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextNotPresent("Specimen Requests");
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementNotPresent(Locator.lkButton("Request Options"));
-        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this, true, true);
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
         List<String> columnHeaders = specimenTable.getColumnHeaders();
         for (String column : requestColumns)
         {
@@ -294,7 +294,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Cancel Request", 0);
         assertAlert("Canceling will permanently delete this pending request.  Continue?");
         waitForPageToLoad();
-        waitForElement(Locator.id("dataregion_SpecimenRequest"));
+        DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
     }
 
     @LogMethod
@@ -534,10 +534,10 @@ public class SpecimenTest extends SpecimenBaseTest
         int emailIndex = getTableCellText(Locator.id("dataregion_EmailRecord"), 2, 0).equals(USER1) ? 1 : 0;
         click(Locator.linkContainingText("Specimen Request Notification").index(emailIndex));
         shortWait().until(LabKeyExpectedConditions.emailIsExpanded(emailIndex + 1));
-        String bodyText = getText(Locator.id("dataregion_EmailRecord"));
+        String bodyText = getText(DataRegionTable.Locators.dataRegion("EmailRecord"));
         assertTrue(!bodyText.contains(_specimen_McMichael));
         assertTrue(bodyText.contains(_specimen_KCMC));
-        DataRegionTable mailTable = new DataRegionTable("EmailRecord", this, false, false);
+        DataRegionTable mailTable = new DataRegionTable("EmailRecord", this);
         String message = mailTable.getDataAsText(emailIndex, "Message");
         assertNotNull("No message found", message);
         assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + message, message.contains(notification));
@@ -562,7 +562,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
         waitAndClick(Locator.linkWithText("View Current Requests"));
 
-        waitForElement(Locator.id("dataregion_SpecimenRequest"));
+        DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
         clickButton("Details");
 
         clickAndWait(Locator.linkWithText("Update Request"));
@@ -699,7 +699,7 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         enableEmailRecorder(); // clear email recorder
         goToSiteUsers();
-        DataRegionTable usersTable = new DataRegionTable("Users", this, true, true);
+        DataRegionTable usersTable = new DataRegionTable("Users", this);
         int row = usersTable.getRow("Email", USER2);
         usersTable.checkCheckbox(row);
         clickButton("Deactivate");
@@ -712,7 +712,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
         waitAndClick(Locator.linkWithText("View Current Requests"));
 
-        waitForElement(Locator.id("dataregion_SpecimenRequest"));
+        DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
         clickButton("Details");
 
         waitAndClick(Locator.linkWithText("Update Request"));
@@ -908,7 +908,6 @@ public class SpecimenTest extends SpecimenBaseTest
 
         goToAuditLog();
         selectOptionByText(Locator.name("view"), "Query export events");
-        waitForElement(Locator.id("dataregion_query"));
 
         DataRegionTable auditTable =  new DataRegionTable("query", this);
         String[][] columnAndValues = new String[][] {{"Created By", getDisplayName()},
