@@ -568,7 +568,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         selectQuery(schema, query);
         waitForText("view data");
         clickAndWait(Locator.linkContainingText("view data"));
-        DataRegionTable drt = new DataRegionTable("query", this, true);
+        DataRegionTable drt = new DataRegionTable("query", this);
         drt.ensureColumnPresent(idField);
         List<String> specimenIds = new ArrayList<>();
         List<Integer> targetRows = new ArrayList<>();
@@ -593,7 +593,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         selectQuery("hdrl", tableName);
         waitForText("view data");
         clickAndWait(Locator.linkContainingText("view data"));
-        DataRegionTable drt = new DataRegionTable("query", this, false);
+        DataRegionTable drt = new DataRegionTable("query", this);
 
         // find the row to verify
         for (Map<String, String> expectedRow : expectedRows)
