@@ -531,7 +531,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent(USER2, 4);
 
         log("Check for correct data in notification emails");
-        int emailIndex = getTableCellText(Locator.id("dataregion_EmailRecord"), 2, 0).equals(USER1) ? 1 : 0;
+        int emailIndex = getTableCellText(DataRegionTable.Locators.dataRegion("EmailRecord"), 2, 0).equals(USER1) ? 1 : 0;
         click(Locator.linkContainingText("Specimen Request Notification").index(emailIndex));
         shortWait().until(LabKeyExpectedConditions.emailIsExpanded(emailIndex + 1));
         String bodyText = getText(DataRegionTable.Locators.dataRegion("EmailRecord"));
