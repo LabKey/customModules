@@ -1,0 +1,304 @@
+<p>
+    This tool will find and display any NAb runs that have incorrect paths for their data files for this folder.
+</p>
+<p>
+    If the new location for the NAb data file is the current container's pipeline root assaydata directory,
+    you will have the option to update the paths in the database for those runs. If a new location cannot be found,
+    you will have to manually re-upload the run.
+</p>
+<div id="recover-nab-files"></div>
+
+<style>
+    .field-header {
+        font-weight: bold;
+        color: darkblue;
+        padding-top: 10px;
+    }
+
+    .field-content {
+        padding: 0 0 5px 20px;
+    }
+
+    .field-label {
+        font-weight: bold;
+    }
+
+    .fixed {
+        color: green;
+    }
+    .cannotfix {
+        color: red;
+    }
+</style>
+
+<script type="text/javascript">
+    Ext4.onReady(function()
+    {
+        Ext4.create('AtlasTools.NAb.RecoverFiles', {
+            renderTo: 'recover-nab-files'
+        });
+    });
+
+    Ext4.define('AtlasTools.NAb.RecoverFiles', {
+        extend: 'Ext.panel.Panel',
+        border: false,
+
+        initComponent : function()
+        {
+            this.items = [
+                this.getRunToolButton(),
+                this.getSearchProgressBar(),
+                this.getMessagePanel(),
+                this.getRunDataFileView(),
+                this.getFixPathsButton()
+            ];
+
+            this.on('render', function()
+            {
+                var param = LABKEY.ActionURL.getParameter('runSearch');
+                if (Ext4.isDefined(param) && param === 'true')
+                {
+                    this.queryForOrphanedRunFiles();
+                }
+            }, this);
+
+            this.callParent();
+        },
+
+        getRunDataFileStore : function()
+        {
+            if (!this.runDataFileStore)
+            {
+                this.runDataFileStore = Ext4.create('Ext.data.Store', {
+                    fields: [
+                        {name: 'RowId'},
+                        {name: 'Name'},
+                        {name: 'DataFileUrl'},
+                        {name: 'Run/Protocol/Name'},
+                        {name: 'FileExists'},
+                        {name: 'FileExistsAtCurrent', defaultValue: null},
+                        {name: 'FilePathFixed', defaultValue: null},
+                        {name: 'NewDataFileUrl', defaultValue: null}
+                    ],
+                    data: []
+                });
+            }
+
+            return this.runDataFileStore;
+        },
+
+        getRunToolButton : function()
+        {
+            if (!this.runToolBtn)
+            {
+                this.runToolBtn = Ext4.create('Ext.button.Button', {
+                    text: 'Run Search',
+                    style: 'margin-bottom: 10px;',
+                    scope: this,
+                    handler: this.queryForOrphanedRunFiles
+                });
+            }
+
+            return this.runToolBtn;
+        },
+
+        getFixPathsButton : function()
+        {
+            if (!this.fixPathsBtn)
+            {
+                this.fixPathsBtn = Ext4.create('Ext.button.Button', {
+                    text: 'Fix Paths',
+                    style: 'margin-top: 20px;',
+                    hidden: true,
+                    scope: this,
+                    handler: this.attemptFixDataFilePaths
+                });
+            }
+
+            return this.fixPathsBtn;
+        },
+
+        getSearchProgressBar : function()
+        {
+            if (!this.searchProgressBar)
+            {
+                this.searchProgressBar = Ext4.create('Ext.ProgressBar', {
+                    hidden: true,
+                    style: 'margin: 10px 0;',
+                    width: 500
+                });
+            }
+
+            return this.searchProgressBar;
+        },
+
+        getMessagePanel : function()
+        {
+            if (!this.messagePanel)
+            {
+                this.messagePanel = Ext4.create('Ext.Component', {
+                    hidden: true
+                });
+            }
+
+            return this.messagePanel;
+        },
+
+        getRunDataFileView : function()
+        {
+            if (!this.runDataFileView)
+            {
+                // TODO: group by Run/Protocol/Name
+                this.runDataFileView = Ext4.create('Ext.view.View', {
+                    store: this.getRunDataFileStore(),
+                    tpl: new Ext4.XTemplate(
+                        '<tpl for=".">',
+                            '<tpl if="FileExists === false">',
+                                '<div class="field-header">{Name} (RowId: {RowId})</div>',
+                                '<div class="field-content"><span class="field-label">Data File URL:</span> <span>{DataFileUrl}</span></div>',
+                                //'<div class="field-content"><span class="field-label">File Exists:</span> <span>{FileExists}</span></div>',
+                                '<tpl if="FileExistsAtCurrent === true">',
+                                    '<div class="field-content"><span class="field-label">File Exists at Current Pipeline Root:</span> <span>{FileExistsAtCurrent}</span></div>',
+                                '<tpl else>',
+                                    '<div class="field-content cannotfix"><span class="field-label">File Exists at Current Pipeline Root:</span> <span>{FileExistsAtCurrent}</span></div>',
+                                '</tpl>',
+                                '<tpl if="NewDataFileUrl != null">',
+                                    '<div class="field-content fixed"><span class="field-label">New Data File URL:</span> <span>{NewDataFileUrl}</span></div>',
+                                '</tpl>',
+                            '</tpl>',
+                        '</tpl>'
+                    )
+                });
+            }
+
+            return this.runDataFileView;
+        },
+
+        queryForOrphanedRunFiles : function()
+        {
+            // since the search results can display as a long vertical page of details, go to the action in its own page
+            if (LABKEY.ActionURL.getAction() != 'recoverNAbFiles')
+            {
+                window.location = LABKEY.ActionURL.buildURL('atlastools', 'recoverNAbFiles', null, {runSearch: true});
+                return;
+            }
+
+            this.getRunToolButton().disable();
+
+            this.getSearchProgressBar().updateText('Loading run data file count...');
+            this.getSearchProgressBar().show();
+
+            LABKEY.Query.selectRows({
+                schemaName: 'exp',
+                queryName: 'Data',
+                filterArray: [LABKEY.Filter.create('Run', null, LABKEY.Filter.Types.NONBLANK)],
+                columns: 'RowId, Name, DataFileUrl, FileExists, Run/Protocol/Name',
+                scope: this,
+                success: function(data)
+                {
+                    this.getMessagePanel().show();
+
+                    if (data.rows.length > 0)
+                    {
+                        // load the rows into an Ext store and then call the checkDataFile API for each
+                        this.getRunDataFileStore().loadData(data.rows);
+                        this.checksCompleted = 0;
+                        this.updateRunDataFileCountProgress(this.checksCompleted, this.getRunDataFileStore().getCount(), true);
+                        Ext4.each(this.getRunDataFileStore().getRange(), function(record)
+                        {
+                            this.checkIndividualRunDataFile(record);
+                        }, this);
+                    }
+                    else
+                    {
+                        this.getMessagePanel().update("No run data files found in this folder.");
+                        this.getSearchProgressBar().hide();
+                        this.getRunToolButton().enable();
+                    }
+                }
+            });
+        },
+
+        checkIndividualRunDataFile : function(record)
+        {
+            LABKEY.Ajax.request({
+                url: LABKEY.ActionURL.buildURL("experiment", "checkDataFile.api"),
+                method: 'POST',
+                params: {
+                    rowId: record.get('RowId')
+                },
+                scope: this,
+                success: function(response){
+                    var json = Ext4.decode(response.responseText);
+                    record.set('FileExists', json.fileExists);
+                    record.set('FileExistsAtCurrent', json.fileExistsAtCurrent);
+
+                    this.checksCompleted++;
+                    this.updateRunDataFileCountProgress(this.checksCompleted, this.getRunDataFileStore().getCount(), true);
+                    this.getRunDataFileView().refresh();
+                }
+            });
+        },
+
+        updateRunDataFileCountProgress : function(num, denom, asCheck)
+        {
+            var percentage = num / denom,
+                verb = asCheck ? 'Checking' : 'Fixing';
+            this.getSearchProgressBar().updateProgress(percentage, verb + ' run data files: ' + num + ' of ' + denom);
+
+            this.getRunToolButton().enable();
+            if (num == denom)
+            {
+                this.getSearchProgressBar().hide();
+
+                if (asCheck)
+                {
+                    var records = this.getRunDataFileStore().query('FileExists', false).items;
+                    if (records.length == 0)
+                        this.getMessagePanel().update("No run data files to be fixed in this folder.");
+                    else
+                        this.getFixPathsButton().show();
+                }
+            }
+        },
+
+        attemptFixDataFilePaths : function()
+        {
+            this.getFixPathsButton().hide();
+            this.getRunToolButton().disable();
+
+            var records = this.getRunDataFileStore().query('FileExists', false).items,
+                totalCount = records.length;
+            this.fixesCompleted = 0;
+            this.updateRunDataFileCountProgress(this.fixesCompleted, totalCount, false);
+            this.getSearchProgressBar().show();
+
+            Ext4.each(records, function(record)
+            {
+                LABKEY.Ajax.request({
+                    url: LABKEY.ActionURL.buildURL("experiment", "checkDataFile.api"),
+                    method: 'POST',
+                    params: {
+                        rowId: record.get('RowId'),
+                        attemptFilePathFix: true
+                    },
+                    scope: this,
+                    success: function(response){
+                        var json = Ext4.decode(response.responseText);
+                        if (json.hasOwnProperty('filePathFixed'))
+                            record.set('FilePathFixed', json.filePathFixed);
+                        if (json.hasOwnProperty('newDataFileUrl'))
+                            record.set('NewDataFileUrl', json.newDataFileUrl);
+
+                        this.fixesCompleted++;
+                        this.updateRunDataFileCountProgress(this.fixesCompleted, totalCount, false);
+                        this.getRunDataFileView().refresh();
+
+                        if (this.fixesCompleted == totalCount)
+                            this.getRunToolButton().enable();
+                    }
+                });
+            }, this);
+        }
+    })
+</script>

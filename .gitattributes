@@ -11,9 +11,12 @@ atlastools/resources/queries/exp/BaseDataUploadDashboard.sql -text
 atlastools/resources/queries/exp/RunGroupMap/Data[!!-~]Upload[!!-~]Dashboard[!!-~]Runs.qview.xml -text
 atlastools/resources/queries/exp/WrappedDataUploadDashboard.query.xml -text
 atlastools/resources/queries/exp/WrappedDataUploadDashboard.sql -text
+atlastools/resources/views/AtlasTool[!!-~]Recover[!!-~]NAb[!!-~]Files.webpart.xml -text
 atlastools/resources/views/Data[!!-~]Upload[!!-~]Dashboard.webpart.xml -text
 atlastools/resources/views/dataUploadDashboard.html -text
 atlastools/resources/views/dataUploadDashboard.view.xml -text
+atlastools/resources/views/recoverNAbFiles.html -text
+atlastools/resources/views/recoverNAbFiles.view.xml -text
 hdrl/hdrl.iml -text
 hdrl/module.properties -text
 hdrl/resources/credits/scripts.txt -text
