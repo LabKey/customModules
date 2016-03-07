@@ -222,7 +222,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickTab("Overview");
         _portalHelper.addWebPart("Specimens");
         waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
-        setFilter(SPECIMEN_DETAIL, "PrimaryType", "Is Blank");
+        (new DataRegionTable(SPECIMEN_DETAIL, this)).setFilter("PrimaryType", "Is Blank");
         // Verify that there's only one vial of unknown type:
         assertElementPresent(Locator.linkWithText("[history]"), 1);
         // There's a conflict in TubeType for this vial's events; verify that no TubeType is populated at the vial level
@@ -428,7 +428,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1", "Fr Level2");
         popLocation();
 
-        // customize the locationSpecimenListTable then make sure changes are propogated to the exported lists
+        // customize the locationSpecimenListTable then make sure changes are propagated to the exported lists
         log("customizing the locationSpecimenList default view");
         pushLocation();
         goToSchemaBrowser();

@@ -296,7 +296,8 @@ public class AliquotTest extends SpecimenBaseTest
         selectOptionByText(Locator.name("quf_ParticipantId"), "618005775");
         clickButton("Submit");
         assertElementNotPresent(Locator.tagWithClass("*", "labkey-error").withText());
-        setFilter("SpecimenDetail", "VisitDescription", "Equals", "NewVisit");
+        DataRegionTable detail = new DataRegionTable("SpecimenDetail", this);
+        detail.setFilter("VisitDescription", "Equals", "NewVisit");
         assertTextPresent("NewVisit");
     }
 
