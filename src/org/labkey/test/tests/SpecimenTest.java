@@ -25,6 +25,7 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.EmailRecordTable;
 import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -537,7 +538,7 @@ public class SpecimenTest extends SpecimenBaseTest
         String bodyText = getText(DataRegionTable.Locators.dataRegion("EmailRecord"));
         assertTrue(!bodyText.contains(_specimen_McMichael));
         assertTrue(bodyText.contains(_specimen_KCMC));
-        DataRegionTable mailTable = new DataRegionTable("EmailRecord", this);
+        EmailRecordTable mailTable = new EmailRecordTable(this);
         String message = mailTable.getDataAsText(emailIndex, "Message");
         assertNotNull("No message found", message);
         assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + message, message.contains(notification));
