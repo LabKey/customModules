@@ -209,16 +209,16 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
         deleteUsersIfPresent(ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
-        deleteProject(getProjectName(), afterTest);
+        _containerHelper.deleteProject(getProjectName(), afterTest);
     }
 
     @LogMethod
     private void verifyDataInAssay()
     {
-        waitForElement(Locator.id("dataregion_Data"));
-        for (String value: fieldAndValue.values())
+        DataRegionTable table = new DataRegionTable("Data", this);
+        for (Map.Entry<String, String> field : fieldAndValue.entrySet())
         {
-            assertElementPresent(Locator.css("#dataregion_Data td").withText(value));
+            assertEquals("Wrong value for " + field.getKey(), field.getValue(), table.getDataAsText(0, field.getKey()));
         }
 
         // make sure we can download the uploaded image
