@@ -26,12 +26,13 @@ import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.EmailRecordTable;
-import org.labkey.test.util.LabKeyExpectedConditions;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +44,10 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @Category({DailyA.class})
 public class SpecimenTest extends SpecimenBaseTest
@@ -484,7 +488,6 @@ public class SpecimenTest extends SpecimenBaseTest
     private final static String ATTACHMENT2 = "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls"; // Params: date(yyyy-MM-dd)
     private final String NOTIFICATION_TEMPLATE = // Params: Study Name, requestId, Study Name, requestId, Username, Date(yyyy-MM-dd)
             "Specimen request #%s was updated in %s.\n" +
-            "\n" +
             "Request Details\n" +
             "Specimen Request %s\n" +
             "Destination " + DESTINATION_SITE+"\n" +
@@ -495,18 +498,14 @@ public class SpecimenTest extends SpecimenBaseTest
             "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls\n" +
             "Assay Plan:\n" +
             "Assay Plan\n" +
-            "\n" +
             "Shipping Information:\n" +
             "Shipping\n" +
-            "\n" +
             "Comments:\n" +
             "Comments\n" +
-            "\n" +
             "Last One:\n" +
             "sample last one input\n" +
             "Specimen List (Request Link)\n" +
-            "\n" +
-            "  Participant Id Global Unique Id Visit Description Sequence Num Visit Volume Volume Units Primary Type Derivative Type Additive Type Derivative Type2 Sub Additive Derivative Draw Timestamp Draw Date Draw Time Clinic Processing Location First Processed By Initials Sal Receipt Date Class Id Protocol Number Primary Volume Primary Volume Units Total Cell Count Tube Type Comments Locked In Request Requestable Site Name Site Ldms Code At Repository Available Availability Reason Quality Control Flag Quality Control Comments Collection Cohort Vial Count Locked In Request Count At Repository Count Available Count Expected Available Count\n" +
+            "Participant Id Global Unique Id Visit Description Sequence Num Visit Volume Volume Units Primary Type Derivative Type Additive Type Derivative Type2 Sub Additive Derivative Draw Timestamp Draw Date Draw Time Clinic Processing Location First Processed By Initials Sal Receipt Date Class Id Protocol Number Primary Volume Primary Volume Units Total Cell Count Tube Type Comments Locked In Request Requestable Site Name Site Ldms Code At Repository Available Availability Reason Quality Control Flag Quality Control Comments Collection Cohort Vial Count Locked In Request Count At Repository Count Available Count Expected Available Count\n" +
             "1 999320824 BAA07XNP-01 Vst 501 501.0 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA   N/A 2005-12-23 10:05 2005-12-23 10:05:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-23 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   2 1 2 0 1\n" +
             "2 999320087 CAA07XN8-01 Vst 301 301.0 1.0 ML Vaginal Swab Swab None   N/A 2005-12-22 12:50 2005-12-22 12:50:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-22 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
             "3 999320706 DAA07YGW-01 Vst 301 301.0 1.0 ML Vaginal Swab Swab None   N/A 2006-01-05 10:00 2006-01-05 10:00:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-05 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
@@ -532,16 +531,18 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent(USER2, 4);
 
         log("Check for correct data in notification emails");
-        int emailIndex = getTableCellText(DataRegionTable.Locators.dataRegion("EmailRecord"), 2, 0).equals(USER1) ? 1 : 0;
-        click(Locator.linkContainingText("Specimen Request Notification").index(emailIndex));
-        shortWait().until(LabKeyExpectedConditions.emailIsExpanded(emailIndex + 1));
-        String bodyText = getText(DataRegionTable.Locators.dataRegion("EmailRecord"));
-        assertTrue(!bodyText.contains(_specimen_McMichael));
-        assertTrue(bodyText.contains(_specimen_KCMC));
         EmailRecordTable mailTable = new EmailRecordTable(this);
-        String message = mailTable.getDataAsText(emailIndex, "Message");
-        assertNotNull("No message found", message);
-        assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + message, message.contains(notification));
+        List<WebElement> messages = getWrappedDriver().findElements(By.linkText("Study 001: Specimen Request Notification"));
+        for(WebElement message : messages){message.click();}
+        List<EmailRecordTable.EmailMessage> emailMessages1 = mailTable.getMessagesByHeaderAndText("To", USER1);
+        List<EmailRecordTable.EmailMessage> emailMessages2 = mailTable.getMessagesByHeaderAndText("To", USER2);
+        assertTrue(!emailMessages1.get(0).getBody().contains(_specimen_KCMC));
+        assertTrue(emailMessages1.get(0).getBody().contains(_specimen_McMichael));
+        assertNotNull("No message found", emailMessages1);
+        String messageBody = emailMessages2.get(0).getBody().replaceFirst("-*=_Part_\\d{3}_\\d*.\\d*\\n","");
+        messageBody = messageBody.replaceAll("Content-Type: text\\/html; charset=UTF-8\n","");
+        messageBody = messageBody.replaceAll("Content-Transfer-Encoding: 7bit\n", "");
+        assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + messageBody, messageBody.contains(notification));
 
         String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
         String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
