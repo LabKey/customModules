@@ -15,6 +15,7 @@
  */
 package org.labkey.test.tests.icemr;
 
+import org.apache.http.HttpStatus;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -24,11 +25,12 @@ import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExcelHelper;
-import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.Ext4Helper;
+import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
@@ -102,13 +104,13 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         goToProjectHome();
 
         // test diagnostics
-        enterDataPoint(DIAGNOSTIC_ASSAY_NAME, Locator.id("upload-diagnostic-form-body"), null);
+        enterDiagnosticsData();
         verifyDataInAssay();
 
         // test species
-        enterDataPoint(SPECIES_ASSAY_NAME, Locator.id("upload-speciesSpecific-form-body"), null);
+        enterSpeciesData(null);
         verifyDataInAssay();
-        enterDataPoint(SPECIES_ASSAY_NAME, Locator.id("upload-speciesSpecific-form-body"), GEL_IMAGE_FILE);
+        enterSpeciesData(GEL_IMAGE_FILE);
         verifyDataInAssay();
 
         // test tracking assays, ensure they work with both sample sets
@@ -216,31 +218,34 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     private void verifyDataInAssay()
     {
         DataRegionTable table = new DataRegionTable("Data", this);
+        int row = table.getDataRowCount() - 1;
         for (Map.Entry<String, String> field : fieldAndValue.entrySet())
         {
-            assertEquals("Wrong value for " + field.getKey(), field.getValue(), table.getDataAsText(0, field.getKey()));
+            assertEquals("Wrong value for " + field.getKey(), field.getValue(), table.getDataAsText(row, field.getKey()).trim());
         }
 
         // make sure we can download the uploaded image
         if (fieldAndValue.containsKey(GEL_IMAGE_FIELD))
         {
-            Locator.XPathLocator link = Locator.linkContainingText(fieldAndValue.get(GEL_IMAGE_FIELD));
-            waitAndClick(link);
+            String src = table.link(row, GEL_IMAGE_FIELD).getAttribute("src");
+            try
+            {
+                assertEquals("Bad response from uploaded image.", HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(src));
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
             goBack();
         }
 
         goToProjectHome();
     }
 
-    @LogMethod
-    private void enterDataPoint(@LoggedParam String assayName, Locator.IdLocator locator, String fileUploadField)
+    private void startAssayImport(String assayName)
     {
-        Locator.XPathLocator link = Locator.linkContainingText(assayName);
-        waitAndClick(link);
-        link = Locator.lkButtonContainingText("Import Data");
-        waitAndClick(link);
-        waitForElement(locator);
-        enterData(assayName, fileUploadField);
+        waitAndClickAndWait(Locator.linkContainingText(assayName));
+        waitAndClickAndWait(Locator.lkButtonContainingText("Import Data"));
     }
 
     @LogMethod
@@ -256,14 +261,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void prepareDay0Upload(String assayName, boolean firstUpload)
     {
-        Locator.XPathLocator link;
         if (firstUpload)
         {
-            link = Locator.linkContainingText(assayName);
-            waitAndClick(link);
+            waitAndClickAndWait(Locator.linkContainingText(assayName));
         }
-        link = Locator.lkButtonContainingText("New Experiment");
-        waitAndClick(link);
+        waitAndClickAndWait(Locator.lkButtonContainingText("New Experiment"));
         waitForElement(Locator.id("SampleID1"));
     }
 
@@ -480,7 +482,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.name("dailyUpload"));
         setFormElement(Locator.name("dailyUpload"), TestFileUtils.getSampleData(DAILY_UPLOAD_FILLED_FILE));
         completeUpload(null);
-        waitAndClick(Ext4Helper.Locators.ext4Button("Submit"));
+        waitAndClickAndWait(Ext4Helper.Locators.ext4Button("Submit"));
 
         //Ensure that you can't add flasks if maintenance has been stopped on that flask.
         clickButton("Daily Maintenance");
@@ -523,36 +525,26 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void checkTemplateFlaskHeader(Sheet sheet, int row)
     {
-        // flask column titles
-        for (int i = 0; i < 18; i++)
-        {
-            assertNotNull(ExcelHelper.getCell(sheet, i, 1));
-        }
-        assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "SampleID");
-        assertEquals(ExcelHelper.getCell(sheet, 1, row).toString(), "MeasurementDate");
-        assertEquals(ExcelHelper.getCell(sheet, 2, row).toString(), "Scientist");
-        assertEquals(ExcelHelper.getCell(sheet, 3, row).toString(), "Parasitemia");
-        assertEquals(ExcelHelper.getCell(sheet, 4, row).toString(), "Gametocytemia");
-        assertEquals(ExcelHelper.getCell(sheet, 5, row).toString(), "Stage");
-        assertEquals(ExcelHelper.getCell(sheet, 6, row).toString(), "Removed");
-        assertEquals(ExcelHelper.getCell(sheet, 7, row).toString(), "RBCBatchID");
-        assertEquals(ExcelHelper.getCell(sheet, 8, row).toString(), "SerumBatchID");
-        assertEquals(ExcelHelper.getCell(sheet, 9, row).toString(), "AlbumaxBatchID");
-        assertEquals(ExcelHelper.getCell(sheet, 10, row).toString(), "GrowthFoldTestInitiated");
-        assertEquals(ExcelHelper.getCell(sheet, 11, row).toString(), "GrowthFoldTestFinished");
-        assertEquals(ExcelHelper.getCell(sheet, 12, row).toString(), "Contamination");
-        assertEquals(ExcelHelper.getCell(sheet, 13, row).toString(), "MycoTestResult");
-        assertEquals(ExcelHelper.getCell(sheet, 14, row).toString(), "FreezerProIDs");
-        assertEquals(ExcelHelper.getCell(sheet, 15, row).toString(), "FlaskMaintenanceStopped");
-        assertEquals(ExcelHelper.getCell(sheet, 16, row).toString(), "InterestingResult");
-        assertEquals(ExcelHelper.getCell(sheet, 17, row).toString(), "Comments");
-    }
-
-    @LogMethod
-    private void checkTemplateFlask(Sheet sheet, int row, String flaskName)
-    {
-        assertNotNull(ExcelHelper.getCell(sheet, 0, row));
-        assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), flaskName);
+        List<String> expectedColumns = Arrays.asList(
+                "SampleID",
+                "MeasurementDate",
+                "Scientist",
+                "Parasitemia",
+                "Gametocytemia",
+                "Stage",
+                "Removed",
+                "RBCBatchID",
+                "SerumBatchID",
+                "AlbumaxBatchID",
+                "GrowthFoldTestInitiated",
+                "GrowthFoldTestFinished",
+                "Contamination",
+                "MycoTestResult",
+                "FreezerProIDs",
+                "FlaskMaintenanceStopped",
+                "InterestingResult",
+                "Comments");
+        assertEquals("Wrong flask headers", expectedColumns, ExcelHelper.getRowData(sheet, row));
     }
 
     @LogMethod
@@ -560,15 +552,14 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         int row = baseRow;
         // experiment header row
-        assertEquals(ExcelHelper.getCell(sheet, 0, row).toString(), "ExperimentID: " + expId);
+        assertEquals("ExperimentID: " + expId, String.valueOf(ExcelHelper.getCell(sheet, 0, row)));
         row++;
-        // flask header row for experiment 1
         checkTemplateFlaskHeader(sheet, row);
         row ++;
         int numFlasks = (expId.equals(EXPERIMENT1_ID)) ? EXPERIMENT1_NUM_FLASKS : EXPERIMENT2_NUM_FLASKS;
         for (int i = 1; i <= numFlasks; i++)
         {
-            checkTemplateFlask(sheet, row, expId + "Flask" + String.valueOf(i));
+            assertEquals(expId + "Flask" + i, String.valueOf(ExcelHelper.getCell(sheet, 0, row)));
             row++;
         }
         // skip blank row
@@ -582,7 +573,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElement(Locator.name("dailyUpload"));
         File templateFile = clickAndWaitForDownload(Ext4Helper.Locators.ext4Button("Get Template"));
         assertTrue("Wrong file name", templateFile.getName().matches("dailyUpload( ?\\()?[0-9]?\\)?\\.xls"));
-        String firstExp = null;
+        String firstExp;
         try
         {
             Workbook template = ExcelHelper.create(templateFile);
@@ -595,33 +586,25 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             //
             // Experimeent ID: ...
 
-            //Warnings about possible null pointers can be ignored, as all cells in question are tested for null before loading them.
             int row = 0;
-            if (sheet != null)
+            // find the order first (it doesn't appear to be guaranteed)
+            firstExp = String.valueOf(ExcelHelper.getCell(sheet, 0, row));
+            if (firstExp.contains(EXPERIMENT1_ID))
             {
-                // find the order first (it doesn't appear to be guaranteed)
-                firstExp = ExcelHelper.getCell(sheet, 0, row).toString();
-                if (firstExp.contains(EXPERIMENT1_ID))
-                {
-                    firstExp = EXPERIMENT1_ID;
-                    row = checkTemplateExperiment(sheet, row, EXPERIMENT1_ID);
-                    checkTemplateExperiment(sheet,row, EXPERIMENT2_ID);
-                }
-                else
-                {
-                    firstExp = EXPERIMENT2_ID;
-                    row = checkTemplateExperiment(sheet, row, EXPERIMENT2_ID);
-                    checkTemplateExperiment(sheet,row, EXPERIMENT1_ID);
-                }
+                firstExp = EXPERIMENT1_ID;
+                row = checkTemplateExperiment(sheet, row, EXPERIMENT1_ID);
+                checkTemplateExperiment(sheet,row, EXPERIMENT2_ID);
+            }
+            else
+            {
+                firstExp = EXPERIMENT2_ID;
+                row = checkTemplateExperiment(sheet, row, EXPERIMENT2_ID);
+                checkTemplateExperiment(sheet,row, EXPERIMENT1_ID);
             }
         }
-        catch (IOException e)
+        catch (IOException | InvalidFormatException e)
         {
-            throw new RuntimeException("IOException creating the template file", e);
-        }
-        catch (InvalidFormatException e)
-        {
-            throw new RuntimeException("Template file has invalid format.", e);
+            throw new RuntimeException(e);
         }
 
         return firstExp;
@@ -658,6 +641,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterDiagnosticsData()
     {
+        startAssayImport(DIAGNOSTIC_ASSAY_NAME);
         clickButton("Submit", 0);
         verifyError(12);
 
@@ -711,6 +695,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void enterSpeciesData(String fileUploadField)
     {
+        startAssayImport(SPECIES_ASSAY_NAME);
         clickButton("Submit", 0);
         verifyError(7);
 
@@ -749,14 +734,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         waitForElementToDisappear(Locator.css(".x4-form-invalid-field"));
         clickButton("Submit");
         waitForElement(Locator.css(".labkey-nav-page-header").withText(SPECIES_ASSAY_NAME + " Results"));
-    }
-
-    private void enterData(String assayName, String fileUploadField)
-    {
-        if (assayName.equals(DIAGNOSTIC_ASSAY_NAME))
-            enterDiagnosticsData();
-        else
-            enterSpeciesData(fileUploadField);
     }
 
     @LogMethod
