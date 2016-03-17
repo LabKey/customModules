@@ -674,7 +674,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fieldAndValue.put("GametocyteDensity", "3.4"); // invalid: can't have a float for an int
         fieldAndValue.put("PatientHemoglobin", "300.4");
         fieldAndValue.put("Hematocrit", "500"); // invalid: can't have percentage > 100
-//        fieldAndValue.put("thinbloodsmear", "3.4");
+        fieldAndValue.put("ThinBloodSmear", "Pv");
         fieldAndValue.put("RDT", "3.4"); //this should be ignored
         fieldAndValue.put("FreezerProID", "3.4");
 
@@ -682,6 +682,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         {
             setICEMRField(field, fieldAndValue.get(field));
         }
+
+        fieldAndValue.put("RDT", "Pf"); // Expected default value
 
         // Issue 16875: decimals in certain icemr module fields causes js exception
         checkJsErrors();
