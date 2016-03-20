@@ -227,7 +227,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // make sure we can download the uploaded image
         if (fieldAndValue.containsKey(GEL_IMAGE_FIELD))
         {
-            String src = table.link(row, GEL_IMAGE_FIELD).getAttribute("src");
+            String src = table.link(row, GEL_IMAGE_FIELD).getAttribute("href");
             try
             {
                 assertEquals("Bad response from uploaded image.", HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(src));
