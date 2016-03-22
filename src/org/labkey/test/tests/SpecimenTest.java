@@ -25,7 +25,7 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
 import org.labkey.test.util.DataRegionTable;
-import org.labkey.test.util.EmailRecordTable;
+import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
