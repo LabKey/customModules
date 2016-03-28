@@ -4,5 +4,7 @@
     </permissions>
     <dependencies>
         <dependency path="Ext4" />
+        <dependency path="internal/jQuery" />
+        <dependency path="atlastools/recoverNAbFiles.js" />
     </dependencies>
 </view>

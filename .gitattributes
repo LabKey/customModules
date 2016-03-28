@@ -17,6 +17,7 @@ atlastools/resources/views/dataUploadDashboard.html -text
 atlastools/resources/views/dataUploadDashboard.view.xml -text
 atlastools/resources/views/recoverNAbFiles.html -text
 atlastools/resources/views/recoverNAbFiles.view.xml -text
+atlastools/resources/web/atlastools/recoverNAbFiles.js -text
 hdrl/hdrl.iml -text
 hdrl/module.properties -text
 hdrl/resources/credits/scripts.txt -text
