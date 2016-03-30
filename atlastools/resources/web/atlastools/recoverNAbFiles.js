@@ -17,11 +17,6 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
         ];
 
         this.callParent();
-
-        this.on('render', function()
-        {
-            //this.getRunToolButton().setName()
-        }, this);
     },
 
     getFilesFoundHeaderView: function()
@@ -102,16 +97,19 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
     {
         if (!this.runToolBtn)
         {
-            var getParams = document.URL.split("?");
-            var params = Ext4.urlDecode(getParams[1]);
+            var isRecoveryPage = LABKEY.ActionURL.getController() + '-' + LABKEY.ActionURL.getAction() == 'atlastools-recoverNAbFiles';
 
-            if((params == null) || (params['runSearch'] !== 'true') )
+            if (!isRecoveryPage)
             {
                 this.runToolBtn = Ext4.create('Ext.button.Button', {
                     text: 'Go To Search Page',
                     style: 'margin-bottom: 10px;',
                     scope: this,
-                    handler: this.queryForOrphanedRunFiles
+                    handler: function()
+                    {
+                        // since the search results can display as a long vertical page of details, go to the action in its own page
+                        window.location = LABKEY.ActionURL.buildURL('atlastools', 'recoverNAbFiles');
+                    }
                 });
             }
             else  // must be actual search
@@ -170,9 +168,8 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
         return this.messagePanel;
     },
 
-    // Header and body are split so that one can use a data: section and the other can use a store
+    // Header and body are split so that one can use a data array and the other can use a store object.
     // This is because mixing them in a single view is bad and leads to a trip to Unexpected Behavior Land
-
     makeRunDataFileHeaderView : function(heading)
     {
         return Ext4.create('Ext.view.View', {
@@ -233,17 +230,8 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
 
     queryForOrphanedRunFiles : function()
     {
-        // since the search results can display as a long vertical page of details, go to the action in its own page
         this.resetData();
-
-        if (LABKEY.ActionURL.getAction() != 'recoverNAbFiles')
-        {
-            window.location = LABKEY.ActionURL.buildURL('atlastools', 'recoverNAbFiles', null, {runSearch: true});
-            return;
-        }
-
         this.getRunToolButton().disable();
-
         this.getSearchProgressBar().updateText('Loading run data file count...');
         this.getSearchProgressBar().show();
 
@@ -252,7 +240,7 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
             queryName: 'Data',
             filterArray: [LABKEY.Filter.create('Run', null, LABKEY.Filter.Types.NONBLANK)],
             columns: 'RowId, Name, DataFileUrl, FileExists, Run/Protocol/Name',
-            containerFilter: LABKEY.Query.containerFilter.currentAndSubfolders,
+            //containerFilter: LABKEY.Query.containerFilter.currentAndSubfolders,
             scope: this,
             success: function(data)
             {
@@ -261,6 +249,7 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
                 if (data.rows.length > 0)
                 {
                     this.rows = data.rows;
+
                     // call the checkDataFile API for each row
                     this.checksCompleted = 0;
                     this.updateRunDataFileCountProgress(this.checksCompleted, this.rows.length, true);
@@ -304,6 +293,11 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
                 row['FileExists'] = json.fileExists;
                 row['FileExistsAtCurrent'] = json.fileExistsAtCurrent;
 
+                if (row['FileExistsAtCurrent'])
+                    this.getRunDataFilesFoundStore().add(row);
+                else if (!row['FileExists'])
+                    this.getRunDataFilesNotFoundStore().add(row);
+
                 this.checksCompleted++;
                 this.updateRunDataFileCountProgress(this.checksCompleted, this.rows.length, true);
             }
@@ -321,36 +315,13 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
         if (num == denom)
         {
             this.getSearchProgressBar().hide();
-
-            if(this.getRunDataFilesFoundStore().count() === 0)  // not filled yet, so we can do processing
-            {
-                this.sortDatabaseRows();
-                var i = 0;
-                while ((this.rows[i]['FileExistsAtCurrent'] !== false) && (i < this.rows.length))  // find dividing point between found/not found
-                {
-                    i++;
-                }
-                this.getRunDataFilesFoundStore().loadData(this.rows.slice(0, i));
-                this.getRunDataFilesNotFoundStore().loadData(this.rows.slice(i, this.rows.length));
-
-                this.getFilesFoundHeaderView().update({
-                    heading: this.getFilesFoundHeaderView().getHeading(),  // otherwise it will be erased
-                    hasRun: true  // show heading
-                });
-
-                this.getFilesNotFoundHeaderView().update({
-                    heading: this.getFilesNotFoundHeaderView().getHeading(),  // otherwise it will be erased
-                    hasRun: true  // show heading
-                });
-            }
+            this.updateHeaderViews();
+            this.getMessagePanel().update('');
+            this.getFixPathsButton().hide();
 
             if (asCheck)
             {
-                var rowsToBeFixed = this.rows.filter(function(row)
-                {
-                    return row["FileExists"] === false;
-                });
-                if (rowsToBeFixed.length == 0)
+                if (this.getRunDataFilesFoundStore().getCount() == 0)
                     this.getMessagePanel().update('No run data files to be fixed in this folder.');
                 else
                     this.getFixPathsButton().show();
@@ -358,21 +329,19 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
         }
     },
 
-    sortDatabaseRows : function()
+    updateHeaderViews : function()
     {
-        function rowsSort(a, b)
-        {
-            // sort by FileExistsAtCurrent descending (so true is before false), group by Run/Protocol/Name (ascending)
+        this.getFilesFoundHeaderView().update({
+            heading: this.getFilesFoundHeaderView().getHeading(),  // otherwise it will be erased
+            hasRun: true  // show heading
+        });
+        this.getFilesFoundHeaderView().setVisible(this.getRunDataFilesFoundStore().getCount() > 0);
 
-            if (a['FileExistsAtCurrent'] > b['FileExistsAtCurrent']) return -1;
-            else if (a['FileExistsAtCurrent'] < b['FileExistsAtCurrent']) return 1;
-
-            if (a['Run/Protocol/Name'] < b['Run/Protocol/Name']) return -1;
-            else if (a['Run/ProtocolName'] > b['Run/Protocol/Name']) return 1;
-
-            else return 0;
-        }
-        this.rows.sort(rowsSort).sort;
+        this.getFilesNotFoundHeaderView().update({
+            heading: this.getFilesNotFoundHeaderView().getHeading(),  // otherwise it will be erased
+            hasRun: true  // show heading
+        });
+        this.getFilesNotFoundHeaderView().setVisible(this.getRunDataFilesNotFoundStore().getCount() > 0);
     },
 
     attemptFixDataFilePaths : function()
