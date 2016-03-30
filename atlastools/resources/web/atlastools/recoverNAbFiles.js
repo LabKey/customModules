@@ -191,11 +191,7 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
                         '<div class="section-total"><span class="section-total-label">Files Skipped:</span> <span>{sectionTotalSkipped}</span></div>',
                     '</tpl>',
                 '</div>'
-            ),
-            getHeading: function()
-            {
-                return heading;
-            }
+            ), getHeading: function() { return heading; }
         });
     },
 
@@ -214,16 +210,17 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
                             '<tpl else>',  // cannot be processed
                                 '<div class="field-header"><input type="checkbox" data-rowid="{RowId}" class="file-check" disabled> <span>{Name}</span></div>',
                             '</tpl>',
-                            '<div class="field-content"><span class="field-label">Previous Data File URL:</span> <span>{DataFileUrl}</span></div>',
+                            '<div class="field-content"><span class="field-label">Previous Data File URL:</span> <span>{DataFileUrl:this.decodeUri}</span></div>',
                             '<tpl if="NewDataFileUrl != null">',
-                                '<div class="field-content fixed"><span class="field-label">New Data File URL:</span> <span>{NewDataFileUrl} {sectionTotalUpdated}</span></div>',
+                                '<div class="field-content fixed"><span class="field-label">New Data File URL:</span> <span>{NewDataFileUrl:this.decodeUri}</span></div>',
                             '</tpl>',
                             '<tpl if="StatusMessage != null">',
                                 '<div class="field-content not-fixed"><span>{StatusMessage}</span></div>',
                             '</tpl>',
                         '</tpl>',
                     '</tpl>',
-                '</div>'
+                '</div>',
+                    {decodeUri: function(uri) { return decodeURI(uri); }}
             )
         });
     },
@@ -349,20 +346,21 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
         this.getFixPathsButton().hide();
         this.getRunToolButton().disable();
 
-        var selectedRowIds = [];
+        var store = this.getRunDataFilesFoundStore();
+        var selectedRecords = [];
         jQuery('#nab-section-body input:checked').not('[disabled]').each(function()
         {
-            selectedRowIds.push(jQuery(this).attr('data-rowid'));
+            var rowId = jQuery(this).attr('data-rowid');
+            selectedRecords.push(store.findRecord('RowId', rowId));
         });
-        var selectedRecords = this.getRecordsWithRowIds(selectedRowIds);
         var totalCount = selectedRecords.length;
 
-        var unselectedRowIds = [];
+        var unselectedRecords = [];
         jQuery('#nab-section-body input:not(:checked)').not('[disabled]').each(function()
         {
-            unselectedRowIds.push(jQuery(this).attr('data-rowid'));
+            var rowId = jQuery(this).attr('data-rowid')
+            unselectedRecords.push(store.findRecord('RowId', rowId));
         });
-        var unselectedRecords = this.getRecordsWithRowIds(unselectedRowIds);
 
         this.fixesCompleted = 0;
         this.fixesFailed = 0;
@@ -436,23 +434,5 @@ Ext4.define('AtlasTools.NAb.RecoverFiles', {
             hasRun: true  // show heading
         });
         this.getFilesFoundBodyView().getStore().sync();
-    },
-
-    // n^2 comparison, can speed up with hashmap lookup if needed
-    getRecordsWithRowIds: function(rowIds)
-    {
-        return this.getRunDataFilesFoundStore().queryBy(function(record)
-        {
-            var recordRowId = record.get('RowId');
-            for(var i = 0; i < rowIds.length; i++)
-            {
-                var selectedRowId = parseInt(rowIds[i]);
-                if (recordRowId === selectedRowId)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }).items;
     }
 });
