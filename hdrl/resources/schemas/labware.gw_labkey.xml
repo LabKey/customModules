@@ -24,7 +24,6 @@
          <ns:column columnName="Carrier"/>
          <ns:column columnName="Tracking_Number"/>
          <ns:column columnName="Customer"/>
-         <ns:column columnName="Status"/>
       </ns:columns>
    </ns:table>
 
@@ -53,7 +52,7 @@
          <ns:column columnName="Last_Name"/>
          <ns:column columnName="First_Name"/>
          <ns:column columnName="Middle_Name"/>
-         <ns:column columnName="Birth"/>
+         <ns:column columnName="Birth_date"/>
          <ns:column columnName="Gender"/>
          <ns:column columnName="Initials"/>
       </ns:columns>
@@ -67,6 +66,7 @@
          <ns:column columnName="Customer_Note"/>
          <ns:column columnName="Date_Received"/>
          <ns:column columnName="Date_Completed"/>
+         <ns:column columnName="Date_Modified"/>
       </ns:columns>
    </ns:table>
 
