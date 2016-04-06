@@ -21,6 +21,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.tests.StudyBaseTest;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
@@ -165,7 +166,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Cohorts"));
-        clickButton("Insert New");
+        DataRegionTable.findDataRegion(this).clickHeaderButton("Insert", "Insert New");
         setFormElement(Locator.name("quf_label"), "Vaccine2");
         clickButton("Submit");
         waitForText("Placebo");
@@ -262,7 +263,7 @@ public class CAVDStudyTest extends StudyBaseTest
         goToAssayConfigureLookupValues(false, 3);
         for (String sampleType : SAMPLE_TYPES)
         {
-            clickButton("Insert New");
+            DataRegionTable.findDataRegion(this).clickHeaderButton("Insert", "Insert New");
             setFormElement(Locator.name("quf_Name"), sampleType);
             setFormElement(Locator.name("quf_PrimaryType"), "Blood");
             setFormElement(Locator.name("quf_ShortSampleCode"), sampleType.substring(0, 1).toUpperCase());
@@ -308,7 +309,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void importLookupRecords(String... names)
     {
-        clickButton("Import Data");
+        DataRegionTable.findDataRegion(this).clickHeaderButton("Insert", "Import Data");
         StringBuilder tsvBuilder = new StringBuilder("Name\tLabel");
         for (String name : names)
         {
@@ -468,11 +469,11 @@ public class CAVDStudyTest extends StudyBaseTest
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
-        clickButton("Insert New");
+        DataRegionTable.findDataRegion(this).clickHeaderButton("Insert", "Insert New");
         setFormElement(Locator.name("quf_MyStudyName"), "Something");
         selectOptionByText(Locator.name("quf_StudyLookup"), study2name);
         clickButton("Submit");
-        clickButton("Insert New");
+        DataRegionTable.findDataRegion(this).clickHeaderButton("Insert", "Insert New");
         setFormElement(Locator.name("quf_MyStudyName"), "TheOtherOne");
         selectOptionByText(Locator.name("quf_StudyLookup"), study3name);
         clickButton("Submit");
