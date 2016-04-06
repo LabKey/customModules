@@ -166,7 +166,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Cohorts"));
-        DataRegionTable.findDataRegion(this).clickHeaderButton("Insert", "Insert New");
+        clickButton("Insert New");
         setFormElement(Locator.name("quf_label"), "Vaccine2");
         clickButton("Submit");
         waitForText("Placebo");
