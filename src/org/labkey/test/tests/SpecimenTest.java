@@ -316,7 +316,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
 
-        _extHelper.clickMenuButton("Page Size", "Show All");
+        _extHelper.clickMenuButton("Paging", "Show All");
         clickAndWait(Locator.linkContainingText("history"));
         assertTextPresent("Vial History");
         goBack();
