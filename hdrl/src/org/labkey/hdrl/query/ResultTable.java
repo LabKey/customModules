@@ -40,6 +40,7 @@ public class ResultTable extends SimpleUserSchema.SimpleTable<HDRLQuerySchema>
     public ResultTable(@NotNull HDRLQuerySchema schema, String tableName)
     {
         super(schema, schema.getDbSchema().getTable(tableName));
+        init();
     }
 
     @Override

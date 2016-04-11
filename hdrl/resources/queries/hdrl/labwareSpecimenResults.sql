@@ -23,8 +23,6 @@ SELECT test_request_id AS SpecimenId,
         date_modified as Modified,
         modified_result_flag as ModifiedResultFlag,
         hs.RowId AS RequestStatusId,
-        r.Container as Container,
         report_file_name as ReportFileName
         FROM labwareOutboundSpecimens
-        LEFT JOIN InboundRequest r on r.RequestId = batch_id
         LEFT JOIN RequestStatus hs ON hs.name = hdrl_status;

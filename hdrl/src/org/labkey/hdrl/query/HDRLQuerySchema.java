@@ -149,12 +149,21 @@ public class HDRLQuerySchema extends SimpleUserSchema
         {
             return new InboundSpecimenTable(this);
         }
-        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name) ||
-                TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name) ||
-                TABLE_LABWARE_OUTBOUND_RESULTS.equalsIgnoreCase(name) ||
-                TABLE_LABWARE_OUTBOUND_SPECIMENS.equalsIgnoreCase(name))
+        else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name))
         {
-            return new ResultTable(this, name).init();
+            return new RequestResultTable(this, name);
+        }
+        else if (TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
+        {
+            return new SpecimenResultTable(this, name);
+        }
+        else if (TABLE_LABWARE_OUTBOUND_RESULTS.equalsIgnoreCase(name) ||
+                 TABLE_LABWARE_OUTBOUND_SPECIMENS.equalsIgnoreCase(name))
+        {
+            if (getUser().isSiteAdmin())
+                return new ResultTable(this, name);
+            else
+                return null;
         }
 
         //just return a filtered table over the db table if it exists

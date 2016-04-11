@@ -18,8 +18,6 @@ SELECT batch_id as RequestId,
        date_received as Received,
        date_completed as Completed,
        date_modified as Modified,
-       s.RowId as RequestStatusId,
-       r.Container as Container
+       s.RowId as RequestStatusId
        FROM labwareOutboundRequests
-       LEFT JOIN InboundRequest r on r.RequestId = batch_id
        LEFT JOIN RequestStatus s ON s.name = hdrl_status;

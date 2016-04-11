@@ -177,7 +177,6 @@
       <ns:column columnName="CustomerNote"/>
       <ns:column columnName="Received"/>
       <ns:column columnName="Completed"/>
-       <ns:column columnName="Container"/>
        <ns:column columnName="CreatedBy">
           <ns:fk>
              <ns:fkColumnName>UserId</ns:fkColumnName>
@@ -217,7 +216,6 @@
       <ns:column columnName="SampleIntegrity"/>
       <ns:column columnName="TestResult"/>
       <ns:column columnName="CustomerCode"/>
-       <ns:column columnName="Container"/>
        <ns:column columnName="CreatedBy">
           <ns:fk>
              <ns:fkColumnName>UserId</ns:fkColumnName>
