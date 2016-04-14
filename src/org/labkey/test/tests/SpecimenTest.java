@@ -21,6 +21,7 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
@@ -30,6 +31,7 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -423,15 +425,12 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         log("verifying addtional freezer fields from the exports");
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
-        addUrlParameter("exportAsWebPage=true");
-        refresh();
 
-        pushLocation();
-         clickAndWait(Locator.linkContainingText("Export to text file"));
+        File txtFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
+        TextSearcher txtSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(txtFile));
 
         // verify the additional columns
-        assertTextPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1", "Fr Level2");
-        popLocation();
+        assertTextPresent(txtSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1", "Fr Level2");
 
         // customize the locationSpecimenListTable then make sure changes are propagated to the exported lists
         log("customizing the locationSpecimenList default view");
@@ -457,27 +456,23 @@ public class SpecimenTest extends SpecimenBaseTest
 
         clickButton("Details");
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
-        addUrlParameter("exportAsWebPage=true");
-        refresh();
-        pushLocation();
-         clickAndWait(Locator.linkContainingText("Export to text file"));
+
+        File formattedFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
+        TextSearcher fileSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(formattedFile));
 
         // verify the additional columns
-        assertTextNotPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1");
-        assertTextPresent("Fr Level2");
-        popLocation();
+        assertTextNotPresent(fileSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1");
+        assertTextPresent(fileSearcher, "Fr Level2");
 
         clickButton("Cancel");
         clickAndWait(Locator.linkWithText("Providing Location Specimen Lists"));
-        addUrlParameter("exportAsWebPage=true");
-        refresh();
-        pushLocation();
-         clickAndWait(Locator.linkContainingText("Export to text file"));
+
+        File locationSpecimens = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
+        TextSearcher locationFileSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(locationSpecimens));
 
         // verify the additional columns
-        assertTextNotPresent("Freezer", "Fr Container", "Fr Position", "Fr Level1");
-        assertTextPresent("Fr Level2");
-        popLocation();
+        assertTextNotPresent(locationFileSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1");
+        assertTextPresent(locationFileSearcher, "Fr Level2");
 
         clickButton("Cancel");
     }
