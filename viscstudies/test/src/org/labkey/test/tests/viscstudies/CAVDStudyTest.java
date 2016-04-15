@@ -21,11 +21,13 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.tests.StudyBaseTest;
+import org.labkey.test.util.DataRegionExportHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
+import org.labkey.test.util.TextSearcher;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -509,27 +511,28 @@ public class CAVDStudyTest extends StudyBaseTest
         assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size() + 1);
 
         log("Verify data status exports to text as expected.");
-        pushLocation();
-        addUrlParameter("exportAsWebPage=true");
+
         waitForElement(Locator.lkButton("Export"), WAIT_FOR_JAVASCRIPT);
-        clickExportToText();
+
+        DataRegionExportHelper drtHelper =  new DataRegionExportHelper(new DataRegionTable("query", this));
+        File exportTextFile = drtHelper.exportText();
+        TextSearcher exportTxtSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(exportTextFile));
         // verify column names
-        assertTextPresentInThisOrder("myStudyName", "studyLookupLabel", "studyLookupDatasetStatus");
+        assertTextPresentInThisOrder(exportTxtSearcher, "myStudyName", "studyLookupLabel", "studyLookupDatasetStatus");
         // verify first study values
-        assertTextPresentInThisOrder("Something", study2name);
+        assertTextPresentInThisOrder(exportTxtSearcher, "Something", study2name);
         statusCounter = 0;
         for (String dataset : DATASETS.values())
         {
-            assertTextPresent(statuses[statusCounter][2] + ": " + dataset);
+            assertTextPresent(exportTxtSearcher, statuses[statusCounter][2] + ": " + dataset);
             statusCounter++;
         }
         // verify second study values
         assertTextPresentInThisOrder("TheOtherOne", study3name);
         for (String dataset : DATASETS.values())
         {
-            assertTextPresent("L: " + dataset);
+            assertTextPresent(exportTxtSearcher, "L: " + dataset);
         }
-        popLocation();
     }
 
     private void setDatasetStatus(String dataset, String status)
