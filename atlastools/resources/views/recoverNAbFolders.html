@@ -1,0 +1,47 @@
+<p>
+    This tool will find and display any NAb runs that have incorrect paths for their data files for all child folders of this folder.
+</p>
+<p>
+    If the new location for the NAb data file is the current container's pipeline root assaydata directory,
+    you will have the option to update the paths in the database for that run. If a new location cannot be found,
+    you will have to manually re-upload the run in order to fix the incorrect file path.
+</p>
+<div id="recover-nab-folders"></div>
+
+<style>
+    .section {
+        padding-top: 8px;
+    }
+
+    .section-heading {
+        font-weight: bold;
+    }
+
+    .field-header {
+        font-weight: bold;
+        color: darkblue;
+        padding: 8px 0 0 10px;
+    }
+
+    .field-content {
+        padding: 0 0 0 30px;
+    }
+
+    .field-label {
+        font-weight: bold;
+    }
+
+    .fixed {
+        color: green;
+    }
+    .not-fixed {
+        color: red;
+    }
+</style>
+<script type="application/javascript">
+    Ext4.onReady(function() {
+        Ext4.create('AtlasTools.NAb.RecoverFolders', {
+            renderTo: 'recover-nab-folders'
+        });
+    });
+</script>

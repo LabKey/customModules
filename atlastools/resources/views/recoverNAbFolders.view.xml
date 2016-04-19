@@ -1,0 +1,10 @@
+<view xmlns="http://labkey.org/data/xml/view">
+    <permissions>
+        <permission name="admin"/>
+    </permissions>
+    <dependencies>
+        <dependency path="Ext4" />
+        <dependency path="internal/jQuery" />
+        <dependency path="atlastools/recoverNAbFolders.js" />
+    </dependencies>
+</view>
