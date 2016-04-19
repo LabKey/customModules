@@ -12,7 +12,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
             this.getFilesFoundBodyView(),
             this.getFilesNotFoundHeaderView(),
             this.getFilesNotFoundBodyView(),
-            this.getFixPathsButton()
+            this.getFixPathsButton(),
+            this.getConvertStoreToExcelButton()
         ];
 
         this.callParent();
@@ -105,7 +106,6 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                 {name: 'FileExistsAtCurrent', defaultValue: null},
                 {name: 'FilePathFixed', defaultValue: null},
                 {name: 'NewDataFileUrl', defaultValue: null},
-                {name: 'StatusMessage', defaultValue: null}
             ],
             data: []
         });
@@ -168,6 +168,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                                 this.resetSearchData();
                                 this.getRunToolButton().disable();
                                 this.getFixPathsButton().disable();
+                                this.getConvertStoreToExcelButton().disable();
+                                this.getConvertStoreToExcelButton().hide();
                                 this.updateProgressBar(this.currentContainerIndex, this.containersTotal, true);
                                 this.processNextSearchContainer();
                             }
@@ -195,6 +197,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                     this.getSearchProgressBar().show();
                     this.getRunToolButton().disable();
                     this.getFixPathsButton().disable();
+                    this.getConvertStoreToExcelButton().disable();
+                    this.getConvertStoreToExcelButton().hide();
                     this.updateProgressBar(0, this.getFilesFoundStore().getCount(), false);
                     this.attemptFixDataFilePaths();
                 }
@@ -202,6 +206,25 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         }
 
         return this.fixPathsBtn;
+    },
+
+    getConvertStoreToExcelButton : function()
+    {
+        if (!this.convertStoreToExcelBtn)
+        {
+            this.convertStoreToExcelBtn = Ext4.create('Ext.button.Button', {
+                text: 'Write Fixes To Excel',
+                style: 'margin-top: 20px;',
+                hidden: true,
+                scope: this,
+                handler: function()
+                {
+                    this.convertStoreToExcel();
+                }
+            });
+        }
+
+        return this.convertStoreToExcelBtn;
     },
 
     getSearchProgressBar : function()
@@ -418,6 +441,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                 {
                     this.getMessagePanel().update('No run data files to be fixed.');
                     this.getFixPathsButton().hide();
+                    this.getConvertStoreToExcelButton().hide();
                 }
                 else
                 {
@@ -446,6 +470,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
     {
         this.getRunToolButton().disable();
         this.getFixPathsButton().disable();
+        this.getConvertStoreToExcelButton().disable();
+        
 
         var store = this.getFilesFoundStore();
 
@@ -560,10 +586,12 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         }
     },
 
-    cleanUpAfterFixes : function(totalUpdated, totalSkipped)
+    cleanUpAfterFixes : function()
     {
         this.getRunToolButton().enable();
         this.getFixPathsButton().disable();
+        this.getConvertStoreToExcelButton().enable();
+        this.getConvertStoreToExcelButton().show();
         this.getFilesFoundHeaderView().update({
             heading: this.getFilesFoundHeaderView().getHeading(),  // otherwise it will be erased
             sectionTotalUpdated: this.fixesCompleted,
@@ -576,7 +604,32 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         });
         this.getFilesFoundBodyView().getStore().sync();
         this.getFilesNotFoundBodyView().getStore().sync();
-        this.getFilesFoundStore().removeAll();  // so we don't use again next time
-        this.getFilesNotFoundStore().removeAll();  // so we don't use again next time
+    },
+
+    convertStoreToExcel : function()
+    {
+        var store = this.getFilesFoundStore();
+        var storeData = [];
+        var date = new Date();
+        storeData[0] = ['RowId', 'Name', 'DataFileUrl', 'FileExists', 'FileExistsAtCurrent', 'FilePathFixed', 'NewDataFileUrl'];
+
+        Ext4.each(store.data.items,function(record)  // process all records where data files were fixed
+        {
+            // convert object to array of values
+            var objectValuesAsArray = Object.keys(record.data).map(function (key) {return record.data[key]});
+            storeData.push(objectValuesAsArray);
+        }, this);
+
+        LABKEY.Utils.convertToExcel(
+        {
+            fileName : LABKEY.ActionURL.getContainerName() + '_' + date.getMonth() + '_' + date.getDate() + '_' + date.getFullYear() + '_NAb_Fixes.xls',
+            sheets:
+            [
+                {
+                    name: 'Sheet1',
+                    data: storeData
+                }
+            ]
+        });
     }
 });
