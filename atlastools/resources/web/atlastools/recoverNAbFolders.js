@@ -105,7 +105,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                 {name: 'FileExists'},
                 {name: 'FileExistsAtCurrent', defaultValue: null},
                 {name: 'FilePathFixed', defaultValue: null},
-                {name: 'NewDataFileUrl', defaultValue: null},
+                {name: 'NewDataFileUrl', defaultValue: null}
             ],
             data: []
         });
@@ -116,11 +116,12 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         return Ext4.create('Ext.data.Store', {
             fields: [
                 {name: 'ContainerPath'},
+                {name: 'ContainerHref'},
                 {name: 'UnprocessedFileCount'},
                 {name: 'FixableFileCount'},
                 {name: 'UnfixableFileCount'},
                 {name: 'FixedFileCount'},
-                {name: 'FailedFileCount'},
+                {name: 'FailedFileCount'}
             ],
             data: []
         });
@@ -215,8 +216,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         if (!this.convertStoreToExcelBtn)
         {
             this.convertStoreToExcelBtn = Ext4.create('Ext.button.Button', {
-                text: 'Write Fixes To Excel',
-                style: 'margin-top: 20px;',
+                text: 'Export Fixes To Excel',
+                style: 'margin-top: 20px; margin-left: 10px',
                 hidden: true,
                 scope: this,
                 handler: function()
@@ -289,7 +290,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
             tpl: new Ext4.XTemplate(
                 '<div class="section-body" id="nab-section-body">',
                     '<tpl for=".">',
-                        '<div class="field-header">Container Path: {ContainerPath}</div>',
+                        '<div class="field-header">Container Path: <a href="{ContainerHref}" target="_blank">{ContainerPath}</a></div>',
                         '<div class="field-content">Number Of Run Files: {UnprocessedFileCount}</div>',
                         '<div class="field-content">Number Of Fixable Run Files: {FixableFileCount}</div>',
                         '<div class="field-content">Number Of Unfixable Run Files: {UnfixableFileCount}</div>',
@@ -407,6 +408,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                 {
                     var folderData = {};
                     folderData['ContainerPath'] = json.containerPath;
+                    folderData['ContainerHref'] = LABKEY.ActionURL.buildURL('project', 'begin', json.containerPath);
                     folderData['UnprocessedFileCount'] = this.checksCompleted;
                     folderData['FixableFileCount'] = this.fixableFiles;
                     folderData['UnfixableFileCount'] = this.unfixableFiles;
@@ -484,7 +486,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         this.totalFailsPerContainer = {};
         this.getSearchProgressBar().show();
 
-        Ext4.each(store.data.items,function(record)  // process all records where data files were found
+        Ext4.each(store.getRange(),function(record)  // process all records where data files were found
         {
             LABKEY.Ajax.request({
                 url: LABKEY.ActionURL.buildURL('experiment', 'checkDataFile.api'),
@@ -506,10 +508,10 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
 
                     // keep track of number of fixes for each container
                     var containerPath = json.containerPath;
-                    if(this.totalFixesPerContainer[containerPath] == null)
+                    if (this.totalFixesPerContainer[containerPath] == null)
                         this.totalFixesPerContainer[containerPath] = 1;
                     else
-                        this.totalFixesPerContainer[containerPath] = this.totalFixesPerContainer[containerPath] + 1;
+                        this.totalFixesPerContainer[containerPath]++;
 
                     if (this.fixesCompleted + this.fixesFailed == this.fixesTotal)
                     {
@@ -525,10 +527,10 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
 
                     // keep track of number of fails for each container
                     var containerPath = json.containerPath;
-                    if(this.totalFailsPerContainer[containerPath] == null)
+                    if (this.totalFailsPerContainer[containerPath] == null)
                         this.totalFailsPerContainer[containerPath] = 1;
                     else
-                        this.totalFailsPerContainer[containerPath] = this.totalFailsPerContainer[containerPath] + 1;
+                        this.totalFailsPerContainer[containerPath]++;
 
                     if (this.fixesCompleted + this.fixesFailed == this.fixesTotal)
                     {
@@ -553,8 +555,9 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         for (var containerPath in this.totalFixesPerContainer)
         {
             var totalFixes = this.totalFixesPerContainer[containerPath];
-            var filesFoundFoldersStoreItem = filesFoundFoldersStore.query('ContainerPath', containerPath);
-            var filesNotFoundFoldersStoreItem = filesNotFoundFoldersStore.query('ContainerPath', containerPath);
+            var filesFoundFoldersStoreItem = filesFoundFoldersStore.query('ContainerPath', containerPath, false, true, true);
+            var filesNotFoundFoldersStoreItem = filesNotFoundFoldersStore.query('ContainerPath', containerPath, false, true, true);
+
             if (filesFoundFoldersStoreItem.length == 1)  // should find one and only item for this container path if it exists
             {
                 filesFoundFoldersStoreItem.get(0).set('FixedFileCount', totalFixes);
@@ -571,8 +574,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         for (var containerPath in this.totalFailsPerContainer)
         {
             var totalFails = this.totalFailsPerContainer[containerPath];
-            var filesFoundFoldersStoreItem = filesFoundFoldersStore.query('ContainerPath', containerPath);
-            var filesNotFoundFoldersStoreItem = filesNotFoundFoldersStore.query('ContainerPath', containerPath);
+            var filesFoundFoldersStoreItem = filesFoundFoldersStore.query('ContainerPath', containerPath, false, true, true);
+            var filesNotFoundFoldersStoreItem = filesNotFoundFoldersStore.query('ContainerPath', containerPath, false, true, true);
             if (filesFoundFoldersStoreItem.length == 1)  // should find one and only item for this container path if it exists
             {
                 filesFoundFoldersStoreItem.get(0).set('FailedFileCount', totalFails);
@@ -615,7 +618,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
         var date = new Date();
         storeData[0] = ['RowId', 'Name', 'DataFileUrl', 'FileExists', 'FileExistsAtCurrent', 'FilePathFixed', 'NewDataFileUrl'];
 
-        Ext4.each(store.data.items,function(record)  // process all records where data files were fixed
+        Ext4.each(store.getRange(),function(record)  // process all records where data files were fixed
         {
             // convert object to array of values
             var objectValuesAsArray = Object.keys(record.data).map(function (key) {return record.data[key]});
@@ -624,7 +627,7 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
 
         LABKEY.Utils.convertToExcel(
         {
-            fileName : LABKEY.ActionURL.getContainerName() + '_' + date.getMonth() + '_' + date.getDate() + '_' + date.getFullYear() + '_NAb_Fixes.xls',
+            fileName : LABKEY.ActionURL.getContainerName() + '_' + Ext4.util.Format.date(date, 'Y-m-d') + '_NAb_Fixes.xls',
             sheets:
             [
                 {
