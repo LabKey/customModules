@@ -162,6 +162,8 @@ Ext4.define('AtlasTools.NAb.RecoverFolders', {
                             success: function(containersInfo)
                             {
                                 this.childContainers = containersInfo.children;
+                                this.childContainers.push(LABKEY.Security.currentContainer);  // also process current container
+                                // NOTE: currentContainer has less info than containers from getContainers(), but we only use path so it's not a problem
                                 this.containersTotal = this.childContainers.length;
                                 this.currentContainerIndex = 0;
                                 this.haveFilesBeenFound = false;
