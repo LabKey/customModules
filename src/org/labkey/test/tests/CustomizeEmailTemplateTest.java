@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.categories.DailyA;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
 
@@ -118,8 +119,9 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     {
         clickTab("Specimen Data");
         waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
-        click(Locator.xpath("//img[@src=\"/labkey/_images/cart.png\"]/../../../../..//td[@class=\"labkey-selectors\"]/input"));
-        _extHelper.clickMenuButton("Request Options", "Create New Request");
+        DataRegionTable specimenDetail = new DataRegionTable("SpecimenDetail", this);
+        specimenDetail.checkCheckbox(0);
+        specimenDetail.clickHeaderButton("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), _assayPlan);
         setFormElement(Locator.id("input2"), _comments);
