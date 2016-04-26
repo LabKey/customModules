@@ -20,7 +20,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.DailyA;
-import org.labkey.test.util.CustomizeViewsHelper;
+import org.labkey.test.components.CustomizeView;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
@@ -361,9 +361,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         click(Locator.linkWithText("By Individual Vial"));
         waitForText("Vials");
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
-        // TODO: DatatRegion change.
-//        CustomizeView specimenTableCustomizer = new CustomizeView(specimenTable);
-        CustomizeViewsHelper specimenTableCustomizer = new CustomizeViewsHelper(specimenTable);
+        CustomizeView specimenTableCustomizer = specimenTable.getCustomizeView();
         specimenTableCustomizer.openCustomizeViewPanel();
         waitForText("Available Fields");
         specimenTableCustomizer.addCustomizeViewColumn("MaxAvailabilityReason");
