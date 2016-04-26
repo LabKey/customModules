@@ -297,10 +297,11 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.css("span.labkey-wp-title-text").withText("Associated Specimens"));
         assertTextPresent("AAA07XK5-01", "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
 
-        prepForPageLoad();
-        clickButton("Cancel Request", 0);
-        assertAlert("Canceling will permanently delete this pending request.  Continue?");
-        waitForPageToLoad();
+        doAndWaitForPageToLoad(() ->
+        {
+            clickButton("Cancel Request", 0);
+            assertAlert("Canceling will permanently delete this pending request.  Continue?");
+        });
         DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
     }
 
@@ -362,10 +363,11 @@ public class SpecimenTest extends SpecimenBaseTest
         // submit request
         assertTextPresent("Not Yet Submitted");
         assertTextNotPresent("New Request");
-        prepForPageLoad();
-        clickButton("Submit Request", 0);
-        assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
-        waitForPageToLoad();
+        doAndWaitForPageToLoad(() ->
+        {
+            clickButton("Submit Request", 0);
+            assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+        });
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
 
@@ -565,10 +567,11 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Not Yet Submitted");
         clickButton("Save Changes and Send Notifications");
-        prepForPageLoad();
-        clickButton("Cancel Request", 0);
-        assertAlert("Canceling will permanently delete this pending request.  Continue?");
-        waitForPageToLoad();
+        doAndWaitForPageToLoad(() ->
+        {
+            clickButton("Cancel Request", 0);
+            assertAlert("Canceling will permanently delete this pending request.  Continue?");
+        });
         waitForText("No data to show.");
         clickTab("Specimen Data");
         waitForVialSearch();
