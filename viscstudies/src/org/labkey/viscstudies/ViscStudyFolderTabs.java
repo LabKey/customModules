@@ -15,8 +15,6 @@
  */
 package org.labkey.viscstudies;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.files.view.FilesWebPart;
@@ -73,7 +71,7 @@ public class ViscStudyFolderTabs
 
         public boolean showGWTStudyDesigner(Container c, User user)
         {
-            // Issue 21092: show depricated GWT study designer if we have a non-empty XML study design and no data in the study design hard tables
+            // Issue 21092: show deprecated GWT study designer if we have a non-empty XML study design and no data in the study design hard tables
             Study study = StudyService.get().getStudy(c);
             return study != null
                     && study.hasGWTStudyDesign(c, user)
