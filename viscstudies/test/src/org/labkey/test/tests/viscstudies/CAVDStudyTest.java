@@ -328,7 +328,7 @@ public class CAVDStudyTest extends StudyBaseTest
     @LogMethod
     private void doVerifyDatasets()
     {
-        clickFolder(STUDY_NAME);
+        clickFolder(FOLDER_NAME);
         goToGWTStudyDesignerPanel(FOLDER_NAME, "ASSAYS");
 
         clickButton("Create Assay Datasets", 0);
