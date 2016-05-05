@@ -79,7 +79,7 @@ function buildDateString(value)
 
 function onVisClick()
 {
-    var dataRegion = Ext.getCmp(this.dataRegionName);
+    var dataRegion = LABKEY.DataRegions[this.dataRegionName];
 
     var params = {};
     params['experimentId'] = experimentId;
