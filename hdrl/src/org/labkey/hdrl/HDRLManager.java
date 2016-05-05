@@ -22,8 +22,6 @@ import org.labkey.api.attachments.InputStreamAttachmentFile;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
-import org.labkey.api.data.Results;
-import org.labkey.api.data.RuntimeSQLException;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
@@ -41,7 +39,6 @@ import org.labkey.hdrl.view.InboundSpecimenBean;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,16 +184,7 @@ public class HDRLManager
         LabWareQuerySchema lwSchema = new LabWareQuerySchema(user, container);
         SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("test_request_id"), specimenId);
         filter.addCondition(FieldKey.fromParts("clinical_report"), null, CompareType.NONBLANK);
-        TableSelector selector = new TableSelector(lwSchema.getSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), filter, null);
 
-        try (Results results = selector.getResults())
-        {
-            return results.next();
-        }
-        catch (SQLException e)
-        {
-            throw new RuntimeSQLException(e);
-        }
+        return new TableSelector(lwSchema.getSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), filter, null).exists();
     }
-
 }
