@@ -80,7 +80,7 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     protected Collection<WebPartFactory> createWebPartFactories()
     {
-        return Collections.<WebPartFactory>singleton(new BaseWebPartFactory("MS2 Runs With Peptide Counts")
+        return Collections.singleton(new BaseWebPartFactory("MS2 Runs With Peptide Counts")
         {
             @Override
             public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)

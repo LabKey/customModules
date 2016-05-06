@@ -135,10 +135,10 @@ public class TrackingSaveHandler extends IcemrSaveHandler
             if (dataArray != null)
             {
                 AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataArray,
-                        Collections.<ExpData, String>emptyMap(),            // input data
+                        Collections.emptyMap(),            // input data
                         outputData,
                         inputMaterial,
-                        Collections.<ExpMaterial, String>emptyMap());       // output materials
+                        Collections.emptyMap());       // output materials
 
                 saveExperimentRun(uploadContext, batch, run);
             }
@@ -158,10 +158,10 @@ public class TrackingSaveHandler extends IcemrSaveHandler
             //
             ExperimentService.get().saveSimpleExperimentRun(run,
                 inputMaterial,
-                Collections.<ExpData, String>emptyMap(),
-                Collections.<ExpMaterial, String>emptyMap(),
-                Collections.<ExpData, String>emptyMap(),
-                Collections.<ExpData, String>emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap(),
                 new ViewBackgroundInfo(context.getContainer(), context.getUser(), context.getActionURL()), LOG, false);
         }
     }

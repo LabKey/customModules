@@ -32,9 +32,9 @@ public class HDRLFolderType extends MultiPortalFolderType
     {
         super("HDRL Request Portal",
                 "HDRL portal for submitting assay requests and receiving results.",
-                Collections.<Portal.WebPart>emptyList(),
+                Collections.emptyList(),
                 Arrays.asList(Portal.getPortalPart("HDRL Summary").createWebPart()),
-                Collections.<Module>singleton(module),
+                Collections.singleton(module),
                 module);
     }
 }

@@ -77,8 +77,8 @@ public class IcemrSaveHandler extends DefaultAssaySaveHandler
             AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataArray,
                     getInputData(context, inputDataArray),
                     outputData,
-                    Collections.<ExpMaterial, String>emptyMap(),        // input materials
-                    Collections.<ExpMaterial, String>emptyMap());       // output materials
+                    Collections.emptyMap(),        // input materials
+                    Collections.emptyMap());       // output materials
 
             saveExperimentRun(uploadContext, batch, run);
         }

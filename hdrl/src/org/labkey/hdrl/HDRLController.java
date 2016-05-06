@@ -377,7 +377,7 @@ public class HDRLController extends SpringActionController
             {
                 try
                 {
-                    PageFlowUtil.streamFile(response, Collections.<String, String>emptyMap(), r.getName(), r.getInputStream(), false);
+                    PageFlowUtil.streamFile(response, Collections.emptyMap(), r.getName(), r.getInputStream(), false);
                 }
                 catch (IOException ioe)
                 {
