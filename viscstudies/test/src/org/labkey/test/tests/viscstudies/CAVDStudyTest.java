@@ -518,7 +518,7 @@ public class CAVDStudyTest extends StudyBaseTest
         File exportTextFile = drtHelper.exportText();
         TextSearcher exportTxtSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(exportTextFile));
         // verify column names
-        assertTextPresentInThisOrder(exportTxtSearcher, "myStudyName", "studyLookupLabel", "studyLookupDatasetStatus");
+        assertTextPresentInThisOrder(exportTxtSearcher, "myStudyName", "STUDYLOOKUPLabel", "STUDYLOOKUPDatasetStatus");
         // verify first study values
         assertTextPresentInThisOrder(exportTxtSearcher, "Something", study2name);
         statusCounter = 0;
