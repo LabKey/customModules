@@ -107,7 +107,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
                 statusMap.put(key, value);
             }
         }
-        return statusMap.get((Integer)s);
+        return statusMap.get(s);
     }
 
     public static void register(final HDRLModule module)
