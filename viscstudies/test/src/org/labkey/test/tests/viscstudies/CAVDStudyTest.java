@@ -36,7 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @Category({CustomModules.class})
 public class CAVDStudyTest extends StudyBaseTest
@@ -514,11 +515,11 @@ public class CAVDStudyTest extends StudyBaseTest
 
         waitForElement(Locator.lkButton("Export"), WAIT_FOR_JAVASCRIPT);
 
-        DataRegionExportHelper drtHelper =  new DataRegionExportHelper(new DataRegionTable("query", this));
+        DataRegionExportHelper drtHelper =  new DataRegionExportHelper(new DataRegionTable("query", getDriver()));
         File exportTextFile = drtHelper.exportText();
         TextSearcher exportTxtSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(exportTextFile));
         // verify column names
-        assertTextPresentInThisOrder(exportTxtSearcher, "myStudyName", "STUDYLOOKUPLabel", "STUDYLOOKUPDatasetStatus");
+        assertTextPresentInThisOrder(exportTxtSearcher, "myStudyName", "studyLookupLabel", "studyLookupDatasetStatus");
         // verify first study values
         assertTextPresentInThisOrder(exportTxtSearcher, "Something", study2name);
         statusCounter = 0;
