@@ -425,7 +425,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifyAdditionalRequestFields()
     {
-        log("verifying addtional freezer fields from the exports");
+        log("verifying additional freezer fields from the exports");
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
 
         File txtFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
