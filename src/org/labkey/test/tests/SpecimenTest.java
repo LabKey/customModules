@@ -25,6 +25,7 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyA;
+import org.labkey.test.components.CustomizeView;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.util.LogMethod;
@@ -57,6 +58,7 @@ public class SpecimenTest extends SpecimenBaseTest
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
     private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);
+    private final String[] SPECIMEN_IDS = {"AAA07XK5-01", "AAA07XK5-02"};
 
     public List<String> getAssociatedModules()
     {
@@ -261,20 +263,27 @@ public class SpecimenTest extends SpecimenBaseTest
         setFormElement(Locator.id("input1"), "Shipping");
         setFormElement(Locator.id("input3"), "Last one");
         clickButton("Create and View Details");
-        clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
-        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // add specimen
-        clickButton("Submit");    // Submit button
 
-        waitAndClick(Locator.linkWithText("Upload Specimen Ids"));
-        waitForElement(Locator.xpath("//textarea[@id='tsv3']"));
-        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-01");     // try to add again
-        clickButton("Submit", 0);    // Submit button
-        waitForText(20000, "Specimen AAA07XK5-01 is unavailable");
-        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-02");     // try to add one that doesn't exist
-        clickButton("Submit", 0);    // Submit button
-        waitForText(20000, "Specimen AAA07XK5-02 is unavailable");
-        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03");     // add different one
-        clickButton("Submit");    // Submit button
+        clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
+
+        waitForElement(Locator.id("tsv3"));
+        setFormElement(Locator.id("tsv3"), SPECIMEN_IDS[0]); // add specimen
+        clickButton("Submit");
+
+        waitForElement(Locator.linkWithText("Upload Specimen Ids"));
+        clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
+
+        waitForElement(Locator.id("tsv3"));
+        setFormElement(Locator.id("tsv3"), SPECIMEN_IDS[0]); // try to add again
+        clickButton("Submit", 0);
+
+        waitForText(20000, "Specimen " + SPECIMEN_IDS[0] + " is unavailable");
+        setFormElement(Locator.id("tsv3"), SPECIMEN_IDS[1]); // try to add one that doesn't exist
+        clickButton("Submit", 0);
+
+        waitForText(20000, "Specimen " + SPECIMEN_IDS[1] + " is unavailable");
+        setFormElement(Locator.id("tsv3"),  "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03"); // add different ones
+        clickButton("Submit");
     }
 
     @LogMethod (quiet = true)
@@ -295,7 +304,7 @@ public class SpecimenTest extends SpecimenBaseTest
         }
 
         waitForElement(Locator.css("span.labkey-wp-title-text").withText("Associated Specimens"));
-        assertTextPresent("AAA07XK5-01", "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
+        assertTextPresent(SPECIMEN_IDS[0], "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
 
         doAndWaitForPageToLoad(() ->
         {
@@ -437,16 +446,19 @@ public class SpecimenTest extends SpecimenBaseTest
         // customize the locationSpecimenListTable then make sure changes are propagated to the exported lists
         log("customizing the locationSpecimenList default view");
         pushLocation();
-        goToSchemaBrowser();
-        selectQuery("study", "LocationSpecimenList");
-        waitAndClickAndWait(Locator.linkContainingText("view data"));
+        {
+            goToSchemaBrowser();
+            viewQueryData("study", "LocationSpecimenList");
 
-        _customizeViewsHelper.openCustomizeViewPanel();
-        _customizeViewsHelper.removeCustomizeViewColumn("Freezer");
-        _customizeViewsHelper.removeCustomizeViewColumn("Fr_Container");
-        _customizeViewsHelper.removeCustomizeViewColumn("Fr_Position");
-        _customizeViewsHelper.removeCustomizeViewColumn("Fr_Level1");
-        _customizeViewsHelper.saveCustomView();
+            DataRegionTable region = new DataRegionTable("query", getDriver());
+            CustomizeView customizeView = region.getCustomizeView();
+            customizeView.openCustomizeViewPanel();
+            customizeView.removeColumn("Freezer");
+            customizeView.removeColumn("Fr_Container");
+            customizeView.removeColumn("Fr_Position");
+            customizeView.removeColumn("Fr_Level1");
+            customizeView.saveCustomView();
+        }
         popLocation();
 
         log("verifying column changes");
