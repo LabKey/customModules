@@ -17,14 +17,14 @@
 package org.labkey.sequencenum;
 
 import org.jetbrains.annotations.NotNull;
-import org.labkey.api.module.DefaultModule;
+import org.labkey.api.module.CodeOnlyModule;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.view.WebPartFactory;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class SequenceNumModule extends DefaultModule
+public class SequenceNumModule extends CodeOnlyModule
 {
     public static final String NAME = "SequenceNumModule";
 
@@ -32,18 +32,6 @@ public class SequenceNumModule extends DefaultModule
     public String getName()
     {
         return NAME;
-    }
-
-    @Override
-    public double getVersion()
-    {
-        return 16.10;
-    }
-
-    @Override
-    public boolean hasScripts()
-    {
-        return true;
     }
 
     @Override

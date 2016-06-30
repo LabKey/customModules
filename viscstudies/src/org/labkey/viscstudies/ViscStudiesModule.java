@@ -17,8 +17,7 @@
 package org.labkey.viscstudies;
 
 import org.jetbrains.annotations.NotNull;
-import org.labkey.api.data.Container;
-import org.labkey.api.module.DefaultModule;
+import org.labkey.api.module.CodeOnlyModule;
 import org.labkey.api.module.FolderTypeManager;
 import org.labkey.api.module.Module;
 import org.labkey.api.module.ModuleContext;
@@ -29,21 +28,11 @@ import org.labkey.api.view.WebPartFactory;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ViscStudiesModule extends DefaultModule
+public class ViscStudiesModule extends CodeOnlyModule
 {
     public String getName()
     {
         return "ViscStudies";
-    }
-
-    public double getVersion()
-    {
-        return 16.10;
-    }
-
-    public boolean hasScripts()
-    {
-        return false;
     }
 
     @NotNull
@@ -68,12 +57,5 @@ public class ViscStudiesModule extends DefaultModule
     public void doStartup(ModuleContext moduleContext)
     {
         FolderTypeManager.get().registerFolderType(this, new ViscStudyFolderType(this));
-    }
-
-    @NotNull
-    @Override
-    public Collection<String> getSummary(Container c)
-    {
-        return Collections.emptyList();
     }
 }
