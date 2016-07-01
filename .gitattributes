@@ -39,8 +39,10 @@ hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.20-15.30.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.30-15.31.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.30-16.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-16.10-16.11.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/hdrl-16.10-16.20.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-16.11-16.12.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-15.20-15.30.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-16.10-16.20.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/labware.gw_labkey-16.11-16.12.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-14.31-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-15.10-15.11.sql -text
