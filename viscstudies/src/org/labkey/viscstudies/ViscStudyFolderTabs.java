@@ -232,7 +232,7 @@ public class ViscStudyFolderTabs
             parts.add(specimenWebPart);
 
             Portal.WebPart filesWebPart = Portal.getPortalPart(FilesWebPart.PART_NAME).createWebPart();
-            filesWebPart.setLocation(WebPartFactory.LOCATION_RIGHT);
+            filesWebPart.setLocation(WebPartFactory.LOCATION_BODY);
             parts.add(filesWebPart);
 
             return parts;
