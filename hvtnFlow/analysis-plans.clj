@@ -100,14 +100,18 @@
 ; marginals and marginals for each set of memory cells
 (def ap39-marginals-memory
   (conj CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2
-        ; added in version 3.0 of analysis plan 039
-        (subset "PD1+")
         ; extra boolean subsets only in CD4+ and CD8+
         (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
         (subset  "IFNg+IL2+")
         (subset  "IFNg+TNFa+")
         (subset  "IL2+TNFa+")
         (subset  "IFNg+IL2+TNFa+")
+        ; added in version 4.0 of analysis plan 039
+        (subset  "IFNg\\\\IL2\\\\CD154")
+        (subset  "IFNg\\\\IL2\\\\TNFa\\\\CD154")
+        ; added in version 3.0 of analysis plan 039
+        (subset  "PD1+")
+        (Subset. "PD1+"  "PD1+"  CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
         ; memory cells
         (Subset. "Naive" "Naive" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
         (Subset. "CM"    "CM"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
@@ -398,6 +402,7 @@
              (apply CD4+
                (conj ap39-marginals-memory
                      (subset "CXCR5+")
+                     (Subset. "CXCR5+" "CXCR5+" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
                      (Subset. "CXCR5+" "CXCR5+"
                               [(Subset. "PD1+" "PD1+" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)])
                      (Subset. "CXCR5+CD45RA-" "CXCR5+CD45RA-"
