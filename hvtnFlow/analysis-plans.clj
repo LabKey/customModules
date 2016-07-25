@@ -54,6 +54,20 @@
   [(apply CD4+excl children)
    (apply CD8+excl children)])
 
+(defn CD4-CD8-      [& children] (subset "CD4-CD8-" "CD4-CD8-" children))
+(defn NKTcells      [& children] (subset "NKT cells" "NKT cells" children))
+(defn gd+           [& children] (subset "gd+" "gd+" children))
+(defn CD56+         [& children] (subset "CD56+" "CD56+" children))
+(defn CXCR5+        [& children] (subset "CXCR5+" "CXCR5+" children))
+(defn CXCR5+CD45RA- [& children] (subset "CXCR5+CD45RA-" "CXCR5+CD45RA-" children))
+(defn PD1+          [& children] (subset "PD1+" "PD1+" children))
+(defn PD1+CCR7-     [& children] (subset "PD1+CCR7-" "PD1+CCR7-" children))
+(defn CD8+PD1+      [& children] (subset "PD1+" "8+PD1+" children))
+(defn Naive         [& children] (subset "Naive" "Naive" children))
+(defn CM            [& children] (subset "CM" "CM" children))
+(defn EM            [& children] (subset "EM" "EM" children))
+(defn TD            [& children] (subset "TD" "TD" children))
+
 
 (defn Blank [& children]
   "Empty subset (used to skip a level to align CD4+ and NKT cells)"
@@ -79,7 +93,7 @@
               ["IFNg" "IL2" "TNFa"]
               true))
 
-; booleans and IFNg\IL2
+; AnalysisPlan038 booleans and IFNg\IL2
 (def CD154*GzB*IFNg*IL2*IL4*IL17*TNFa+IFNgOrIL2
   (conj (make-bools ["154" "GzB" "IFNg" "2" "4" "17" "TNFa"]
                     ["154" "GzB" "IFNg" "2" "4" "17" "TNFa"]
@@ -111,12 +125,12 @@
         (subset  "IFNg\\\\IL2\\\\TNFa\\\\CD154")
         ; added in version 3.0 of analysis plan 039
         (subset  "PD1+")
-        (Subset. "PD1+"  "PD1+"  CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+        (PD1+    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
         ; memory cells
-        (Subset. "Naive" "Naive" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-        (Subset. "CM"    "CM"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-        (Subset. "EM"    "EM"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-        (Subset. "TD"    "TD"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)))
+        (Naive   CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+        (CM      CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+        (EM      CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+        (TD      CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)))
 
 ; AnalysisPlan040 marginals and IFNg\IL2
 (def CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2
@@ -133,6 +147,7 @@
    (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
 
 ; AnalysisPlan041 marginals and IFNg\IL2
+; AnalysisPlan042 marginals and IFNg\IL2
 (def CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
   [(Subset. "154+"   "154+"  nil)
    (Subset. "GzB+"   "GzB+"  nil)
@@ -142,6 +157,39 @@
    (Subset. "IL4+"   "IL4+"  nil)
    (Subset. "TNFa+"  "TNFa+" nil)
    (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan042 marginals including ICOS+ and IFNg\IL2
+(def CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "154+"   "154+"  nil)
+   (Subset. "GzB+"   "GzB+"  nil)
+   (Subset. "ICOS+"  "ICOS+" nil)
+   (Subset. "IFNg+"  "IFNg+" nil)
+   (Subset. "IL17a+"  "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"  nil)
+   (Subset. "IL4+"   "IL4+"  nil)
+   (Subset. "TNFa+"  "TNFa+" nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; function to generate marginals and marginals for each set of memory cells with
+; the PD1 population parameterized -- CD4+ uses "PD1+" while CD8+ uses "8+PD1+"
+(defn ap42-marginals-memory [pd1]
+  (conj CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+        ; extra boolean subsets only in CD4+ and CD8+
+        (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+        (subset  "IFNg+IL2+")
+        (subset  "IFNg+TNFa+")
+        (subset  "IL2+TNFa+")
+        (subset  "IFNg+IL2+TNFa+")
+        (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)
+        (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+        ;pd1
+        (Subset. (:name pd1) (:gate pd1) CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+        ; memory cells
+        (Naive   pd1 CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+        (CM      pd1 CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+        (EM      pd1 CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+        (TD      pd1 CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))
+
 
 ;;
 ;; The Analysis Plan definitions must be the last value in this file
@@ -402,16 +450,16 @@
              (apply CD4+
                (conj ap39-marginals-memory
                      (subset "CXCR5+")
-                     (Subset. "CXCR5+" "CXCR5+" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-                     (Subset. "CXCR5+" "CXCR5+"
-                              [(Subset. "PD1+" "PD1+" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)])
-                     (Subset. "CXCR5+CD45RA-" "CXCR5+CD45RA-"
-                              [(Subset. "PD1+CCR7-" "PD1+CCR7-" CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)])))
+                     (CXCR5+
+                       CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2
+                       (PD1+ CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))
+                     (CXCR5+CD45RA-
+                       (PD1+CCR7- CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))
              (apply CD8+ ap39-marginals-memory)
-             (Subset. "CD4-CD8-"  "CD4-CD8-"     CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
-             (Subset. "NKT cells" "NKT cells"    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))
+             (CD4-CD8-    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+             (NKTcells    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))
            (CD3-
-             (Subset. "CD56+"     "CD56+"     CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))))) ]}
+             (CD56+    CD154|GzB|IFNg|IL2|IL21|IL4|TNFa|IFNgOrIL2))))))) ]}
 
   {:id "40"
    :sort-id "AP-040"
@@ -423,17 +471,13 @@
          (Lv
            (L
             (CD3+
-              (CD4+    CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
-              (CD8+    CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
-              (Subset. "CD4-CD8-"  "CD4-CD8-"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
-              (Subset. "gd+"        "gd+"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
-              (Subset. "NKT cells" "NKT cells"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2))
+              (CD4+     CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
+              (CD8+     CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
+              (CD4-CD8- CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
+              (gd+      CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)
+              (NKTcells CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2))
             (CD3-
-              (Subset. "CD56+"     "CD56+"
-                       CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
+              (CD56+    CD107a|154|GzB|IFNg|IL10|IL13|IL17|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
 
 
 
@@ -449,5 +493,78 @@
             (CD3+
               (CD4+|CD8+
                 CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
+
+ {:id "42"
+  :sort-id "AP-042"
+  :name "Analysis Plan 042"
+  :description "17-color ICS with memory, Tfh, NK markers."
+  :children
+  [(S
+    (Exclude
+      (CD14-
+        (Lv
+          (L
+           (CD3+
+             (apply CD4+
+               (conj (ap42-marginals-memory (subset "PD1+" "PD1+"))
+                     (CXCR5+ CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+                       (PD1+ CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))
+             (apply CD8+ (ap42-marginals-memory (subset "PD1+" "8+PD1+")))
+             (CD4-CD8- (subset "PD1+") CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+             (NKTcells (subset "PD1+") CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))
+           (CD3-
+             (CD56+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))))) ]}
+
+ ; Doesn't work -- just messing around with a more expanded form of 042
+ {:id "42.alt"
+  :sort-id "AP-042.alt"
+  :name "Analysis Plan 042"
+  :description "17-color ICS with memory, Tfh, NK markers."
+  :children
+  [(S
+    (Exclude
+      (CD14-
+        (Lv
+          (L
+           (CD3+
+             (CD4+
+               CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+               (subset  "ICOS+")
+               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               (subset  "IFNg+IL2+")
+               (subset  "IFNg+TNFa+")
+               (subset  "IL2+TNFa+")
+               (subset  "IFNg+IL2+TNFa+")
+               (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)
+               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               (PD1+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+"))
+               (Naive  CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
+               (CM     CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
+               (EM     CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
+               (TD     CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
+               (CXCR5+ CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+")
+                       (PD1+ CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+"))))
+            (CD8+
+               CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+               (subset  "ICOS+")
+               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               (subset  "IFNg+IL2+")
+               (subset  "IFNg+TNFa+")
+               (subset  "IL2+TNFa+")
+               (subset  "IFNg+IL2+TNFa+")
+               (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)
+               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               (CD8+PD1+ CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+"))
+               (Naive    CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+)
+               (CM       CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+)
+               (EM       CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+)
+               (TD       CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+))
+
+             (CD4-CD8- CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 PD1+ (subset "ICOS+"))
+
+             (NKTcells CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 PD1+))
+
+           (CD3-
+             (CD56+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))))) ]}
 
 ]

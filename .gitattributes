@@ -128,6 +128,7 @@ hvtnFlow/plans/AP-038.tsv -text
 hvtnFlow/plans/AP-039.tsv -text
 hvtnFlow/plans/AP-040.tsv -text
 hvtnFlow/plans/AP-041.tsv -text
+hvtnFlow/plans/AP-042.tsv -text
 hvtnFlow/resources/folderTypes/HVTNFlow.folderType.xml -text
 hvtnFlow/resources/queries/flow/AnalysisPlan001.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan002.sql -text
@@ -149,6 +150,7 @@ hvtnFlow/resources/queries/flow/AnalysisPlan038.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan039.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan040.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlan041.sql -text
+hvtnFlow/resources/queries/flow/AnalysisPlan042.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlanBase.query.xml -text
 hvtnFlow/resources/queries/flow/AnalysisPlanBase.sql -text
 hvtnFlow/resources/queries/flow/AnalysisPlanTemplate.query.xml -text

@@ -65,6 +65,7 @@
                 (iterate zip/up loc))))
 
 (defn print-path [sortid id description loc]
+  "Prints just the node name and stat-string down the loc's path"
   (when (not (zip/children loc))
     (let [locs (path-loc loc)]
       (print (str sortid "\t" id "\t" description "\t"))
@@ -72,11 +73,22 @@
         (s/join "\t"
                 (interleave (map #(:name (zip/node %)) locs) (map stat-string locs)))))))
 
-(defn print-subsets [sortid id description z]
+(defn print-path-debug [loc]
+  "Prints just the node names down the loc's path"
+  (when (not (zip/children loc))
+    (let [locs (path-loc loc)]
+      (println
+        (s/join "\t"
+                (map #(:name (zip/node %)) locs))))))
+
+(defn print-subsets [debug? sortid id description z]
+  "Print the exhaustive list of subset names and stats for the entire plan"
   (loop [loc z]
     (if (not (zip/end? loc))
       (do
-        (print-path sortid id description loc)
+        (if debug?
+          (print-path-debug loc)
+          (print-path sortid id description loc))
         (recur (zip/next loc))))))
 
 (defn print-headers []
@@ -94,30 +106,41 @@
     (println (s/join "\t" headers))))
 
 
-(defn print-plan [specification]
+(defn print-plan [debug? specification]
   (let [z (create-zipper specification)
         sortid (:sort-id specification)
         id (:id specification)
         desc (:description specification)]
-    (with-open [f (io/writer (io/file "plans" (str sortid ".tsv")))]
-      (binding [*out* f]
-        (print-headers)
-        (print-subsets sortid id desc z)))))
+
+    (if debug?
+
+      ;; write summary of the plan to the console
+      (do
+        (println id "-" desc)
+        (print-subsets debug? sortid id desc z))
+
+      ;; write out full tsv to plans/AP-039.txt
+      (with-open [f (io/writer (io/file "plans" (str sortid ".tsv")))]
+        (binding [*out* f]
+          (print-headers)
+          (print-subsets debug? sortid id desc z))))))
 
 
-(defn print-plans [ids]
+(defn print-plans [debug? ids]
   (let [plans (load-file "analysis-plans.clj")]
     (dorun
       (for [plan plans]
         (if (or (empty? ids) (some #(= (:id plan) %) ids))
-          (print-plan plan))))))
+          (print-plan debug? plan))))))
 
 ; ---------
 
+(def debug false)
+
 (defn -main [& args]
   (if (empty? args)
-    (print-plans nil)
-    (print-plans (first args))))
+    (print-plans debug nil)
+    (print-plans debug (first args))))
 
 (-main *command-line-args*)
 
