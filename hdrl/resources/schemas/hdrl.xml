@@ -131,7 +131,9 @@
          <ns:column columnName="GenderId">
             <ns:columnTitle>Gender</ns:columnTitle>
          </ns:column>
-         <ns:column columnName="BirthDate"/>
+         <ns:column columnName="BirthDate">
+            <ns:formatString>Date</ns:formatString>
+         </ns:column>
          <ns:column columnName="SSN"/>
          <ns:column columnName="InboundRequestId">
             <ns:columnTitle>Request</ns:columnTitle>
@@ -146,7 +148,9 @@
             <ns:columnTitle>SOT</ns:columnTitle>
          </ns:column>
          <ns:column columnName="DODId"/>
-         <ns:column columnName="DrawDate"/>
+         <ns:column columnName="DrawDate">
+            <ns:formatString>Date</ns:formatString>
+         </ns:column>
          <ns:column columnName="NumContainers"/>
          <ns:column columnName="Container"/>
          <ns:column columnName="CreatedBy">

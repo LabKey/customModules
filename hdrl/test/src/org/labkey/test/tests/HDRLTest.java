@@ -200,8 +200,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         Map<String, String> specimen1 = new HashMap<>();
         specimen1.put("RequestId", String.valueOf(requestId));
         specimen1.put("SpecimenId", specimenIds.get(0));
-        specimen1.put("Received", "2015-06-01");
-        specimen1.put("Completed", "2015-06-03");
+        specimen1.put("Received", "2015-06-01 00:00");
+        specimen1.put("Completed", "2015-06-03 00:00");
         specimen1.put("SampleIntegrity", "Hemolyzed");
         specimen1.put("TestResult", "HIV Negative");
         specimen1.put("CustomerCode", "5B");
@@ -212,7 +212,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         specimen2.put("RequestId", requestId);
         specimen2.put("SpecimenId", specimenIds.get(1));
-        specimen2.put("Received", "2015-06-01");
+        specimen2.put("Received", "2015-06-01 00:00");
         specimen2.put("RequestStatus", "Exception");
         specimen2.put("ModifiedResultFlag", "F");
 
@@ -253,8 +253,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals( Arrays.asList("A13","A14"),drt.getColumnDataAsText("DUC"));
         assertEquals( Arrays.asList("P","B"),drt.getColumnDataAsText("SOT"));
         assertEquals( Arrays.asList("2015-03-01","1975-03-03"),drt.getColumnDataAsText("DrawDate"));
-        assertEquals( Arrays.asList("2015-06-01","2015-06-01"),drt.getColumnDataAsText("Received"));
-        assertEquals( Arrays.asList("2015-06-03"," "),drt.getColumnDataAsText("Completed"));
+        assertEquals( Arrays.asList("2015-06-01 00:00","2015-06-01 00:00"),drt.getColumnDataAsText("Received"));
+        assertEquals( Arrays.asList("2015-06-03 00:00"," "),drt.getColumnDataAsText("Completed"));
         assertEquals( Arrays.asList("Hemolyzed"," "),drt.getColumnDataAsText("SampleIntegrity"));
         assertEquals( Arrays.asList("HIV Negative"," "),drt.getColumnDataAsText("TestResult"));
         assertEquals( Arrays.asList("5B"," "),drt.getColumnDataAsText("CustomerCode"));
