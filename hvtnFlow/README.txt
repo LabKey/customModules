@@ -26,6 +26,9 @@ Updating analysis plans on the server:
 
 - The generated plans will be written to plans/<plan-id>.tsv
 
+- check there are no duplicate lines:
+    > cat plans/AP-042.tsv | sort | uniq -d
+
 - Upload the analysis plans to the server:
     - go to the AnalysisPlans list
     - filter by <plan-id>

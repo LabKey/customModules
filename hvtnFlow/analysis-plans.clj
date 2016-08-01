@@ -175,12 +175,10 @@
 (defn ap42-marginals-memory [pd1]
   (conj CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
         ; extra boolean subsets only in CD4+ and CD8+
-        (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
         (subset  "IFNg+IL2+")
         (subset  "IFNg+TNFa+")
         (subset  "IL2+TNFa+")
         (subset  "IFNg+IL2+TNFa+")
-        (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)
         (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
         ;pd1
         (Subset. (:name pd1) (:gate pd1) CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
