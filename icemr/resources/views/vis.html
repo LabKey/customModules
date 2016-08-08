@@ -91,6 +91,7 @@ Ext4.onReady(function(){
         var ICEMRWindow = Ext4.create('Ext.window.Window', {
             title: "ICEMR Customization",
             width: 400,
+            border: false,
             items: [ICEMRPanel],
             closeAction: 'hide',
             modal: true,
@@ -307,15 +308,13 @@ Ext4.onReady(function(){
         };
 
         var panel = Ext4.create('LABKEY.ext4.GenericChartPanel', {
-            height: 600,
             renderTo: 'icemrvis',
+            height: 600,
+            border: true,
             reportId: null,
             renderType: 'ICEMR',
             schemaName: schemaName,
             queryName: queryName,
-            defaultTitleFn: function(){
-                return "Parasitemia";
-            },
             canEdit: true,
             hideSave: true,
             allowShare: false,
@@ -325,6 +324,9 @@ Ext4.onReady(function(){
             autoColumnYName: 'Parasitemia',
             defaultNumberFormat: Ext.util.Format.numberRenderer('0.00'),
             userFilters: dataFilters,
+            defaultTitleFn: function(){
+                return "Parasitemia";
+            },
             customButtons: [Ext4.create('Ext.button.Button', {text: 'ICEMR', handler: ICEMRHandler})],
             getCustomChartOptions: function(scope){
                 return {ICEMR: ICEMRPanel.getPanelOptionValues()};
@@ -332,6 +334,10 @@ Ext4.onReady(function(){
             customRenderTypes: {
                 ICEMR: {
                     label: "ICEMR Line Plot",
+                    fields: [
+                        {name: 'x', label: 'X Axis', required: true}, //, nonNumericOnly: true
+                        {name: 'y', label: 'Y Axis', required: true, numericOnly: true}
+                    ],
                     generatePlotConfig: function(scope, chartConfig, renderTo, width, height, data, aes, scales, labels){
                         // We're cheating a bit here since we could override the generateScales and generateAes functions,
                         // however we only want to alter the color aesthetic and x scale, so we manipulate it here instead.

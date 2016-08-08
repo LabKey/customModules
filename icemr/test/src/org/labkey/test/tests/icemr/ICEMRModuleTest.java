@@ -817,4 +817,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         fieldAndValue.put(field, value);
     }
+
+    @Override public BrowserType bestBrowser()
+    {
+        return BrowserType.CHROME;
+    }
 }
