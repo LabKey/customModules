@@ -44,6 +44,7 @@ public class RunGridWebPart extends VBox
 
         UserSchema ms2Schema = MS2Service.get().createSchema(viewContext.getUser(), viewContext.getContainer());
         QuerySettings settings = new QuerySettings(viewContext, "MS2ExtensionsRunGrid", "MS2SearchRuns");
+        settings.setSchemaName(ms2Schema.getSchemaName());
         addView(new CustomRunGridView(ms2Schema, settings));
 
     }
