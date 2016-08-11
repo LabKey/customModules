@@ -319,7 +319,7 @@ public class AliquotTest extends SpecimenBaseTest
     private void createNewRequestFromQueryView()
     {
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
-        specimenTable.clickHeaderButton("Request Options", "Create New Request");
+        specimenTable.clickHeaderMenu("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");

@@ -121,7 +121,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
         DataRegionTable specimenDetail = new DataRegionTable("SpecimenDetail", this);
         specimenDetail.checkCheckbox(0);
-        specimenDetail.clickHeaderButton("Request Options", "Create New Request");
+        specimenDetail.clickHeaderMenu("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), _assayPlan);
         setFormElement(Locator.id("input2"), _comments);
