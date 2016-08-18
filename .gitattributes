@@ -36,7 +36,6 @@ hdrl/resources/schemas/dbscripts/oracle/labware.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-14.30-15.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.10-15.20.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.20-15.30.sql -text
-hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.30-15.31.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-15.30-16.10.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-16.10-16.11.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/hdrl-16.10-16.20.sql -text
@@ -59,6 +58,7 @@ hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-15.20-15.21.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-15.21-15.22.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-15.22-15.23.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-15.24-15.25.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/obsolete/hdrl-15.30-15.31.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.20-15.21.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.21-15.22.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.22-15.23.sql -text
