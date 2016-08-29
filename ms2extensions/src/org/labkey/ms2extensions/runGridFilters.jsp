@@ -94,7 +94,6 @@
     {
         urlParams = urlParams || {};
         var dataRegion = LABKEY.DataRegions[dataRegionName];
-        var runIds = dataRegion.getChecked();
         var viewSelectElement = document.getElementById(<%= PageFlowUtil.jsString(peptideViewSelectId)%>);
         var viewName = viewSelectElement ? viewSelectElement.value : '';
         var targetProtein = document.getElementById(<%= PageFlowUtil.jsString(targetProteinId)%>).value;
@@ -107,7 +106,7 @@
             targetProtein : targetProtein
         }});
 
-        LABKEY.Experiment.createHiddenRunGroup({runIds: runIds, success: function(runGroup, response)
+        LABKEY.Experiment.createHiddenRunGroup({selectionKey: dataRegion.selectionKey,success: function(runGroup, response)
         {
             Ext4.apply(urlParams, {
                 runList: runGroup.id,
