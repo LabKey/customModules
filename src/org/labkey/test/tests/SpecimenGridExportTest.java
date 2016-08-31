@@ -106,7 +106,19 @@ public class SpecimenGridExportTest extends AbstractExportTest
     @Override
     protected String getDataRegionColumnName()
     {
-        return "ParticipantId";
+        return "ProtocolNumber";
+    }
+
+    @Override
+    protected String getDataRegionSchemaName()
+    {
+        return "study";
+    }
+
+    @Override
+    protected String getDataRegionQueryName()
+    {
+        return "SpecimenSummary";
     }
 
     @Override
