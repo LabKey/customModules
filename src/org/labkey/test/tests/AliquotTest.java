@@ -289,7 +289,7 @@ public class AliquotTest extends SpecimenBaseTest
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // verify insert new here
-        clickAndWait(Locator.linkWithText("Insert New Row"));
+        clickAndWait(Locator.linkWithText(DataRegionTable.getInsertNewButtonText()));
         setFormElement(Locator.xpath("//input[@name='quf_GlobalUniqueId']"), "Global");
         setFormElement(Locator.xpath("//input[@name='quf_VisitDescription']"), "NewVisit");
         setFormElement(Locator.xpath("//input[@name='quf_SequenceNum']"), "001");
