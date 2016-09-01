@@ -33,7 +33,7 @@
                 <buttonBarOptions position="both" includeStandardButtons="true">
                         <includeScript>/assay/tracking/tracking.js</includeScript>
                         <item insertPosition="end" text="New Experiment" >
-                                <originalText>Import Data</originalText>
+                                <originalText>Import Bulk Data</originalText>
                         </item>
                         <item insertPosition="end" requiresSelection="true" text="Daily Maintenance">
                             <onClick>LABKEY.icemr.tracking.dailyMaintenance(dataRegion, dataRegionName)</onClick>
