@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DatabaseTableType;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.etl.DataIteratorBuilder;
+import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.query.BatchValidationException;
 import org.labkey.api.query.DefaultQueryUpdateService;
 import org.labkey.api.query.QueryUpdateService;
@@ -61,7 +61,7 @@ public class ResultTable extends SimpleUserSchema.SimpleTable<HDRLQuerySchema>
                 public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
                         throws SQLException
                 {
-                    return _importRowsUsingETL(user, container, rows, null,  getDataIteratorContext(errors, InsertOption.MERGE, configParameters), extraScriptContext);
+                    return _importRowsUsingDIB(user, container, rows, null, getDataIteratorContext(errors, InsertOption.MERGE, configParameters), extraScriptContext);
                 }
             };
 
