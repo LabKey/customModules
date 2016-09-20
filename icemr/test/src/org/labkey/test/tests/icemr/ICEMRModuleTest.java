@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
-import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
@@ -43,8 +42,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
+import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category({CustomModules.class})
 public class ICEMRModuleTest extends BaseWebDriverTest
@@ -619,18 +620,21 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         //Make sure the header is there and we are in the right place
         waitForText("Showing data for " + EXPERIMENT1_ID);
         //Make sure the flasks we'd expect are there
-        DataRegionTable qwp = DataRegionTable.DataRegion(getDriver()).waitFor(getDriver());
-        Locator flask1Link = Locator.linkWithText(EXPERIMENT1_ID + "Flask1");
-        Locator flask2Link = Locator.linkWithText(EXPERIMENT1_ID + "Flask2");
-        waitForElement(flask1Link);
-        assertElementPresent(flask2Link);
+        DataRegionTable results = DataRegion(getDriver()).waitFor(getDriver());
+        final String flask1 = EXPERIMENT1_ID + "Flask1";
+        final String flask2 = EXPERIMENT1_ID + "Flask2";
+
+        assertEquals("Wrong samples",
+                new TreeSet<>(Arrays.asList(flask1, flask2)),
+                new TreeSet<>(results.getColumnDataAsText("Sample ID")));
+        waitForElement(Locator.linkWithText(flask1));
+        assertElementPresent(Locator.linkWithText(flask2));
+
         //Hop into one of the flasks to make sure that they have data
-        clickAndWait(flask1Link);
-        waitForElement(Locators.pageSignal(DataRegionTable.UPDATE_SIGNAL), 30000);
-        qwp = DataRegionTable.findDataRegion(this);
-        assertEquals("Should only be one row in flask summary", 1, qwp.getDataRowCount());
-        assertEquals(EXPERIMENT1_ID + "100101", qwp.getDataAsText(0, "Patient ID"));
-        assertEquals(EXPERIMENT1_ID + "Flask1", qwp.getDataAsText(0, "Sample ID"));
+        clickAndWait(Locator.linkWithText(flask1));
+        DataRegionTable flaskSummary = DataRegion(getDriver()).waitFor(getDriver());
+        assertEquals("Should only be one row in flask summary", 1, flaskSummary.getDataRowCount());
+        assertEquals("Wrong data for " + flask1, Arrays.asList(EXPERIMENT1_ID + "100101", flask1, "goose"), flaskSummary.getRowDataAsText(0, "Patient ID", "Sample ID", "Scientist"));
     }
 
     private void verifyError(int errorCount)
