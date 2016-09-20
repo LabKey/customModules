@@ -19,15 +19,15 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
-import org.labkey.test.categories.DailyB;
+import org.labkey.test.categories.DailyC;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
-@Category({DailyB.class, Specimen.class})
+import static org.junit.Assert.assertTrue;
+
+@Category({DailyC.class, Specimen.class})
 public class SpecimenExportTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenExportVerifyProject";

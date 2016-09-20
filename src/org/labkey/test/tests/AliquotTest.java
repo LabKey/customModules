@@ -20,12 +20,12 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestTimeoutException;
-import org.labkey.test.categories.DailyA;
+import org.labkey.test.categories.DailyC;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 
-@Category({DailyA.class, Specimen.class})
+@Category({DailyC.class, Specimen.class})
 public class AliquotTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";

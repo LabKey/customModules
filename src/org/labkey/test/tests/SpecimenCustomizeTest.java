@@ -19,7 +19,7 @@ import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
-import org.labkey.test.categories.DailyA;
+import org.labkey.test.categories.DailyC;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ListHelper;
@@ -32,11 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * User: RyanS
- * Date: 2/7/14
- */
-@Category({DailyA.class})
+@Category({DailyC.class})
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";

@@ -24,10 +24,10 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.DailyA;
+import org.labkey.test.categories.DailyC;
 import org.labkey.test.components.CustomizeView;
-import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.components.dumbster.EmailRecordTable;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
@@ -52,7 +52,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@Category({DailyA.class})
+@Category({DailyC.class})
 public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";

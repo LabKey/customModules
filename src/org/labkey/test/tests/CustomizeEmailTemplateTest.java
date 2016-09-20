@@ -15,21 +15,21 @@
  */
 package org.labkey.test.tests;
 
+import org.jetbrains.annotations.Nullable;
+import org.junit.Assert;
+import org.junit.experimental.categories.Category;
+import org.labkey.test.Locator;
+import org.labkey.test.categories.DailyC;
+import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.PortalHelper;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
-import org.junit.Assert;
-import org.junit.experimental.categories.Category;
-import org.labkey.test.Locator;
-import org.labkey.test.categories.DailyA;
-import org.labkey.test.util.DataRegionTable;
-import org.labkey.test.util.LogMethod;
-import org.labkey.test.util.PortalHelper;
-
-@Category(DailyA.class)
+@Category(DailyC.class)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 {
     private static final String _projectName = "EmailTemplateProject";
