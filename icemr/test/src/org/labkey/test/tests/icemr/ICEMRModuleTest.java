@@ -619,6 +619,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         //Make sure the header is there and we are in the right place
         waitForText("Showing data for " + EXPERIMENT1_ID);
         //Make sure the flasks we'd expect are there
+        DataRegionTable qwp = DataRegionTable.DataRegion(getDriver()).waitFor(getDriver());
         Locator flask1Link = Locator.linkWithText(EXPERIMENT1_ID + "Flask1");
         Locator flask2Link = Locator.linkWithText(EXPERIMENT1_ID + "Flask2");
         waitForElement(flask1Link);
@@ -626,7 +627,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         //Hop into one of the flasks to make sure that they have data
         clickAndWait(flask1Link);
         waitForElement(Locators.pageSignal(DataRegionTable.UPDATE_SIGNAL), 30000);
-        DataRegionTable qwp = DataRegionTable.findDataRegion(this);
+        qwp = DataRegionTable.findDataRegion(this);
         assertEquals("Should only be one row in flask summary", 1, qwp.getDataRowCount());
         assertEquals(EXPERIMENT1_ID + "100101", qwp.getDataAsText(0, "Patient ID"));
         assertEquals(EXPERIMENT1_ID + "Flask1", qwp.getDataAsText(0, "Sample ID"));
