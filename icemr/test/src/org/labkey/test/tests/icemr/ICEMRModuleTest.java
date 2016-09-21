@@ -676,8 +676,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         fieldAndValue.put("RDT", "Pf"); // Expected default value
 
-        // Issue 16875: decimals in certain icemr module fields causes js exception
-        checkJsErrors();
         if (getFormElement(Locator.name("GametocyteDensity")).equals("3.4"))
             verifyError(3); // Some browsers allow the decimal; if so, there should be an error
         else
