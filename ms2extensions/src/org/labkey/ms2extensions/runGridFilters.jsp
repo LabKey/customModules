@@ -27,6 +27,10 @@
     FilterView peptideView = new FilterView(context);
     String peptideCustomizeViewId = GUID.makeGUID();
     String targetProteinId = GUID.makeGUID();
+    String matchCriteriaId = GUID.makeGUID();
+    String matchCriteria = MS2ExtensionsController.getTargetProteinMatchCriteria(context);
+    if (matchCriteria == null)
+        matchCriteria = "Prefix";
 %>
 <fieldset>
     <legend>Comparison and Export Filters</legend>
@@ -34,6 +38,17 @@
         <tr>
             <td class="labkey-form-label"><label for="<%= text(targetProteinId) %>">Target protein</label></td>
             <td><input type="text" id="<%= text(targetProteinId) %>" name="targetProtein" value="<%= h(MS2ExtensionsController.getTargetProteinPreference(context)) %>"/></td>
+        </tr>
+        <tr>
+            <td class="labkey-form-label"><label for="<%= text(matchCriteriaId) %>">Match Criteria</label></td>
+            <td>
+                <select name="<%= h(MS2ExtensionsController.TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA) %>" id="<%= text(matchCriteriaId) %>" >
+                    <option value="exact" <%=selected(("exact").equalsIgnoreCase(matchCriteria))%>>Exact</option>
+                    <option value="prefix" <%=selected(("prefix").equalsIgnoreCase(matchCriteria))%>>Prefix</option>
+                    <option value="suffix" <%=selected(("suffix").equalsIgnoreCase(matchCriteria))%>>Suffix</option>
+                    <option value="substring" <%=selected(("substring").equalsIgnoreCase(matchCriteria))%>>Substring</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td class="labkey-form-label">Peptide filter</td>
@@ -97,13 +112,15 @@
         var viewSelectElement = document.getElementById(<%= PageFlowUtil.jsString(peptideViewSelectId)%>);
         var viewName = viewSelectElement ? viewSelectElement.value : '';
         var targetProtein = document.getElementById(<%= PageFlowUtil.jsString(targetProteinId)%>).value;
+        var matchCriteria = document.getElementById(<%= PageFlowUtil.jsString(matchCriteriaId)%>).value;
 
         // Fire off an AJAX request so that we repopulate with the last used values
         var preferencesURL = <%= PageFlowUtil.jsString(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()).toString())%>;
         Ext4.Ajax.request({ url: preferencesURL, jsonData:
         {
             peptideFilter : viewName,
-            targetProtein : targetProtein
+            targetProtein : targetProtein,
+            targetProteinMatchCriteria: matchCriteria
         }});
 
         LABKEY.Experiment.createHiddenRunGroup({selectionKey: dataRegion.selectionKey,success: function(runGroup, response)
@@ -112,7 +129,8 @@
                 runList: runGroup.id,
                 peptideFilterType: 'customView',
                 'PeptidesFilter.viewName': viewName,
-                targetProtein: targetProtein
+                targetProtein: targetProtein,
+                targetProteinMatchCriteria: matchCriteria
             });
 
             window.location = LABKEY.ActionURL.buildURL("ms2", actionTarget, LABKEY.ActionURL.getContainer(), urlParams);

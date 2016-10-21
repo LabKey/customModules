@@ -50,6 +50,7 @@ public class MS2ExtensionsController extends SpringActionController
 
     public static final String TARGET_PROTEIN_PREFERENCE_NAME = "targetProtein";
     public static final String PEPTIDE_FILTER_PREFERENCE_NAME = "peptideFilter";
+    public static final String TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA = "targetProteinMatchCriteria";
 
     public MS2ExtensionsController()
     {
@@ -64,6 +65,11 @@ public class MS2ExtensionsController extends SpringActionController
     public static String getPeptideFilterPreference(ViewContext viewContext)
     {
         return getPreference(viewContext, PEPTIDE_FILTER_PREFERENCE_NAME);
+    }
+
+    public static String getTargetProteinMatchCriteria(ViewContext viewContext)
+    {
+        return getPreference(viewContext, TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA);
     }
 
     private static String getPreference(ViewContext viewContext, String preferenceName)
@@ -159,6 +165,10 @@ public class MS2ExtensionsController extends SpringActionController
             if (jsonObject.has(PEPTIDE_FILTER_PREFERENCE_NAME))
             {
                 props.put(PEPTIDE_FILTER_PREFERENCE_NAME, jsonObject.getString(PEPTIDE_FILTER_PREFERENCE_NAME));
+            }
+            if (jsonObject.has(TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA))
+            {
+                props.put(TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA, jsonObject.getString(TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA));
             }
 
             if (mapToSave != null)
