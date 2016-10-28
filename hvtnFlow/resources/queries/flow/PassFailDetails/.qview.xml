@@ -5,7 +5,7 @@
         <column name="SampleOrder"/>
         <column name="Sample/PTID"/>
         <column name="Sample/VISITNO"/>
-        <column name="FCSAnalysis/FCSFile/Keyword/STIM"/>
+        <column name="FCSAnalysis/FCSFile/Keyword/Stim"/>
         <column name="FCSAnalysis/FCSFile/Keyword/Replicate"/>
         <column name="CD4_Count"/>
         <column name="CD8_Count"/>
