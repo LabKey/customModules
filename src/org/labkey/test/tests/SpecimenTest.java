@@ -51,6 +51,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category({DailyC.class})
 public class SpecimenTest extends SpecimenBaseTest
@@ -194,7 +195,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementPresent(Locator.lkButton("Request Options"));
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
-        List<String> columnHeaders = specimenTable.getColumnHeaders();
+        List<String> columnHeaders = specimenTable.getColumnLabels();
         for (String column : requestColumns)
         {
             assertTrue("Request column not found: " + column, columnHeaders.contains(column));
@@ -213,7 +214,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("By Individual Vial"));
         assertElementNotPresent(Locator.lkButton("Request Options"));
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
-        List<String> columnHeaders = specimenTable.getColumnHeaders();
+        List<String> columnHeaders = specimenTable.getColumnLabels();
         for (String column : requestColumns)
         {
             assertFalse("Request column found when requests are disabled: " + column, columnHeaders.contains(column));
@@ -292,13 +293,13 @@ public class SpecimenTest extends SpecimenBaseTest
         // Check each Actor's Details for "Default Actor Notification" feature;
         // In Details, for each actor the ether Notify checkbox should be set or disabled, because we set Notifications to All
         Locator detailsLink = Locator.xpath("//td[a='Details']/a");
-        int linkCount = getElementCount(detailsLink);
+        int linkCount = detailsLink.findElements(getDriver()).size();
         for (int i = 0; i < linkCount; i++)
         {
             clickAndWait(detailsLink.index(i));
-            int allCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']"));
-            int checkedCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]"));
-            int disabledCheckBoxes = getElementCount(Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]"));
+            int allCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']").findElements(getDriver()).size();
+            int checkedCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]").findElements(getDriver()).size();
+            int disabledCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]").findElements(getDriver()).size();
             assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes == checkedCheckBoxes + disabledCheckBoxes);
             clickButton("Cancel");
         }
@@ -311,7 +312,7 @@ public class SpecimenTest extends SpecimenBaseTest
             clickButton("Cancel Request", 0);
             assertAlert("Canceling will permanently delete this pending request.  Continue?");
         });
-        DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
+        DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
     }
 
     @LogMethod
@@ -495,7 +496,7 @@ public class SpecimenTest extends SpecimenBaseTest
     private String _specimen_KCMC;
     private final static String ATTACHMENT1 = "KCMC_Moshi_Ta_to_Aurum_Health_.tsv";
     private final static String ATTACHMENT2 = "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls"; // Params: date(yyyy-MM-dd)
-    private final String NOTIFICATION_TEMPLATE = // Params: Study Name, requestId, Study Name, requestId, Username, Date(yyyy-MM-dd)
+    private final static String NOTIFICATION_TEMPLATE = // Params: Study Name, requestId, Study Name, requestId, Username, Date(yyyy-MM-dd)
             "Specimen request #%s was updated in %s.\n" +
             "Request Details\n" +
             "Specimen Request %s\n" +
@@ -556,8 +557,8 @@ public class SpecimenTest extends SpecimenBaseTest
         String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
         String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
 
-        assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment1));
-        assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(attachment2));
+        assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpResponse(attachment1).getResponseCode());
+        assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpResponse(attachment2).getResponseCode());
 
         clickAndWait(Locator.linkWithText("Request Link"));
         assertTextPresent("Specimen Request " + _requestId);
@@ -573,7 +574,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
         waitAndClick(Locator.linkWithText("View Current Requests"));
 
-        DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
+        DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
         clickButton("Details");
 
         clickAndWait(Locator.linkWithText("Update Request"));
@@ -661,7 +662,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickTab("Specimen Data");
         waitForVialSearch();
         clickAndWait(Locator.linkWithText("Urine"));
-        checkDataRegionCheckbox("SpecimenDetail", 0);
+        new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(0);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
@@ -682,7 +683,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickTab("Specimen Data");
         waitForVialSearch();
         clickAndWait(Locator.linkWithText("Urine"));
-        checkDataRegionCheckbox("SpecimenDetail", 1);
+        new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(1);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
@@ -712,7 +713,7 @@ public class SpecimenTest extends SpecimenBaseTest
         enableEmailRecorder(); // clear email recorder
         goToSiteUsers();
         DataRegionTable usersTable = new DataRegionTable("Users", this);
-        int row = usersTable.getRow("Email", USER2);
+        int row = usersTable.getRowIndex("Email", USER2);
         usersTable.checkCheckbox(row);
         clickButton("Deactivate");
         clickButton("Deactivate");
@@ -724,7 +725,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
         waitAndClick(Locator.linkWithText("View Current Requests"));
 
-        DataRegionTable.waitForDataRegion(this, "SpecimenRequest");
+        DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
         clickButton("Details");
 
         waitAndClick(Locator.linkWithText("Update Request"));
@@ -862,7 +863,7 @@ public class SpecimenTest extends SpecimenBaseTest
         private String _type;
         private int _count;
 
-        private StudyLocationType(String type, int count)
+        StudyLocationType(String type, int count)
         {
             _type=type;
             _count=count;
@@ -953,9 +954,11 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForVialSearch();
         clickAndWait(Locator.linkWithText("By Individual Vial"));
 
-        DataRegionTable table = new DataRegionTable("SpecimenDetail", this);
+        DataRegionTable table = new DataRegionTable("SpecimenDetail", getDriver());
 
-        int rowCount = table.getDataRowCount() - 1; // ignore the total row count row
+        int rowCount = 21;
+        assertEquals("Wrong number of vials in dts.specimens archive", rowCount, table.getDataRowCount());
+        assertEquals("Wrong number of conflicts in dts.specimens archive", _drawTimestampConflicts.size(), Locator.css(".labkey-error-row").findElements(table).size());
         for (int i = 0; i < rowCount; i ++)
         {
             String drawTimestamp = table.getDataAsText(i, "Draw Timestamp");
@@ -964,13 +967,14 @@ public class SpecimenTest extends SpecimenBaseTest
             String qcControlComments = table.getDataAsText(i, "Quality Control Comments");
             String id = table.getDataAsText(i, "Global Unique Id");
 
+            log("Verify vial: " + qcControlComments);
+
             verifyDrawTimestampConflict(qcControlComments, drawTimestamp, drawDate, drawTime);
             verifyDrawTimestampExpectedConflict(id, qcControlComments);
 
             if (doSpecimenEventCheck(qcControlComments))
             {
-                clickAndWait(Locator.linkContainingText("[history]").index(i));
-                verifyHistory(qcControlComments);
+                verifyHistory(i, qcControlComments);
             }
         }
     }
@@ -1043,10 +1047,12 @@ public class SpecimenTest extends SpecimenBaseTest
         }
     }
 
-    @LogMethod
-    private void verifyHistory(String qcControl)
+    @LogMethod (quiet = true)
+    private void verifyHistory(int vialIndex, @LoggedParam String qcControl)
     {
-        DataRegionTable table = new DataRegionTable("SpecimenEvent", this);
+        clickAndWait(Locator.linkContainingText("[history]").index(vialIndex));
+
+        DataRegionTable table = new DataRegionTable("SpecimenEvent", getDriver());
 
         String prevDrawTimestamp = null;
         String drawTimestamp;
@@ -1074,6 +1080,6 @@ public class SpecimenTest extends SpecimenBaseTest
             assertTrue(StringUtils.isBlank(qcControl));
 
         goBack();
-        waitForText("[history]");
+        waitForElement(Locator.linkContainingText("[history]"));
     }
 }
