@@ -967,7 +967,7 @@ public class SpecimenTest extends SpecimenBaseTest
             String qcControlComments = table.getDataAsText(i, "Quality Control Comments");
             String id = table.getDataAsText(i, "Global Unique Id");
 
-            log("Verify vial: " + qcControlComments);
+            log("Verify vial: " + id);
 
             verifyDrawTimestampConflict(qcControlComments, drawTimestamp, drawDate, drawTime);
             verifyDrawTimestampExpectedConflict(id, qcControlComments);
@@ -1080,6 +1080,6 @@ public class SpecimenTest extends SpecimenBaseTest
             assertTrue(StringUtils.isBlank(qcControl));
 
         goBack();
-        waitForElement(Locator.linkContainingText("[history]"));
+        DataRegion(getDriver()).withName("SpecimenDetail").waitFor();
     }
 }
