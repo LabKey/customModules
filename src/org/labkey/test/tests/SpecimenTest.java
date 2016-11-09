@@ -1050,7 +1050,9 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod (quiet = true)
     private void verifyHistory(int vialIndex, @LoggedParam String qcControl)
     {
-        clickAndWait(Locator.linkContainingText("[history]").index(vialIndex));
+        final WebElement historyLink = Locator.linkContainingText("[history]").index(vialIndex).findElement(getDriver());
+        scrollIntoView(historyLink);
+        clickAndWait(historyLink);
 
         DataRegionTable table = new DataRegionTable("SpecimenEvent", getDriver());
 
