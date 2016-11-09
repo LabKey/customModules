@@ -493,7 +493,7 @@ public class CAVDStudyTest extends StudyBaseTest
             assertElementPresent(Locator.tagWithAttribute("img", "src", status[1]), 1);
         }
         log("Verify that you can navigate to study and set status from study list.");
-        clickFolder(study3name);
+        clickAndWait(Locator.linkWithText(study3name));
         // wait for the study schedule grid to load, any dataset name will do
         waitForText(DATASETS.values().iterator().next());
         // set the status to Locked for all of the datasets
