@@ -16,83 +16,83 @@
  * limitations under the License.
 
  -->
-<ns:tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd" xmlns:ns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <ns:table tableName="X_LK_INBND_REQUESTS" tableDbType="TABLE">
-      <ns:titleColumn>Batch_Id</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="Batch_Id"/>
-         <ns:column columnName="Carrier"/>
-         <ns:column columnName="Tracking_Number"/>
-         <ns:column columnName="Customer"/>
-      </ns:columns>
-   </ns:table>
+<tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd" xmlns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <table tableName="X_LK_INBND_REQUESTS" tableDbType="TABLE">
+      <titleColumn>Batch_Id</titleColumn>
+      <columns>
+         <column columnName="Batch_Id"/>
+         <column columnName="Carrier"/>
+         <column columnName="Tracking_Number"/>
+         <column columnName="Customer"/>
+      </columns>
+   </table>
 
 
-   <ns:table tableName="X_LK_INBND_SPECIMENS" tableDbType="TABLE">
-      <ns:titleColumn>Test_Request_Id</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="Test_Request_Id"/>
-         <ns:column columnName="Batch_Id">
-            <ns:fk>
-               <ns:fkColumnName>Batch_Id</ns:fkColumnName>
-               <ns:fkTable>X_LK_INBND_REQUESTS</ns:fkTable>
-               <ns:fkDbSchema>gw_labkey</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Test_Requested"/>
-         <ns:column columnName="Cust_Barcode"/>
-         <ns:column columnName="FMP"/>
-         <ns:column columnName="SSN"/>
-         <ns:column columnName="Draw_Date"/>
-         <ns:column columnName="Specimen_Type"/>
-         <ns:column columnName="Num_Containers"/>
-         <ns:column columnName="SOT"/>
-         <ns:column columnName="DUC"/>
-         <ns:column columnName="DOD_Id"/>
-         <ns:column columnName="Last_Name"/>
-         <ns:column columnName="First_Name"/>
-         <ns:column columnName="Middle_Name"/>
-         <ns:column columnName="Birth_date"/>
-         <ns:column columnName="Gender"/>
-         <ns:column columnName="Initials"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="X_LK_INBND_SPECIMENS" tableDbType="TABLE">
+      <titleColumn>Test_Request_Id</titleColumn>
+      <columns>
+         <column columnName="Test_Request_Id"/>
+         <column columnName="Batch_Id">
+            <fk>
+               <fkColumnName>Batch_Id</fkColumnName>
+               <fkTable>X_LK_INBND_REQUESTS</fkTable>
+               <fkDbSchema>gw_labkey</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Test_Requested"/>
+         <column columnName="Cust_Barcode"/>
+         <column columnName="FMP"/>
+         <column columnName="SSN"/>
+         <column columnName="Draw_Date"/>
+         <column columnName="Specimen_Type"/>
+         <column columnName="Num_Containers"/>
+         <column columnName="SOT"/>
+         <column columnName="DUC"/>
+         <column columnName="DOD_Id"/>
+         <column columnName="Last_Name"/>
+         <column columnName="First_Name"/>
+         <column columnName="Middle_Name"/>
+         <column columnName="Birth_date"/>
+         <column columnName="Gender"/>
+         <column columnName="Initials"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="X_LK_OUTBD_REQUESTS" tableDbType="TABLE">
-      <ns:titleColumn>Batch_Id</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="Batch_Id"/>
-         <ns:column columnName="HDRL_Status"/>
-         <ns:column columnName="Customer_Note"/>
-         <ns:column columnName="Date_Received"/>
-         <ns:column columnName="Date_Completed"/>
-         <ns:column columnName="Date_Modified"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="X_LK_OUTBD_REQUESTS" tableDbType="TABLE">
+      <titleColumn>Batch_Id</titleColumn>
+      <columns>
+         <column columnName="Batch_Id"/>
+         <column columnName="HDRL_Status"/>
+         <column columnName="Customer_Note"/>
+         <column columnName="Date_Received"/>
+         <column columnName="Date_Completed"/>
+         <column columnName="Date_Modified"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="X_LK_OUTBD_SPECIMENS" tableDbType="TABLE">
-      <ns:titleColumn>Test_Request_Id</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="Test_Request_Id"/>
-         <ns:column columnName="Batch_Id">
-            <ns:fk>
-               <ns:fkColumnName>Batch_Id</ns:fkColumnName>
-               <ns:fkTable>X_LK_OUTBD_REQUESTS</ns:fkTable>
-               <ns:fkDbSchema>gw_labkey</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Date_Received"/>
-         <ns:column columnName="Date_Completed"/>
-         <ns:column columnName="Sample_Integrity"/>
-         <ns:column columnName="Test_Result"/>
-         <ns:column columnName="Customer_Code"/>
-         <ns:column columnName="Clinical_Report"/>
-         <ns:column columnName="Report_File_Name"/>
-         <ns:column columnName="HDRL_Status"/>
-         <ns:column columnName="Date_Modified"/>
-         <ns:column columnName="Modified_Result_Flag"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="X_LK_OUTBD_SPECIMENS" tableDbType="TABLE">
+      <titleColumn>Test_Request_Id</titleColumn>
+      <columns>
+         <column columnName="Test_Request_Id"/>
+         <column columnName="Batch_Id">
+            <fk>
+               <fkColumnName>Batch_Id</fkColumnName>
+               <fkTable>X_LK_OUTBD_REQUESTS</fkTable>
+               <fkDbSchema>gw_labkey</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Date_Received"/>
+         <column columnName="Date_Completed"/>
+         <column columnName="Sample_Integrity"/>
+         <column columnName="Test_Result"/>
+         <column columnName="Customer_Code"/>
+         <column columnName="Clinical_Report"/>
+         <column columnName="Report_File_Name"/>
+         <column columnName="HDRL_Status"/>
+         <column columnName="Date_Modified"/>
+         <column columnName="Modified_Result_Flag"/>
+      </columns>
+   </table>
 
 
-</ns:tables>
+</tables>

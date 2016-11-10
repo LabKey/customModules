@@ -1,39 +1,39 @@
-<ns:tables xmlns:ns="http://labkey.org/data/xml">
-    <ns:table tableName="" tableDbType="NOT_IN_DB">
-        <ns:columns>
-            <ns:column columnName="XTandemChgFilt" wrappedColumnName="RowId">
-                <ns:columnTitle>XTandem Chg Filt</ns:columnTitle>
-                <ns:fk>
-                    <ns:fkTable>XTandemChargeQueryColumns</ns:fkTable>
-                    <ns:fkColumnName>RowId</ns:fkColumnName>
-                    <ns:fkDbSchema>ms2</ns:fkDbSchema>
-                </ns:fk>
-            </ns:column>
-            <ns:column columnName="SequestChgFilt" wrappedColumnName="RowId">
-                <ns:columnTitle>Sequest Chg Filt</ns:columnTitle>
-                <ns:fk>
-                    <ns:fkTable>SequestChargeQueryColumns</ns:fkTable>
-                    <ns:fkColumnName>RowId</ns:fkColumnName>
-                    <ns:fkDbSchema>ms2</ns:fkDbSchema>
-                </ns:fk>
-            </ns:column>
-            <ns:column columnName="CometChgFilt" wrappedColumnName="RowId">
-                <ns:columnTitle>Comet Chg Filt</ns:columnTitle>
-                <ns:fk>
-                    <ns:fkTable>CometChargeQueryColumns</ns:fkTable>
-                    <ns:fkColumnName>RowId</ns:fkColumnName>
-                    <ns:fkDbSchema>ms2</ns:fkDbSchema>
-                </ns:fk>
-            </ns:column>
-            <ns:column columnName="XCorrChgFilt" wrappedColumnName="RowId">
-                <ns:columnTitle>XCorr Chg Filt</ns:columnTitle>
-                <ns:fk>
-                    <ns:fkTable>XCorrChargeQueryColumns</ns:fkTable>
-                    <ns:fkColumnName>RowId</ns:fkColumnName>
-                    <ns:fkDbSchema>ms2</ns:fkDbSchema>
-                </ns:fk>
-            </ns:column>
-        </ns:columns>
-    </ns:table>
-</ns:tables>
+<tables xmlns="http://labkey.org/data/xml">
+    <table tableName="" tableDbType="NOT_IN_DB">
+        <columns>
+            <column columnName="XTandemChgFilt" wrappedColumnName="RowId">
+                <columnTitle>XTandem Chg Filt</columnTitle>
+                <fk>
+                    <fkTable>XTandemChargeQueryColumns</fkTable>
+                    <fkColumnName>RowId</fkColumnName>
+                    <fkDbSchema>ms2</fkDbSchema>
+                </fk>
+            </column>
+            <column columnName="SequestChgFilt" wrappedColumnName="RowId">
+                <columnTitle>Sequest Chg Filt</columnTitle>
+                <fk>
+                    <fkTable>SequestChargeQueryColumns</fkTable>
+                    <fkColumnName>RowId</fkColumnName>
+                    <fkDbSchema>ms2</fkDbSchema>
+                </fk>
+            </column>
+            <column columnName="CometChgFilt" wrappedColumnName="RowId">
+                <columnTitle>Comet Chg Filt</columnTitle>
+                <fk>
+                    <fkTable>CometChargeQueryColumns</fkTable>
+                    <fkColumnName>RowId</fkColumnName>
+                    <fkDbSchema>ms2</fkDbSchema>
+                </fk>
+            </column>
+            <column columnName="XCorrChgFilt" wrappedColumnName="RowId">
+                <columnTitle>XCorr Chg Filt</columnTitle>
+                <fk>
+                    <fkTable>XCorrChargeQueryColumns</fkTable>
+                    <fkColumnName>RowId</fkColumnName>
+                    <fkDbSchema>ms2</fkDbSchema>
+                </fk>
+            </column>
+        </columns>
+    </table>
+</tables>
 

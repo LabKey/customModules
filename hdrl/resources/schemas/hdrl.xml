@@ -16,256 +16,256 @@
  * limitations under the License.
 
  -->
-<ns:tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd" xmlns:ns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <ns:table tableName="RequestStatus" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Name"/>
-         <ns:column columnName="Description"/>
-      </ns:columns>
-   </ns:table>
+<tables xsi:schemaLocation="http://labkey.org/data/xml ..\..\..\..\schemas\tableInfo.xsd" xmlns="http://labkey.org/data/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <table tableName="RequestStatus" tableDbType="TABLE">
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Name"/>
+         <column columnName="Description"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="TestType" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Name"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="TestType" tableDbType="TABLE">
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Name"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="FamilyMemberPrefix" tableDbType="TABLE">
-      <ns:titleColumn>Code</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Code"/>
-         <ns:column columnName="Description"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="FamilyMemberPrefix" tableDbType="TABLE">
+      <titleColumn>Code</titleColumn>
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Code"/>
+         <column columnName="Description"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="SourceOfTesting" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Code"/>
-         <ns:column columnName="Description"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="SourceOfTesting" tableDbType="TABLE">
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Code"/>
+         <column columnName="Description"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="DutyCode" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Code"/>
-         <ns:column columnName="Service"/>
-         <ns:column columnName="Description"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="DutyCode" tableDbType="TABLE">
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Code"/>
+         <column columnName="Service"/>
+         <column columnName="Description"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="Gender" tableDbType="TABLE">
-      <ns:titleColumn>Description</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Code"/>
-         <ns:column columnName="Description"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="Gender" tableDbType="TABLE">
+      <titleColumn>Description</titleColumn>
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Code"/>
+         <column columnName="Description"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="ShippingCarrier" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="RowId"/>
-         <ns:column columnName="Name"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="ShippingCarrier" tableDbType="TABLE">
+      <columns>
+         <column columnName="RowId"/>
+         <column columnName="Name"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="InboundRequest" tableDbType="TABLE">
-      <ns:titleColumn>RequestId</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="RequestId"/>
-         <ns:column columnName="RequestStatusId">
-            <ns:columnTitle>Request Status</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="ShippingCarrierId">
-            <ns:columnTitle>Shipping Carrier</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="ShippingNumber"/>
-         <ns:column columnName="SubmittedBy">
-            <ns:fk>
-               <ns:fkColumnName>UserId</ns:fkColumnName>
-               <ns:fkTable>Users</ns:fkTable>
-               <ns:fkDbSchema>core</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Submitted"/>
-         <ns:column columnName="TestTypeId">
-            <ns:columnTitle>Test Type</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="Container"/>
-         <ns:column columnName="CreatedBy">
-            <ns:fk>
-               <ns:fkColumnName>UserId</ns:fkColumnName>
-               <ns:fkTable>Users</ns:fkTable>
-               <ns:fkDbSchema>core</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Created"/>
-         <ns:column columnName="ModifiedBy">
-            <ns:fk>
-               <ns:fkColumnName>UserId</ns:fkColumnName>
-               <ns:fkTable>Users</ns:fkTable>
-               <ns:fkDbSchema>core</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Modified"/>
-         <ns:column columnName="ArchivedRequestCount"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="InboundRequest" tableDbType="TABLE">
+      <titleColumn>RequestId</titleColumn>
+      <columns>
+         <column columnName="RequestId"/>
+         <column columnName="RequestStatusId">
+            <columnTitle>Request Status</columnTitle>
+         </column>
+         <column columnName="ShippingCarrierId">
+            <columnTitle>Shipping Carrier</columnTitle>
+         </column>
+         <column columnName="ShippingNumber"/>
+         <column columnName="SubmittedBy">
+            <fk>
+               <fkColumnName>UserId</fkColumnName>
+               <fkTable>Users</fkTable>
+               <fkDbSchema>core</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Submitted"/>
+         <column columnName="TestTypeId">
+            <columnTitle>Test Type</columnTitle>
+         </column>
+         <column columnName="Container"/>
+         <column columnName="CreatedBy">
+            <fk>
+               <fkColumnName>UserId</fkColumnName>
+               <fkTable>Users</fkTable>
+               <fkDbSchema>core</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Created"/>
+         <column columnName="ModifiedBy">
+            <fk>
+               <fkColumnName>UserId</fkColumnName>
+               <fkTable>Users</fkTable>
+               <fkDbSchema>core</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Modified"/>
+         <column columnName="ArchivedRequestCount"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="InboundSpecimen" tableDbType="TABLE">
-      <ns:titleColumn>RowId</ns:titleColumn>
-      <ns:columns>
-         <ns:column columnName="RowId">
-                 <ns:columnTitle>SpecimenId</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="CustomerBarcode"/>
-         <ns:column columnName="LastName"/>
-         <ns:column columnName="FirstName"/>
-         <ns:column columnName="MiddleName"/>
-         <ns:column columnName="Initials"/>
-         <ns:column columnName="GenderId">
-            <ns:columnTitle>Gender</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="BirthDate">
-            <ns:formatString>Date</ns:formatString>
-         </ns:column>
-         <ns:column columnName="SSN"/>
-         <ns:column columnName="InboundRequestId">
-            <ns:columnTitle>Request</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="FMPId">
-            <ns:columnTitle>FMP</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="DutyCodeId">
-            <ns:columnTitle>DUC</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="TestingSourceId">
-            <ns:columnTitle>SOT</ns:columnTitle>
-         </ns:column>
-         <ns:column columnName="DODId"/>
-         <ns:column columnName="DrawDate">
-            <ns:formatString>Date</ns:formatString>
-         </ns:column>
-         <ns:column columnName="NumContainers"/>
-         <ns:column columnName="Container"/>
-         <ns:column columnName="CreatedBy">
-            <ns:fk>
-               <ns:fkColumnName>UserId</ns:fkColumnName>
-               <ns:fkTable>Users</ns:fkTable>
-               <ns:fkDbSchema>core</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Created"/>
-         <ns:column columnName="ModifiedBy">
-            <ns:fk>
-               <ns:fkColumnName>UserId</ns:fkColumnName>
-               <ns:fkTable>Users</ns:fkTable>
-               <ns:fkDbSchema>core</ns:fkDbSchema>
-            </ns:fk>
-         </ns:column>
-         <ns:column columnName="Modified"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="InboundSpecimen" tableDbType="TABLE">
+      <titleColumn>RowId</titleColumn>
+      <columns>
+         <column columnName="RowId">
+                 <columnTitle>SpecimenId</columnTitle>
+         </column>
+         <column columnName="CustomerBarcode"/>
+         <column columnName="LastName"/>
+         <column columnName="FirstName"/>
+         <column columnName="MiddleName"/>
+         <column columnName="Initials"/>
+         <column columnName="GenderId">
+            <columnTitle>Gender</columnTitle>
+         </column>
+         <column columnName="BirthDate">
+            <formatString>Date</formatString>
+         </column>
+         <column columnName="SSN"/>
+         <column columnName="InboundRequestId">
+            <columnTitle>Request</columnTitle>
+         </column>
+         <column columnName="FMPId">
+            <columnTitle>FMP</columnTitle>
+         </column>
+         <column columnName="DutyCodeId">
+            <columnTitle>DUC</columnTitle>
+         </column>
+         <column columnName="TestingSourceId">
+            <columnTitle>SOT</columnTitle>
+         </column>
+         <column columnName="DODId"/>
+         <column columnName="DrawDate">
+            <formatString>Date</formatString>
+         </column>
+         <column columnName="NumContainers"/>
+         <column columnName="Container"/>
+         <column columnName="CreatedBy">
+            <fk>
+               <fkColumnName>UserId</fkColumnName>
+               <fkTable>Users</fkTable>
+               <fkDbSchema>core</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Created"/>
+         <column columnName="ModifiedBy">
+            <fk>
+               <fkColumnName>UserId</fkColumnName>
+               <fkTable>Users</fkTable>
+               <fkDbSchema>core</fkDbSchema>
+            </fk>
+         </column>
+         <column columnName="Modified"/>
+      </columns>
+   </table>
 
-  <ns:table tableName="RequestResult" tableDbType="TABLE">
-    <ns:columns>
-      <ns:column columnName="RequestId"/>
-       <ns:column columnName="RequestStatusId">
-          <ns:columnTitle>Request Status</ns:columnTitle>
-       </ns:column>
-      <ns:column columnName="CustomerNote"/>
-      <ns:column columnName="Received"/>
-      <ns:column columnName="Completed"/>
-       <ns:column columnName="CreatedBy">
-          <ns:fk>
-             <ns:fkColumnName>UserId</ns:fkColumnName>
-             <ns:fkTable>Users</ns:fkTable>
-             <ns:fkDbSchema>core</ns:fkDbSchema>
-          </ns:fk>
-       </ns:column>
-       <ns:column columnName="Created"/>
-       <ns:column columnName="ModifiedBy">
-          <ns:fk>
-             <ns:fkColumnName>UserId</ns:fkColumnName>
-             <ns:fkTable>Users</ns:fkTable>
-             <ns:fkDbSchema>core</ns:fkDbSchema>
-          </ns:fk>
-       </ns:column>
-       <ns:column columnName="Modified"/>
-    </ns:columns>
-  </ns:table>
+  <table tableName="RequestResult" tableDbType="TABLE">
+    <columns>
+      <column columnName="RequestId"/>
+       <column columnName="RequestStatusId">
+          <columnTitle>Request Status</columnTitle>
+       </column>
+      <column columnName="CustomerNote"/>
+      <column columnName="Received"/>
+      <column columnName="Completed"/>
+       <column columnName="CreatedBy">
+          <fk>
+             <fkColumnName>UserId</fkColumnName>
+             <fkTable>Users</fkTable>
+             <fkDbSchema>core</fkDbSchema>
+          </fk>
+       </column>
+       <column columnName="Created"/>
+       <column columnName="ModifiedBy">
+          <fk>
+             <fkColumnName>UserId</fkColumnName>
+             <fkTable>Users</fkTable>
+             <fkDbSchema>core</fkDbSchema>
+          </fk>
+       </column>
+       <column columnName="Modified"/>
+    </columns>
+  </table>
 
-  <ns:table tableName="SpecimenResult" tableDbType="TABLE">
-     <ns:titleColumn>SpecimenId</ns:titleColumn>
-    <ns:columns>
-      <ns:column columnName="SpecimenId">
-         <ns:fk>
-            <ns:fkDisplayColumnName>RowId</ns:fkDisplayColumnName>
-            <ns:fkColumnName>RowId</ns:fkColumnName>
-            <ns:fkTable>InboundSpecimen</ns:fkTable>
-            <ns:fkDbSchema>hdrl</ns:fkDbSchema>
-         </ns:fk>
-      </ns:column>
+  <table tableName="SpecimenResult" tableDbType="TABLE">
+     <titleColumn>SpecimenId</titleColumn>
+    <columns>
+      <column columnName="SpecimenId">
+         <fk>
+            <fkDisplayColumnName>RowId</fkDisplayColumnName>
+            <fkColumnName>RowId</fkColumnName>
+            <fkTable>InboundSpecimen</fkTable>
+            <fkDbSchema>hdrl</fkDbSchema>
+         </fk>
+      </column>
 
-       <ns:column columnName="RequestStatusId">
-          <ns:columnTitle>Request Status</ns:columnTitle>
-       </ns:column>
-      <ns:column columnName="Received"/>
-      <ns:column columnName="Completed"/>
-      <ns:column columnName="SampleIntegrity"/>
-      <ns:column columnName="TestResult"/>
-      <ns:column columnName="CustomerCode"/>
-       <ns:column columnName="CreatedBy">
-          <ns:fk>
-             <ns:fkColumnName>UserId</ns:fkColumnName>
-             <ns:fkTable>Users</ns:fkTable>
-             <ns:fkDbSchema>core</ns:fkDbSchema>
-          </ns:fk>
-       </ns:column>
-       <ns:column columnName="Created"/>
-       <ns:column columnName="ModifiedBy">
-          <ns:fk>
-             <ns:fkColumnName>UserId</ns:fkColumnName>
-             <ns:fkTable>Users</ns:fkTable>
-             <ns:fkDbSchema>core</ns:fkDbSchema>
-          </ns:fk>
-       </ns:column>
-       <ns:column columnName="Modified"/>
-       <ns:column columnName="ModifiedResultFlag"/>
-       <ns:column columnName="ReportFileName"/>
-       <ns:column columnName="RequestId"/>
-    </ns:columns>
-  </ns:table>
+       <column columnName="RequestStatusId">
+          <columnTitle>Request Status</columnTitle>
+       </column>
+      <column columnName="Received"/>
+      <column columnName="Completed"/>
+      <column columnName="SampleIntegrity"/>
+      <column columnName="TestResult"/>
+      <column columnName="CustomerCode"/>
+       <column columnName="CreatedBy">
+          <fk>
+             <fkColumnName>UserId</fkColumnName>
+             <fkTable>Users</fkTable>
+             <fkDbSchema>core</fkDbSchema>
+          </fk>
+       </column>
+       <column columnName="Created"/>
+       <column columnName="ModifiedBy">
+          <fk>
+             <fkColumnName>UserId</fkColumnName>
+             <fkTable>Users</fkTable>
+             <fkDbSchema>core</fkDbSchema>
+          </fk>
+       </column>
+       <column columnName="Modified"/>
+       <column columnName="ModifiedResultFlag"/>
+       <column columnName="ReportFileName"/>
+       <column columnName="RequestId"/>
+    </columns>
+  </table>
 
-   <ns:table tableName="labwareOutboundRequests" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="batch_id"/>
-         <ns:column columnName="hdrl_status"/>
-         <ns:column columnName="customer_note"/>
-         <ns:column columnName="date_received"/>
-         <ns:column columnName="date_completed"/>
-         <ns:column columnName="date_modified"/>
-      </ns:columns>
-   </ns:table>
+   <table tableName="labwareOutboundRequests" tableDbType="TABLE">
+      <columns>
+         <column columnName="batch_id"/>
+         <column columnName="hdrl_status"/>
+         <column columnName="customer_note"/>
+         <column columnName="date_received"/>
+         <column columnName="date_completed"/>
+         <column columnName="date_modified"/>
+      </columns>
+   </table>
 
-   <ns:table tableName="labwareOutboundSpecimens" tableDbType="TABLE">
-      <ns:columns>
-         <ns:column columnName="test_request_id"/>
-         <ns:column columnName="batch_id"/>
-         <ns:column columnName="date_received"/>
-         <ns:column columnName="date_completed"/>
-         <ns:column columnName="sample_integrity"/>
-         <ns:column columnName="test_result"/>
-         <ns:column columnName="customer_code"/>
-         <ns:column columnName="hdrl_status"/>
-         <ns:column columnName="date_modified"/>
-         <ns:column columnName="modified_result_flag"/>
-         <ns:column columnName="report_file_name"/>
-      </ns:columns>
-   </ns:table>
-</ns:tables>
+   <table tableName="labwareOutboundSpecimens" tableDbType="TABLE">
+      <columns>
+         <column columnName="test_request_id"/>
+         <column columnName="batch_id"/>
+         <column columnName="date_received"/>
+         <column columnName="date_completed"/>
+         <column columnName="sample_integrity"/>
+         <column columnName="test_result"/>
+         <column columnName="customer_code"/>
+         <column columnName="hdrl_status"/>
+         <column columnName="date_modified"/>
+         <column columnName="modified_result_flag"/>
+         <column columnName="report_file_name"/>
+      </columns>
+   </table>
+</tables>

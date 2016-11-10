@@ -1,13 +1,13 @@
-<ns:tables xmlns:ns="http://labkey.org/data/xml">
-    <ns:table tableName="Ms2RunAggregates" tableDbType="TABLE">
-        <ns:columns>
-            <ns:column columnName="ms2Run">
-            	<ns:nullable>false</ns:nullable> 
-            	<ns:isKeyField>true</ns:isKeyField> 
-	        </ns:column>
-            <ns:column columnName="TotalPeptides"/>
-            <ns:column columnName="DistinctPeptides"/>
-            <ns:column columnName="Container"/>
-        </ns:columns>
-    </ns:table>
-</ns:tables>
+<tables xmlns="http://labkey.org/data/xml">
+    <table tableName="Ms2RunAggregates" tableDbType="TABLE">
+        <columns>
+            <column columnName="ms2Run">
+            	<nullable>false</nullable> 
+            	<isKeyField>true</isKeyField> 
+	        </column>
+            <column columnName="TotalPeptides"/>
+            <column columnName="DistinctPeptides"/>
+            <column columnName="Container"/>
+        </columns>
+    </table>
+</tables>

@@ -1,10 +1,10 @@
-<ns:tables xmlns:ns="http://labkey.org/data/xml"> 
-	<ns:table tableName="CometChargeQueryColumns" tableDbType="NOT_IN_DB">
-		<ns:columns> 
-			<ns:column columnName="RowId"> 
-				<ns:nullable>false</ns:nullable> 
-				<ns:isKeyField>true</ns:isKeyField> 
-			</ns:column> 
-		</ns:columns> 
-	</ns:table> 
-</ns:tables>
+<tables xmlns="http://labkey.org/data/xml"> 
+	<table tableName="CometChargeQueryColumns" tableDbType="NOT_IN_DB">
+		<columns> 
+			<column columnName="RowId"> 
+				<nullable>false</nullable> 
+				<isKeyField>true</isKeyField> 
+			</column> 
+		</columns> 
+	</table> 
+</tables>
