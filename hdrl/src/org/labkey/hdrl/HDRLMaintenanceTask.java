@@ -31,9 +31,6 @@ import java.util.Calendar;
  */
 public class HDRLMaintenanceTask implements MaintenanceTask
 {
-    private static final Logger LOG = Logger.getLogger(HDRLMaintenanceTask.class);
-
-
     @Override
     public String getDescription()
     {
@@ -47,7 +44,7 @@ public class HDRLMaintenanceTask implements MaintenanceTask
     }
 
     @Override
-    public void run()
+    public void run(Logger log)
     {
         // Get this from the configurable setting
         int retentionDays = HDRLManager.getNumberOfDays();
@@ -81,21 +78,21 @@ public class HDRLMaintenanceTask implements MaintenanceTask
             updateStatusSql.append(submittedCondition2);
             updateStatusSql.add(HDRLQuerySchema.STATUS_SUBMITTED);
 
-            LOG.info("Adding specimen count to column '" + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + "' in table " + HDRLSchema.getInstance().getTableInfoInboundRequest().getName());
+            log.info("Adding specimen count to column '" + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + "' in table " + HDRLSchema.getInstance().getTableInfoInboundRequest().getName());
 
             int numRequests = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(addToArchivedRequestCountColSQL);
 
-            LOG.info("Finished adding specimen count to column '" + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + "' in table "
+            log.info("Finished adding specimen count to column '" + HDRLQuerySchema.COL_ARCHIVED_REQUEST_COUNT + "' in table "
                     + HDRLSchema.getInstance().getTableInfoInboundRequest().getName()
                     +". Added specimen counts to " + numRequests +" rows.");
 
-            LOG.info("Updating request status in table " + HDRLSchema.getInstance().getTableInfoRequestResult().getName());
+            log.info("Updating request status in table " + HDRLSchema.getInstance().getTableInfoRequestResult().getName());
 
             numRequests = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(updateStatusSql);
 
-            LOG.info("Updated " + numRequests + " rows ");
+            log.info("Updated " + numRequests + " rows ");
 
-            LOG.info("Starting to delete HDRL specimen data");
+            log.info("Starting to delete HDRL specimen data");
 
             // Delete specimens for requests that have been archived
             // specimen results are deleted via cascading
@@ -110,10 +107,9 @@ public class HDRLMaintenanceTask implements MaintenanceTask
             int inboundRowCount = new SqlExecutor(HDRLSchema.getInstance().getScope()).execute(specimenDeleteSQL);
 
 
-            LOG.info("Deleted " + inboundRowCount + " row(s) of HDRL inbound specimen data");
+            log.info("Deleted " + inboundRowCount + " row(s) of HDRL inbound specimen data");
 
             transaction.commit();
         }
-
     }
 }
