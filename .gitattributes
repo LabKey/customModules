@@ -287,6 +287,7 @@ icemr/test/sampledata/icemr/selectFlaskFields2.txt -text
 icemr/test/src/org/labkey/test/tests/icemr/ICEMRModuleTest.java -text
 icemr/test/test_icemr.iml -text
 ms2extensions/Ms2extensions.iml -text
+ms2extensions/build.gradle -text
 ms2extensions/module.properties -text
 ms2extensions/resources/folderTypes/MS2Extensions.folderType.xml -text
 ms2extensions/resources/queries/ms2/CometChargeQueryColumns.query.xml -text
