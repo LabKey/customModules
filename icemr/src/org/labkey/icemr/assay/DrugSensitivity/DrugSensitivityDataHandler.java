@@ -176,7 +176,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
         File dataFile = getDataFile(run);
         if (dataFile == null)
             throw new MissingDataFileException(getResourceName(run) +  " data file could not be found for run " + run.getName() + ".  Deleted from file system?");
-        return getAssayResults(run, user, dataFile, fit, false);
+        return getAssayResults(run, user, dataFile, fit, false, false);
     }
 
     @Override
