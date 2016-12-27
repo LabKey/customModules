@@ -137,7 +137,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         log("Import folder zip archive from pipeline");
         goToFolderManagement();
         clickAndWait(Locator.linkWithText("Import"));
-        clickButtonContainingText("Import Folder Using Pipeline");
+        clickButtonContainingText("Use Pipeline");
         _fileBrowserHelper.selectFileBrowserItem("/export/");
         waitAndClick(Locator.tag("tr").withClass("x4-grid-data-row").withAttributeContaining("data-recordid", "My Study_"));
         _fileBrowserHelper.selectImportDataAction("Import Folder");
