@@ -247,7 +247,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals( Arrays.asList("Sparrow"," "),drt.getColumnDataAsText("MiddleName"));
         assertEquals( Arrays.asList("jsj"," "),drt.getColumnDataAsText("Initials"));
         assertEquals( Arrays.asList("Male","Unknown"),drt.getColumnDataAsText("Gender"));
-        assertEquals( Arrays.asList("2000-12-01","1940-06-06"),drt.getColumnDataAsText("BirthDate"));
+        assertEquals( Arrays.asList("2000-12-01","1940-06-07"),drt.getColumnDataAsText("BirthDate"));
         assertEquals( Arrays.asList("222334444","555443333"),drt.getColumnDataAsText("SSN"));
         assertEquals( Arrays.asList("01","02"),drt.getColumnDataAsText("FMP"));
         assertEquals( Arrays.asList("A13","A14"),drt.getColumnDataAsText("DUC"));
