@@ -18,6 +18,7 @@ package org.labkey.test.tests;
 import org.jetbrains.annotations.Nullable;
 import org.junit.BeforeClass;
 import org.junit.experimental.categories.Category;
+import org.labkey.api.data.ColumnHeaderType;
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyB;
@@ -98,9 +99,27 @@ public class SpecimenGridExportTest extends AbstractExportTest
     }
 
     @Override
-    protected String getExportedTsvTestColumnHeader()
+    protected String getExportedXlsTestColumnHeader(ColumnHeaderType exportType)
     {
-        return "Participant Id";
+        switch (exportType)
+        {
+            case FieldKey:
+                return "ParticipantId";
+            default:
+                return "Participant Id";
+        }
+    }
+
+    @Override
+    protected String getExportedTsvTestColumnHeader(ColumnHeaderType exportType)
+    {
+        switch (exportType)
+        {
+            case FieldKey:
+                return "ParticipantId";
+            default:
+                return "Participant Id";
+        }
     }
 
     @Override
