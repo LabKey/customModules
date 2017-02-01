@@ -13,7 +13,6 @@
         <column name="CD8_Resp"/>
         <column name="negctrl"/>
         <column name="posctrl"/>
-        <column name="LO_POS"/>
         <column name="FCSAnalysis/FCSFile/Keyword/PLATE NAME"/>
         <column name="FCSAnalysis/Flag"/>
         <column name="FCSAnalysis/Sample/Flag"/>

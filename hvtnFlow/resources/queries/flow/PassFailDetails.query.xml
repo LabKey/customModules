@@ -28,7 +28,6 @@
                     </column>
 
                     <column columnName="posctrl_CD4_Resp">
-
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>
                         <isHidden>true</isHidden>

@@ -10,10 +10,12 @@
         <column name="SampleOrder"/>
         <column name="Sample"/>
         <column name="FileCount"/>
-        <column name="negctl_CD4_Resp"/>
-        <column name="negctl_CD8_Resp"/>
-        <column name="posctl_CD4_Resp"/>
-        <column name="posctl_CD8_Resp"/>
+        <column name="negctrl_CD4_Resp"/>
+        <column name="negctrl_CD8_Resp"/>
+        <!--
+        <column name="posctrl_CD4_Resp"/>
+        <column name="posctrl_CD8_Resp"/>
+        -->
     </columns>
     <sorts>
         <sort column="Run"/>

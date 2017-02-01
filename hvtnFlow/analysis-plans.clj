@@ -188,6 +188,23 @@
         (EM      pd1 CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
         (TD      pd1 CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))
 
+; AnalysisPlan043 marginals and IFNg\IL2
+(def CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2
+  [(Subset. "154+"   "154+"  nil)
+   (Subset. "GzB+"   "GzB+"  nil)
+   (Subset. "IFNg+"  "IFNg+" nil)
+   (Subset. "IL13+"  "IL13+"  nil)
+   (Subset. "IL2+"   "IL2+"  nil)
+   (Subset. "IL21+"  "IL21+" nil)
+   (Subset. "IL4+"   "IL4+"  nil)
+   (Subset. "TNFa+"  "TNFa+" nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan043 marginals with PD1+ and IFNg\IL2
+(def CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2
+  (conj CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2
+        (subset "PD1+")))
+
 
 ;;
 ;; The Analysis Plan definitions must be the last value in this file
@@ -564,5 +581,40 @@
 
            (CD3-
              (CD56+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))))) ]}
+
+ {:id "43"
+  :sort-id "AP-043"
+  :name "Analysis Plan 043"
+  :description "17-color ICS for malaria (MAL067) case-control"
+  :children
+  [(S
+    (Exclude
+      (CD14-
+        (Lv
+          (L
+           (CD3+
+             (CD4+
+               CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2
+               (PD1+   CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+               (Naive  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (CM     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (EM     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (TD     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (CXCR5+ CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2
+                       (PD1+ CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2)))
+
+             (CD8+
+               CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2
+               (PD1+ CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2)
+               (Naive  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (CM     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (EM     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+               (TD     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)))
+
+             (CD4-CD8-  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
+             (NKTcells  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2))
+
+           (CD3-
+             (CD56+   CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)))))) ]}
 
 ]

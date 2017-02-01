@@ -21,10 +21,10 @@ Updating analysis plans on the server:
     (or directly)
     > java -classpath /path/to/clojure.jar clojure.main gen-plans.clj [plan-id]
 
-    Where [plan-id] is an optional analysis plan id.
+    Where [plan-id] is an optional analysis plan id, e.g. "43"
 
 
-- The generated plans will be written to plans/<plan-id>.tsv
+- The generated plans will be written to plans/AP-<plan-id>.tsv
 
 - check there are no duplicate lines:
     > cat plans/AP-042.tsv | sort | uniq -d

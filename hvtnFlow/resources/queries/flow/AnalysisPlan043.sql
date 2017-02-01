@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2015 LabKey Corporation
+ * Copyright (c) 2015 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-SELECT 
-A.NETWORK, 
+SELECT
+--A._sample.property.NETWORK as NETWORK,
+A.NETWORK,
 A.PROTOCOL,
 A.LABID,
 A.ASSAYID,
 A.SPECROLE,
 A.PTID,
+--A._sample.property.PTIDTYPE as PTIDTYPE,
 A.PTIDTYPE,
 A.SPECTYPE,
 A.ISOLATION,
@@ -35,6 +37,7 @@ A.SAMP_ORD,
 A.WELL_ID,
 A.WELLROLE,
 A.ANTIGEN,
+NULL AS ANTIGENID,
 A.NREPL,
 A.ANALYSIS_PLAN_ID,
 A.EXP_ASSAY_ID,
@@ -52,23 +55,17 @@ A.SUBSET10, A.SUBSET10_NUM,
 
 A.NUMVIALS,
 A.RUNGROUPID,
-A.VIAL1_ID,
-A.VIAL2_ID,
-A.VIAL3_ID,
-A.VIAL4_ID,
-A.VIAL5_ID,
-A.PREFRZCT,
 A.VIABL1,
 A.RECOVR1,
-NULL AS CD3GUAVA1,
 A.VIABL2,
 A.RECOVR2,
-NULL AS CD3GUAVA2,
 A.METHOD,
 A.REPLACE,
 A.MODDT,
+A.RUNNUM,
+A.RELIABLE,
 A.COMMENTS,
 A._well @hidden, A._fcsfile @hidden, A._sample @hidden
 
 FROM AnalysisPlanTemplate A
-WHERE A.ANALYSIS_PLAN_ID = '8'
+WHERE A.ANALYSIS_PLAN_ID = '43'

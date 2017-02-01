@@ -5,6 +5,17 @@
                 <tableUrl>query/executeQuery.view?schemaName=flow&amp;query.queryName=PassFailDetails&amp;query.Key~eq=${Key}</tableUrl>
                 <titleColumn>Verdict</titleColumn>
                 <columns>
+                    <column columnName="Verdict">
+                        <conditionalFormats>
+                            <conditionalFormat>
+                                <filters>
+                                    <filter operator="neq" value="PASS"/>
+                                </filters>
+                                <textColor>CC0000</textColor>
+                            </conditionalFormat>
+                        </conditionalFormats>
+                    </column>
+
                     <column columnName="negctrl_CD4_Resp">
                         <formatString>#,##0.00</formatString>
                         <datatype>DOUBLE</datatype>
@@ -13,7 +24,7 @@
                                 <filters>
                                     <filter operator="gt" value="0.1"/>
                                 </filters>
-                                <textColor>FF0000</textColor>
+                                <textColor>CC0000</textColor>
                             </conditionalFormat>
                         </conditionalFormats>
                     </column>
@@ -26,7 +37,7 @@
                                 <filters>
                                     <filter operator="gt" value="0.1"/>
                                 </filters>
-                                <textColor>FF0000</textColor>
+                                <textColor>CC0000</textColor>
                             </conditionalFormat>
                         </conditionalFormats>
                     </column>
@@ -39,7 +50,7 @@
                                 <filters>
                                     <filter operator="lt" value="1.2"/>
                                 </filters>
-                                <textColor>FF0000</textColor>
+                                <textColor>CC0000</textColor>
                             </conditionalFormat>
                         </conditionalFormats>
                     </column>
@@ -52,7 +63,7 @@
                                 <filters>
                                     <filter operator="lt" value="1.2"/>
                                 </filters>
-                                <textColor>FF0000</textColor>
+                                <textColor>CC0000</textColor>
                             </conditionalFormat>
                         </conditionalFormats>
                     </column>

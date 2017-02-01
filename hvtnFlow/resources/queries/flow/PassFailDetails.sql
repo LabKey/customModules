@@ -31,6 +31,7 @@ SELECT
   CASE WHEN (B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.negctrl
   WHEN (B.negctrl IS NOT NULL) THEN 'excluded' END AS negctrl,
   B.posctrl,
+  -- NOTE: LO_POS is no longer included in the PassFail verdict, but I'm keeping it available for adding to the grid via customize view
   CASE WHEN (B.posctrl IS NOT NULL AND (B.CD4_Resp < 1.2 OR B.CD8_Resp < 1.2)) THEN 'LO_POS' END AS LO_POS,
   CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD4_Resp END AS posctrl_CD4_Resp,
   CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_Resp END AS posctrl_CD8_Resp,
