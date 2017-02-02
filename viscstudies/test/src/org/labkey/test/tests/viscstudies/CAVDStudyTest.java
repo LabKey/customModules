@@ -17,6 +17,7 @@
 package org.labkey.test.tests.viscstudies;
 
 import org.junit.experimental.categories.Category;
+import org.labkey.api.reader.TabLoader;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
@@ -27,15 +28,16 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
-import org.labkey.test.util.TextSearcher;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -366,6 +368,10 @@ public class CAVDStudyTest extends StudyBaseTest
     @LogMethod
     private void doVerifyCrossContainerDatasetStatus()
     {
+        final String myStudyNameCol = "MyStudyName";
+        final String studyNameCol = "Study Name";
+        final String statusCol = "Dataset Status";
+
         // setup the dataset map (ID > Name)
         DATASETS.put(5001, "NAbTest");
         DATASETS.put(5002, "FlowTest");
@@ -461,7 +467,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickFolder(FOLDER_NAME4);
         addWebPart("Lists");
         ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
-                new ListHelper.ListColumn("MyStudyName", "MyStudyName", ListHelper.ListColumnType.String, ""),
+                new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
                 new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies"))
         };
         _listHelper.createList(FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
@@ -471,10 +477,12 @@ public class CAVDStudyTest extends StudyBaseTest
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
-        DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();        setFormElement(Locator.name("quf_MyStudyName"), "Something");
+        DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();
+        setFormElement(Locator.name("quf_" + myStudyNameCol), "Something");
         selectOptionByText(Locator.name("quf_StudyLookup"), study2name);
         clickButton("Submit");
-        DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();        setFormElement(Locator.name("quf_MyStudyName"), "TheOtherOne");
+        DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();
+        setFormElement(Locator.name("quf_" + myStudyNameCol), "TheOtherOne");
         selectOptionByText(Locator.name("quf_StudyLookup"), study3name);
         clickButton("Submit");
 
@@ -504,7 +512,7 @@ public class CAVDStudyTest extends StudyBaseTest
         assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size());
         clickButton("Save Changes", defaultWaitForPage);
         // verify that we are back on the list view
-        assertTextPresent("AllStudiesList", "Dataset Status");
+        assertTextPresent("AllStudiesList", statusCol);
         // locked icon should now appear once for study2 and for all datasets in study3
         assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size() + 1);
 
@@ -514,23 +522,47 @@ public class CAVDStudyTest extends StudyBaseTest
 
         DataRegionExportHelper drtHelper =  new DataRegionExportHelper(new DataRegionTable("query", getDriver()));
         File exportTextFile = drtHelper.exportText();
-        TextSearcher exportTxtSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(exportTextFile));
-        // verify column names
-        assertTextPresentInThisOrder(exportTxtSearcher, "myStudyName", "studyLookupLabel", "studyLookupDatasetStatus");
-        // verify first study values
-        assertTextPresentInThisOrder(exportTxtSearcher, "Something", study2name);
+        final String fileContents = TestFileUtils.getFileContents(exportTextFile);
+
+        String[] columnLabels = fileContents.split("\n")[0].split("\t");
+        assertEquals("Wrong columns in exported study list.",
+                Arrays.asList(myStudyNameCol, studyNameCol, statusCol), Arrays.asList(columnLabels));
+
+        List<Map<String, Object>> tsvData;
+        try (TabLoader tsvLoader = new TabLoader(exportTextFile, true))
+        {
+            tsvData = tsvLoader.load();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        log("verify first study values");
+        Map<String, Object> studyRow = tsvData.get(0);
+        assertEquals("Wrong Study Name for first study.", "Something", studyRow.get(myStudyNameCol));
+        assertEquals("Wrong Lookup Study Name for first study.", study2name, studyRow.get(studyNameCol));
+        List<String> expectedDatasetStatuses = new ArrayList<>();
         statusCounter = 0;
         for (String dataset : DATASETS.values())
         {
-            assertTextPresent(exportTxtSearcher, statuses[statusCounter][2] + ": " + dataset);
+            expectedDatasetStatuses.add(statuses[statusCounter][2] + ": " + dataset);
             statusCounter++;
         }
-        // verify second study values
-        assertTextPresentInThisOrder("TheOtherOne", study3name);
+        assertEquals("Wrong dataset statuses for first study.", String.join("\n", expectedDatasetStatuses), studyRow.get(statusCol));
+
+        log("verify second study values");
+        studyRow = tsvData.get(1);
+        assertEquals("Wrong Study Name for second study.", "TheOtherOne", studyRow.get(myStudyNameCol));
+        assertEquals("Wrong Lookup Study Name for second study.", study3name, studyRow.get(studyNameCol));
+        expectedDatasetStatuses = new ArrayList<>();
+        statusCounter = 0;
         for (String dataset : DATASETS.values())
         {
-            assertTextPresent(exportTxtSearcher, "L: " + dataset);
+            expectedDatasetStatuses.add("L: " + dataset);
+            statusCounter++;
         }
+        assertEquals("Wrong dataset statuses for second study.", String.join("\n", expectedDatasetStatuses), studyRow.get(statusCol));
     }
 
     private void setDatasetStatus(String dataset, String status)
