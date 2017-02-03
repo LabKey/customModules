@@ -522,26 +522,23 @@ public class CAVDStudyTest extends StudyBaseTest
 
         DataRegionExportHelper drtHelper =  new DataRegionExportHelper(new DataRegionTable("query", getDriver()));
         File exportTextFile = drtHelper.exportText();
-        final String fileContents = TestFileUtils.getFileContents(exportTextFile);
 
-        String[] columnLabels = fileContents.split("\n")[0].split("\t");
-        assertEquals("Wrong columns in exported study list.",
-                Arrays.asList(myStudyNameCol, studyNameCol, statusCol), Arrays.asList(columnLabels));
-
-        List<Map<String, Object>> tsvData;
+        String[][] tsvData;
         try (TabLoader tsvLoader = new TabLoader(exportTextFile, true))
         {
-            tsvData = tsvLoader.load();
+            tsvData = tsvLoader.getFirstNLines(4);
         }
         catch (IOException e)
         {
             throw new RuntimeException(e);
         }
+        assertEquals("Wrong number of rows in exported study list.", 3, tsvData.length);
+
+        String[] columnLabels = tsvData[0];
+        assertEquals("Wrong columns in exported study list.",
+                Arrays.asList(myStudyNameCol, studyNameCol, statusCol), Arrays.asList(columnLabels));
 
         log("verify first study values");
-        Map<String, Object> studyRow = tsvData.get(0);
-        assertEquals("Wrong Study Name for first study.", "Something", studyRow.get(myStudyNameCol));
-        assertEquals("Wrong Lookup Study Name for first study.", study2name, studyRow.get(studyNameCol));
         List<String> expectedDatasetStatuses = new ArrayList<>();
         statusCounter = 0;
         for (String dataset : DATASETS.values())
@@ -549,20 +546,15 @@ public class CAVDStudyTest extends StudyBaseTest
             expectedDatasetStatuses.add(statuses[statusCounter][2] + ": " + dataset);
             statusCounter++;
         }
-        assertEquals("Wrong dataset statuses for first study.", String.join("\n", expectedDatasetStatuses), studyRow.get(statusCol));
+        assertEquals("Wrong data for first study.", Arrays.asList("Something", study2name, String.join("\n", expectedDatasetStatuses)), Arrays.asList(tsvData[1]));
 
         log("verify second study values");
-        studyRow = tsvData.get(1);
-        assertEquals("Wrong Study Name for second study.", "TheOtherOne", studyRow.get(myStudyNameCol));
-        assertEquals("Wrong Lookup Study Name for second study.", study3name, studyRow.get(studyNameCol));
         expectedDatasetStatuses = new ArrayList<>();
-        statusCounter = 0;
         for (String dataset : DATASETS.values())
         {
             expectedDatasetStatuses.add("L: " + dataset);
-            statusCounter++;
         }
-        assertEquals("Wrong dataset statuses for second study.", String.join("\n", expectedDatasetStatuses), studyRow.get(statusCol));
+        assertEquals("Wrong data for second study.", Arrays.asList("TheOtherOne", study3name, String.join("\n", expectedDatasetStatuses)), Arrays.asList(tsvData[2]));
     }
 
     private void setDatasetStatus(String dataset, String status)
