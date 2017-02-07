@@ -18,7 +18,6 @@ package org.labkey.viscstudies;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.TableInfo;
-import org.labkey.api.module.Module;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
@@ -41,7 +40,7 @@ public class ViscStudySchema extends UserSchema
     }
 
     @Override
-    protected TableInfo createTable(String name)
+    public TableInfo createTable(String name)
     {
         if (STUDY_TABLE_NAME.equalsIgnoreCase(name))
         {

@@ -139,7 +139,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     @Nullable
     @Override
-    protected TableInfo createTable(String name)
+    public TableInfo createTable(String name)
     {
         if (TABLE_INBOUND_REQUEST.equalsIgnoreCase(name))
         {

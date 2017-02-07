@@ -78,13 +78,6 @@ public class LabWareQuerySchema extends SimpleUserSchema
         }
     }
 
-    @Nullable
-    @Override
-    protected TableInfo createTable(String name)
-    {
-        return super.createTable(name);
-    }
-
     public DbSchema getSchema()
     {
         return DbSchema.get(getFullyQualifiedDataSource(), DbSchemaType.Module);
