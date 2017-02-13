@@ -609,12 +609,12 @@
                (Naive  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
                (CM     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
                (EM     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
-               (TD     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)))
+               (TD     CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2))
 
              (CD4-CD8-  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)
              (NKTcells  CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2))
 
            (CD3-
-             (CD56+   CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2)))))) ]}
+             (CD56+   CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2))))))) ]}
 
 ]
