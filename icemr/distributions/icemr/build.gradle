@@ -8,7 +8,7 @@ apply plugin: 'org.labkey.distribution'
 Distribution.inheritDependencies(project, ":server:distributions:legacy")
 
 BuildUtils.addModuleDistributionDependencies(project, [":server:customModules:icemr",
-                                                       ":server:customModules:redcap"])
+                                                       ":server:optionalModules:redcap"])
 
 project.task(
         "distribution",
