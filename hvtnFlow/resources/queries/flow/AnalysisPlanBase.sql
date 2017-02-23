@@ -73,13 +73,13 @@ COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.METHOD), 1) AS METHOD,
 NULL AS MODDT,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RUNNUM), IFDEFINED(FCSAnalyses.FCSFile.Sample.Property."Collection Num")) AS RUNNUM,
 -- NOTE: When the SampleSet is imported with 'Y' or 'N' values for RELIABLE, the column will be created as a boolean type
-CASE WHEN COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RELIABLE), true) THEN 'Y' ELSE 'N' END AS RELIABLE
+CASE WHEN COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RELIABLE), true) THEN 'Y' ELSE 'N' END AS RELIABLE,
 
 FCSAnalyses.Flag.Comment AS ANALYSIS_COMMENT,
 FCSAnalyses.FCSFile.Flag.Comment AS FCS_COMMENT,
 FCSAnalyses.FCSFile.Run.Flag.Comment AS RUN_COMMENT,
 FCSAnalyses.FCSFile.Sample.Flag.Comment AS SAMPLE_COMMENT,
-IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.COMMENTS) AS SAMPLE_COMMENTS,
+CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.COMMENTS) AS VARCHAR) AS SAMPLE_COMMENTS,
 
 NULL AS SPECID,
 FCSAnalyses.FCSFile.Sample AS Sample,
