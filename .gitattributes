@@ -64,6 +64,7 @@ hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.20-15.
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.21-15.22.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.22-15.23.sql -text
 hdrl/resources/schemas/dbscripts/postgresql/obsolete/labware.gw_labkey-15.23-15.24.sql -text
+hdrl/resources/schemas/dbscripts/postgresql/required_scripts.txt -text
 hdrl/resources/schemas/hdrl.xml -text
 hdrl/resources/schemas/labware.gw_labkey.xml -text
 hdrl/resources/template/specimenTemplate.xlsx -text
