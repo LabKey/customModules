@@ -46,8 +46,8 @@ import org.labkey.api.query.QueryView;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.resource.Resource;
+import org.labkey.api.security.AdminConsoleAction;
 import org.labkey.api.security.RequiresPermission;
-import org.labkey.api.security.RequiresSiteAdmin;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.ReadPermission;
@@ -57,13 +57,11 @@ import org.labkey.api.util.Path;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HtmlView;
-import org.labkey.api.view.HttpView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.NotFoundException;
 import org.labkey.api.view.VBox;
 import org.labkey.api.view.template.PageConfig;
-import org.labkey.api.view.template.PrintTemplate;
 import org.labkey.hdrl.query.HDRLQuerySchema;
 import org.labkey.hdrl.query.InboundSpecimenUpdateService;
 import org.labkey.hdrl.query.LabWareQuerySchema;
@@ -93,7 +91,7 @@ public class HDRLController extends SpringActionController
 
     public static void registerAdminConsoleLinks()
     {
-        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "HDRL Sensitive Data", new ActionURL(HDRLSensitiveDataAdminAction.class, ContainerManager.getRoot()));
+        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "HDRL Sensitive Data", new ActionURL(HDRLSensitiveDataAdminAction.class, ContainerManager.getRoot()), AdminPermission.class);
     }
 
     @RequiresPermission(ReadPermission.class)
@@ -485,7 +483,7 @@ public class HDRLController extends SpringActionController
         }
     }
 
-    @RequiresSiteAdmin
+    @AdminConsoleAction @RequiresPermission(AdminPermission.class)
     public class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
     {
         private String _navLabel = "HDRL Sensitive Data Time Window";

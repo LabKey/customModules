@@ -33,6 +33,7 @@ import org.labkey.api.query.DefaultSchema;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
+import org.labkey.api.security.permissions.AdminOperationsPermission;
 import org.labkey.api.settings.AdminConsole;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.BaseWebPartFactory;
@@ -117,7 +118,7 @@ public class MS2ExtensionsModule extends DefaultModule
         queryProperty.setCanSetPerContainer(false);
         addModuleProperty(queryProperty);
 
-        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()));
+        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()), AdminOperationsPermission.class);
 
         ContainerManager.addContainerListener(new ContainerManager.AbstractContainerListener()
         {
