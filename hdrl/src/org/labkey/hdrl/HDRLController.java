@@ -483,7 +483,8 @@ public class HDRLController extends SpringActionController
         }
     }
 
-    @AdminConsoleAction @RequiresPermission(AdminPermission.class)
+    @AdminConsoleAction
+    @RequiresPermission(AdminPermission.class)
     public class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
     {
         private String _navLabel = "HDRL Sensitive Data Time Window";

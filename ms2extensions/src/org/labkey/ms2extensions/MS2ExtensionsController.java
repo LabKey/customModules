@@ -25,7 +25,7 @@ import org.labkey.api.action.SpringActionController;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.security.RequiresPermission;
-import org.labkey.api.security.RequiresSiteAdmin;
+import org.labkey.api.security.permissions.AdminOperationsPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.HtmlView;
@@ -91,7 +91,7 @@ public class MS2ExtensionsController extends SpringActionController
         return props.get(preferenceName);
     }
 
-    @RequiresSiteAdmin
+    @RequiresPermission(AdminOperationsPermission.class)
     public class UpdatePeptideCountsAction extends SimpleViewAction<Object>
     {
         @Override
