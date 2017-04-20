@@ -5,7 +5,7 @@ import org.labkey.gradle.util.GroupNames
 
 apply plugin: 'org.labkey.distribution'
 
-Distribution.inheritDependencies(project, ":server:distributions:legacy", [":server:modules:search"])
+Distribution.inheritDependencies(project, ":server:distributions:legacy")
 
 BuildUtils.addModuleDistributionDependencies(project, [":server:customModules:icemr",
                                                        ":server:optionalModules:redcap"])
