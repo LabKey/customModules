@@ -20,7 +20,6 @@
                 <file name="redcap.module"/>
             </filelist>
         </copy>
-        <delete file="${dist.modules.dir}/search.module" />
     </target>
 
     <target name="usage">
