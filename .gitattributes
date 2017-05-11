@@ -104,7 +104,6 @@ hvtnFlow/README.txt -text
 hvtnFlow/analysis-plans.clj -text
 hvtnFlow/gen-plans.clj -text
 hvtnFlow/generate-booleans.py -text
-hvtnFlow/hvtnFlow.iml -text
 hvtnFlow/module.properties -text
 hvtnFlow/plans/AP-001.tsv -text
 hvtnFlow/plans/AP-002.tsv -text
@@ -366,7 +365,6 @@ viscstudies/src/org/labkey/viscstudies/ViscStudyFolderTabs.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudyFolderType.java -text
 viscstudies/src/org/labkey/viscstudies/ViscStudySchema.java -text
 viscstudies/test/src/org/labkey/test/tests/viscstudies/CAVDStudyTest.java -text
-viscstudies/viscstudies.iml -text
 viscstudies/webapp/viscstudies/study.js -text
 viscstudies/webapp/viscstudies/syringe2.jpg -text
 viscstudies/webapp/viscstudies/syringeSmall.gif -text
