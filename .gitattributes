@@ -1,5 +1,4 @@
 * text=auto !eol
-SequenceNum/distributions/rochester.xml -text
 SequenceNum/distributions/rochester/build.gradle -text
 SequenceNum/module.properties -text
 SequenceNum/resources/queries/study/studyData.query.xml -text
@@ -164,7 +163,6 @@ hvtnFlow/resources/queries/flow/PassFailDetails-12.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails.query.xml -text
 hvtnFlow/resources/queries/flow/PassFailDetails.sql -text
 hvtnFlow/resources/queries/flow/PassFailDetails/.qview.xml -text
-icemr/distributions/icemr.xml -text
 icemr/distributions/icemr_dist/build.gradle -text
 icemr/module.properties -text
 icemr/resources/assay/Diagnostics/config.xml -text
