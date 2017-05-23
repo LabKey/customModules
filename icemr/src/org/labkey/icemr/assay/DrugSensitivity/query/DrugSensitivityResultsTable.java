@@ -49,7 +49,6 @@ import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityDataHandler;
 import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityProtocolSchema;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -268,13 +267,7 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
     {
         List<PropertyDescriptor>pds = DilutionProviderSchema.getExistingDataProperties(protocol, cutoffValues);
 
-        Collections.sort(pds, new Comparator<PropertyDescriptor>()
-        {
-            public int compare(PropertyDescriptor o1, PropertyDescriptor o2)
-            {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        pds.sort(Comparator.comparing(PropertyDescriptor::getName));
         return pds.toArray(new PropertyDescriptor[pds.size()]);
     }
 }
