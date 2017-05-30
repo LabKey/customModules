@@ -28,6 +28,7 @@ import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.study.assay.AssayRunUploadContext;
 import org.labkey.api.study.assay.AssaySaveHandler;
+import org.labkey.api.study.assay.DefaultAssayRunCreator;
 import org.labkey.api.view.ViewBackgroundInfo;
 import org.labkey.api.view.ViewContext;
 import org.labkey.icemr.assay.IcemrSaveHandler;
@@ -130,11 +131,12 @@ public class TrackingSaveHandler extends IcemrSaveHandler
             // save the run with a new data object and import all the rows
             //
             Map<ExpData, String> outputData = new HashMap<>();
-            ExpData newData = generateResultData(context, run, dataArray, outputData);
+            List<Map<String, Object>> dataRows = dataArray != null ? dataArray.toMapList() : Collections.emptyList();
+            ExpData newData = DefaultAssayRunCreator.generateResultData(context.getUser(), run.getContainer(), getProvider(), dataRows, (Map)outputData);
 
             if (dataArray != null)
             {
-                AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataArray,
+                AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataRows,
                         Collections.emptyMap(),            // input data
                         outputData,
                         inputMaterial,
