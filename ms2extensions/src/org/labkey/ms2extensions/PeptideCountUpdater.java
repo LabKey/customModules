@@ -61,7 +61,7 @@ public class PeptideCountUpdater
         SQLFragment sql = new SQLFragment("SELECT r.Run FROM ms2.Runs r LEFT OUTER JOIN ms2extensions.Ms2RunAggregates a ON r.run = a.ms2Run WHERE r.Container = ? AND r.Deleted = ? AND r.StatusId = 1 AND (a.totalPeptides IS NULL OR a.distinctPeptides IS NULL)");
         sql.add(container.getEntityId());
         sql.add(false);
-        Collection<Integer> runIds = new SqlSelector(DbSchema.get("ms2Extensions"), sql).getCollection(Integer.class);
+        Collection<Integer> runIds = new SqlSelector(MS2ExtensionsModule.getSchema(), sql).getCollection(Integer.class);
 
         if (!runIds.isEmpty())
         {
@@ -107,7 +107,7 @@ public class PeptideCountUpdater
 
             // Only allow one thread to update at a time
             LOG.info("Starting to update peptide counts for " + runIds);
-            try (DbScope.Transaction transaction = DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getScope().ensureTransaction(LOCK))
+            try (DbScope.Transaction transaction = MS2ExtensionsModule.getSchema().getScope().ensureTransaction(LOCK))
             {
                 // Execute the query, filtering to just the runs that need aggregates calculated
                 SimpleFilter filter = new SimpleFilter(new SimpleFilter.InClause(ms2RunColumn.getFieldKey(), runIds));
@@ -120,7 +120,7 @@ public class PeptideCountUpdater
                 {
                     Map<String, Object> toInsert = new CaseInsensitiveHashMap<>(result);
                     toInsert.put("container", container.getEntityId());
-                    Table.insert(null, DbSchema.get(MS2ExtensionsModule.SCHEMA_NAME).getTable("Ms2RunAggregates"), toInsert);
+                    Table.insert(null, MS2ExtensionsModule.getSchema().getTable("Ms2RunAggregates"), toInsert);
                 }
                 transaction.commit();
                 LOG.info("Finished updating peptide counts for " + runIds);

@@ -16,14 +16,13 @@
 package org.labkey.ms2extensions;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.exp.ExperimentRunType;
-import org.labkey.api.exp.ExperimentRunTypeSource;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.Module;
@@ -44,7 +43,6 @@ import org.labkey.api.view.WebPartView;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 
 /**
  * User: jeckels
@@ -107,7 +105,6 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     protected void doStartup(ModuleContext moduleContext)
     {
-
         ModuleProperty schemaProperty = new ModuleProperty(this, PEPTIDE_COUNT_SCHEMA_PROPERTY);
         schemaProperty.setDefaultValue("ms2extensions");
         schemaProperty.setCanSetPerContainer(false);
@@ -125,7 +122,7 @@ public class MS2ExtensionsModule extends DefaultModule
             @Override
             public void containerDeleted(Container c, User user)
             {
-                new SqlExecutor(DbSchema.get("ms2extensions")).execute(new SQLFragment("DELETE FROM ms2extensions.Ms2RunAggregates WHERE container = ?", c.getEntityId()));
+                new SqlExecutor(getSchema()).execute(new SQLFragment("DELETE FROM ms2extensions.Ms2RunAggregates WHERE container = ?", c.getEntityId()));
             }
         });
 
@@ -133,24 +130,24 @@ public class MS2ExtensionsModule extends DefaultModule
         {
             public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
-                return new SimpleUserSchema(SCHEMA_NAME, null, schema.getUser(), schema.getContainer(), DbSchema.get(SCHEMA_NAME));
+                return new SimpleUserSchema(SCHEMA_NAME, null, schema.getUser(), schema.getContainer(), MS2ExtensionsModule.getSchema());
             }
         });
 
-        ExperimentService.get().registerExperimentRunTypeSource(new ExperimentRunTypeSource()
+        ExperimentService.get().registerExperimentRunTypeSource(container ->
         {
-            @NotNull
-            @Override
-            public Set<ExperimentRunType> getExperimentRunTypes(@Nullable Container container)
+            if (container == null || container.getActiveModules().contains(MS2ExtensionsModule.this))
             {
-                if (container == null || container.getActiveModules().contains(MS2ExtensionsModule.this))
-                {
-                    return Collections.singleton(EXP_RUN_TYPE);
-                }
-                return Collections.emptySet();
+                return Collections.singleton(EXP_RUN_TYPE);
             }
+            return Collections.emptySet();
         });
 
         ExperimentService.get().registerExperimentDataHandler(new PeptideCountPepXmlDataHandler());
+    }
+
+    public static DbSchema getSchema()
+    {
+        return DbSchema.get(SCHEMA_NAME, DbSchemaType.Module);
     }
 }
