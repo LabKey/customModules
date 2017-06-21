@@ -25,6 +25,7 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyC;
+import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.util.DataRegionTable;
@@ -53,7 +54,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
-@Category({DailyC.class})
+@Category({DailyC.class, Specimen.class})
 public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
