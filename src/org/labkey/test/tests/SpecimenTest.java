@@ -919,8 +919,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("org.labkey.study.query.SpecimenRequestDisplayColumn");
         goBack();
 
-
-        goToAuditLog();
+        goToAdminConsole().clickAuditLog();
         selectOptionByText(Locator.name("view"), "Query export events");
 
         DataRegionTable auditTable =  new DataRegionTable("query", this);
