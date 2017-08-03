@@ -22,14 +22,17 @@ import org.labkey.test.Locators;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyC;
 import org.labkey.test.categories.Specimen;
+import org.labkey.test.components.html.BootstrapMenu;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.StudyHelper;
 
 @Category({DailyC.class, Specimen.class})
 public class AliquotTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
-    protected static final String SPECIMEN_ARCHIVE_148 = getStudySampleDataPath() + "specimens/lab148.specimens";
+    protected static final String SPECIMEN_ARCHIVE_148 = StudyHelper.getStudySampleDataPath() + "specimens/lab148.specimens";
 
     @Override
     protected String getProjectName()
@@ -40,7 +43,7 @@ public class AliquotTest extends SpecimenBaseTest
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        deleteUsersIfPresent(USER1, USER2);
+        _userHelper.deleteUsers(false, USER1, USER2);
         super.doCleanup(afterTest);
     }
 
@@ -62,7 +65,7 @@ public class AliquotTest extends SpecimenBaseTest
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickButton("Create Study");
 
-        setPipelineRoot(getPipelinePath());
+        setPipelineRoot(StudyHelper.getPipelinePath());
 
         setupRequestabilityRules();
         startSpecimenImport(1);
@@ -129,11 +132,9 @@ public class AliquotTest extends SpecimenBaseTest
     public static final String ALIQUOT_FOUR = "AAA07XK5-04";
     public static final String ALIQUOT_ONE_CHECKBOX = "//input[@id='check_" + ALIQUOT_ONE + "']";
     public static final String ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX = "//td[contains(text(), '" + ALIQUOT_ONE + "')]/../td/input[@type='checkbox' and @title='Select/unselect row']";
-    public static final String ALIQUOT_ONE_EDITLINK = "//input[@id='check_" + ALIQUOT_ONE + "']/../../td/a[contains(text(), 'edit')]";
     public static final String ALIQUOT_THREE_CHECKBOX = "//input[@id='check_" + ALIQUOT_THREE + "']";
     public static final String ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX = "//td[contains(text(), '" + ALIQUOT_THREE + "')]/../td/input[@type='checkbox' and @title='Select/unselect row']";
     public static final String ALIQUOT_FOUR_CHECKBOX = "//input[@id='check_" + ALIQUOT_FOUR + "']";
-    public static final String ALIQUOT_FOUR_EDITLINK = "//input[@id='check_" + ALIQUOT_FOUR + "']/../../td/a[contains(text(), 'edit')]";
     public static final String ALIQUOT_ONE_CHECKBOX_DISABLED = "//input[@id='check_" + ALIQUOT_ONE + "' and @disabled]";
     public static final String UNAVAILABLE_ALIQUOT = "AAQ00032-02";
     public static final String ALIQUOT_TWO_CHECKBOX = "//input[@id='check_" + ALIQUOT_TWO + "']";
@@ -162,10 +163,10 @@ public class AliquotTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX + "/../../td[contains(text(), 'This vial is unavailable because it is being processed')]"));
 
         // Now submit that request
-        _extHelper.clickMenuButton("Request Options", "View Existing Requests");
+        viewExistingRequests();
         clickButton("Submit", 0);
         assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
-        waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
+        waitForElement(Locator.tag("h3").withText("Your request has been successfully submitted."));
 
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Completed");
@@ -226,7 +227,7 @@ public class AliquotTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX_DISABLED));
 
         // There's a request from createRequest(); Submit it and make it completed to free up aliqouts
-        _extHelper.clickMenuButton("Request Options", "View Existing Requests");
+        viewExistingRequests();
         clickButton("Submit", 0);
         assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
@@ -239,14 +240,14 @@ public class AliquotTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
         checkCheckbox(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
         pushLocation();
-        click(Locator.linkWithText("Delete"));
+        click(Locator.tagWithAttribute("a", "data-original-title","Delete"));
         assertAlert("Are you sure you want to delete the selected row?");
         waitForElement(Locators.labkeyError.withText("Specimen may not be deleted because it has been used in a request."));
         popLocation();
 
         // Now delete a different aliquot
         checkCheckbox(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
-        click(Locator.linkWithText("Delete"));
+        click(Locator.tagWithAttribute("a", "data-original-title","Delete"));
         assertAlert("Are you sure you want to delete the selected row?");
         waitForElementToDisappear(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
         clickFolder(getFolderName());
@@ -267,14 +268,15 @@ public class AliquotTest extends SpecimenBaseTest
         // Attempt to edit, which should be error
         clickAndWait(Locator.linkWithText("Specimen Data"));
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
-        clickAndWait(Locator.xpath(ALIQUOT_FOUR_EDITLINK));
+        DataRegionTable table = new DataRegionTable("SpecimenDetail", getDriver());
+        clickAndWait(table.updateLink(table.getRowIndex("GlobalUniqueId", ALIQUOT_FOUR)));
         assertTextNotPresent("Specimen may not be edited when it's in a non-final request.");
         clickButton("Submit");
         waitForText("Specimen may not be edited when it's in a non-final request.");
         clickButton("Cancel");
 
         // Edit another specimen
-        waitAndClickAndWait(Locator.xpath(ALIQUOT_ONE_EDITLINK));
+        clickAndWait(table.updateLink(table.getRowIndex("GlobalUniqueId", ALIQUOT_ONE)));
         assertTextNotPresent("Specimen may not be edited when it's in a non-final request.");
         setFormElement(Locator.xpath("//input[@name='quf_VisitDescription']"), "VisitVisit");
         clickButton("Submit");
@@ -289,14 +291,14 @@ public class AliquotTest extends SpecimenBaseTest
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // verify insert new here
-        clickAndWait(Locator.linkWithText(DataRegionTable.getInsertNewButtonText()));
+        DataRegionTable detail = new DataRegionTable("SpecimenDetail", this);
+        detail.clickInsertNewRow();
         setFormElement(Locator.xpath("//input[@name='quf_GlobalUniqueId']"), "Global");
         setFormElement(Locator.xpath("//input[@name='quf_VisitDescription']"), "NewVisit");
         setFormElement(Locator.xpath("//input[@name='quf_SequenceNum']"), "001");
         selectOptionByText(Locator.name("quf_ParticipantId"), "618005775");
         clickButton("Submit");
         assertElementNotPresent(Locator.tagWithClass("*", "labkey-error").withText());
-        DataRegionTable detail = new DataRegionTable("SpecimenDetail", this);
         detail.setFilter("VisitDescription", "Equals", "NewVisit");
         assertTextPresent("NewVisit");
     }
@@ -327,5 +329,12 @@ public class AliquotTest extends SpecimenBaseTest
         setFormElement(Locator.id("input3"), "sample last one input");
         clickButton("Create and View Details");
         assertTextPresent(DESTINATION_SITE);
+    }
+
+    private void viewExistingRequests()
+    {
+        new BootstrapMenu(getDriver(), Locator.tagWithClass("div", "lk-menu-drop")
+                .withDescendant(Locator.tag("span").withText("Request Options")).findElement(getDriver())
+        ).clickMenuButton(true, false,"View Existing Requests");
     }
 }
