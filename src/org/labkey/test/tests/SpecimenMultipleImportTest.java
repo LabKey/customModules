@@ -25,6 +25,8 @@ import org.labkey.test.util.LogMethod;
 @Category({DailyC.class, Specimen.class})
 public class SpecimenMultipleImportTest extends StudyBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
+
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
 
     protected static final String SPECIMEN_ARCHIVE_15 = getStudySampleDataPath() + "specimens/lab15.specimens";

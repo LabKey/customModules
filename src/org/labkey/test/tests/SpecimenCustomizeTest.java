@@ -35,6 +35,8 @@ import java.util.List;
 @Category({DailyC.class})
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
+
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
 
     protected static final String SPECIMEN_ARCHIVE = getStudySampleDataPath() + "specimens/Rollup.specimens";
