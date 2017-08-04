@@ -75,7 +75,7 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
     protected void doVerifySteps()
     {
         clickFolder(getFolderName());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
+        goToSpecimenData();
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // check for number of specimens in import, total volume is a good identifier for everything

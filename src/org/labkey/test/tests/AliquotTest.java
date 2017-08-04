@@ -143,8 +143,7 @@ public class AliquotTest extends SpecimenBaseTest
     @LogMethod
     private void createRequests()
     {
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("Blood (Whole)"));
 
         assertElementPresent(Locator.xpath(UNAVAILABLE_ALIQUOT_DISABLED));
@@ -156,8 +155,7 @@ public class AliquotTest extends SpecimenBaseTest
         assertTextNotPresent("Complete");
 
         // Check that aliquot we added is not available
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("Blood (Whole)"));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX_DISABLED));
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX + "/../../td[contains(text(), 'This vial is unavailable because it is being processed')]"));
@@ -173,8 +171,7 @@ public class AliquotTest extends SpecimenBaseTest
         clickButton("Save Changes and Send Notifications");
 
         // Now verify that that aliquot is available again
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("Blood (Whole)"));
 
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_CHECKBOX));
@@ -220,7 +217,7 @@ public class AliquotTest extends SpecimenBaseTest
     @LogMethod
     private void verifyDeletingSpecimens()
     {
-        clickAndWait(Locator.linkWithText("Specimen Data"));
+        goToSpecimenData();
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // Check that ALIQUOT_ONE cannot be selected for Delete
@@ -257,7 +254,7 @@ public class AliquotTest extends SpecimenBaseTest
     private void verifyEditingSpecimens()
     {
         clickFolder(getFolderName());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
+        goToSpecimenData();
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // Create request with ALIQUOT_FOUR
@@ -266,7 +263,7 @@ public class AliquotTest extends SpecimenBaseTest
         assertTextPresent(ALIQUOT_FOUR);
 
         // Attempt to edit, which should be error
-        clickAndWait(Locator.linkWithText("Specimen Data"));
+        goToSpecimenData();
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
         DataRegionTable table = new DataRegionTable("SpecimenDetail", getDriver());
         clickAndWait(table.updateLink(table.getRowIndex("GlobalUniqueId", ALIQUOT_FOUR)));
@@ -287,7 +284,7 @@ public class AliquotTest extends SpecimenBaseTest
     private void verifyInsertingSpecimens()
     {
         clickFolder(getFolderName());
-        clickAndWait(Locator.linkWithText("Specimen Data"));
+        goToSpecimenData();
         waitAndClickAndWait(Locator.linkWithText("Blood (Whole)").notHidden());
 
         // verify insert new here

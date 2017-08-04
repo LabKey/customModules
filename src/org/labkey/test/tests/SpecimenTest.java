@@ -255,8 +255,7 @@ public class SpecimenTest extends SpecimenBaseTest
     private void uploadSpecimensFromFile()
     {
         log("Check Upload Specimen List from file");
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         click(Locator.tagWithAttribute("img", "alt", "[New Request Icon]"));
         waitForElement(Locator.name("destinationLocation"));
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
@@ -319,8 +318,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void createRequest()
     {
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitForElement(Locator.linkWithText("Plasma, Unknown Processing"));
         clickAndWait(Locator.linkWithText("Plasma, Unknown Processing"));
@@ -353,8 +351,7 @@ public class SpecimenTest extends SpecimenBaseTest
                 "DAA07YGW-01", "Complete");
 
         // add additional specimens
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
@@ -464,8 +461,7 @@ public class SpecimenTest extends SpecimenBaseTest
         popLocation();
 
         log("verifying column changes");
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         click(Locator.xpath("//span[text() = 'Specimen Requests']/../img")); // expand node in Specimens webpart
         waitForElement(Locator.linkWithText("View Current Requests"));
         clickAndWait(Locator.linkWithText("View Current Requests"));
@@ -587,8 +583,7 @@ public class SpecimenTest extends SpecimenBaseTest
             assertAlert("Canceling will permanently delete this pending request.  Continue?");
         });
         waitForText("No data to show.");
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
@@ -601,8 +596,7 @@ public class SpecimenTest extends SpecimenBaseTest
     private void verifyReports()
     {
         log("check reports by participant group");
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("Blood (Whole)"));
         pushLocation();
         clickAndWait(Locator.linkWithText("Reports"));
@@ -660,8 +654,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Save");
 
         log("Create request with excel specimen attachment");
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("Urine"));
         new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(0);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
@@ -681,8 +674,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Save");
 
         log("Create request with text specimen attachment");
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("Urine"));
         new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(1);
         _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
@@ -787,8 +779,7 @@ public class SpecimenTest extends SpecimenBaseTest
      */
     private void verifyRequestingLocationCounts(StudyLocationType... types)
     {
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         click(Locator.tag("img").withAttributeContaining("alt", "[New Request Icon]"));
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("New Specimen Request"));
 
@@ -831,8 +822,7 @@ public class SpecimenTest extends SpecimenBaseTest
         _ext4Helper.selectComboBoxItemById("combo23", "Tube Type");
         clickButton("Save");
         waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
         assertTextPresent("NICD - Joberg", 2);
         clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
@@ -891,21 +881,20 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         goToProjectHome();
         clickFolder(getFolderName());
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         Ext4FieldRef additiveType = Ext4FieldRef.getForLabel(this, "Additive Type");
         additiveType.setValue("Heparin");
         Ext4FieldRef.getForLabel(this, "Participant").setValue("999320812");
         clickButtonContainingText("Search");
         assertTextNotPresent("Serum Separator");
         assertTextPresent("(ParticipantId = 999320812) AND (AdditiveType = Heparin)");
-        goBack();
-        waitForVialSearch();
+
+        goToSpecimenData();
         additiveType.setValue(new String[] {"Heparin", "Ammounium Heparin"});
         clickButtonContainingText("Search");
         assertTextPresent("ONE OF");
-        goBack();
-        waitForVialSearch();
+
+        goToSpecimenData();
         additiveType.setValue(new String[] {"Ammonium Heparin","Cell Preparation Tube Heparin","Cell Preparation Tube SCI","Citrate Phosphate Dextrose","EDTA","Fetal Fibronectin Buffer","Guanidine Isothiocyanate (GITC)","Heparin","Liquid Potassium EDTA","Liquid Sodium EDTA","Lithium Heparin","Lithium Heparin and Gel for Plasma","None","Normal Saline","Optimum Cutting Temperature Medium","Orasure Collection Container","Other","PAXgene Blood RNA tube","Phosphate Buffered Saline","Plasma Preparation Tube","PLP Fixative","Port-a-cul Transport Tube","Potassium EDTA","RNA Later","Serum Separator","Sodium Citrate","Sodium EDTA","Sodium Fluoride","Sodium Fluoride/Potassium Oxalate","Sodium Heparin","Sodium Polyanetholesulfonate","Spray Dried Potassium EDTA","Spray Dried Sodium EDTA","Thrombin","Tissue Freezing Medium","Unknown Additive","Viral Transport Media"});
         clickButtonContainingText("Search");
         assertTextPresent("IS NOT ANY OF ");
@@ -950,8 +939,7 @@ public class SpecimenTest extends SpecimenBaseTest
         _drawTimestampConflicts.put("526515651.3704.363", "Conflicts found: DrawDate, DrawTime");
         _spotCheckNoConflict = true;
 
-        clickTab("Specimen Data");
-        waitForVialSearch();
+        goToSpecimenData();
         clickAndWait(Locator.linkWithText("By Individual Vial"));
 
         DataRegionTable table = new DataRegionTable("SpecimenDetail", getDriver());

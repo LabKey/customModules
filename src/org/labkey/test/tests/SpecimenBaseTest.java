@@ -137,9 +137,4 @@ public abstract class SpecimenBaseTest extends StudyBaseTest
         checkRadioButton(Locator.radioButtonByNameAndValue("defaultEmailNotify", "All"));
         clickButton("Save");
     }
-
-    protected void waitForVialSearch()
-    {
-        waitForElement(Locator.css(".specimenSearchLoaded"));
-    }
 }
