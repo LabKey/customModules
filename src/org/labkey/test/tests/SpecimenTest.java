@@ -28,6 +28,7 @@ import org.labkey.test.categories.DailyC;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.dumbster.EmailRecordTable;
+import org.labkey.test.components.html.BootstrapMenu;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -57,6 +58,7 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 @Category({DailyC.class, Specimen.class})
 public class SpecimenTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
     private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);
@@ -328,12 +330,11 @@ public class SpecimenTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
 
-        _extHelper.clickMenuButton("Paging", "Show All");
         clickAndWait(Locator.linkContainingText("history"));
         assertTextPresent("Vial History");
         goBack();
 
-        _extHelper.clickMenuButton("Request Options", "Create New Request");
+        new DataRegionTable("SpecimenDetail", this).clickHeaderMenu("Request Options", "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
@@ -356,13 +357,16 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
-        _extHelper.clickMenuButton(false, "Request Options", "Add To Existing Request");
+        //_extHelper.clickMenuButton(false, "Request Options", "Add To Existing Request");
+        BootstrapMenu.find(getDriver(),"Request Options").clickSubMenu(false,"Add To Existing Request");
         _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
+
         waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
         clickButton("Add 8 Vials to Request", 0);
         _extHelper.waitForExtDialog("Success", WAIT_FOR_JAVASCRIPT * 5);
         clickButton("OK", 0);
-        _extHelper.clickMenuButton("Request Options", "View Existing Requests");
+        BootstrapMenu.find(getDriver(),"Request Options").clickSubMenu(true,"View Existing Requests");
+        //_extHelper.clickMenuButton("Request Options", "View Existing Requests");
         clickButton("Details");
         assertTextPresent("sample last one input", "IRB", "KCMC, Moshi, Tanzania", "Originating IRB Approval",
                 SOURCE_SITE, "Providing IRB Approval", DESTINATION_SITE, "Receiving IRB Approval", "SLG",
