@@ -470,7 +470,7 @@ public class CAVDStudyTest extends StudyBaseTest
                 new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
                 new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies"))
         };
-        _listHelper.createList(FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
+        _listHelper.createList(PROJECT_NAME + "/" + FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
         clickButton("Done");
 
         log("Add records to list for each study.");
