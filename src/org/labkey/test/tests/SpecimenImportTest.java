@@ -33,6 +33,7 @@ import static org.junit.Assert.assertTrue;
 @Category({DailyC.class})
 public class SpecimenImportTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     private final String noVisitIdTSV =
             "Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant Id\n" +
                     "1\t1\t\t\t1\n" +
@@ -77,7 +78,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void goToImport()
     {
-        waitAndClickAndWait(Locator.linkContainingText("Data"));
+        clickTab("Data");
         waitForText("No specimens found");
         waitForText("Import Specimens");
         sleep(100);
@@ -102,7 +103,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void changeTimepointType()
     {
-        click(Locator.linkContainingText("Manage"));
+        clickTab("Manage");
         waitAndClick(Locator.linkContainingText("Change Study Properties"));
         waitForText("Timepoint Type:");
         _ext4Helper.selectRadioButton("Timepoint Type:", "VISIT");
@@ -124,7 +125,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void assertIdsSet()
     {
-        click(Locator.linkContainingText("Data"));
+        clickTab("Data");
         waitAndClick(Locator.linkContainingText("By Individual Vial"));
         DataRegionTable region = new DataRegionTable("SpecimenDetail", this);
         assertTrue("Failed to find Participant ID 1", region.getRow("Participant Id", "1") == 0);
@@ -151,4 +152,11 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
         _containerHelper.createSubfolder(getProjectName(), getProjectName(), getFolderName(), "CAVD Study", null, true);
     }
+
+    @Override
+    protected BrowserType bestBrowser()
+    {
+        return BrowserType.CHROME;
+    }
+
 }
