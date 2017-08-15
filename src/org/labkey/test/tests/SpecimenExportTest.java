@@ -30,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 @Category({DailyC.class, Specimen.class})
 public class SpecimenExportTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "SpecimenExportVerifyProject";
 
     @Override
@@ -97,7 +98,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         log("Setup specimen repository type settings");
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Change Repository Type"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Repository Settings"));
+        waitForElement(Locator.tagContainingText("h3","Manage Repository Settings"));
         checkRadioButton(Locator.radioButtonByName("simple").index(1)); // Advanced repository type
         checkRadioButton(Locator.radioButtonByName("specimenDataEditable").index(1)); // Editable specimen data
         checkRadioButton(Locator.radioButtonByName("enableRequests").index(0)); // Enabled specimen requests
@@ -109,7 +110,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         log("Setup specimen webpart groupings");
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Configure Specimen Groupings"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
+        waitForElement(Locator.tagContainingText("h3","Configure Specimen Web Part"));
         _ext4Helper.selectComboBoxItemById("combo11", "Processing Location");
         _ext4Helper.selectComboBoxItemById("combo12", "Processing Location");
         _ext4Helper.selectComboBoxItemById("combo13", "Processing Location");
@@ -124,7 +125,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         log("Setup location types");
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Location Types"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Location Types"));
+        waitForElement(Locator.tagContainingText("h3","Manage Location Types"));
         _ext4Helper.checkCheckbox("Repository");
         _ext4Helper.uncheckCheckbox("Clinic");
         _ext4Helper.uncheckCheckbox("Site Affiliated Lab");
