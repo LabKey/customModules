@@ -25,6 +25,7 @@ import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
@@ -50,6 +51,7 @@ import static org.junit.Assert.assertNotEquals;
 @Category({CustomModules.class})
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
+    {setIsBootstrapWhitelisted(true);}
     protected final File TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getSampleData("hdrl/sample_upload_01.tsv");
     protected final File TEST_SPECIMEN_UPLOAD_FILE_2 = TestFileUtils.getSampleData("hdrl/sample_upload_02.xlsx");
     protected final File CLINICAL_REPORT_FILE = TestFileUtils.getSampleData("hdrl/clinical_report.pdf");
@@ -415,7 +417,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals("EDIT", drt.getDataAsText(idx, 0));
         clickAndWait(drt.link(idx, 0));
 
-        waitForElement(Locator.tagContainingText("span", "Edit a Test Request"));
+        waitForElement(org.labkey.test.Locators.bodyTitle("Edit a Test Request"));
 
         testPrintPackingList("Admin", "FedEx");
 
@@ -433,7 +435,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         waitForElement(Locator.tagContainingText("td", "Carrier"));
         waitForElement(Locator.tagContainingText("td", "FedEx"));
-        assertElementNotPresent(Locator.tagContainingText("span", "Edit a Test Request"));
+        assertElementNotPresent(org.labkey.test.Locators.bodyTitle("Edit a Test Request"));
 
         testPrintPackingList("Reader", "FedEx");
 
@@ -467,7 +469,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals("EDIT", drt.getDataAsText(idx, 0));
         clickAndWait(drt.link(idx, 0));
 
-        waitForElement(Locator.tagContainingText("span", "Edit a Test Request"));
+        waitForElement(org.labkey.test.Locators.bodyTitle("Edit a Test Request"));
         assertTextPresent("This request has already been submitted");
         assertElementPresent("Submit button should not be enabled if request has been submitted", Locators.disabledSubmit, 1);
 
