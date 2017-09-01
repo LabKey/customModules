@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
@@ -50,6 +51,7 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 @Category({CustomModules.class})
 public class ICEMRModuleTest extends BaseWebDriverTest
 {
+    {setIsBootstrapWhitelisted(true);}
     public static final String ID = "myid";
     public static final String DIAGNOSTICS_ASSAY_DESIGN = "ICEMR Diagnostics";
     public static final String TRACKING_ASSAY_DESIGN = "ICEMR Flask Tracking";
@@ -131,8 +133,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
     private void recreateSampleSets()
     {
-        deleteSample(SELECTION_FLASKS_NAME);
-        deleteSample(ADAPTATION_FLASKS_NAME);
+        DataRegionTable sampleSetsTable = new DataRegionTable("SampleSet", getDriver());
+        sampleSetsTable.checkCheckbox(sampleSetsTable.getRowIndex("Name", SELECTION_FLASKS_NAME));
+        sampleSetsTable.checkCheckbox(sampleSetsTable.getRowIndex("Name", ADAPTATION_FLASKS_NAME));
+        sampleSetsTable.clickHeaderButton("Delete");
+        clickButton("Confirm Delete");
 
         createFlasksSampleSet(ADAPTATION_FLASKS_NAME, ADAPTATION_FLASK_FILE);
         createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
@@ -144,8 +149,11 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // issues 18050 and 18040 - verify that the adaptation and drug selection assays work
         // with only the appropriate sample set available (Adaptation Flasks for Culture Adaptation
         // or Selection Flasks for Drug Selection.  Just check adaptation in our automated tests.
-        deleteSample(SELECTION_FLASKS_NAME);
-        deleteSample(ADAPTATION_FLASKS_NAME);
+        DataRegionTable samplesTable = new DataRegionTable("SampleSet", getDriver());
+        samplesTable.checkCheckbox(samplesTable.getRowIndex("Name", SELECTION_FLASKS_NAME));
+        samplesTable.checkCheckbox(samplesTable.getRowIndex("Name", ADAPTATION_FLASKS_NAME));
+        samplesTable.clickHeaderButton("Delete");
+        clickButton("Confirm Delete");
 
         createFlasksSampleSet(ADAPTATION_FLASKS_NAME, ADAPTATION_FLASK_FILE);
         verifyTrackingAssay(ADAPTATION_ASSAY_NAME);
@@ -344,7 +352,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         }
 
         clickButtonContainingText("Submit");
-        waitForElement(Locator.css(".labkey-nav-page-header").withText(ADAPTATION_ASSAY_NAME + " Runs"));
+        waitForElement(Locators.bodyTitle(ADAPTATION_ASSAY_NAME + " Runs"));
     }
 
     @LogMethod
@@ -396,7 +404,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         }
 
         clickButtonContainingText("Submit");
-        waitForElement(Locator.css(".labkey-nav-page-header").withText(SELECTION_ASSAY_NAME + " Runs"));
+        waitForElement(Locators.bodyTitle(SELECTION_ASSAY_NAME + " Runs"));
     }
 
 
@@ -694,7 +702,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // the form should submit now
         setICEMRField("Hematocrit", "5.0");
         clickButton("Submit");
-        waitForElement(Locator.css(".labkey-nav-page-header").withText(DIAGNOSTIC_ASSAY_NAME + " Results"));
+        waitForElement(Locators.bodyTitle(DIAGNOSTIC_ASSAY_NAME + " Results"));
     }
 
     @LogMethod
@@ -738,7 +746,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         waitForElementToDisappear(Locator.css(".x4-form-invalid-field"));
         clickButton("Submit");
-        waitForElement(Locator.css(".labkey-nav-page-header").withText(SPECIES_ASSAY_NAME + " Results"));
+        waitForElement(Locators.bodyTitle(SPECIES_ASSAY_NAME + " Results"));
     }
 
     @LogMethod
@@ -756,7 +764,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
 
 
-        ListHelper listHelper = new ListHelper(this);
+        ListHelper listHelper = new ListHelper(this).withEditorTitle("Field Properties");
         listHelper.deleteField("Field Properties", 0);
         clickButton("Save");
         clickButton("Edit Fields");
@@ -789,8 +797,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         if (isTextPresent(sample))
         {
-            checkCheckbox(Locator.xpath("//td/a[contains(text(), '" + sample + "')]/../../td/input"));
-            clickButton("Delete");
+            DataRegionTable dataRegionTable = new DataRegionTable("Material", getDriver());
+            dataRegionTable.checkCheckbox(dataRegionTable.getRowIndex("Sample ID", sample));
+            dataRegionTable.clickHeaderButton("Delete");
             clickButton("Confirm Delete");
         }
     }
