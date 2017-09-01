@@ -44,6 +44,7 @@ import static org.junit.Assert.fail;
 @Category({CustomModules.class})
 public class CAVDStudyTest extends StudyBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     private static final String PROJECT_NAME = "CAVDStudyTest Project";
     private static final String FOLDER_NAME = "CAVDStudyTest Folder";
     private static final String STUDY_NAME = FOLDER_NAME + " Study";
@@ -171,7 +172,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Cohorts"));
-        clickButton(DataRegionTable.getInsertNewButtonText());
+        DataRegionTable.DataRegion(getDriver()).find().clickInsertNewRow();
         setFormElement(Locator.name("quf_label"), "Vaccine2");
         clickButton("Submit");
         waitForText("Placebo");
@@ -196,7 +197,8 @@ public class CAVDStudyTest extends StudyBaseTest
         waitForText("Configure Dropdown Options");
         click(Locator.linkContainingText("Configure Dropdown Options"));
         clickAndWait(Locator.linkWithText("folder").index(0));  // configure the first type 'Immunogen Types'
-        clickAndWait(Locator.linkWithText("edit").index(0));    // edit the first value "Canarypox"
+        DataRegionTable dt = DataRegionTable.DataRegion(getDriver()).find();
+        dt.clickEditRow(dt.getRowIndex("Name", "Canarypox"));
         click(Locator.checkboxByName("quf_Inactive"));
         clickAndWait(Locator.linkWithText("Submit"));
         // 2. verify that the Canarypox option, although inactive is still present.
@@ -518,9 +520,8 @@ public class CAVDStudyTest extends StudyBaseTest
 
         log("Verify data status exports to text as expected.");
 
-        waitForElement(Locator.lkButton("Export"), WAIT_FOR_JAVASCRIPT);
-
-        DataRegionExportHelper drtHelper =  new DataRegionExportHelper(new DataRegionTable("query", getDriver()));
+        DataRegionTable drt = new DataRegionTable("query", getDriver());
+        DataRegionExportHelper drtHelper =  new DataRegionExportHelper(drt);
         File exportTextFile = drtHelper.exportText();
 
         String[][] tsvData;
