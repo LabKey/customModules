@@ -21,9 +21,12 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.DailyC;
 import org.labkey.test.components.CustomizeView;
+import org.labkey.test.components.PropertiesEditor;
+import org.labkey.test.params.FieldDefinition;
+import org.labkey.test.params.FieldDefinition.ColumnType;
 import org.labkey.test.util.DataRegionTable;
-import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.StudyHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -38,12 +41,9 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     {setIsBootstrapWhitelisted(true);}
 
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
-
-    protected static final String SPECIMEN_ARCHIVE = getStudySampleDataPath() + "specimens/Rollup.specimens";
-
+    protected static final String SPECIMEN_ARCHIVE = StudyHelper.getStudySampleDataPath() + "specimens/Rollup.specimens";
     protected static final String SPECIMEN_AVAILABLE_REASON = "This vial's availability status was set by an administrator. Please contact an administrator for more information.";
     protected static final String SPECIMEN_UNAVAILABLE_REASON = "This vial is unavailable because it is not currently held by a repository.";
-
 
     @Override
     protected String getProjectName()
@@ -68,11 +68,9 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     @LogMethod
     protected void doVerifySteps() throws Exception
     {
-        addSpecimenEventFields();
-        addVialFields();
-        addSpecimenFields();
+        configureSpecimenProperties();
 
-        setPipelineRoot(getPipelinePath());
+        setPipelineRoot(StudyHelper.getPipelinePath());
         startSpecimenImport(2, SPECIMEN_ARCHIVE);
         waitForSpecimenImport();
 
@@ -81,67 +79,49 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         verifySpecimenDetailContents();
     }
 
-    private void addSpecimenEventFields()
-    {
-        goToEditSpecimenProperties();
-        ListHelper propertiesHelper = new ListHelper(this);
-        propertiesHelper.addField("SpecimenEvent", "Tally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("SpecimenEvent", "Note", null, ListHelper.ListColumnType.String);
-        propertiesHelper.addField("SpecimenEvent", "Minutes", null, ListHelper.ListColumnType.Double);
-        propertiesHelper.addField("SpecimenEvent", "Flag", null, ListHelper.ListColumnType.Boolean);
-
-        save();
-        saveAndClose();
-    }
-
-    private void addVialFields()
-    {
-        goToEditSpecimenProperties();
-        ListHelper propertiesHelper = new ListHelper(this);
-        propertiesHelper.addField("Vial", "Tally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Vial", "FirstTally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Vial", "LatestTally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Vial", "LatestNonBlankTally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Vial", "CombineTally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Vial", "FirstNote", null, ListHelper.ListColumnType.String);
-        propertiesHelper.addField("Vial", "LatestNote", null, ListHelper.ListColumnType.String);
-        propertiesHelper.addField("Vial", "LatestNonBlankNote", null, ListHelper.ListColumnType.String);
-        propertiesHelper.addField("Vial", "CombineNote", null, ListHelper.ListColumnType.String);
-        propertiesHelper.addField("Vial", "FirstMinutes", null, ListHelper.ListColumnType.Double);
-        propertiesHelper.addField("Vial", "LatestMinutes", null, ListHelper.ListColumnType.Double);
-        propertiesHelper.addField("Vial", "LatestNonBlankMinutes", null, ListHelper.ListColumnType.Double);
-        propertiesHelper.addField("Vial", "CombineMinutes", null, ListHelper.ListColumnType.Double);
-        setFormat("Vial", "0.####");
-        propertiesHelper.addField("Vial", "FirstFlag", null, ListHelper.ListColumnType.Boolean);
-        propertiesHelper.addField("Vial", "LatestFlag", null, ListHelper.ListColumnType.Boolean);
-        propertiesHelper.addField("Vial", "LatestNonBlankFlag", null, ListHelper.ListColumnType.Boolean);
-        propertiesHelper.addField("Vial", "LatestDrawTimestamp", null, ListHelper.ListColumnType.DateTime);
-        propertiesHelper.addField("Vial", "FirstDrawTimestamp", null, ListHelper.ListColumnType.DateTime);
-        save();
-        saveAndClose();
-    }
-
-    private void addSpecimenFields()
-    {
-        goToEditSpecimenProperties();
-        ListHelper propertiesHelper = new ListHelper(this);
-        propertiesHelper.addField("Specimen", "TotalLatestNonBlankTally", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Specimen", "SumOfLatestNonBlankMinutes", null, ListHelper.ListColumnType.Double);
-        setFormat("Specimen", "0.####");
-        propertiesHelper.addField("Specimen", "SumOfCombineMinutes", null, ListHelper.ListColumnType.Double);
-        setFormat("Specimen", "0.####");
-        propertiesHelper.addField("Specimen", "CountLatestNonBlankFlag", null, ListHelper.ListColumnType.Integer);
-        propertiesHelper.addField("Specimen", "MaxAvailabilityReason", null, ListHelper.ListColumnType.String);
-        propertiesHelper.addField("Specimen", "MinAvailabilityReason", null, ListHelper.ListColumnType.String);
-        save();
-        saveAndClose();
-    }
-
-    private void goToEditSpecimenProperties()
+    private void configureSpecimenProperties()
     {
         goToManageStudy();
-        click(Locator.linkContainingText("Edit specimen properties"));
-        waitForElement(Locator.xpath("//td[.='SpecimenEvent']//../..//span[@id='button_Add Field']/a"));
+        clickAndWait(Locator.linkContainingText("Edit specimen properties"));
+
+        PropertiesEditor specimentEventFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("SpecimenEvent").waitFor();
+        specimentEventFields.addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
+        specimentEventFields.addField(new FieldDefinition("Note").setType(ColumnType.String));
+        specimentEventFields.addField(new FieldDefinition("Minutes").setType(ColumnType.Double));
+        specimentEventFields.addField(new FieldDefinition("Flag").setType(ColumnType.Boolean));
+
+        PropertiesEditor vialFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("Vial").find();
+        vialFields.addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
+        vialFields.addField(new FieldDefinition("FirstTally").setType(ColumnType.Integer));
+        vialFields.addField(new FieldDefinition("LatestTally").setType(ColumnType.Integer));
+        vialFields.addField(new FieldDefinition("LatestNonBlankTally").setType(ColumnType.Integer));
+        vialFields.addField(new FieldDefinition("CombineTally").setType(ColumnType.Integer));
+        vialFields.addField(new FieldDefinition("FirstNote").setType(ColumnType.String));
+        vialFields.addField(new FieldDefinition("LatestNote").setType(ColumnType.String));
+        vialFields.addField(new FieldDefinition("LatestNonBlankNote").setType(ColumnType.String));
+        vialFields.addField(new FieldDefinition("CombineNote").setType(ColumnType.String));
+        vialFields.addField(new FieldDefinition("FirstMinutes").setType(ColumnType.Double));
+        vialFields.addField(new FieldDefinition("LatestMinutes").setType(ColumnType.Double));
+        vialFields.addField(new FieldDefinition("LatestNonBlankMinutes").setType(ColumnType.Double));
+        vialFields.addField(new FieldDefinition("CombineMinutes").setType(ColumnType.Double));
+        vialFields.fieldProperties().selectFormatTab().propertyFormat.set("0.####");
+        vialFields.addField(new FieldDefinition("FirstFlag").setType(ColumnType.Boolean));
+        vialFields.addField(new FieldDefinition("LatestFlag").setType(ColumnType.Boolean));
+        vialFields.addField(new FieldDefinition("LatestNonBlankFlag").setType(ColumnType.Boolean));
+        vialFields.addField(new FieldDefinition("LatestDrawTimestamp").setType(ColumnType.DateTime));
+        vialFields.addField(new FieldDefinition("FirstDrawTimestamp").setType(ColumnType.DateTime));
+
+        PropertiesEditor specimenFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("Specimen").find();
+        specimenFields.addField(new FieldDefinition("TotalLatestNonBlankTally").setType(ColumnType.Integer));
+        specimenFields.addField(new FieldDefinition("SumOfLatestNonBlankMinutes").setType(ColumnType.Double));
+        specimenFields.fieldProperties().selectFormatTab().propertyFormat.set("0.####");
+        specimenFields.addField(new FieldDefinition("SumOfCombineMinutes").setType(ColumnType.Double));
+        specimenFields.fieldProperties().selectFormatTab().propertyFormat.set("0.####");
+        specimenFields.addField(new FieldDefinition("CountLatestNonBlankFlag").setType(ColumnType.Integer));
+        specimenFields.addField(new FieldDefinition("MaxAvailabilityReason").setType(ColumnType.String));
+        specimenFields.addField(new FieldDefinition("MinAvailabilityReason").setType(ColumnType.String));
+
+        clickAndWait(Locator.lkButton("Save & Close"));
     }
 
     private ArrayList<PropertyRow> getRowsFromTable(WebElement table)
@@ -154,42 +134,6 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
             i++;
         }
         return rows;
-    }
-
-    private void saveAndClose()
-    {
-        click(Locator.xpath("//span[@id='button_Save & Close']/a"));
-    }
-
-    private void save()
-    {
-        Locator saveButtonLocator = Locator.xpath("//span[@id='button_Save']/a");
-        shortWait().until(ExpectedConditions.elementToBeClickable(saveButtonLocator.toBy()));
-        click(saveButtonLocator);
-//        waitForElementToDisappear(Locator.xpath("//span[@id='button_Save']/a[@class='labkey-disabled-button']"), 60000);
-        waitForText("Save successful");
-    }
-
-    private void cancel()
-    {
-        click(Locator.xpath("//span[@id='button_Cancel']/a"));
-    }
-
-    //type is Specimen, Vial or SpecimenEvent
-    private void clickAddField(String label)
-    {
-        click(Locator.xpath("//td[.='" + label + "']//../..//span[@id='button_Add Field']/a"));
-        //td[.='SpecimenEvent']/../../../..//table[@class='gwt-ButtonBar']//span[@id='button_Save & Close']
-    }
-
-    private void clickImportFields(String type)
-    {
-        click(Locator.xpath("//td[.='" + type + "']/../..//span[@id='button_Import Fields']/a"));
-    }
-
-    private void clickExportFields(String type)
-    {
-        click(Locator.xpath("//td[.='" + type + "']/../..//span[@id='button_Export Fields']/a"));
     }
 
     class SpecimenPropertyTable
@@ -362,10 +306,10 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         CustomizeView specimenTableCustomizer = specimenTable.getCustomizeView();
         specimenTableCustomizer.openCustomizeViewPanel();
         waitForText("Available Fields");
-        specimenTableCustomizer.addCustomizeViewColumn("MaxAvailabilityReason");
-        specimenTableCustomizer.addCustomizeViewColumn("MinAvailabilityReason");
-        specimenTableCustomizer.addCustomizeViewColumn("LatestDrawTimestamp");
-        specimenTableCustomizer.addCustomizeViewColumn("FirstDrawTimestamp");
+        specimenTableCustomizer.addColumn("MaxAvailabilityReason");
+        specimenTableCustomizer.addColumn("MinAvailabilityReason");
+        specimenTableCustomizer.addColumn("LatestDrawTimestamp");
+        specimenTableCustomizer.addColumn("FirstDrawTimestamp");
         specimenTableCustomizer.saveDefaultView();
     }
 
@@ -373,11 +317,6 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     {
         startSpecimenImport(2, SPECIMEN_ARCHIVE);
         waitForSpecimenImport();
-    }
-
-    private void addField(String field)
-    {
-        click(Locator.xpath("//div[@fieldkey='" + field + "']/a"));
     }
 
     private void verifySpecimenDetailContents()
