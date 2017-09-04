@@ -25,9 +25,9 @@ import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
-import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.etl.ETLHelper;
 import org.labkey.test.util.DataRegionTable;
@@ -47,6 +47,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 @Category({CustomModules.class})
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
@@ -98,7 +99,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     private void addRequestResultData(Map<String, String> data)
     {
-        Connection connection = new Connection(getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        Connection connection = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
         Command command = new Command("hdrl", "addLabwareOutboundRequest");
         command.setParameters(data);
 
@@ -114,7 +115,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     private void addSpecimenResultData(List<Map<String, String>> results)
     {
-        Connection connection = new Connection(getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        Connection connection = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
         for (Map<String, String> result : results)
         {
             Command command = new Command("hdrl", "addLabwareOutboundSpecimen");
@@ -144,7 +145,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("submitting requests");
         clickButton(SUBMIT_BUTTON_TEXT);
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRow("ShippingNumber", "testRetrievalOfResults");
+        int idx = drt.getRowIndex("ShippingNumber", "testRetrievalOfResults");
         assertNotEquals(idx, -1);
         String requestId = drt.getDataAsText(idx, "RequestId");
 
@@ -231,7 +232,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         impersonateRole("Reader");
         click(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
-        idx = drt.getRow("RequestId", requestId);
+        idx = drt.getRowIndex("RequestId", requestId);
         assertNotEquals(idx, -1);
         log("view test results");
         assertEquals("VIEW", drt.getDataAsText(idx, 0));
@@ -239,7 +240,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         waitForElement(Locator.tagContainingText("td", specimenIds.get(0)));
         drt = new DataRegionTable("query", this);
-        idx = drt.getRow("SpecimenId", specimenIds.get(0));
+        idx = drt.getRowIndex("SpecimenId", specimenIds.get(0));
         assertEquals("DOWNLOAD", drt.getDataAsText(idx, 0));
         assertEquals( Arrays.asList("Completed","Exception"),drt.getColumnDataAsText("Status"));
         assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText("ResultModified"));
@@ -262,11 +263,10 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertEquals( Arrays.asList("5B"," "),drt.getColumnDataAsText("CustomerCode"));
         assertEquals( Arrays.asList("reportFileName.pdf"," "),drt.getColumnDataAsText("ReportFileName"));
         File report = clickAndWaitForDownload(Locator.linkWithSpan("Download"));
-        assert(report.getName().contains("reportFileName"));
-        stopImpersonatingRole();
+        assertTrue(report.getName().contains("reportFileName"));
+        stopImpersonating();
 
         testDataDeletion();
-
     }
 
     @Test
@@ -399,7 +399,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkContainingText("View test requests"));
 
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRow("ShippingCarrier", "FedEx");
+        int idx = drt.getRowIndex("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
         clickAndWait(drt.link(idx, 0));
         log("submitting an existing request");
@@ -408,7 +408,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton(SUBMIT_BUTTON_TEXT);
 
         drt = new DataRegionTable("query", this);
-        idx = drt.getRow("ShippingCarrier", "FedEx");
+        idx = drt.getRowIndex("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted By").trim().isEmpty()); // "submitted by" field should be filled in
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted").trim().isEmpty()); // submitted date should be filled in
@@ -427,7 +427,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
-        idx = drt.getRow("ShippingCarrier", "FedEx");
+        idx = drt.getRowIndex("ShippingCarrier", "FedEx");
         assertNotEquals(idx, -1);
         log("ensure submitted requests are still editable by admins");
         assertEquals("VIEW", drt.getDataAsText(idx, 0));
@@ -439,7 +439,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         testPrintPackingList("Reader", "FedEx");
 
-        stopImpersonatingRole();
+        stopImpersonating();
     }
 
     @Test
@@ -460,7 +460,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("Edit the submitted request as admin");
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
+        int idx = drt.getRowIndex("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         String submittedDate = drt.getDataAsText(idx, 6).trim();
@@ -482,7 +482,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("Test that not saving request does not change anything");
         clickButton("Cancel", 0); // takes you back to the view test requests page
-        idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
+        idx = drt.getRowIndex("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         assertNotEquals("DHL", drt.getDataAsText(idx, CARRIER_COLUMN_INDEX));
@@ -497,7 +497,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton("Yes");
 
         log("Test that saving request does not change the request status");
-        idx = drt.getRow("ShippingNumber", "testEditSubmittedRequest");
+        idx = drt.getRowIndex("ShippingNumber", "testEditSubmittedRequest");
         assertNotEquals(idx, -1);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         assertEquals("DHL", drt.getDataAsText(idx, CARRIER_COLUMN_INDEX));
@@ -523,26 +523,27 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     public void testDataDeletion()
     {
-        goToAdminConsole();
-        click(Locator.linkWithText("System Maintenance"));
+        goToAdminConsole()
+                .clickSystemMaintenance();
         waitForText("Configure System Maintenance");
         click(Locator.linkWithText("HDRL Request Portal PHI Deletion"));
-        //waitForText("System maintenance complete");
+        switchToWindow(1);
+        waitForText("HDRL Request Portal PHI Deletion complete");
         getDriver().close();
         switchToMainWindow();
         goToProjectHome();
         click(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRow("ShippingNumber", "testRetrievalOfResults");
+        int idx = drt.getRowIndex("ShippingNumber", "testRetrievalOfResults");
         assertNotEquals(idx, -1);
         String requestId = drt.getDataAsText(idx, "RequestId");
         Assert.assertEquals("Archived", drt.getDataAsText(idx, "Status"));
         List<String> specimenIds = getSpecimenIds(requestId, "hdrl", "InboundSpecimen", "RowId");
-        Assert.assertTrue("There should be no specimens associated with the archived request", specimenIds.isEmpty());
+        assertTrue("There should be no specimens associated with the archived request", specimenIds.isEmpty());
         specimenIds = getSpecimenIds(requestId, "hdrl", "SpecimenResult", "SpecimenId");
-        Assert.assertTrue("There should be no specimen results associated with the archived request", specimenIds.isEmpty());
+        assertTrue("There should be no specimen results associated with the archived request", specimenIds.isEmpty());
         specimenIds = getSpecimenIds(requestId, "hdrl", "labwareOutboundSpecimens", "test_request_id");
-        Assert.assertTrue("There should be no specimen results in the labware transfer table associated with the archived request", specimenIds.isEmpty());
+        assertTrue("There should be no specimen results in the labware transfer table associated with the archived request", specimenIds.isEmpty());
 
     }
 
@@ -600,7 +601,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         // find the row to verify
         for (Map<String, String> expectedRow : expectedRows)
         {
-            int idx = drt.getRow(key, expectedRow.get(key));
+            int idx = drt.getRowIndex(key, expectedRow.get(key));
             assertNotEquals(String.format("Didn't find row with %s = %s", key, expectedRow.get(key)), idx, -1);
 
             Map<String, String> actualRow = new HashMap<>();
