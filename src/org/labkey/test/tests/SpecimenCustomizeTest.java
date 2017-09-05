@@ -299,7 +299,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     private void addFieldsToSpecimenView()
     {
         clickTab("Specimen Data");
-        shortWait().until(ExpectedConditions.elementToBeClickable(Locator.linkWithText("By Individual Vial").toBy()));
+        shortWait().until(ExpectedConditions.elementToBeClickable(Locator.linkWithText("By Individual Vial")));
         click(Locator.linkWithText("By Individual Vial"));
         waitForText("Vials");
         DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
