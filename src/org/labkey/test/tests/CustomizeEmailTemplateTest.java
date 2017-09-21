@@ -32,6 +32,7 @@ import java.util.Map;
 @Category(DailyC.class)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     private static final String _projectName = "EmailTemplateProject";
     private final PortalHelper _portalHelper = new PortalHelper(this);
     private static final String _assayPlan = "assay plan";
@@ -136,8 +137,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     protected void doVerifySteps() throws Exception
     {
         goToModule("Dumbster");
-        waitForElement(Locator.linkContainingText(_projectName));
-        click(Locator.linkContainingText(_projectName));
+        Locator.linkWithText(_projectName).waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT).click();
         String emailBody= getText(Locator.xpath("//Div[@id='body']"));
         String[] bodyContents = emailBody.split(_delim);
         Map<String, String> emailNVPs = new HashMap<>();
