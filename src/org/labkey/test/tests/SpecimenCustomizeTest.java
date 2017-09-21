@@ -84,11 +84,11 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         goToManageStudy();
         clickAndWait(Locator.linkContainingText("Edit specimen properties"));
 
-        PropertiesEditor specimentEventFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("SpecimenEvent").waitFor();
-        specimentEventFields.addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
-        specimentEventFields.addField(new FieldDefinition("Note").setType(ColumnType.String));
-        specimentEventFields.addField(new FieldDefinition("Minutes").setType(ColumnType.Double));
-        specimentEventFields.addField(new FieldDefinition("Flag").setType(ColumnType.Boolean));
+        PropertiesEditor specimenEventFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("SpecimenEvent").waitFor();
+        specimenEventFields.addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
+        specimenEventFields.addField(new FieldDefinition("Note").setType(ColumnType.String));
+        specimenEventFields.addField(new FieldDefinition("Minutes").setType(ColumnType.Double));
+        specimenEventFields.addField(new FieldDefinition("Flag").setType(ColumnType.Boolean));
 
         PropertiesEditor vialFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("Vial").find();
         vialFields.addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
