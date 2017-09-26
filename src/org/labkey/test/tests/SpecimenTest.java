@@ -21,6 +21,7 @@ import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
@@ -28,6 +29,7 @@ import org.labkey.test.categories.DailyC;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.dumbster.EmailRecordTable;
+import org.labkey.test.components.html.BootstrapMenu;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -57,6 +59,7 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 @Category({DailyC.class, Specimen.class})
 public class SpecimenTest extends SpecimenBaseTest
 {
+    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
     private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);
@@ -328,12 +331,11 @@ public class SpecimenTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
 
-        _extHelper.clickMenuButton("Paging", "Show All");
         clickAndWait(Locator.linkContainingText("history"));
         assertTextPresent("Vial History");
         goBack();
 
-        _extHelper.clickMenuButton("Request Options", "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
@@ -356,13 +358,13 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
-        _extHelper.clickMenuButton(false, "Request Options", "Add To Existing Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Add To Existing Request");
         _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
         waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
         clickButton("Add 8 Vials to Request", 0);
         _extHelper.waitForExtDialog("Success", WAIT_FOR_JAVASCRIPT * 5);
         clickButton("OK", 0);
-        _extHelper.clickMenuButton("Request Options", "View Existing Requests");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "View Existing Requests");
         clickButton("Details");
         assertTextPresent("sample last one input", "IRB", "KCMC, Moshi, Tanzania", "Originating IRB Approval",
                 SOURCE_SITE, "Providing IRB Approval", DESTINATION_SITE, "Receiving IRB Approval", "SLG",
@@ -588,7 +590,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
-        _extHelper.clickMenuButton("Request Options", "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
         clickButton("Cancel");
     }
 
@@ -657,7 +659,7 @@ public class SpecimenTest extends SpecimenBaseTest
         goToSpecimenData();
         clickAndWait(Locator.linkWithText("Urine"));
         new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(0);
-        _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input1"), "Shipping");
@@ -677,7 +679,7 @@ public class SpecimenTest extends SpecimenBaseTest
         goToSpecimenData();
         clickAndWait(Locator.linkWithText("Urine"));
         new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(1);
-        _extHelper.clickMenuButton(true, "Request Options", "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input1"), "Shipping");
@@ -723,7 +725,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
         waitAndClick(Locator.linkWithText("Update Request"));
 
-        waitForElement(Locator.pageHeader("Update Request"));
+        waitForElement(Locators.bodyTitle().withText("Update Request"));
         checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
         click(Locator.css(".labkey-help-pop-up"));
         waitForElement(Locator.xpath("id('helpDivBody')").containing(USER1));
@@ -738,7 +740,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
         popLocation();
 
-        waitForElement(Locator.pageHeader("Update Request"));
+        waitForElement(Locators.bodyTitle().withText("Update Request"));
         checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
         checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
         checkCheckbox(Locator.checkboxByName("emailInactiveUsers"));
@@ -757,7 +759,7 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Manage Location Types"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Location Types"));
+        waitForElement(Locators.bodyTitle().withText("Manage Location Types"));
 
         for (StudyLocationType type : StudyLocationType.values())
         {
@@ -768,7 +770,7 @@ public class SpecimenTest extends SpecimenBaseTest
         }
 
         clickButton("Save", 0);
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
+        waitForElement(Locators.bodyTitle().withText("Manage Study"));
 
         verifyRequestingLocationCounts(types);
     }
@@ -781,8 +783,7 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         goToSpecimenData();
         click(Locator.tag("img").withAttributeContaining("alt", "[New Request Icon]"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("New Specimen Request"));
-
+        waitForElement(Locators.bodyTitle().withText("New Specimen Request"));
         int expectedLocationCount = StudyLocationType.untypedSites();
 
         long additionalLocations = Math.round(Math.pow(2, StudyLocationType.values().length - 1));
@@ -800,7 +801,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertElementPresent(Locator.css("#destinationLocation option"), expectedLocationCount + 1); // +1 for blank select option
 
         clickButton("Cancel", 0);
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Specimen Requests"));
+        waitForElement(Locators.bodyTitle().withText("Specimen Requests"));
     }
 
     /**
@@ -813,7 +814,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickFolder(getFolderName());
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
+        waitForElement(Locators.bodyTitle().withText("Configure Specimen Web Part"));
         _ext4Helper.selectComboBoxItemById("combo11", "Processing Location");
         _ext4Helper.selectComboBoxItemById("combo12", "Primary Type");
         _ext4Helper.selectComboBoxItemById("combo13", "Site Name");
@@ -821,17 +822,17 @@ public class SpecimenTest extends SpecimenBaseTest
         _ext4Helper.selectComboBoxItemById("combo22", "Derivative Type");
         _ext4Helper.selectComboBoxItemById("combo23", "Tube Type");
         clickButton("Save");
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Manage Study"));
+        waitForElement(Locators.bodyTitle().withText("Manage Study"));
         goToSpecimenData();
         assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
         assertTextPresent("NICD - Joberg", 2);
         clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
-        assertTextPresent("Vials", "(ProcessingLocation = 'The McMichael Lab, Oxford, UK')");
+        assertTextPresent("Vials", "ProcessingLocation.Label = 'The McMichael Lab, Oxford, UK'");
 
         // Put groupings back for other tests
         clickTab("Manage");
         waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
-        waitForElement(Locator.id("labkey-nav-trail-current-page").withText("Configure Specimen Web Part"));
+        waitForElement(Locators.bodyTitle().withText("Configure Specimen Web Part"));
         _ext4Helper.selectComboBoxItemById("combo11", "Primary Type");
         _ext4Helper.selectComboBoxItemById("combo12", "Derivative Type");
         _ext4Helper.selectComboBoxItemById("combo13", "Additive Type");
@@ -887,7 +888,7 @@ public class SpecimenTest extends SpecimenBaseTest
         Ext4FieldRef.getForLabel(this, "Participant").setValue("999320812");
         clickButtonContainingText("Search");
         assertTextNotPresent("Serum Separator");
-        assertTextPresent("(ParticipantId = 999320812) AND (AdditiveType = Heparin)");
+        assertTextPresent("ParticipantId.ParticipantId = 999320812","AdditiveType.Description = Heparin" );
 
         goToSpecimenData();
         additiveType.setValue(new String[] {"Heparin", "Ammounium Heparin"});
