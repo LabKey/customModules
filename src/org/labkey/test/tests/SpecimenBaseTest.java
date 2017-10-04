@@ -136,5 +136,12 @@ public abstract class SpecimenBaseTest extends StudyBaseTest
         assertTextPresent("Default Email Recipients");
         checkRadioButton(Locator.radioButtonByNameAndValue("defaultEmailNotify", "All"));
         clickButton("Save");
+
+        // TODO: Remove check below. This is temporary to investigate intermittent test failures where actors with emails
+        // aren't checked on the manage requirement page. Verify that setting actually got set.
+        clickAndWait(Locator.linkWithText("Manage Notifications"));
+        assertTextPresent("Default Email Recipients");
+        assertRadioButtonSelected(Locator.radioButtonByNameAndValue("defaultEmailNotify", "All"));
+        clickButton("Cancel");
     }
 }
