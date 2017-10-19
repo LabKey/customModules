@@ -106,13 +106,13 @@ public abstract class SpecimenBaseTest extends StudyBaseTest
         clickButton("Add Requirement");
         selectOptionByText(Locator.name("providerActor"), "IRB");
         setFormElement(Locator.name("providerDescription"), "Providing IRB Approval");
-        clickAndWait(Locator.xpath("//input[@name='providerDescription']/../.." + Locator.lkButton("Add Requirement").getPath()));
+        clickAndWait(Locator.xpath("//input[@name='providerDescription']/../.." + Locator.lkButton("Add Requirement").toXpath()));
         selectOptionByText(Locator.name("receiverActor"), "IRB");
         setFormElement(Locator.name("receiverDescription"), "Receiving IRB Approval");
-        clickAndWait(Locator.xpath("//input[@name='receiverDescription']/../.." + Locator.lkButton("Add Requirement").getPath()));
+        clickAndWait(Locator.xpath("//input[@name='receiverDescription']/../.." + Locator.lkButton("Add Requirement").toXpath()));
         selectOptionByText(Locator.name("generalActor"), "SLG");
         setFormElement(Locator.name("generalDescription"), "SLG Approval");
-        clickAndWait(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.lkButton("Add Requirement").getPath()));
+        clickAndWait(Locator.xpath("//input[@name='generalDescription']/../.." + Locator.lkButton("Add Requirement").toXpath()));
     }
 
     @LogMethod (quiet = true)
