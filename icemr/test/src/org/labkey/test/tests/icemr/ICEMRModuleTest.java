@@ -238,15 +238,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         if (fieldAndValue.containsKey(GEL_IMAGE_FIELD))
         {
             String src = table.link(row, GEL_IMAGE_FIELD).getAttribute("href");
-            try
-            {
-                assertEquals("Bad response from uploaded image.", HttpStatus.SC_OK, WebTestHelper.getHttpGetResponse(src));
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-            goBack();
+            assertEquals("Bad response from uploaded image.", HttpStatus.SC_OK, WebTestHelper.getHttpResponse(src).getResponseCode());
         }
 
         goToProjectHome();
