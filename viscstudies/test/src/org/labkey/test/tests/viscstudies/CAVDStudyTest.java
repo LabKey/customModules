@@ -394,8 +394,7 @@ public class CAVDStudyTest extends StudyBaseTest
         String study3name = FOLDER_NAME3 + " Study";
 
         log("Set study name for " + FOLDER_NAME2 + " and verify datasets exist.");
-        clickProject(PROJECT_NAME);
-        clickFolder(FOLDER_NAME2);
+        navigateToFolder(PROJECT_NAME, FOLDER_NAME2);
         // workaround for issue 15023: go to manage views page to initialize study dataset properties
         goToManageViews();
         waitForText("Manage Views");
@@ -413,8 +412,7 @@ public class CAVDStudyTest extends StudyBaseTest
         }
 
         log("Set study name for " + FOLDER_NAME3 + " and verify datasets exist.");
-        clickProject(PROJECT_NAME);
-        clickFolder(FOLDER_NAME3);
+        navigateToFolder(PROJECT_NAME, FOLDER_NAME3);
         // workaround for issue 15023: go to manage views page to initialize study dataset properties
         goToManageViews();
         waitForText("Manage Views");
@@ -448,8 +446,7 @@ public class CAVDStudyTest extends StudyBaseTest
         }
 
         log("Change study dataset status for " + FOLDER_NAME2 + " and verify changes in study list query.");
-        clickProject(PROJECT_NAME);
-        clickFolder(FOLDER_NAME2);
+        navigateToFolder(PROJECT_NAME, FOLDER_NAME2);
         waitForText("Study Schedule");
         // wait for the study schedule grid to load, any dataset name will do
         waitForText(DATASETS.values().iterator().next());
@@ -468,8 +465,7 @@ public class CAVDStudyTest extends StudyBaseTest
         }
 
         log("Create list in " + FOLDER_NAME4 + " with lookup to the studies list query.");
-        clickProject(PROJECT_NAME);
-        clickFolder(FOLDER_NAME4);
+        navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         new PortalHelper(this).addWebPart("Lists");
         ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
                 new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
@@ -479,8 +475,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickButton("Done");
 
         log("Add records to list for each study.");
-        clickProject(PROJECT_NAME);
-        clickFolder(FOLDER_NAME4);
+        navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
         DataRegionTable.findDataRegion(this).clickInsertNewRow();
         setFormElement(Locator.name("quf_" + myStudyNameCol), "Something");
@@ -492,8 +487,7 @@ public class CAVDStudyTest extends StudyBaseTest
         clickButton("Submit");
 
         log("Verify that the list lookup displays dataset status values.");
-        clickProject(PROJECT_NAME);
-        clickFolder(FOLDER_NAME4);
+        navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
         _customizeViewsHelper.openCustomizeViewPanel();
         _customizeViewsHelper.removeColumn("StudyLookup");
@@ -524,7 +518,7 @@ public class CAVDStudyTest extends StudyBaseTest
         log("Verify data status exports to text as expected.");
 
         DataRegionTable drt = new DataRegionTable("query", getDriver());
-        DataRegionExportHelper drtHelper =  new DataRegionExportHelper(drt);
+        DataRegionExportHelper drtHelper = new DataRegionExportHelper(drt);
         File exportTextFile = drtHelper.exportText();
 
         String[][] tsvData;
@@ -575,8 +569,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void goToViscStudiesQuery(String folderName)
     {
-        clickProject(PROJECT_NAME);
-        clickFolder(folderName);
+        navigateToFolder(PROJECT_NAME, folderName);
         goToSchemaBrowser();
         selectQuery("viscstudies", "studies");
         waitForText("view data");
