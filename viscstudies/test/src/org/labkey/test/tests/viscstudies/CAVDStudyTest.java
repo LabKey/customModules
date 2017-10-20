@@ -28,6 +28,7 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
+import org.labkey.test.util.StudyHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -270,7 +271,8 @@ public class CAVDStudyTest extends StudyBaseTest
         goToAssayConfigureLookupValues(false, 3);
         for (String sampleType : SAMPLE_TYPES)
         {
-            DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();            setFormElement(Locator.name("quf_Name"), sampleType);
+            DataRegionTable.findDataRegion(this).clickInsertNewRow();
+            setFormElement(Locator.name("quf_Name"), sampleType);
             setFormElement(Locator.name("quf_PrimaryType"), "Blood");
             setFormElement(Locator.name("quf_ShortSampleCode"), sampleType.substring(0, 1).toUpperCase());
             clickButton("Submit");
@@ -315,7 +317,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void importLookupRecords(String... names)
     {
-        DataRegionTable.findDataRegion(this).clickImportBulkDataDropdown();
+        DataRegionTable.findDataRegion(this).clickImportBulkData();
         StringBuilder tsvBuilder = new StringBuilder("Name\tLabel");
         for (String name : names)
         {
@@ -479,11 +481,11 @@ public class CAVDStudyTest extends StudyBaseTest
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
-        DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();
+        DataRegionTable.findDataRegion(this).clickInsertNewRow();
         setFormElement(Locator.name("quf_" + myStudyNameCol), "Something");
         selectOptionByText(Locator.name("quf_StudyLookup"), study2name);
         clickButton("Submit");
-        DataRegionTable.findDataRegion(this).clickInsertNewRowDropdown();
+        DataRegionTable.findDataRegion(this).clickInsertNewRow();
         setFormElement(Locator.name("quf_" + myStudyNameCol), "TheOtherOne");
         selectOptionByText(Locator.name("quf_StudyLookup"), study3name);
         clickButton("Submit");
@@ -493,9 +495,9 @@ public class CAVDStudyTest extends StudyBaseTest
         clickFolder(FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
         _customizeViewsHelper.openCustomizeViewPanel();
-        _customizeViewsHelper.removeCustomizeViewColumn("StudyLookup");
-        _customizeViewsHelper.addCustomizeViewColumn("StudyLookup/Dataset Status");
-        _customizeViewsHelper.addCustomizeViewColumn("StudyLookup/Label");
+        _customizeViewsHelper.removeColumn("StudyLookup");
+        _customizeViewsHelper.addColumn("StudyLookup/Dataset Status");
+        _customizeViewsHelper.addColumn("StudyLookup/Label");
         _customizeViewsHelper.applyCustomView();
         // verify each status icon appears once originally
         for (String[] status : statuses)
@@ -728,7 +730,7 @@ public class CAVDStudyTest extends StudyBaseTest
         click(Ext4Helper.Locators.ext4Radio("Import data from file"));
         clickButton("Next");
 
-        String datasetFileName = getStudySampleDataPath() + "/datasets/plate001.tsv";
+        String datasetFileName = StudyHelper.getStudySampleDataPath() + "/datasets/plate001.tsv";
         File file = new File(TestFileUtils.getLabKeyRoot(), datasetFileName);
 
         if (file.exists())
