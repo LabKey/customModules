@@ -241,7 +241,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         waitForElement(Locator.tagContainingText("td", specimenIds.get(0)));
         drt = new DataRegionTable("query", this);
         idx = drt.getRowIndex("SpecimenId", specimenIds.get(0));
-        assertEquals("DOWNLOAD", drt.getDataAsText(idx, 0));
+        assertEquals("Download", drt.getDataAsText(idx, 0));
         assertEquals( Arrays.asList("Completed","Exception"),drt.getColumnDataAsText("Status"));
         assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText("ResultModified"));
         assertEquals( Arrays.asList("7777","8888"),drt.getColumnDataAsText("CustomerBarcode"));
