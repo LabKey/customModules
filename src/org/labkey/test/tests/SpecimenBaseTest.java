@@ -45,7 +45,7 @@ public abstract class SpecimenBaseTest extends StudyBaseTest
         goToSchemaBrowser();
         createNewQuery("study", SPECIMEN_DETAIL);
         setFormElement(Locator.name("ff_newQueryName"), REQUESTABILITY_QUERY);
-        clickAndWait(Locator.linkWithText("Create and Edit Source"));
+        clickAndWait(Locator.lkButton("Create and Edit Source"));
         setCodeEditorValue("queryText",
                 "SELECT \n" +
                         SPECIMEN_DETAIL + ".GlobalUniqueId AS GlobalUniqueId\n" +
