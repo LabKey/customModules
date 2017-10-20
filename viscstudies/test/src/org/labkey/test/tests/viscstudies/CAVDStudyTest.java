@@ -28,6 +28,7 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
+import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.StudyHelper;
 
 import java.io.File;
@@ -469,7 +470,7 @@ public class CAVDStudyTest extends StudyBaseTest
         log("Create list in " + FOLDER_NAME4 + " with lookup to the studies list query.");
         clickProject(PROJECT_NAME);
         clickFolder(FOLDER_NAME4);
-        addWebPart("Lists");
+        new PortalHelper(this).addWebPart("Lists");
         ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
                 new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
                 new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies"))
