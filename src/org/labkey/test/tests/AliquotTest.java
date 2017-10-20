@@ -332,6 +332,6 @@ public class AliquotTest extends SpecimenBaseTest
     {
         new BootstrapMenu(getDriver(), Locator.tagWithClass("div", "lk-menu-drop")
                 .withDescendant(Locator.tag("span").withText("Request Options")).findElement(getDriver())
-        ).clickMenuButton(true, false,"View Existing Requests");
+        ).clickSubMenu(true, "View Existing Requests");
     }
 }

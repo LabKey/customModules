@@ -23,6 +23,7 @@ import org.labkey.test.categories.DailyC;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.StudyHelper;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickButton("Create Study");
 
-        setPipelineRoot(getPipelinePath());
+        setPipelineRoot(StudyHelper.getPipelinePath());
         startSpecimenImport(1);
         waitForSpecimenImport();
         setupRequestStatuses();

@@ -35,6 +35,7 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.StudyHelper;
 import org.labkey.test.util.TextSearcher;
 import org.labkey.test.util.ext4cmp.Ext4FieldRef;
 import org.openqa.selenium.By;
@@ -61,7 +62,7 @@ public class SpecimenTest extends SpecimenBaseTest
 {
     {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
-    private final File REQUEST_ATTACHMENT = new File(getPipelinePath() + "specimens", "labs.txt");
+    private final File REQUEST_ATTACHMENT = new File(StudyHelper.getPipelinePath() + "specimens", "labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);
     private final String[] SPECIMEN_IDS = {"AAA07XK5-01", "AAA07XK5-02"};
 
@@ -101,7 +102,7 @@ public class SpecimenTest extends SpecimenBaseTest
         click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickButton("Create Study");
 
-        setPipelineRoot(getPipelinePath());
+        setPipelineRoot(StudyHelper.getPipelinePath());
 
         setupRequestabilityRules();
         startSpecimenImport(1);
@@ -929,7 +930,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifyDrawTimestamp()
     {
-        String SPECIMEN_ARCHIVE_DTS = getStudySampleDataPath() + "specimens/dts.specimens";
+        String SPECIMEN_ARCHIVE_DTS = StudyHelper.getStudySampleDataPath() + "specimens/dts.specimens";
         startSpecimenImport(2, SPECIMEN_ARCHIVE_DTS);
         waitForSpecimenImport();
 
