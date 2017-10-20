@@ -141,7 +141,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
         openProjectMenu();
         int response = -1;
         try{
-            response = WebTestHelper.getHttpGetResponse(getBaseURL() + "/" + WebTestHelper.stripContextPath(getAttribute(Locator.linkWithText(getProjectName()), "href")));
+            response = WebTestHelper.getHttpResponse(getBaseURL() + "/" + WebTestHelper.stripContextPath(getAttribute(Locator.linkWithText(getProjectName()), "href"))).getResponseCode();
         }
         catch (NoSuchElementException | IOException ignore){/*No link or bad response*/}
 
