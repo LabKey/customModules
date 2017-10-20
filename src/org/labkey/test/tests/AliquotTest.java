@@ -304,9 +304,7 @@ public class AliquotTest extends SpecimenBaseTest
     private void verifyIllegalImporting()
     {
         checkErrors();
-        clickProject("AliquotVerifyProject");
-
-        clickFolder(getFolderName());
+        navigateToFolder("AliquotVerifyProject", getFolderName());
         startSpecimenImport(2, SPECIMEN_ARCHIVE_148);
         setExpectSpecimenImportError(true);
         waitForSpecimenImport();
