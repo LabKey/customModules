@@ -123,7 +123,7 @@
     var _startTime;
 
     // test flow control and state
-    var _stopped = false;
+    var _failed = false;
     var _expectedError;
     var _testName;
     var _testNum = 0;
@@ -428,12 +428,17 @@
             return;
         }
 
-        if (!_stopped) {
+        if (_failed)
+        {
+            var stopTime = new Date().getTime();
+            logMessage(_doneMessage + 'Elapsed time:  ' + ((stopTime - _startTime) / 1000) + ' seconds', true);
+        }
+        else
+        {
             if (_testNum > 0) logSuccess();
             if (_testNum >= _tests.length) {
                 var stopTime = new Date().getTime();
-                updateLog(_doneMessage + _successMessage, true);
-                updateLog('Elapsed time:  ' + ((stopTime - _startTime) / 1000) + ' seconds', true);
+                logMessage(_doneMessage + 'Elapsed time:  ' + ((stopTime - _startTime) / 1000) + ' seconds');
             }
             else {
                 _testName = _tests[_testNum].name;
@@ -646,7 +651,7 @@
     function trackingRunDataSuccess(batches)
     {
         if (!validateExperimentDatas(batches))
-            logFailure("Experiment data didn't match the run data")
+            logFailure("Experiment data didn't match the run data");
 
         runTest();
     }
@@ -662,7 +667,7 @@
         for (var i = 0; i <= numFlasks; i++)
             flasks.push({name : 'blank'});
 
-        results.push(makeDailyResultObject(exp, flasks))
+        results.push(makeDailyResultObject(exp, flasks));
 
         _expectedError = LABKEY.icemr.tracking.errDailyTitle + ': ' + LABKEY.icemr.tracking.errDailyTooManyFlasks;
         LABKEY.icemr.tracking.saveDaily(results, DailyUploadSuccess, VerifyFailure );
@@ -726,8 +731,6 @@
             loadBulkRow();
         }
     }
-
-
 
     function testBulkUpload()
     {
@@ -1136,7 +1139,7 @@
         for (var i = 0; i < results.length; i++)
         {
             var result = results[i];
-            var storedResult = findResultInDailyDatas(result[LABKEY.icemr.tracking.experiment])
+            var storedResult = findResultInDailyDatas(result[LABKEY.icemr.tracking.experiment]);
             if (storedResult != null) {
                 for (var j = 0; j < result.flasks.length; j++) {
                     storedResult.flasks.push(result.flasks[j]);
@@ -1514,7 +1517,7 @@
         if ('Patient2Flask2' == sampleId || 'Patient2Flask8' == sampleId)
             flask['ResistanceProtocol'] = 'days';
         else
-            flask['ResistanceProtocol'] = 'growth-fold'
+            flask['ResistanceProtocol'] = 'growth-fold';
 
         if (flask['ResistanceProtocol'] == 'days')
             flask['ResistanceNumber'] = 3;
@@ -1585,26 +1588,19 @@
     }
 
 
-    function updateLog(newHtml, newLine){
-        // if we are stopped then suppress any messages as the test
-        // drains
-        if (!_stopped) {
-            _logHtml += (newLine ? "<br/>" : "") + newHtml;
-            Ext4.get('log-info').update(_logHtml);
-        }
-    }
-
-    function logMessage(message) {
-        updateLog(message, true);
+    function logMessage(message, isError)
+    {
+        _logHtml += "<div" + (isError ? " class=\"labkey-error\">" : ">") + message + "</div>";
+        Ext4.get('log-info').update(_logHtml);
     }
 
     function logFailure(message) {
-        updateLog('FAILED {' + _testName + '}:' + message, true);
-        updateLog(_doneMessage + _failureMessage, true);
-        _stopped = true;
+        logMessage('FAILED {' + _testName + '}:' + message, true);
+        _failed = true;
     }
+
     function logSuccess(){
-        updateLog('PASSED {' + _testName + '}', true);
+        logMessage('PASSED {' + _testName + '}');
     }
 
     function createDummyTrackingAssayPage(assayName, assayId)

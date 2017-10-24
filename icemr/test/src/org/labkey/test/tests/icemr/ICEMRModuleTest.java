@@ -93,7 +93,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @Test
     public void testSteps()
     {
-        setupAssays();
+//        setupAssays();
         doVerification();
     }
 
@@ -220,8 +220,8 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        deleteUsersIfPresent(ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
-        _containerHelper.deleteProject(getProjectName(), afterTest);
+//        deleteUsersIfPresent(ICEMR_AUTHOR_USER, ICEMR_EDITOR_USER);
+//        _containerHelper.deleteProject(getProjectName(), afterTest);
     }
 
     @LogMethod
@@ -775,13 +775,18 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void testJavaScript()
     {
+        WebElement results = Locator.id("log-info").findElement(getDriver());
+
         // run the test script
         clickButton("Start Test", 0);
 
-        waitFor(() -> Locator.id("log-info").findElement(getDriver()).getText().contains("DONE:"),
+        waitFor(() -> Locator.tag("div").startsWith("DONE:").findElementOrNull(results) != null,
                 "Test did not finish!", WAIT_FOR_PAGE * 4);
 
-        assertFalse("At least one of the javascript tests failed", Locator.id("log-info").findElement(getDriver()).getText().contains("FAILED"));
+        List<WebElement> errors = Locators.labkeyError.findElements(results);
+
+        if (!errors.isEmpty())
+            fail("JavaScript test failed: " + errors.get(0).getText());
     }
 
     @LogMethod
