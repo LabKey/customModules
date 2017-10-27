@@ -45,13 +45,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category({CustomModules.class})
 public class ICEMRModuleTest extends BaseWebDriverTest
 {
-    {setIsBootstrapWhitelisted(true);}
     public static final String ID = "myid";
     public static final String DIAGNOSTICS_ASSAY_DESIGN = "ICEMR Diagnostics";
     public static final String TRACKING_ASSAY_DESIGN = "ICEMR Flask Tracking";

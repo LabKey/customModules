@@ -52,7 +52,6 @@ import static org.junit.Assert.assertTrue;
 @Category({CustomModules.class})
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
-    {setIsBootstrapWhitelisted(true);}
     protected final File TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getSampleData("hdrl/sample_upload_01.tsv");
     protected final File TEST_SPECIMEN_UPLOAD_FILE_2 = TestFileUtils.getSampleData("hdrl/sample_upload_02.xlsx");
     protected final File CLINICAL_REPORT_FILE = TestFileUtils.getSampleData("hdrl/clinical_report.pdf");

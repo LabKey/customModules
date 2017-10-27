@@ -46,7 +46,6 @@ import static org.junit.Assert.fail;
 @Category({CustomModules.class})
 public class CAVDStudyTest extends StudyBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
     private static final String PROJECT_NAME = "CAVDStudyTest Project";
     private static final String FOLDER_NAME = "CAVDStudyTest Folder";
     private static final String STUDY_NAME = FOLDER_NAME + " Study";
