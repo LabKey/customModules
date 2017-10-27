@@ -30,7 +30,6 @@ import org.labkey.test.util.StudyHelper;
 @Category({DailyC.class, Specimen.class})
 public class AliquotTest extends SpecimenBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
     protected static final String SPECIMEN_ARCHIVE_148 = StudyHelper.getStudySampleDataPath() + "specimens/lab148.specimens";
 

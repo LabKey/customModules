@@ -33,7 +33,6 @@ import java.util.Map;
 @Category(DailyC.class)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
     private static final String _projectName = "EmailTemplateProject";
     private final PortalHelper _portalHelper = new PortalHelper(this);
     private static final String _assayPlan = "assay plan";

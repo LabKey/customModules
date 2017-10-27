@@ -60,7 +60,6 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 @Category({DailyC.class, Specimen.class})
 public class SpecimenTest extends SpecimenBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
     private final File REQUEST_ATTACHMENT = new File(StudyHelper.getPipelinePath() + "specimens", "labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);

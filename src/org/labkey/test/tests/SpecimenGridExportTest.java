@@ -33,8 +33,6 @@ import java.util.List;
 @Category({DailyB.class, Specimen.class})
 public class SpecimenGridExportTest extends AbstractExportTest
 {
-    {setIsBootstrapWhitelisted(true);}
-
     public static final String SPECIMEN_DATA =
             "Vial Id\tDraw Date\tParticipant\tVolume\tUnits\tSpecimen Type\tDerivative Type\tAdditive Type\n" +
             "Sample_001\t11/13/12\tP7310\t200\tml\t\t\t\n" +

@@ -38,8 +38,6 @@ import java.util.List;
 @Category({DailyC.class})
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
-
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
     protected static final String SPECIMEN_ARCHIVE = StudyHelper.getStudySampleDataPath() + "specimens/Rollup.specimens";
     protected static final String SPECIMEN_AVAILABLE_REASON = "This vial's availability status was set by an administrator. Please contact an administrator for more information.";

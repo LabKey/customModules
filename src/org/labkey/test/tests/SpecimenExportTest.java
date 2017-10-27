@@ -31,7 +31,6 @@ import static org.junit.Assert.assertTrue;
 @Category({DailyC.class, Specimen.class})
 public class SpecimenExportTest extends SpecimenBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
     protected static final String PROJECT_NAME = "SpecimenExportVerifyProject";
 
     @Override

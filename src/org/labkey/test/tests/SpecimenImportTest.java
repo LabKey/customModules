@@ -24,16 +24,12 @@ import org.labkey.test.categories.DailyC;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
-import org.openqa.selenium.NoSuchElementException;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
 @Category({DailyC.class})
 public class SpecimenImportTest extends SpecimenBaseTest
 {
-    {setIsBootstrapWhitelisted(true);}
     private final String noVisitIdTSV =
             "Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant Id\n" +
                     "1\t1\t\t\t1\n" +
