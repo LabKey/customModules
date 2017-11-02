@@ -94,7 +94,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @Test
     public void testSteps()
     {
-//        setupAssays();
+        setupAssays();
         doVerification();
     }
 
