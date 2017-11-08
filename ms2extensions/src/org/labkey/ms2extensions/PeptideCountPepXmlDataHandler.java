@@ -60,9 +60,9 @@ public class PeptideCountPepXmlDataHandler implements ExperimentDataHandler
     }
 
     @Override
-    public void exportFile(ExpData data, File dataFile, OutputStream out) throws ExperimentException
+    public void exportFile(ExpData data, File dataFile, User user, OutputStream out) throws ExperimentException
     {
-        _realHandler.exportFile(data, dataFile, out);
+        _realHandler.exportFile(data, dataFile, user, out);
     }
 
     @Override
