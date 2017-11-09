@@ -650,8 +650,10 @@ public class SpecimenTest extends SpecimenBaseTest
         log("Setup Excel specimen attachment");
         clickAndWait(Locator.linkWithText("Manage"));
         clickAndWait(Locator.linkWithText("Manage Notifications"));
-        checkCheckbox(Locator.checkboxById("newRequestNotifyCheckbox"));
-        setFormElement(Locator.id("newRequestNotify"), PasswordUtil.getUsername());
+        WebElement newRequestNotifyCheckbox = Locator.checkboxById("newRequestNotifyCheckbox").findElement(getDriver());
+        checkCheckbox(newRequestNotifyCheckbox);
+        checkCheckbox(newRequestNotifyCheckbox); // First try just doesn't stick sometimes
+        setFormElement(waitForElement(Locator.id("newRequestNotify").notHidden()), PasswordUtil.getUsername());
         checkRadioButton(Locator.radioButtonByNameAndValue("specimensAttachment", "ExcelAttachment"));
         clickButton("Save");
 

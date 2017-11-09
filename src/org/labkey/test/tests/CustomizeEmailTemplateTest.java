@@ -24,6 +24,7 @@ import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.StudyHelper;
+import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -104,9 +105,10 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     {
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Notifications"));
-        checkCheckbox(Locator.checkboxById("newRequestNotifyCheckbox"));
-        waitForElement(Locator.xpath("//textarea[@id='newRequestNotify']"));
-        setFormElement(Locator.id("newRequestNotify"), "notify@emailtemplate.test");
+        WebElement newRequestNotifyCheckbox = Locator.checkboxById("newRequestNotifyCheckbox").findElement(getDriver());
+        checkCheckbox(newRequestNotifyCheckbox);
+        checkCheckbox(newRequestNotifyCheckbox); // First try just doesn't stick sometimes
+        setFormElement(waitForElement(Locator.id("newRequestNotify").notHidden()), "notify@emailtemplate.test");
         clickButton("Save");
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         clickAndWait(Locator.linkWithText("Edit Email Template"));
