@@ -18,7 +18,10 @@ package org.labkey.test.tests;
 
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
+import org.labkey.test.components.html.RadioButton;
 import org.labkey.test.util.LogMethod;
+
+import static org.labkey.test.components.html.RadioButton.RadioButton;
 
 public abstract class SpecimenBaseTest extends StudyBaseTest
 {
@@ -134,7 +137,11 @@ public abstract class SpecimenBaseTest extends StudyBaseTest
         clickTab("Manage");
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         assertTextPresent("Default Email Recipients");
-        checkRadioButton(Locator.radioButtonByNameAndValue("defaultEmailNotify", "All"));
+        RadioButton notifyAllRadioButton = RadioButton(Locator.radioButtonByNameAndValue("defaultEmailNotify", "All")).find(getDriver());
+        waitFor(() -> {
+            notifyAllRadioButton.check();
+            return notifyAllRadioButton.isChecked();
+        }, "Failed to check radio button", WAIT_FOR_JAVASCRIPT);
         clickButton("Save");
 
         // TODO: Remove check below. This is temporary to investigate intermittent test failures where actors with emails
