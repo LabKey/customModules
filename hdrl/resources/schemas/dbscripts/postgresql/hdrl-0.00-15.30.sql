@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/* hdrl-0.00-15.20.sql */
-
 /* hdrl-14.31-15.10.sql */
 
 -- Note: Despite the version number, this script was actually added early in the 15.20 cycle.
@@ -52,46 +50,46 @@ INSERT INTO hdrl.TestType VALUES(DEFAULT, 'HIV Screening Algorithm');
 CREATE TABLE hdrl.FamilyMemberPrefix
 (
     RowId SERIAL NOT NULL,
-    Code SMALLINT NOT NULL,
+    Code CHAR(2) NOT NULL,
     Description VARCHAR(128),
 
     CONSTRAINT PK_FamilyMemberPrefix PRIMARY KEY (RowId),
     CONSTRAINT UQ_FamilyMemberPrefix UNIQUE (Code)
 );
 
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 0, 'No FMP Number (MEPS)');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 1, 'Oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 2, '2nd oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 3, '3rd oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 4, '4th oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 5, '5th oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 6, '6th oldest child'); 
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 7, '7th oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 8, '8th oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 9, '9th oldest child');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 20, 'Sponsor');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 30, 'Sponsor''s current spouse'); 
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 31, 'Sponsor''s Eligible Former Spouse(s)'); 
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 32, 'Sponsor''s Eligible Former Spouse(s)'); 
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 33, 'Sponsor''s Eligible Former Spouse(s)');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 40, 'Sponsor''s Dependent Mother or Stepmother');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 45, 'Sponsor''s Dependent Father or Stepfather');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 50, 'Sponsor''s Dependent Mother-in-law');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 55, 'Sponsor''s Dependent Father-in-law');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 60, 'Other Authorized Sponsor''s Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 61, 'Other Authorized Sponsor''s Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 62, 'Other Authorized Sponsor''s Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 63, 'Other Authorized Sponsor''s Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 64, 'Other Authorized Sponsor''s Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 65, 'Other Authorized Sponsor''s Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 90, 'Children of Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 91, 'Children of Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 92, 'Children of Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 93, 'Children of Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 94, 'Children of Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 95, 'Children of Dependents');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 98, 'Civilian, Indigent and Non-Indigent');
-INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, 99, 'Other Qualified Beneficiaries');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '00', 'No FMP Number (MEPS)');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '01', 'Oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '02', '2nd oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '03', '3rd oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '04', '4th oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '05', '5th oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '06', '6th oldest child'); 
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '07', '7th oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '08', '8th oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '09', '9th oldest child');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '20', 'Sponsor');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '30', 'Sponsor''s current spouse'); 
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '31', 'Sponsor''s Eligible Former Spouse(s)'); 
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '32', 'Sponsor''s Eligible Former Spouse(s)'); 
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '33', 'Sponsor''s Eligible Former Spouse(s)');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '40', 'Sponsor''s Dependent Mother or Stepmother');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '45', 'Sponsor''s Dependent Father or Stepfather');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '50', 'Sponsor''s Dependent Mother-in-law');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '55', 'Sponsor''s Dependent Father-in-law');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '60', 'Other Authorized Sponsor''s Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '61', 'Other Authorized Sponsor''s Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '62', 'Other Authorized Sponsor''s Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '63', 'Other Authorized Sponsor''s Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '64', 'Other Authorized Sponsor''s Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '65', 'Other Authorized Sponsor''s Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '90', 'Children of Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '91', 'Children of Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '92', 'Children of Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '93', 'Children of Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '94', 'Children of Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '95', 'Children of Dependents');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '98', 'Civilian, Indigent and Non-Indigent');
+INSERT INTO hdrl.FamilyMemberPrefix VALUES(DEFAULT, '99', 'Other Qualified Beneficiaries');
 
 CREATE TABLE hdrl.SourceOfTesting
 (
@@ -316,7 +314,6 @@ CREATE TABLE hdrl.InboundRequest
     ShippingNumber VARCHAR(32),
     SubmittedBy USERID,
     Submitted TIMESTAMP,
-    Completed TIMESTAMP,
     TestTypeId INT NOT NULL,
 
     Container ENTITYID NOT NULL,
@@ -324,6 +321,7 @@ CREATE TABLE hdrl.InboundRequest
     Created TIMESTAMP,
     ModifiedBy USERID,
     Modified TIMESTAMP,
+    ArchivedRequestCount INT,
 
     CONSTRAINT PK_InboundRequest PRIMARY KEY (RequestId),
     CONSTRAINT FK_InboundRequest_Test FOREIGN KEY (TestTypeId) REFERENCES hdrl.TestType (RowId),
@@ -344,6 +342,12 @@ CREATE TABLE hdrl.InboundSpecimen
     DutyCodeId INT,
     TestingSourceId INT,
     DrawDate TIMESTAMP,
+    DoDId BIGINT,
+    Container ENTITYID NOT NULL,
+    MiddleName VARCHAR(64),
+    Initials VARCHAR(5),
+    NumContainers INT DEFAULT 1,
+    GenderId INT,
 
     CreatedBy USERID,
     Created TIMESTAMP,
@@ -351,82 +355,12 @@ CREATE TABLE hdrl.InboundSpecimen
     Modified TIMESTAMP,
 
     CONSTRAINT PK_InboundSpecimen PRIMARY KEY (RowId),
-    CONSTRAINT FK_InboundSpecimen_Request FOREIGN KEY (InboundRequestId) REFERENCES hdrl.InboundRequest (RequestId),
     CONSTRAINT FK_InboundSpecimen_FMP FOREIGN KEY (FMPId) REFERENCES hdrl.FamilyMemberPrefix (RowId),
     CONSTRAINT FK_InboundSpecimen_DutyCode FOREIGN KEY (DutyCodeId) REFERENCES hdrl.DutyCode (RowId),
-    CONSTRAINT FK_InboundSpecimen_TestingSource FOREIGN KEY (TestingSourceId) REFERENCES hdrl.SourceOfTesting (RowId),
-    CONSTRAINT UQ_InboundSpecimen UNIQUE (CustomerBarcode)
+    CONSTRAINT FK_InboundSpecimen_TestingSource FOREIGN KEY (TestingSourceId) REFERENCES hdrl.SourceOfTesting (RowId)
 );
 
-/* hdrl-15.10-15.11.sql */
-
-ALTER TABLE hdrl.InboundRequest ADD COLUMN Title VARCHAR(128);
-
-/* hdrl-15.11-15.12.sql */
-
-ALTER TABLE hdrl.InboundRequest DROP COLUMN IF EXISTS Title;
-ALTER TABLE hdrl.InboundRequest ADD COLUMN Title VARCHAR(64);
-
-ALTER TABLE hdrl.InboundSpecimen ALTER COLUMN SSN TYPE VARCHAR(11);
-
-/* hdrl-15.12-15.13.sql */
-
-ALTER TABLE hdrl.InboundSpecimen ADD COLUMN ValidationStatus VARCHAR(128);
-
-/* hdrl-15.13-15.14.sql */
-
-UPDATE hdrl.RequestStatus SET Description='Request is more than 30 days old' WHERE Name='Archived';
-
-/* hdrl-15.14-15.15.sql */
-
-ALTER TABLE hdrl.InboundRequest DROP COLUMN IF EXISTS Title;
-ALTER TABLE hdrl.InboundSpecimen ADD  DoDId BIGINT;
-
-/* hdrl-15.15-15.16.sql */
-
-ALTER TABLE hdrl.InboundSpecimen DROP CONSTRAINT IF EXISTS UQ_InboundSpecimen;
-ALTER TABLE hdrl.InboundSpecimen DROP CONSTRAINT IF EXISTS FK_InboundSpecimen_Request, ADD CONSTRAINT FK_InboundSpecimen_Request FOREIGN KEY (InboundRequestId) REFERENCES hdrl.InboundRequest (RequestId) ON DELETE CASCADE;
-
 /* hdrl-15.16-15.17.sql */
-
-UPDATE hdrl.InboundSpecimen SET SSN=NULL WHERE CHAR_LENGTH(SSN) > 9;
-ALTER TABLE hdrl.InboundSpecimen ALTER SSN TYPE VARCHAR(9);
-
-ALTER TABLE hdrl.FamilyMemberPrefix ALTER CODE TYPE CHAR(2);
-UPDATE hdrl.FamilyMemberPrefix SET CODE='00' where CODE='0';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='01' where CODE='1';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='02' where CODE='2';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='03' where CODE='3';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='04' where CODE='4';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='05' where CODE='5';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='06' where CODE='6';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='07' where CODE='7';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='08' where CODE='8';
-UPDATE hdrl.FamilyMemberPrefix SET CODE='09' where CODE='9';
-
-/* hdrl-15.17-15.171.sql */
-
-ALTER TABLE hdrl.InboundSpecimen ADD COLUMN Container ENTITYID;
-
-UPDATE hdrl.InboundSpecimen s SET Container=r.Container from hdrl.InboundRequest r where s.InboundRequestId = r.RequestId;
-
-ALTER TABLE hdrl.InboundSpecimen ALTER Container SET NOT NULL;
-
-/* hdrl-15.171-15.172.sql */
-
-ALTER TABLE hdrl.InboundSpecimen ADD COLUMN MiddleName VARCHAR(64);
-
-/* hdrl-15.172-15.173.sql */
-
-ALTER TABLE hdrl.InboundRequest ADD COLUMN ArchivedRequestCount INT;
-
-/* hdrl-15.20-15.30.sql */
-
-/* hdrl-15.20-15.21.sql */
-
-ALTER TABLE hdrl.InboundSpecimen ADD COLUMN Initials VARCHAR(5);
-ALTER TABLE hdrl.InboundSpecimen ADD COLUMN NumContainers INT DEFAULT 1;
-ALTER TABLE hdrl.InboundSpecimen ADD COLUMN GenderId INT;
 
 CREATE TABLE hdrl.Gender
 (
@@ -477,13 +411,15 @@ CREATE TABLE hdrl.SpecimenResult
   SampleIntegrity VARCHAR(80),
   TestResult VARCHAR(254),
   CustomerCode VARCHAR(80),
-  ModifiedResultFlag CHAR,
+  ModifiedResultFlag CHAR DEFAULT 'F',
 
   Container ENTITYID NOT NULL,
   CreatedBy USERID,
   Created TIMESTAMP,
   ModifiedBy USERID,
   Modified TIMESTAMP,
+  RequestId INT NOT NULL,
+    ReportFileName VARCHAR(20),
 
   CONSTRAINT PK_SpecimenResult PRIMARY KEY (SpecimenId),
   CONSTRAINT FK_SpecimenResult_InboundSpecimen FOREIGN KEY (SpecimenId) REFERENCES hdrl.InboundSpecimen(RowId) ON DELETE CASCADE,
@@ -491,21 +427,7 @@ CREATE TABLE hdrl.SpecimenResult
 
 );
 
-ALTER TABLE hdrl.InboundRequest DROP COLUMN Completed;
-ALTER TABLE hdrl.InboundSpecimen DROP COLUMN ValidationStatus;
-
-/* hdrl-15.22-15.23.sql */
-
-ALTER TABLE hdrl.specimenResult ADD COLUMN RequestId INT;
-UPDATE hdrl.specimenResult res SET RequestId = req.InboundRequestId
-  FROM hdrl.InboundSpecimen req
-  WHERE res.SpecimenId = req.RowId;
-ALTER TABLE hdrl.specimenResult ALTER COLUMN RequestId SET NOT NULL;
-
-ALTER TABLE hdrl.specimenResult ADD COLUMN ReportFileName VARCHAR(20);
 ALTER TABLE hdrl.specimenResult ADD CONSTRAINT FK_SpecimenResult_InboundRequest FOREIGN KEY (RequestId) REFERENCES hdrl.InboundRequest(RequestId) ON DELETE CASCADE;
-
-ALTER TABLE hdrl.specimenResult ALTER COLUMN modifiedResultFlag SET DEFAULT 'F';
 
 /* hdrl-15.24-15.25.sql */
 
