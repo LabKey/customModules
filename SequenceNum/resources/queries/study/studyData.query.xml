@@ -3,7 +3,7 @@
         <tables xmlns="http://labkey.org/data/xml">
             <table tableName="studydata" tableDbType="NOT_IN_DB">
                 <!-- Wire up the customizer that swaps in SequenceNum for all datasets -->
-                <javaCustomizer>org.labkey.sequencenum.DatasetVisitColumnCustomizer</javaCustomizer>
+                <javaCustomizer class="org.labkey.sequencenum.DatasetVisitColumnCustomizer" />
             </table>
         </tables>
     </metadata>
