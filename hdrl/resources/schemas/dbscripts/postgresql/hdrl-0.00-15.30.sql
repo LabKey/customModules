@@ -357,7 +357,8 @@ CREATE TABLE hdrl.InboundSpecimen
     CONSTRAINT PK_InboundSpecimen PRIMARY KEY (RowId),
     CONSTRAINT FK_InboundSpecimen_FMP FOREIGN KEY (FMPId) REFERENCES hdrl.FamilyMemberPrefix (RowId),
     CONSTRAINT FK_InboundSpecimen_DutyCode FOREIGN KEY (DutyCodeId) REFERENCES hdrl.DutyCode (RowId),
-    CONSTRAINT FK_InboundSpecimen_TestingSource FOREIGN KEY (TestingSourceId) REFERENCES hdrl.SourceOfTesting (RowId)
+    CONSTRAINT FK_InboundSpecimen_TestingSource FOREIGN KEY (TestingSourceId) REFERENCES hdrl.SourceOfTesting (RowId),
+    CONSTRAINT FK_InboundSpecimen_Request FOREIGN KEY (InboundRequestId) REFERENCES hdrl.InboundRequest (RequestId) ON DELETE CASCADE
 );
 
 /* hdrl-15.16-15.17.sql */
