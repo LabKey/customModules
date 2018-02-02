@@ -22,7 +22,6 @@ import org.apache.http.HttpStatus;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
-import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyC;
@@ -439,7 +438,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
 
         File txtFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
-        TextSearcher txtSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(txtFile));
+        TextSearcher txtSearcher = new TextSearcher(txtFile);
 
         // verify the additional columns
         assertTextPresent(txtSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1", "Fr Level2");
@@ -472,7 +471,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
 
         File formattedFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
-        TextSearcher fileSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(formattedFile));
+        TextSearcher fileSearcher = new TextSearcher(formattedFile);
 
         // verify the additional columns
         assertTextNotPresent(fileSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1");
@@ -482,7 +481,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Providing Location Specimen Lists"));
 
         File locationSpecimens = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
-        TextSearcher locationFileSearcher = new TextSearcher(() -> TestFileUtils.getFileContents(locationSpecimens));
+        TextSearcher locationFileSearcher = new TextSearcher(locationSpecimens);
 
         // verify the additional columns
         assertTextNotPresent(locationFileSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1");
