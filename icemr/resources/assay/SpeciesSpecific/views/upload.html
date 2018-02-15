@@ -127,7 +127,7 @@
             id : 'upload-gelImage-form',
             bodyStyle: {background: 'transparent'},
             defaults: getDefaults(),
-            items : [config]
+            items : [config, {xtype : 'hidden', name : 'X-LABKEY-CSRF', value: LABKEY.CSRF}]
         });
     }
 
@@ -189,7 +189,12 @@
                     xtype   : 'button',
                     text    : 'Cancel',
                     handler : goBack
-                }]
+                }, {
+                    xtype : 'hidden',
+                    name : 'X-LABKEY-CSRF',
+                    value: LABKEY.CSRF
+                }
+            ]
         });
 
         //

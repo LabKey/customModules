@@ -177,7 +177,12 @@ function onFieldConfigsReady(runConfigs, resultConfigs)
                 xtype   : 'button',
                 text    : 'Cancel',
                 handler : goBack
-            }]
+            }, {
+                xtype : 'hidden',
+                name : 'X-LABKEY-CSRF',
+                value: LABKEY.CSRF
+            }
+        ]
     });
 
         //
