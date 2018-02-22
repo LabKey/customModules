@@ -21,6 +21,7 @@ import org.labkey.api.files.view.FilesWebPart;
 import org.labkey.api.portal.ProjectUrls;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
+import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.study.StudyUrls;
@@ -59,7 +60,7 @@ public class ViscStudyFolderTabs
         @Override
         public ActionURL getURL(Container container, User user)
         {
-            if (showGWTStudyDesigner(container, user) && getPanelName() != null)
+            if (container.hasPermission(user, ReadPermission.class) && showGWTStudyDesigner(container, user) && getPanelName() != null)
             {
                 ActionURL actionURL = new ActionURL("study-designer", "designer", container);
                 actionURL.addParameter("panel", getPanelName());
