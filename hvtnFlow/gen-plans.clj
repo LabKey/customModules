@@ -3,6 +3,19 @@
             [clojure.java.io :as io]
             [clojure.zip :as zip]))
 
+; Turn on the debug flag by passing "-debug" in as a command line argument
+(def ^:dynamic *debug* false)
+
+; Print summary tree of the analysis plan instead of writing to the analysis plan file
+(def ^:dynamic *print-tree* false)
+
+; Print summary grid  of the analysis plan instead of writing to the analysis plan file
+(def ^:dynamic *print-grid* false)
+
+(defn debug [& args]
+  (if *debug*
+    (println (apply str args))))
+
 (defn boolean-combinations [bools oldstyle]
   "Given a list of boolean names, generate a list of + and - combinations.
   When oldstyle is true, the combinations will be prefixed with ! when negated."
@@ -41,7 +54,7 @@
   (zip/zipper #(contains? % :children) :children nil specification))
 
 (defn normalize [s]
-  (.normalize (.toPath (io/file s))))
+  (s/join "/" (.normalize (.toPath (io/file s)))))
 
 (defn stat-string [loc]
   (let [node (zip/node loc)
@@ -78,17 +91,45 @@
   (when (not (zip/children loc))
     (let [locs (path-loc loc)]
       (println
-        (s/join "\t"
-                (map #(:name (zip/node %)) locs))))))
+              (s/join "\t"
+                      (map #(:name (zip/node %)) locs))))))
 
-(defn print-subsets [debug? sortid id description z]
+(defn print-subsets [summary-grid? sortid id description z]
   "Print the exhaustive list of subset names and stats for the entire plan"
   (loop [loc z]
     (if (not (zip/end? loc))
       (do
-        (if debug?
+        (if summary-grid?
           (print-path-debug loc)
           (print-path sortid id description loc))
+        (recur (zip/next loc))))))
+
+
+(defn depth [loc]
+  "Count the nodes up to the root minus one"
+  (count (zip/path loc)))
+
+(defn strstr [n s]
+  "Create a string by repeatedly appending s, n number of times"
+  (apply str (repeat n s)))
+
+(defn print-tree [sortid id description z]
+  "Print the tree of subset names and stats for the entire plan"
+  (loop [loc z]
+    (if (not (zip/end? loc))
+      (do
+        (let [d (depth loc)
+              n (zip/node loc)
+              sb (StringBuilder.)]
+          (if (> d 0)
+            (do
+              (.append sb (strstr (dec d) "  "))
+              (.append sb (:gate n))
+              (if (not (= (:gate n) (:name n)))
+                (-> sb
+                    (.append (strstr (- 40 (.length sb)) " "))
+                    (.append (:name n))))
+              (println (.toString sb)))))
         (recur (zip/next loc))))))
 
 (defn print-headers []
@@ -106,41 +147,89 @@
     (println (s/join "\t" headers))))
 
 
-(defn print-plan [debug? specification]
+
+(defn print-plan [specification]
+  "Print a summary of the plan or write out the plan to the 'plans' directory in the tsv format"
   (let [z (create-zipper specification)
         sortid (:sort-id specification)
         id (:id specification)
         desc (:description specification)]
 
-    (if debug?
-
-      ;; write summary of the plan to the console
+    (if *debug*
       (do
-        (println id "-" desc)
-        (print-subsets debug? sortid id desc z))
+        (debug "id: " id)
+        (debug "sort-id: " sortid)
+        (debug "name: " (:name specification))
+        (debug "description: " desc)
+        (debug "----"))
 
-      ;; write out full tsv to plans/AP-039.txt
-      (with-open [f (io/writer (io/file "plans" (str sortid ".tsv")))]
-        (binding [*out* f]
-          (print-headers)
-          (print-subsets debug? sortid id desc z))))))
+      (println "plan" id "-" desc))
+
+    (cond
+      ;; print tree summary of the plan to the console
+      *print-tree*
+      (print-tree sortid id desc z)
+
+      ;; print tabular summary of the plan to the console
+      *print-grid*
+      (print-subsets true sortid id desc z)
+
+      ;; default - write out full tsv to plans/AP-039.txt
+      :else
+      (let [file (io/file "plans" (str sortid ".tsv"))]
+            (println "writing to file: " (str file))
+            (with-open [f (io/writer file)]
+              (binding [*out* f]
+                (print-headers)
+              (print-subsets false sortid id desc z)))))))
 
 
-(defn print-plans [debug? ids]
+(defn load-plans []
+  (debug "loading analysis plans")
   (let [plans (load-file "analysis-plans.clj")]
+    (debug "loaded " (count plans) " plans")
+    plans))
+
+(defn print-plans [ids]
+  (let [plans (load-plans)]
     (dorun
-      (for [plan plans]
-        (if (or (empty? ids) (some #(= (:id plan) %) ids))
-          (print-plan debug? plan))))))
+
+      (if (empty? ids)
+        ; print all plans
+        (for [plan plans] (print-plan plan))
+
+        ; look for a plan matching each id
+        (for [id ids]
+          (let [plan (first (filter #(= (:id %) id) plans))]
+            (if (nil? plan)
+              (println "no plan found for" id)
+              (print-plan plan))))))))
 
 ; ---------
 
-(def debug false)
+(defn -main [args]
+  (binding [*debug* false
+            *print-tree* false
+            *print-grid* false]
 
-(defn -main [& args]
-  (if (empty? args)
-    (print-plans debug nil)
-    (print-plans debug (first args))))
+    ; separate out the flag arguments from the rest
+    (let [args (filter #(not (= "gen-plans.clj" %)) args)
+          flags (filter #(.startsWith % "-") args)
+          ids (filter #(not (.startsWith % "-")) args)]
+
+      ; loop over arguments to set flags
+      (doseq [flag flags]
+        (condp = flag
+          "-debug" (set! *debug* true)
+          "-print-grid" (set! *print-grid* true)
+          "-print-tree" (set! *print-tree* true)
+
+          ; default
+          (print "unknown flag: " flag)))
+
+      ; now, do the stuff
+      (print-plans ids))))
+
 
 (-main *command-line-args*)
 

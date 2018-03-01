@@ -23,6 +23,12 @@ Updating analysis plans on the server:
 
     Where [plan-id] is an optional analysis plan id, e.g. "43"
 
+    Command line options:
+    -debug       -- turn on debug level logging
+    -print-tree  -- print a summary tree of the plan (when set, plan file not written)
+    -print-grid  -- print a summary grid of the plan (when set, plan file not written)
+    [plan-id]    -- one or more plan ids to print
+
 
 - The generated plans will be written to plans/AP-<plan-id>.tsv
 

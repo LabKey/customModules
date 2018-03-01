@@ -54,6 +54,8 @@
   [(apply CD4+excl children)
    (apply CD8+excl children)])
 
+(defn S-Time          [& children] (subset "Time" "S/Time" children))
+
 (defn CD4-CD8-      [& children] (subset "CD4-CD8-" "CD4-CD8-" children))
 (defn NKTcells      [& children] (subset "NKT cells" "NKT cells" children))
 (defn gd+           [& children] (subset "gd+" "gd+" children))
@@ -67,7 +69,28 @@
 (defn CM            [& children] (subset "CM" "CM" children))
 (defn EM            [& children] (subset "EM" "EM" children))
 (defn TD            [& children] (subset "TD" "TD" children))
-
+(defn Time          [& children] (subset "Time" "Time" children))
+(defn SSH14         [& children] (subset "14+SShi" "14+SShi" children))
+(defn Monos         [& children] (subset "Monos total" "Monos total" children))
+(defn SSlo          [& children] (subset "14-SSlo" "14-SSlo" children))
+(defn Lv*           [& children] (subset "Lv" "Lv" children))
+(defn Keeper        [& children] (subset "Keeper" "Keeper" children))
+(defn three-        [& children] (subset "3-" "3-" children))
+(defn four+         [& children] (subset "4+" "4+" children))
+(defn four-eight-   [& children] (subset "4-8-" "4-8-" children))
+(defn eight+        [& children] (subset "8+" "8+" children))
+(defn DR-           [& children] (subset "DR-" "DR-" children))
+(defn NKTotal       [& children] (subset "NK total" "NK total" children))
+(defn L*            [& children] (subset "L" "L" children))
+(defn three+        [& children] (subset "3+" "3+" children))
+(defn IFNg_OR_IL2   [& children] (subset "IFNg_OR_IL2" "IFNg_OR_IL2" children))
+(defn sixteen-56-   [& children] (subset "16-56-" "16-56-" children))
+(defn gd-           [& children] (subset "gd-" "gd-" children))
+(defn twenty6+161+  [& children] (subset "26+161+" "26+161+" children))
+(defn Va72+        [& children] (subset "Va7.2+" "Va7.2+" children))
+(defn Va72-        [& children] (subset "Va7.2-" "Va7.2-" children))
+(defn Not26+161+    [& children] (subset "Not26+161+" "Not26+161+" children))
+(defn sixteen+or56+ [& children] (subset "16+or56+" "16+or56+" children))
 
 (defn Blank [& children]
   "Empty subset (used to skip a level to align CD4+ and NKT cells)"
@@ -152,7 +175,7 @@
   [(Subset. "154+"   "154+"  nil)
    (Subset. "GzB+"   "GzB+"  nil)
    (Subset. "IFNg+"  "IFNg+" nil)
-   (Subset. "IL17a+"  "IL17a+"  nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
    (Subset. "IL2+"   "IL2+"  nil)
    (Subset. "IL4+"   "IL4+"  nil)
    (Subset. "TNFa+"  "TNFa+" nil)
@@ -160,15 +183,80 @@
 
 ; AnalysisPlan042 marginals including ICOS+ and IFNg\IL2
 (def CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
-  [(Subset. "154+"   "154+"  nil)
-   (Subset. "GzB+"   "GzB+"  nil)
-   (Subset. "ICOS+"  "ICOS+" nil)
-   (Subset. "IFNg+"  "IFNg+" nil)
-   (Subset. "IL17a+"  "IL17a+"  nil)
-   (Subset. "IL2+"   "IL2+"  nil)
-   (Subset. "IL4+"   "IL4+"  nil)
-   (Subset. "TNFa+"  "TNFa+" nil)
+  [(Subset. "154+"   "154+"    nil)
+   (Subset. "GzB+"   "GzB+"    nil)
+   (Subset. "ICOS+"  "ICOS+"   nil)
+   (Subset. "IFNg+"  "IFNg+"   nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"    nil)
+   (Subset. "IL4+"   "IL4+"    nil)
+   (Subset. "TNFa+"  "TNFa+"   nil)
    (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan042 marginals with 8+ prefix
+(def CD8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "154+"   "8+154+"  nil)
+   (Subset. "GzB+"   "GzB+"    nil)
+   (Subset. "ICOS+"  "8+ICOS+" nil)
+   (Subset. "IFNg+"  "IFNg+"   nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"    nil)
+   (Subset. "IL4+"   "IL4+"    nil)
+   (Subset. "TNFa+"  "TNFa+"   nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+
+; AnalysisPlan042 marginals including PD1+, ICOS+, and IFNg\IL2
+(def PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "PD1+"   "PD1+"    nil)
+   (Subset. "154+"   "154+"    nil)
+   (Subset. "GzB+"   "GzB+"    nil)
+   (Subset. "ICOS+"  "ICOS+"   nil)
+   (Subset. "IFNg+"  "IFNg+"   nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"    nil)
+   (Subset. "IL4+"   "IL4+"    nil)
+   (Subset. "TNFa+"  "TNFa+"   nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan042 marginals including PD1+, ICOS+, and IFNg\IL2
+(def PD1|CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "PD1+"   "PD1+"    nil)
+   (Subset. "154+"   "154+"    nil)
+   (Subset. "GzB+"   "GzB+"    nil)
+   (Subset. "IFNg+"  "IFNg+"   nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"    nil)
+   (Subset. "IL4+"   "IL4+"    nil)
+   (Subset. "TNFa+"  "TNFa+"   nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan042 marginals including 8+PD1+, ICOS+, and IFNg\IL2
+(def CD8+PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "PD1+"   "8+PD1+"  nil)
+   (Subset. "154+"   "154+"    nil)
+   (Subset. "GzB+"   "GzB+"    nil)
+   (Subset. "ICOS+"  "ICOS+"   nil)
+   (Subset. "IFNg+"  "IFNg+"   nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"    nil)
+   (Subset. "IL4+"   "IL4+"    nil)
+   (Subset. "TNFa+"  "TNFa+"   nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
+; AnalysisPlan042 marginals including 8+PD1+, ICOS+, and IFNg\IL2
+(def CD8+PD1|8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+  [(Subset. "PD1+"   "8+PD1+"  nil)
+   (Subset. "154+"   "8+154+"  nil)
+   (Subset. "GzB+"   "GzB+"    nil)
+   (Subset. "ICOS+"  "8+ICOS+" nil)
+   (Subset. "IFNg+"  "IFNg+"   nil)
+   (Subset. "IL17a+" "IL17a+"  nil)
+   (Subset. "IL2+"   "IL2+"    nil)
+   (Subset. "IL4+"   "IL4+"    nil)
+   (Subset. "TNFa+"  "TNFa+"   nil)
+   (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)])
+
 
 ; function to generate marginals and marginals for each set of memory cells with
 ; the PD1 population parameterized -- CD4+ uses "PD1+" while CD8+ uses "8+PD1+"
@@ -205,6 +293,164 @@
   (conj CD154|GzB|IFNg|IL13|IL2|IL21|IL4|TNFa|IFNgOrIL2
         (subset "PD1+")))
 
+; AnalysisPlan044 marginals
+(def !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD
+  [(subset "45RA+")
+    (subset "CCR7+")
+    (subset "CM")
+    (subset "EM")
+    (subset "GzA+")
+    (subset "GzA+Perf+")
+    (subset "GzA+Perf-")
+    (subset "GzA-Perf+")
+    (subset "GzA-Perf-")    
+    (subset "KLRG1+")
+    (subset "Naive")
+    (subset "Perf+")
+    (subset "TD")
+  ])
+
+(def !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+  [(subset "154+")
+    (subset "CCR6+")
+    (subset "CCR6+CXCR3+")
+    (subset "CCR6+CXCR3-")
+    (subset "CCR6-CXCR3+")
+    (subset "CCR6-CXCR3-")
+    (subset "CCR7+")    
+    (subset "CM")
+    (subset "CXCR3+")
+    (subset "DR+")
+    (subset "EM")
+    (subset "GzA+")
+    (subset "GzA+Perf+")
+    (subset "GzA+Perf-")
+    (subset "GzA-Perf+")
+    (subset "GzA-Perf-")
+    (subset "IFNg+")
+  ])
+
+(def !445RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD
+  [(subset "4+45RA+")
+  (subset "CCR6+")
+  (subset "CCR6+CXCR3+")
+  (subset "CCR6+CXCR3-")
+  (subset "CCR6-CXCR3+")
+  (subset "CCR6-CXCR3-")
+  (subset "CCR7+")    
+  (subset "CM")
+  (subset "CXCR3+")
+  (subset "EM")
+  (subset "GzA+")
+  (subset "GzA+Perf+")
+  (subset "GzA+Perf-")
+  (subset "GzA-Perf+")
+  (subset "GzA-Perf-")
+  (subset "KLRG1+")
+  (subset "Naive")
+  (subset "Perf+")
+  (subset "TD")
+  ])
+
+(def !445RA|4KLRG1|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|Naive|Perf|TD
+  [(subset "4+45RA+")
+  (subset "4+KLRG1+")
+  (subset "CCR6+")
+  (subset "CCR6+CXCR3+")
+  (subset "CCR6+CXCR3-")
+  (subset "CCR6-CXCR3+")
+  (subset "CCR6-CXCR3-")
+  (subset "CCR7+")    
+  (subset "CM")
+  (subset "CXCR3+")
+  (subset "EM")
+  (subset "GzA+")
+  (subset "GzA+Perf+")
+  (subset "GzA+Perf-")
+  (subset "GzA-Perf+")
+  (subset "GzA-Perf-")
+  (subset "Naive")
+  (subset "Perf+")
+  (subset "TD")
+  ])
+
+(def !45RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD
+  [(subset "45RA+")
+  (subset "CCR6+")
+  (subset "CCR6+CXCR3+")
+  (subset "CCR6+CXCR3-")
+  (subset "CCR6-CXCR3+")
+  (subset "CCR6-CXCR3-")
+  (subset "CCR7+")    
+  (subset "CM")
+  (subset "CXCR3+")
+  (subset "EM")
+  (subset "GzA+")
+  (subset "GzA+Perf+")
+  (subset "GzA+Perf-")
+  (subset "GzA-Perf+")
+  (subset "GzA-Perf-")
+  (subset "KLRG1+")
+  (subset "Naive")
+  (subset "Perf+")
+  (subset "TD")
+  ])
+
+(def !154|HLADR|IFNg|IFNgOrIL2|IL2|IL17a|IL22|Th2|TNFa
+  [
+    (subset "154+")
+    (subset "HLA-DR+")
+    (subset "IFNg+")
+    (subset "IFNg_OR_IL2")
+    (subset "IL2+")
+    (subset "IL17a+")
+    (subset "IL22+")
+    (subset "Th2+")
+    (subset "TNFa+")
+  ])
+
+(def !4|48|8|16|16Or56|26161|45RA|56|154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf
+    [
+    (subset "154+")
+    (subset "CCR6+")
+    (subset "CCR6+CXCR3+")
+    (subset "CCR6+CXCR3-")
+    (subset "CCR6-CXCR3+")
+    (subset "CCR6-CXCR3-")
+    (subset "CCR7+")    
+    (subset "CM")
+    (subset "CXCR3+")
+    (subset "DR+")
+    (subset "EM")
+    (subset "GzA+")
+    (subset "GzA+Perf+")
+    (subset "GzA+Perf-")
+    (subset "GzA-Perf+")
+    (subset "GzA-Perf-")
+    (subset "IFNg+")
+    ])
+
+(def IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+  [(subset "IL2+")
+  (subset "IL17a+")                  
+  (subset "IL22+")
+  (subset "KLRG1+")
+  (subset "Naive")
+  (subset "Perf+")
+  (subset "TD")
+  (subset "Th2+")
+  (subset "TNFa+") 
+  ])
+
+(def !4|48|8|16|16or56|45RA|56
+  [(subset "4+")
+    (subset "4-8-")
+    (subset "8+")
+    (subset "16+")
+    (subset "16+or56+")
+    (subset "45RA+")
+    (subset "56+")
+  ])
 
 ;;
 ;; The Analysis Plan definitions must be the last value in this file
@@ -509,8 +755,9 @@
               (CD4+|CD8+
                 CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))))))] }
 
- {:id "42"
-  :sort-id "AP-042"
+ ; Same as AP-042 but in a more compact and less understandable form
+ {:id "42.legacy"
+  :sort-id "AP-042.legacy"
   :name "Analysis Plan 042"
   :description "17-color ICS with memory, Tfh, NK markers."
   :children
@@ -530,9 +777,8 @@
            (CD3-
              (CD56+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))))) ]}
 
- ; Doesn't work -- just messing around with a more expanded form of 042
- {:id "42.alt"
-  :sort-id "AP-042.alt"
+ {:id "42"
+  :sort-id "AP-042"
   :name "Analysis Plan 042"
   :description "17-color ICS with memory, Tfh, NK markers."
   :children
@@ -543,41 +789,81 @@
           (L
            (CD3+
              (CD4+
-               CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
-               (subset  "ICOS+")
-               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
                (subset  "IFNg+IL2+")
                (subset  "IFNg+TNFa+")
                (subset  "IL2+TNFa+")
                (subset  "IFNg+IL2+TNFa+")
-               (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)
                (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
-               (PD1+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+"))
-               (Naive  CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
-               (CM     CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
-               (EM     CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
-               (TD     CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") PD1+)
-               (CXCR5+ CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+")
-                       (PD1+ CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+"))))
+               (PD1+       CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (Naive  PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (CM     PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (EM     PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (TD     PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (CXCR5+     CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+                 (PD1+     CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))
+
             (CD8+
-               CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
-               (subset  "ICOS+")
-               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
                (subset  "IFNg+IL2+")
                (subset  "IFNg+TNFa+")
                (subset  "IL2+TNFa+")
                (subset  "IFNg+IL2+TNFa+")
-               (Subset. "IFNg_OR_IL2" "IFNg\\\\IL2" nil)
                (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
-               (CD8+PD1+ CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+"))
-               (Naive    CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+)
-               (CM       CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+)
-               (EM       CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+)
-               (TD       CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 (subset "ICOS+") CD8+PD1+))
+               (CD8+PD1+         CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (Naive    CD8+PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (CM       CD8+PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (EM       CD8+PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (TD       CD8+PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))
 
-             (CD4-CD8- CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 PD1+ (subset "ICOS+"))
+             (CD4-CD8-   PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+             (NKTcells   PD1|CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))
 
-             (NKTcells CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2 PD1+))
+           (CD3-
+             (CD56+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))))) ]}
+
+ ; Same as 042 but uses 8+ICOS+ and 8+154+
+ {:id "42.8+"
+  :sort-id "AP-042.8+"
+  :name "Analysis Plan 042"
+  :description "17-color ICS with memory, Tfh, NK markers. (Same as 042 but with 8+ICOS+ and 8+154+)"
+  :children
+  [(S
+    (Exclude
+      (CD14-
+        (Lv
+          (L
+           (CD3+
+             (CD4+
+               CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+               (subset  "IFNg+IL2+")
+               (subset  "IFNg+TNFa+")
+               (subset  "IL2+TNFa+")
+               (subset  "IFNg+IL2+TNFa+")
+               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               (PD1+       CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (Naive  PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (CM     PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (EM     PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (TD     PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (CXCR5+     CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+                 (PD1+     CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)))
+
+            (CD8+
+               CD8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2
+               (subset  "IFNg+IL2+")
+               (subset  "IFNg+TNFa+")
+               (subset  "IL2+TNFa+")
+               (subset  "IFNg+IL2+TNFa+")
+               (Subset. "IFNg_OR_IL2_OR_TNFa" "IFNg\\\\IL2\\\\TNFa" nil)
+               (CD8+PD1+       CD8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (Naive    CD8+PD1|8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (CM       CD8+PD1|8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (EM       CD8+PD1|8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+               (TD       CD8+PD1|8+CD154|GzB|8+ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))
+
+             (CD4-CD8-   PD1|CD154|GzB|ICOS|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2)
+             (NKTcells   PD1|CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))
 
            (CD3-
              (CD56+   CD154|GzB|IFNg|IL17a|IL2|IL4|TNFa|IFNgOrIL2))))))) ]}
@@ -616,5 +902,121 @@
 
            (CD3-
              (CD56+   CD154|GzB|IFNg|IL13|IL2|IL21|IL4|PD1|TNFa|IFNgOrIL2))))))) ]}
+  {:id "44"
+   :sort-id "AP-044"
+   :name "Analysis Plan 044"
+   :description "26-color ICS for HVTN 602"
+   :children
+   [(S-Time
+    (SSH14 
+      (subset "14+16-")
+      (subset "14+16+")
+      (subset "14lo16+")
+      (Monos !154|HLADR|IFNg|IFNgOrIL2|IL2|IL17a|IL22|Th2|TNFa))
+    (Lv*
+      (SSlo
+        (Keeper
+          (three-
+            (DR-
+              (subset "16+56-")
+              (subset "16+56+")
+              (subset "16-56hi")
+              (subset "16-56lo")
+              (NKTotal
+                (subset "4+")
+                (subset "4-8-")
+                (subset "8+")
+                (subset "45RA+")
+                !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+                (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+))
+            (subset "HLA-DR+"))
+          
+          (L*
+            (three+
+              (gd+
+                (subset "4+")
+                (subset "4-8-")
+                (subset "8+")
+                (subset "16+")
+                (subset "16+or56+")
+                (subset "26+161+")
+                (subset "45RA+")
+                (subset "56+")
+                !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+                (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)
+              (subset "gd1")
+              (subset "gd2")
+              (subset "gd3")
+              (subset "gd4")
+              (subset "gd5")) ; gd5 in provided spreadsheet but not FloJo workspace
 
+          (subset "3+IFNg")
+          (subset "3+IL2")  
+          (subset "3+TNFa") 
+          (subset "3+154")  
+          (sixteen-56- 
+            (four+ 
+              (subset "4+IL22+")
+              (subset "4+KLRG1+")
+              (subset "4+Th2+")  
+              (subset "4+45RA+")
+              !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+              (IFNg_OR_IL2 !445RA|4KLRG1|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|Naive|Perf|TD)
+              (subset "IL2+")
+              (subset "IL17a+")
+              (subset "Naive")
+              (subset "Perf+")
+              (subset "TD")
+              (subset "TNFa+"))
+
+            (four-eight-
+              (subset "45RA+")
+              !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+              (IFNg_OR_IL2 !445RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD)
+              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)
+
+            (eight+
+              (subset "45RA+")
+              !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+              (IFNg_OR_IL2 !45RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD)
+              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+))
+
+          (gd-
+            (twenty6+161+ 
+              (Va72+
+                !4|48|8|16|16or56|45RA|56
+                !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+                (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)   
+
+              (Va72-
+                !4|48|8|16|16or56|45RA|56
+                !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+                (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)))
+
+          (Not26+161+
+            (subset "16+")
+            (sixteen+or56+
+              (subset "4+")
+              (subset "4-8-")
+              (subset "8+")
+              (subset "45RA+")
+              !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
+              (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)
+          (subset "56+"))))
+
+        (subset "K1")
+        (subset "K2")
+        (subset "K3")
+        (subset "K4")
+        (subset "K5")
+        (subset "K6")
+        (subset "K7")
+        (subset "K8")
+        (subset "K9")
+        (subset "K10")))) ]}
 ]
