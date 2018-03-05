@@ -358,7 +358,7 @@ var _migrateControl =
             }
             visitMsg += "] ";
             this.updateMigrationStatus(visitMsg);
-            this.migrateStudy(migrate)
+            this.migrateStudy(migrate);
             return;
         }
 
@@ -545,7 +545,13 @@ var _migrateControl =
         var assaySchedule = def.assaySchedule;
         var assayPlan = assaySchedule.description;
         Ext4.each(assaySchedule.assays, function(assay) {
-            var assaySpecimen = {assayName: assay.name, sampleType: assay.sampleMeasure ? assay.sampleMeasure.type : null, lab: assay.lab};
+            var assaySpecimen = {
+                assayName: assay.name,
+                sampleQuantity: assay.sampleMeasure && assay.sampleMeasure.amount > 0 ? assay.sampleMeasure.amount : null,
+                sampleUnits: assay.sampleMeasure ? assay.sampleMeasure.unit : null,
+                sampleType: assay.sampleMeasure ? assay.sampleMeasure.type : null,
+                lab: assay.lab
+            };
             assaySpecimens[assay.name] = assaySpecimen;
 
             if (assay.timepoint)
@@ -673,7 +679,13 @@ var _migrateControl =
         for (var key in this.assaySpecimens)
         {
             var assay = this.assaySpecimens[key];
-            var row = {assayName: assay.assayName, sampleType: assay.sampleType, lab: assay.lab};
+            var row = {
+                assayName: assay.assayName,
+                sampleQuantity: assay.sampleQuantity,
+                sampleUnits: assay.sampleUnits,
+                sampleType: assay.sampleType,
+                lab: assay.lab
+            };
             rows.push(row);
         }
 
