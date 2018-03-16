@@ -343,6 +343,10 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
                 "59.46", "59.46", "59.46", "7.024", "7.024", "7.024", "7.024", " ", " ", " ");
         Assert.assertEquals("SumOfCombineMinutes values incorrect", expected, actual);
 
+        /*
+            Because text sorting differs, slightly, on Postgres Windows vs. Mac/Linux, this ordering is not consistent, (Because Vial's vs. Vial is)
+            We can't do this comparison in the tests. If we want to add back a Max/Min test, we need to use a new or different text field and control the text.
+
         actual = table.getColumnDataAsText("MaxAvailabilityReason");
         expected = Arrays.asList(SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON,
                 SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON,
@@ -356,6 +360,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
                 SPECIMEN_UNAVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, SPECIMEN_AVAILABLE_REASON, " ", " ",
                 SPECIMEN_UNAVAILABLE_REASON);
         Assert.assertEquals("MinAvailabilityReason values incorrect", expected, actual);
+        */
 
         actual = table.getColumnDataAsText("LatestDrawTimestamp");
         expected = Arrays.asList("2009-01-07 00:00", "2009-01-06 00:00", "2008-09-17 00:00", "2008-09-17 00:00", "2008-09-17 00:00", "2008-09-17 00:00", "2008-07-30 00:00", "2008-07-30 00:00", "2008-07-30 00:00",
