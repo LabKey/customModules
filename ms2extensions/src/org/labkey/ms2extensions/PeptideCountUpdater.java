@@ -20,7 +20,6 @@ import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerManager;
-import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.data.SQLFragment;
@@ -71,8 +70,8 @@ public class PeptideCountUpdater
             ModuleProperty schemaProperty = module.getModuleProperties().get(MS2ExtensionsModule.PEPTIDE_COUNT_SCHEMA_PROPERTY);
             ModuleProperty queryProperty = module.getModuleProperties().get(MS2ExtensionsModule.PEPTIDE_COUNT_QUERY_PROPERTY);
 
-            String schemaName = PropertyManager.getCoalecedProperty(PropertyManager.SHARED_USER, ContainerManager.getRoot(), schemaProperty.getCategory(), schemaProperty.getName());
-            String queryName = PropertyManager.getCoalecedProperty(PropertyManager.SHARED_USER, ContainerManager.getRoot(), queryProperty.getCategory(), queryProperty.getName());
+            String schemaName = PropertyManager.getCoalescedProperty(PropertyManager.SHARED_USER, ContainerManager.getRoot(), schemaProperty.getCategory(), schemaProperty.getName());
+            String queryName = PropertyManager.getCoalescedProperty(PropertyManager.SHARED_USER, ContainerManager.getRoot(), queryProperty.getCategory(), queryProperty.getName());
 
             if (schemaName == null || schemaName.isEmpty())
             {
