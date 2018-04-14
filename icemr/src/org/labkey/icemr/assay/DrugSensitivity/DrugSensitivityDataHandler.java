@@ -183,7 +183,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
     /**
      * consider pushing this into the base data handler class
      */
-    public Map<DilutionSummary, DilutionAssayRun> getDilutionSummaries(User user, StatsService.CurveFitType fit, int... dataObjectIds) throws ExperimentException, SQLException
+    public Map<DilutionSummary, DilutionAssayRun> getDilutionSummaries(User user, StatsService.CurveFitType fit, int... dataObjectIds) throws ExperimentException
     {
         Map<DilutionSummary, DilutionAssayRun> summaries = new LinkedHashMap<>();
         if (dataObjectIds == null || dataObjectIds.length == 0)
@@ -322,7 +322,7 @@ public class DrugSensitivityDataHandler extends DilutionDataHandler
                 }
             }
         }
-        catch (SQLException | ValidationException e)
+        catch (ValidationException e)
         {
             throw new RuntimeException(e);
         }

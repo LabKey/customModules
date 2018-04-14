@@ -96,7 +96,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     // that we need to check to see if they adapted
     //
     @Override
-    public ExpMaterial handleMaterial(ViewContext context, JSONObject materialObject) throws ValidationException
+    public ExpMaterial handleMaterial(ViewContext context, JSONObject materialObject)
     {
         if (materialObject.has(ExperimentJSONConverter.PROPERTIES))
         {
@@ -200,19 +200,19 @@ public class AdaptationSaveHandler implements AssaySaveHandler
     { throw new IllegalStateException(INVALID_ACTION); }
     public AssayProvider getProvider()
     { throw new IllegalStateException(INVALID_ACTION); }
-    public ExpExperiment handleBatch(ViewContext context, JSONObject batchJson, ExpProtocol protocol) throws Exception
+    public ExpExperiment handleBatch(ViewContext context, JSONObject batchJson, ExpProtocol protocol)
     { throw new IllegalStateException(INVALID_ACTION); }
-    public ExpRun handleRun(ViewContext context, JSONObject runJson, ExpProtocol protocol, ExpExperiment batch) throws JSONException, ValidationException, ExperimentException, SQLException
+    public ExpRun handleRun(ViewContext context, JSONObject runJson, ExpProtocol protocol, ExpExperiment batch) throws JSONException
     { throw new IllegalStateException(INVALID_ACTION); }
-    public ExpData handleData(ViewContext context, JSONObject dataJson) throws ValidationException
+    public ExpData handleData(ViewContext context, JSONObject dataJson)
     { throw new IllegalStateException(INVALID_ACTION); }
-    public void handleProperties(ViewContext context, ExpObject object, List<? extends DomainProperty> dps, JSONObject propertiesJson) throws ValidationException, JSONException
+    public void handleProperties(ViewContext context, ExpObject object, List<? extends DomainProperty> dps, JSONObject propertiesJson) throws JSONException
     { throw new IllegalStateException(INVALID_ACTION); }
-    public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)throws Exception
+    public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)
     { throw new IllegalStateException(INVALID_ACTION); }
     public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpExperiment batch, ExpRun run, JSONArray inputDataArray,
         JSONArray dataArray, JSONArray inputMaterialArray, JSONObject runJsonObject, JSONArray outputDataArray,
-        JSONArray outputMaterialArray) throws ExperimentException, ValidationException
+        JSONArray outputMaterialArray)
     { throw new IllegalStateException(INVALID_ACTION); }
 
 }
