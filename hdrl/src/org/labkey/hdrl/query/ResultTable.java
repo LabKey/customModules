@@ -59,7 +59,6 @@ public class ResultTable extends SimpleUserSchema.SimpleTable<HDRLQuerySchema>
 
                 @Override
                 public int mergeRows(User user, Container container, DataIteratorBuilder rows, BatchValidationException errors, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext)
-                        throws SQLException
                 {
                     return _importRowsUsingDIB(user, container, rows, null, getDataIteratorContext(errors, InsertOption.MERGE, configParameters), extraScriptContext);
                 }

@@ -48,7 +48,7 @@ public class ViscStudiesController extends SpringActionController
         }
 
         @Override
-        public boolean doAction(Object o, BindException errors) throws Exception
+        public boolean doAction(Object o, BindException errors)
         {
             return true;
         }

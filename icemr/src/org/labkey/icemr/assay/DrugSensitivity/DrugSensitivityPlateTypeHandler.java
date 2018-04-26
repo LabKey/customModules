@@ -49,7 +49,7 @@ public class DrugSensitivityPlateTypeHandler extends AbstractPlateTypeHandler
     }
 
     @Override
-    public PlateTemplate createPlate(String templateTypeName, Container container, int rowCount, int colCount) throws SQLException
+    public PlateTemplate createPlate(String templateTypeName, Container container, int rowCount, int colCount)
     {
         PlateTemplate template = PlateService.get().createPlateTemplate(container, getAssayType(), rowCount, colCount);
 

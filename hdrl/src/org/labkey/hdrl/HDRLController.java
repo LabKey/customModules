@@ -97,7 +97,7 @@ public class HDRLController extends SpringActionController
     @RequiresPermission(ReadPermission.class)
     public class BeginAction extends SimpleViewAction
     {
-        public ModelAndView getView(Object o, BindException errors) throws Exception
+        public ModelAndView getView(Object o, BindException errors)
         {
             VBox vbox = new VBox();
 
@@ -130,7 +130,7 @@ public class HDRLController extends SpringActionController
     public class RequestDetailsAction extends SimpleViewAction
     {
         @Override
-        public ModelAndView getView(Object o, BindException errors) throws Exception
+        public ModelAndView getView(Object o, BindException errors)
         {
             String requestId = getViewContext().getRequest().getParameter("requestId");
             if (requestId != null)
@@ -257,7 +257,7 @@ public class HDRLController extends SpringActionController
     public class VerifySpecimenAction extends ApiAction<VerifyForm>
     {
         @Override
-        public Object execute(VerifyForm form, BindException errors) throws Exception
+        public Object execute(VerifyForm form, BindException errors)
         {
             ApiSimpleResponse response = new ApiSimpleResponse();
             JSONArray rows = form.getJsonObject().getJSONArray("rows");
@@ -365,7 +365,7 @@ public class HDRLController extends SpringActionController
     public class DownloadSpecimenTemplateAction extends ExportAction
     {
         @Override
-        public void export(Object o, HttpServletResponse response, BindException errors) throws Exception
+        public void export(Object o, HttpServletResponse response, BindException errors)
         {
             // just download the example file checked into the repository
             Module module = ModuleLoader.getInstance().getModule(HDRLModule.NAME);
@@ -389,7 +389,7 @@ public class HDRLController extends SpringActionController
     public class PrintPackingListAction extends SimpleViewAction<PackingListBean>
     {
         @Override
-        public ModelAndView getView(PackingListBean packingListBean, BindException errors) throws Exception
+        public ModelAndView getView(PackingListBean packingListBean, BindException errors)
         {
             List<InboundSpecimenBean> inboundSpecimenRows = HDRLManager.get().getInboundSpecimen(packingListBean.getRequestId());
             InboundRequestBean inboundRequestBean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), packingListBean.getRequestId());
@@ -499,14 +499,14 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public ModelAndView getView(SensitiveDataForm sensitiveDataForm, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(SensitiveDataForm sensitiveDataForm, boolean reshow, BindException errors)
         {
             JspView view = new JspView("/org/labkey/hdrl/view/sensitiveData.jsp", sensitiveDataForm, errors);
             return view;
         }
 
         @Override
-        public boolean handlePost(SensitiveDataForm sensitiveDataForm, BindException errors) throws Exception
+        public boolean handlePost(SensitiveDataForm sensitiveDataForm, BindException errors)
         {
             HDRLManager.saveProperties(sensitiveDataForm);
             return true;
@@ -545,7 +545,7 @@ public class HDRLController extends SpringActionController
     public class AddLabWareOutboundRequestAction extends ApiAction<LabWareOutboundRequestForm>
     {
         @Override
-        public Object execute(LabWareOutboundRequestForm form, BindException errors) throws Exception
+        public Object execute(LabWareOutboundRequestForm form, BindException errors)
         {
             HDRLManager.get().insertLabWareOutboundRequest(form, getUser(), getContainer());
 

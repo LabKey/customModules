@@ -95,7 +95,7 @@ public class MS2ExtensionsController extends SpringActionController
     public class UpdatePeptideCountsAction extends SimpleViewAction<Object>
     {
         @Override
-        public ModelAndView getView(Object o, BindException errors) throws Exception
+        public ModelAndView getView(Object o, BindException errors)
         {
             StringBuilder sb = new StringBuilder();
             updatePeptideCounts(sb, getContainer());
@@ -136,7 +136,7 @@ public class MS2ExtensionsController extends SpringActionController
     public class SetPreferencesAction extends ApiAction<SimpleApiJsonForm>
     {
         @Override
-        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors) throws Exception
+        public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
             Map<String, String> props;
             PropertyManager.PropertyMap mapToSave = null;
