@@ -291,7 +291,7 @@ public class HDRLController extends SpringActionController
                 {
                     InboundSpecimenUpdateService.validate(row);
                 }
-                catch (ValidationException e)
+                catch (ValidationException ignored)
                 {
                 }
             }
@@ -314,14 +314,12 @@ public class HDRLController extends SpringActionController
             SimpleFilter filter = new SimpleFilter(FieldKey.fromParts("test_request_id"), form.getSpecimenId());
             TableSelector selector = new TableSelector(lwSchema.getSchema().getTable(LabWareQuerySchema.TABLE_OUTBOUND_SPECIMENS), filter, null);
 
-            Results result = selector.getResults(false);
-            try
+            try (Results result = selector.getResults(false))
             {
                 if (!result.next())
                     throw new NotFoundException("No report available for specimen " + form.getSpecimenId());
 
                 String contentType = "application/pdf";
-
 
                 byte[] documentBytes = IOUtils.toByteArray(result.getBinaryStream("clinical_report"));
 
@@ -329,10 +327,6 @@ public class HDRLController extends SpringActionController
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + result.getString("report_file_name") + "\"");
                 response.setContentLength(documentBytes.length);
                 response.getOutputStream().write(documentBytes);
-            }
-            finally
-            {
-                result.close();
             }
         }
 
