@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpException;
 import org.apache.http.HttpStatus;
 import org.junit.experimental.categories.Category;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestTimeoutException;
@@ -57,6 +58,7 @@ import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category({DailyC.class, Specimen.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 20)
 public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
