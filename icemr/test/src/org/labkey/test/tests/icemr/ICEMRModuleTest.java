@@ -28,6 +28,7 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
+import org.labkey.test.components.PropertiesEditor;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExcelHelper;
 import org.labkey.test.util.Ext4Helper;
@@ -43,6 +44,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
@@ -755,14 +757,12 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         // now add our real fields with rich metadata
         clickButton("Edit Fields");
 
-
-
-        ListHelper listHelper = new ListHelper(this).withEditorTitle("Field Properties");
-        listHelper.deleteField("Field Properties", 0);
+        PropertiesEditor propertiesEditor = new PropertiesEditor.PropertiesEditorFinder(getDriver()).withTitle("Field Properties").waitFor();
+        propertiesEditor.selectField(0).markForDeletion();
         clickButton("Save");
         clickButton("Edit Fields");
         String samplesetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(samplesetFilename));
-        listHelper.addFieldsNoImport(samplesetCols);
+        addFieldsNoImport(samplesetCols);
 
       // waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
         // set the scientist column type to a user instead of just an int
@@ -772,6 +772,47 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         clickProject(getProjectName());
     }
 
+    private void addFieldsNoImport(String fieldList)
+    {
+        PropertiesEditor propertiesEditor = new PropertiesEditor.PropertiesEditorFinder(getDriver()).withTitle("Field Properties").waitFor();
+        Scanner reader = new Scanner(fieldList);
+        while (reader.hasNextLine())
+        {
+            String line = reader.nextLine();
+            Scanner lineReader = new Scanner(line);
+            lineReader.useDelimiter("\t");
+
+            String name = lineReader.next();
+            if ("Property".equals(name))
+            {
+                line = reader.nextLine();
+                lineReader = new Scanner(line);
+                lineReader.useDelimiter("\t");
+                name = lineReader.next();
+            }
+            String label = lineReader.next();
+            String type = lineReader.next();
+            String format = lineReader.next();
+            String required = lineReader.next();
+            String hidden = lineReader.next();
+            String mvenabled = lineReader.next();
+            String description = lineReader.hasNext() ? lineReader.next() : "";
+
+            if (type.equals("http://www.w3.org/2001/XMLSchema#string")) type = "String";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#double")) type = "Double";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#int")) type = "Integer";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#dateTime")) type = "DateTime";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#multiLine")) type = "MultiLine";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#boolean")) type = "Boolean";
+
+            ListHelper.ListColumnType typeEnum = ListHelper.ListColumnType.valueOf(type);
+            ListHelper.ListColumn newCol = new ListHelper.ListColumn(name, label, typeEnum, description);
+
+            if (required.equals("TRUE")) newCol.setRequired(true);
+            if (mvenabled.equals("TRUE")) newCol.setMvEnabled(true);
+            propertiesEditor.addField(newCol);
+        }
+    }
 
     @LogMethod
     private void testJavaScript()
