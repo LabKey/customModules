@@ -17,6 +17,7 @@ package org.labkey.test.tests;
 
 import org.junit.Assert;
 import org.junit.experimental.categories.Category;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.DailyC;
@@ -36,6 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Category({DailyC.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 7)
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";

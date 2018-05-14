@@ -16,6 +16,7 @@
 package org.labkey.test.tests;
 
 import org.junit.experimental.categories.Category;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
@@ -29,6 +30,7 @@ import java.io.File;
 import static org.junit.Assert.assertTrue;
 
 @Category({DailyC.class, Specimen.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 6)
 public class SpecimenExportTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenExportVerifyProject";

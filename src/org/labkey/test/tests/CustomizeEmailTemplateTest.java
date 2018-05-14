@@ -18,6 +18,7 @@ package org.labkey.test.tests;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.experimental.categories.Category;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.categories.DailyC;
 import org.labkey.test.util.DataRegionTable;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 @Category(DailyC.class)
+@BaseWebDriverTest.ClassTimeout(minutes = 5)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 {
     private static final String _projectName = "EmailTemplateProject";

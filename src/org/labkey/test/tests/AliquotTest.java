@@ -17,6 +17,7 @@
 package org.labkey.test.tests;
 
 import org.junit.experimental.categories.Category;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.TestTimeoutException;
@@ -28,6 +29,7 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.StudyHelper;
 
 @Category({DailyC.class, Specimen.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class AliquotTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
