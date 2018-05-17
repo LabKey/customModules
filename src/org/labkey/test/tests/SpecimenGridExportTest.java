@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.junit.BeforeClass;
 import org.junit.experimental.categories.Category;
 import org.labkey.api.data.ColumnHeaderType;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyB;
@@ -31,6 +32,7 @@ import java.util.List;
  * Test exporting rows from a specimen grid (not folder/study specimen export.)
  */
 @Category({DailyB.class, Specimen.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 7)
 public class SpecimenGridExportTest extends AbstractExportTest
 {
     public static final String SPECIMEN_DATA =
