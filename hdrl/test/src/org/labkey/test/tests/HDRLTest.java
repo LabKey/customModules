@@ -50,6 +50,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 @Category({CustomModules.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
     protected final File TEST_SPECIMEN_UPLOAD_FILE_1 = TestFileUtils.getSampleData("hdrl/sample_upload_01.tsv");

@@ -18,6 +18,7 @@ package org.labkey.test.tests.viscstudies;
 
 import org.junit.experimental.categories.Category;
 import org.labkey.api.reader.TabLoader;
+import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
@@ -44,6 +45,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @Category({CustomModules.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 15)
 public class CAVDStudyTest extends StudyBaseTest
 {
     private static final String PROJECT_NAME = "CAVDStudyTest Project";

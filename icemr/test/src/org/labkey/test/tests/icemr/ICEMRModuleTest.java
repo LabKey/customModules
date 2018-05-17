@@ -53,6 +53,7 @@ import static org.junit.Assert.fail;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
 @Category({CustomModules.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 25)
 public class ICEMRModuleTest extends BaseWebDriverTest
 {
     public static final String ID = "myid";
