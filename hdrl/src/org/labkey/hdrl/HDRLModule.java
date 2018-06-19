@@ -24,6 +24,7 @@ import org.labkey.api.module.DefaultModule;
 import org.labkey.api.module.FolderTypeManager;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.query.ValidationException;
+import org.labkey.api.security.User;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.SystemMaintenance;
 import org.labkey.api.view.WebPartFactory;
@@ -94,9 +95,9 @@ public class HDRLModule extends DefaultModule
         HDRLController.registerAdminConsoleLinks();
     }
 
-    @Override
     @NotNull
-    public Collection<String> getSummary(Container c)
+    @Override
+    public Collection<String> getSummary(Container c, User user)
     {
         return Collections.emptyList();
     }
