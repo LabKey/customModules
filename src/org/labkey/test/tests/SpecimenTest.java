@@ -695,9 +695,9 @@ public class SpecimenTest extends SpecimenBaseTest
         log("Verify specimen list attachments");
         goToModule("Dumbster");
 
-        click(Locator.linkContainingText("Specimen Request Notification"));
-        waitForElement(Locator.linkWithText("SpecimenDetail.tsv"));
+        click(Locator.linkContainingText("Specimen Request Notification"));             // expand them both, don't worry about order
         click(Locator.linkContainingText("Specimen Request Notification").index(1));
+        waitForElement(Locator.linkWithText("SpecimenDetail.tsv"));                     // ensure they are both present
         waitForElement(Locator.linkWithText("SpecimenDetail.xls"));
 
         // Each notification should be have only the specimen request details, no specimen list
