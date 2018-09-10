@@ -142,7 +142,7 @@ public class TrackingSaveHandler extends IcemrSaveHandler
                         inputMaterial,
                         Collections.emptyMap());       // output materials
 
-                saveExperimentRun(uploadContext, batch, run);
+                saveAssayRun(uploadContext, batch, run);
             }
         }
         else

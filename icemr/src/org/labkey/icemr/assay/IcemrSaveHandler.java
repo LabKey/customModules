@@ -80,7 +80,7 @@ public class IcemrSaveHandler extends DefaultAssaySaveHandler
                     Collections.emptyMap(),        // input materials
                     Collections.emptyMap());       // output materials
 
-            saveExperimentRun(uploadContext, batch, run);
+            saveAssayRun(uploadContext, batch, run);
         }
     }
 }
