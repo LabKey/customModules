@@ -29,12 +29,12 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
-import org.labkey.test.etl.ETLHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PostgresOnlyTest;
+import org.labkey.test.util.di.DataIntegrationHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     }
 
     @Test
-    public void testRetrievalOfResultsAndArchiving()
+    public void testRetrievalOfResultsAndArchiving() throws Exception
     {
         createTestRequest();
         uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
@@ -188,8 +188,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         addTestResultData(result, lwSpecimens); // add results for this test request
 
         // Run the ETL to pick up the results
-        ETLHelper _etlHelper = new ETLHelper(this, getProjectName());
-        _etlHelper.runETL("{HDRL}/labware");
+        new DataIntegrationHelper(getProjectName()).runTransform("{HDRL}/labware");
 
         Map<String, String> request = new HashMap<>();
         request.put("ShippingNumber", "testRetrievalOfResults");
