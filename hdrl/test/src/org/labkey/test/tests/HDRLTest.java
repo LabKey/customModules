@@ -28,7 +28,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.CustomModules;
+import org.labkey.test.categories.Git;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -49,7 +49,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-@Category({CustomModules.class})
+@Category({Git.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
@@ -136,6 +136,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @Test
     public void testRetrievalOfResultsAndArchiving() throws Exception
     {
+        Assert.assertTrue("Required module is not installed: dataintegration", _containerHelper.getAllModules().contains("dataintegration"));
         createTestRequest();
         uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
         log("File uploaded waiting for content");
