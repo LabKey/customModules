@@ -25,6 +25,7 @@ import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
@@ -61,6 +62,10 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     private static final String SAVE_BUTTON_TEXT = "Save";
     private static final String PRINT_PACKING_LIST_TEXT = "Print Packing List";
     private static final String CONFIRM_SAVE_TEXT = "Do you still want to save your changes?";
+
+    public static final Locator.XPathLocator disabledSubmit = Locator.xpath("//a[contains(normalize-space(@class),'x4-btn-disabled')]//span[text()='" + SUBMIT_BUTTON_TEXT + "']");
+    public static final Locator.XPathLocator enabledSave = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + SAVE_BUTTON_TEXT + "']");
+    public static final Locator.XPathLocator enabledPrintPackingList = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + PRINT_PACKING_LIST_TEXT + "']");
 
     private static int CARRIER_COLUMN_INDEX = 2;
     private static int STATUS_COLUMN_INDEX = 13;
@@ -273,14 +278,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public void testNewRequest()
     {
         log("creating a new test request");
-        goToProjectHome();
-        clickAndWait(Locator.linkContainingText("Create a new test request"), defaultWaitForPage);
-
-        // we select this even though there is only one option available because there may be other types in the future
-        // Also, this test will fail without waiting for the combo box to be populated, so this is an easy way to wait
-        // for that.
-        _ext4Helper.selectComboBoxItem("Request Type", "HIV Screening Algorithm");
-        assertElementPresent("Submit button should not be enabled if no specimen data are available", Locators.disabledSubmit, 1);
+        createTestRequest();
+        assertElementPresent("Submit button should not be enabled if no specimen data are available", disabledSubmit, 1);
 
         // add specimen through the row picker
         List<Map<String, String>> rows = new ArrayList<>();
@@ -324,7 +323,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         waitForElement(Locator.tagContainingText("div", "Draw date cannot be before birth date; Required field(s) missing: SSN"));
 
         log("verify submit disabled when there are validation errors");
-        assertElementPresent("Submit button should not be enabled if request has been submitted", Locators.disabledSubmit, 1);
+        assertElementPresent("Submit button should not be enabled if request has been submitted", disabledSubmit, 1);
 
         clickButton(SAVE_BUTTON_TEXT);
 
@@ -354,9 +353,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public void testFileUploadAndSubmit()
     {
         log("creating a new test request by uploading a file");
-        goToProjectHome();
-        clickAndWait(Locator.linkContainingText("Create a new test request"));
-        _ext4Helper.selectComboBoxItem("Request Type", "HIV Screening Algorithm");
+        createTestRequest();
         _ext4Helper.selectComboBoxItem("Carrier", "FedEx");
 
         uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
@@ -445,9 +442,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @Test
     public void testEditSubmittedRequest()
     {
-        log("creating a new test request by uploading a file");
-        goToProjectHome();
-        click(Locator.linkContainingText("Create a new test request"));
+        createTestRequest();
         log("upload specimen data from a .xlsx file");
         uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
 
@@ -471,11 +466,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         waitForElement(org.labkey.test.Locators.bodyTitle("Edit a Test Request"));
         assertTextPresent("This request has already been submitted");
-        assertElementPresent("Submit button should not be enabled if request has been submitted", Locators.disabledSubmit, 1);
+        assertElementPresent("Submit button should not be enabled if request has been submitted", disabledSubmit, 1);
 
         log("Test edit and cancel save of a submitted request");
         _ext4Helper.selectComboBoxItem("Carrier","DHL");
-        assertElementPresent("Save button should be enabled if request has been edited", Locators.enabledSave, 1);
+        assertElementPresent("Save button should be enabled if request has been edited", enabledSave, 1);
         clickButton(SAVE_BUTTON_TEXT, 0);
         waitForText(CONFIRM_SAVE_TEXT);
         clickButton("No", 0);
@@ -491,7 +486,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("Test edit and save of a submitted request");
         clickAndWait(drt.link(idx, 0));
         _ext4Helper.selectComboBoxItem("Carrier","DHL");
-        assertElementPresent("Save button should be enabled if request has been edited", Locators.enabledSave, 1);
+        assertElementPresent("Save button should be enabled if request has been edited", enabledSave, 1);
         clickButton(SAVE_BUTTON_TEXT, 0);
         waitForText(CONFIRM_SAVE_TEXT);
         clickButton("Yes");
@@ -508,7 +503,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     private void testPrintPackingList(String role, String shippingCarrier)
     {
         log("Begin verifying 'Print Packing List' for role: " + role);
-        waitForElement(Locators.enabledPrintPackingList);
+        waitForElement(enabledPrintPackingList);
         clickButton(PRINT_PACKING_LIST_TEXT,0);
 
         switchToWindow(1);
@@ -553,6 +548,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("creating a new test request by uploading a file");
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("Create a new test request"));
+        waitForElement(Locators.pageSignal("pageDirty", "false"));
+
+        // we select this even though there is only one option available because there may be other types in the future
+        // Also, this test will fail without waiting for the combo box to be populated, so this is an easy way to wait
+        // for that.
         _ext4Helper.selectComboBoxItem("Request Type","HIV Screening Algorithm");
     }
 
@@ -657,11 +657,5 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public List<String> getAssociatedModules()
     {
         return Arrays.asList("HDRL");
-    }
-
-    public static class Locators {
-        public static final Locator.XPathLocator disabledSubmit = Locator.xpath("//a[contains(normalize-space(@class),'x4-btn-disabled')]//span[text()='" + SUBMIT_BUTTON_TEXT + "']");
-        public static final Locator.XPathLocator enabledSave = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + SAVE_BUTTON_TEXT + "']");
-        public static final Locator.XPathLocator enabledPrintPackingList = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + PRINT_PACKING_LIST_TEXT + "']");
     }
 }
