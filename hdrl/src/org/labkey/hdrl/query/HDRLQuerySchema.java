@@ -87,7 +87,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     private Map<Integer, String> statusMap = null;
 
-    public String getStatus(int s)
+    public String getRequestStatus(Integer s)
     {
         if (statusMap == null)
         {
@@ -205,7 +205,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             if (intStatus == null)
                                 return;
 
-                            String status = getStatus(intStatus);
+                            String status = getRequestStatus(intStatus);
 
                             if (STATUS_ARCHIVED.equals(status))
                                 return;
