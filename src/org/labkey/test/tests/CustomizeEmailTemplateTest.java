@@ -21,6 +21,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.categories.DailyC;
+import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PortalHelper;
@@ -141,7 +142,9 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     protected void doVerifySteps() throws Exception
     {
         goToModule("Dumbster");
-        Locator.linkWithText(_projectName).waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT).click();
+        EmailRecordTable recordList = new EmailRecordTable(getDriver());
+        EmailRecordTable.EmailMessage message = recordList.getMessageWithSubjectContaining(_projectName);
+        recordList.clickMessage(message);
         String emailBody= getText(Locator.xpath("//Div[@id='body']"));
         String[] bodyContents = emailBody.split(_delim);
         Map<String, String> emailNVPs = new HashMap<>();
