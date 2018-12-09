@@ -134,7 +134,7 @@ public class IcemrController extends SpringActionController
                         filter.addAllClauses(existingFilter);
                     List<Integer> objectIds = new ArrayList<>(_dataObjectIds.length);
                     for (int dataObjectId : _dataObjectIds)
-                        objectIds.add(new Integer(dataObjectId));
+                        objectIds.add(Integer.valueOf(dataObjectId));
 
                     filter.addInClause(FieldKey.fromString("RowId"), objectIds);
                     view.getDataRegion().setRecordSelectorValueColumns("RowId");

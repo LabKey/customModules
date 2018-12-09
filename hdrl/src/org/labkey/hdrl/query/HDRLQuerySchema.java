@@ -91,11 +91,11 @@ public class HDRLQuerySchema extends SimpleUserSchema
     {
         if (statusMap == null)
         {
-            statusMap = new HashMap<Integer, String>();
+            statusMap = new HashMap<>();
             TableSelector selector = new TableSelector(HDRLSchema.getInstance().getSchema().getTable(TABLE_REQUEST_STATUS), null, null);
             for (Map<String, Object> stringObjectMap : selector.getMapCollection())
             {
-                Integer key = new Integer(-1);
+                Integer key = Integer.valueOf(-1);
                 String value = "";
                 for (String s1 : stringObjectMap.keySet())
                 {
