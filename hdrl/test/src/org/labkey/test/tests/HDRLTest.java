@@ -443,13 +443,13 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public void testEditSubmittedRequest()
     {
         createTestRequest();
+        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testEditSubmittedRequest");
         log("upload specimen data from a .xlsx file");
         uploadFile(TEST_SPECIMEN_UPLOAD_FILE_2);
 
         log("submitting new test request");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
         waitForElement(Locator.tagContainingText("div", "555-44-3333"));
-        setFormElement(Locator.tagWithName("input", "trackingNumber"), "testEditSubmittedRequest");
         clickButton(SUBMIT_BUTTON_TEXT);
         assertTextNotPresent("Create a new test request"); // submit should take us back to the view test requests page
 
