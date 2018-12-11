@@ -16,15 +16,15 @@
 package org.labkey.test.tests;
 
 import org.jetbrains.annotations.Nullable;
-import org.junit.Assert;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
+import org.labkey.test.Locators;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyC;
 import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
-import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.StudyHelper;
 import org.openqa.selenium.WebElement;
 
@@ -33,40 +33,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 @Category(DailyC.class)
 @BaseWebDriverTest.ClassTimeout(minutes = 5)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 {
     private static final String _projectName = "EmailTemplateProject";
-    private final PortalHelper _portalHelper = new PortalHelper(this);
+    private static final String _recipient = "notify@emailtemplate.test";
     private static final String _assayPlan = "assay plan";
     private static final String _shipping = "123 main street";
     private static final String _comments = "this is my comment";
+    private static final String _studyName = "Study 001";
     private static final String _delim = "::";
-    private static final String _emailBody1 = "<Div id=\"body\">" +
-            "action==^action^"  + _delim + "\n" +
-            "attachments==^attachments^" + _delim + "\n" +
-            "comments==^comments^" + _delim + "\n" +
-            "contextPath==^contextPath^" + _delim + "\n" +
-            "currentDateTime==^currentDateTime^" + _delim + "\n" +
-            "destinationLocation==^destinationLocation^" + _delim + "\n" +
-            "folderName==^folderName^" + _delim + "\n" +
-            "folderPath==^folderPath^" + _delim + "\n" +
-            "folderURL==^folderURL^" + _delim + "\n" +
-            "homePageURL==^homePageURL^" + _delim + "\n" +
-            "modifiedBy==^modifiedBy^" + _delim + "\n" +
-            "organizationName==^organizationName^" + _delim + "\n" +
-            "simpleStatus==^simpleStatus^" + _delim + "\n" +
-            "siteShortName==^siteShortName^" + _delim + "\n" +
-            "specimenList==^specimenList^" + _delim + "\n" +
-            "specimenRequestNumber==^specimenRequestNumber^" + _delim + "\n" +
-            "status==^status^" + _delim + "\n" +
-            "studyName==^studyName^" + _delim + "\n" +
-            "subjectSuffix==^subjectSuffix^" + _delim + "\n" +
-            "supportLink==^supportLink^" + _delim + "\n" +
-            "systemDescription==^systemDescription^" + _delim + "\n" +
-            "systemEmail==^systemEmail^" +
-            "<Div>";
+    private static final String _notificationDivName = "params";
+    private static final List<String> replacementParams = Arrays.asList(
+            "action",
+            "attachments",
+            "comments",
+            "contextPath",
+            "currentDateTime",
+            "destinationLocation",
+            "folderName",
+            "folderPath",
+            "folderURL",
+            "homePageURL",
+            "modifiedBy",
+            "organizationName",
+            "simpleStatus",
+            "siteShortName",
+            "specimenRequestNumber",
+            "status",
+            "studyName",
+            "subjectSuffix",
+            "supportLink",
+            "systemDescription",
+            "systemEmail",
+            "specimenList");
 
     @Nullable
     @Override
@@ -111,14 +114,15 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         WebElement newRequestNotifyCheckbox = Locator.checkboxById("newRequestNotifyCheckbox").findElement(getDriver());
         checkCheckbox(newRequestNotifyCheckbox);
         checkCheckbox(newRequestNotifyCheckbox); // First try just doesn't stick sometimes
-        setFormElement(waitForElement(Locator.id("newRequestNotify").notHidden()), "notify@emailtemplate.test");
+        setFormElement(waitForElement(Locator.id("newRequestNotify").notHidden()), _recipient);
         clickButton("Save");
         clickAndWait(Locator.linkWithText("Manage Notifications"));
         clickAndWait(Locator.linkWithText("Edit Email Template"));
         selectOptionByText(Locator.name("templateClass"), "Specimen request notification");
-        setFormElement(Locator.id("emailSubject"), _projectName);
-        setFormElement(Locator.id("emailMessage"), _emailBody1);
+        setFormElement(Locator.id("emailSubject"), "^studyName^");
+        setFormElement(Locator.id("emailMessage"), buildTemplateBody());
         clickButton("Save");
+        assertElementNotPresent(Locators.labkeyError);
     }
 
     private void createSpecimenRequest()
@@ -134,19 +138,20 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         setFormElement(Locator.id("input1"), _shipping);
         setFormElement(Locator.id("input3"), "sample last one input");
         clickButton("Create and View Details");
-        clickButton("Submit Request", 0);
-        assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+
+        doAndWaitForPageToLoad(()-> {
+            clickButton("Submit Request", 0);       // don't wait for the page load; an assert will come
+            assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?"); // dismiss the alert; /then/ wait
+        });
     }
 
     @Override
     protected void doVerifySteps() throws Exception
     {
-        goToModule("Dumbster");
-        EmailRecordTable recordList = new EmailRecordTable(getDriver());
-        EmailRecordTable.EmailMessage message = recordList.getMessageWithSubjectContaining(_projectName);
-        recordList.clickMessage(message);
-        String emailBody= getText(Locator.xpath("//Div[@id='body']"));
-        String[] bodyContents = emailBody.split(_delim);
+        EmailRecordTable emailRecordTable = goToEmailRecord();
+        EmailRecordTable.EmailMessage message = emailRecordTable.getEmailAtTableIndex(3);
+        emailRecordTable.clickMessage(message);
+        String[] bodyContents = Locator.name(_notificationDivName).findElement(getDriver()).getText().split(_delim);
         Map<String, String> emailNVPs = new HashMap<>();
         for (String line : bodyContents)
         {
@@ -160,14 +165,29 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
                 emailNVPs.put(nvp[0].trim(), "");
             }
         }
-        Assert.assertEquals("New Request", emailNVPs.get("status"));
-        Assert.assertEquals("New Request Created", emailNVPs.get("action"));
-        Assert.assertEquals("/labkey", emailNVPs.get("contextPath"));
-        Assert.assertEquals("My Study", emailNVPs.get("folderName"));
-        Assert.assertEquals("/EmailTemplateProject/My Study", emailNVPs.get("folderPath"));
-        Assert.assertEquals(getBaseURL(), emailNVPs.get("homePageURL"));
+        assertEquals(_studyName, message.getSubject());
+        assertEquals("New Request", emailNVPs.get("status"));
+        assertEquals("New Request Created", emailNVPs.get("action"));
+        assertEquals("/labkey", emailNVPs.get("contextPath"));
+        assertEquals("My Study", emailNVPs.get("folderName"));
+        assertEquals("/EmailTemplateProject/My Study", emailNVPs.get("folderPath"));
+        assertEquals(WebTestHelper.getBaseURL(), emailNVPs.get("homePageURL"));
     }
 
+    private String buildTemplateBody()
+    {
+        String delimiter = "";
+        StringBuilder templateBuilder = new StringBuilder();
+        templateBuilder.append("<div name=\"").append(_notificationDivName).append("\">");
+        for (String param : replacementParams)
+        {
+            templateBuilder.append(delimiter);
+            templateBuilder.append(String.format("^%s|%s==%%s^", param, param));
+            delimiter = _delim + "\n";
+        }
+        templateBuilder.append("</div>");
+        return templateBuilder.toString();
+    }
 
     @Override
     public List<String> getAssociatedModules()

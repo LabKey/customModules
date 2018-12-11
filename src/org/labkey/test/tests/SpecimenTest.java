@@ -356,8 +356,7 @@ public class SpecimenTest extends SpecimenBaseTest
         // add additional specimens
         goToSpecimenData();
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
-        waitForElement(Locator.linkWithText("Swab"));
-        clickAndWait(Locator.linkWithText("Swab"));
+        waitAndClickAndWait(Locator.linkWithText("Swab"));
         checkCheckbox(Locator.checkboxByName(".toggle"));
         BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Add To Existing Request");
         _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
