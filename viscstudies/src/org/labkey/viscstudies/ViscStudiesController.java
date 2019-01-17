@@ -17,17 +17,11 @@
 package org.labkey.viscstudies;
 
 import org.labkey.api.action.RedirectAction;
-import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
-import org.labkey.api.view.JspView;
-import org.labkey.api.view.NavTree;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 
 public class ViscStudiesController extends SpringActionController
 {
@@ -45,17 +39,6 @@ public class ViscStudiesController extends SpringActionController
         public URLHelper getSuccessURL(Object o)
         {
             return new ActionURL("viscstudies", "studydesigns", getContainer());
-        }
-
-        @Override
-        public boolean doAction(Object o, BindException errors)
-        {
-            return true;
-        }
-
-        @Override
-        public void validateCommand(Object target, Errors errors)
-        {
         }
     }
 }
