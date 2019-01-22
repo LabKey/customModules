@@ -22,6 +22,7 @@ import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.URLHelper;
 import org.labkey.api.view.ActionURL;
+import org.springframework.validation.Errors;
 
 public class ViscStudiesController extends SpringActionController
 {
@@ -36,7 +37,7 @@ public class ViscStudiesController extends SpringActionController
     public class BeginAction extends RedirectAction
     {
         @Override
-        public URLHelper getSuccessURL(Object o)
+        public URLHelper getURL(Object o, Errors errors)
         {
             return new ActionURL("viscstudies", "studydesigns", getContainer());
         }
