@@ -386,7 +386,7 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.name("formFiles[0]"));
         setFormElement(Locator.name("formFiles[0]"), REQUEST_ATTACHMENT);
         clickButton("Save Changes and Send Notifications");
-        waitForElement(Locator.linkWithText(" " + REQUEST_ATTACHMENT.getName()));
+        waitForElement(Locator.linkContainingText(REQUEST_ATTACHMENT.getName()));
 
         // modify request
         selectOptionByText(Locator.name("newActor"), "SLG");
