@@ -17,7 +17,7 @@
 package org.labkey.test.tests.viscstudies;
 
 import org.junit.experimental.categories.Category;
-import org.labkey.api.reader.TabLoader;
+import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
