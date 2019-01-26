@@ -16,7 +16,6 @@
 package org.labkey.test.tests.icemr;
 
 import org.apache.http.HttpStatus;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
@@ -608,7 +607,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
                 checkTemplateExperiment(sheet,row, EXPERIMENT1_ID);
             }
         }
-        catch (IOException | InvalidFormatException e)
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }
