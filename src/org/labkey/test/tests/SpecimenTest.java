@@ -648,8 +648,8 @@ public class SpecimenTest extends SpecimenBaseTest
         clickFolder(getFolderName());
 
         log("Setup Excel specimen attachment");
-        clickAndWait(Locator.linkWithText("Manage"));
-        clickAndWait(Locator.linkWithText("Manage Notifications"));
+        waitAndClickAndWait(Locator.linkWithText("Manage"));
+        waitAndClickAndWait(Locator.linkWithText("Manage Notifications"));
         WebElement newRequestNotifyCheckbox = Locator.checkboxById("newRequestNotifyCheckbox").findElement(getDriver());
         checkCheckbox(newRequestNotifyCheckbox);
         checkCheckbox(newRequestNotifyCheckbox); // First try just doesn't stick sometimes
@@ -672,8 +672,8 @@ public class SpecimenTest extends SpecimenBaseTest
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
         log("Setup text specimen attachment");
-        clickAndWait(Locator.linkWithText("Manage"));
-        clickAndWait(Locator.linkWithText("Manage Notifications"));
+        waitAndClickAndWait(Locator.linkWithText("Manage"));
+        waitAndClickAndWait(Locator.linkWithText("Manage Notifications"));
         checkRadioButton(Locator.radioButtonByNameAndValue("specimensAttachment", "TextAttachment"));
         clickButton("Save");
 
