@@ -479,6 +479,7 @@ public class CAVDStudyTest extends StudyBaseTest
         navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         clickAndWait(Locator.linkWithText("AllStudiesList"));
         DataRegionTable.findDataRegion(this).clickInsertNewRow();
+        waitForElement(Locator.name("quf_" + myStudyNameCol));
         setFormElement(Locator.name("quf_" + myStudyNameCol), "Something");
         selectOptionByText(Locator.name("quf_StudyLookup"), study2name);
         clickButton("Submit");
