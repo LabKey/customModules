@@ -160,7 +160,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
         else if (TABLE_LABWARE_OUTBOUND_RESULTS.equalsIgnoreCase(name) ||
                  TABLE_LABWARE_OUTBOUND_SPECIMENS.equalsIgnoreCase(name))
         {
-            if (getUser().isSiteAdmin())
+            if (getUser().hasSiteAdminPermission())
                 return new ResultTable(this, name);
             else
                 return null;
