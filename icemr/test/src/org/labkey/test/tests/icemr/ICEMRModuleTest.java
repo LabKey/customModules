@@ -35,6 +35,7 @@ import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.SampleSetHelper;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
@@ -745,24 +746,15 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     }
 
     @LogMethod
-    private void createFlasksSampleSet(String samplesetName, String samplesetFilename)
+    private void createFlasksSampleSet(String sampleSetName, String sampleSetFilename)
     {
         clickProject(getProjectName());
-        clickButton("Import Sample Set");
-        setFormElement(Locator.id("name"), samplesetName);
-        setFormElement(Locator.name("data"), "SampleID\n" + "1");
-        clickButton("Submit");
-        deleteSample("1");
 
-        // now add our real fields with rich metadata
-        clickButton("Edit Fields");
+        SampleSetHelper sampleHelper = new SampleSetHelper(this);
+        sampleHelper.createSampleSet(sampleSetName, "${SampleID}");
 
-        PropertiesEditor propertiesEditor = new PropertiesEditor.PropertiesEditorFinder(getDriver()).withTitle("Field Properties").waitFor();
-        propertiesEditor.selectField(0).markForDeletion();
-        clickButton("Save");
-        clickButton("Edit Fields");
-        String samplesetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(samplesetFilename));
-        addFieldsNoImport(samplesetCols);
+        String sampleSetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(sampleSetFilename));
+        addFieldsNoImport(sampleSetCols);
 
       // waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
         // set the scientist column type to a user instead of just an int

@@ -1048,7 +1048,7 @@
         var expectedFlask = findFlaskInDay0Data(flask.SampleID);
         for (key in expectedFlask)
         {
-            if (flask[key] != expectedFlask[key])
+            if (key.toLowerCase() != 'name' && flask[key] != expectedFlask[key])
             {
                 logFailure("Day0 flask result does not have the uploaded result");
                 return false;
@@ -1346,7 +1346,7 @@
         {
             if (a[key] != b[key])
             {
-                logFailure(key + " : " + a[key] + "!= to" + b[key]);
+                logFailure(key + " : " + a[key] + " != " + b[key]);
                 return false;
             }
         }
@@ -1466,6 +1466,7 @@
 
     function generateBaseFlaskData(patientId, sampleId, flask)
     {
+        flask['name'] = sampleId;
         flask['PatientID'] = patientId;
         flask['SampleID'] =  sampleId;
         flask['Scientist'] = _userId;
