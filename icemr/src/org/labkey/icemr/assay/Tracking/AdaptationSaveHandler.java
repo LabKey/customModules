@@ -26,26 +26,25 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIterator;
 import org.labkey.api.dataiterator.DataIteratorContext;
 import org.labkey.api.dataiterator.QueryDataIteratorBuilder;
-import org.labkey.api.exp.ExperimentException;
 import org.labkey.api.exp.api.ExpData;
 import org.labkey.api.exp.api.ExpExperiment;
 import org.labkey.api.exp.api.ExpMaterial;
 import org.labkey.api.exp.api.ExpObject;
 import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExpRun;
+import org.labkey.api.exp.api.ExpSampleSet;
 import org.labkey.api.exp.api.ExperimentJSONConverter;
+import org.labkey.api.exp.api.SampleSetService;
 import org.labkey.api.exp.property.DomainProperty;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.SchemaKey;
 import org.labkey.api.query.UserSchema;
-import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.api.study.assay.AssayProvider;
 import org.labkey.api.study.assay.AssaySaveHandler;
 import org.labkey.api.view.ViewContext;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -67,6 +66,8 @@ public class AdaptationSaveHandler implements AssaySaveHandler
 {
     public static final String PROTOCOL_NAME = "Culture Adaptation";
     public static final String SAMPLE_ID = "SampleID";
+    public static final String ROW_ID = "RowId";
+    public static final String LSID = "Lsid";
 
     private static final String FINISH_PARASITEMIA = "FinishParasitemia";
     private static final String ADAPTATION_SCHEMA = "assay.Tracking.Culture Adaptation";
@@ -174,6 +175,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
         try ( DataIterator it = qb.getDataIterator(new DataIteratorContext()))
         {
             Map<String, Integer> indices = buildColumnMap(it);
+            ExpSampleSet sampleSet = SampleSetService.get().getSampleSet(c, u, ADAPTATION_FLASKS);
 
             while (it.next())
             {
@@ -185,9 +187,18 @@ public class AdaptationSaveHandler implements AssaySaveHandler
                     if (null == it.get(indices.get(ADAPTATION_DATE)) &&
                             (ADAPTED.equalsIgnoreCase(String.valueOf(it.get(indices.get(SUCCESSFUL_ADAPTATION))))))
                     {
+                        ExpMaterial material = sampleSet != null ? sampleSet.getSample(c, sampleId) : null;
+
                         Map<String, Object> sample = new CaseInsensitiveHashMap<>();
                         sample.put(SAMPLE_ID, sampleId);
                         sample.put(ADAPTATION_DATE, it.get(indices.get(MAINTENANCE_DATE)));
+
+                        if (material != null)
+                        {
+                            // need to provide either rowId or LSID to update samples in the new samples dataiterator
+                            sample.put(ROW_ID, material.getRowId());
+                            sample.put(LSID, material.getLSID());
+                        }
                         samples.add(sample);
                     }
                 }
