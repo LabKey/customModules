@@ -24,7 +24,9 @@ import org.labkey.api.study.actions.PlateBasedUploadWizardAction;
 import org.labkey.api.view.ActionURL;
 import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityAssayProvider;
 import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletException;
+import java.sql.SQLException;
 
 /**
  * User: klum
@@ -38,11 +40,20 @@ public class DrugSensitivityUploadWizardAction extends PlateBasedUploadWizardAct
         setCommandClass(DrugSensitivityRunUploadForm.class);
     }
 
-    protected ModelAndView afterRunCreation(DrugSensitivityRunUploadForm form, ExpRun run, BindException errors) throws ExperimentException
+    @Override
+    protected RunStepHandler getRunStepHandler()
     {
-        if (form.getReRun() != null)
-            form.getReRun().delete(getUser());
-        return super.afterRunCreation(form, run, errors);
+        return new PlateBasedRunStepHandler() {
+            @Override
+            public boolean executeStep(DrugSensitivityRunUploadForm form, BindException errors) throws ServletException, SQLException, ExperimentException
+            {
+                boolean success = super.executeStep(form, errors);
+                if (success && form.getReRun() != null)
+                    form.getReRun().delete(getUser());
+
+                return success;
+            }
+        };
     }
 
     @Override
