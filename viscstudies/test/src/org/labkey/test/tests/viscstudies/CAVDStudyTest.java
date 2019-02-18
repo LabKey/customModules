@@ -45,7 +45,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @Category({CustomModules.class})
-@BaseWebDriverTest.ClassTimeout(minutes = 15)
+@BaseWebDriverTest.ClassTimeout(minutes = 20)
 public class CAVDStudyTest extends StudyBaseTest
 {
     private static final String PROJECT_NAME = "CAVDStudyTest Project";
