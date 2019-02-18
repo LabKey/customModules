@@ -61,6 +61,9 @@ public class SpecimenImportTest extends SpecimenBaseTest
         checkRequiredFields(false);
         changeTimepointType();
 
+        // Make sure we are on the Manage tab.
+        clickTab("Manage");
+
         waitForText("General Study Settings");
         checkRequiredFields(true);
         doUploads();
