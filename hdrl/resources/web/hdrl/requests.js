@@ -495,6 +495,7 @@ Ext4.define('LABKEY.ext4.EditRequestPanel', {
 
                 form.submit({
                     url     : LABKEY.ActionURL.buildURL('experiment', 'parseFile'),
+                    method: 'POST',
                     scope   : this,
                     success : processResponse,
                     failure : processResponse
