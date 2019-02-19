@@ -16,9 +16,9 @@
 package org.labkey.ms2extensions;
 
 import org.json.JSONObject;
-import org.labkey.api.action.ApiAction;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
+import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
@@ -133,7 +133,7 @@ public class MS2ExtensionsController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class SetPreferencesAction extends ApiAction<SimpleApiJsonForm>
+    public class SetPreferencesAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)

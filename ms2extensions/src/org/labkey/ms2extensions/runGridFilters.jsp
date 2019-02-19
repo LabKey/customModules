@@ -68,6 +68,7 @@
 </fieldset>
 
 <script type="text/javascript">
+    // Invoked by text link above
     function viewSavedCallback(arg1, viewInfo)
     {
         // Get the name of the newly saved view
@@ -95,11 +96,13 @@
         }
     }
 
+    // Invoked from RunGridWebpart
     function comparePeptides(dataRegionName)
     {
         handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'comparePeptideQuery')});
     }
 
+    // Invoked from RunGridWebpart
     function spectraCount(dataRegionName)
     {
         handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'spectraCount'), spectraConfig: 'SpectraCountPeptideProtein' });
@@ -116,7 +119,7 @@
 
         // Fire off an AJAX request so that we repopulate with the last used values
         var preferencesURL = <%= PageFlowUtil.jsString(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()).toString())%>;
-        Ext4.Ajax.request({ url: preferencesURL, jsonData:
+        Ext4.Ajax.request({ url: preferencesURL, method: 'POST', jsonData:
         {
             peptideFilter : viewName,
             targetProtein : targetProtein,
@@ -137,6 +140,7 @@
         }});
     }
 
+    // Invoked from RunGridWebpart
     function exportPeptideBluemap(dataRegionName)
     {
         handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'exportComparisonProteinCoverageMap')});
