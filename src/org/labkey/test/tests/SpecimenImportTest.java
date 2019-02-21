@@ -62,7 +62,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
         changeTimepointType();
 
         // Make sure we are on the Manage tab.
-        clickTab("Manage");
+        doAndWaitForPageToLoad(()-> clickTab("Manage"));
 
         waitForText("General Study Settings");
         checkRequiredFields(true);
@@ -79,10 +79,9 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void goToImport()
     {
-        clickTab("Data");
+        doAndWaitForPageToLoad(()-> clickTab("Data"));
         waitForText("No specimens found");
-        waitForText("Import Specimens");
-        sleep(100);
+        waitForElementToBeVisible(Locator.linkContainingText("Import Specimens"));
         clickAndWait(Locator.linkContainingText("Import Specimens"));
     }
 
@@ -104,7 +103,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void changeTimepointType()
     {
-        clickTab("Manage");
+        doAndWaitForPageToLoad(()-> clickTab("Manage"));
         waitAndClick(Locator.linkContainingText("Change Study Properties"));
         waitForText("Timepoint Type:");
         _ext4Helper.selectRadioButton("Timepoint Type:", "VISIT");
