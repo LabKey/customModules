@@ -314,7 +314,7 @@ public class SpecimenTest extends SpecimenBaseTest
         doAndWaitForPageToLoad(() ->
         {
             clickButton("Cancel Request", 0);
-            assertAlert("Canceling will permanently delete this pending request.  Continue?");
+            assertAlertIgnoreCaseAndSpaces("Canceling will permanently delete this pending request.  Continue?");
         });
         DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
     }

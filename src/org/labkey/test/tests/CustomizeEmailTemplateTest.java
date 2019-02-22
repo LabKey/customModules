@@ -141,7 +141,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 
         doAndWaitForPageToLoad(()-> {
             clickButton("Submit Request", 0);       // don't wait for the page load; an assert will come
-            assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?"); // dismiss the alert; /then/ wait
+            assertAlertIgnoreCaseAndSpaces("Once a request is submitted, its specimen list may no longer be modified.  Continue?"); // dismiss the alert; /then/ wait
         });
     }
 
