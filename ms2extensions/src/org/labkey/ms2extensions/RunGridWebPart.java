@@ -88,5 +88,4 @@ public class RunGridWebPart extends VBox
         exportBluemap.setRequiresSelection(true);
         bar.add(exportBluemap);
     }
-
 }

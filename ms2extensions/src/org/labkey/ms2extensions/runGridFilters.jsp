@@ -108,6 +108,12 @@
         handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'spectraCount'), spectraConfig: 'SpectraCountPeptideProtein' });
     }
 
+    // Invoked from RunGridWebpart
+    function exportPeptideBluemap(dataRegionName)
+    {
+        handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'exportComparisonProteinCoverageMap')});
+    }
+
     function handleRunGridButtonClick(dataRegionName, actionTarget, urlParams)
     {
         urlParams = urlParams || {};
@@ -126,7 +132,7 @@
             targetProteinMatchCriteria: matchCriteria
         }});
 
-        LABKEY.Experiment.createHiddenRunGroup({selectionKey: dataRegion.selectionKey,success: function(runGroup, response)
+        LABKEY.Experiment.createHiddenRunGroup({selectionKey: dataRegion.selectionKey, success: function(runGroup, response)
         {
             Ext4.apply(urlParams, {
                 runList: runGroup.id,
@@ -136,13 +142,7 @@
                 targetProteinMatchCriteria: matchCriteria
             });
 
-            window.location = LABKEY.ActionURL.buildURL("ms2", actionTarget, LABKEY.ActionURL.getContainer(), urlParams);
+            LABKEY.Utils.postToAction(LABKEY.ActionURL.buildURL("ms2", actionTarget, LABKEY.ActionURL.getContainer(), urlParams));
         }});
-    }
-
-    // Invoked from RunGridWebpart
-    function exportPeptideBluemap(dataRegionName)
-    {
-        handleRunGridButtonClick(dataRegionName, "proteinDisambiguationRedirect", { targetURL: LABKEY.ActionURL.buildURL('ms2', 'exportComparisonProteinCoverageMap')});
     }
 </script>
