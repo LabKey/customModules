@@ -121,7 +121,7 @@ public class HDRLController extends SpringActionController
 
         public NavTree appendNavTrail(NavTree root)
         {
-            return root;
+            return root.addChild("HDRL Test Request Overview");
         }
     }
 
@@ -156,7 +156,7 @@ public class HDRLController extends SpringActionController
         @Override
         public NavTree appendNavTrail(NavTree root)
         {
-            return root;
+            return root.addChild("Test Request");
         }
     }
 
