@@ -376,7 +376,7 @@ public class SpecimenTest extends SpecimenBaseTest
         doAndWaitForPageToLoad(() ->
         {
             clickButton("Submit Request", 0);
-            assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+            assertAlertIgnoreCaseAndSpaces("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
         });
         assertTextNotPresent("Not Yet Submitted");
         assertTextPresent("New Request");
@@ -582,7 +582,7 @@ public class SpecimenTest extends SpecimenBaseTest
         doAndWaitForPageToLoad(() ->
         {
             clickButton("Cancel Request", 0);
-            assertAlert("Canceling will permanently delete this pending request.  Continue?");
+            assertAlertIgnoreCaseAndSpaces("Canceling will permanently delete this pending request.  Continue?");
         });
         waitForText("No data to show.");
         goToSpecimenData();

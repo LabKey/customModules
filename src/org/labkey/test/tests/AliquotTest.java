@@ -227,7 +227,7 @@ public class AliquotTest extends SpecimenBaseTest
         // There's a request from createRequest(); Submit it and make it completed to free up aliqouts
         viewExistingRequests();
         clickButton("Submit", 0);
-        assertAlert("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+        assertAlertIgnoreCaseAndSpaces("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Completed");
@@ -239,14 +239,14 @@ public class AliquotTest extends SpecimenBaseTest
         checkCheckbox(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
         pushLocation();
         click(Locator.tagWithAttribute("a", "data-original-title","Delete"));
-        assertAlert("Are you sure you want to delete the selected row?");
+        assertAlertIgnoreCaseAndSpaces("Are you sure you want to delete the selected row?");
         waitForElement(Locators.labkeyError.withText("Specimen may not be deleted because it has been used in a request."));
         popLocation();
 
         // Now delete a different aliquot
         checkCheckbox(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
         click(Locator.tagWithAttribute("a", "data-original-title","Delete"));
-        assertAlert("Are you sure you want to delete the selected row?");
+        assertAlertIgnoreCaseAndSpaces("Are you sure you want to delete the selected row?");
         waitForElementToDisappear(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
         clickFolder(getFolderName());
     }
