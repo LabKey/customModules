@@ -21,6 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.remoteapi.Command;
+import org.labkey.remoteapi.PostCommand;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
 import org.labkey.test.BaseWebDriverTest;
@@ -105,7 +106,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     private void addRequestResultData(Map<String, String> data)
     {
         Connection connection = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
-        Command command = new Command("hdrl", "addLabwareOutboundRequest");
+        PostCommand command = new PostCommand("hdrl", "addLabwareOutboundRequest");
         command.setParameters(data);
 
         try
@@ -123,7 +124,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         Connection connection = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
         for (Map<String, String> result : results)
         {
-            Command command = new Command("hdrl", "addLabwareOutboundSpecimen");
+            PostCommand command = new PostCommand("hdrl", "addLabwareOutboundSpecimen");
             command.setParameters(result);
 
             try

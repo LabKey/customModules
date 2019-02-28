@@ -21,7 +21,8 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.labkey.api.action.ApiAction;
+import org.labkey.api.action.ReadOnlyApiAction;
+import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.ExportAction;
 import org.labkey.api.action.FormViewAction;
@@ -254,7 +255,7 @@ public class HDRLController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class VerifySpecimenAction extends ApiAction<VerifyForm>
+    public class VerifySpecimenAction extends ReadOnlyApiAction<VerifyForm>
     {
         @Override
         public Object execute(VerifyForm form, BindException errors)
@@ -536,7 +537,7 @@ public class HDRLController extends SpringActionController
 
     @RequiresPermission(AdminPermission.class)
     @Marshal(Marshaller.Jackson)
-    public class AddLabWareOutboundRequestAction extends ApiAction<LabWareOutboundRequestForm>
+    public class AddLabWareOutboundRequestAction extends MutatingApiAction<LabWareOutboundRequestForm>
     {
         @Override
         public Object execute(LabWareOutboundRequestForm form, BindException errors)
@@ -632,7 +633,7 @@ public class HDRLController extends SpringActionController
 
     @RequiresPermission(AdminPermission.class)
     @Marshal(Marshaller.Jackson)
-    public class AddLabWareOutboundSpecimenAction extends ApiAction<LabWareOutboundSpecimenForm>
+    public class AddLabWareOutboundSpecimenAction extends MutatingApiAction<LabWareOutboundSpecimenForm>
     {
         @Override
         public Object execute(LabWareOutboundSpecimenForm form, BindException errors) throws Exception
