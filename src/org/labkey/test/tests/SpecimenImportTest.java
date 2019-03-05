@@ -17,7 +17,12 @@
 package org.labkey.test.tests;
 
 import org.apache.http.HttpStatus;
+import org.junit.Assert;
 import org.junit.experimental.categories.Category;
+import org.labkey.remoteapi.CommandException;
+import org.labkey.remoteapi.Connection;
+import org.labkey.remoteapi.query.SelectRowsCommand;
+import org.labkey.remoteapi.query.SelectRowsResponse;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.WebTestHelper;
@@ -25,6 +30,14 @@ import org.labkey.test.categories.DailyC;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.PasswordUtil;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
@@ -66,6 +79,8 @@ public class SpecimenImportTest extends SpecimenBaseTest
         doUploads();
 
         assertIdsSet();
+
+        assertSampleSetData();
     }
 
     @Override
@@ -132,6 +147,105 @@ public class SpecimenImportTest extends SpecimenBaseTest
         assertTrue("Failed to find Global Unique ID 3", region.getRow("Global Unique Id", "3") == 2);
     }
 
+    // Checking for regression like the one that occurred in issue 36863: specimen importer doesn't create rows in provisioned table.
+    protected  void assertSampleSetData()
+    {
+        String folderPath = "/" + getProjectName() + "/" + getFolderName();
+        List<String> fields = Arrays.asList("Name", "Run", "Flag/Comment");
+
+        List<Map<String, String>> sampleSetData = getSampleDataFromDB(folderPath, "Study Specimens", fields);
+
+        Assert.assertNotEquals("There are no rows in the \"Study Specimens\" sample set.", sampleSetData.size(), 0);
+
+        List<String> expectedNames = Arrays.asList("1", "2", "3", "4");
+
+        boolean pass = true;
+        if(sampleSetData.size() != expectedNames.size())
+        {
+            pass = false;
+            log("\n*************** ERROR ***************\nThe number of records returned is not as expected. Expected: " + expectedNames.size() + " found: " + sampleSetData.size() + "\n*************** ERROR ***************");
+        }
+
+        for(int i = 0; i < expectedNames.size(); i++)
+        {
+            boolean found = false;
+            for(int j = 0; j < sampleSetData.size(); j++)
+            {
+                if(expectedNames.get(i).trim().equalsIgnoreCase(sampleSetData.get(j).get("Name").trim()))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found)
+            {
+                pass = false;
+                log("\n*************** ERROR ***************\nDid not find the expected name '" + expectedNames.get(i).trim() + "' in the returned data.\n*************** ERROR ***************");
+            }
+        }
+
+        if(!pass)
+        {
+            log("\n*************** ERROR ***************\nExpected values: " + expectedNames + "\nValues returned: " + sampleSetData + "\n*************** ERROR ***************");
+            Assert.fail("Sample Set data not as expected.");
+        }
+    }
+
+    protected List<Map<String, String>> getSampleDataFromDB(String folderPath, String sampleSetName, List<String> fields)
+    {
+        List<Map<String, String>> results = new ArrayList<>(6);
+        Map<String, String> tempRow;
+
+        Connection cn = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        SelectRowsCommand cmd = new SelectRowsCommand("samples", sampleSetName);
+        cmd.setColumns(fields);
+
+        try
+        {
+            SelectRowsResponse response = cmd.execute(cn, folderPath);
+
+            for (Map<String, Object> row : response.getRows())
+            {
+
+                tempRow = new HashMap<>();
+
+                for(String key : row.keySet())
+                {
+
+                    if (fields.contains(key))
+                    {
+
+                        String tmpFlag = key;
+
+                        if(key.equalsIgnoreCase("Flag/Comment"))
+                            tmpFlag = "Flag";
+
+                        if (null == row.get(key))
+                        {
+                            tempRow.put(tmpFlag, "");
+                        }
+                        else
+                        {
+                            tempRow.put(tmpFlag, row.get(key).toString());
+                        }
+
+                    }
+
+                }
+
+                results.add(tempRow);
+
+            }
+
+        }
+        catch(CommandException | IOException excp)
+        {
+            Assert.fail(excp.getMessage());
+        }
+
+        return results;
+    }
 
     @Override
     protected void initializeFolder()
