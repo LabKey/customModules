@@ -216,7 +216,7 @@ LABKEY.icemr.setComboConfig = function(config, options) {
         fields : [name],
         data : options
     });
-    config.displayField = name;
+    config.displayField = LABKEY.Utils.encodeHtml(name);
     config.valueField = name;
     config.forceSelection = true;
     config.mode = 'local';
