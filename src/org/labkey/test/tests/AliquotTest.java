@@ -226,27 +226,29 @@ public class AliquotTest extends SpecimenBaseTest
 
         // There's a request from createRequest(); Submit it and make it completed to free up aliqouts
         viewExistingRequests();
-        clickButton("Submit", 0);
-        assertAlertIgnoreCaseAndSpaces("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+        doAndWaitForPageToLoad(() -> {
+            clickButton("Submit", 0);
+            assertAlertIgnoreCaseAndSpaces("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+        });
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
         clickAndWait(Locator.linkWithText("Update Request"));
         selectOptionByText(Locator.name("status"), "Completed");
         clickButton("Save Changes and Send Notifications");
 
         // Now try to delete ALIQUOT_ONE
-        navigateToQuery("study", "SpecimenDetail");
+        DataRegionTable dataRegion = navigateToQuery("study", "SpecimenDetail").getDataRegion();
         assertElementPresent(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
-        checkCheckbox(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX));
-        pushLocation();
-        click(Locator.tagWithAttribute("a", "data-original-title","Delete"));
-        assertAlertIgnoreCaseAndSpaces("Are you sure you want to delete the selected row?");
+        dataRegion.doAndWaitForUpdate(() -> checkCheckbox(Locator.xpath(ALIQUOT_ONE_SPECIMEN_DETAIL_CHECKBOX)));
+        doAndWaitForPageToLoad(() -> {
+            dataRegion.clickHeaderButton("Delete");
+            assertAlertIgnoreCaseAndSpaces("Are you sure you want to delete the selected row?");
+        });
         waitForElement(Locators.labkeyError.withText("Specimen may not be deleted because it has been used in a request."));
-        popLocation();
+        clickButton("Back");
 
         // Now delete a different aliquot
-        checkCheckbox(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
-        click(Locator.tagWithAttribute("a", "data-original-title","Delete"));
-        assertAlertIgnoreCaseAndSpaces("Are you sure you want to delete the selected row?");
+        dataRegion.doAndWaitForUpdate(() -> checkCheckbox(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX)));
+        dataRegion.deleteSelectedRows();
         waitForElementToDisappear(Locator.xpath(ALIQUOT_THREE_SPECIMEN_DETAIL_CHECKBOX));
         clickFolder(getFolderName());
     }
