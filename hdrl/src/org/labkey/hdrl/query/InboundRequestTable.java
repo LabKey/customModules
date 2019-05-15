@@ -18,6 +18,7 @@ package org.labkey.hdrl.query;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.ContainerForeignKey;
 import org.labkey.api.data.DatabaseTableType;
 import org.labkey.api.data.ForeignKey;
@@ -35,18 +36,18 @@ import org.labkey.api.security.permissions.Permission;
  */
 public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
 {
-    public InboundRequestTable(HDRLQuerySchema schema)
+    public InboundRequestTable(HDRLQuerySchema schema, ContainerFilter cf)
     {
-        super(schema.getDbSchema().getTable(schema.TABLE_INBOUND_REQUEST), schema);
+        super(schema.getDbSchema().getTable(schema.TABLE_INBOUND_REQUEST), schema, cf);
 
         // wrap all the existing columns
         wrapAllColumns(true);
 
-        ColumnInfo containerCol = getColumn("Container");
+        var containerCol = getMutableColumn("Container");
         ContainerForeignKey.initColumn(containerCol, schema);
         containerCol.setLabel("Folder");
 
-        ColumnInfo archivedRequestCountCol = getColumn("ArchivedRequestCount");
+        var archivedRequestCountCol = getMutableColumn("ArchivedRequestCount");
         archivedRequestCountCol.setHidden(true);
 
         // add column for the number of patients
@@ -67,7 +68,7 @@ public class InboundRequestTable extends FilteredTable<HDRLQuerySchema>
 
     private void addCoalescedStatusColumn()
     {
-        ColumnInfo requestStatusCol = getColumn("RequestStatusId");
+        var requestStatusCol = getMutableColumn("RequestStatusId");
         requestStatusCol.setHidden(true);
         ForeignKey statusColFk = requestStatusCol.getFk();
         SQLFragment sql = new SQLFragment("COALESCE((SELECT R.requestStatusId FROM " + HDRLQuerySchema.NAME + "." + HDRLQuerySchema.TABLE_REQUEST_RESULT + " R WHERE R.RequestId = " + ExprColumn.STR_TABLE_ALIAS + ".requestId), RequestStatusId)");

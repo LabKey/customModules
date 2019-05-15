@@ -26,9 +26,9 @@ import org.labkey.hdrl.HDRLSchema;
  */
 public class RequestResultTable extends ResultTable
 {
-    public RequestResultTable(@NotNull HDRLQuerySchema schema, String name)
+    public RequestResultTable(@NotNull HDRLQuerySchema schema, String name, ContainerFilter cf)
     {
-        super(schema, name);
+        super(schema, name, cf);
     }
 
     @Override

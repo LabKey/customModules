@@ -15,13 +15,14 @@
  */
 package org.labkey.hdrl.query;
 
+import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.SQLFragment;
 
 /**
  * Created by susanh on 4/13/15.
  */
-public class PatientCountColumn extends ColumnInfo
+public class PatientCountColumn extends BaseColumnInfo
 {
     public PatientCountColumn(ColumnInfo columnInfo)
     {

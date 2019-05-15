@@ -16,6 +16,7 @@
 package org.labkey.viscstudies;
 
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.QueryService;
@@ -40,14 +41,15 @@ public class ViscStudySchema extends UserSchema
     }
 
     @Override
-    public TableInfo createTable(String name)
+    public TableInfo createTable(String name, ContainerFilter cf)
     {
         if (STUDY_TABLE_NAME.equalsIgnoreCase(name))
         {
             // This is a wrapped table over the study schema's StudyProperties query (one row per study)
             Container c = getContainer().getProject() == null ? getContainer() : getContainer().getProject();
             UserSchema studySchema = QueryService.get().getUserSchema(getUser(), c, "study");
-            TableInfo studyTable = studySchema.getTable("StudyProperties");
+            // ignore container filter, ProjectStudiesTable() sets its own
+            TableInfo studyTable = studySchema.getTable("StudyProperties", null, true, true);
             if (studyTable == null)
             {
                 return null;

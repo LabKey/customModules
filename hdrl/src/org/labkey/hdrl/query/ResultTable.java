@@ -18,6 +18,7 @@ package org.labkey.hdrl.query;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.DatabaseTableType;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.dataiterator.DataIteratorBuilder;
@@ -37,9 +38,9 @@ import java.util.Map;
  */
 public class ResultTable extends SimpleUserSchema.SimpleTable<HDRLQuerySchema>
 {
-    public ResultTable(@NotNull HDRLQuerySchema schema, String tableName)
+    public ResultTable(@NotNull HDRLQuerySchema schema, String tableName, ContainerFilter cf)
     {
-        super(schema, schema.getDbSchema().getTable(tableName));
+        super(schema, schema.getDbSchema().getTable(tableName), cf);
         init();
     }
 

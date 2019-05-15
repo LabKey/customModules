@@ -20,7 +20,9 @@ import org.labkey.api.assay.dilution.DilutionManager;
 import org.labkey.api.assay.dilution.query.DilutionProviderSchema;
 import org.labkey.api.assay.nab.query.CutoffValueTable;
 import org.labkey.api.assay.nab.query.NAbSpecimenTable;
+import org.labkey.api.data.BaseColumnInfo;
 import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.JdbcType;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
@@ -62,9 +64,9 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
     protected final ExpProtocol _protocol;
     protected final AssayProvider _provider;
 
-    public DrugSensitivityResultsTable(final AssayProtocolSchema schema)
+    public DrugSensitivityResultsTable(final AssayProtocolSchema schema, ContainerFilter cf)
     {
-        super(schema);
+        super(schema, cf);
 
         _protocol = _userSchema.getProtocol();
         _provider = _userSchema.getProvider();
@@ -89,7 +91,7 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
         {
             if (objectURI != null && DilutionDataHandler.STD_DEV_PROPERTY_NAME.equals(prop.getName()))
             {
-                ColumnInfo propColumn = new PropertyColumn(prop, objectURI, getContainer(), schema.getUser(), false);
+                var propColumn = new PropertyColumn(prop, objectURI, getContainer(), schema.getUser(), false);
                 addColumn(propColumn);
 
                 visibleColumns.add(FieldKey.fromParts(DilutionDataHandler.STD_DEV_PROPERTY_NAME));
@@ -97,9 +99,10 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
         }
 
         // add a lookup to the material table
-        ColumnInfo specimenColumn = _columnMap.get(DrugSensitivityDataHandler.DILUTION_INPUT_MATERIAL_DATA_PROPERTY);
+        var specimenColumn = (BaseColumnInfo)_columnMap.get(DrugSensitivityDataHandler.DILUTION_INPUT_MATERIAL_DATA_PROPERTY);
         specimenColumn.setFk(new LookupForeignKey("LSID")
         {
+            @Override
             public TableInfo getLookupTableInfo()
             {
                 ExpMaterialTable materials = ExperimentService.get().createMaterialTable(ExpSchema.TableType.Materials.toString(), schema);
@@ -109,7 +112,7 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
                 {
                     materials.setSampleSet(sampleSet, true);
                 }
-                ColumnInfo propertyCol = materials.addColumn(ExpMaterialTable.Column.Property);
+                var propertyCol = materials.addColumn(ExpMaterialTable.Column.Property);
                 if (propertyCol.getFk() instanceof PropertyForeignKey)
                 {
                     ((PropertyForeignKey)propertyCol.getFk()).addDecorator(new SpecimenPropertyColumnDecorator(_provider, _protocol, schema));
@@ -128,15 +131,15 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
             final CutoffValueTable cutoffValueTable = new CutoffValueTable(schema);
             cutoffValueTable.removeContainerAndProtocolFilters();
             cutoffValueTable.addCondition(new SimpleFilter(FieldKey.fromString("Cutoff"), intCutoff));
-            ColumnInfo nabSpecimenColumn = cutoffValueTable.getColumn("NabSpecimenId");
+            var nabSpecimenColumn = cutoffValueTable.getMutableColumn("NabSpecimenId");
             nabSpecimenColumn.setIsUnselectable(true);
             nabSpecimenColumn.setHidden(true);
 
             // Update column labels like IC_4pl to Curve ICxx 4pl
             for (ColumnInfo column : cutoffValueTable.getColumns())
-                updateLabelWithCutoff(column, intCutoff);
+                updateLabelWithCutoff((BaseColumnInfo) column, intCutoff);
 
-            ColumnInfo cutoffColumn = wrapColumn("Cutoff" + intCutoff, DilutionManager.getTableInfoNAbSpecimen().getColumn("RowId"));
+            var cutoffColumn = wrapColumn("Cutoff" + intCutoff, DilutionManager.getTableInfoNAbSpecimen().getColumn("RowId"));
             cutoffColumn.setLabel("Cutoff " + intCutoff);
             cutoffColumn.setKeyField(false);
             cutoffColumn.setIsUnselectable(true);
@@ -214,9 +217,10 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
         ExprColumn runColumn = new ExprColumn(this, "Run", runIdSQL, JdbcType.INTEGER);
         runColumn.setFk(new LookupForeignKey("RowID")
         {
+            @Override
             public TableInfo getLookupTableInfo()
             {
-                ExpRunTable expRunTable = AssayService.get().createRunTable(_protocol, _provider, _userSchema.getUser(), _userSchema.getContainer());
+                ExpRunTable expRunTable = AssayService.get().createRunTable(_protocol, _provider, _userSchema.getUser(), _userSchema.getContainer(), cf);
                 expRunTable.setContainerFilter(getContainerFilter());
                 return expRunTable;
             }
@@ -247,7 +251,7 @@ public class DrugSensitivityResultsTable extends NAbSpecimenTable
         return false;
     }
 
-    private static void updateLabelWithCutoff(ColumnInfo column, Integer intCutoff)
+    private static void updateLabelWithCutoff(BaseColumnInfo column, Integer intCutoff)
     {
         if (null != intCutoff)
         {

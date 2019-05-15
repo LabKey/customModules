@@ -20,8 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import org.labkey.api.assay.dilution.query.DilutionResultsQueryView;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
-import org.labkey.api.data.ContainerFilterable;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.SimpleFilter;
+import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
 import org.labkey.api.exp.Lsid;
 import org.labkey.api.exp.OntologyManager;
@@ -51,9 +52,9 @@ public class DrugSensitivityProtocolSchema extends AssayProtocolSchema
     }
 
     @Override
-    public ContainerFilterable createDataTable(boolean includeCopiedToStudyColumns)
+    public @Nullable TableInfo createDataTable(ContainerFilter cf, boolean includeCopiedToStudyColumns)
     {
-        DrugSensitivityResultsTable table = new DrugSensitivityResultsTable(this);
+        DrugSensitivityResultsTable table = new DrugSensitivityResultsTable(this, cf);
         if (includeCopiedToStudyColumns)
         {
             addCopiedToStudyColumns(table, true);

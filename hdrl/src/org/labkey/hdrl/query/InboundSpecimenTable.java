@@ -17,7 +17,7 @@ package org.labkey.hdrl.query;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.labkey.api.data.ColumnInfo;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.ContainerForeignKey;
 import org.labkey.api.data.DatabaseTableType;
 import org.labkey.api.data.TableInfo;
@@ -31,13 +31,13 @@ import org.labkey.api.security.permissions.Permission;
  */
 public class InboundSpecimenTable extends FilteredTable<HDRLQuerySchema>
 {
-    public InboundSpecimenTable(HDRLQuerySchema schema)
+    public InboundSpecimenTable(HDRLQuerySchema schema, ContainerFilter cf)
     {
-        super(schema.getDbSchema().getTable(schema.TABLE_INBOUND_SPECIMEN), schema);
+        super(schema.getDbSchema().getTable(HDRLQuerySchema.TABLE_INBOUND_SPECIMEN), schema, cf);
 
         // wrap all the existing columns
         wrapAllColumns(true);
-        ColumnInfo containerCol = getColumn("Container");
+        var containerCol = getMutableColumn("Container");
         ContainerForeignKey.initColumn(containerCol, schema);
         containerCol.setLabel("Folder");
     }

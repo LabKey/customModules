@@ -54,14 +54,14 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
             // Don't bother with the extra property columns that are specific to a single study 
             if (!(col instanceof PropertyColumn))
             {
-                ColumnInfo newCol = addWrapColumn(col);
+                var newCol = addWrapColumn(col);
                 newCol.setHidden(col.isHidden());
             }
         }
         setDescription("Contains one row per study in the current project. Includes a Dataset Status column that shows all the datasets with their status");
 
         // Tweak the label column
-        ColumnInfo labelColumn = getColumn("Label");
+        var labelColumn = getMutableColumn("Label");
         labelColumn.setLabel("Study Name");
 
         // Set up a URL to the study schedule in the right container
@@ -78,8 +78,8 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         setDetailsURL(studyScheduleURL);
             
         // Set up a column that is going to show the dataset status
-        ColumnInfo datasetColumn = wrapColumn("Dataset Status", studyTable.getColumn("Container"));
-        datasetColumn.setFk(null);
+        var datasetColumn = wrapColumn("Dataset Status", studyTable.getColumn("Container"));
+        datasetColumn.clearFk();
         datasetColumn.setKeyField(false);
         addColumn(datasetColumn);
         datasetColumn.setDisplayColumnFactory(new DisplayColumnFactory()

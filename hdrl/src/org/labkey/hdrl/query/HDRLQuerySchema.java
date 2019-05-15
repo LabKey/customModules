@@ -19,6 +19,7 @@ package org.labkey.hdrl.query;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbSchemaType;
@@ -139,29 +140,29 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
     @Nullable
     @Override
-    public TableInfo createTable(String name)
+    public TableInfo createTable(String name, ContainerFilter cf)
     {
         if (TABLE_INBOUND_REQUEST.equalsIgnoreCase(name))
         {
-            return new InboundRequestTable(this);
+            return new InboundRequestTable(this, cf);
         }
         else if (TABLE_INBOUND_SPECIMEN.equalsIgnoreCase(name))
         {
-            return new InboundSpecimenTable(this);
+            return new InboundSpecimenTable(this, cf);
         }
         else if (TABLE_REQUEST_RESULT.equalsIgnoreCase(name))
         {
-            return new RequestResultTable(this, name);
+            return new RequestResultTable(this, name, cf);
         }
         else if (TABLE_SPECIMEN_RESULT.equalsIgnoreCase(name))
         {
-            return new SpecimenResultTable(this, name);
+            return new SpecimenResultTable(this, name, cf);
         }
         else if (TABLE_LABWARE_OUTBOUND_RESULTS.equalsIgnoreCase(name) ||
                  TABLE_LABWARE_OUTBOUND_SPECIMENS.equalsIgnoreCase(name))
         {
             if (getUser().hasSiteAdminPermission())
-                return new ResultTable(this, name);
+                return new ResultTable(this, name, cf);
             else
                 return null;
         }
