@@ -98,6 +98,7 @@ public class HDRLController extends SpringActionController
     @RequiresPermission(ReadPermission.class)
     public class BeginAction extends SimpleViewAction
     {
+        @Override
         public ModelAndView getView(Object o, BindException errors)
         {
             VBox vbox = new VBox();
@@ -120,6 +121,7 @@ public class HDRLController extends SpringActionController
             return vbox;
         }
 
+        @Override
         public NavTree appendNavTrail(NavTree root)
         {
             return root.addChild("HDRL Test Request Overview");
