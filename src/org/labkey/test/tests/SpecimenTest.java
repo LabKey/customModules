@@ -330,7 +330,8 @@ public class SpecimenTest extends SpecimenBaseTest
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'This vial is unavailable because it was found in the set called \"" + REQUESTABILITY_QUERY + "\".')]"));
         assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
-        checkCheckbox(Locator.checkboxByName(".toggle"));
+        new DataRegionTable.DataRegionFinder(getDriver()).find()
+                .checkAllOnPage();
 
         clickAndWait(Locator.linkContainingText("history"));
         assertTextPresent("Vial History");
@@ -357,7 +358,8 @@ public class SpecimenTest extends SpecimenBaseTest
         goToSpecimenData();
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitAndClickAndWait(Locator.linkWithText("Swab"));
-        checkCheckbox(Locator.checkboxByName(".toggle"));
+        new DataRegionTable.DataRegionFinder(getDriver()).find()
+                .checkAllOnPage();
         BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Add To Existing Request");
         _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
         waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
@@ -589,7 +591,8 @@ public class SpecimenTest extends SpecimenBaseTest
         click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
         waitForElement(Locator.linkWithText("Swab"));
         clickAndWait(Locator.linkWithText("Swab"));
-        checkCheckbox(Locator.checkboxByName(".toggle"));
+        new DataRegionTable.DataRegionFinder(getDriver()).find()
+                .checkAllOnPage();
         BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
         clickButton("Cancel");
     }
