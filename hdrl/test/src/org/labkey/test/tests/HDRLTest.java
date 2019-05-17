@@ -20,10 +20,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.labkey.remoteapi.Command;
-import org.labkey.remoteapi.PostCommand;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
+import org.labkey.remoteapi.PostCommand;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
@@ -34,7 +33,6 @@ import org.labkey.test.categories.Git;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
-import org.labkey.test.util.PasswordUtil;
 import org.labkey.test.util.PostgresOnlyTest;
 import org.labkey.test.util.di.DataIntegrationHelper;
 
@@ -105,7 +103,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     private void addRequestResultData(Map<String, String> data)
     {
-        Connection connection = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        Connection connection = WebTestHelper.getRemoteApiConnection();
         PostCommand command = new PostCommand("hdrl", "addLabwareOutboundRequest");
         command.setParameters(data);
 
@@ -121,7 +119,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
     private void addSpecimenResultData(List<Map<String, String>> results)
     {
-        Connection connection = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        Connection connection = WebTestHelper.getRemoteApiConnection();
         for (Map<String, String> result : results)
         {
             PostCommand command = new PostCommand("hdrl", "addLabwareOutboundSpecimen");
