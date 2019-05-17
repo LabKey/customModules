@@ -30,7 +30,6 @@ import org.labkey.test.categories.DailyC;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
-import org.labkey.test.util.PasswordUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -197,7 +196,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
         List<Map<String, String>> results = new ArrayList<>(6);
         Map<String, String> tempRow;
 
-        Connection cn = new Connection(WebTestHelper.getBaseURL(), PasswordUtil.getUsername(), PasswordUtil.getPassword());
+        Connection cn = WebTestHelper.getRemoteApiConnection();
         SelectRowsCommand cmd = new SelectRowsCommand("samples", sampleSetName);
         cmd.setColumns(fields);
 
