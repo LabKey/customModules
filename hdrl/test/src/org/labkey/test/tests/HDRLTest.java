@@ -522,7 +522,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         waitForText("Configure System Maintenance");
         click(Locator.linkWithText("HDRL Request Portal PHI Deletion"));
         switchToWindow(1);
-        waitForText("HDRL Request Portal PHI Deletion complete");
+        waitForText(30000, "HDRL Request Portal PHI Deletion complete");
         getDriver().close();
         switchToMainWindow();
         goToProjectHome();
