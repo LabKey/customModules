@@ -16,13 +16,11 @@
  */
 %>
 <%@ page import="org.labkey.api.admin.AdminUrls" %>
-<%@ page import="org.labkey.api.util.PageFlowUtil" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
-
 <%
     JspView<HDRLController.SensitiveDataForm> sensitiveDataFormJspView = (JspView<HDRLController.SensitiveDataForm>)HttpView.currentView();
     HDRLController.SensitiveDataForm bean = sensitiveDataFormJspView.getModelBean();
@@ -31,13 +29,13 @@
 <labkey:errors></labkey:errors>
 <br>
 <labkey:form method="post">
-    Number of Days<%= PageFlowUtil.helpPopup("Number of Days", "Enter days after which sensitive data will be deleted.")%>:
+    Number of Days<%=helpPopup("Number of Days", "Enter days after which sensitive data will be deleted.")%>:
     <input type="number" name="timeWindowInDays" value=<%=h(timeWindow)%> min="0">
     <tr>
         <td colspan=2>
             <br>
             <%= button("Save").submit(true) %>
-            <%= button("Cancel").href(PageFlowUtil.urlProvider(AdminUrls.class).getAdminConsoleURL())%>
+            <%= button("Cancel").href(urlProvider(AdminUrls.class).getAdminConsoleURL())%>
         </td>
     </tr>
 </labkey:form>

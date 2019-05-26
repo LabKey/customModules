@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 %>
-<%@ page import="org.labkey.api.util.PageFlowUtil" %>
 <%@ page import="org.labkey.api.util.UniqueID" %>
-<%@ page import="org.labkey.api.view.ActionURL" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.template.ClientDependencies" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
@@ -88,5 +86,5 @@
 </script>
 
 <div>
-    <%=PageFlowUtil.textLink("Return to test status", new ActionURL(HDRLController.BeginAction.class, getViewContext().getContainer()))%>
+    <%=link("Return to test status", HDRLController.BeginAction.class)%>
 </div>
