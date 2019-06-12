@@ -30,23 +30,27 @@ import java.util.Collections;
 
 public class ViscStudiesModule extends CodeOnlyModule
 {
+    @Override
     public String getName()
     {
         return "ViscStudies";
     }
 
+    @Override
     @NotNull
     protected Collection<WebPartFactory> createWebPartFactories()
     {
         return Collections.emptyList();
     }
 
+    @Override
     protected void init()
     {
         addController("viscstudies", ViscStudiesController.class);
 
         DefaultSchema.registerProvider(ViscStudySchema.NAME, new DefaultSchema.SchemaProvider(this)
         {
+            @Override
             public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
                 return new ViscStudySchema(schema.getUser(), schema.getContainer());
@@ -54,6 +58,7 @@ public class ViscStudiesModule extends CodeOnlyModule
         });
     }
 
+    @Override
     public void doStartup(ModuleContext moduleContext)
     {
         FolderTypeManager.get().registerFolderType(this, new ViscStudyFolderType(this));
