@@ -312,6 +312,11 @@ public class AliquotTest extends SpecimenBaseTest
         setExpectSpecimenImportError(true);
         waitForSpecimenImport();
 
+        // Check there was an error in the specimen merge.
+        clickAndWait(Locator.linkWithText("ERROR"));
+        assertTextPresent("With an editable specimen repository, importing may not reference any existing specimen. " +
+                "8 imported specimen events refer to existing specimens.");
+
         // Make sure the expected errors have been logged and will not hang up the test later on.
         checkExpectedErrors(1);
     }
