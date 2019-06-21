@@ -28,7 +28,6 @@
     <modules>
         <moduleName>Core</moduleName>
         <moduleName>Query</moduleName>
-        <moduleName>MS1</moduleName>
         <moduleName>MS2</moduleName>
         <moduleName>MS2Extensions</moduleName>
         <moduleName>Experiment</moduleName>
