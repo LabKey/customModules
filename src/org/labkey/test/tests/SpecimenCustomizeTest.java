@@ -104,7 +104,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         vialFields.addField(new FieldDefinition("LatestMinutes").setType(ColumnType.Double));
         vialFields.addField(new FieldDefinition("LatestNonBlankMinutes").setType(ColumnType.Double));
         vialFields.addField(new FieldDefinition("CombineMinutes").setType(ColumnType.Double));
-        vialFields.fieldProperties().selectFormatTab().propertyFormat.set("0.####");
+        vialFields.fieldProperties().selectFormatTab().setPropertyFormat("0.####");
         vialFields.addField(new FieldDefinition("FirstFlag").setType(ColumnType.Boolean));
         vialFields.addField(new FieldDefinition("LatestFlag").setType(ColumnType.Boolean));
         vialFields.addField(new FieldDefinition("LatestNonBlankFlag").setType(ColumnType.Boolean));
@@ -114,9 +114,9 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         PropertiesEditor specimenFields = PropertiesEditor.PropertiesEditor(getDriver()).withTitle("Specimen").find();
         specimenFields.addField(new FieldDefinition("TotalLatestNonBlankTally").setType(ColumnType.Integer));
         specimenFields.addField(new FieldDefinition("SumOfLatestNonBlankMinutes").setType(ColumnType.Double));
-        specimenFields.fieldProperties().selectFormatTab().propertyFormat.set("0.####");
+        specimenFields.fieldProperties().selectFormatTab().setPropertyFormat("0.####");
         specimenFields.addField(new FieldDefinition("SumOfCombineMinutes").setType(ColumnType.Double));
-        specimenFields.fieldProperties().selectFormatTab().propertyFormat.set("0.####");
+        specimenFields.fieldProperties().selectFormatTab().setPropertyFormat("0.####");
         specimenFields.addField(new FieldDefinition("CountLatestNonBlankFlag").setType(ColumnType.Integer));
         specimenFields.addField(new FieldDefinition("MaxAvailabilityReason").setType(ColumnType.String));
         specimenFields.addField(new FieldDefinition("MinAvailabilityReason").setType(ColumnType.String));
