@@ -17,13 +17,12 @@ package org.labkey.icemr.assay.DrugSensitivity;
 
 import org.labkey.api.assay.dilution.DilutionManager;
 import org.labkey.api.data.Container;
-import org.labkey.api.study.AbstractPlateTypeHandler;
-import org.labkey.api.study.PlateService;
-import org.labkey.api.study.PlateTemplate;
-import org.labkey.api.study.WellGroup;
+import org.labkey.api.assay.plate.AbstractPlateTypeHandler;
+import org.labkey.api.assay.plate.PlateService;
+import org.labkey.api.assay.plate.PlateTemplate;
+import org.labkey.api.assay.plate.WellGroup;
 import org.labkey.api.util.Pair;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

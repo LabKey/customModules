@@ -41,8 +41,8 @@ import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.SchemaKey;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
-import org.labkey.api.study.assay.AssayProvider;
-import org.labkey.api.study.assay.AssaySaveHandler;
+import org.labkey.api.assay.AssayProvider;
+import org.labkey.api.assay.AssaySaveHandler;
 import org.labkey.api.view.ViewContext;
 
 import java.util.ArrayList;
