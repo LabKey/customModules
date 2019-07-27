@@ -30,11 +30,11 @@ import org.labkey.api.exp.api.DataType;
 import org.labkey.api.exp.api.ExpData;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.security.User;
-import org.labkey.api.study.Plate;
-import org.labkey.api.study.Position;
-import org.labkey.api.study.WellData;
-import org.labkey.api.study.WellGroup;
-import org.labkey.api.study.assay.AbstractAssayProvider;
+import org.labkey.api.assay.plate.Plate;
+import org.labkey.api.assay.plate.Position;
+import org.labkey.api.assay.plate.WellData;
+import org.labkey.api.assay.plate.WellGroup;
+import org.labkey.api.assay.AbstractAssayProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;

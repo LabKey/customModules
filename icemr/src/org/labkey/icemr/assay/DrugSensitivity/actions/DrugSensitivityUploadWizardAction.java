@@ -20,7 +20,7 @@ import org.labkey.api.exp.ExperimentException;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.InsertPermission;
-import org.labkey.api.study.actions.PlateBasedUploadWizardAction;
+import org.labkey.api.assay.actions.PlateBasedUploadWizardAction;
 import org.labkey.api.view.ActionURL;
 import org.labkey.icemr.assay.DrugSensitivity.DrugSensitivityAssayProvider;
 import org.springframework.validation.BindException;

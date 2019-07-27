@@ -24,9 +24,9 @@ import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExpRun;
 import org.labkey.api.exp.api.ExperimentJSONConverter;
 import org.labkey.api.query.ValidationException;
-import org.labkey.api.study.assay.AssayRunUploadContext;
-import org.labkey.api.study.assay.DefaultAssayRunCreator;
-import org.labkey.api.study.assay.DefaultAssaySaveHandler;
+import org.labkey.api.assay.AssayRunUploadContext;
+import org.labkey.api.assay.DefaultAssayRunCreator;
+import org.labkey.api.assay.DefaultAssaySaveHandler;
 import org.labkey.api.view.ViewContext;
 
 import java.util.Collections;
