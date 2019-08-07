@@ -34,10 +34,10 @@ public class ViscStudiesController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class BeginAction extends RedirectAction
+    public class BeginAction extends SimpleRedirectAction
     {
         @Override
-        public URLHelper getURL(Object o, Errors errors)
+        public URLHelper getRedirectURL(Object o, Errors errors)
         {
             return new ActionURL("viscstudies", "studydesigns", getContainer());
         }
