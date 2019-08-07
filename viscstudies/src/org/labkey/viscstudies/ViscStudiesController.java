@@ -16,7 +16,7 @@
 
 package org.labkey.viscstudies;
 
-import org.labkey.api.action.RedirectAction;
+import org.labkey.api.action.SimpleRedirectAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.ReadPermission;
@@ -37,7 +37,7 @@ public class ViscStudiesController extends SpringActionController
     public class BeginAction extends SimpleRedirectAction
     {
         @Override
-        public URLHelper getRedirectURL(Object o, Errors errors)
+        public URLHelper getRedirectURL(Object o)
         {
             return new ActionURL("viscstudies", "studydesigns", getContainer());
         }
