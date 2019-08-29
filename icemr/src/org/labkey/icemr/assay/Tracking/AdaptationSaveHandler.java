@@ -226,4 +226,8 @@ public class AdaptationSaveHandler implements AssaySaveHandler
         JSONArray outputMaterialArray)
     { throw new IllegalStateException(INVALID_ACTION); }
 
+    public ExpRun handleRunWithoutBatch(ViewContext context, JSONObject runJson, ExpProtocol protocol)
+    {
+        throw new IllegalStateException(INVALID_ACTION);
+    }
 }
