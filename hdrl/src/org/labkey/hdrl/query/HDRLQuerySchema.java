@@ -215,13 +215,13 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
-                                out.write(PageFlowUtil.textLink("Edit", actionUrl));
+                                out.write(PageFlowUtil.link("Edit").href(actionUrl).toString());
                             }
                             else
                             {
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
                                 actionUrl.addParameter("requestId", (Integer) ctx.get("requestId"));
-                                out.write(PageFlowUtil.textLink("View", actionUrl));
+                                out.write(PageFlowUtil.link("View").href(actionUrl).toString());
                             }
                         }
                     };

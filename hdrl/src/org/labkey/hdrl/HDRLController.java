@@ -103,7 +103,7 @@ public class HDRLController extends SpringActionController
         {
             VBox vbox = new VBox();
 
-            HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.textLink("Submit new test request", new ActionURL(EditRequestAction.class, getViewContext().getContainer())));
+            HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.link("Submit new test request").href(new ActionURL(EditRequestAction.class, getViewContext().getContainer())).toString());
             vbox.addView(submitView);
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
