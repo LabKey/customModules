@@ -228,6 +228,6 @@ public class AdaptationSaveHandler implements AssaySaveHandler
 
     public ExpRun handleRunWithoutBatch(ViewContext context, JSONObject runJson, ExpProtocol protocol)
     {
-        throw new IllegalStateException(INVALID_ACTION);
+        throw new UnsupportedOperationException(INVALID_ACTION);
     }
 }
