@@ -213,10 +213,10 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         ph.addWebPart("Sample Sets");
         ph.addWebPart("ICEMR Upload Tests");
 
-        _assayHelper.createAssayWithDefaults(DIAGNOSTICS_ASSAY_DESIGN, DIAGNOSTIC_ASSAY_NAME);
-        _assayHelper.createAssayWithDefaults(TRACKING_ASSAY_DESIGN, ADAPTATION_ASSAY_NAME);
-        _assayHelper.createAssayWithDefaults(TRACKING_ASSAY_DESIGN, SELECTION_ASSAY_NAME);
-        _assayHelper.createAssayWithDefaults(SPECIES_ASSAY_DESIGN, SPECIES_ASSAY_NAME);
+        _assayHelper.createAssayDesignWithDefaults(DIAGNOSTICS_ASSAY_DESIGN, DIAGNOSTIC_ASSAY_NAME);
+        _assayHelper.createAssayDesignWithDefaults(TRACKING_ASSAY_DESIGN, ADAPTATION_ASSAY_NAME);
+        _assayHelper.createAssayDesignWithDefaults(TRACKING_ASSAY_DESIGN, SELECTION_ASSAY_NAME);
+        _assayHelper.createAssayDesignWithDefaults(SPECIES_ASSAY_DESIGN, SPECIES_ASSAY_NAME);
         createFlasksSampleSet(ADAPTATION_FLASKS_NAME, ADAPTATION_FLASK_FILE);
         createFlasksSampleSet(SELECTION_FLASKS_NAME, SELECTION_FLASK_FILE);
         goToProjectHome();
