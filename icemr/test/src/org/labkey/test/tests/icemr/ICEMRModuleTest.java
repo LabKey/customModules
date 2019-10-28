@@ -27,11 +27,11 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
-import org.labkey.test.components.PropertiesEditor;
+import org.labkey.test.components.domain.DomainFormPanel;
+import org.labkey.test.params.FieldDefinition;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExcelHelper;
 import org.labkey.test.util.Ext4Helper;
-import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
@@ -754,19 +754,19 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         sampleHelper.createSampleSet(sampleSetName, "${SampleID}");
 
         String sampleSetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(sampleSetFilename));
-        addFieldsNoImport(sampleSetCols);
+        DomainFormPanel domainFormPanel = addFieldsNoImport(sampleSetCols);
 
-      // waitForElement(Locator.xpath("//input[@name='ff_label3']"), WAIT_FOR_JAVASCRIPT);
         // set the scientist column type to a user instead of just an int
         // this will make it be a combobox in the drop down.
-        setFormElement(Locator.xpath("//input[@name='ff_type2']"), "User");
+        domainFormPanel.getField(2).setType(FieldDefinition.ColumnType.User);
+
         clickButton("Save");
         clickProject(getProjectName());
     }
 
-    private void addFieldsNoImport(String fieldList)
+    private DomainFormPanel addFieldsNoImport(String fieldList)
     {
-        PropertiesEditor propertiesEditor = new PropertiesEditor.PropertiesEditorFinder(getDriver()).withTitle("Field Properties").waitFor();
+        DomainFormPanel domainFormPanel = new DomainFormPanel.DomainFormPanelFinder(getDriver()).waitFor();
         Scanner reader = new Scanner(fieldList);
         while (reader.hasNextLine())
         {
@@ -791,19 +791,22 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             String description = lineReader.hasNext() ? lineReader.next() : "";
 
             if (type.equals("http://www.w3.org/2001/XMLSchema#string")) type = "String";
-            if (type.equals("http://www.w3.org/2001/XMLSchema#double")) type = "Double";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#double")) type = "Decimal";
             if (type.equals("http://www.w3.org/2001/XMLSchema#int")) type = "Integer";
-            if (type.equals("http://www.w3.org/2001/XMLSchema#dateTime")) type = "DateTime";
+            if (type.equals("http://www.w3.org/2001/XMLSchema#dateTime")) type = "DateAndTime";
             if (type.equals("http://www.w3.org/2001/XMLSchema#multiLine")) type = "MultiLine";
             if (type.equals("http://www.w3.org/2001/XMLSchema#boolean")) type = "Boolean";
 
-            ListHelper.ListColumnType typeEnum = ListHelper.ListColumnType.valueOf(type);
-            ListHelper.ListColumn newCol = new ListHelper.ListColumn(name, label, typeEnum, description);
+            FieldDefinition field = new FieldDefinition(name, FieldDefinition.ColumnType.valueOf(type))
+                .setLabel(label)
+                .setDescription(description);
 
-            if (required.equals("TRUE")) newCol.setRequired(true);
-            if (mvenabled.equals("TRUE")) newCol.setMvEnabled(true);
-            propertiesEditor.addField(newCol);
+            if (required.equals("TRUE")) field.setRequired(true);
+            if (mvenabled.equals("TRUE")) field.setMvEnabled(true);
+            domainFormPanel.addField(field);
         }
+
+        return domainFormPanel;
     }
 
     @LogMethod
