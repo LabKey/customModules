@@ -27,6 +27,7 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
+import org.labkey.test.components.DomainDesignerPage;
 import org.labkey.test.components.domain.DomainFormPanel;
 import org.labkey.test.params.FieldDefinition;
 import org.labkey.test.util.DataRegionTable;
@@ -754,19 +755,19 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         sampleHelper.createSampleSet(sampleSetName, "${SampleID}");
 
         String sampleSetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(sampleSetFilename));
-        DomainFormPanel domainFormPanel = addFieldsNoImport(sampleSetCols);
+        DomainDesignerPage domainDesignerPage = new DomainDesignerPage(getDriver());
+        DomainFormPanel domainFormPanel = new DomainFormPanel.DomainFormPanelFinder(getDriver()).waitFor();
+        addFieldsNoImport(domainFormPanel, sampleSetCols);
 
         // set the scientist column type to a user instead of just an int
         // this will make it be a combobox in the drop down.
         domainFormPanel.getField(2).setType(FieldDefinition.ColumnType.User);
 
-        clickButton("Save");
-        clickProject(getProjectName());
+        domainDesignerPage.clickFinish();
     }
 
-    private DomainFormPanel addFieldsNoImport(String fieldList)
+    private void addFieldsNoImport(DomainFormPanel domainFormPanel, String fieldList)
     {
-        DomainFormPanel domainFormPanel = new DomainFormPanel.DomainFormPanelFinder(getDriver()).waitFor();
         Scanner reader = new Scanner(fieldList);
         while (reader.hasNextLine())
         {
@@ -805,8 +806,6 @@ public class ICEMRModuleTest extends BaseWebDriverTest
             if (mvenabled.equals("TRUE")) field.setMvEnabled(true);
             domainFormPanel.addField(field);
         }
-
-        return domainFormPanel;
     }
 
     @LogMethod
