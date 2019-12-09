@@ -72,9 +72,9 @@ public class PeptideCountPepXmlDataHandler implements ExperimentDataHandler
     }
 
     @Override
-    public void beforeDeleteData(List<ExpData> datas) throws ExperimentException
+    public void beforeDeleteData(List<ExpData> datas, User user) throws ExperimentException
     {
-        _realHandler.beforeDeleteData(datas);
+        _realHandler.beforeDeleteData(datas, user);
     }
 
     @Override
