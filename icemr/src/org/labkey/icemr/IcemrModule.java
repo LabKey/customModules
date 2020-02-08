@@ -17,6 +17,7 @@
 package org.labkey.icemr;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.exp.api.ExperimentService;
 import org.labkey.api.module.DefaultModule;
@@ -45,7 +46,7 @@ public class IcemrModule extends DefaultModule
     }
 
     @Override
-    public double getVersion()
+    public @Nullable Double getSchemaVersion()
     {
         return 20.000;
     }
