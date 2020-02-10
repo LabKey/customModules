@@ -33,6 +33,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ import java.util.List;
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
-    protected static final String SPECIMEN_ARCHIVE = StudyHelper.getStudySampleDataPath() + "specimens/Rollup.specimens";
+    protected static final File SPECIMEN_ARCHIVE = TestFileUtils.getSampleData("study/specimens/Rollup.specimens");
     protected static final String SPECIMEN_AVAILABLE_REASON = "This vial's availability status was set by an administrator. Please contact an administrator for more information.";
     protected static final String SPECIMEN_UNAVAILABLE_REASON = "This vial is unavailable because it is not currently held by a repository.";
 

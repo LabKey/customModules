@@ -23,6 +23,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.DailyC;
@@ -62,7 +63,7 @@ import static org.labkey.test.util.DataRegionTable.DataRegion;
 public class SpecimenTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenVerifyProject";
-    private final File REQUEST_ATTACHMENT = new File(StudyHelper.getPipelinePath() + "specimens", "labs.txt");
+    private final File REQUEST_ATTACHMENT = StudyHelper.getStudySampleData("specimens/labs.txt");
     private final PortalHelper _portalHelper = new PortalHelper(this);
     private final String[] SPECIMEN_IDS = {"AAA07XK5-01", "AAA07XK5-02"};
 
@@ -934,7 +935,7 @@ public class SpecimenTest extends SpecimenBaseTest
     @LogMethod
     private void verifyDrawTimestamp()
     {
-        String SPECIMEN_ARCHIVE_DTS = StudyHelper.getStudySampleDataPath() + "specimens/dts.specimens";
+        File SPECIMEN_ARCHIVE_DTS = TestFileUtils.getSampleData("study/specimens/dts.specimens");
         startSpecimenImport(2, SPECIMEN_ARCHIVE_DTS);
         waitForSpecimenImport();
 

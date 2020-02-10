@@ -20,6 +20,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
+import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.DailyC;
 import org.labkey.test.categories.Specimen;
@@ -28,12 +29,14 @@ import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.StudyHelper;
 
+import java.io.File;
+
 @Category({DailyC.class, Specimen.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class AliquotTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
-    protected static final String SPECIMEN_ARCHIVE_148 = StudyHelper.getStudySampleDataPath() + "specimens/lab148.specimens";
+    protected static final File SPECIMEN_ARCHIVE_148 = TestFileUtils.getSampleData("study/specimens/lab148.specimens");
 
     @Override
     protected String getProjectName()
