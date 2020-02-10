@@ -725,20 +725,14 @@ public class CAVDStudyTest extends StudyBaseTest
         click(Ext4Helper.Locators.ext4Radio("Import data from file"));
         clickButton("Next");
 
-        String datasetFileName = StudyHelper.getStudySampleDataPath() + "/datasets/plate001.tsv";
-        File file = new File(TestFileUtils.getLabKeyRoot(), datasetFileName);
+        File file = TestFileUtils.getSampleData("study/datasets/plate001.tsv");
 
-        if (file.exists())
-        {
-            Locator fileUpload = Locator.xpath("//input[@name = 'uploadFormElement']");
-            waitForElement(fileUpload, WAIT_FOR_JAVASCRIPT);
-            setFormElement(fileUpload, file.getAbsolutePath());
+        Locator fileUpload = Locator.xpath("//input[@name = 'uploadFormElement']");
+        waitForElement(fileUpload, WAIT_FOR_JAVASCRIPT);
+        setFormElement(fileUpload, file.getAbsolutePath());
 
-            waitForElement(Locator.xpath("//div[@class = 'gwt-HTML' and contains(text(), 'Showing first 5 rows')]"), WAIT_FOR_JAVASCRIPT);
-            clickButton("Import");
-        }
-        else
-            fail("The dataset import .tsv file (plate001.tsv) does not exist");
+        waitForElement(Locator.xpath("//div[@class = 'gwt-HTML' and contains(text(), 'Showing first 5 rows')]"), WAIT_FOR_JAVASCRIPT);
+        clickButton("Import");
     }
 
     private int revision = 1;
