@@ -82,7 +82,7 @@ public class DrugSensitivityAssayProvider extends AbstractDilutionAssayProvider<
 
     public DrugSensitivityAssayProvider()
     {
-        super(DRUG_ASSAY_PROTOCOL, DRUG_RUN_LSID_PREFIX, DrugSensitivityDataHandler.DRUG_SENSITIVITY_DATA_TYPE, ModuleLoader.getInstance().getModule(IcemrModule.class));
+        super(DRUG_ASSAY_PROTOCOL, DRUG_RUN_LSID_PREFIX, null, DrugSensitivityDataHandler.DRUG_SENSITIVITY_DATA_TYPE, ModuleLoader.getInstance().getModule(IcemrModule.class));
     }
 
     @Override
@@ -124,7 +124,9 @@ public class DrugSensitivityAssayProvider extends AbstractDilutionAssayProvider<
                 protocol,
                 FieldKey.fromParts("Run"),
                 FieldKey.fromParts("Run"),
-                FieldKey.fromParts("RowId"));
+                FieldKey.fromParts("RowId"),
+                "RunId",
+                null);
     }
 
     @Override
