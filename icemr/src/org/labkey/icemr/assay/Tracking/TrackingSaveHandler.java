@@ -136,7 +136,7 @@ public class TrackingSaveHandler extends IcemrSaveHandler
 
             if (dataArray != null)
             {
-                AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataRows,
+                AssayRunUploadContext uploadContext = createRunUploadContext(context, protocol, runJsonObject, dataRows, null,
                         Collections.emptyMap(),            // input data
                         outputData,
                         inputMaterial,
