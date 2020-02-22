@@ -2,5 +2,5 @@ import org.labkey.gradle.util.BuildUtils;
 
 dependencies
 {
-   BuildUtils.addLabKeyDependency(project: project, config: "compile", depProjectPath:  BuildUtils.getCommonAssayModuleProjectPath(project.gradle, "ms2"), depProjectConfig: "apiCompile")
+   BuildUtils.addLabKeyDependency(project: project, config: "implementation", depProjectPath:  BuildUtils.getCommonAssayModuleProjectPath(project.gradle, "ms2"), depProjectConfig: "apiJarFile")
 }
