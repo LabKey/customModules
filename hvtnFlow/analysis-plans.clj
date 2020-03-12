@@ -658,7 +658,6 @@
 [
   (subset "45RA+")
   (subset "154+")
-  (subset "Naive")
   (subset "TD")
   (subset "CM")
   (subset "EM")
@@ -683,7 +682,6 @@
 [
   (subset "45RA+" "4+45RA+")
   (subset "154+")
-  (subset "Naive")
   (subset "TD")
   (subset "CM")
   (subset "EM")
@@ -1402,7 +1400,7 @@
                     (IFNg_OR_IL2
                       !046IFng|subsets
                     )
-                    IFNg_OR_IL2More|IL2|IL7|Ki|KLR|Perf|TNFA
+                  IFNg_OR_IL2More|IL2|IL7|Ki|KLR|Perf|TNFA
                 )
                 (eight+
                   !45RA+|154+|CCR7+|CM|CXCR6+|DR+|EM|GzB+|IFNG2+-TNFA+-
