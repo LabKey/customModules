@@ -17,6 +17,8 @@ SELECT
 CONVERT('HVTN', 'VARCHAR') AS NETWORK,
 FCSAnalyses.FCSFile.Sample.Property.PROTOCOL AS PROTOCOL,
 'FH' AS LABID,
+CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.ASSAY) AS VARCHAR) AS ASSAY,
+CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.ASSAY_METHOD) AS VARCHAR) AS ASSAY_METHOD,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Keyword."EXPERIMENT NAME"), FCSAnalyses.FCSFile.Run.Name) AS ASSAYID,
 CASE
   WHEN IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.SPECROLE) IS NOT NULL THEN IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.SPECROLE)
@@ -24,6 +26,7 @@ CASE
   ELSE 'Sample'
 END AS SPECROLE,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTID), IFDEFINED(FCSAnalyses.FCSFile.Keyword.Sample)) AS PTID,
+CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.GUSPEC) AS VARCHAR) AS GUSPEC,
 CASE
   WHEN IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTIDTYPE) IS NOT NULL THEN IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTIDTYPE)
   WHEN FCSAnalyses.FCSFile.Sample.Property.PTID LIKE 'FH%' THEN NULL
@@ -57,7 +60,10 @@ Subsets.NAME8 AS SUBSET8, FCSAnalyses.Statistic(Subsets.STAT8) AS SUBSET8_NUM,
 Subsets.NAME9 AS SUBSET9, FCSAnalyses.Statistic(Subsets.STAT9) AS SUBSET9_NUM,
 Subsets.NAME10 AS SUBSET10, FCSAnalyses.Statistic(Subsets.STAT10) AS SUBSET10_NUM,
 
-IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.GUAVA_DATA_ID) AS RUNGROUPID,
+COALESCE(
+  IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.GUAVA_DATA_ID),
+  IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.MUSE_ID)
+) AS RUNGROUPID,
 IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.NUMVIALS) AS NUMVIALS,
 IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.VIAL1_ID) AS VIAL1_ID,
 IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.VIAL2_ID) AS VIAL2_ID,
@@ -68,7 +74,10 @@ FCSAnalyses.FCSFile.Sample.Property.VIABL1,
 FCSAnalyses.FCSFile.Sample.Property.RECOVR1,
 FCSAnalyses.FCSFile.Sample.Property.VIABL2,
 FCSAnalyses.FCSFile.Sample.Property.RECOVR2,
-COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.METHOD), 1) AS METHOD,
+COALESCE(
+  IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.METHOD),
+  IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.COUNT_METHOD),
+  1) AS METHOD,
 'N' AS REPLACE,
 NULL AS MODDT,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RUNNUM), IFDEFINED(FCSAnalyses.FCSFile.Sample.Property."Collection Num")) AS RUNNUM,
