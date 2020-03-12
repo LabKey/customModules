@@ -27,9 +27,8 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
-import org.labkey.test.components.DomainDesignerPage;
-import org.labkey.test.components.domain.DomainFormPanel;
 import org.labkey.test.params.FieldDefinition;
+import org.labkey.test.params.experiment.SampleSetDefinition;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.ExcelHelper;
 import org.labkey.test.util.Ext4Helper;
@@ -41,6 +40,7 @@ import org.openqa.selenium.WebElement;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -751,23 +751,21 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     {
         clickProject(getProjectName());
 
-        SampleSetHelper sampleHelper = new SampleSetHelper(this);
-        sampleHelper.createSampleSet(sampleSetName, "${SampleID}");
-
         String sampleSetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(sampleSetFilename));
-        DomainDesignerPage domainDesignerPage = new DomainDesignerPage(getDriver());
-        DomainFormPanel domainFormPanel = new DomainFormPanel.DomainFormPanelFinder(getDriver()).waitFor();
-        addFieldsNoImport(domainFormPanel, sampleSetCols);
+        List<FieldDefinition> fields = parseFields(sampleSetCols);
 
         // set the scientist column type to a user instead of just an int
         // this will make it be a combobox in the drop down.
-        domainFormPanel.getField(2).setType(FieldDefinition.ColumnType.User);
+        fields.get(2).setType(FieldDefinition.ColumnType.User);
 
-        domainDesignerPage.clickFinish();
+        SampleSetHelper sampleHelper = new SampleSetHelper(this);
+        sampleHelper.createSampleSet(new SampleSetDefinition(sampleSetName).setNameExpression("${SampleID}").setFields(fields));
     }
 
-    private void addFieldsNoImport(DomainFormPanel domainFormPanel, String fieldList)
+    private List<FieldDefinition> parseFields(String fieldList)
     {
+        List<FieldDefinition> fieldDefinitions = new ArrayList<>();
+
         Scanner reader = new Scanner(fieldList);
         while (reader.hasNextLine())
         {
@@ -804,8 +802,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
             if (required.equals("TRUE")) field.setRequired(true);
             if (mvenabled.equals("TRUE")) field.setMvEnabled(true);
-            domainFormPanel.addField(field);
+            fieldDefinitions.add(field);
         }
+        return fieldDefinitions;
     }
 
     @LogMethod
