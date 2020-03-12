@@ -294,7 +294,7 @@
         (subset "PD1+")))
 
 ; AnalysisPlan044 marginals
-(def !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD
+(def ALT:45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD
   [(subset "45RA+")
     (subset "CCR7+")
     (subset "CM")
@@ -303,12 +303,28 @@
     (subset "GzA+Perf+")
     (subset "GzA+Perf-")
     (subset "GzA-Perf+")
-    (subset "GzA-Perf-")    
-    (subset "KLRG1+")
+    (subset "GzA-Perf-")     
+    (subset "KLRG1+" "4+KLRG1+")
     (subset "Naive")
     (subset "Perf+")
     (subset "TD")
   ])
+
+  (def !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD
+    [(subset "45RA+")
+      (subset "CCR7+")
+      (subset "CM")
+      (subset "EM")
+      (subset "GzA+")
+      (subset "GzA+Perf+")
+      (subset "GzA+Perf-")
+      (subset "GzA-Perf+")
+      (subset "GzA-Perf-")    
+      (subset "KLRG1+")
+      (subset "Naive")
+      (subset "Perf+")
+      (subset "TD")
+    ])
 
 (def !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
   [(subset "154+")
@@ -331,7 +347,7 @@
   ])
 
 (def !445RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD
-  [(subset "4+45RA+")
+  [(subset "45RA+")
   (subset "CCR6+")
   (subset "CCR6+CXCR3+")
   (subset "CCR6+CXCR3-")
@@ -352,9 +368,9 @@
   (subset "TD")
   ])
 
-(def !445RA|4KLRG1|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|Naive|Perf|TD
-  [(subset "4+45RA+")
-  (subset "4+KLRG1+")
+(def ALT:445RA|4KLRG1|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|Naive|Perf|TD
+  [(subset "45RA+" "4+45RA+")
+  (subset "KLRG1+" "4+KLRG1+")
   (subset "CCR6+")
   (subset "CCR6+CXCR3+")
   (subset "CCR6+CXCR3-")
@@ -396,6 +412,18 @@
   (subset "TD")
   ])
 
+(def TFNg2TNFa
+  [
+    (subset "IFNg+2+TNFa+")
+    (subset "IFNg+2+TNFa-")
+    (subset "IFNg+2-TNFa+")
+    (subset "IFNg+2-TNFa-")
+    (subset "IFNg-2+TNFa+")
+    (subset "IFNg-2+TNFa-")
+    (subset "IFNg-2-TNFa+")
+    (subset "IFNg-2-TNFa-")
+  ])
+
 (def !154|HLADR|IFNg|IFNgOrIL2|IL2|IL17a|IL22|Th2|TNFa
   [
     (subset "154+")
@@ -435,6 +463,18 @@
   (subset "IL17a+")                  
   (subset "IL22+")
   (subset "KLRG1+")
+  (subset "Naive")
+  (subset "Perf+")
+  (subset "TD")
+  (subset "Th2+")
+  (subset "TNFa+") 
+  ])
+
+(def ALT:IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+  [(subset "IL2+")
+  (subset "IL17a+")                  
+  (subset "IL22+")
+  (subset "KLRG1+" "4+KLRG1+")
   (subset "Naive")
   (subset "Perf+")
   (subset "TD")
@@ -912,7 +952,9 @@
       (subset "14+16-")
       (subset "14+16+")
       (subset "14lo16+")
-      (Monos !154|HLADR|IFNg|IFNgOrIL2|IL2|IL17a|IL22|Th2|TNFa))
+      (Monos 
+        !154|HLADR|IFNg|IFNgOrIL2|IL2|IL17a|IL22|Th2|TNFa
+        TFNg2TNFa))
     (Lv*
       (SSlo
         (Keeper
@@ -929,7 +971,8 @@
                 (subset "45RA+")
                 !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
                 (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
-                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+))
+                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+                TFNg2TNFa))
             (subset "HLA-DR+"))
           
           (L*
@@ -944,13 +987,13 @@
                 (subset "45RA+")
                 (subset "56+")
                 !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
-                (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
-                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)
+                (IFNg_OR_IL2 ALT:45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+                ALT:IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+                TFNg2TNFa)
               (subset "gd1")
               (subset "gd2")
               (subset "gd3")
-              (subset "gd4")
-              (subset "gd5")) ; gd5 in provided spreadsheet but not FloJo workspace
+              (subset "gd4"))
 
           (subset "3+IFNg")
           (subset "3+IL2")  
@@ -958,30 +1001,33 @@
           (subset "3+154")  
           (sixteen-56- 
             (four+ 
-              (subset "4+IL22+")
-              (subset "4+KLRG1+")
-              (subset "4+Th2+")  
-              (subset "4+45RA+")
+              (subset "IL22+" "4+IL22+")
+              (subset "KLRG1+" "4+KLRG1+")
+              (subset "Th2+" "4+Th2+")  
+              (subset "45RA+" "4+45RA+")
               !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
-              (IFNg_OR_IL2 !445RA|4KLRG1|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|Naive|Perf|TD)
+              (IFNg_OR_IL2 ALT:445RA|4KLRG1|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|Naive|Perf|TD)
               (subset "IL2+")
               (subset "IL17a+")
               (subset "Naive")
               (subset "Perf+")
               (subset "TD")
-              (subset "TNFa+"))
+              (subset "TNFa+")
+              TFNg2TNFa)
 
             (four-eight-
               (subset "45RA+")
               !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
               (IFNg_OR_IL2 !445RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD)
-              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)
+              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+              TFNg2TNFa)
 
             (eight+
               (subset "45RA+")
               !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
               (IFNg_OR_IL2 !45RA|CCR6|CCR6CXCR3|CCR7|CXCR3|CM|CXCR3|EM|GzA|GzAPerf|KLRG1|Naive|Perf|TD)
-              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+))
+              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+              TFNg2TNFa))
 
           (gd-
             (twenty6+161+ 
@@ -989,13 +1035,15 @@
                 !4|48|8|16|16or56|45RA|56
                 !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
                 (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
-                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)   
+                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+                TFNg2TNFa)   
 
               (Va72-
                 !4|48|8|16|16or56|45RA|56
                 !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
-                (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
-                IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)))
+                (IFNg_OR_IL2 ALT:45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
+                ALT:IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+                TFNg2TNFa)))
 
           (Not26+161+
             (subset "16+")
@@ -1006,7 +1054,8 @@
               (subset "45RA+")
               !154|CCR6|CCR6CXCR3|CCR7|CM|CXCR3|DR|EM|GzA|GzAPerf|IFNg
               (IFNg_OR_IL2 !45RA|CCR7|CM|EM|GZa|GzAPerf|KLRG1|Naive|Perf|TD)
-              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+)
+              IL2|IL17a|Il22|LRG1|Naive|Perf|TD|Th2+|TNFa+
+              TFNg2TNFa)
           (subset "56+"))))
 
         (subset "K1")
