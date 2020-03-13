@@ -35,7 +35,7 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
-import org.labkey.test.util.SampleSetHelper;
+import org.labkey.test.util.exp.SampleSetAPIHelper;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
@@ -47,7 +47,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -750,20 +749,15 @@ public class ICEMRModuleTest extends BaseWebDriverTest
     @LogMethod
     private void createFlasksSampleSet(String sampleSetName, String sampleSetFilename)
     {
-        clickProject(getProjectName());
-
         String sampleSetCols = TestFileUtils.getFileContents(TestFileUtils.getSampleData(sampleSetFilename));
         List<FieldDefinition> fields = parseFields(sampleSetCols);
 
         // set the scientist column type to a user instead of just an int
         // this will make it be a combobox in the drop down.
-        fields.get(2).setType(FieldDefinition.ColumnType.User);
+        fields.get(1).setType(FieldDefinition.ColumnType.User);
 
-        // 'SampleId' is reserved
-        fields = fields.stream().filter(fd -> !"SampleID".equals(fd.getName())).collect(Collectors.toList());
-
-        SampleSetHelper sampleHelper = new SampleSetHelper(this);
-        sampleHelper.createSampleSet(new SampleSetDefinition(sampleSetName).setNameExpression("${SampleID}").setFields(fields));
+        SampleSetDefinition definition = new SampleSetDefinition(sampleSetName).setFields(fields);
+        SampleSetAPIHelper.createEmptySampleSet(getProjectName(), definition);
     }
 
     private List<FieldDefinition> parseFields(String fieldList)
