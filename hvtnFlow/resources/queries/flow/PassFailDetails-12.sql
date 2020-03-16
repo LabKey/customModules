@@ -35,9 +35,9 @@ SELECT
   B."EXPERIMENT NAME",
   B.SampleOrder,
   B.Sample,
-  CASE WHEN B.CD4_Count < B.Cutoff THEN 'LO_CD4' END AS LO_CD4,
-  CASE WHEN B.CD8_Count < B.Cutoff THEN 'LO_CD8' END AS LO_CD8,
-  CASE WHEN (B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.negctrl
+  CASE WHEN B.CD4_Count < (B.Cutoff * 10000) THEN 'LO_CD4' END AS LO_CD4,
+  CASE WHEN B.CD8_Count < (B.Cutoff * 5000) THEN 'LO_CD8' END AS LO_CD8,
+  CASE WHEN (B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.negctrl
     WHEN (B.negctrl IS NOT NULL) THEN 'excluded' END AS negctrl,
   B.posctrl,
   CASE WHEN (B.posctrl IS NOT NULL AND (
@@ -65,19 +65,19 @@ SELECT
   CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_CD107a_Freq END AS posctrl_CD8_CD107a_Freq,
   CASE WHEN (B.posctrl IS NOT NULL) THEN B.CD8_TNFa_Freq   END AS posctrl_CD8_TNFa_Freq,
 
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_Count END AS negctrl_CD4_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_IL2_Count END AS negctrl_CD4_IL2_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_IFNg_Count END AS negctrl_CD4_IFNg_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_CD154_Count END AS negctrl_CD4_CD154_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_CD107a_Count END AS negctrl_CD4_CD107a_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD4_TNFa_Count END AS negctrl_CD4_TNFa_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD4_Count END AS negctrl_CD4_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD4_IL2_Count END AS negctrl_CD4_IL2_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD4_IFNg_Count END AS negctrl_CD4_IFNg_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD4_CD154_Count END AS negctrl_CD4_CD154_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD4_CD107a_Count END AS negctrl_CD4_CD107a_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD4_TNFa_Count END AS negctrl_CD4_TNFa_Count,
 
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_Count END AS negctrl_CD8_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_IL2_Count END AS negctrl_CD8_IL2_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_IFNg_Count END AS negctrl_CD8_IFNg_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_CD154_Count END AS negctrl_CD8_CD154_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_CD107a_Count END AS negctrl_CD8_CD107a_Count,
-  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 5000 AND B.CD8_Count >= 5000) THEN B.CD8_TNFa_Count END AS negctrl_CD8_TNFa_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD8_Count END AS negctrl_CD8_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD8_IL2_Count END AS negctrl_CD8_IL2_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD8_IFNg_Count END AS negctrl_CD8_IFNg_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD8_CD154_Count END AS negctrl_CD8_CD154_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD8_CD107a_Count END AS negctrl_CD8_CD107a_Count,
+  CASE WHEN (B.negctrl IS NOT NULL AND B.CD4_Count >= 10000 AND B.CD8_Count >= 5000) THEN B.CD8_TNFa_Count END AS negctrl_CD8_TNFa_Count,
   B.Run.Name||'-' ||B."EXPERIMENT NAME"||'-'||B.SampleOrder AS Key,
 FROM
 (
@@ -89,8 +89,8 @@ FROM
     A.FCSFile.Keyword.Stim AS Stim,
     CASE
         WHEN (A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl', 'PHA', 'phactrl', 'CMV')) THEN 0
-        WHEN (A.FCSFile.Keyword.Stim IN ('Env1', 'Env2', 'Env3', 'ENV-1-PTEG', 'ENV-2-PTEG', 'ENV-3-PTEG')) THEN 5000
-        WHEN (A.FCSFile.Keyword.Stim NOT IN ('negctrl', 'Neg Cont')) THEN 5000 END AS Cutoff,
+        WHEN (A.FCSFile.Keyword.Stim IN ('Env1', 'Env2', 'Env3', 'ENV-1-PTEG', 'ENV-2-PTEG', 'ENV-3-PTEG')) THEN 1
+        WHEN (A.FCSFile.Keyword.Stim NOT IN ('negctrl', 'Neg Cont')) THEN 1 END AS Cutoff,
     CASE WHEN (A.FCSFile.Keyword.Stim IN ('negctrl', 'Neg Cont')) THEN 'negctrl' END AS negctrl,
     CASE
         WHEN (A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl')) THEN 'sebctrl'
