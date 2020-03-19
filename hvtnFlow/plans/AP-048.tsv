@@ -1,0 +1,215 @@
+analysisPlanSort	analysisPlanId	description	NAME1	STAT1
+AP-048	48	28-color ICS for HVTN 119	Count	Count
+AP-048	48	28-color ICS for HVTN 119	Time:Count	Time:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S:Count	Time/S:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1:Count	Time/S/K1:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2:Count	Time/S/K1/K2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3:Count	Time/S/K1/K2/K3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4:Count	Time/S/K1/K2/K3/K4:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5:Count	Time/S/K1/K2/K3/K4/K5:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6:Count	Time/S/K1/K2/K3/K4/K5/K6:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/IL4_OR_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos classical/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/IL4_OR_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14+_OR_SShi/Monos non-classical/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/4+45RA+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/4+45RA+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/4+CCR7+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/4+CCR7+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/4+IL4_or_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/4+IL4_or_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/4+IL4_or_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/4+IL4_or_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/CXCR5+PD1+/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/EM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/EM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/FoxP3+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/FoxP3+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/FoxP3+/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/FoxP3+/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/KLRG1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/KLRG1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/N:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/N:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/TD:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/TD:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/4+45RA+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/4+45RA+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/4+CCR7+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/4+CCR7+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CXCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CXCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CXCR5+PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/CXCR5+PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/EM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/EM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/FoxP3+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/FoxP3+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/FoxP3+/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/FoxP3+/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/IL4_OR_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/KLRG1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/KLRG1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/N:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/N:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/TD:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/TD:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4-8-/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/45RA+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/45RA+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CCR7+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CCR7+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CXCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/CXCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/EM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/EM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/FoxP3+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/FoxP3+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/FoxP3+/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/FoxP3+/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IL4_OR_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/KLRG1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/KLRG1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/N:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/N:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/TD:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/TD:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4+45RA+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4+45RA+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4+CCR7+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4+CCR7+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4-8-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/4-8-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/8+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/8+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CXCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CXCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CXCR5+PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/CXCR5+PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/EM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/EM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/FoxP3+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/FoxP3+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/FoxP3+/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/FoxP3+/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/IL4_OR_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/KLRG1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/KLRG1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/N:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/N:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/TD:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/TD:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/NKT/TNFa+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/16-56dim:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/16-56dim:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/56-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/56-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/56br:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/56br:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/56dim:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/56dim:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/154+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/154+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/25+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/25+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/4-8-:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/4-8-:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/45RA+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/45RA+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/69+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/69+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/8+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/8+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CCR7+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CCR7+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CTLA4+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CTLA4+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CXCR5+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/CXCR5+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/DR+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/DR+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/EM:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/EM:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/FoxP3+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/FoxP3+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/FoxP3+/25+127lo:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/FoxP3+/25+127lo:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/GzB+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/GzB+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IFNg+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IFNg+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IFNg_OR_IL2:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IL17A_OR_IL17F:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IL2+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IL2+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/IL4_OR_IL13:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/KLRG1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/KLRG1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/LAG3_OR_TIM3:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/LAG3_OR_TIM3:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/N:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/N:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/PD1+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/PD1+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/Perf+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/Perf+:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/TD:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/TD:Count
+AP-048	48	28-color ICS for HVTN 119	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/TNFa+:Count	Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3-/Total NK/TNFa+:Count
