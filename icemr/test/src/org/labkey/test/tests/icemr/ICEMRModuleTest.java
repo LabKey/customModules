@@ -754,9 +754,9 @@ public class ICEMRModuleTest extends BaseWebDriverTest
 
         // set the scientist column type to a user instead of just an int
         // this will make it be a combobox in the drop down.
-        fields.get(1).setType(FieldDefinition.ColumnType.User);
+        fields.get(2).setType(FieldDefinition.ColumnType.User);
 
-        SampleSetDefinition definition = new SampleSetDefinition(sampleSetName).setFields(fields);
+        SampleSetDefinition definition = new SampleSetDefinition(sampleSetName).setFields(fields).setNameExpression("{SampleID}");
         SampleSetAPIHelper.createEmptySampleSet(getProjectName(), definition);
     }
 

@@ -1,5 +1,6 @@
 Property	Label	RangeURI	Format	NotNull	Hidden	MvEnabled	Description
 PatientID	Patient ID	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+SampleID	Sample ID	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE	Flask (Sample) ID
 Scientist	Scientist	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE
 AdaptationSampleID	Adaptation Flask ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	If selections started from cultures never frozen, enter flask sample id from adaptation
 FreezerProID	FreezerPro ID	http://www.w3.org/2001/XMLSchema#string		FALSE	FALSE	FALSE	If thawed, FreezerPro ID of line used

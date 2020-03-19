@@ -1,4 +1,5 @@
-PatientID	Patient ID	String		TRUE	FALSE	FALSE
+PatientID	Patient ID	String		TRUE	FALSE	FALSE	
+SampleID	Sample ID	String		TRUE	FALSE	FALSE	Flask (Sample) ID
 Scientist	Scientist	Integer		TRUE	FALSE	FALSE	
 AdaptationSampleID	Adaptation Flask ID	String		FALSE	FALSE	FALSE	If selections started from cultures never frozen, enter flask sample id from adaptation
 FreezerProID	FreezerPro ID	String		FALSE	FALSE	FALSE	If thawed, FreezerPro ID of line used

@@ -1,5 +1,6 @@
 Property	Label	RangeURI	Format	NotNull	Hidden	MvEnabled	Description
 PatientID	Patient ID	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE
+SampleID	Sample ID	http://www.w3.org/2001/XMLSchema#string		TRUE	FALSE	FALSE	Flask (Sample) ID
 Scientist	Scientist	http://www.w3.org/2001/XMLSchema#int		TRUE	FALSE	FALSE
 Parasitemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Initial Parasitemia %
 Gametocytemia		http://www.w3.org/2001/XMLSchema#double		TRUE	FALSE	FALSE	Gametocytemia %

@@ -72,7 +72,7 @@
 
     // expected results for tracking assay (shared between culture adaptatio and drug selection)
     var _expectedRunFields = ['PatientID', 'StartDate','ExperimentID'];
-    var _expectedDailyFields = ['MeasurementDate', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
+    var _expectedDailyFields = ['SampleID', 'MeasurementDate', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
         'Removed', 'RBCBatchID', 'SerumBatchID', 'AlbumaxBatchID','GrowthFoldTestInitiated', 'GrowthFoldTestFinished',
         'Contamination', 'MycoTestResult', 'FreezerProIDs', 'FlaskMaintenanceStopped', 'InterestingResult', 'Comments',
         'DateIndex'];
@@ -90,7 +90,7 @@
     var _userId;
 
     // culture adaptation specific results
-    var _expectedAdaptFlaskFields = ['PatientID', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
+    var _expectedAdaptFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'Stage', 'Parasitemia', 'Gametocytemia',
         'PatientpRBCs', 'Hematocrit', 'CultureMedia','SerumBatchID', 'AlbumaxBatchID','FoldIncrease1', 'FoldIncrease2',
         'FoldIncrease3', 'AdaptationCriteria', 'Comments'];
     var _expectedAdaptGeneratedFlaskFields = ['MaintenanceDate', 'MaintenanceStopped', 'StartParasitemia1',
@@ -101,7 +101,7 @@
         'PassTest1', 'PassTest2', 'PassTest3','SuccessfulAdaptation'];
 
     // drug selection specific results
-    var _expectedSelectFlaskFields = ['PatientID', 'Scientist', 'AdaptationSampleID', 'FreezerProID',
+    var _expectedSelectFlaskFields = ['PatientID', 'SampleID', 'Scientist', 'AdaptationSampleID', 'FreezerProID',
         'InitialPopulation', 'Compound', 'Concentration', 'CultureMedia','SerumBatchID', 'AlbumaxBatchID',
         'SuperstockBatchID', 'WorkingstockBatchID','RBCBatchID','Control', 'ResistanceProtocol', 'ResistanceNumber',
         'MinimumParasitemia', 'FoldIncrease1', 'FoldIncrease2', 'FoldIncrease3', 'Comments'];
