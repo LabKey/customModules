@@ -31,7 +31,6 @@ import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
-import org.labkey.test.util.StudyHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -471,7 +470,7 @@ public class CAVDStudyTest extends StudyBaseTest
         new PortalHelper(this).addWebPart("Lists");
         ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
                 new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
-                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies").setTableType(FieldDefinition.ColumnType.LookupToString))
+                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies").setTableType(FieldDefinition.ColumnType.String))
         };
         _listHelper.createList(PROJECT_NAME + "/" + FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
 
