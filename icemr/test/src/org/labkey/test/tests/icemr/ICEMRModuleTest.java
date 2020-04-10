@@ -35,7 +35,7 @@ import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
-import org.labkey.test.util.exp.SampleSetAPIHelper;
+import org.labkey.test.util.exp.SampleTypeAPIHelper;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
@@ -757,7 +757,7 @@ public class ICEMRModuleTest extends BaseWebDriverTest
         fields.get(2).setType(FieldDefinition.ColumnType.User);
 
         SampleSetDefinition definition = new SampleSetDefinition(sampleSetName).setFields(fields).setNameExpression("{SampleID}");
-        SampleSetAPIHelper.createEmptySampleSet(getProjectName(), definition);
+        SampleTypeAPIHelper.createEmptySampleType(getProjectName(), definition);
     }
 
     private List<FieldDefinition> parseFields(String fieldList)
