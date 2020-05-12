@@ -45,7 +45,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         // Pretend that the project is our base container
         super(studyTable, schema.getContainer().getProject() == null ? schema : new ViscStudySchema(schema.getUser(), schema.getContainer().getProject()));
         // Set the ContainerFilter to show everything from the project
-        ContainerFilter containerFilter = new ContainerFilter.CurrentAndSubfolders(schema.getUser());
+        ContainerFilter containerFilter = ContainerFilter.Type.CurrentAndSubfolders.create(schema);
         ((ContainerFilterable)studyTable).setContainerFilter(containerFilter);
         applyContainerFilter(containerFilter);
 
