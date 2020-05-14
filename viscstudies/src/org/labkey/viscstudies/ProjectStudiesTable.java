@@ -47,6 +47,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         // Set the ContainerFilter to show everything from the project
         ContainerFilter containerFilter = ContainerFilter.Type.CurrentAndSubfolders.create(getUserSchema());
         ((ContainerFilterable)studyTable).setContainerFilter(containerFilter);
+        // don't need to apply the same container filter twice and the inner table already has the CF applied
         applyContainerFilter(ContainerFilter.EVERYTHING);
 
         for (ColumnInfo col : getRealTable().getColumns())
