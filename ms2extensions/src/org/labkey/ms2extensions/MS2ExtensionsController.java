@@ -27,6 +27,7 @@ import org.labkey.api.data.PropertyManager;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminOperationsPermission;
 import org.labkey.api.security.permissions.ReadPermission;
+import org.labkey.api.util.DOM;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.HtmlView;
 import org.labkey.api.view.NavTree;
@@ -35,7 +36,9 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -97,31 +100,33 @@ public class MS2ExtensionsController extends SpringActionController
         @Override
         public ModelAndView getView(Object o, BindException errors)
         {
-            StringBuilder sb = new StringBuilder();
-            updatePeptideCounts(sb, getContainer());
-            if (sb.length() == 0)
+            if (isPost())
             {
-                sb.append("Success!");
+                List<DOM.Renderable> warnings = new ArrayList<>();
+                updatePeptideCounts(warnings, getContainer());
+                if (warnings.size() == 0)
+                {
+                    return new HtmlView(DOM.DIV("Success!"));
+                }
+
+                warnings.add(0, DOM.DIV("Success, with warnings:"));
+                return new HtmlView(DOM.DIV(warnings.toArray(new Object[0])));
             }
-            else
-            {
-                sb.insert(0, "<div>Success, with warnings:</div>");
-            }
-            return new HtmlView(sb.toString());
+            return new HtmlView(DOM.LK.FORM(
+                    DOM.at(DOM.Attribute.method, "POST"),
+                    DOM.BUTTON("Update peptide counts")));
         }
 
-        private void updatePeptideCounts(StringBuilder sb, Container container)
+        private void updatePeptideCounts(List<DOM.Renderable> warnings, Container container)
         {
-            String error = new PeptideCountUpdater().update(container, getUser());
-            if (error != null)
+            String warning = new PeptideCountUpdater().update(container, getUser());
+            if (warning != null)
             {
-                sb.append("<div>");
-                sb.append(PageFlowUtil.filter(error));
-                sb.append("</div>");
+                warnings.add(DOM.DIV(warning));
             }
             for (Container child : container.getChildren())
             {
-                updatePeptideCounts(sb, child);
+                updatePeptideCounts(warnings, child);
             }
         }
 
