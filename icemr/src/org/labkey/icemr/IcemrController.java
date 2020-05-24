@@ -79,12 +79,11 @@ public class IcemrController extends SpringActionController
             return super.getView(form, errors);
         }
 
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
             ActionURL runDataURL = PageFlowUtil.urlProvider(AssayUrls.class).getAssayResultsURL(getContainer(), _protocol, _runRowId);
             root.addChild(_protocol.getName() + " Data", runDataURL);
             root.addChild("Run " + _runRowId + " Details");
-            return root;
         }
     }
 
