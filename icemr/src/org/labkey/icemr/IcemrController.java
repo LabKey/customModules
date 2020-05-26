@@ -79,6 +79,7 @@ public class IcemrController extends SpringActionController
             return super.getView(form, errors);
         }
 
+        @Override
         public void addNavTrail(NavTree root)
         {
             ActionURL runDataURL = PageFlowUtil.urlProvider(AssayUrls.class).getAssayResultsURL(getContainer(), _protocol, _runRowId);
@@ -126,6 +127,7 @@ public class IcemrController extends SpringActionController
             QuerySettings settings = schema.getSettings(_context, AssayProtocolSchema.DATA_TABLE_NAME, AssayProtocolSchema.DATA_TABLE_NAME);
             QueryView dataView = new DrugSensitivityProtocolSchema.ResultsQueryView(_protocol, _context, settings)
             {
+                @Override
                 public DataView createDataView()
                 {
                     DataView view = super.createDataView();

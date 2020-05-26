@@ -55,6 +55,7 @@ public class ViscStudyFolderType extends MultiPortalFolderType
                 getModule("Study"));
     }
 
+    @Override
     protected String getFolderTitle(ViewContext ctx)
     {
         Study study = StudyService.get().getStudy(ctx.getContainer());
