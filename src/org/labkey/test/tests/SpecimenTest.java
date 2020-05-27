@@ -67,6 +67,7 @@ public class SpecimenTest extends SpecimenBaseTest
     private final PortalHelper _portalHelper = new PortalHelper(this);
     private final String[] SPECIMEN_IDS = {"AAA07XK5-01", "AAA07XK5-02"};
 
+    @Override
     public List<String> getAssociatedModules()
     {
         return Arrays.asList("study");
