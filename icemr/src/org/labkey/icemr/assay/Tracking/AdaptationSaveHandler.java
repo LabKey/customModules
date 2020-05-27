@@ -207,18 +207,25 @@ public class AdaptationSaveHandler implements AssaySaveHandler
         return samples;
     }
 
+    @Override
     public void setProvider(AssayProvider provider)
     { throw new IllegalStateException(INVALID_ACTION); }
+    @Override
     public AssayProvider getProvider()
     { throw new IllegalStateException(INVALID_ACTION); }
+    @Override
     public ExpExperiment handleBatch(ViewContext context, JSONObject batchJson, ExpProtocol protocol)
     { throw new IllegalStateException(INVALID_ACTION); }
+    @Override
     public ExpRun handleRun(ViewContext context, JSONObject runJson, ExpProtocol protocol, ExpExperiment batch) throws JSONException
     { throw new IllegalStateException(INVALID_ACTION); }
+    @Override
     public ExpData handleData(ViewContext context, JSONObject dataJson)
     { throw new IllegalStateException(INVALID_ACTION); }
+    @Override
     public void handleProperties(ViewContext context, ExpObject object, List<? extends DomainProperty> dps, JSONObject propertiesJson) throws JSONException
     { throw new IllegalStateException(INVALID_ACTION); }
+    @Override
     public void beforeSave(ViewContext context, JSONObject rootJson, ExpProtocol protocol)
     { throw new IllegalStateException(INVALID_ACTION); }
     public void handleProtocolApplications(ViewContext context, ExpProtocol protocol, ExpExperiment batch, ExpRun run, JSONArray inputDataArray,
@@ -226,6 +233,7 @@ public class AdaptationSaveHandler implements AssaySaveHandler
         JSONArray outputMaterialArray)
     { throw new IllegalStateException(INVALID_ACTION); }
 
+    @Override
     public ExpRun handleRunWithoutBatch(ViewContext context, JSONObject runJson, ExpProtocol protocol)
     {
         throw new UnsupportedOperationException(INVALID_ACTION);

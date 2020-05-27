@@ -77,6 +77,7 @@ public class IcemrModule extends DefaultModule
         {
             DefaultSchema.registerProvider(schemaName, new DefaultSchema.SchemaProvider(this)
             {
+                @Override
                 public QuerySchema createSchema(final DefaultSchema schema, Module module)
                 {
                     return QueryService.get().createSimpleUserSchema(schemaName, null, schema.getUser(), schema.getContainer(), IcemrSchema.getInstance().getSchema());

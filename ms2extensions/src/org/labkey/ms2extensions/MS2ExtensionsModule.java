@@ -129,6 +129,7 @@ public class MS2ExtensionsModule extends DefaultModule
 
         DefaultSchema.registerProvider(SCHEMA_NAME, new DefaultSchema.SchemaProvider(this)
         {
+            @Override
             public QuerySchema createSchema(DefaultSchema schema, Module module)
             {
                 return new SimpleUserSchema(SCHEMA_NAME, null, schema.getUser(), schema.getContainer(), MS2ExtensionsModule.getSchema());

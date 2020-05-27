@@ -122,9 +122,9 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild("HDRL Test Request Overview");
+            root.addChild("HDRL Test Request Overview");
         }
     }
 
@@ -157,9 +157,9 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild("Test Request");
+            root.addChild("Test Request");
         }
     }
 
@@ -190,9 +190,9 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild(_navLabel);
+            root.addChild(_navLabel);
         }
     }
 
@@ -405,9 +405,8 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return null;
         }
     }
 
@@ -516,9 +515,9 @@ public class HDRLController extends SpringActionController
         }
 
         @Override
-        public NavTree appendNavTrail(NavTree root)
+        public void addNavTrail(NavTree root)
         {
-            return root.addChild(_navLabel);
+            root.addChild(_navLabel);
         }
     }
 

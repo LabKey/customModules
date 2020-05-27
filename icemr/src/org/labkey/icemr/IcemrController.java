@@ -79,12 +79,12 @@ public class IcemrController extends SpringActionController
             return super.getView(form, errors);
         }
 
-        public NavTree appendNavTrail(NavTree root)
+        @Override
+        public void addNavTrail(NavTree root)
         {
             ActionURL runDataURL = PageFlowUtil.urlProvider(AssayUrls.class).getAssayResultsURL(getContainer(), _protocol, _runRowId);
             root.addChild(_protocol.getName() + " Data", runDataURL);
             root.addChild("Run " + _runRowId + " Details");
-            return root;
         }
     }
 
@@ -127,6 +127,7 @@ public class IcemrController extends SpringActionController
             QuerySettings settings = schema.getSettings(_context, AssayProtocolSchema.DATA_TABLE_NAME, AssayProtocolSchema.DATA_TABLE_NAME);
             QueryView dataView = new DrugSensitivityProtocolSchema.ResultsQueryView(_protocol, _context, settings)
             {
+                @Override
                 public DataView createDataView()
                 {
                     DataView view = super.createDataView();
