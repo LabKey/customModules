@@ -90,11 +90,9 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void goToImport()
     {
-        clickTab("Data");
+        clickTab("Specimen Data");
         waitForText("No specimens found");
-        waitForText("Import Specimens");
-        sleep(100);
-        clickAndWait(Locator.linkContainingText("Import Specimens"));
+        waitAndClickAndWait(Locator.linkContainingText("Import Specimens"));
     }
 
     protected void checkRequiredFields(boolean visit)
@@ -137,7 +135,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
     protected void assertIdsSet()
     {
-        clickTab("Data");
+        clickTab("Specimen Data");
         waitAndClick(Locator.linkContainingText("By Individual Vial"));
         DataRegionTable region = new DataRegionTable("SpecimenDetail", this);
         assertTrue("Failed to find Participant ID 1", region.getRow("Participant Id", "1") == 0);
@@ -256,7 +254,10 @@ public class SpecimenImportTest extends SpecimenBaseTest
             _containerHelper.createProject(getProjectName(), null);
         }
 
-        _containerHelper.createSubfolder(getProjectName(), getProjectName(), getFolderName(), "CAVD Study", null, true);
+        _containerHelper.createSubfolder(getProjectName(), getProjectName(), getFolderName(), "Study", null, true);
+        clickButton("Create Study");
+        click(Locator.radioButtonById("dateTimepointType"));
+        clickButton("Create Study");
     }
 
     @Override
