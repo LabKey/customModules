@@ -1,7 +1,0 @@
-<view xmlns="http://labkey.org/data/xml/view" title="ICEMR Visualization" frame="none">
-    <dependencies>
-        <dependency path="Ext4"/>
-        <dependency path="vischart"/>
-        <dependency path="assay/icemr"/>
-    </dependencies>
-</view>
