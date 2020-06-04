@@ -1,5 +1,0 @@
-<ap:provider xmlns:exp="http://cpas.fhcrc.org/exp/xml" xmlns:ap="http://labkey.org/study/assay/xml">
-    <ap:name>ICEMR Diagnostics</ap:name>
-    <ap:description>Diagnostics Assay</ap:description>
-    <ap:saveHandler>org.labkey.icemr.assay.IcemrSaveHandler</ap:saveHandler>
-</ap:provider>

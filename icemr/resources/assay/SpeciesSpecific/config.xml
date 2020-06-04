@@ -1,5 +1,0 @@
-<ap:provider xmlns:exp="http://cpas.fhcrc.org/exp/xml" xmlns:ap="http://labkey.org/study/assay/xml">
-    <ap:name>ICEMR Species-specific PCR</ap:name>
-    <ap:description>Species-specific PCR</ap:description>
-    <ap:saveHandler>org.labkey.icemr.assay.IcemrSaveHandler</ap:saveHandler>
-</ap:provider>

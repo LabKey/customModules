@@ -1,8 +1,0 @@
-<ft:folderType xmlns:ft="http://labkey.org/data/xml/folderType">
-    <ft:name>ICEMR</ft:name>
-    <ft:description>ICEMR Assays</ft:description>
-    <ft:modules>
-        <ft:moduleName>icemr</ft:moduleName>
-    </ft:modules>
-    <ft:defaultModule>icemr</ft:defaultModule>
-</ft:folderType>
