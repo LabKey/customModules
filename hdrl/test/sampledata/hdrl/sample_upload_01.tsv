@@ -1,0 +1,4 @@
+customerBarcode	lastName	firstName	birthDate	SSN	FMPId	dutyCodeId	testingSourceId	drawDate
+5555	Jones	Tom	12/1/2000	222334444		A13	P	3/1/2015
+6666	Jones	Jerry	3/3/1975			A14	B	
+7778	Jones	Gracie	3/3/2015		20	A13	P	2/3/2015
