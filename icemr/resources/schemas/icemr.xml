@@ -1,7 +1,0 @@
-<tables xmlns="http://labkey.org/data/xml">
-    <table tableName="lk_compound" tableDbType="TABLE">
-        <columns>
-            <column columnName="compound"/>
-        </columns>
-    </table>
-</tables>
