@@ -724,7 +724,7 @@ public class CAVDStudyTest extends StudyBaseTest
         click(Ext4Helper.Locators.ext4Radio("Import data from file"));
         clickButton("Next");
 
-        File file = TestFileUtils.getSampleData("study/datasets/plate001.tsv");
+        File file = TestFileUtils.getSampleData("study/Study001/datasets/plate001.tsv");
 
         Locator fileUpload = Locator.xpath("//input[@name = 'uploadFormElement']");
         waitForElement(fileUpload, WAIT_FOR_JAVASCRIPT);
