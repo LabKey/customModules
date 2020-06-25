@@ -81,7 +81,7 @@ COALESCE(
 'N' AS REPLACE,
 NULL AS MODDT,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RUNNUM), IFDEFINED(FCSAnalyses.FCSFile.Sample.Property."Collection Num")) AS RUNNUM,
--- NOTE: When the SampleSet is imported with 'Y' or 'N' values for RELIABLE, the column will be created as a boolean type
+-- NOTE: When the SampleType is imported with 'Y' or 'N' values for RELIABLE, the column will be created as a boolean type
 CASE WHEN COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.RELIABLE), true) THEN 'Y' ELSE 'N' END AS RELIABLE,
 
 FCSAnalyses.Flag.Comment AS ANALYSIS_COMMENT,
