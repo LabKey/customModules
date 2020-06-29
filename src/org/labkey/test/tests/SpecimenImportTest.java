@@ -79,7 +79,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
         assertIdsSet();
 
-        assertSampleSetData();
+        assertSampleTypeData();
     }
 
     @Override
@@ -145,30 +145,30 @@ public class SpecimenImportTest extends SpecimenBaseTest
     }
 
     // Checking for regression like the one that occurred in issue 36863: specimen importer doesn't create rows in provisioned table.
-    protected  void assertSampleSetData()
+    protected  void assertSampleTypeData()
     {
         String folderPath = "/" + getProjectName() + "/" + getFolderName();
         List<String> fields = Arrays.asList("Name", "Run", "Flag/Comment");
 
-        List<Map<String, String>> sampleSetData = getSampleDataFromDB(folderPath, "Study Specimens", fields);
+        List<Map<String, String>> sampleTypeData = getSampleDataFromDB(folderPath, "Study Specimens", fields);
 
-        Assert.assertNotEquals("There are no rows in the \"Study Specimens\" sample set.", sampleSetData.size(), 0);
+        Assert.assertNotEquals("There are no rows in the \"Study Specimens\" sample type.", sampleTypeData.size(), 0);
 
         List<String> expectedNames = Arrays.asList("1", "2", "3", "4");
 
         boolean pass = true;
-        if(sampleSetData.size() != expectedNames.size())
+        if(sampleTypeData.size() != expectedNames.size())
         {
             pass = false;
-            log("\n*************** ERROR ***************\nThe number of records returned is not as expected. Expected: " + expectedNames.size() + " found: " + sampleSetData.size() + "\n*************** ERROR ***************");
+            log("\n*************** ERROR ***************\nThe number of records returned is not as expected. Expected: " + expectedNames.size() + " found: " + sampleTypeData.size() + "\n*************** ERROR ***************");
         }
 
         for(int i = 0; i < expectedNames.size(); i++)
         {
             boolean found = false;
-            for(int j = 0; j < sampleSetData.size(); j++)
+            for(int j = 0; j < sampleTypeData.size(); j++)
             {
-                if(expectedNames.get(i).trim().equalsIgnoreCase(sampleSetData.get(j).get("Name").trim()))
+                if(expectedNames.get(i).trim().equalsIgnoreCase(sampleTypeData.get(j).get("Name").trim()))
                 {
                     found = true;
                     break;
@@ -184,18 +184,18 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
         if(!pass)
         {
-            log("\n*************** ERROR ***************\nExpected values: " + expectedNames + "\nValues returned: " + sampleSetData + "\n*************** ERROR ***************");
-            Assert.fail("Sample Set data not as expected.");
+            log("\n*************** ERROR ***************\nExpected values: " + expectedNames + "\nValues returned: " + sampleTypeData + "\n*************** ERROR ***************");
+            Assert.fail("Sample Type data not as expected.");
         }
     }
 
-    protected List<Map<String, String>> getSampleDataFromDB(String folderPath, String sampleSetName, List<String> fields)
+    protected List<Map<String, String>> getSampleDataFromDB(String folderPath, String sampleTypeName, List<String> fields)
     {
         List<Map<String, String>> results = new ArrayList<>(6);
         Map<String, String> tempRow;
 
         Connection cn = WebTestHelper.getRemoteApiConnection();
-        SelectRowsCommand cmd = new SelectRowsCommand("samples", sampleSetName);
+        SelectRowsCommand cmd = new SelectRowsCommand("samples", sampleTypeName);
         cmd.setColumns(fields);
 
         try
