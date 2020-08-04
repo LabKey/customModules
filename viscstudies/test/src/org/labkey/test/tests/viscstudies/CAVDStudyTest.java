@@ -470,7 +470,7 @@ public class CAVDStudyTest extends StudyBaseTest
         new PortalHelper(this).addWebPart("Lists");
         ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
                 new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
-                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "Study").setTableType(FieldDefinition.ColumnType.String))
+                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies").setTableType(FieldDefinition.ColumnType.String))
         };
         _listHelper.createList(PROJECT_NAME + "/" + FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
 
