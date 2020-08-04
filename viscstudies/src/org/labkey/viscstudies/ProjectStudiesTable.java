@@ -97,6 +97,8 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         defaultCols.add(labelColumn.getFieldKey());
         defaultCols.add(datasetColumn.getFieldKey());
         setDefaultVisibleColumns(defaultCols);
+        setTitle("Study");
+        setName(ViscStudySchema.STUDY_TABLE_NAME);
     }
 
     @Override

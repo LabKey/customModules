@@ -33,7 +33,7 @@ import java.util.Set;
 public class ViscStudySchema extends UserSchema
 {
     public static final String NAME = "viscstudies";
-    public static final String STUDY_TABLE_NAME = "Study";
+    public static final String STUDY_TABLE_NAME = "studies";
 
     public ViscStudySchema(User user, Container container)
     {
