@@ -15,7 +15,8 @@
  */
 package org.labkey.ms2extensions;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.labkey.api.collections.CaseInsensitiveHashMap;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
@@ -50,7 +51,7 @@ public class PeptideCountUpdater
 {
     private static final Lock LOCK = new ReentrantLock();
 
-    private static final Logger LOG = Logger.getLogger(PeptideCountUpdater.class);
+    private static final Logger LOG = LogManager.getLogger(PeptideCountUpdater.class);
 
     /** @return error message with any problems encountered during the update */
     public String update(Container container, User user)

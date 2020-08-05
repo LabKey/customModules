@@ -17,7 +17,8 @@
 package org.labkey.hdrl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.labkey.api.attachments.InputStreamAttachmentFile;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
@@ -45,7 +46,7 @@ import java.util.Map;
 
 public class HDRLManager
 {
-    private static final Logger LOG = Logger.getLogger(HDRLManager.class);
+    private static final Logger LOG = LogManager.getLogger(HDRLManager.class);
     private static final String HDRL_SENSITIVE_DATA_TIME_WINDOW = "hdrlSensitiveDataDeletionTimeWindow";
     private static final String NUM_OF_DAYS_KEY = "HDRLSensitiveDataDeletionWindow";
     private static final int DEFAULT_NUM_OF_DAYS = 30; //default number of days after which data will be deleted
