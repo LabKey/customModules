@@ -57,7 +57,7 @@
                     String peptideViewSelectId = peptideView.renderViewList(request, out, MS2ExtensionsController.getPeptideFilterPreference(context));
                 %>
 
-                <%=link("Create or Edit View").onClick("showViewDesigner('PeptidesFilter', '" + peptideCustomizeViewId + "', " + PageFlowUtil.jsString(peptideViewSelectId) + ", viewSavedCallback); return false;").id("editPeptidesViewLink")%>
+                <%=link("Create or Edit View").onClick("showViewDesigner('PeptidesFilter', '" + peptideCustomizeViewId + "', " + q(peptideViewSelectId) + ", viewSavedCallback); return false;").id("editPeptidesViewLink")%>
             </td>
         </tr>
         <tr>
@@ -74,7 +74,7 @@
         // Get the name of the newly saved view
         var viewName = viewInfo.views[0].name;
         // Make sure we're set to use the custom view
-        var viewNamesSelect = document.getElementById(<%= PageFlowUtil.jsString(peptideViewSelectId) %>);
+        var viewNamesSelect = document.getElementById(<%=q(peptideViewSelectId)%>);
         if (!viewNamesSelect)
         {
             window.location.reload();
@@ -118,13 +118,13 @@
     {
         urlParams = urlParams || {};
         var dataRegion = LABKEY.DataRegions[dataRegionName];
-        var viewSelectElement = document.getElementById(<%= PageFlowUtil.jsString(peptideViewSelectId)%>);
+        var viewSelectElement = document.getElementById(<%=q(peptideViewSelectId)%>);
         var viewName = viewSelectElement ? viewSelectElement.value : '';
-        var targetProtein = document.getElementById(<%= PageFlowUtil.jsString(targetProteinId)%>).value;
-        var matchCriteria = document.getElementById(<%= PageFlowUtil.jsString(matchCriteriaId)%>).value;
+        var targetProtein = document.getElementById(<%=q(targetProteinId)%>).value;
+        var matchCriteria = document.getElementById(<%=q(matchCriteriaId)%>).value;
 
         // Fire off an AJAX request so that we repopulate with the last used values
-        var preferencesURL = <%= PageFlowUtil.jsString(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()).toString())%>;
+        var preferencesURL = <%=q(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()).toString())%>;
         Ext4.Ajax.request({ url: preferencesURL, method: 'POST', jsonData:
         {
             peptideFilter : viewName,
