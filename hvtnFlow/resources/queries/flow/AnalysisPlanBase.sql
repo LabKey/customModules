@@ -15,7 +15,11 @@
  */
 SELECT
 CONVERT('HVTN', 'VARCHAR') AS NETWORK,
-FCSAnalyses.FCSFile.Sample.Property.PROTOCOL AS PROTOCOL,
+-- "PROTOCOL" column collides with built-in sample set column and will not be visible in the sample set grid.
+-- Fortunately, bulk importing "PROTOCOL" will still persist the value so no data has been lost.
+-- Prefer using "_PROTOCOL" instead with "PROTOCOL" as the label so the value will be shown in the sample set grid.
+CAST(COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PROTOCOL),
+              IFDEFINED(FCSAnalyses.FCSFile.Sample.Property._PROTOCOL)) AS VARCHAR) AS PROTOCOL,
 'FH' AS LABID,
 CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.ASSAY) AS VARCHAR) AS ASSAY,
 CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.ASSAY_METHOD) AS VARCHAR) AS ASSAY_METHOD,
@@ -26,6 +30,8 @@ CASE
   ELSE 'Sample'
 END AS SPECROLE,
 COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTID), IFDEFINED(FCSAnalyses.FCSFile.Keyword.Sample)) AS PTID,
+-- Ticket 40821: Add 'SID' sample ID to AnalysisPlan051
+CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.SID) AS VARCHAR) AS SID,
 CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.GUSPEC) AS VARCHAR) AS GUSPEC,
 CASE
   WHEN IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTIDTYPE) IS NOT NULL THEN IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PTIDTYPE)
