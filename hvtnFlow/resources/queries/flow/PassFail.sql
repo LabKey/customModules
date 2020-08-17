@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 /*
- * TODO EXPLAIN THIS HERE
+ * pass-fail is looking at two criteria.
+ *
+ * 1. Background: percent of CD4 and CD8 T cells expressing IFN-g and/or IL-2
+ *    in the negctrl stimulation. Threshold has been above 0.1% (average of 2
+ *    replicates) to fail.
+ *
+ * 2. T cell counts: number of CD4 and CD8 T cells collected in each well.
+ *    Criteria have been 10,000 for CD4 and 5,000 for CD8.
  */
 
 SELECT
