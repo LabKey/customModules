@@ -1,0 +1,23 @@
+<query xmlns="http://labkey.org/data/xml/query" hidden="false">
+    <metadata>
+        <tables xmlns="http://labkey.org/data/xml">
+            <table tableName="PassFail" tableDbType="NOT_IN_DB">
+                <tableUrl>query/executeQuery.view?schemaName=flow&amp;query.queryName=PassFailDetails-AP051&amp;query.Key~eq=${Key}</tableUrl>
+                <titleColumn>Verdict</titleColumn>
+                <columns>
+                    <column columnName="Verdict">
+                        <conditionalFormats>
+                            <conditionalFormat>
+                                <filters>
+                                    <filter operator="neq" value="PASS"/>
+                                </filters>
+                                <textColor>CC0000</textColor>
+                            </conditionalFormat>
+                        </conditionalFormats>
+                    </column>
+
+                </columns>
+            </table>
+        </tables>
+    </metadata>
+</query>
