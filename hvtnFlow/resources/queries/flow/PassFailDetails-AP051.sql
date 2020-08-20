@@ -55,15 +55,14 @@ FROM
     CASE
         WHEN (A.FCSFile.Keyword.Stim IN ('SEB', 'sebctrl')) THEN 'sebctrl'
         WHEN (A.FCSFile.Keyword.Stim IN ('PHA', 'phactrl')) THEN 'phactrl' END AS posctrl,
-    COALESCE(
-             -- AP051
-             A.Statistic('Time/S/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count')
-             ) AS CD4_Count,
 
-    COALESCE(
-             -- AP051
-             A.Statistic('Time/S/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count')
-             ) AS CD8_Count
+    -- AP051
+    A.Statistic('Time/S/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count')
+        AS CD4_Count,
+
+    -- AP051
+    A.Statistic('Time/S/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count')
+        AS CD8_Count
 
   FROM FCSAnalyses AS A
   WHERE A.FCSFile.Keyword.Stim NOT IN ('PBS','Comp')

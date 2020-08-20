@@ -18,8 +18,8 @@ CONVERT('HVTN', 'VARCHAR') AS NETWORK,
 -- "PROTOCOL" column collides with built-in sample set column and will not be visible in the sample set grid.
 -- Fortunately, bulk importing "PROTOCOL" will still persist the value so no data has been lost.
 -- Prefer using "_PROTOCOL" instead with "PROTOCOL" as the label so the value will be shown in the sample set grid.
-CAST(COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PROTOCOL),
-              IFDEFINED(FCSAnalyses.FCSFile.Sample.Property._PROTOCOL)) AS VARCHAR) AS PROTOCOL,
+CAST(COALESCE(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property._PROTOCOL),
+              IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.PROTOCOL)) AS VARCHAR) AS PROTOCOL,
 'FH' AS LABID,
 CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.ASSAY) AS VARCHAR) AS ASSAY,
 CAST(IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.ASSAY_METHOD) AS VARCHAR) AS ASSAY_METHOD,
