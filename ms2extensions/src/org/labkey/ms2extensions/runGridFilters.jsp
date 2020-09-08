@@ -16,11 +16,10 @@
  */
 %>
 <%@ page import="org.labkey.api.util.GUID" %>
-<%@ page import="org.labkey.api.util.PageFlowUtil" %>
-<%@ page import="org.labkey.api.view.ActionURL" %>
 <%@ page import="org.labkey.api.view.ViewContext" %>
 <%@ page import="org.labkey.ms2extensions.FilterView" %>
 <%@ page import="org.labkey.ms2extensions.MS2ExtensionsController" %>
+<%@ page import="org.labkey.ms2extensions.MS2ExtensionsController.SetPreferencesAction" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%
     ViewContext context = getViewContext();
@@ -124,7 +123,7 @@
         var matchCriteria = document.getElementById(<%=q(matchCriteriaId)%>).value;
 
         // Fire off an AJAX request so that we repopulate with the last used values
-        var preferencesURL = <%=q(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()))%>;
+        var preferencesURL = <%=q(urlFor(SetPreferencesAction.class))%>;
         Ext4.Ajax.request({ url: preferencesURL, method: 'POST', jsonData:
         {
             peptideFilter : viewName,
