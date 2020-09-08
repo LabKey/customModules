@@ -124,7 +124,7 @@
         var matchCriteria = document.getElementById(<%=q(matchCriteriaId)%>).value;
 
         // Fire off an AJAX request so that we repopulate with the last used values
-        var preferencesURL = <%=q(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()).toString())%>;
+        var preferencesURL = <%=q(new ActionURL(MS2ExtensionsController.SetPreferencesAction.class, getContainer()))%>;
         Ext4.Ajax.request({ url: preferencesURL, method: 'POST', jsonData:
         {
             peptideFilter : viewName,
