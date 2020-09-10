@@ -78,7 +78,7 @@
             width: 150,
             handler: function(){
                 window.open(LABKEY.ActionURL.buildURL('hdrl', 'printPackingList', null, {
-                    requestId : <%=h(bean.getRequestId())%>
+                    requestId: <%=bean.getRequestId()%>
                 }));
             }
         });

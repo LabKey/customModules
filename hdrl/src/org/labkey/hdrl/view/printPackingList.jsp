@@ -65,7 +65,7 @@
     <tr><td col width="50%"><br><b>Shipment Information:</b></td></tr>
     <tr>
         <td col width="50%">Courier: <%=h(packingListBean.getShippingCarrier())%></td>
-        <td  col width="50%" align="left">Total Samples: <%=h(packingListBean.getTotalSamples())%> </td>
+        <td col width="50%" align="left">Total Samples: <%=packingListBean.getTotalSamples()%> </td>
     </tr>
     <tr>
         <td col width="50%">Tracking Number: <%=h(packingListBean.getShippingNumber())%></td>
