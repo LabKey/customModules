@@ -196,7 +196,7 @@ public class CAVDStudyTest extends StudyBaseTest
         // 1. inactivate the Canarypox type
         goToGWTStudyDesignerPanel(FOLDER_NAME, "VACCINE");
         waitForText("Adjuvants");
-        clickAndWait(Locator.linkContainingText("Edit"));
+        clickAndWait(Locator.id("button_Edit"));
         waitForText("Configure Dropdown Options");
         click(Locator.linkContainingText("Configure Dropdown Options"));
         clickAndWait(Locator.linkWithText("folder").index(0));  // configure the first type 'Immunogen Types'
