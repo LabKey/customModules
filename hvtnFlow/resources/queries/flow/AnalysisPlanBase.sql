@@ -67,6 +67,7 @@ Subsets.NAME9 AS SUBSET9, FCSAnalyses.Statistic(Subsets.STAT9) AS SUBSET9_NUM,
 Subsets.NAME10 AS SUBSET10, FCSAnalyses.Statistic(Subsets.STAT10) AS SUBSET10_NUM,
 
 COALESCE(
+  IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.GUAVA_MUSE_ID),
   IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.GUAVA_DATA_ID),
   IFDEFINED(FCSAnalyses.FCSFile.Sample.Property.MUSE_ID)
 ) AS RUNGROUPID,
