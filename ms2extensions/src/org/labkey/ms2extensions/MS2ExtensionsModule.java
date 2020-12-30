@@ -44,6 +44,7 @@ import org.labkey.api.view.WebPartView;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * User: jeckels
@@ -67,7 +68,7 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 20.000;
+        return 21.000;
     }
 
     @Override
@@ -80,14 +81,16 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     protected Collection<WebPartFactory> createWebPartFactories()
     {
-        return Collections.singleton(new BaseWebPartFactory("MS2 Runs With Peptide Counts")
-        {
-            @Override
-            public WebPartView getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
+        return List.of(
+            new BaseWebPartFactory("MS2 Runs With Peptide Counts")
             {
-                return new RunGridWebPart(portalCtx);
+                @Override
+                public WebPartView<?> getWebPartView(@NotNull ViewContext portalCtx, @NotNull Portal.WebPart webPart)
+                {
+                    return new RunGridWebPart(portalCtx);
+                }
             }
-        });
+        );
     }
 
     @NotNull
