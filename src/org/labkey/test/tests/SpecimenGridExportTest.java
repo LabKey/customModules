@@ -50,6 +50,7 @@ public class SpecimenGridExportTest extends AbstractExportTest
         SpecimenGridExportTest initTest = (SpecimenGridExportTest)getCurrentTest();
 
         initTest._containerHelper.createProject(initTest.getProjectName(), "Study");
+        initTest._containerHelper.enableModule("Specimen");
         initTest.importSpecimens();
     }
 
