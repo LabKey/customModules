@@ -931,7 +931,7 @@ public class SpecimenTest extends SpecimenBaseTest
     {
         popLocation();
         addUrlParameter("&exportType=excelWebQuery");
-        assertTextPresent("org.labkey.study.query.SpecimenRequestDisplayColumn");
+        assertTextPresent("org.labkey.api.specimen.query.SpecimenRequestDisplayColumn");
         goBack();
 
         goToAdminConsole().clickAuditLog();
