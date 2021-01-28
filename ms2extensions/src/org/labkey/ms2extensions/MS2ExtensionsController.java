@@ -22,13 +22,14 @@ import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
+import org.labkey.api.admin.AdminUrls;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminOperationsPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.util.DOM;
-import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.HtmlView;
 import org.labkey.api.view.NavTree;
 import org.labkey.api.view.ViewContext;
@@ -133,7 +134,7 @@ public class MS2ExtensionsController extends SpringActionController
         @Override
         public void addNavTrail(NavTree root)
         {
-            root.addChild("Update Peptide Counts");
+            urlProvider(AdminUrls.class).addAdminNavTrail(root, "Update Peptide Counts", new ActionURL(getClass(), getContainer()));
         }
     }
 
