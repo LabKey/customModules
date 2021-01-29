@@ -186,7 +186,7 @@ public class HDRLController extends SpringActionController
             if (form.getRequestStatusId() >= 2 && !getContainer().hasPermission(getUser(), AdminPermission.class))
                 return new HtmlView("This request has been submitted and is locked from editing.");
             else
-                return new JspView("/org/labkey/hdrl/view/editRequest.jsp", form, errors);
+                return new JspView<>("/org/labkey/hdrl/view/editRequest.jsp", form, errors);
         }
 
         @Override
@@ -279,7 +279,7 @@ public class HDRLController extends SpringActionController
                 }
                 if (null != jsonObj)
                 {
-                    Map<String, Object> rowMap = new CaseInsensitiveHashMap();
+                    Map<String, Object> rowMap = new CaseInsensitiveHashMap<>();
                     rowMap.putAll(jsonObj);
 
                     rowsToValidate.add(rowMap);
@@ -397,7 +397,7 @@ public class HDRLController extends SpringActionController
             packingListBean.setShippingNumber(inboundRequestBean.getShippingNumber());
             packingListBean.setShippingCarrier(inboundRequestBean.getShippingCarrier());
 
-            JspView view = new JspView("/org/labkey/hdrl/view/printPackingList.jsp", packingListBean, errors);
+            JspView<PackingListBean> view = new JspView<>("/org/labkey/hdrl/view/printPackingList.jsp", packingListBean, errors);
             getPageConfig().setTitle("Shipping Manifest");
             getPageConfig().setTemplate(PageConfig.Template.Print);
 
@@ -483,8 +483,6 @@ public class HDRLController extends SpringActionController
     @RequiresPermission(AdminPermission.class)
     public class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
     {
-        private String _navLabel = "HDRL Sensitive Data Time Window";
-
         @Override
         public void validateCommand(SensitiveDataForm target, Errors errors)
         {
@@ -497,8 +495,7 @@ public class HDRLController extends SpringActionController
         @Override
         public ModelAndView getView(SensitiveDataForm sensitiveDataForm, boolean reshow, BindException errors)
         {
-            JspView view = new JspView("/org/labkey/hdrl/view/sensitiveData.jsp", sensitiveDataForm, errors);
-            return view;
+            return new JspView<>("/org/labkey/hdrl/view/sensitiveData.jsp", sensitiveDataForm, errors);
         }
 
         @Override
@@ -511,13 +508,13 @@ public class HDRLController extends SpringActionController
         @Override
         public URLHelper getSuccessURL(SensitiveDataForm sensitiveDataForm)
         {
-            return PageFlowUtil.urlProvider(AdminUrls.class).getAdminConsoleURL();
+            return urlProvider(AdminUrls.class).getAdminConsoleURL();
         }
 
         @Override
         public void addNavTrail(NavTree root)
         {
-            root.addChild(_navLabel);
+            urlProvider(AdminUrls.class).addAdminNavTrail(root, "HDRL Sensitive Data Time Window", new ActionURL(getClass(), getContainer()));
         }
     }
 
