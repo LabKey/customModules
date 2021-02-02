@@ -158,7 +158,7 @@ public class SpecimenGridExportTest extends AbstractExportTest
     @Override
     protected void goToDataRegionPage()
     {
-        beginAt("/" + getProjectName() + "/study-samples-specimens.view?showVials=false");
+        beginAt("/" + getProjectName() + "/specimen-specimens.view?showVials=false");
     }
 
     @Override
