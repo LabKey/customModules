@@ -194,7 +194,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickButton("Submit");
     }
 
-    private static String[] requestColumns = {"Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count"};
+    private static final String[] requestColumns = {"Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count"};
 
     private void verifyRequestEnabled()
     {
@@ -662,6 +662,8 @@ public class SpecimenTest extends SpecimenBaseTest
         manageNotificationsPage.setNotificationUsers(List.of(PasswordUtil.getUsername()));
         manageNotificationsPage.setSpecimenAttachmentType(SpecimensAttachment.EXCEL);
         manageNotificationsPage.clickSave();
+        // Temporary check while tracking down intermittent failure with attachment type
+        verifySpecimenAttachmentOptionChecked(SpecimensAttachment.EXCEL);
 
         log("Create request with excel specimen attachment");
         goToSpecimenData();
@@ -679,13 +681,13 @@ public class SpecimenTest extends SpecimenBaseTest
         });
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
-        log("Verify specimen tsv attachment");
+        log("Verify specimen xls attachment");
         EmailRecordTable emailRecordTable = goToEmailRecord();
 
         emailRecordTable.clickSubject("Study 001: Specimen Request Notification");
         waitForElement(Locator.linkWithText("SpecimenDetail.xls"));
 
-        // Each notification should be have only the specimen request details, no specimen list
+        // Each notification should have only the specimen request details, no specimen list
         assertElementPresent(Locator.css("#email_body_1 > table"), 1);
 
         enableEmailRecorder(); // Clear out previous notifications
@@ -697,6 +699,8 @@ public class SpecimenTest extends SpecimenBaseTest
         manageNotificationsPage = new ManageNotificationsPage(getDriver());
         manageNotificationsPage.setSpecimenAttachmentType(SpecimensAttachment.TEXT);
         manageNotificationsPage.clickSave();
+        // Temporary check while tracking down intermittent failure with attachment type
+        verifySpecimenAttachmentOptionChecked(SpecimensAttachment.TEXT);
 
         log("Create request with text specimen attachment");
         goToSpecimenData();
@@ -714,14 +718,22 @@ public class SpecimenTest extends SpecimenBaseTest
         });
         waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
 
-        log("Verify specimen xls attachment");
+        log("Verify specimen tsv attachment");
         emailRecordTable = goToEmailRecord();
 
         emailRecordTable.clickSubject("Study 001: Specimen Request Notification");
         waitForElement(Locator.linkWithText("SpecimenDetail.tsv"));
 
-        // Each notification should be have only the specimen request details, no specimen list
+        // Each notification should have only the specimen request details, no specimen list
         assertElementPresent(Locator.css("#email_body_1 > table"), 1);
+    }
+
+    private void verifySpecimenAttachmentOptionChecked(SpecimensAttachment option)
+    {
+        assertTitleContains("Manage Study: /" + getProjectName() + "/" + getFolderName());
+        waitAndClickAndWait(Locator.linkWithText("Manage Notifications"));
+        ManageNotificationsPage manageNotificationsPage = new ManageNotificationsPage(getDriver());
+        assertTrue(manageNotificationsPage.isSpecimenAttachmentTypeChecked(option));
     }
 
     @LogMethod
