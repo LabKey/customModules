@@ -103,12 +103,11 @@ public class SpecimenTest extends SpecimenBaseTest
 
         clickButton("Create Study");
         setFormElement(Locator.name("label"), getStudyLabel());
-        click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickButton("Create Study");
+        _studyHelper.setupAdvancedRepositoryType();
+        setupRequestabilityRules();
 
         setPipelineRoot(StudyHelper.getPipelinePath());
-
-        setupRequestabilityRules();
         startSpecimenImport(1);
         waitForSpecimenImport();
         checkSpecimenReport();

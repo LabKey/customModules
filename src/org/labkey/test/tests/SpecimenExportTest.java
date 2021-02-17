@@ -63,15 +63,14 @@ public class SpecimenExportTest extends SpecimenBaseTest
 
         clickButton("Create Study");
         setFormElement(Locator.name("label"), getStudyLabel());
-        click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickButton("Create Study");
 
+        _studyHelper.setupRepositoryType(true, true, true);
         setPipelineRoot(StudyHelper.getPipelinePath());
         startSpecimenImport(1);
         waitForSpecimenImport();
         setPipelineRootToDefault();
 
-        setupRepositoryType();
         setupRequestStatuses();
         setupActorsAndGroups();
         setupDefaultRequirements();
@@ -93,18 +92,6 @@ public class SpecimenExportTest extends SpecimenBaseTest
         importFromZipExport();
         exportStudy(false);
         verifySpecimenSettingsInArchive();
-    }
-
-    private void setupRepositoryType()
-    {
-        log("Setup specimen repository type settings");
-        clickTab("Manage");
-        clickAndWait(Locator.linkWithText("Change Repository Type"));
-        waitForElement(Locator.tagContainingText("h3","Manage Repository Settings"));
-        checkRadioButton(Locator.radioButtonByName("simple").index(1)); // Advanced repository type
-        checkRadioButton(Locator.radioButtonByName("specimenDataEditable").index(1)); // Editable specimen data
-        checkRadioButton(Locator.radioButtonByName("enableRequests").index(0)); // Enabled specimen requests
-        clickButton("Submit");
     }
 
     private void setupWebpartGroupings()

@@ -66,12 +66,11 @@ public class AliquotTest extends SpecimenBaseTest
 
         clickButton("Create Study");
         setFormElement(Locator.name("label"), getStudyLabel());
-        click(Locator.radioButtonByNameAndValue("simpleRepository", "false"));
         clickButton("Create Study");
+        _studyHelper.setupAdvancedRepositoryType();
+        setupRequestabilityRules();
 
         setPipelineRoot(StudyHelper.getPipelinePath());
-
-        setupRequestabilityRules();
         startSpecimenImport(1);
         waitForSpecimenImport();
         _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
