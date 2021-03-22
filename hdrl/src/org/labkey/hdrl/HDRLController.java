@@ -514,7 +514,7 @@ public class HDRLController extends SpringActionController
         @Override
         public void addNavTrail(NavTree root)
         {
-            urlProvider(AdminUrls.class).addAdminNavTrail(root, "HDRL Sensitive Data Time Window", new ActionURL(getClass(), getContainer()));
+            urlProvider(AdminUrls.class).addAdminNavTrail(root, "HDRL Sensitive Data Time Window", getClass(), getContainer());
         }
     }
 

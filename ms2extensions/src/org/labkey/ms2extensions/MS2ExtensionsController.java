@@ -134,7 +134,7 @@ public class MS2ExtensionsController extends SpringActionController
         @Override
         public void addNavTrail(NavTree root)
         {
-            urlProvider(AdminUrls.class).addAdminNavTrail(root, "Update Peptide Counts", new ActionURL(getClass(), getContainer()));
+            urlProvider(AdminUrls.class).addAdminNavTrail(root, "Update Peptide Counts", getClass(), getContainer());
         }
     }
 
