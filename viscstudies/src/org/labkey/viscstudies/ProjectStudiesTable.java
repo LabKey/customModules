@@ -80,6 +80,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
             
         // Set up a column that is going to show the dataset status
         var datasetColumn = wrapColumn("Dataset Status", studyTable.getColumn("Container"));
+        datasetColumn.setConceptURI(null); // don't treat like container column
         datasetColumn.clearFk();
         datasetColumn.setKeyField(false);
         addColumn(datasetColumn);
