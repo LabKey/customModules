@@ -1,0 +1,185 @@
+analysisPlanSort	analysisPlanId	description	NAME1	STAT1
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time:Count	Time:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv:Count	Time/Lv:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1:Count	Time/Lv/K1:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2:Count	Time/Lv/K1/K2:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3:Count	Time/Lv/K1/K2/K3:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4:Count	Time/Lv/K1/K2/K3/K4:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5:Count	Time/Lv/K1/K2/K3/K4/K5:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6:Count	Time/Lv/K1/K2/K3/K4/K5/K6:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non classical:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non classical:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/TNF+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/TNF+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19+/27+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19+/27+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19+/95+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19+/95+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/27+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/27+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/57+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/57+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/69+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/69+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/95+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/95+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/107a+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/107a+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/153+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/153+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/154+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IL2+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IL17a_OR_IL17F+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IL17a_OR_IL17F+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/Ki67+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/MIP1B+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/4+RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/4+RA+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/CCR7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/CCR7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/28+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/28+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/GzB+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_or_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_or_IL2:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/NKG2C+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/NKG2C+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/N:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/TD:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/CM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/EM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNgIL2TNF153154MIP1BIL17aIL17F:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNgIL2TNF153154MIP1BIL17aIL17F:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TNF_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TNF_OR_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/TNF+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/TNF+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/27+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/27+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/28+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/28+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/57+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/57+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/69+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/69+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/95+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/95+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/107a+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/107a+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/153+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/153+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/154+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/CCR7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/CCR7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/CM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/EM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/GzB+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNgIL2TNF153154MIP1BIL17aIL17F:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNgIL2TNF153154MIP1BIL17aIL17F:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_or_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_or_IL2:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TNF_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TNF_OR_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IL2+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IL17a_OR_IL17F+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/IL17a_OR_IL17F+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/Ki67+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/MIP1B+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/N:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/NKG2C+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/NKG2C+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/RA+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/TD:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/TNF+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4-8-/TNF+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/27+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/27+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/57+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/57+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/69+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/69+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/95+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/95+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/107a+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/107a+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/153+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/153+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/154+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/Ki67+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/MIP1B+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/RA+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/CCR7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/CCR7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/28+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/28+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/GzB+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_or_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_or_IL2:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNF:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNF:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IL2+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IL17a_OR_IL17F+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IL17a_OR_IL17F+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/NKG2C+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/NKG2C+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/N:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/TD:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/CM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/EM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNgIL2TNF153154MIP1BIL17aIL17F:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNgIL2TNF153154MIP1BIL17aIL17F:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNF_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNF_OR_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/TNF+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/TNF+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/4+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/4-8-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/4-8-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/8+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/8+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/27+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/27+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/28+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/28+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/57+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/57+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/69+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/69+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/95+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/95+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/107a+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/107a+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/153+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/153+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/154+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/CCR7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/CCR7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/CM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/EM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/GzB+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNgIL2TNF153154MIP1BIL17aIL17F:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNgIL2TNF153154MIP1BIL17aIL17F:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_or_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_or_IL2:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_OR_IL2_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_OR_IL2_OR_TNF_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IFNg_OR_IL2_OR_TNF_OR_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IL2+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IL17a_OR_IL17F+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/IL17a_OR_IL17F+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/Ki67+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/MIP1B+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/N:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/NKG2C+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/NKG2C+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/RA+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/TD:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/TNF+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/NKT/TNF+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56+16+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56+16+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56-16+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56-16+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56br:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56br:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56dim16-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/56dim16-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/GzB+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/NKG2C+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/NKG2C+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/4+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/4-8-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/4-8-:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/8+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/8+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/27+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/27+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/28+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/28+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/57+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/57+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/69+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/69+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/95+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/95+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/107a+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/107a+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/153+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/153+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/154+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/CCR7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/CCR7+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/CM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/EM:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/GzB+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNgIL2TNF153154MIP1BIL17aIL17F:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNgIL2TNF153154MIP1BIL17aIL17F:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_or_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_or_IL2:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_OR_IL2_AND_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_OR_IL2_OR_TNF_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IFNg_OR_IL2_OR_TNF_OR_154:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IL2+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IL17a_OR_IL17F+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/IL17a_OR_IL17F+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/Ki67+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/MIP1B+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/N:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/NKG2C+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/NKG2C+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/RA+:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/TD:Count
+AP-053	53	27-color ICS for VIR CMV vector vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/TNF+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3-/Total NK/TNF+:Count
