@@ -66,4 +66,4 @@ A.COMMENTS,
 A._well @hidden, A._fcsfile @hidden, A._sample @hidden
 
 FROM AnalysisPlanTemplate A
-WHERE A.ANALYSIS_PLAN_ID = '52'
+WHERE A.ANALYSIS_PLAN_ID = '53'
