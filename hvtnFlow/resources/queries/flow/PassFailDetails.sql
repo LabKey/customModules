@@ -63,7 +63,11 @@ FROM
              A.Statistic('S/Exclude/14-/Lv/L/3+/4+:Count'),
              A.Statistic('S/Time/Lv/14-SSlo/Keeper/L/16-56-/4+:Count'),
              -- AP048
-             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+:Count')
+             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+:Count'),
+             -- AP050
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count'),
+             -- AP053
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+:Count')
              ) AS CD4_Count,
 
     COALESCE(A.Statistic('S/Lv/L/3+/8+:Count'),
@@ -73,7 +77,11 @@ FROM
              A.Statistic('S/Exclude/14-/Lv/L/3+/8+:Count'),
              A.Statistic('S/Time/Lv/14-SSlo/Keeper/L/16-56-/8+:Count'),
              -- AP048
-             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+:Count')
+             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+:Count'),
+             -- AP050
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count'),
+             -- AP053
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+:Count')
              ) AS CD8_Count,
 
     COALESCE(A.Statistic('S/Lv/L/3+/4+/IFNg\IL2:Count'),
@@ -94,7 +102,11 @@ FROM
              A.Statistic('S/Time/Lv/14-SSlo/Keeper/L/16-56-/4+/IFNg_OR_IL2:Count'),
 
              -- AP048
-             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg_OR_IL2:Count')
+             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg_OR_IL2:Count'),
+             -- AP050
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2:Count'),
+             -- AP053
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_or_IL2:Count')
              ) AS CD4_Resp_Count,
    
     COALESCE(A.Statistic('S/Lv/L/3+/8+/IFNg\IL2:Count'),
@@ -115,7 +127,11 @@ FROM
              A.Statistic('S/Time/Lv/14-SSlo/Keeper/L/16-56-/8+/IFNg_OR_IL2:Count'),
 
              -- AP048
-             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg_OR_IL2:Count')
+             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg_OR_IL2:Count'),
+             -- AP050
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2:Count'),
+             -- AP053
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_or_IL2:Count')
              ) AS CD8_Resp_Count,
 
     COALESCE(A.Statistic('S/Lv/L/3+/4+/IFNg\IL2:Freq_Of_Parent'),
@@ -136,7 +152,11 @@ FROM
              A.Statistic('S/Time/Lv/14-SSlo/Keeper/L/16-56-/4+/IFNg_OR_IL2:Freq_Of_Parent'),
 
              -- AP048
-             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg_OR_IL2:Freq_Of_Parent')
+             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/4+/IFNg_OR_IL2:Freq_Of_Parent'),
+             -- AP050
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2:Freq_Of_Parent'),
+             -- AP053
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/4+/IFNg_or_IL2:Freq_Of_Parent')
              ) AS CD4_Resp,
    
     COALESCE(A.Statistic('S/Lv/L/3+/8+/IFNg\IL2:Freq_Of_Parent'),
@@ -157,7 +177,11 @@ FROM
              A.Statistic('S/Time/Lv/14-SSlo/Keeper/L/16-56-/8+/IFNg_OR_IL2:Freq_Of_Parent'),
 
              -- AP048
-             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg_OR_IL2:Freq_Of_Parent')
+             A.Statistic('Time/S/K1/K2/K3/K4/K5/K6/Lv/14-/S/L/DR-/3+/3+excl16br/16-56-/8+/IFNg_OR_IL2:Freq_Of_Parent'),
+             -- AP050
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2:Freq_Of_Parent'),
+             -- AP053
+             A.Statistic('Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/L/S/19-/3+/3+excl 16br/56-16-/8+/IFNg_or_IL2:Freq_Of_Parent')
              ) AS CD8_Resp,
    
   FROM FCSAnalyses AS A

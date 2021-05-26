@@ -65,5 +65,5 @@ A.RELIABLE,
 A.COMMENTS,
 A._well @hidden, A._fcsfile @hidden, A._sample @hidden
 
-FROM AnalysisPlanTemplate_AP051 A
+FROM AnalysisPlanTemplate A
 WHERE A.ANALYSIS_PLAN_ID = '52'
