@@ -141,7 +141,7 @@ public class SpecimenExportTest extends SpecimenBaseTest
         File studyXml = new File(TestFileUtils.getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/study.xml");
         waitFor(studyXml::exists, "Couldn't find exported study: " + studyXml, WAIT_FOR_JAVASCRIPT);
         String studyXmlText = TestFileUtils.getFileContents(studyXml).replaceAll(" *\r*\n *", "\n").replaceAll(" +", " ");
-        assertTrue(studyXmlText.contains("<specimens dir=\"specimens\" settings=\"specimen_settings.xml\" file=\"Study.specimens\"/>"));
+        assertTrue("study.xml did not include expected <specimens> element: " + studyXmlText, studyXmlText.contains("<specimens dir=\"specimens\" file=\"Study.specimens\" settings=\"specimen_settings.xml\"/>"));
 
         log("verify specimen_settings.xml");
         File specimenSettingsXml = new File(TestFileUtils.getDefaultFileRoot(getProjectName() + "/" + getFolderName()), "export/study/specimens/specimen_settings.xml");
