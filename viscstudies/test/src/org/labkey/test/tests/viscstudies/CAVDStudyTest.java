@@ -571,7 +571,7 @@ public class CAVDStudyTest extends StudyBaseTest
     {
         navigateToFolder(PROJECT_NAME, folderName);
         goToSchemaBrowser();
-        selectQuery("viscstudies", "studies");
+        selectQuery("viscstudies", "Study");
         waitForText("view data");
         clickAndWait(Locator.linkContainingText("view data"));
     }
