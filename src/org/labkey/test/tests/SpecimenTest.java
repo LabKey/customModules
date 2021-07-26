@@ -26,7 +26,7 @@ import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.DailyC;
+import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.dumbster.EmailRecordTable;
@@ -60,7 +60,7 @@ import static org.junit.Assert.assertTrue;
 import static org.labkey.test.pages.study.specimen.ManageNotificationsPage.SpecimensAttachment;
 import static org.labkey.test.util.DataRegionTable.DataRegion;
 
-@Category({DailyC.class, Specimen.class})
+@Category({Daily.class, Specimen.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 20)
 public class SpecimenTest extends SpecimenBaseTest
 {

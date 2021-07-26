@@ -20,7 +20,7 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
-import org.labkey.test.categories.DailyC;
+import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.DomainDesignerPage;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Category({DailyC.class, Specimen.class})
+@Category({Daily.class, Specimen.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 7)
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {

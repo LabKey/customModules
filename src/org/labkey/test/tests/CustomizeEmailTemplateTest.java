@@ -21,7 +21,7 @@ import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.DailyC;
+import org.labkey.test.categories.Daily;
 import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
@@ -35,7 +35,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-@Category(DailyC.class)
+@Category(Daily.class)
 @BaseWebDriverTest.ClassTimeout(minutes = 5)
 public class CustomizeEmailTemplateTest extends SpecimenBaseTest
 {
