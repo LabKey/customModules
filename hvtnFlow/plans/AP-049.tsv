@@ -4,15 +4,16 @@ AP-049	49		Time/S:Count	Time/S:Count
 AP-049	49		Time/S/K1:Count	Time/S/K1:Count
 AP-049	49		Time/S/K1/K2:Count	Time/S/K1/K2:Count
 AP-049	49		Time/S/K1/K2/K3:Count	Time/S/K1/K2/K3:Count
-AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/14-16+:Count	Time/S/K1/K2/K3/K4/14+SShi/14-16+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/14+16-:Count	Time/S/K1/K2/K3/K4/14+SShi/14+16-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/14+16+:Count	Time/S/K1/K2/K3/K4/14+SShi/14+16+:Count
+AP-049	49		Time/S/K1/K2/K3/K4:Count	Time/S/K1/K2/K3/K4:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi:Count	Time/S/K1/K2/K3/K4/14+SShi:Count
+AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/14+16+:Count	Time/S/K1/K2/K3/K4/14+SShi/14+16+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/14+16-:Count	Time/S/K1/K2/K3/K4/14+SShi/14+16-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/14-16+:Count	Time/S/K1/K2/K3/K4/14+SShi/14-16+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/153+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/153+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/154+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/154+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/CCR6+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/CCR6+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/CM:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/CXCR3+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/CXCR3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/DR+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/EM:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/EM:Count
@@ -20,87 +21,87 @@ AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/GM-CSF:Count	Time/S/K1/K2/K3/K
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Granulysin+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IFNg+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL2+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Ki67+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Ki67+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Naive:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/NKG2C+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/NKG2C+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Perf+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/R7+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/RA+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/R7+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/TD:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/TD:Count
 AP-049	49		Time/S/K1/K2/K3/K4/14+SShi/Total Monos/TNFa+:Count	Time/S/K1/K2/K3/K4/14+SShi/Total Monos/TNFa+:Count
-AP-049	49		Time/S/K1/K2/K3/K4:Count	Time/S/K1/K2/K3/K4:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv:Count	Time/S/K1/K2/K3/K4/Lv:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/DR+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/DR+/Ki67+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16+56-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16+56-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16-56dim:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16-56dim:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/153+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/153+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/8+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/8+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CCR6+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CCR6+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CXCR3+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/8+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/153+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/154+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CCR6+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CM:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/CXCR3+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/DR+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/EM:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/EM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/GM-CSF:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/GM-CSF:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/GM-CSF:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/GM-CSF:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Granulysin+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IFNg+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg_OR_IL2:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL17A_OR_IL17F:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL17A_OR_IL17F:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL2+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL4_OR_IL13:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL4_OR_IL13:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Ki67+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Ki67+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Naive:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/NKG2C+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/NKG2C+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Perf+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/R7+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/R7+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/RA+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/RA+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TD:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/TD:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TNFa+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2+/TNFa+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/8+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/153+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/154+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CCR6+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CM:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/CXCR3+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/DR+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/EM:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/GM-CSF:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/GM-CSF:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Granulysin+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IFNg_OR_IL2:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL2+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/IL17A_OR_IL17F:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Ki67+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Naive:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/NKG2C+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/Perf+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/R7+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TD:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/gd+/Vd2-/TNFa+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/153+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/CCR6+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/CXCR3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/EM:Count
@@ -108,55 +109,51 @@ AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/GM-CSF:
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Ki67+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/NKG2C+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/TD:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1+/TNFa+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/8+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/8+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/8+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/153+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/154+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/CCR6+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/CM:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/CXCR3+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/DR+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/EM:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/GM-CSF:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/GM-CSF:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Granulysin+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IFNg+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IFNg_OR_IL2:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IL2+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/IL17A_OR_IL17F:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Ki67+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Naive:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/NKG2C+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/Perf+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/R7+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/TD:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/16+OR56+/TNFa+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/4+RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/4+RA+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/153+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/4+RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/4+RA+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/153+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CCR6+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CXCR3+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/DR+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/EM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/GM-CSF:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/GM-CSF:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Granulysin+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL17A_OR_IL17F:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL2+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL4_OR_IL13:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Ki67+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Naive:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/NKG2C+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/R7+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/RA+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TD:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TNFa+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/CCR6+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/CXCR3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/EM:Count
@@ -164,9 +161,9 @@ AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/Ki67+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/NKG2C+:Count
@@ -174,11 +171,34 @@ AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/TD:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4+/TNFa+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/153+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/154+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CCR6+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CM:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/CXCR3+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/DR+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/EM:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/GM-CSF:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/GM-CSF:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Granulysin+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IFNg_OR_IL2:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL2+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/IL17A_OR_IL17F:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Ki67+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Naive:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/NKG2C+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/Perf+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/R7+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TD:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/4-8-/TNFa+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/153+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/154+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/CCR6+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/CXCR3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/EM:Count
@@ -186,26 +206,29 @@ AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Ki67+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/NKG2C+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/TD:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/8+/TNFa+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/MR1-Va24-/gd-/16-56-/8+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/153+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/CCR6+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/CXCR3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/EM:Count
@@ -213,29 +236,30 @@ AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/GM-CSF
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Ki67+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/NKG2C+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/TD:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+/3+excl16br/Va24+/TNFa+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16+56-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16+56-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16-56dim:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/16-56dim:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/56br:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/56br:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/56dim:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/56dim:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4-8-:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/153+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/153+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/154+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/154+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4-8-:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4-8-:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/4+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/8+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/8+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/CCR6+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/CCR6+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/CM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/CM:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/CXCR3+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/CXCR3+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/DR+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/DR+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/EM:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/EM:Count
@@ -243,16 +267,14 @@ AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/GM-CSF:Count	T
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Granulysin+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Granulysin+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IFNg+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IFNg+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IFNg_OR_IL2:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IFNg_OR_IL2:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL2+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL2+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL4_OR_IL13:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL4_OR_IL13:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL17A_OR_IL17F:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/IL17A_OR_IL17F:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Ki67+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Ki67+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Naive:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Naive:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/NKG2C+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/NKG2C+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Perf+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/Perf+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/RA+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/RA+:Count
+AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/R7+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/R7+:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/TD:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/TD:Count
 AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/TNFa+:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi/3-/Total NK/TNFa+:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi:Count	Time/S/K1/K2/K3/K4/Lv/14-SSlo/S2/L/NotDRhi:Count
-AP-049	49		Time/S/K1/K2/K3/K4/Lv:Count	Time/S/K1/K2/K3/K4/Lv:Count
