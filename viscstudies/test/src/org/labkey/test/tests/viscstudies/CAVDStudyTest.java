@@ -23,6 +23,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.params.FieldDefinition;
+import org.labkey.test.params.FieldDefinition.ColumnType;
 import org.labkey.test.tests.StudyBaseTest;
 import org.labkey.test.util.DataRegionExportHelper;
 import org.labkey.test.util.DataRegionTable;
@@ -468,9 +469,9 @@ public class CAVDStudyTest extends StudyBaseTest
         log("Create list in " + FOLDER_NAME4 + " with lookup to the studies list query.");
         navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         new PortalHelper(this).addWebPart("Lists");
-        ListHelper.ListColumn[] columns = new ListHelper.ListColumn[]{
-                new ListHelper.ListColumn(myStudyNameCol, myStudyNameCol, ListHelper.ListColumnType.String, ""),
-                new ListHelper.ListColumn("StudyLookup", "StudyLookup", ListHelper.ListColumnType.String, "", new ListHelper.LookupInfo(null, "viscstudies", "studies").setTableType(FieldDefinition.ColumnType.String))
+        FieldDefinition[] columns = new FieldDefinition[]{
+                new FieldDefinition(myStudyNameCol, ColumnType.String),
+                new FieldDefinition("StudyLookup", new FieldDefinition.LookupInfo(null, "viscstudies", "studies").setTableType(ColumnType.String))
         };
         _listHelper.createList(PROJECT_NAME + "/" + FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
 
