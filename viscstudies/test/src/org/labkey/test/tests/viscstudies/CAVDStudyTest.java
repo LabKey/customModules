@@ -375,7 +375,7 @@ public class CAVDStudyTest extends StudyBaseTest
     @LogMethod
     private void doVerifyCrossContainerDatasetStatus()
     {
-        final String myStudyNameCol = "MyStudyName";
+        final String myStudyNameCol = "My Study Name";
         final String studyNameCol = "Study Name";
         final String statusCol = "Dataset Status";
 
@@ -470,8 +470,8 @@ public class CAVDStudyTest extends StudyBaseTest
         navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         new PortalHelper(this).addWebPart("Lists");
         FieldDefinition[] columns = new FieldDefinition[]{
-                new FieldDefinition(myStudyNameCol, ColumnType.String),
-                new FieldDefinition("StudyLookup", new FieldDefinition.LookupInfo(null, "viscstudies", "studies").setTableType(ColumnType.String))
+                new FieldDefinition(myStudyNameCol, ColumnType.String).setLabel(myStudyNameCol),
+                new FieldDefinition("StudyLookup", new FieldDefinition.LookupInfo(null, "viscstudies", "studies").setTableType(ColumnType.String)).setLabel("StudyLookup")
         };
         _listHelper.createList(PROJECT_NAME + "/" + FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
 
