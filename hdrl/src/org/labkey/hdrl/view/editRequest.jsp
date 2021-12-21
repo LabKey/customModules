@@ -17,7 +17,6 @@
 %>
 <%@ page import="org.labkey.api.data.Container" %>
 <%@ page import="org.labkey.api.security.User" %>
-<%@ page import="org.labkey.api.util.UniqueID" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.JspView" %>
 <%@ page import="org.labkey.api.view.ViewContext" %>
@@ -41,7 +40,7 @@
     User user = getUser();
     HDRLController.RequestForm bean = me.getModelBean();
 
-    String renderId = "requests-editor-" + UniqueID.getRequestScopedUID(HttpView.currentRequest());
+    String renderId = "requests-editor-" + getRequestScopedUID();
 %>
 <style type="text/css">
     .labkey-warning  { color: red; }
