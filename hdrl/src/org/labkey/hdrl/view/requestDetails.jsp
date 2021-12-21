@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 %>
-<%@ page import="org.labkey.api.util.UniqueID" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
 <%@ page import="org.labkey.api.view.template.ClientDependencies" %>
 <%@ page import="org.labkey.hdrl.HDRLController" %>
@@ -42,7 +41,7 @@
     <% me.include(me.getView("queryView"),out); %>
 </div>
 <%
-    String renderId = "labkey-wp-"+ UniqueID.getRequestScopedUID(HttpView.currentRequest());
+    String renderId = "labkey-wp-"+ getRequestScopedUID();
 
     if (bean.getShippingCarrier() != null)
     {
