@@ -70,6 +70,12 @@ public class RunGridWebPart extends VBox
 
     public static void populateButtonBar(ButtonBar bar, String dataRegionName)
     {
+        ActionButton viewPeptidesButton = new ActionButton("View Peptides");
+        viewPeptidesButton.setScript("viewPeptides(" + PageFlowUtil.jsString(dataRegionName) + "); return false;", false);
+        viewPeptidesButton.setActionType(ActionButton.Action.SCRIPT);
+        viewPeptidesButton.setRequiresSelection(true);
+        bar.add(viewPeptidesButton);
+
         ActionButton comparePeptidesButton = new ActionButton("Compare Peptides");
         comparePeptidesButton.setScript("comparePeptides(" + PageFlowUtil.jsString(dataRegionName) + "); return false;", false);
         comparePeptidesButton.setActionType(ActionButton.Action.SCRIPT);

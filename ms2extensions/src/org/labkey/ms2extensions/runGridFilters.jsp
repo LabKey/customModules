@@ -35,13 +35,13 @@
     <legend>Comparison and Export Filters</legend>
     <table>
         <tr>
-            <td class="labkey-form-label"><label for="<%= text(targetProteinId) %>">Target protein</label></td>
-            <td><input type="text" id="<%= text(targetProteinId) %>" name="targetProtein" value="<%= h(MS2ExtensionsController.getTargetProteinPreference(context)) %>"/></td>
+            <td class="labkey-form-label"><label for="<%= h(targetProteinId) %>">Target protein</label></td>
+            <td><input type="text" id="<%= h(targetProteinId) %>" name="targetProtein" value="<%= h(MS2ExtensionsController.getTargetProteinPreference(context)) %>"/></td>
         </tr>
         <tr>
-            <td class="labkey-form-label"><label for="<%= text(matchCriteriaId) %>">Match Criteria</label></td>
+            <td class="labkey-form-label"><label for="<%= h(matchCriteriaId) %>">Match Criteria</label></td>
             <td>
-                <select name="<%= h(MS2ExtensionsController.TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA) %>" id="<%= text(matchCriteriaId) %>" >
+                <select name="<%= h(MS2ExtensionsController.TARGET_PROTEIN_PREFERENCE_MATCH_CRITERIA) %>" id="<%= h(matchCriteriaId) %>" >
                     <option value="exact" <%=selected(("exact").equalsIgnoreCase(matchCriteria))%>>Exact</option>
                     <option value="prefix" <%=selected(("prefix").equalsIgnoreCase(matchCriteria))%>>Prefix</option>
                     <option value="suffix" <%=selected(("suffix").equalsIgnoreCase(matchCriteria))%>>Suffix</option>
@@ -83,7 +83,7 @@
             // Check if it already exists in our list
             for (var i = 0; i < viewNamesSelect.options.length; i++)
             {
-                if (viewNamesSelect.options[i].value == viewName)
+                if (viewNamesSelect.options[i].value === viewName)
                 {
                     // If so, select it
                     viewNamesSelect.options[i].selected = true;
@@ -93,6 +93,39 @@
             // Otherwise, add it as a new option
             viewNamesSelect.options[viewNamesSelect.options.length] = new Option(viewName, viewName, false, true);
         }
+    }
+
+    // Invoked from RunGridWebpart
+    function viewPeptides(dataRegionName)
+    {
+        let dataRegion = LABKEY.DataRegions[dataRegionName];
+        dataRegion.getSelected({ success:
+            function(data) {
+                // Translate from experiment run RowIds to MS2 run Ids
+                LABKEY.Query.selectRows({
+                    schemaName: 'ms2',
+                    queryName: 'MS2SearchRuns',
+                    containerFilter: dataRegion.containerFilter,
+                    columns: 'MS2Details',
+                    filterArray: [LABKEY.Filter.create('RowId', data.selected.join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
+                    success: function(data) {
+                        let runIds = [];
+                        for (let x = 0; x < data.rows.length; x++) {
+                            runIds.push(data.rows[x].MS2Details);
+                        }
+
+                        // Intentionally don't carry forward the target protein and peptide filters, as we only
+                        // care about using the selected runs
+                        window.location = LABKEY.ActionURL.buildURL('query', 'executeQuery', null, {
+                                schemaName: 'ms2',
+                                queryName: 'SequestPeptides',
+                                'query.containerFilterName': dataRegion.containerFilter,
+                                'query.Fraction/Run~in': runIds.join(';')
+                            });
+                    }
+                })
+            }
+        })
     }
 
     // Invoked from RunGridWebpart
