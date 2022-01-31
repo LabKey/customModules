@@ -32,6 +32,7 @@ import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.StudyHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -725,7 +726,7 @@ public class CAVDStudyTest extends StudyBaseTest
         click(Ext4Helper.Locators.ext4Radio("Import data from file"));
         clickButton("Next");
 
-        File file = TestFileUtils.getSampleData("study/datasets/plate001.tsv");
+        File file = StudyHelper.getFolderArchiveFile("study/datasets/plate001.tsv");
 
         Locator fileUpload = Locator.xpath("//input[@name = 'uploadFormElement']");
         waitForElement(fileUpload, WAIT_FOR_JAVASCRIPT);
