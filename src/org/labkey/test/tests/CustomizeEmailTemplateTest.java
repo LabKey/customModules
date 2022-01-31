@@ -96,7 +96,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         clickButton("Create Study");
         _studyHelper.setupAdvancedRepositoryType();
 
-        setPipelineRoot(StudyHelper.getPipelinePath());
+        setPipelineRoot(StudyHelper.getStudySubfolderPath());
         startSpecimenImport(1);
         waitForSpecimenImport();
         setupRequestStatuses();

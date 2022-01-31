@@ -43,7 +43,7 @@ import java.util.List;
 public class SpecimenCustomizeTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "SpecimenCustomizeProject";
-    protected static final File SPECIMEN_ARCHIVE = TestFileUtils.getSampleData("study/specimens/Rollup.specimens");
+    protected static final File SPECIMEN_ARCHIVE = StudyHelper.getSpecimenArchiveFile("Rollup.specimens");
     protected static final String SPECIMEN_AVAILABLE_REASON = "This vial's availability status was set by an administrator. Please contact an administrator for more information.";
     protected static final String SPECIMEN_UNAVAILABLE_REASON = "This vial is unavailable because it is not currently held by a repository.";
 
@@ -72,7 +72,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
     {
         configureSpecimenProperties();
 
-        setPipelineRoot(StudyHelper.getPipelinePath());
+        setPipelineRoot(StudyHelper.getStudySubfolderPath());
         startSpecimenImport(2, SPECIMEN_ARCHIVE);
         waitForSpecimenImport();
 

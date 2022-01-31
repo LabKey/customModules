@@ -20,7 +20,6 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
-import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
@@ -36,7 +35,7 @@ import java.io.File;
 public class AliquotTest extends SpecimenBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
-    protected static final File SPECIMEN_ARCHIVE_148 = TestFileUtils.getSampleData("study/specimens/lab148.specimens");
+    protected static final File SPECIMEN_ARCHIVE_148 = StudyHelper.getSpecimenArchiveFile("lab148.specimens");
 
     @Override
     protected String getProjectName()
@@ -70,7 +69,7 @@ public class AliquotTest extends SpecimenBaseTest
         _studyHelper.setupAdvancedRepositoryType();
         setupRequestabilityRules();
 
-        setPipelineRoot(StudyHelper.getPipelinePath());
+        setPipelineRoot(StudyHelper.getStudySubfolderPath());
         startSpecimenImport(1);
         waitForSpecimenImport();
         _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);

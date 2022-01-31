@@ -19,7 +19,6 @@ package org.labkey.test.tests;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
-import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.LogMethod;
@@ -33,11 +32,11 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
 {
     protected static final String PROJECT_NAME = "AliquotVerifyProject";
 
-    protected static final File SPECIMEN_ARCHIVE_15 = TestFileUtils.getSampleData("study/specimens/lab15.specimens");
-    protected static final File SPECIMEN_ARCHIVE_19 = TestFileUtils.getSampleData("study/specimens/lab19.specimens");
-    protected static final File SPECIMEN_ARCHIVE_20 = TestFileUtils.getSampleData("study/specimens/lab20.specimens");
-    protected static final File SPECIMEN_ARCHIVE_21 = TestFileUtils.getSampleData("study/specimens/lab21.specimens");
-    protected static final File SPECIMEN_ARCHIVE_22 = TestFileUtils.getSampleData("study/specimens/lab22.specimens");
+    protected static final File SPECIMEN_ARCHIVE_15 = StudyHelper.getSpecimenArchiveFile("lab15.specimens");
+    protected static final File SPECIMEN_ARCHIVE_19 = StudyHelper.getSpecimenArchiveFile("lab19.specimens");
+    protected static final File SPECIMEN_ARCHIVE_20 = StudyHelper.getSpecimenArchiveFile("lab20.specimens");
+    protected static final File SPECIMEN_ARCHIVE_21 = StudyHelper.getSpecimenArchiveFile("lab21.specimens");
+    protected static final File SPECIMEN_ARCHIVE_22 = StudyHelper.getSpecimenArchiveFile("lab22.specimens");
 
     @Override
     protected String getProjectName()
@@ -63,7 +62,7 @@ public class SpecimenMultipleImportTest extends StudyBaseTest
         clickButton("Create Study");
         _studyHelper.setupAdvancedRepositoryType();
 
-        setPipelineRoot(StudyHelper.getPipelinePath());
+        setPipelineRoot(StudyHelper.getStudySubfolderPath());
 
         startSpecimenImport(1, SPECIMEN_ARCHIVE_15);
         startSpecimenImport(2, SPECIMEN_ARCHIVE_19);
