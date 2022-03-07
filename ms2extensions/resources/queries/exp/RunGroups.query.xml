@@ -1,0 +1,34 @@
+<tables xmlns="http://labkey.org/data/xml">
+    <table tableName="RunGroups" tableDbType="NOT_IN_DB">
+        <buttonBarOptions includeStandardButtons="true">
+            <item text="View Peptides" requiresSelection="true">
+                <onClick>
+                    dataRegion.getSelected({ success:
+                        function(data) {
+                            // Translate from run group RowId to Name
+                            LABKEY.Query.selectRows({
+                                schemaName: 'exp',
+                                queryName: 'RunGroups',
+                                containerFilter: dataRegion.containerFilter,
+                                columns: 'Name',
+                                filterArray: [LABKEY.Filter.create('RowId', data.selected.join(';'), LABKEY.Filter.Types.EQUALS_ONE_OF)],
+                                success: function(data) {
+                                    // Send the user to a page filtered to show peptides in runs belonging to those groups
+                                    let params = {
+                                        schemaName: 'ms2',
+                                        queryName: 'SequestPeptides',
+                                        'query.containerFilterName': 'AllFolders'
+                                    };
+                                    for (var i = 0; i &lt; data.rows.length; i++) {
+                                        params['query.' + LABKEY.FieldKey.fromParts('Fraction', 'Run', 'ExperimentRunLSID', 'RunGroupToggle', data.rows[i].Name).toString() + '~eq'] = 1;
+                                    }
+                                    window.location = LABKEY.ActionURL.buildURL('query', 'executeQuery', null, params);
+                                }
+                            });
+                        }
+                    })
+                </onClick>
+            </item>
+        </buttonBarOptions>
+    </table>
+</tables>
