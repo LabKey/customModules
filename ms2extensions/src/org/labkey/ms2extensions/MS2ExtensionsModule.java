@@ -119,7 +119,7 @@ public class MS2ExtensionsModule extends DefaultModule
         queryProperty.setCanSetPerContainer(false);
         addModuleProperty(queryProperty);
 
-        AdminConsole.addLink(AdminConsole.SettingsLinkType.Management, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()), AdminOperationsPermission.class);
+        AdminConsole.addLink(AdminConsole.SettingsLinkType.Premium, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()), AdminOperationsPermission.class);
 
         ContainerManager.addContainerListener(new ContainerManager.AbstractContainerListener()
         {
