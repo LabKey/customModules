@@ -56,7 +56,7 @@
                     String peptideViewSelectId = peptideView.renderViewList(request, out, MS2ExtensionsController.getPeptideFilterPreference(context));
                 %>
 
-                <%=link("Create or Edit View").onClick("showViewDesigner('PeptidesFilter', '" + peptideCustomizeViewId + "', " + q(peptideViewSelectId) + ", viewSavedCallback); return false;").id("editPeptidesViewLink")%>
+                <%=link("Create or Edit View").onClick("showViewDesigner('PeptidesFilter', '" + peptideCustomizeViewId + "', " + q(peptideViewSelectId) + ", viewSavedCallback); return false;")%>
             </td>
         </tr>
         <tr>
