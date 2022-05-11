@@ -22,6 +22,7 @@ import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.categories.CustomModules;
+import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.params.FieldDefinition;
 import org.labkey.test.params.FieldDefinition.ColumnType;
 import org.labkey.test.tests.StudyBaseTest;
@@ -321,7 +322,7 @@ public class CAVDStudyTest extends StudyBaseTest
 
     private void importLookupRecords(String... names)
     {
-        DataRegionTable.findDataRegion(this).clickImportBulkData();
+        ImportDataPage importDataPage = DataRegionTable.DataRegion(getDriver()).find().clickImportBulkData();
         StringBuilder tsvBuilder = new StringBuilder("Name\tLabel");
         for (String name : names)
         {
@@ -331,8 +332,8 @@ public class CAVDStudyTest extends StudyBaseTest
             tsvBuilder.append(name);
             tsvBuilder.append(" Label");
         }
-        setFormElement(Locator.id("tsv3"), tsvBuilder.toString());
-        clickButton("Submit");
+        importDataPage.setText(tsvBuilder.toString());
+        importDataPage.submit();
     }
 
     @LogMethod
