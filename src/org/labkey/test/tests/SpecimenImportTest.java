@@ -32,6 +32,7 @@ import org.labkey.test.components.ext4.RadioButton;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,31 +41,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 @Category({Daily.class, Specimen.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 5)
 public class SpecimenImportTest extends SpecimenBaseTest
 {
-    private final String noVisitIdTSV =
-            "Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant Id\n" +
-                    "1\t1\t\t\t1\n" +
-                    "2\t2\t\t\t2\n" +
-                    "3\t3\t\t\t\n" +
-                    "4\t4\t\t\t";
+    private static final String noVisitIdTSV =
+            """
+                    Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant Id
+                    1\t1\t\t\t1
+                    2\t2\t\t\t2
+                    3\t3\t\t\t
+                    4\t4\t\t\t""";
 
-    private final String noPtidsTSV =
-            "Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant\n" +
-                    "\t\t\t1\t\n" +
-                    "\t\t\t2\t\n" +
-                    "\t\t\t3\t\n" +
-                    "\t\t\t4\t";
-    private final String cleanEntry =
-            "Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant Id\n" +
-                    "1\t1\t\t1\t1\n" +
-                    "2\t2\t\t2\t2\n" +
-                    "3\t3\t\t3\t\n" +
-                    "4\t4\t\t4\t";
+    private static final String noPtidsTSV =
+            """
+                    Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant
+                    \t\t\t1\t
+                    \t\t\t2\t
+                    \t\t\t3\t
+                    \t\t\t4\t""";
+    private static final String cleanEntry =
+            """
+                    Global Unique Id\tSample Id\tDraw Timestamp\tVisit\tParticipant Id
+                    1\t1\t\t1\t1
+                    2\t2\t\t2\t2
+                    3\t3\t\t3\t
+                    4\t4\t\t4\t""";
 
     @Override
     @LogMethod
@@ -137,12 +141,13 @@ public class SpecimenImportTest extends SpecimenBaseTest
     protected void assertIdsSet()
     {
         clickTab("Specimen Data");
-        waitAndClick(Locator.linkContainingText("By Individual Vial"));
+        clickAndWait(shortWait().until(ExpectedConditions.elementToBeClickable(
+                Locator.linkContainingText("By Individual Vial"))));
         DataRegionTable region = new DataRegionTable("SpecimenDetail", this);
-        assertTrue("Failed to find Participant ID 1", region.getRow("Participant Id", "1") == 0);
-        assertTrue("Failed to find Global Unique ID 1", region.getRow("Global Unique Id", "1") == 0);
-        assertTrue("Failed to find Participant ID 3", region.getRow("Participant Id", "3") == 2);
-        assertTrue("Failed to find Global Unique ID 3", region.getRow("Global Unique Id", "3") == 2);
+        assertEquals("Failed to find Participant ID 1", 0, region.getRowIndex("Participant Id", "1"));
+        assertEquals("Failed to find Global Unique ID 1", 0, region.getRowIndex("Global Unique Id", "1"));
+        assertEquals("Failed to find Participant ID 3", 2, region.getRowIndex("Participant Id", "3"));
+        assertEquals("Failed to find Global Unique ID 3", 2, region.getRowIndex("Global Unique Id", "3"));
     }
 
     // Checking for regression like the one that occurred in issue 36863: specimen importer doesn't create rows in provisioned table.
@@ -164,22 +169,22 @@ public class SpecimenImportTest extends SpecimenBaseTest
             log("\n*************** ERROR ***************\nThe number of records returned is not as expected. Expected: " + expectedNames.size() + " found: " + sampleTypeData.size() + "\n*************** ERROR ***************");
         }
 
-        for(int i = 0; i < expectedNames.size(); i++)
+        for (String expectedName : expectedNames)
         {
             boolean found = false;
-            for(int j = 0; j < sampleTypeData.size(); j++)
+            for (Map<String, String> sampleTypeRow : sampleTypeData)
             {
-                if(expectedNames.get(i).trim().equalsIgnoreCase(sampleTypeData.get(j).get("Name").trim()))
+                if (expectedName.trim().equalsIgnoreCase(sampleTypeRow.get("Name").trim()))
                 {
                     found = true;
                     break;
                 }
             }
 
-            if(!found)
+            if (!found)
             {
                 pass = false;
-                log("\n*************** ERROR ***************\nDid not find the expected name '" + expectedNames.get(i).trim() + "' in the returned data.\n*************** ERROR ***************");
+                log("\n*************** ERROR ***************\nDid not find the expected name '" + expectedName.trim() + "' in the returned data.\n*************** ERROR ***************");
             }
         }
 
