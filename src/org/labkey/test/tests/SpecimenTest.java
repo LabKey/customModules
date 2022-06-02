@@ -30,6 +30,7 @@ import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.CustomizeView;
 import org.labkey.test.components.dumbster.EmailRecordTable;
 import org.labkey.test.components.html.BootstrapMenu;
+import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.pages.study.specimen.ManageNotificationsPage;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
@@ -273,24 +274,21 @@ public class SpecimenTest extends SpecimenBaseTest
 
         clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
 
-        waitForElement(Locator.id("tsv3"));
-        setFormElement(Locator.id("tsv3"), SPECIMEN_IDS[0]); // add specimen
-        clickButton("Submit");
+        new ImportDataPage(getDriver())
+                .setText(SPECIMEN_IDS[0])
+                .submit();
 
-        waitForElement(Locator.linkWithText("Upload Specimen Ids"));
-        clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
+        waitAndClickAndWait(Locator.linkWithText("Upload Specimen Ids"));
 
-        waitForElement(Locator.id("tsv3"));
-        setFormElement(Locator.id("tsv3"), SPECIMEN_IDS[0]); // try to add again
-        clickButton("Submit", 0);
+        ImportDataPage importDataPage = new ImportDataPage(getDriver());
+        importDataPage.setText(SPECIMEN_IDS[0]);
+        importDataPage.submitExpectingErrorContaining("Specimen " + SPECIMEN_IDS[0] + " is unavailable");
 
-        waitForText(20000, "Specimen " + SPECIMEN_IDS[0] + " is unavailable");
-        setFormElement(Locator.id("tsv3"), SPECIMEN_IDS[1]); // try to add one that doesn't exist
-        clickButton("Submit", 0);
+        importDataPage.setText(SPECIMEN_IDS[1]);
+        importDataPage.submitExpectingErrorContaining( "Specimen " + SPECIMEN_IDS[1] + " is unavailable");
 
-        waitForText(20000, "Specimen " + SPECIMEN_IDS[1] + " is unavailable");
-        setFormElement(Locator.id("tsv3"),  "AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03"); // add different ones
-        clickButton("Submit");
+        importDataPage.setText("AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03"); // add different ones
+        importDataPage.submit();
     }
 
     @LogMethod (quiet = true)

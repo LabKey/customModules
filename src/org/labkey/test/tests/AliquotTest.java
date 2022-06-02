@@ -24,6 +24,7 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.html.BootstrapMenu;
+import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.StudyHelper;
@@ -184,16 +185,18 @@ public class AliquotTest extends SpecimenBaseTest
         assertTextNotPresent("Complete");
 
         clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
-        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), ALIQUOT_TWO);     // add specimen
-        clickButton("Submit");    // Submit button
+        new ImportDataPage(getDriver())
+                .setText(ALIQUOT_TWO)
+                .submit();
         assertTextPresent(ALIQUOT_ONE, ALIQUOT_TWO);
         checkCheckbox(Locator.checkboxByTitle("Select/unselect row"));      // all individual item checkboxes have same name/title; should be first one
         clickButton("Remove Selected");
         assertTextNotPresent(ALIQUOT_ONE);
         assertTextPresent(ALIQUOT_TWO);
         clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
-        setFormElement(Locator.xpath("//textarea[@id='tsv3']"), ALIQUOT_ONE);     // add specimen
-        clickButton("Submit");    // Submit button
+        new ImportDataPage(getDriver())
+                .setText(ALIQUOT_ONE)
+                .submit();
         assertTextPresent(ALIQUOT_ONE, ALIQUOT_TWO);
     }
 
