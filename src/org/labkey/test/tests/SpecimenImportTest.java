@@ -120,7 +120,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
     protected void changeTimepointType()
     {
         clickTab("Manage");
-        waitAndClickAndWait(Locator.linkContainingText("Change Study Properties"));
+        waitAndClickAndWait(Locator.linkContainingText("Study Properties"));
         new RadioButton(Locator.id("visit").waitForElement(getDriver(), WAIT_FOR_JAVASCRIPT)).check();
         clickAndWait(Ext4Helper.Locators.ext4Button("Submit"));
     }
