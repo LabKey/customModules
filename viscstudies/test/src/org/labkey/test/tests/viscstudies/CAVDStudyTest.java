@@ -403,7 +403,7 @@ public class CAVDStudyTest extends StudyBaseTest
         goToManageViews();
         waitForText("Manage Views");
         clickAndWait(Locator.linkWithText("Manage"));
-        clickAndWait(Locator.linkWithText("Change Study Properties"));
+        clickAndWait(Locator.linkWithText("Study Properties"));
         waitForElement(Locator.name("Label"), WAIT_FOR_JAVASCRIPT);
         setFormElement(Locator.name("Label"), study2name);
         clickButton("Submit");
@@ -421,7 +421,7 @@ public class CAVDStudyTest extends StudyBaseTest
         goToManageViews();
         waitForText("Manage Views");
         clickAndWait(Locator.linkWithText("Manage"));
-        clickAndWait(Locator.linkWithText("Change Study Properties"));
+        clickAndWait(Locator.linkWithText("Study Properties"));
         waitForElement(Locator.name("Label"), WAIT_FOR_JAVASCRIPT);
         setFormElement(Locator.name("Label"), study3name);
         clickButton("Submit");
