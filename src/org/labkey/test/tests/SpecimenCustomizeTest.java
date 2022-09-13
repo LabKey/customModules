@@ -87,43 +87,43 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
         clickAndWait(Locator.linkContainingText("Edit Specimen Event fields"));
 
         DomainDesignerPage designerPage = new DomainDesignerPage(getDriver());
-        designerPage.fieldsPanel().addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("Tally", ColumnType.Integer));
         // Set a couple import aliases to test them below: Issue 39672
-        designerPage.fieldsPanel().addField(new FieldDefinition("Note").setType(ColumnType.String).setImportAliases("Comment,Notables"));
-        designerPage.fieldsPanel().addField(new FieldDefinition("Minutes").setType(ColumnType.Decimal));
-        designerPage.fieldsPanel().addField(new FieldDefinition("Flag").setType(ColumnType.Boolean));
+        designerPage.fieldsPanel().addField(new FieldDefinition("Note", ColumnType.String).setImportAliases("Comment,Notables"));
+        designerPage.fieldsPanel().addField(new FieldDefinition("Minutes", ColumnType.Decimal));
+        designerPage.fieldsPanel().addField(new FieldDefinition("Flag", ColumnType.Boolean));
         designerPage.clickFinish();
 
         clickAndWait(Locator.linkContainingText("Edit Vial fields"));
         designerPage = new DomainDesignerPage(getDriver());
-        designerPage.fieldsPanel().addField(new FieldDefinition("Tally").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("FirstTally").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestTally").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankTally").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("CombineTally").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("FirstNote").setType(ColumnType.String));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNote").setType(ColumnType.String));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankNote").setType(ColumnType.String));
-        designerPage.fieldsPanel().addField(new FieldDefinition("CombineNote").setType(ColumnType.String));
-        designerPage.fieldsPanel().addField(new FieldDefinition("FirstMinutes").setType(ColumnType.Decimal));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestMinutes").setType(ColumnType.Decimal));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankMinutes").setType(ColumnType.Decimal));
-        designerPage.fieldsPanel().addField(new FieldDefinition("CombineMinutes").setType(ColumnType.Decimal).setFormat("0.####"));
-        designerPage.fieldsPanel().addField(new FieldDefinition("FirstFlag").setType(ColumnType.Boolean));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestFlag").setType(ColumnType.Boolean));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankFlag").setType(ColumnType.Boolean));
-        designerPage.fieldsPanel().addField(new FieldDefinition("LatestDrawTimestamp").setType(ColumnType.DateAndTime));
-        designerPage.fieldsPanel().addField(new FieldDefinition("FirstDrawTimestamp").setType(ColumnType.DateAndTime));
+        designerPage.fieldsPanel().addField(new FieldDefinition("Tally", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("FirstTally", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestTally", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankTally", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("CombineTally", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("FirstNote", ColumnType.String));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNote", ColumnType.String));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankNote", ColumnType.String));
+        designerPage.fieldsPanel().addField(new FieldDefinition("CombineNote", ColumnType.String));
+        designerPage.fieldsPanel().addField(new FieldDefinition("FirstMinutes", ColumnType.Decimal));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestMinutes", ColumnType.Decimal));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankMinutes", ColumnType.Decimal));
+        designerPage.fieldsPanel().addField(new FieldDefinition("CombineMinutes", ColumnType.Decimal).setFormat("0.####"));
+        designerPage.fieldsPanel().addField(new FieldDefinition("FirstFlag", ColumnType.Boolean));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestFlag", ColumnType.Boolean));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestNonBlankFlag", ColumnType.Boolean));
+        designerPage.fieldsPanel().addField(new FieldDefinition("LatestDrawTimestamp", ColumnType.DateAndTime));
+        designerPage.fieldsPanel().addField(new FieldDefinition("FirstDrawTimestamp", ColumnType.DateAndTime));
         designerPage.clickFinish();
 
         clickAndWait(Locator.linkContainingText("Edit Specimen fields"));
         designerPage = new DomainDesignerPage(getDriver());
-        designerPage.fieldsPanel().addField(new FieldDefinition("TotalLatestNonBlankTally").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("SumOfLatestNonBlankMinutes").setType(ColumnType.Decimal).setFormat("0.####"));
-        designerPage.fieldsPanel().addField(new FieldDefinition("SumOfCombineMinutes").setType(ColumnType.Decimal).setFormat("0.####"));
-        designerPage.fieldsPanel().addField(new FieldDefinition("CountLatestNonBlankFlag").setType(ColumnType.Integer));
-        designerPage.fieldsPanel().addField(new FieldDefinition("MaxAvailabilityReason").setType(ColumnType.String));
-        designerPage.fieldsPanel().addField(new FieldDefinition("MinAvailabilityReason").setType(ColumnType.String));
+        designerPage.fieldsPanel().addField(new FieldDefinition("TotalLatestNonBlankTally", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("SumOfLatestNonBlankMinutes", ColumnType.Decimal).setFormat("0.####"));
+        designerPage.fieldsPanel().addField(new FieldDefinition("SumOfCombineMinutes", ColumnType.Decimal).setFormat("0.####"));
+        designerPage.fieldsPanel().addField(new FieldDefinition("CountLatestNonBlankFlag", ColumnType.Integer));
+        designerPage.fieldsPanel().addField(new FieldDefinition("MaxAvailabilityReason", ColumnType.String));
+        designerPage.fieldsPanel().addField(new FieldDefinition("MinAvailabilityReason", ColumnType.String));
         designerPage.clickFinish();
     }
 
