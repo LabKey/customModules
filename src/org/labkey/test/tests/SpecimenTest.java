@@ -17,8 +17,7 @@
 package org.labkey.test.tests;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpException;
-import org.apache.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
@@ -123,7 +122,7 @@ public class SpecimenTest extends SpecimenBaseTest
 
     @Override
     @LogMethod
-    protected void doVerifySteps() throws IOException, HttpException
+    protected void doVerifySteps() throws IOException
     {
         verifyActorDetails();
         createRequest();
@@ -529,7 +528,7 @@ public class SpecimenTest extends SpecimenBaseTest
             "10 999320520 KAA07YY0-01 Vst 501 501.0000 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA   N/A 2005-12-15 10:30 2005-12-15 10:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   2 2 2 0 0\n" +
             "11 999320520 KAA07YY0-02 Vst 501 501.0000 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA   N/A 2005-12-15 10:30 2005-12-15 10:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   2 2 2 0 0";
     @LogMethod
-    private void verifyNotificationEmails() throws IOException, HttpException
+    private void verifyNotificationEmails()
     {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         String notification = String.format(NOTIFICATION_TEMPLATE, _requestId, getStudyLabel(), _requestId, PasswordUtil.getUsername(), date);
