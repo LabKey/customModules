@@ -18,9 +18,9 @@ package org.labkey.hdrl;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.old.JSONArray;
+import org.json.old.JSONException;
+import org.json.old.JSONObject;
 import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ApiSimpleResponse;
