@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.labkey.api.util.DateUtil" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
