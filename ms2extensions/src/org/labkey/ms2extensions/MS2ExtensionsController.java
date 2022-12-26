@@ -15,7 +15,7 @@
  */
 package org.labkey.ms2extensions;
 
-import org.json.old.JSONObject;
+import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
 import org.labkey.api.action.MutatingApiAction;
@@ -162,7 +162,7 @@ public class MS2ExtensionsController extends SpringActionController
                 props = mapToSave;
             }
 
-            JSONObject jsonObject = simpleApiJsonForm.getJsonObject();
+            JSONObject jsonObject = simpleApiJsonForm.getNewJsonObject();
             if (jsonObject.has(TARGET_PROTEIN_PREFERENCE_NAME))
             {
                 props.put(TARGET_PROTEIN_PREFERENCE_NAME, jsonObject.getString(TARGET_PROTEIN_PREFERENCE_NAME));
