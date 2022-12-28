@@ -18,9 +18,9 @@ package org.labkey.hdrl;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
-import org.json.old.JSONArray;
-import org.json.old.JSONException;
-import org.json.old.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ApiSimpleResponse;
@@ -263,7 +263,7 @@ public class HDRLController extends SpringActionController
         public Object execute(VerifyForm form, BindException errors)
         {
             ApiSimpleResponse response = new ApiSimpleResponse();
-            JSONArray rows = form.getJsonObject().getJSONArray("rows");
+            JSONArray rows = form.getNewJsonObject().getJSONArray("rows");
             List<Map<String, Object>> rowsToValidate = new ArrayList<>();
 
             for (int idx = 0; idx < rows.length(); ++idx)
@@ -280,7 +280,7 @@ public class HDRLController extends SpringActionController
                 if (null != jsonObj)
                 {
                     Map<String, Object> rowMap = new CaseInsensitiveHashMap<>();
-                    rowMap.putAll(jsonObj);
+                    rowMap.putAll(jsonObj.toMap());
 
                     rowsToValidate.add(rowMap);
                 }
