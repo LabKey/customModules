@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.labkey.remoteapi.CommandException;
 import org.labkey.remoteapi.Connection;
-import org.labkey.remoteapi.PostCommand;
+import org.labkey.remoteapi.SimplePostCommand;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.Locators;
@@ -95,16 +95,16 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         super.doCleanup(afterTest);
     }
 
-    private void addTestResultData(Map<String, String> requestData, List<Map<String, String>> specimenData)
+    private void addTestResultData(Map<String, Object> requestData, List<Map<String, Object>> specimenData)
     {
         addRequestResultData(requestData);
         addSpecimenResultData(specimenData);
     }
 
-    private void addRequestResultData(Map<String, String> data)
+    private void addRequestResultData(Map<String, Object> data)
     {
         Connection connection = WebTestHelper.getRemoteApiConnection();
-        PostCommand command = new PostCommand("hdrl", "addLabwareOutboundRequest");
+        SimplePostCommand command = new SimplePostCommand("hdrl", "addLabwareOutboundRequest");
         command.setParameters(data);
 
         try
@@ -117,12 +117,12 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         }
     }
 
-    private void addSpecimenResultData(List<Map<String, String>> results)
+    private void addSpecimenResultData(List<Map<String, Object>> results)
     {
         Connection connection = WebTestHelper.getRemoteApiConnection();
-        for (Map<String, String> result : results)
+        for (Map<String, Object> result : results)
         {
-            PostCommand command = new PostCommand("hdrl", "addLabwareOutboundSpecimen");
+            SimplePostCommand command = new SimplePostCommand("hdrl", "addLabwareOutboundSpecimen");
             command.setParameters(result);
 
             try
@@ -134,7 +134,6 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
                 throw new RuntimeException("Error posting specimen results", e);
             }
         }
-
     }
 
     @Test
@@ -154,7 +153,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         assertNotEquals(idx, -1);
         String requestId = drt.getDataAsText(idx, "RequestId");
 
-        Map<String, String> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("batchId", requestId);
         result.put("dateReceived", "2015-06-01");
         result.put("dateModified", "2015-06-15");
@@ -164,9 +163,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         List<String> specimenIds = getSpecimenIds(requestId, "hdrl", "InboundSpecimen", "RowId");
 
-        List<Map<String, String>> lwSpecimens = new ArrayList<>();
+        List<Map<String, Object>> lwSpecimens = new ArrayList<>();
 
-        Map<String, String> specimenResult1 = new HashMap<>();
+        Map<String, Object> specimenResult1 = new HashMap<>();
         specimenResult1.put("batchId", String.valueOf(requestId));
         specimenResult1.put("testRequestId", specimenIds.get(0));
         specimenResult1.put("dateReceived", "2015-06-01");
@@ -181,7 +180,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimenResult1.put("modifiedResultFlag", "F");
         lwSpecimens.add(specimenResult1);
 
-        Map<String, String> specimenResult2 = new HashMap<>();
+        Map<String, Object> specimenResult2 = new HashMap<>();
         specimenResult2.put("batchId", requestId);
         specimenResult2.put("testRequestId", specimenIds.get(1));
         specimenResult2.put("dateReceived", "2015-06-01");
