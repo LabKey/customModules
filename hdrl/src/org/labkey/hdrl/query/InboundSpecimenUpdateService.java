@@ -74,10 +74,10 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
     }
 
     @Override
-    public List<Map<String, Object>> updateRows(User user, Container container, List<Map<String, Object>> rows, List<Map<String, Object>> oldKeys, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext) throws InvalidKeyException, BatchValidationException, QueryUpdateServiceException, SQLException
+    public List<Map<String, Object>> updateRows(User user, Container container, List<Map<String, Object>> rows, List<Map<String, Object>> oldKeys, BatchValidationException errors, @Nullable Map<Enum, Object> configParameters, Map<String, Object> extraScriptContext) throws InvalidKeyException, BatchValidationException, QueryUpdateServiceException, SQLException
     {
         parseValidationMode(extraScriptContext);
-        List<Map<String, Object>> ret = super.updateRows(user, container, rows, oldKeys, configParameters, extraScriptContext);
+        List<Map<String, Object>> ret = super.updateRows(user, container, rows, oldKeys, errors, configParameters, extraScriptContext);
 
         if (this.validationMode == ValidationMode.WITH_UQ)
         {
