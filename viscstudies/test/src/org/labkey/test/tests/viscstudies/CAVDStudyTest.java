@@ -21,6 +21,7 @@ import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.params.FieldDefinition;
@@ -511,12 +512,12 @@ public class CAVDStudyTest extends StudyBaseTest
         {
             setDatasetStatus(dataset, "Locked");
         }
-        assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size());
+        assertElementPresent(Locator.tagWithAttribute("img", "src", WebTestHelper.getContextPath() + "/reports/icon_locked.png"), DATASETS.size());
         clickButton("Save Changes", defaultWaitForPage);
         // verify that we are back on the list view
         assertTextPresent("AllStudiesList", statusCol);
         // locked icon should now appear once for study2 and for all datasets in study3
-        assertElementPresent(Locator.tagWithAttribute("img", "src", "/labkey/reports/icon_locked.png"), DATASETS.size() + 1);
+        assertElementPresent(Locator.tagWithAttribute("img", "src", WebTestHelper.getContextPath() + "/reports/icon_locked.png"), DATASETS.size() + 1);
 
         log("Verify data status exports to text as expected.");
 
