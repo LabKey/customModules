@@ -162,7 +162,7 @@ public class MS2ExtensionsController extends SpringActionController
                 props = mapToSave;
             }
 
-            JSONObject jsonObject = simpleApiJsonForm.getNewJsonObject();
+            JSONObject jsonObject = simpleApiJsonForm.getJsonObject();
             if (jsonObject.has(TARGET_PROTEIN_PREFERENCE_NAME))
             {
                 props.put(TARGET_PROTEIN_PREFERENCE_NAME, jsonObject.getString(TARGET_PROTEIN_PREFERENCE_NAME));
