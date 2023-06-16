@@ -37,17 +37,17 @@ public class SpecimenGridExportTest extends AbstractExportTest
 {
     public static final String SPECIMEN_DATA =
             "Vial Id\tDraw Date\tParticipant\tVolume\tUnits\tSpecimen Type\tDerivative Type\tAdditive Type\n" +
-            "Sample_001\t11/13/12\tP7310\t200\tml\t\t\t\n" +
-            "Sample_002\t11/13/12\tP7311\t200\tml\t\t\t\n" +
-            "Sample_003\t11/13/12\tP7312\t200\tml\t\t\t\n" +
-            "Sample_004\t11/13/12\tP7313\t200\tml\t\t\t\n" +
-            "Sample_005\t11/13/12\tP7314\t200\tml\t\t\t\n" +
-            "Sample_006\t11/13/12\tP7315\t200\tml\t\t\t\n";
+                    "Sample_001\t11/13/12\tP7310\t200\tml\t\t\t\n" +
+                    "Sample_002\t11/13/12\tP7311\t200\tml\t\t\t\n" +
+                    "Sample_003\t11/13/12\tP7312\t200\tml\t\t\t\n" +
+                    "Sample_004\t11/13/12\tP7313\t200\tml\t\t\t\n" +
+                    "Sample_005\t11/13/12\tP7314\t200\tml\t\t\t\n" +
+                    "Sample_006\t11/13/12\tP7315\t200\tml\t\t\t\n";
 
     @BeforeClass
     public static void doSetup() throws Exception
     {
-        SpecimenGridExportTest initTest = (SpecimenGridExportTest)getCurrentTest();
+        SpecimenGridExportTest initTest = (SpecimenGridExportTest) getCurrentTest();
 
         initTest._containerHelper.createProject(initTest.getProjectName(), "Study");
         initTest._containerHelper.enableModule("Specimen");
@@ -93,6 +93,18 @@ public class SpecimenGridExportTest extends AbstractExportTest
     protected String getTestColumnTitle()
     {
         return "Participant Id";
+    }
+
+    @Override
+    protected String getTestLookUpColumnHeader()
+    {
+        return null;
+    }
+
+    @Override
+    protected int getTestLookUpColumnIndex()
+    {
+        return 0;
     }
 
     @Override
