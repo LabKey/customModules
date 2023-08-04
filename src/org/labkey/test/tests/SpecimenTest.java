@@ -336,7 +336,7 @@ public class SpecimenTest extends SpecimenBaseTest
         assertTextPresent("Vial History");
         goBack();
 
-        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input2"), "Comments");
@@ -592,7 +592,7 @@ public class SpecimenTest extends SpecimenBaseTest
         clickAndWait(Locator.linkWithText("Swab"));
         new DataRegionTable.DataRegionFinder(getDriver()).find()
                 .checkAllOnPage();
-        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
         clickButton("Cancel");
     }
 
@@ -664,7 +664,7 @@ public class SpecimenTest extends SpecimenBaseTest
         goToSpecimenData();
         clickAndWait(Locator.linkWithText("Urine"));
         new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(0);
-        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input1"), "Shipping");
@@ -701,7 +701,7 @@ public class SpecimenTest extends SpecimenBaseTest
         goToSpecimenData();
         clickAndWait(Locator.linkWithText("Urine"));
         new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(1);
-        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Create New Request");
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
         selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
         setFormElement(Locator.id("input0"), "Assay Plan");
         setFormElement(Locator.id("input1"), "Shipping");
