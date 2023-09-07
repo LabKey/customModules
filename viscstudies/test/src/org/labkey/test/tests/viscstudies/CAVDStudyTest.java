@@ -190,7 +190,8 @@ public class CAVDStudyTest extends StudyBaseTest
         addGroup("Vaccine2", true, "3", 3);
         addTimepoint("CAVDImmTimepoint", "0", TimeUnit.Days);
         finishRevision();
-        waitForText("Immunization Schedule", 4, defaultWaitForPage); // WebPart title and schedule table header
+        waitForText("Immunization Schedule", 3, defaultWaitForPage); // WebPart title and schedule table header
+        assertElementPresent(Locator.tagWithId("a", "ImmunizationSchedule")); // Verify anchor tag on WebPart title
         assertTextPresent(_expectedImmunizationText);
         assertElementNotPresent(Locator.tagWithText("div", "30")); // From deleted rows
 
