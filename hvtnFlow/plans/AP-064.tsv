@@ -1,0 +1,117 @@
+Rowid	Analysis Plan Sort	Analysis Plan Id	Description	NAME1	STAT1	NAME2	STAT2	NAME3	STAT3	NAME4	STAT4	NAME5	STAT5	NAME6	STAT6	NAME7	STAT7	NAME8	STAT8	NAME9	STAT9	NAME10	STAT10
+16487	AP-064	64		Time:Count	Time:Count																		
+16488	AP-064	64		Time/S:Count	Time/S:Count																		
+16489	AP-064	64		Time/S/L/CD19+/CD20+/426cCoreAF647+ 426cCoreKO+:Count	Time/S/L/CD19+/CD20+/426cCoreAF647+ 426cCoreKO+:Count																		
+16490	AP-064	64		Time/S/L/CD19+/CD20+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/426cCoreKO AF488+:Count																		
+16491	AP-064	64		Time/S/L/CD19+/CD20+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/426cCoreKO AF488-:Count																		
+16492	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16493	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16494	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD+/CD27+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD+/CD27+:Count																		
+16495	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD+/CD27+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD+/CD27+:Count																		
+16496	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD+:Count																		
+16497	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-:Count																		
+16498	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD+:Count																		
+16499	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-:Count																		
+16500	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgA+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgA+:Count																		
+16501	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgA+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgA+:Count																		
+16502	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgG+/CD27+:Count																		
+16503	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgG+/CD27+:Count																		
+16504	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgG+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgG+:Count																		
+16505	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgG+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgG+:Count																		
+16506	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgM+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD-/IgM+:Count																		
+16507	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgM+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD-/IgM+:Count																		
+16508	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD+/IgM naive:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+/IgD+/IgM naive:Count																		
+16509	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD+/IgM naive:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-/IgD+/IgM naive:Count																		
+16510	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27+CD21+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27+CD21+:Count																		
+16511	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27+CD21-:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27+CD21-:Count																		
+16512	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27-CD21+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27-CD21+:Count																		
+16513	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27-CD21-:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/CD27-CD21-:Count																		
+16514	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+:Count																		
+16515	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD+/CD27+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD+/CD27+:Count																		
+16516	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD+:Count																		
+16517	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-:Count																		
+16518	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgA+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgA+:Count																		
+16519	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+/CD27+:Count																		
+16520	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+:Count																		
+16521	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgM+:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD-/IgM+:Count																		
+16522	AP-064	64		Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD+/IgM naive:Count	Time/S/L/CD19+/CD20+/426cCorePE+ 426cCoreAF647+/IgD+/IgM naive:Count																		
+16523	AP-064	64		Time/S/L/CD19+/CD20+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16524	AP-064	64		Time/S/L/CD19+/CD20+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16525	AP-064	64		Time/S/L/CD19+/CD20+/CD27+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/CD27+/426cCorePE+ 426cCoreAF647+:Count																		
+16526	AP-064	64		Time/S/L/CD19+/CD20+/CD27+CD21+:Count	Time/S/L/CD19+/CD20+/CD27+CD21+:Count																		
+16527	AP-064	64		Time/S/L/CD19+/CD20+/CD27+CD21-:Count	Time/S/L/CD19+/CD20+/CD27+CD21-:Count																		
+16528	AP-064	64		Time/S/L/CD19+/CD20+/CD27-CD21+:Count	Time/S/L/CD19+/CD20+/CD27-CD21+:Count																		
+16529	AP-064	64		Time/S/L/CD19+/CD20+/CD27-CD21-:Count	Time/S/L/CD19+/CD20+/CD27-CD21-:Count																		
+16530	AP-064	64		Time/S/L/CD19+/CD20+/CD27+:Count	Time/S/L/CD19+/CD20+/CD27+:Count																		
+16531	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16532	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16533	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+:Count																		
+16534	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD+/CD27+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD+/CD27+:Count																		
+16535	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD+:Count																		
+16536	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-:Count																		
+16537	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgA+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgA+:Count																		
+16538	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+/CD27+:Count																		
+16539	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgG+:Count																		
+16540	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgM+:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD-/IgM+:Count																		
+16541	AP-064	64		Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD+/IgM naive:Count	Time/S/L/CD19+/CD20- CD38+/426cCorePE+ 426cCoreAF647+/IgD+/IgM naive:Count																		
+16542	AP-064	64		Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+:Count																		
+16543	AP-064	64		Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+:Count																		
+16544	AP-064	64		Time/S/L/CD19+/CD20- CD38+:Count	Time/S/L/CD19+/CD20- CD38+:Count																		
+16545	AP-064	64		Time/S/L/CD19+/CD20- CD38+/Ki-67+ CD27+ (Plasmablast):Count	Time/S/L/CD19+/CD20- CD38+/Ki-67+ CD27+ (Plasmablast):Count																		
+16546	AP-064	64		Time/S/L/CD19+/CD20- CD38+/Ki-67+ CD27- (Plasmablast):Count	Time/S/L/CD19+/CD20- CD38+/Ki-67+ CD27- (Plasmablast):Count																		
+16547	AP-064	64		Time/S/L/CD19+/CD20- CD38+/Ki-67- CD27+ (Plasmablast):Count	Time/S/L/CD19+/CD20- CD38+/Ki-67- CD27+ (Plasmablast):Count																		
+16548	AP-064	64		Time/S/L/CD19+/CD20- CD38+/Ki-67- CD27- (Plasmablast):Count	Time/S/L/CD19+/CD20- CD38+/Ki-67- CD27- (Plasmablast):Count																		
+16549	AP-064	64		Time/S/L/CD19+/CD20+:Count	Time/S/L/CD19+/CD20+:Count																		
+16550	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCoreAF647+ 426cCoreKO+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD-/426cCoreAF647+ 426cCoreKO+/426cCorePE+ 426cCoreAF647+:Count																		
+16551	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCoreAF647+ 426cCoreKO+:Count	Time/S/L/CD19+/CD20+/IgD-/426cCoreAF647+ 426cCoreKO+:Count																		
+16552	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/426cCoreKO AF488+:Count																		
+16553	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/426cCoreKO AF488-:Count																		
+16554	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+/426cCoreAF647+ 426cCoreKO+:Count	Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+/426cCoreAF647+ 426cCoreKO+:Count																		
+16555	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16556	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16557	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD-/426cCorePE+ 426cCoreAF647+:Count																		
+16558	AP-064	64		Time/S/L/CD19+/CD20+/IgD+:Count	Time/S/L/CD19+/CD20+/IgD+:Count																		
+16559	AP-064	64		Time/S/L/CD19+/CD20+/IgD-:Count	Time/S/L/CD19+/CD20+/IgD-:Count																		
+16560	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgA+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16561	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgA+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16562	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgA+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/426cCorePE+ 426cCoreAF647+:Count																		
+16563	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgA+:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+:Count																		
+16564	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCoreAF647+ 426cCoreKO+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCoreAF647+ 426cCoreKO+:Count																		
+16565	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCoreKO AF488+:Count																		
+16566	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCoreKO AF488-:Count																		
+16567	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16568	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16569	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/426cCorePE+ 426cCoreAF647+:Count																		
+16570	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/AF488+:Count																		
+16571	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/AF647+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/AF647+:Count																		
+16572	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16573	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16574	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/426cCorePE+ 426cCoreAF647+:Count																		
+16575	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+:Count																		
+16576	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+:Count																		
+16577	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgG+/PE+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/PE+:Count																		
+16578	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCoreAF647+ 426cCoreKO+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCoreAF647+ 426cCoreKO+:Count																		
+16579	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCoreKO AF488+:Count																		
+16580	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCoreKO AF488-:Count																		
+16581	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16582	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16583	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/426cCorePE+ 426cCoreAF647+:Count																		
+16584	AP-064	64		Time/S/L/CD19+/CD20+/IgD-/IgM+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+:Count																		
+16585	AP-064	64		Time/S/L/CD19+/CD20+/IgD+/IgM naive/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD20+/IgD+/IgM naive/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16586	AP-064	64		Time/S/L/CD19+/CD20+/IgD+/IgM naive/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD20+/IgD+/IgM naive/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16587	AP-064	64		Time/S/L/CD19+/CD20+/IgD+/IgM naive/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD20+/IgD+/IgM naive/426cCorePE+ 426cCoreAF647+:Count																		
+16588	AP-064	64		Time/S/L/CD19+/CD20+/IgD+/IgM naive:Count	Time/S/L/CD19+/CD20+/IgD+/IgM naive:Count																		
+16589	AP-064	64		Time/S/L/CD19+/CD27+ CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count	Time/S/L/CD19+/CD27+ CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488+:Count																		
+16590	AP-064	64		Time/S/L/CD19+/CD27+ CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count	Time/S/L/CD19+/CD27+ CD38+/426cCorePE+ 426cCoreAF647+/426cCoreKO AF488-:Count																		
+16591	AP-064	64		Time/S/L/CD19+/CD27+ CD38+/426cCorePE+ 426cCoreAF647+:Count	Time/S/L/CD19+/CD27+ CD38+/426cCorePE+ 426cCoreAF647+:Count																		
+16592	AP-064	64		Time/S/L/CD19+/CD27+ CD38+:Count	Time/S/L/CD19+/CD27+ CD38+:Count																		
+16593	AP-064	64		Time/S/L/CD19+:Count	Time/S/L/CD19+:Count																		
+16594	AP-064	64		Time/S/L/CD19+/Q1: Ki-67 AF700-, CD27 BV605+:Count	Time/S/L/CD19+/Q1: Ki-67 AF700-, CD27 BV605+:Count																		
+16595	AP-064	64		Time/S/L/CD19+/Q2: Ki-67 AF700+, CD27 BV605+:Count	Time/S/L/CD19+/Q2: Ki-67 AF700+, CD27 BV605+:Count																		
+16596	AP-064	64		Time/S/L/CD19+/Q3: Ki-67 AF700+, CD27 BV605-:Count	Time/S/L/CD19+/Q3: Ki-67 AF700+, CD27 BV605-:Count																		
+16597	AP-064	64		Time/S/L/CD19+/Q4: Ki-67 AF700-, CD27 BV605-:Count	Time/S/L/CD19+/Q4: Ki-67 AF700-, CD27 BV605-:Count																		
+16598	AP-064	64		Time/S/L/CD19+/Q5: Ki-67 AF700-, CD20 BUV737+:Count	Time/S/L/CD19+/Q5: Ki-67 AF700-, CD20 BUV737+:Count																		
+16599	AP-064	64		Time/S/L/CD19+/Q6: Ki-67 AF700+, CD20 BUV737+:Count	Time/S/L/CD19+/Q6: Ki-67 AF700+, CD20 BUV737+:Count																		
+16600	AP-064	64		Time/S/L/CD19+/Q7: Ki-67 AF700+, CD20 BUV737-:Count	Time/S/L/CD19+/Q7: Ki-67 AF700+, CD20 BUV737-:Count																		
+16601	AP-064	64		Time/S/L/CD19+/Q8: Ki-67 AF700-, CD20 BUV737-:Count	Time/S/L/CD19+/Q8: Ki-67 AF700-, CD20 BUV737-:Count																		
+16602	AP-064	64		Time/S/L:Count	Time/S/L:Count																		
