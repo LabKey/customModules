@@ -1,7 +1,10 @@
         <style type="text/css">
             .study-header {font-size:larger;font-weight:bold;border-bottom:1px solid black;border-top:1px solid black}
         </style>
-<div><span id="facets"></span><div style="display:inline-block;padding:4px"><a href="#" onclick="generateDesignSpreadsheet();return false;">Export Vaccination Info</a> </div></div>
+<div><span id="facets"></span><div style="display:inline-block;padding:4px"><a id="generateDesignSpreadsheet" href="#">Export Vaccination Info</a> </div></div>
+<script type="text/javascript" nonce="<%=scriptNonce%>">
+                document.getElementById("generateDesignSpreadsheet")['onclick'] = function(){generateDesignSpreadsheet(); return false;};
+</script>
 <div id="result">
 
 </div>
