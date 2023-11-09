@@ -390,10 +390,10 @@ public class CAVDStudyTest extends StudyBaseTest
         DATASETS.put(5004, "ELISATest");
 
         String[][] statuses = {
-                {"Draft", "/labkey/reports/icon_draft.png", "D"},
-                {"Final", "/labkey/reports/icon_final.png", "F"},
-                {"Locked", "/labkey/reports/icon_locked.png", "L"},
-                {"Unlocked", "/labkey/reports/icon_unlocked.png", "U"}
+                {"Draft", WebTestHelper.getContextPath() + "/reports/icon_draft.png", "D"},
+                {"Final", WebTestHelper.getContextPath() + "/reports/icon_final.png", "F"},
+                {"Locked", WebTestHelper.getContextPath() + "/reports/icon_locked.png", "L"},
+                {"Unlocked", WebTestHelper.getContextPath() + "/reports/icon_unlocked.png", "U"}
         };
 
         String study2name = FOLDER_NAME2 + " Study";
