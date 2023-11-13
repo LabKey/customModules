@@ -1,342 +1,370 @@
-analysisPlanSort	analysisPlanId	description	NAME1	STAT1
-AP-050	50	28-color ICS for HIV vaccine studies	Time:Count	Time:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv:Count	Time/Lv:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1:Count	Time/Lv/K1:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2:Count	Time/Lv/K1/K2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3:Count	Time/Lv/K1/K2/K3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4:Count	Time/Lv/K1/K2/K3/K4:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5:Count	Time/Lv/K1/K2/K3/K4/K5:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6:Count	Time/Lv/K1/K2/K3/K4/K5/K6:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Total Monos:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Total Monos:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/25+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/25+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNgIL2TNFa154IL4IL13MIP1B:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_IL2_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_IL2_AND_154_AND_TNFa:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_IL2_AND_154_AND_TNFa:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TNFa_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154_NOT_IFNg:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Perforin+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/25+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNgIL2TNFa154IL4IL13MIP1B:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TNFa_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154_NOT_IFNg:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Perforin+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/25+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Perforin+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNgIL2TNFa154IL4IL13MIP1B:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_IL2_AND_TNFa:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_IL2_AND_TNFa:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_TNFa_AND_GzB:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_TNFa_AND_GzB:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154_NOT_IFNg:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/25+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNgIL2TNFa154IL4IL13MIP1B:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TNFa_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154_NOT_IFNg:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Perforin+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TNFa+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/16-56dim:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/16-56dim:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56br:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56br:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56dim:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56dim:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/25+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38-DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/154+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CTLA4+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/DR+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/EM:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNgIL2TNFa154IL4IL13MIP1B:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TNFa_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154_NOT_Th2:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL2+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154_NOT_IFNg:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Ki67+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/MIP1B+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/N:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5-:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Perforin+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/RA+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/R7+:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TD:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TIM3_OR_LAG3:Count
-AP-050	50	28-color ICS for HIV vaccine studies	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TNFa+:Count
+AnalysisPlanSort	AnalysisPlanId	NAME1	STAT1
+AP-050	50	Time:Count	Time:Count
+AP-050	50	Time/Lv:Count	Time/Lv:Count
+AP-050	50	Time/Lv/K1:Count	Time/Lv/K1:Count
+AP-050	50	Time/Lv/K1/K2:Count	Time/Lv/K1/K2:Count
+AP-050	50	Time/Lv/K1/K2/K3:Count	Time/Lv/K1/K2/K3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4:Count	Time/Lv/K1/K2/K3/K4:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5:Count	Time/Lv/K1/K2/K3/K4/K5:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6:Count	Time/Lv/K1/K2/K3/K4/K5/K6:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos classical/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Monos non-classical/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Total Monos:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14+_OR_SShi/Total Monos:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/25+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19+/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/4+RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/25+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/4+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/4+B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/4+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/4+B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/4+RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/4+RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB+Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB-Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB_AND_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB_AND_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB_AND_TNFa:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/GzB_AND_TNFa:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNgIL2TNFa154IL4IL13MIP1B:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_AND_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TNFa_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/4+RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IFNg_OR_IL2_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/IL4_OR_IL13_AND_154_NOT_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/Perforin+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4+/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/25+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB+Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/GzB-Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNgIL2TNFa154IL4IL13MIP1B:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_AND_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TNFa_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IFNg_OR_IL2_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/IL4_OR_IL13_AND_154_NOT_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/Perforin+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/4-8-/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/8+B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/25+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Perforin+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB+Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB-Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB_AND_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB_AND_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB_AND_TNFa:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/GzB_AND_TNFa:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNgIL2TNFa154IL4IL13MIP1B:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/8+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/8+B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/8+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/8+B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_AND_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/8+B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TNFa_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IFNg_OR_IL2_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/IL4_OR_IL13_AND_154_NOT_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/3+excl 16br/56-16-/8+/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/25+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB+Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/GzB-Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNgIL2TNFa154IL4IL13MIP1B:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_AND_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TNFa_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IFNg_OR_IL2_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/IL4_OR_IL13_AND_154_NOT_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/Perforin+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3+/NKT/TNFa+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/16-56dim:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/16-56dim:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56br:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56br:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56dim:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/56dim:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/25+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/25+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38+DR-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38-DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/38-DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/154+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/154+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/B7+/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CTLA4+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CTLA4+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/DR+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/DR+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/EM:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/EM:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB+Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/GzB-Perf-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNgIL2TNFa154IL4IL13MIP1B:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNgIL2TNFa154IL4IL13MIP1B:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_AND_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TNFa_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TNFa_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_TN_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154_NOT_Th2:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IFNg_OR_IL2_OR_154_NOT_Th2:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL2+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL2+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154_NOT_IFNg:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/IL4_OR_IL13_AND_154_NOT_IFNg:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Ki67+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Ki67+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/MIP1B+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/MIP1B+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/N:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/N:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5-:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/PD1+CXCR5-:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Perforin+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/Perforin+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/RA+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/RA+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/R7+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/R7+:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TD:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TD:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TIM3_OR_LAG3:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TIM3_OR_LAG3:Count
+AP-050	50	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TNFa+:Count	Time/Lv/K1/K2/K3/K4/K5/K6/K7/K8/14-/S/L/19-/3-/Total NK/TNFa+:Count
