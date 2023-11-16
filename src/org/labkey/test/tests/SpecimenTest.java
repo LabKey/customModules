@@ -121,6 +121,13 @@ public class SpecimenTest extends SpecimenBaseTest
     }
 
     @Override
+    protected void setupRequestabilityRules()
+    {
+        super.setupRequestabilityRules();
+        clickButton("Save");
+    }
+
+    @Override
     @LogMethod
     protected void doVerifySteps() throws IOException
     {
