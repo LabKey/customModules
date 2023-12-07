@@ -1,0 +1,105 @@
+Analysis Plan Sort	Analysis Plan Id	NAME1	STAT1
+AP-067	67	EXPERIMENT NAME	EXPERIMENT NAME
+AP-067	67	Sample	Sample
+AP-067	67	Sample Order	Sample Order
+AP-067	67	Time:Count	Time:Count
+AP-067	67	Time/S:Count	Time/S:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+CD21+:Count	Time/S/L/CD19+/CD20+/CD27+CD21+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+CD21-:Count	Time/S/L/CD19+/CD20+/CD27+CD21-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27-CD21+:Count	Time/S/L/CD19+/CD20+/CD27-CD21+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27-CD21-:Count	Time/S/L/CD19+/CD20+/CD27-CD21-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+:Count	Time/S/L/CD19+/CD20+/CD27+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/CD27+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+/S2P++:Count	Time/S/L/CD19+/CD20+/CD27+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/CD27+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/CD27+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/CD27+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+/S2P++:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+:Count	Time/S/L/CD19+/CD20- CD38+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/RBD+S2P+:Count	Time/S/L/CD19+/CD20- CD38+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++:Count	Time/S/L/CD19+/CD20- CD38+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+/CD27+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+/CD27+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgA+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgA+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+/IgD+IgG+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+/IgD+IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgD- IgM-:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgD- IgM-:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgG+/CD27+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgG+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+/IgM+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD+/IgM+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgM+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/IgD-/IgM+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20- CD38+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20- CD38+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+:Count	Time/S/L/CD19+/CD20+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+:Count	Time/S/L/CD19+/CD20+/IgD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-:Count	Time/S/L/CD19+/CD20+/IgD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgA+:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgA+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgA+/S2P++:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgA+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgA+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD-/IgA+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+/IgD+IgG+:Count	Time/S/L/CD19+/CD20+/IgD+/IgD+IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-:Count	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/S2P++:Count	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD-/IgD- IgM-/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/AF488+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/AF488+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/AF647+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/AF647+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/S2P++:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/PE+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/PE+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/S2P++:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgG+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD-/IgG+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+/IgM+:Count	Time/S/L/CD19+/CD20+/IgD+/IgM+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgM+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+/IgM+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD+/IgM+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgM+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+/IgM+/S2P++:Count	Time/S/L/CD19+/CD20+/IgD+/IgM+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgM+/S2P++:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+/IgM+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD+/IgM+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD+/IgM+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD+/IgM+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgM+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/IgM+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD-/IgM+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/IgD-/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/S2P++:Count	Time/S/L/CD19+/CD20+/IgD-/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/IgD-/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/IgD-/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/IgD-/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/RBD+S2P+:Count	Time/S/L/CD19+/CD20+/RBD+S2P+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/CD27+CD21+:Count	Time/S/L/CD19+/CD20+/S2P++/CD27+CD21+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/CD27+CD21-:Count	Time/S/L/CD19+/CD20+/S2P++/CD27+CD21-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/CD27-CD21+:Count	Time/S/L/CD19+/CD20+/S2P++/CD27-CD21+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/CD27-CD21-:Count	Time/S/L/CD19+/CD20+/S2P++/CD27-CD21-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++:Count	Time/S/L/CD19+/CD20+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD+/CD27+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD+/CD27+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD-:Count	Time/S/L/CD19+/CD20+/S2P++/IgD-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgA+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgA+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD+/IgD+IgG+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD+/IgD+IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgD- IgM-:Count	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgD- IgM-:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgG+/CD27+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgG+/CD27+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgG+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgG+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD+/IgM+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD+/IgM+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgM+:Count	Time/S/L/CD19+/CD20+/S2P++/IgD-/IgM+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/RBD+:Count	Time/S/L/CD19+/CD20+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD20+/S2P++/RBD-:Count	Time/S/L/CD19+/CD20+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+/CD27+CD21+:Count	Time/S/L/CD19+/CD27+CD21+:Count
+AP-067	67	Time/S/L/CD19+/CD27+CD21-:Count	Time/S/L/CD19+/CD27+CD21-:Count
+AP-067	67	Time/S/L/CD19+/CD27-CD21+:Count	Time/S/L/CD19+/CD27-CD21+:Count
+AP-067	67	Time/S/L/CD19+/CD27-CD21-:Count	Time/S/L/CD19+/CD27-CD21-:Count
+AP-067	67	Time/S/L/CD19+/CD27+ CD38+:Count	Time/S/L/CD19+/CD27+ CD38+:Count
+AP-067	67	Time/S/L/CD19+/CD27+ CD38+/S2P++:Count	Time/S/L/CD19+/CD27+ CD38+/S2P++:Count
+AP-067	67	Time/S/L/CD19+/CD27+ CD38+/S2P++/RBD+:Count	Time/S/L/CD19+/CD27+ CD38+/S2P++/RBD+:Count
+AP-067	67	Time/S/L/CD19+/CD27+ CD38+/S2P++/RBD-:Count	Time/S/L/CD19+/CD27+ CD38+/S2P++/RBD-:Count
+AP-067	67	Time/S/L/CD19+:Count	Time/S/L/CD19+:Count
+AP-067	67	Time/S/L:Count	Time/S/L:Count
+AP-067	67	Ungated:Count	Ungated:Count
