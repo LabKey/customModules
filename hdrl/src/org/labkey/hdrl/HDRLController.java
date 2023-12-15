@@ -184,7 +184,7 @@ public class HDRLController extends SpringActionController
             }
 
             if (form.getRequestStatusId() >= 2 && !getContainer().hasPermission(getUser(), AdminPermission.class))
-                return new HtmlView("This request has been submitted and is locked from editing.");
+                return HtmlView.of("This request has been submitted and is locked from editing.");
             else
                 return new JspView<>("/org/labkey/hdrl/view/editRequest.jsp", form, errors);
         }
