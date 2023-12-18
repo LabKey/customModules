@@ -53,6 +53,7 @@ import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.settings.AdminConsole;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.Path;
 import org.labkey.api.util.URLHelper;
@@ -103,7 +104,7 @@ public class HDRLController extends SpringActionController
         {
             VBox vbox = new VBox();
 
-            HtmlView submitView = new HtmlView("New Test Request", PageFlowUtil.link("Submit new test request").href(new ActionURL(EditRequestAction.class, getViewContext().getContainer())).toString());
+            HtmlView submitView = new HtmlView("New Test Request", HtmlString.of(PageFlowUtil.link("Submit new test request").href(new ActionURL(EditRequestAction.class, getViewContext().getContainer()))));
             vbox.addView(submitView);
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
@@ -184,7 +185,7 @@ public class HDRLController extends SpringActionController
             }
 
             if (form.getRequestStatusId() >= 2 && !getContainer().hasPermission(getUser(), AdminPermission.class))
-                return new HtmlView("This request has been submitted and is locked from editing.");
+                return HtmlView.of("This request has been submitted and is locked from editing.");
             else
                 return new JspView<>("/org/labkey/hdrl/view/editRequest.jsp", form, errors);
         }
