@@ -49,7 +49,7 @@
 <labkey:errors></labkey:errors>
 <div id="<%= h(renderId)%>" class="requests-editor"></div>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
     Ext4.onReady(function(){
 
         Ext4.create('LABKEY.ext4.EditRequestPanel', {
