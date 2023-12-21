@@ -66,7 +66,7 @@
     </table>
 </fieldset>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
     // Invoked by text link above
     function viewSavedCallback(arg1, viewInfo)
     {
