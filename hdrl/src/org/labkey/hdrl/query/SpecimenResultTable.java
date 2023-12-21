@@ -40,7 +40,7 @@ public class SpecimenResultTable extends ResultTable
         SQLFragment sql = new SQLFragment(getIdField() + " IN (SELECT s.RowId FROM ");
         sql.append(HDRLSchema.getInstance().getTableInfoInboundSpecimen(), "s");
         sql.append(" WHERE ");
-        sql.append(filter.getSQLFragment(getSchema(), new SQLFragment("s.Container"), getContainer()));
+        sql.append(filter.getSQLFragment(getSchema(), new SQLFragment("s.Container")));
         sql.append(")");
         addCondition(sql, containerFieldKey);
     }
