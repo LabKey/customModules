@@ -39,7 +39,7 @@ public class RequestResultTable extends ResultTable
         SQLFragment sql = new SQLFragment(getIdField() + " IN (SELECT r.RequestId FROM ");
         sql.append(HDRLSchema.getInstance().getTableInfoInboundRequest(), "r");
         sql.append(" WHERE ");
-        sql.append(filter.getSQLFragment(getSchema(), new SQLFragment("r.Container"), getContainer()));
+        sql.append(filter.getSQLFragment(getSchema(), new SQLFragment("r.Container")));
         sql.append(")");
         addCondition(sql, containerFieldKey);
     }

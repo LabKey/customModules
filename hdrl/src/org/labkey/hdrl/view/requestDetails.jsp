@@ -68,7 +68,7 @@
 <div id="<%= h(renderId)%>" class="labkey-wp-body"></div>
 <br>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="<%=getScriptNonce()%>">
     Ext4.onReady(function()
     {
         Ext4.create('Ext.button.Button', {

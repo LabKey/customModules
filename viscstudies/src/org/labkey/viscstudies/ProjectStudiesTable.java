@@ -35,8 +35,6 @@ import java.util.List;
  * Always show the full list of studies that the user has permission to see within the current project.
  * A little wacky since we'd normally only show the study from the current container, but it's a requirement
  * that this be a viable target for a lookup from a list (which is scoped to a single container).
- * User: jeckels
- * Date: May 22, 2012
  */
 public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
 {
@@ -69,11 +67,11 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         DetailsURL studyScheduleURL;
         if (HttpView.hasCurrentView())
         {
-            studyScheduleURL = DetailsURL.fromString("/study/studySchedule.view?" + ActionURL.Param.returnUrl + "=" + HttpView.currentContext().getActionURL());
+            studyScheduleURL = DetailsURL.fromString("/study-studySchedule.view?" + ActionURL.Param.returnUrl + "=" + HttpView.currentContext().getActionURL());
         }
         else
         {
-            studyScheduleURL = DetailsURL.fromString("/study/studySchedule.view");
+            studyScheduleURL = DetailsURL.fromString("/study-studySchedule.view");
         }
         labelColumn.setURL(studyScheduleURL);
         setDetailsURL(studyScheduleURL);
@@ -84,14 +82,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         datasetColumn.clearFk();
         datasetColumn.setKeyField(false);
         addColumn(datasetColumn);
-        datasetColumn.setDisplayColumnFactory(new DisplayColumnFactory()
-        {
-            @Override
-            public DisplayColumn createRenderer(ColumnInfo colInfo)
-            {
-                return new DatasetListWithStatusColumn(colInfo);
-            }
-        });
+        datasetColumn.setDisplayColumnFactory(DatasetListWithStatusColumn::new);
 
         // Configure the set of default column
         List<FieldKey> defaultCols = new ArrayList<>();
