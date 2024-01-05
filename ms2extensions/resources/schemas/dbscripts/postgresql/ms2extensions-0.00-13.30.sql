@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-/* ms2extensions-12.30-13.10.sql */
-
 CREATE SCHEMA ms2extensions;
 
 CREATE TABLE ms2extensions.Ms2RunAggregates 
 (
-		MS2Run INT NOT NULL,
-		TotalPeptides INT NULL,
-		DistinctPeptides INT NULL,
-		Container ENTITYID NOT NULL,
+    MS2Run INT NOT NULL,
+    TotalPeptides INT NULL,
+    DistinctPeptides INT NULL,
+    Container ENTITYID NOT NULL,
 
-		CONSTRAINT PK_Ms2RunAggregates PRIMARY KEY ( MS2Run )
+    CONSTRAINT PK_Ms2RunAggregates PRIMARY KEY ( MS2Run )
 );
 
 CREATE INDEX IDX_MS2RunAggregates_MS2Run ON ms2extensions.Ms2RunAggregates(MS2Run);
 CREATE INDEX IDX_MS2RunAggregates_Container ON ms2extensions.Ms2RunAggregates(Container);
-
-/* ms2extensions-13.20-13.30.sql */
-
-DELETE FROM ms2extensions.Ms2RunAggregates;
