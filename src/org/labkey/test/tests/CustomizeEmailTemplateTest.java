@@ -45,7 +45,6 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     private static final String _shipping = "123 main street";
     private static final String _comments = "this is my comment";
     private static final String _studyName = "Study 001";
-    private static final String _delim = "::";
     private static final String _notificationDivName = "params";
     private static final List<String> replacementParams = Arrays.asList(
             "action",
@@ -151,7 +150,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         EmailRecordTable emailRecordTable = goToEmailRecord();
         EmailRecordTable.EmailMessage message = emailRecordTable.getEmailAtTableIndex(3);
         emailRecordTable.clickMessage(message);
-        String[] bodyContents = Locator.name(_notificationDivName).findElement(getDriver()).getText().split(_delim);
+        String[] bodyContents = Locator.name(_notificationDivName).findElement(getDriver()).getText().split("\n");
         Map<String, String> emailNVPs = new HashMap<>();
         for (String line : bodyContents)
         {
@@ -168,7 +167,7 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         assertEquals(_studyName, message.getSubject());
         assertEquals("New Request", emailNVPs.get("status"));
         assertEquals("New Request Created", emailNVPs.get("action"));
-        assertEquals("/labkey", emailNVPs.get("contextPath"));
+        assertEquals(WebTestHelper.getContextPath(), emailNVPs.getOrDefault("contextPath", ""));
         assertEquals("My Study", emailNVPs.get("folderName"));
         assertEquals("/EmailTemplateProject/My Study", emailNVPs.get("folderPath"));
         assertEquals(WebTestHelper.getBaseURL(), emailNVPs.get("homePageURL"));
@@ -178,14 +177,14 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
     {
         String delimiter = "";
         StringBuilder templateBuilder = new StringBuilder();
-        templateBuilder.append("<div name=\"").append(_notificationDivName).append("\">");
+        templateBuilder.append("<div name=\"").append(_notificationDivName).append("\">\n");
         for (String param : replacementParams)
         {
             templateBuilder.append(delimiter);
             templateBuilder.append(String.format("^%s|%s==%%s^", param, param));
-            delimiter = _delim + "\n";
+            delimiter = "<br>\n";
         }
-        templateBuilder.append("</div>");
+        templateBuilder.append("\n</div>");
         return templateBuilder.toString();
     }
 
