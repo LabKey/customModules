@@ -24,7 +24,7 @@ import org.labkey.api.query.QueryView;
 import org.labkey.api.util.GUID;
 import org.labkey.api.view.ViewContext;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.LinkedHashMap;
