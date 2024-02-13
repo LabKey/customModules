@@ -1,69 +1,89 @@
-/*
- * Copyright (c) 2015 LabKey Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-SELECT
---A._sample.property.NETWORK as NETWORK,
-A.NETWORK,
-A.PROTOCOL,
-A.LABID,
-A.ASSAY,
-A.ASSAY_METHOD,
-A.ASSAYID,
-A._well.Run AS FLOWJO_XML_FILENAME,
-REPLACE(A._well.Name, '.fcs', '') AS FCS_FILENAME,
-A.SPECROLE,
-A.PTID,
-A.SID,
-A.GUSPEC,
---A._sample.property.PTIDTYPE as PTIDTYPE,
-A.PTIDTYPE,
-A.SPECTYPE,
-A.ISOLATION,
-A.ADDITIVE,
-A.CRYOSTAT,
-A.CTRSAMPNAME,
-A.STDY_DESC,
-A.VISITNO,
-A.DRAWDT,
-A.TESTDT,
-A.PLATE,
-A.SAMP_ORD,
-A.WELL_ID,
-A.WELLROLE,
-A.ANTIGEN,
-NULL AS ANTIGENID,
-A.NREPL,
-A.ANALYSIS_PLAN_ID,
-A.EXP_ASSAY_ID,
-A.COLLECTCT,
-A.SUBSET1 AS SUBSET,
-A.SUBSET1_NUM AS SUBSET_NUM,
-
-A.NUMVIALS,
-A.RUNGROUPID AS GUAVA_MUSE_ID,
-A.VIABL1,
-A.RECOVR1,
-A.VIABL2,
-A.RECOVR2,
-A.METHOD AS COUNT_METHOD,
-A.REPLACE,
-A.MODDT,
-A.RUNNUM,
-A.RELIABLE,
-A.COMMENTS,
-A._well @hidden, A._fcsfile @hidden, A._sample @hidden
-
-FROM AnalysisPlanTemplate A
-WHERE A.ANALYSIS_PLAN_ID = '69'
+AnalysisPlanSort	AnalysisPlanId	NAME1	STAT1																																																																																							
+AP-069	69	Time/K1:Count	Time/K1:Count																																																																																							
+AP-069	69	Time/K1/K2:Count	Time/K1/K2:Count																																																																																							
+AP-069	69	Time/K1/K2/K3:Count	Time/K1/K2/K3:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4:Count	Time/K1/K2/K3/K4:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5:Count	Time/K1/K2/K3/K4/K5:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6:Count	Time/K1/K2/K3/K4/K5/K6:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7:Count	Time/K1/K2/K3/K4/K5/K6/K7:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S:Count	Time/K1/K2/K3/K4/K5/K6/K7/S:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27+CD21+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27+CD21+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27+CD21-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27+CD21-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27-CD21+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27-CD21+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27-CD21-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/CD27-CD21-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+/IgD+IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+/IgD+IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+/IgMnaive:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD+/IgMnaive:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgA+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgA+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgG+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgG+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgM+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/BG505++/IgD-/IgM+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+CD21+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+CD21+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+CD21-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27+CD21-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27-CD21+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27-CD21+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27-CD21-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/CD27-CD21-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/IgD+IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/IgD+IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/IgMnaive:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/IgMnaive:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/IgMnaive/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD+/IgMnaive/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgA+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgA+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgA+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgA+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgG+/CD27+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgM+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgM+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgM+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20+/IgD-/IgM+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+/IgD+IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+/IgD+IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+/IgMnaive:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD+/IgMnaive:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgA+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgA+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgG+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgG+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgM+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/BG505++/IgD-/IgM+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/CD27+ CD38+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/CD27+ CD38+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/CD27+ CD38+/IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++/IgD+IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++/IgD+IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++/IgMnaive:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/BG505++/IgMnaive:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgA+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgA+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgG+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgG+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgG+/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgG+/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgM+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/BG505++/IgM+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/IgD-/CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67– CD27+ (Plasmablast):Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67– CD27+ (Plasmablast):Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67– CD27- (Plasmablast):Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67– CD27- (Plasmablast):Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67+ CD27+ (Plasmablast):Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67+ CD27+ (Plasmablast):Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67+ CD27- (Plasmablast):Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD20- CD38+/Ki-67+ CD27- (Plasmablast):Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD27+ CD38+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD27+ CD38+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD27+ CD38+/BG505++:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/CD27+ CD38+/BG505++:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD20+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD20+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD20-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD20-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD27-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67+ CD27-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD20+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD20+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD20-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD20-:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD27+:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD27+:Count																																																																																							
+AP-069	69	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD27-:Count	Time/K1/K2/K3/K4/K5/K6/K7/S/L/CD19+/Ki-67- CD27-:Count																																																																																							
