@@ -17,6 +17,7 @@ package org.labkey.hdrl.query;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.Results;
@@ -78,7 +79,7 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
     }
 
     @Override
-    protected Map<String, Object> updateRow(final User user, final Container container, Map<String, Object> row, @NotNull Map<String, Object> oldRow) throws InvalidKeyException, ValidationException, QueryUpdateServiceException, SQLException
+    protected Map<String, Object> updateRow(final User user, final Container container, Map<String, Object> row, @NotNull Map<String, Object> oldRow, @Nullable Map<Enum, Object> configParameters) throws InvalidKeyException, ValidationException, QueryUpdateServiceException, SQLException
     {
         HDRLQuerySchema lkSchema = new HDRLQuerySchema(user, container);
 
@@ -91,7 +92,7 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
                 row.put("SubmittedBy", user.getUserId());
                 row.put("Submitted", new Date());
             }
-            final Map<String, Object> updatedRow = super.updateRow(user, container, row, oldRow);
+            final Map<String, Object> updatedRow = super.updateRow(user, container, row, oldRow, configParameters);
             if (isNewSubmit)
             {
                 pushDataToLabWare(user, container, updatedRow);
