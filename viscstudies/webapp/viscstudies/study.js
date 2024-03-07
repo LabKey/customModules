@@ -246,8 +246,6 @@ function graphicalVaccinationSummary(design)
         }
 
         return html + "</table><br><br>";
-        
-
     }
 
 function findVaccination(design, cohort, timepoint)
@@ -281,7 +279,7 @@ function Facet(id, caption, getOptionsFn) {
     this.caption = caption;
     this.getOptionsForStudy = getOptionsFn;
     this.selected = {};
-};
+}
 
 Facet.prototype = {
     allOptions:[],
@@ -378,30 +376,42 @@ var immunogenFacet = new Facet("immunogens", "Immunogens", function (info) {
 var facets = [immunogenFacet, investigatorFacet, speciesFacet, adjuvantFacet];
 function initFacets()
 {
-    for (var f = 0; f < facets.length; f++)
+    for (let f = 0; f < facets.length; f++)
     {
         var facet = facets[f];
         var header = "<span style='display:inline-block;padding:8px;border-right:1px solid lightgray'><h3 style='margin-bottom:0px;padding-top:0;margin-top:0' id='facet_header_" + facet.id +"' >" + h(facet.caption) + "</h3><span id='facet_summary_" + facet.id +"'>Showing all " + h(facet.caption) + " </span></span>";
-        var html = "<span  id='facet_body_" + facet.id + "'>";
-        html += "<a href='#' onclick='selectAll(\"" + facet.id + "\");return false;'>Show All</a><br><br>" ;
+        var html = "<span id='facet_body_" + facet.id + "'>";
+        html += "<a id='showAll_" + facet.id + "'>Show All</a><br><br>" ;
         facet.init(_allStudies);
         html += "<table><tr><td valign=top>";
-        var colLength = Math.round(facet.allOptions.length / 3);
-        for (var i = 0; i < facet.allOptions.length; i++)
+        const colLength = Math.round(facet.allOptions.length / 3);
+        for (let i = 0; i < facet.allOptions.length; i++)
         {
-            var option = facet.allOptions[i];
-            html += "<input type='checkbox' id='" + checkboxId(facet, i) + "' checked onclick='optionClicked(this, \"" + facet.id + "\", " + i + ")'>";
-            html += "<a href='#' onclick='selectOnly(\"" + facet.id + "\"," +i + ");return false;'>"+ h(option.name) + "</a><br>";
-            if (i == colLength || i == colLength * 2)
+            let option = facet.allOptions[i];
+            html += "<input type='checkbox' id='" + checkboxId(facet, i) + "' checked>";
+            html += "<a href='#' id='selectOnly_" + i + "'>"+ h(option.name) + "</a><br>";
+            if (i === colLength || i === colLength * 2)
                 html += "</td><td valign=top>";
-
         }
         html += "</td></tr></table></span>";
         Ext.get("facets").insertHtml("beforeEnd", header);
 
-        var tip = new LABKEY.ext.CalloutTip({target:"facet_header_" + facet.id, html:html, closable:true});
+        const id = facet.id;
+        const facet2 = facet;
+        const tip = new LABKEY.ext.CalloutTip({target:"facet_header_" + facet.id, html:html, closable:true});
         tip.on("render", function(t) {
-            t.getEl().alignTo("facet_header_" + facet.id, "tl-bl");
+            t.getEl().alignTo("facet_header_" + id, "tl-bl");
+        });
+        tip.on("afterrender", function(t) {
+            // Attach event handlers after HTML is rendered
+            document.getElementById('showAll_' + id)['click'] = function() { selectAll(id); return false;}
+            for (let i = 0; i < facet2.allOptions.length; i++)
+            {
+                const id = facet2.id;
+                const idx = i;
+                document.getElementById(checkboxId(facet2, i))['click'] = function() { optionClicked(this, id, idx); };
+                document.getElementById('selectOnly_' + i)['click'] = function() { selectOnly(id, i); return false; }
+            }
         });
     }
 }
