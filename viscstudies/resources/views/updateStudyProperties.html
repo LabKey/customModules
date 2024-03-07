@@ -3,7 +3,6 @@
     var _studiesByContainer = {};
     var _updates = [];
 
-    LABKEY.NavTrail.setTrail("Update Study Information");
     function getStudyDesigns(config)
     {
         var params = {includeSubfolders:config.includeSubfolders};
@@ -85,9 +84,12 @@
         }
 
         doNextUpdate();
-
-
     }
+
+    LABKEY.Utils.onReady(function(){
+        LABKEY.NavTrail.setTrail("Update Study Information");
+        document.getElementById('updateButton')['onclick'] = doUpdates;
+    });
 </script>
 <div id="updateList"></div>
-<button id="updateButton" onclick="doUpdates();">Update</button>
+<button id="updateButton">Update</button>
