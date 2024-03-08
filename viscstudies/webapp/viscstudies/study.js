@@ -404,13 +404,13 @@ function initFacets()
         });
         tip.on("afterrender", function(t) {
             // Attach event handlers after HTML is rendered
-            document.getElementById('showAll_' + id)['click'] = function() { selectAll(id); return false;}
+            document.getElementById('showAll_' + id)['onclick'] = function() { selectAll(id); return false;}
             for (let i = 0; i < facet2.allOptions.length; i++)
             {
                 const id = facet2.id;
                 const idx = i;
-                document.getElementById(checkboxId(facet2, i))['click'] = function() { optionClicked(this, id, idx); };
-                document.getElementById('selectOnly_' + i)['click'] = function() { selectOnly(id, i); return false; }
+                document.getElementById(checkboxId(facet2, i))['onclick'] = function() { optionClicked(this, id, idx); };
+                document.getElementById('selectOnly_' + i)['onclick'] = function() { selectOnly(id, i); return false; }
             }
         });
     }
