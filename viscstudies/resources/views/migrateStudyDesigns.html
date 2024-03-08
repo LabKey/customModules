@@ -1047,6 +1047,8 @@ var _migrateControl =
 Ext4.onReady(function() {
     _migrateControl.getStudyDesigns();
     LABKEY.NavTrail.setTrail("Migrate Study Designs");
+    document.getElementById('migrateButton')['onclick'] = _migrateControl.doMigration;
+    document.getElementById('deleteButton')['onclick'] = _migrateControl.deleteAllRows;
 });
 
 </script>
@@ -1056,5 +1058,5 @@ Ext4.onReady(function() {
 <div id="migrateList"><ul>
 
 </ul></div>
-<button id="migrateButton" onclick="_migrateControl.doMigration();" disabled>Migrate</button>
-<button id="deleteButton" onclick="_migrateControl.deleteAllRows();">Delete Migrated Data</button>
+<button id="migrateButton" disabled>Migrate</button>
+<button id="deleteButton">Delete Migrated Data</button>
