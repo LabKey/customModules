@@ -109,7 +109,7 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
         var rec = this.locationStore.findRecord('identifier', boxIdentifier);
         if (rec) {
 
-            return '<a href="javascript:void(0)">' + rec.data.label + '</a>';
+            return '<a style="cursor: pointer">' + rec.data.label + '</a>';
         }
         else {
 
@@ -135,9 +135,7 @@ Ext4.define('LABKEY.ext4.ShelfRackPanel', {
                     LABKEY.Filter.create('drawer', drawer['rowId']),
                     LABKEY.Filter.create('box', box['rowId'])
                 ];
-                var params = LABKEY.Query.buildQueryParams('peptideinventory', 'vial', filterArray);
-//            return '<a href="' + LABKEY.ActionURL.buildURL('query', 'executeQuery', null, params) + '">' + peptides.length + ' peptide(s)</a>';
-                return '<a href="javascript:void(0)">' + peptides.length + ' peptide(s)</a>';
+                return '<a style="cursor: pointer">' + peptides.length + ' peptide(s)</a>';
             }
             return '&nbsp;';
         }
