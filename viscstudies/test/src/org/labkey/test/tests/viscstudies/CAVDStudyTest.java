@@ -17,6 +17,7 @@
 package org.labkey.test.tests.viscstudies;
 
 import org.junit.experimental.categories.Category;
+import org.labkey.remoteapi.CommandException;
 import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
@@ -25,11 +26,11 @@ import org.labkey.test.categories.CustomModules;
 import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.params.FieldDefinition;
 import org.labkey.test.params.FieldDefinition.ColumnType;
+import org.labkey.test.params.list.IntListDefinition;
 import org.labkey.test.tests.StudyBaseTest;
 import org.labkey.test.util.DataRegionExportHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
-import org.labkey.test.util.ListHelper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.PortalHelper;
@@ -473,11 +474,18 @@ public class CAVDStudyTest extends StudyBaseTest
         log("Create list in " + FOLDER_NAME4 + " with lookup to the studies list query.");
         navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
         new PortalHelper(this).addWebPart("Lists");
-        FieldDefinition[] columns = new FieldDefinition[]{
-                new FieldDefinition(myStudyNameCol, ColumnType.String).setLabel(myStudyNameCol),
-                new FieldDefinition("StudyLookup", new FieldDefinition.LookupInfo(null, "viscstudies", "studies").setTableType(ColumnType.String)).setLabel("StudyLookup")
-        };
-        _listHelper.createList(PROJECT_NAME + "/" + FOLDER_NAME4, "AllStudiesList", ListHelper.ListColumnType.AutoInteger, "Key", columns);
+        try
+        {
+            new IntListDefinition("AllStudiesList", "Key")
+                    .setFields(List.of(
+                            new FieldDefinition(myStudyNameCol, ColumnType.String).setLabel(myStudyNameCol),
+                            new FieldDefinition("StudyLookup", new FieldDefinition.StringLookup("viscstudies", "studies")).setLabel("StudyLookup")))
+                    .create(createDefaultConnection(), PROJECT_NAME + "/" + FOLDER_NAME4);
+        }
+        catch (IOException | CommandException e)
+        {
+            throw new RuntimeException(e);
+        }
 
         log("Add records to list for each study.");
         navigateToFolder(PROJECT_NAME, FOLDER_NAME4);
