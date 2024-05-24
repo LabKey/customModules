@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 LabKey Corporation
+ * Copyright (c) 2013-2018 LabKey Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.labkey.specimen.importer;
 
 import org.labkey.api.data.Container;
-import org.labkey.api.data.DbSchema;
+import org.labkey.api.data.Filter;
 import org.labkey.api.study.SpecimenImportStrategy;
-import org.labkey.api.study.SpecimenImportStrategyFactory;
-import org.labkey.api.writer.VirtualFile;
 
-/*
+import java.util.Map;
+
+/**
 * User: adam
-* Date: Feb 13, 2013
-* Time: 2:28:23 PM
+* Date: 5/19/13
+* Time: 4:48 PM
 */
-public class DefaultSpecimenImportStrategyFactory implements SpecimenImportStrategyFactory
+public class StandardSpecimenImportStrategy implements SpecimenImportStrategy
 {
-    @Override
-    public SpecimenImportStrategy get(DbSchema schema, Container c, VirtualFile dir, String fileName)
+    private final Container _c;
+
+    public StandardSpecimenImportStrategy(Container c)
     {
-        return new StandardSpecimenImportStrategy(c);
+        _c = c;
+    }
+
+    @Override
+    public org.labkey.api.util.Filter<Map<String, Object>> getImportFilter()
+    {
+        return null;
+    }
+
+    @Override
+    public Filter getDeleteFilter()
+    {
+        return null;
+    }
+
+    @Override
+    public Filter getInsertFilter()
+    {
+        return null;
+    }
+
+    @Override
+    public void close()
+    {
     }
 }

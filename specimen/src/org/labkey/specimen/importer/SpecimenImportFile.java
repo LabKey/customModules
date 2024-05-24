@@ -16,22 +16,19 @@
 
 package org.labkey.specimen.importer;
 
-import org.labkey.api.data.Container;
-import org.labkey.api.data.DbSchema;
+import org.labkey.api.reader.DataLoader;
 import org.labkey.api.study.SpecimenImportStrategy;
-import org.labkey.api.study.SpecimenImportStrategyFactory;
-import org.labkey.api.writer.VirtualFile;
+
+import java.io.IOException;
 
 /*
 * User: adam
-* Date: Feb 13, 2013
-* Time: 2:28:23 PM
+* Date: Feb 16, 2013
+* Time: 6:58:21 AM
 */
-public class DefaultSpecimenImportStrategyFactory implements SpecimenImportStrategyFactory
+public interface SpecimenImportFile
 {
-    @Override
-    public SpecimenImportStrategy get(DbSchema schema, Container c, VirtualFile dir, String fileName)
-    {
-        return new StandardSpecimenImportStrategy(c);
-    }
+    SpecimenImportStrategy getStrategy();
+    SpecimenTableType getTableType();
+    DataLoader getDataLoader() throws IOException;
 }
