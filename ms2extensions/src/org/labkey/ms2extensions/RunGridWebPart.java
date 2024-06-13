@@ -39,7 +39,7 @@ public class RunGridWebPart extends VBox
         setTitle("MS2 Runs With Peptide Counts");
 
         JspView<ViewContext> v = new JspView<>("/org/labkey/ms2extensions/runGridFilters.jsp", viewContext);
-        addClientDependencies(Collections.singleton(ClientDependency.fromPath("/MS2/inlineViewDesigner.js")));
+        addClientDependencies(Collections.singleton(ClientDependency.fromPath("/protein/inlineViewDesigner.js")));
         addView(v);
 
         UserSchema ms2Schema = MS2Service.get().createSchema(viewContext.getUser(), viewContext.getContainer());
