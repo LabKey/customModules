@@ -76,9 +76,9 @@ public class ViscStudyFolderTabs
             Study study = StudyService.get().getStudy(c);
             return study != null
                     && study.hasGWTStudyDesign(c, user)
-                    && study.getStudyProducts(user, null).size() == 0
-                    && study.getStudyTreatments(user).size() == 0
-                    && study.getAssaySpecimenConfigs("AssayName").size() == 0;
+                    && study.getStudyProducts(user, null).isEmpty()
+                    && study.getStudyTreatments(user).isEmpty()
+                    && study.getAssaySpecimenConfigs().isEmpty();
         }
     }
 
