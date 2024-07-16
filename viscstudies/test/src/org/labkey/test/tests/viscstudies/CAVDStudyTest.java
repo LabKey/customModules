@@ -22,6 +22,7 @@ import org.labkey.serverapi.reader.TabLoader;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
+import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.params.FieldDefinition;
@@ -30,6 +31,7 @@ import org.labkey.test.params.list.IntListDefinition;
 import org.labkey.test.tests.StudyBaseTest;
 import org.labkey.test.util.DataRegionExportHelper;
 import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.ExperimentalFeaturesHelper;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -80,9 +82,17 @@ public class CAVDStudyTest extends StudyBaseTest
         return Arrays.asList("viscstudies");
     }
 
+    @Override
+    protected void doCleanup(boolean afterTest) throws TestTimeoutException
+    {
+        ExperimentalFeaturesHelper.disableExperimentalFeature(createDefaultConnection(), "GWTStudyDesign");
+        super.doCleanup(afterTest);
+    }
+
     @Override @LogMethod
     protected void doCreateSteps()
     {
+        ExperimentalFeaturesHelper.enableExperimentalFeature(createDefaultConnection(), "GWTStudyDesign");
         _containerHelper.createProject(PROJECT_NAME, "None");
         _containerHelper.createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "CAVD Study", null);
 
