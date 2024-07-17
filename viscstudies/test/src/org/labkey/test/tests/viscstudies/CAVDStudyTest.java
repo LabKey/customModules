@@ -31,10 +31,10 @@ import org.labkey.test.params.list.IntListDefinition;
 import org.labkey.test.tests.StudyBaseTest;
 import org.labkey.test.util.DataRegionExportHelper;
 import org.labkey.test.util.DataRegionTable;
-import org.labkey.test.util.ExperimentalFeaturesHelper;
 import org.labkey.test.util.Ext4Helper;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
+import org.labkey.test.util.OptionalFeatureHelper;
 import org.labkey.test.util.PortalHelper;
 import org.labkey.test.util.StudyHelper;
 
@@ -85,14 +85,14 @@ public class CAVDStudyTest extends StudyBaseTest
     @Override
     protected void doCleanup(boolean afterTest) throws TestTimeoutException
     {
-        ExperimentalFeaturesHelper.disableExperimentalFeature(createDefaultConnection(), "GWTStudyDesign");
+        OptionalFeatureHelper.disableOptionalFeature(createDefaultConnection(), "GWTStudyDesign");
         super.doCleanup(afterTest);
     }
 
     @Override @LogMethod
     protected void doCreateSteps()
     {
-        ExperimentalFeaturesHelper.enableExperimentalFeature(createDefaultConnection(), "GWTStudyDesign");
+        OptionalFeatureHelper.enableOptionalFeature(createDefaultConnection(), "GWTStudyDesign");
         _containerHelper.createProject(PROJECT_NAME, "None");
         _containerHelper.createSubfolder(PROJECT_NAME, PROJECT_NAME, FOLDER_NAME, "CAVD Study", null);
 
