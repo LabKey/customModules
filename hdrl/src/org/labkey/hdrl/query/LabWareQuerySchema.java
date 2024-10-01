@@ -15,25 +15,18 @@
  */
 package org.labkey.hdrl.query;
 
-import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.DbSchema;
 import org.labkey.api.data.DbSchemaType;
 import org.labkey.api.data.DbScope;
-import org.labkey.api.data.SchemaTableInfo;
-import org.labkey.api.data.TableInfo;
 import org.labkey.api.module.Module;
 import org.labkey.api.query.DefaultSchema;
-import org.labkey.api.query.FilteredTable;
 import org.labkey.api.query.QuerySchema;
 import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.query.ValidationException;
 import org.labkey.api.security.User;
 import org.labkey.hdrl.HDRLModule;
 
-/**
- * Created by susanh on 6/19/15.
- */
 public class LabWareQuerySchema extends SimpleUserSchema
 {
     public static final String NAME = "GW_LABKEY";

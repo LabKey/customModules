@@ -17,12 +17,13 @@
 package org.labkey.hdrl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.labkey.api.attachments.InputStreamAttachmentFile;
 import org.labkey.api.data.CompareType;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
+import org.labkey.api.data.PropertyManager.WritablePropertyMap;
 import org.labkey.api.data.SQLFragment;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
@@ -103,7 +104,7 @@ public class HDRLManager
 
     public static void saveProperties(HDRLController.SensitiveDataForm sensitiveDataForm)
     {
-        PropertyManager.PropertyMap map = PropertyManager.getNormalStore().getWritableProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW, true);
+        WritablePropertyMap map = PropertyManager.getNormalStore().getWritableProperties(HDRL_SENSITIVE_DATA_TIME_WINDOW, true);
         map.clear();
         map.put(NUM_OF_DAYS_KEY, String.valueOf(sensitiveDataForm.getTimeWindowInDays()));
         map.save();
