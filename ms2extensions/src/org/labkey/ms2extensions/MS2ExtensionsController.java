@@ -15,6 +15,7 @@
  */
 package org.labkey.ms2extensions;
 
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiResponse;
 import org.labkey.api.action.ApiSimpleResponse;
@@ -25,6 +26,7 @@ import org.labkey.api.action.SpringActionController;
 import org.labkey.api.admin.AdminUrls;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.PropertyManager;
+import org.labkey.api.data.PropertyManager.WritablePropertyMap;
 import org.labkey.api.security.RequiresPermission;
 import org.labkey.api.security.permissions.AdminOperationsPermission;
 import org.labkey.api.security.permissions.ReadPermission;
@@ -35,7 +37,6 @@ import org.labkey.api.view.ViewContext;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -144,7 +145,7 @@ public class MS2ExtensionsController extends SpringActionController
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)
         {
             Map<String, String> props;
-            PropertyManager.PropertyMap mapToSave = null;
+            WritablePropertyMap mapToSave = null;
             if (getUser().isGuest())
             {
                 // Use session for guests
