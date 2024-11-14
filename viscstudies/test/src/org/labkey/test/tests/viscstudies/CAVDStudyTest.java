@@ -36,6 +36,7 @@ import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
 import org.labkey.test.util.OptionalFeatureHelper;
 import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.PostgresOnlyTest;
 import org.labkey.test.util.StudyHelper;
 
 import java.io.File;
@@ -53,7 +54,7 @@ import static org.labkey.test.WebTestHelper.getContextPath;
 
 @Category({CustomModules.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 20)
-public class CAVDStudyTest extends StudyBaseTest
+public class CAVDStudyTest extends StudyBaseTest implements PostgresOnlyTest
 {
     private static final String PROJECT_NAME = "CAVDStudyTest Project";
     private static final String FOLDER_NAME = "CAVDStudyTest Folder";
