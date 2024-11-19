@@ -29,6 +29,7 @@ import org.labkey.test.params.FieldDefinition;
 import org.labkey.test.params.FieldDefinition.ColumnType;
 import org.labkey.test.params.list.IntListDefinition;
 import org.labkey.test.tests.StudyBaseTest;
+import org.labkey.test.util.Crawler;
 import org.labkey.test.util.DataRegionExportHelper;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.Ext4Helper;
@@ -60,6 +61,7 @@ public class CAVDStudyTest extends StudyBaseTest implements PostgresOnlyTest
     private static final String FOLDER_NAME = "CAVDStudyTest Folder";
     private static final String STUDY_NAME = FOLDER_NAME + " Study";
     private static final String FOLDER_NAME2 = "CAVDStudy2";
+    private static final String STUDY_NAME2 = FOLDER_NAME2 + " Study";
     private static final String FOLDER_NAME3 = "CAVDStudy3";
     private static final String FOLDER_NAME4 = "VerifyStudyList";
     private static final File CAVD_TEST_STUDY_ZIP = TestFileUtils.getSampleData("studies/CAVDTestStudy.folder.zip");
@@ -111,6 +113,7 @@ public class CAVDStudyTest extends StudyBaseTest implements PostgresOnlyTest
         doVerifyAssaySchedule();
         doVerifyDatasets();
         doVerifyCrossContainerDatasetStatus();
+        doVerifyIssue15610();
     }
 
     @LogMethod
@@ -577,6 +580,49 @@ public class CAVDStudyTest extends StudyBaseTest implements PostgresOnlyTest
             expectedDatasetStatuses.add("L: " + dataset);
         }
         assertEquals("Wrong data for second study.", Arrays.asList("TheOtherOne", study3name, String.join("\n", expectedDatasetStatuses)), Arrays.asList(tsvData[2]));
+    }
+
+    // Issue 15610: viscstudieslist - URLs generated from lookups are broken
+    @LogMethod
+    private void doVerifyIssue15610()
+    {
+        goToProjectHome();
+        _containerHelper.enableModule("ViscStudies");
+
+        log("** Creating list with lookup to viscstudies.studies");
+        List<FieldDefinition> cols = List.of(
+            new FieldDefinition("StudyLookup", new FieldDefinition.StringLookup("viscstudies", "studies")).setDescription("Study Lookup")
+        );
+        try
+        {
+            new IntListDefinition("Issue15610-List", "Key").setFields(cols)
+                .create(createDefaultConnection(), getProjectName());
+        }
+        catch (IOException | CommandException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        log("** Inserting row into list");
+        goToProjectHome();
+        goToManageLists();
+        clickAndWait(Locator.linkWithText("Issue15610-List"));
+        DataRegionTable.findDataRegion(this).clickInsertNewRow();
+        selectOptionByText(Locator.name("quf_StudyLookup"), STUDY_NAME);
+        clickButton("Submit");
+
+        DataRegionTable.findDataRegion(this).clickInsertNewRow();
+        selectOptionByText(Locator.name("quf_StudyLookup"), STUDY_NAME2);
+        clickButton("Submit");
+
+        log("** Checking URLs go to correct container...");
+        Crawler.ControllerActionId studyLinkAction = new Crawler.ControllerActionId(getAttribute(Locator.linkWithText(STUDY_NAME), "href"));
+        assertEquals("'" + STUDY_NAME + "' link, target container", getProjectName() + "/" + FOLDER_NAME, studyLinkAction.getFolder());
+        assertEquals("'" + STUDY_NAME + "' link, target action", new Crawler.ControllerActionId("study", "studySchedule"), studyLinkAction);
+
+        studyLinkAction = new Crawler.ControllerActionId(getAttribute(Locator.linkWithText(STUDY_NAME2), "href"));
+        assertEquals("'" + STUDY_NAME2 + "' link, target container", getProjectName() + "/" + FOLDER_NAME2, studyLinkAction.getFolder());
+        assertEquals("'" + STUDY_NAME2 + "' link, target action", new Crawler.ControllerActionId("study", "studySchedule"), studyLinkAction);
     }
 
     private void setDatasetStatus(String dataset, String status)
