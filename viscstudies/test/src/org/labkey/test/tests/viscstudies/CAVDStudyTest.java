@@ -617,11 +617,11 @@ public class CAVDStudyTest extends StudyBaseTest implements PostgresOnlyTest
 
         log("** Checking URLs go to correct container...");
         Crawler.ControllerActionId studyLinkAction = new Crawler.ControllerActionId(getAttribute(Locator.linkWithText(STUDY_NAME), "href"));
-        assertEquals("'" + STUDY_NAME + "' link, target container", getProjectName() + "/" + FOLDER_NAME, studyLinkAction.getFolder());
+        assertEquals("'" + STUDY_NAME + "' link, target container", getProjectName() + "/" + FOLDER_NAME, studyLinkAction.getContainerPath());
         assertEquals("'" + STUDY_NAME + "' link, target action", new Crawler.ControllerActionId("study", "studySchedule"), studyLinkAction);
 
         studyLinkAction = new Crawler.ControllerActionId(getAttribute(Locator.linkWithText(STUDY_NAME2), "href"));
-        assertEquals("'" + STUDY_NAME2 + "' link, target container", getProjectName() + "/" + FOLDER_NAME2, studyLinkAction.getFolder());
+        assertEquals("'" + STUDY_NAME2 + "' link, target container", getProjectName() + "/" + FOLDER_NAME2, studyLinkAction.getContainerPath());
         assertEquals("'" + STUDY_NAME2 + "' link, target action", new Crawler.ControllerActionId("study", "studySchedule"), studyLinkAction);
     }
 
