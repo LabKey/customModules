@@ -21,7 +21,6 @@ import org.labkey.api.files.view.FilesWebPart;
 import org.labkey.api.portal.ProjectUrls;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
-import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.study.StudyUrls;
@@ -56,30 +55,6 @@ public class ViscStudyFolderTabs
         }
 
         protected abstract String getPanelName();
-
-        @Override
-        public ActionURL getURL(Container container, User user)
-        {
-            if (container.hasPermission(user, ReadPermission.class) && showGWTStudyDesigner(container, user) && getPanelName() != null)
-            {
-                ActionURL actionURL = new ActionURL("study-designer", "designer", container);
-                actionURL.addParameter("panel", getPanelName());
-                return actionURL;
-            }
-            else
-                return super.getURL(container, user);
-        }
-
-        public boolean showGWTStudyDesigner(Container c, User user)
-        {
-            // Issue 21092: show deprecated GWT study designer if we have a non-empty XML study design and no data in the study design hard tables
-            Study study = StudyService.get().getStudy(c);
-            return study != null
-                    && study.hasGWTStudyDesign(c, user)
-                    && study.getStudyProducts(user, null).isEmpty()
-                    && study.getStudyTreatments(user).isEmpty()
-                    && study.getAssaySpecimenConfigs().isEmpty();
-        }
     }
 
     public static class OverviewPage extends FolderTab
