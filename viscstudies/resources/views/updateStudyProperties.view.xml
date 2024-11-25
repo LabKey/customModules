@@ -1,9 +1,0 @@
-<view xmlns="http://labkey.org/data/xml/view"
-     frame="none">
-    <permissionClasses>
-        <permissionClass name="org.labkey.api.security.permissions.AdminPermission"/>
-    </permissionClasses>
-    <dependencies>
-        <dependency path="Ext4" />
-    </dependencies>
-</view>
