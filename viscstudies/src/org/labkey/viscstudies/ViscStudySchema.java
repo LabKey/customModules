@@ -23,7 +23,6 @@ import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -34,6 +33,8 @@ public class ViscStudySchema extends UserSchema
 {
     public static final String NAME = "viscstudies";
     public static final String STUDY_TABLE_NAME = "studies";
+    public static final String STUDY_DESIGN_TABLE_NAME = "StudyDesign";
+    public static final String STUDY_DESIGN_VERSION_TABLE_NAME = "StudyDesignVersion";
 
     public ViscStudySchema(User user, Container container)
     {
@@ -56,12 +57,20 @@ public class ViscStudySchema extends UserSchema
             }
             return new ProjectStudiesTable(this, studyTable);
         }
+        if (STUDY_DESIGN_TABLE_NAME.equalsIgnoreCase(name))
+        {
+            return new StudyDesignTable(this, cf);
+        }
+        if (STUDY_DESIGN_VERSION_TABLE_NAME.equalsIgnoreCase(name))
+        {
+            return new StudyDesignVersionTable(this, cf);
+        }
         return null;
     }
 
     @Override
     public Set<String> getTableNames()
     {
-        return Collections.singleton(STUDY_TABLE_NAME);
+        return Set.of(STUDY_TABLE_NAME, STUDY_DESIGN_TABLE_NAME, STUDY_DESIGN_VERSION_TABLE_NAME);
     }
 }
