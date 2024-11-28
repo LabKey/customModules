@@ -46,8 +46,6 @@ public class ViscStudiesModule extends CodeOnlyModule
     @Override
     protected void init()
     {
-        addController("viscstudies", ViscStudiesController.class);
-
         DefaultSchema.registerProvider(ViscStudySchema.NAME, new DefaultSchema.SchemaProvider(this)
         {
             @Override
