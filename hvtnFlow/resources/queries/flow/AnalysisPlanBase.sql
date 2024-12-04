@@ -106,7 +106,7 @@ NULL AS VISITDAY,
 ' ' AS COLORS,
 'S' AS STAIN,
 FCSAnalyses.RowId AS AnalysisResults,
-FCSAnalyses.FCSFile.Name As FCSFileName,
+FCSAnalyses.FCSFile.Keyword.$FIL AS FCSFileName,
 -- make sample available by selecting fcsfile
 FCSAnalyses.FCSFile as _fcsfile,
 FCSAnalyses.RowId as _well,
