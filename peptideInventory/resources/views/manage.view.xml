@@ -1,7 +1,7 @@
 <view xmlns="http://labkey.org/data/xml/view" title="Manage Peptide Inventory">
-    <permissionClasses>
+    <requiresPermissions>
         <permissionClass name="org.labkey.api.security.permissions.InsertPermission"/>
-    </permissionClasses>
+    </requiresPermissions>
     <dependencies>
         <dependency path="clientapi/ext3" />
         <dependency path="clientapi/ext4" />
