@@ -1,0 +1,41 @@
+<Schema name="ITN" description="Data Finder Publications">
+
+    <Cube name="PublicationCube" visible="true" defaultMeasure="RowCount" cache="true" enabled="true">
+
+        <Annotations>
+            <Annotation name="AllowMDX">FALSE</Annotation>
+        </Annotations>
+
+        <Table schema="lists" name="ManuscriptsAndAbstracts"/>
+
+        <Dimension name="Publication" visible="true" highCardinality="false" foreignKey="Key">
+            <Hierarchy hasAll="true" primaryKey="Key">
+                <Level name="Publication" visible="true" column="Key" type="Integer" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Therapeutic Area" hasAll="true" primaryKey="PublicationId">
+                <Table name="publicationTherapeuticArea" schema="lists"/>
+                <Level name="TherapeuticArea" visible="true" column="therapeuticArea" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+                <Annotations>
+                    <Annotation name="ExcludeAnd">true</Annotation>
+                </Annotations>
+            </Hierarchy>
+            <Hierarchy name="Study" hasAll="true" primaryKey="publicationId" schema="lists" primaryKeyTable="publicationStudy">
+                <Join leftKey="StudyId" rightKey="studyId">
+                    <Table name="publicationStudy" schema="lists"/>
+                    <Table name="StudyProperties" schema="lists"/>
+                </Join>
+                <Level name="Study" visible="true" table="StudyProperties" type="String" column="ShortName" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+            </Hierarchy>
+            <Hierarchy name="Year" hasAll="true" primaryKey="Key">
+                <Level name="Year" visible="true" type="Integer" column="year" uniqueMembers="true" levelType="Regular" hideMemberIf="Never"/>
+                <Annotations>
+                    <Annotation name="ExcludeAnd">true</Annotation>
+                </Annotations>
+            </Hierarchy>
+        </Dimension>
+
+        <Measure name="RowCount" column="Key" aggregator="count" visible="true"/>
+
+    </Cube>
+
+</Schema>
