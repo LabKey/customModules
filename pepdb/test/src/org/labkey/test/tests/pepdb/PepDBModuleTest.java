@@ -30,7 +30,7 @@ import org.labkey.test.Locator;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.External;
+import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PostgresOnlyTest;
 
@@ -42,7 +42,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Category({External.class})
+@Category({CustomModules.class})
 public class PepDBModuleTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
 
