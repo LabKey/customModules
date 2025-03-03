@@ -18,8 +18,6 @@ package org.labkey.viscstudies;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.ContainerFilterable;
-import org.labkey.api.data.DisplayColumn;
-import org.labkey.api.data.DisplayColumnFactory;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.exp.PropertyColumn;
 import org.labkey.api.query.DetailsURL;
@@ -46,7 +44,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         ContainerFilter containerFilter = ContainerFilter.Type.CurrentAndSubfolders.create(getUserSchema());
         ((ContainerFilterable)studyTable).setContainerFilter(containerFilter);
         // don't need to apply the same container filter twice and the inner table already has the CF applied
-        applyContainerFilter(ContainerFilter.EVERYTHING);
+        applyContainerFilter(ContainerFilter.EVERYTHING_UNSAFE);
 
         for (ColumnInfo col : getRealTable().getColumns())
         {
