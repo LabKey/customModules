@@ -33,6 +33,7 @@ import org.labkey.api.view.HttpView;
 import org.labkey.api.view.InsertView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
+import org.labkey.api.view.NotFoundException;
 import org.labkey.api.view.UpdateView;
 import org.labkey.api.view.VBox;
 import org.labkey.api.view.ViewContext;
@@ -442,7 +443,18 @@ public class PepDBController extends PepDBBaseController
         public ModelAndView getView(PeptideAndGroupForm form, BindException errors) throws Exception
         {
             _log.debug("PeptideAndGroupForm: " + form.toString());
-            PeptideGroup pg = PepDBManager.getPeptideGroupByID(Integer.parseInt(form.getPeptide_group_id()));
+            PeptideGroup pg = null;
+            try
+            {
+                int peptideGroupId = Integer.parseInt(form.getPeptide_group_id());
+                pg = PepDBManager.getPeptideGroupByID(peptideGroupId);
+            }
+            catch (NumberFormatException ignored) {}
+            if (pg == null || !getContainer().getId().equalsIgnoreCase(pg.getContainerId()))
+            {
+                throw new NotFoundException();
+            }
+
             DataRegion rgn1 = new DataRegion();
             TableInfo tableInfo1 = PepDBSchema.getInstance().getTableInfoPeptideGroups();
             rgn1.setColumns(tableInfo1.getColumns("peptide_group_id,peptide_group_name,pathogen_id,seq_ref,clade_id,pep_align_ref_id,group_type_id,createdby,created,modifiedby,modified"));
