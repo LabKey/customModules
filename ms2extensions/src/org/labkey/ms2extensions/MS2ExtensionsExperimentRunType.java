@@ -20,6 +20,7 @@ import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.exp.ExperimentRunType;
 import org.labkey.api.exp.api.ExpProtocol;
 import org.labkey.api.exp.api.ExperimentService;
+import org.labkey.api.security.User;
 import org.labkey.api.view.DataView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.ViewContext;
@@ -59,7 +60,7 @@ public class MS2ExtensionsExperimentRunType extends ExperimentRunType
     }
 
     @Override
-    public void renderHeader(HttpServletRequest request, HttpServletResponse response) throws Exception
+    public void renderHeader(HttpServletRequest request, HttpServletResponse response, User user) throws Exception
     {
         JspView<ViewContext> v = new JspView<>("/org/labkey/ms2extensions/runGridFilters.jsp");
         v.addClientDependencies(Collections.singleton(ClientDependency.fromPath("/MS2/inlineViewDesigner.js")));
