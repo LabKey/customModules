@@ -497,13 +497,13 @@ public class PepDBBaseController extends SpringActionController
         }
 
         @Override
-        public Class getValueClass()
+        public Class<Integer> getValueClass()
         {
             return Integer.class;
         }
 
         @Override
-        public Class getDisplayValueClass()
+        public Class<String> getDisplayValueClass()
         {
             return String.class;
         }
