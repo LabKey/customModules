@@ -28,6 +28,7 @@ import org.labkey.api.study.Dataset;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.writer.HtmlWriter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -81,35 +82,35 @@ public class DatasetListWithStatusColumn extends DataColumn
     }
 
     @Override
-    public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+    public void renderGridCellContents(RenderContext ctx, Writer oldWriter, HtmlWriter out) throws IOException
     {
         // Show an icon for the dataset status (if set) and the dataset name, one per row, in a table
-        out.write("<table>");
+        oldWriter.write("<table>");
         for (Dataset dataset : getDatasets(ctx))
         {
             Object status = ReportPropsManager.get().getPropertyValue(dataset.getEntityId(), dataset.getContainer(), DataViewProvider.EditInfo.Property.status.toString());
-            out.write("<tr><td style=\"width: 16px; border-style: none\">");
+            oldWriter.write("<tr><td style=\"width: 16px; border-style: none\">");
             if (status == null || "None".equalsIgnoreCase(status.toString()))
             {
-                out.write("&nbsp;");
+                oldWriter.write("&nbsp;");
             }
             else
             {
                 String iconPath = ICON_PATHS.get(status.toString());
                 if (iconPath != null)
                 {
-                    out.write("<img src=\"" + PageFlowUtil.filter(iconPath) + "\" height=\"16px\" width=\"16px\" />");
+                    oldWriter.write("<img src=\"" + PageFlowUtil.filter(iconPath) + "\" height=\"16px\" width=\"16px\" />");
                 }
                 else
                 {
-                    out.write(PageFlowUtil.filter(status));
+                    oldWriter.write(PageFlowUtil.filter(status));
                 }
             }
-            out.write("</td><td style=\"border-style: none\">");
-            out.write(PageFlowUtil.filter(dataset.getLabel()));
-            out.write("</td></tr>\n");
+            oldWriter.write("</td><td style=\"border-style: none\">");
+            oldWriter.write(PageFlowUtil.filter(dataset.getLabel()));
+            oldWriter.write("</td></tr>\n");
         }
-        out.write("</table>");
+        oldWriter.write("</table>");
     }
 
     @Override
