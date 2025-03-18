@@ -19,6 +19,7 @@ import org.labkey.api.util.HtmlString;
 import org.labkey.api.util.HtmlStringBuilder;
 import org.labkey.api.util.Link;
 import org.labkey.api.view.ActionURL;
+import org.labkey.api.writer.HtmlWriter;
 import org.scharp.atlas.pepdb.model.PeptideGroup;
 import org.scharp.atlas.pepdb.model.PeptidePool;
 import org.scharp.atlas.pepdb.model.Peptides;
@@ -440,7 +441,7 @@ public class PepDBBaseController extends SpringActionController
         }
 
         @Override
-        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+        public void renderGridCellContents(RenderContext ctx, HtmlWriter out)
         {
             ColumnInfo c = getColumnInfo();
             Map rowMap = ctx.getRow();
@@ -452,17 +453,16 @@ public class PepDBBaseController extends SpringActionController
                 try
                 {
                     new Link.LinkBuilder("P" + peptideId).clearClasses()
-                            .target("_self")
-                            .href(new ActionURL(PepDBController.DisplayPeptideAction.class, getContainer())
-                                    .addParameter(PepDBSchema.COLUMN_PEPTIDE_ID, peptideId))
-                            .build()
-                            .appendTo(out);
+                        .target("_self")
+                        .href(new ActionURL(PepDBController.DisplayPeptideAction.class, getContainer())
+                                .addParameter(PepDBSchema.COLUMN_PEPTIDE_ID, peptideId))
+                        .build()
+                        .appendTo(out);
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
                 }
-
             }
         }
 
@@ -497,13 +497,13 @@ public class PepDBBaseController extends SpringActionController
         }
 
         @Override
-        public Class getValueClass()
+        public Class<Integer> getValueClass()
         {
             return Integer.class;
         }
 
         @Override
-        public Class getDisplayValueClass()
+        public Class<String> getDisplayValueClass()
         {
             return String.class;
         }
@@ -517,7 +517,7 @@ public class PepDBBaseController extends SpringActionController
         }
 
         @Override
-        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+        public void renderGridCellContents(RenderContext ctx, HtmlWriter out)
         {
             ColumnInfo c = getColumnInfo();
             Map rowMap = ctx.getRow();
@@ -529,11 +529,11 @@ public class PepDBBaseController extends SpringActionController
                 try
                 {
                     new Link.LinkBuilder("PP" + peptidePoolId).clearClasses()
-                            .target("_self")
-                            .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
-                                    .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, peptidePoolId))
-                            .build()
-                            .appendTo(out);
+                        .target("_self")
+                        .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
+                                .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, peptidePoolId))
+                        .build()
+                        .appendTo(out);
                 }
                 catch (Exception e)
                 {
@@ -593,7 +593,7 @@ public class PepDBBaseController extends SpringActionController
         }
 
         @Override
-        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+        public void renderGridCellContents(RenderContext ctx, HtmlWriter out)
         {
             ColumnInfo c = getColumnInfo();
             Map rowMap = ctx.getRow();
@@ -607,11 +607,11 @@ public class PepDBBaseController extends SpringActionController
                     if(parentPoolId != null)
                     {
                         new Link.LinkBuilder("PP" + parentPoolId).clearClasses()
-                                .target("_self")
-                                .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
-                                        .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, parentPoolId))
-                                .build()
-                                .appendTo(out);
+                            .target("_self")
+                            .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
+                                    .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, parentPoolId))
+                            .build()
+                            .appendTo(out);
                     }
                 }
                 catch (Exception e)
@@ -634,9 +634,9 @@ public class PepDBBaseController extends SpringActionController
                 try
                 {
                     if (parentPoolId != null)
-                    return ("PP" + parentPoolId);
+                        return ("PP" + parentPoolId);
                     else
-                    return null;
+                        return null;
                 }
                 catch (Exception e)
                 {

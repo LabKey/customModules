@@ -45,6 +45,7 @@ import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewContext;
+import org.labkey.api.writer.HtmlWriter;
 import org.labkey.hdrl.HDRLController;
 import org.labkey.hdrl.HDRLManager;
 import org.labkey.hdrl.HDRLModule;
@@ -198,7 +199,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
                     SimpleDisplayColumn actionColumn = new SimpleDisplayColumn()
                     {
                         @Override
-                        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+                        public void renderGridCellContents(RenderContext ctx, Writer oldWriter, HtmlWriter out) throws IOException
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
@@ -215,13 +216,13 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
-                                out.write(PageFlowUtil.link("Edit").href(actionUrl).toString());
+                                oldWriter.write(PageFlowUtil.link("Edit").href(actionUrl).toString());
                             }
                             else
                             {
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
                                 actionUrl.addParameter("requestId", (Integer) ctx.get("requestId"));
-                                out.write(PageFlowUtil.link("View").href(actionUrl).toString());
+                                oldWriter.write(PageFlowUtil.link("View").href(actionUrl).toString());
                             }
                         }
                     };
@@ -248,13 +249,13 @@ public class HDRLQuerySchema extends SimpleUserSchema
                     SimpleDisplayColumn downloadColumn = new SimpleDisplayColumn()
                     {
                         @Override
-                        public void renderGridCellContents(RenderContext ctx, Writer out) throws IOException
+                        public void renderGridCellContents(RenderContext ctx, Writer oldWriter, HtmlWriter out) throws IOException
                         {
                             Integer specimenId = (Integer) ctx.get(FieldKey.fromParts("RowId"));
                             if (HDRLManager.get().hasClinicalReport(specimenId, getUser(), getContainer()))
                             {
                                 // download button displayed
-                                out.write(PageFlowUtil.button("Download").href(new ActionURL(HDRLController.DownloadClinicalReportAction.class, getContainer()).addParameter("specimenId", specimenId)).toString());
+                                oldWriter.write(PageFlowUtil.button("Download").href(new ActionURL(HDRLController.DownloadClinicalReportAction.class, getContainer()).addParameter("specimenId", specimenId)).toString());
                             }
                         }
                     };
