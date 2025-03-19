@@ -1,5 +1,8 @@
 package org.scharp.atlas.pepdb;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.labkey.api.action.ExportAction;
@@ -46,9 +49,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -912,7 +912,7 @@ public class PepDBController extends PepDBBaseController
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession();
             PeptideQueryForm form = (PeptideQueryForm) session.getAttribute("PEPTIDE_QUERY_FORM");
-            _log.error("Form " + form.getMessage() + " had filter : " + form.getFilter());
+            _log.info("Form " + form.getMessage() + " had filter : " + form.getFilter());
             printExcel(bean, response, errors, form);
         }
     }
