@@ -49,7 +49,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -784,14 +783,13 @@ public class PepDBController extends PepDBBaseController
         ActionURL url = null;
 
         @Override
-        public ModelAndView getView(FileForm form, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(FileForm form, boolean reshow, BindException errors)
         {
-            JspView v = new JspView<FileForm>("/org/scharp/atlas/pepdb/view/importPools.jsp", form, errors);
-            return v;
+            return new JspView<>("/org/scharp/atlas/pepdb/view/importPools.jsp", form, errors);
         }
 
         @Override
-        public boolean handlePost(FileForm form, BindException errors) throws Exception
+        public boolean handlePost(FileForm form, BindException errors)
         {
             try
             {
@@ -813,7 +811,6 @@ public class PepDBController extends PepDBBaseController
             }
             catch (Exception e)
             {
-                e.printStackTrace();
                 _log.error(e.getMessage(), e);
                 errors.reject(null, "There was a problem uploading File: " + e.getMessage());
                 return false;
@@ -843,9 +840,9 @@ public class PepDBController extends PepDBBaseController
 
 
     @RequiresPermission(ReadPermission.class)
-    public abstract class PeptideExcelExportAction extends ExportAction
+    public abstract class PeptideExcelExportAction extends ExportAction<Object>
     {
-        public void printExcel(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form) throws Exception
+        public void printExcel(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form)
         {
             try
             {
@@ -860,17 +857,9 @@ public class PepDBController extends PepDBBaseController
                 ew.setFooter(form.getMessage());
                 ew.renderWorkbook(getResponse());
             }
-            catch (SQLException e)
-            {
-                _log.error("export: " + e);
-            }
-            catch (IOException e)
-            {
-                _log.error("export: " + e);
-            }
             catch (Exception e)
             {
-                _log.error("export: " + e);
+                _log.error("PeptideExcelExportAction: ", e);
             }
         }
     }
@@ -907,7 +896,7 @@ public class PepDBController extends PepDBBaseController
     public class PeptideDefaultExcelExportAction extends PeptideExcelExportAction
     {
         @Override
-        public void export(Object bean, HttpServletResponse response, BindException errors) throws Exception
+        public void export(Object bean, HttpServletResponse response, BindException errors)
         {
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession();
@@ -922,7 +911,7 @@ public class PepDBController extends PepDBBaseController
     @RequiresPermission(ReadPermission.class)
     public abstract class PeptideTextExportAction extends ExportAction
     {
-        public void printText(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form) throws Exception
+        public void printText(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form)
         {
             try
             {
@@ -939,7 +928,7 @@ public class PepDBController extends PepDBBaseController
             }
             catch (Exception e)
             {
-                _log.error("export: " + e);
+                _log.error("PeptideTextExportAction: ", e);
             }
         }
     }
