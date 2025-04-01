@@ -44,7 +44,7 @@ public class ProjectStudiesTable extends FilteredTable<ViscStudySchema>
         ContainerFilter containerFilter = ContainerFilter.Type.CurrentAndSubfolders.create(getUserSchema());
         ((ContainerFilterable)studyTable).setContainerFilter(containerFilter);
         // don't need to apply the same container filter twice and the inner table already has the CF applied
-        applyContainerFilter(ContainerFilter.EVERYTHING_UNSAFE);
+        applyContainerFilter(ContainerFilter.getUnsafeEverythingFilter());
 
         for (ColumnInfo col : getRealTable().getColumns())
         {
