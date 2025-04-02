@@ -53,6 +53,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * User: sravani
@@ -729,7 +730,6 @@ public class PepDBController extends PepDBBaseController
             }
             catch (Exception e)
             {
-                e.printStackTrace();
                 _log.error(e.getMessage(), e);
                 errors.reject(null, "There was a problem uploading File: " + e.getMessage());
                 return false;
@@ -842,25 +842,18 @@ public class PepDBController extends PepDBBaseController
     @RequiresPermission(ReadPermission.class)
     public abstract class PeptideExcelExportAction extends ExportAction<Object>
     {
-        public void printExcel(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form)
+        public void printExcel(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form) throws Exception
         {
-            try
-            {
-                RenderContext context = new RenderContext(getViewContext());
-                DataRegion rgn = getDataRegion(getContainer(), form, Table.ALL_ROWS);
-                context.setBaseFilter(form.getFilter());
-                context.setBaseSort(form.getSort());
-                ExcelWriter ew = new ExcelWriter(()->rgn.getResults(context), rgn.getDisplayColumns());
-                ew.setAutoSize(true);
-                ew.setFilenamePrefix(form.getMessage());
-                ew.setSheetName(form.getMessage());
-                ew.setFooter(form.getMessage());
-                ew.renderWorkbook(getResponse());
-            }
-            catch (Exception e)
-            {
-                _log.error("PeptideExcelExportAction: ", e);
-            }
+            RenderContext context = new RenderContext(getViewContext());
+            DataRegion rgn = getDataRegion(getContainer(), form, Table.ALL_ROWS);
+            context.setBaseFilter(form.getFilter());
+            context.setBaseSort(form.getSort());
+            ExcelWriter ew = new ExcelWriter(()->rgn.getResults(context), rgn.getDisplayColumns());
+            ew.setAutoSize(true);
+            ew.setFilenamePrefix(form.getMessage());
+            ew.setSheetName(form.getMessage());
+            ew.setFooter(form.getMessage());
+            ew.renderWorkbook(getResponse());
         }
     }
 
@@ -896,7 +889,7 @@ public class PepDBController extends PepDBBaseController
     public class PeptideDefaultExcelExportAction extends PeptideExcelExportAction
     {
         @Override
-        public void export(Object bean, HttpServletResponse response, BindException errors)
+        public void export(Object bean, HttpServletResponse response, BindException errors) throws Exception
         {
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession();
@@ -911,24 +904,17 @@ public class PepDBController extends PepDBBaseController
     @RequiresPermission(ReadPermission.class)
     public abstract class PeptideTextExportAction extends ExportAction
     {
-        public void printText(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form)
+        public void printText(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form) throws Exception
         {
-            try
-            {
-                RenderContext context = new RenderContext(getViewContext());
-                DataRegion rgn = getDataRegion(getContainer(), form, Table.ALL_ROWS);
-                context.setBaseFilter(form.getFilter());
-                context.setBaseSort(form.getSort());
+            RenderContext context = new RenderContext(getViewContext());
+            DataRegion rgn = getDataRegion(getContainer(), form, Table.ALL_ROWS);
+            context.setBaseFilter(form.getFilter());
+            context.setBaseSort(form.getSort());
 
-                try (TSVGridWriter tsv = new TSVGridWriter(()->rgn.getResults(context), rgn.getDisplayColumns()))
-                {
-                    tsv.setFilenamePrefix(form.getMessage());
-                    tsv.write(getResponse());
-                }
-            }
-            catch (Exception e)
+            try (TSVGridWriter tsv = new TSVGridWriter(()->rgn.getResults(context), rgn.getDisplayColumns()))
             {
-                _log.error("PeptideTextExportAction: ", e);
+                tsv.setFilenamePrefix(Objects.toString(form.getMessage(), "peptideTextExport"));
+                tsv.write(getResponse());
             }
         }
     }
