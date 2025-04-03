@@ -48,6 +48,7 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -97,10 +98,9 @@ public class PepDBController extends PepDBBaseController
     public class BeginAction extends SimpleViewAction<DisplayPeptideForm>
     {
         @Override
-        public ModelAndView getView(DisplayPeptideForm form, BindException errors) throws Exception
+        public ModelAndView getView(DisplayPeptideForm form, BindException errors)
         {
-            JspView v = new JspView(PAGE_INDEX, form, errors);
-            return v;
+            return new JspView<>(PAGE_INDEX, form, errors);
         }
 
         @Override
@@ -114,31 +114,26 @@ public class PepDBController extends PepDBBaseController
     public class SearchForPeptidesAction extends FormViewAction<PeptideQueryForm>
     {
         @Override
-        public ModelAndView getView(PeptideQueryForm form, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(PeptideQueryForm form, boolean reshow, BindException errors)
         {
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession(true);
             PeptideQueryForm form1 = (PeptideQueryForm) session.getAttribute("QUERY_FORM");
             if (form1 != null && form.getQueryKey() == null)
                 form = form1;
-            JspView v = new JspView<PeptideQueryForm>(PAGE_PEPTIDE_GROUP_SELECT, form, errors);
-            return v;
+            return new JspView<>(PAGE_PEPTIDE_GROUP_SELECT, form, errors);
         }
 
         @Override
-        public boolean handlePost(PeptideQueryForm form, BindException errors) throws Exception
+        public boolean handlePost(PeptideQueryForm form, BindException errors)
         {
             String actionType = getRequest().getParameter("action_type");
-            if (actionType != null && actionType.equals("Get Peptides"))
-                return true;
-            else
-                return false;
+            return actionType != null && actionType.equals("Get Peptides");
         }
 
         @Override
         public void validateCommand(PeptideQueryForm form, Errors errors)
         {
-            return;
         }
 
         @Override
@@ -229,13 +224,12 @@ public class PepDBController extends PepDBBaseController
         public ModelAndView getView(DisplayPeptideForm form, BindException errors) throws Exception
         {
             String pepId = form.getPeptide_id();
-            if (pepId == null || pepId.length() == 0
+            if (pepId == null || pepId.isEmpty()
                     || (!pepId.trim().toUpperCase().startsWith("P") && validateInteger(pepId.trim()) == null)
                     || (pepId.trim().toUpperCase().startsWith("P") && validateInteger(pepId.trim().substring(1)) == null))
             {
                 errors.reject(null, "Peptide Id is required and It has to be an Integer with or without prefix 'P'.");
-                JspView v = new JspView(PAGE_INDEX, form, errors);
-                return v;
+                return new JspView<>(PAGE_INDEX, form, errors);
             }
             if (pepId.trim().toUpperCase().startsWith("P") && validateInteger(pepId.trim().substring(1)) != null)
                 pepId = pepId.trim().substring(1);
@@ -243,10 +237,9 @@ public class PepDBController extends PepDBBaseController
             if (p == null)
             {
                 errors.reject(null, "Peptide Id not found in the database.");
-                JspView v = new JspView(PAGE_INDEX, form, errors);
-                return v;
+                return new JspView<>(PAGE_INDEX, form, errors);
             }
-            _log.debug("DisplayPeptideForm: " + form.toString());
+            _log.debug("DisplayPeptideForm: " + form);
             VBox box = new VBox();
             PeptideQueryForm queryform = new PeptideQueryForm();
             queryform.setQueryValue(pepId);
@@ -257,7 +250,7 @@ public class PepDBController extends PepDBBaseController
                 dataView.getDataRegion().getDisplayColumn("hla_restriction").setVisible(false);
             }
             box.addView(dataView);
-            JspView detailsView = new JspView<PeptideQueryForm>("/org/scharp/atlas/pepdb/view/peptideDetails.jsp", queryform, errors);
+            JspView<PeptideQueryForm> detailsView = new JspView<>("/org/scharp/atlas/pepdb/view/peptideDetails.jsp", queryform, errors);
             box.addView(detailsView);
             PropertyValues pv = this.getPropertyValues();
             if (p.isParent())
@@ -327,9 +320,9 @@ public class PepDBController extends PepDBBaseController
         public void validateCommand(PeptideForm form, Errors errors)
         {
             Peptides bean = form.getBean();
-            if (bean.isPeptide_flag() && (bean.getPeptide_notes() == null || bean.getPeptide_notes().length() == 0))
+            if (bean.isPeptide_flag() && (bean.getPeptide_notes() == null || bean.getPeptide_notes().isEmpty()))
                 errors.reject(null, "If a peptide is flagged then you must enter Peptide Flag Reason.");
-            if (!bean.isPeptide_flag() && bean.getPeptide_notes() != null && bean.getPeptide_notes().trim().length() != 0)
+            if (!bean.isPeptide_flag() && bean.getPeptide_notes() != null && !bean.getPeptide_notes().trim().isEmpty())
                 errors.reject(null, "If a peptide is not flagged then Peptide Flag Reason must be blank.");
         }
 
@@ -405,7 +398,7 @@ public class PepDBController extends PepDBBaseController
     public class ShowAllPeptideGroupsAction extends SimpleViewAction<PeptideQueryForm>
     {
         @Override
-        public ModelAndView getView(PeptideQueryForm form, BindException errors) throws Exception
+        public ModelAndView getView(PeptideQueryForm form, BindException errors)
         {
             TableInfo tableInfo = PepDBSchema.getInstance().getTableInfoPeptideGroups();
             PropertyValues pv = this.getPropertyValues();
@@ -493,7 +486,7 @@ public class PepDBController extends PepDBBaseController
     public class ShowAllPeptidePoolsAction extends SimpleViewAction<PeptideQueryForm>
     {
         @Override
-        public ModelAndView getView(PeptideQueryForm form, BindException errors) throws Exception
+        public ModelAndView getView(PeptideQueryForm form, BindException errors)
         {
             TableInfo tableInfo = PepDBSchema.getInstance().getTableInfoViewPoolDetails();
             PropertyValues pv = this.getPropertyValues();
@@ -573,7 +566,7 @@ public class PepDBController extends PepDBBaseController
     public class UpdatePeptideGroupAction extends FormViewAction<PeptideGroupForm>
     {
         @Override
-        public ModelAndView getView(PeptideGroupForm form, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(PeptideGroupForm form, boolean reshow, BindException errors)
         {
             PeptideGroup pg = PepDBManager.getPeptideGroupByID(form.getBean().getPeptide_group_id());
             UpdateView uView = new UpdateView(form, errors);
@@ -636,7 +629,7 @@ public class PepDBController extends PepDBBaseController
     public class InsertPeptideGroupAction extends FormViewAction<PeptideGroupForm>
     {
         @Override
-        public ModelAndView getView(PeptideGroupForm form, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(PeptideGroupForm form, boolean reshow, BindException errors)
         {
             ButtonBar bb = new ButtonBar();
             //bb.add(new ActionButton("insertPeptideGroup.post","Add New Peptide Group"));
@@ -651,8 +644,7 @@ public class PepDBController extends PepDBBaseController
             qForm.setCInfo(tInfo.getColumns());
             DataRegion rgn = getDataRegion(getContainer(), qForm, Table.ALL_ROWS);
             rgn.setButtonBar(bb);
-            InsertView iView = new InsertView(rgn, form, errors);
-            return iView;
+            return new InsertView(rgn, form, errors);
         }
 
         @Override
@@ -697,17 +689,16 @@ public class PepDBController extends PepDBBaseController
     @RequiresPermission(UpdatePermission.class)
     public class ImportPeptidesAction extends FormViewAction<FileForm>
     {
-        private List<Peptides> resultPeptides = new LinkedList<Peptides>();
+        private final List<Peptides> resultPeptides = new LinkedList<>();
 
         @Override
-        public ModelAndView getView(FileForm form, boolean reshow, BindException errors) throws Exception
+        public ModelAndView getView(FileForm form, boolean reshow, BindException errors)
         {
-            JspView v = new JspView<FileForm>(PAGE_IMPORT_PEPTIDES, form, errors);
-            return v;
+            return new JspView<>(PAGE_IMPORT_PEPTIDES, form, errors);
         }
 
         @Override
-        public boolean handlePost(FileForm form, BindException errors) throws Exception
+        public boolean handlePost(FileForm form, BindException errors)
         {
             try
             {
@@ -723,9 +714,7 @@ public class PepDBController extends PepDBBaseController
                 if (isPost() && form.getActionType().equalsIgnoreCase(("PEPTIDES")))
                 {
                     PeptideImporter importer = new PeptideImporter();
-                    if (!importer.process(getViewContext().getUser(), importFile, errors, resultPeptides))
-                        return false;
-                    return true;
+                    return importer.process(getViewContext().getUser(), importFile, errors, resultPeptides);
                 }
             }
             catch (Exception e)
@@ -766,8 +755,7 @@ public class PepDBController extends PepDBBaseController
         {
             PeptideQueryForm form1 = new PeptideQueryForm();
             PropertyValues pv = this.getPropertyValues();
-            GridView v = getGridViewByLastImport(form1, pv);
-            return v;
+            return getGridViewByLastImport(form1, pv);
         }
 
         @Override
@@ -842,7 +830,7 @@ public class PepDBController extends PepDBBaseController
     @RequiresPermission(ReadPermission.class)
     public abstract class PeptideExcelExportAction extends ExportAction<Object>
     {
-        public void printExcel(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form) throws Exception
+        public void printExcel(PeptideQueryForm form)
         {
             RenderContext context = new RenderContext(getViewContext());
             DataRegion rgn = getDataRegion(getContainer(), form, Table.ALL_ROWS);
@@ -850,9 +838,10 @@ public class PepDBController extends PepDBBaseController
             context.setBaseSort(form.getSort());
             ExcelWriter ew = new ExcelWriter(()->rgn.getResults(context), rgn.getDisplayColumns());
             ew.setAutoSize(true);
-            ew.setFilenamePrefix(form.getMessage());
-            ew.setSheetName(form.getMessage());
-            ew.setFooter(form.getMessage());
+            String message = Objects.toString(form.getMessage(), "PeptideExport");
+            ew.setFilenamePrefix(message);
+            ew.setSheetName(message);
+            ew.setFooter(message);
             ew.renderWorkbook(getResponse());
         }
     }
@@ -867,7 +856,7 @@ public class PepDBController extends PepDBBaseController
             PropertyValues pv = this.getPropertyValues();
             form.setQueryValue((String)pv.getPropertyValue("peptide_pool_id").getValue());
             getGridViewByPool(form, pv);
-            printExcel(bean, response, errors, form);
+            printExcel(form);
         }
     }
 
@@ -881,7 +870,7 @@ public class PepDBController extends PepDBBaseController
             PropertyValues pv = this.getPropertyValues();
             form.setQueryValue((String)pv.getPropertyValue("peptide_pool_id").getValue());
             getGridViewByParentPool(form, pv);
-            printExcel(bean, response, errors, form);
+            printExcel(form);
         }
     }
 
@@ -895,16 +884,15 @@ public class PepDBController extends PepDBBaseController
             HttpSession session = ctx.getRequest().getSession();
             PeptideQueryForm form = (PeptideQueryForm) session.getAttribute("PEPTIDE_QUERY_FORM");
             _log.info("Form " + form.getMessage() + " had filter : " + form.getFilter());
-            printExcel(bean, response, errors, form);
+            printExcel(form);
         }
     }
 
 
-
     @RequiresPermission(ReadPermission.class)
-    public abstract class PeptideTextExportAction extends ExportAction
+    public abstract class PeptideTextExportAction extends ExportAction<Object>
     {
-        public void printText(Object bean, HttpServletResponse response, BindException errors, PeptideQueryForm form) throws Exception
+        public void printText(PeptideQueryForm form) throws Exception
         {
             RenderContext context = new RenderContext(getViewContext());
             DataRegion rgn = getDataRegion(getContainer(), form, Table.ALL_ROWS);
@@ -929,7 +917,7 @@ public class PepDBController extends PepDBBaseController
             PropertyValues pv = this.getPropertyValues();
             form.setQueryValue((String)pv.getPropertyValue("peptide_pool_id").getValue());
             getGridViewByPool(form, pv);
-            printText(bean, response, errors, form);
+            printText(form);
         }
     }
 
@@ -943,7 +931,7 @@ public class PepDBController extends PepDBBaseController
             PropertyValues pv = this.getPropertyValues();
             form.setQueryValue((String)pv.getPropertyValue("peptide_pool_id").getValue());
             getGridViewByParentPool(form, pv);
-            printText(bean, response, errors, form);
+            printText(form);
         }
     }
 
@@ -956,7 +944,7 @@ public class PepDBController extends PepDBBaseController
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession();
             PeptideQueryForm form = (PeptideQueryForm) session.getAttribute("PEPTIDE_QUERY_FORM");
-            printText(bean, response, errors, form);
+            printText(form);
         }
     }
 
@@ -969,7 +957,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewGroupPeptides();
         form.setTInfo(tableInfo);
         //_log.debug("Creating a Filter for peptideGroup." + PepDBSchema.COLUMN_PEPTIDE_GROUP_ID + ": " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_IN_CURRENT_FILE, true);
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_IN_CURRENT_FILE), true);
         Sort sort = new Sort(PepDBSchema.COLUMN_PEPTIDE_GROUP_ASSIGNMENT_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("peptide_id,peptide_sequence,protein_cat_id,peptide_group_name,peptide_id_in_group,pathogen_id," +
@@ -992,9 +980,9 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewGroupPeptides();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for peptideGroup." + PepDBSchema.COLUMN_PEPTIDE_GROUP_ID + ": " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_PEPTIDE_GROUP_ID, Integer.parseInt(form.getQueryValue()));
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PEPTIDE_GROUP_ID), Integer.parseInt(form.getQueryValue()));
         if (form.getLabId() != null)
-            sFilter.addCondition(PepDBSchema.COLUMN_PEPTIDE_ID_IN_GROUP, form.getLabId());
+            sFilter.addCondition(FieldKey.fromParts(PepDBSchema.COLUMN_PEPTIDE_ID_IN_GROUP), form.getLabId());
         Sort sort = new Sort(PepDBSchema.COLUMN_PEPTIDE_ID_IN_GROUP);
         form.setFilter(sFilter);
         if (pg.getPeptide_group_name().equalsIgnoreCase("Optimal Epitopes"))
@@ -1024,7 +1012,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewPoolPeptides();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for peptidePool." + PepDBSchema.COLUMN_PEPTIDE_POOL_ID + ": " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, Integer.parseInt(form.getQueryValue()));
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PEPTIDE_POOL_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_PEPTIDE_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("peptide_id,peptide_sequence,protein_cat_id,peptide_pool_id,peptide_pool_name,pool_type_id," +
@@ -1049,7 +1037,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewPoolDetails();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for parent peptidePool." + PepDBSchema.COLUMN_PARENT_POOL_ID + ": " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_PARENT_POOL_ID, Integer.parseInt(form.getQueryValue()));
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PARENT_POOL_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_PEPTIDE_POOL_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("peptide_pool_id,peptide_pool_name,pool_type_desc,parent_pool_id,parent_pool_name,matrix_peptide_pool_id,comment,archived,createdby,created,modifiedby,modified"));
@@ -1122,15 +1110,15 @@ public class PepDBController extends PepDBBaseController
         form.setTInfo(tableInfo);
         String title = "Peptides in Protein Category " + pc.getProtein_cat_desc();
         _log.debug("Creating a Filter for proteinCategory." + PepDBSchema.COLUMN_PROTEIN_CAT_ID + ": " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_PROTEIN_CAT_ID, Integer.parseInt(form.getQueryValue()));
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PROTEIN_CAT_ID), Integer.parseInt(form.getQueryValue()));
         if (form.getAAEnd() == null && form.getAAStart() != null)
         {
-            sFilter.addCondition(PepDBSchema.COLUMN_AMINO_ACID_START_POS, Integer.parseInt(form.getAAStart()), CompareType.GTE);
+            sFilter.addCondition(FieldKey.fromParts(PepDBSchema.COLUMN_AMINO_ACID_START_POS), Integer.parseInt(form.getAAStart()), CompareType.GTE);
             title = "Peptides in Protein Category " + pc.getProtein_cat_desc() + " and after AAStart " + form.getAAStart();
         }
         if (form.getAAEnd() != null && form.getAAStart() == null)
         {
-            sFilter.addCondition(PepDBSchema.COLUMN_AMINO_ACID_END_POS, Integer.parseInt(form.getAAEnd()), CompareType.LTE);
+            sFilter.addCondition(FieldKey.fromParts(PepDBSchema.COLUMN_AMINO_ACID_END_POS), Integer.parseInt(form.getAAEnd()), CompareType.LTE);
             title = "Peptides in Protein Category " + pc.getProtein_cat_desc() + " and before AAEnd " + form.getAAEnd();
         }
         if (form.getAAStart() != null && form.getAAEnd() != null)
@@ -1160,7 +1148,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for parentID. : " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_PARENT_ID, Integer.parseInt(form.getQueryValue()));
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PARENT_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_CHILD_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("child_id,child_sequence,child_protein,child_group,child_lab_id,child_seq_length," +
@@ -1183,7 +1171,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for parentSequence. : " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_PARENT_SEQUENCE, form.getQueryValue().trim().toUpperCase());
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PARENT_SEQUENCE), form.getQueryValue().trim().toUpperCase());
         Sort sort = new Sort(PepDBSchema.COLUMN_CHILD_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("parent_id,child_id,child_sequence,child_protein,child_group,child_lab_id,child_seq_length," +
@@ -1206,7 +1194,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for childID. : " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_CHILD_ID, Integer.parseInt(form.getQueryValue()));
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_CHILD_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_PARENT_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("parent_id,parent_sequence,parent_protein,parent_group,parent_lab_id," +
@@ -1229,7 +1217,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
         _log.debug("Creating a Filter for childID. : " + form);
-        SimpleFilter sFilter = new SimpleFilter(PepDBSchema.COLUMN_CHILD_SEQUENCE, form.getQueryValue().trim().toUpperCase());
+        SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_CHILD_SEQUENCE), form.getQueryValue().trim().toUpperCase());
         Sort sort = new Sort(PepDBSchema.COLUMN_PARENT_ID);
         form.setFilter(sFilter);
         form.setCInfo(tableInfo.getColumns("child_id,parent_id,parent_sequence,parent_protein,parent_group,parent_lab_id," +
@@ -1269,11 +1257,11 @@ public class PepDBController extends PepDBBaseController
         return dataView;
     }
 
-    private DataRegion getDataRegion(Container c, PeptideQueryForm form, int maxRows) throws Exception
+    private DataRegion getDataRegion(Container c, PeptideQueryForm form, int maxRows)
     {
         DataRegion rgn = new DataRegion();
-        List<String> columnList = new ArrayList<String>();
-        List<DisplayColumn> displayColumnList = new ArrayList<DisplayColumn>();
+        List<String> columnList = new ArrayList<>();
+        List<DisplayColumn> displayColumnList = new ArrayList<>();
         
         for (ColumnInfo col : form.getCInfo())
         {
@@ -1365,7 +1353,7 @@ public class PepDBController extends PepDBBaseController
         return getGridButtonbarForClasses(pv,PeptidesInPoolExcelExportAction.class,PeptidesInPoolTextExportAction.class);
     }
 
-    private ButtonBar getGridButtonbarForClasses(PropertyValues pv, Class excelActionClass, Class textActionClass)
+    private ButtonBar getGridButtonbarForClasses(PropertyValues pv, Class<? extends Controller> excelActionClass, Class<? extends Controller> textActionClass)
     {
         ButtonBar gridButtonBar = getButtonBar();
         //ActionURL exportUrl = new ActionURL(PeptideDefaultExcelExportAction.class, getContainer());
