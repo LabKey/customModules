@@ -6,7 +6,7 @@
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <div>
     <%
-        JspView<PepDBController.FileForm> me = (JspView<PepDBController.FileForm>) HttpView.currentView();
+        JspView<PepDBController.FileForm> me = HttpView.currentView();
         PepDBController.FileForm bean = me.getModelBean();
     %>
 

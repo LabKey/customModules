@@ -34,7 +34,7 @@
     }
 %>
 <%
-    JspView<HDRLController.RequestForm> me = (JspView<HDRLController.RequestForm>)HttpView.currentView();
+    JspView<HDRLController.RequestForm> me = HttpView.currentView();
     ViewContext ctx = getViewContext();
     Container c = getContainer();
     User user = getUser();
