@@ -22,7 +22,7 @@
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%@ taglib prefix="labkey" uri="http://www.labkey.org/taglib" %>
 <%
-    JspView<HDRLController.SensitiveDataForm> sensitiveDataFormJspView = (JspView<HDRLController.SensitiveDataForm>)HttpView.currentView();
+    JspView<HDRLController.SensitiveDataForm> sensitiveDataFormJspView = HttpView.currentView();
     HDRLController.SensitiveDataForm bean = sensitiveDataFormJspView.getModelBean();
     String timeWindow = String.valueOf(bean.getTimeWindowInDays());
 %>

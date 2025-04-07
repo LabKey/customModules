@@ -8,7 +8,7 @@
 <%@ page import="org.scharp.atlas.pepdb.model.Source" %>
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <%
-    JspView<PeptideQueryForm> me = (JspView<PeptideQueryForm>) HttpView.currentView();
+    JspView<PeptideQueryForm> me = HttpView.currentView();
     PeptideQueryForm bean = me.getModelBean();
 %>
 <table>

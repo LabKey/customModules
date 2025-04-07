@@ -7,7 +7,7 @@
 <%@ page extends="org.labkey.api.jsp.JspBase" %>
 <div>
     <%
-        JspView<FileForm> me = (JspView<FileForm>) HttpView.currentView();
+        JspView<FileForm> me = HttpView.currentView();
         FileForm bean = me.getModelBean();
     %>
     <labkey:errors/>
