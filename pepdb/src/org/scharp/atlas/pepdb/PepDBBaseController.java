@@ -17,7 +17,7 @@ import org.labkey.api.data.TableInfo;
 import org.labkey.api.util.DateUtil;
 import org.labkey.api.util.HtmlString;
 import org.labkey.api.util.HtmlStringBuilder;
-import org.labkey.api.util.Link;
+import org.labkey.api.util.LinkBuilder;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.writer.HtmlWriter;
 import org.scharp.atlas.pepdb.model.PeptideGroup;
@@ -26,8 +26,6 @@ import org.scharp.atlas.pepdb.model.Peptides;
 import org.scharp.atlas.pepdb.model.ProteinCategory;
 import org.springframework.validation.Errors;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -452,7 +450,7 @@ public class PepDBBaseController extends SpringActionController
                 Integer peptideId = (Integer) rowMap.get(c.getName());
                 try
                 {
-                    new Link.LinkBuilder("P" + peptideId).clearClasses()
+                    new LinkBuilder("P" + peptideId).clearClasses()
                         .target("_self")
                         .href(new ActionURL(PepDBController.DisplayPeptideAction.class, getContainer())
                                 .addParameter(PepDBSchema.COLUMN_PEPTIDE_ID, peptideId))
@@ -528,7 +526,7 @@ public class PepDBBaseController extends SpringActionController
                 Integer peptidePoolId = (Integer) rowMap.get(c.getName());
                 try
                 {
-                    new Link.LinkBuilder("PP" + peptidePoolId).clearClasses()
+                    new LinkBuilder("PP" + peptidePoolId).clearClasses()
                         .target("_self")
                         .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
                                 .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, peptidePoolId))
@@ -606,7 +604,7 @@ public class PepDBBaseController extends SpringActionController
                 {
                     if(parentPoolId != null)
                     {
-                        new Link.LinkBuilder("PP" + parentPoolId).clearClasses()
+                        new LinkBuilder("PP" + parentPoolId).clearClasses()
                             .target("_self")
                             .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
                                     .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, parentPoolId))
