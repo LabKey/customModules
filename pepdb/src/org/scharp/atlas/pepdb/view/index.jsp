@@ -16,23 +16,23 @@
     If you need to enter any data contact Atlas Administrator.</h4>
 <h3 style="color:blue;font:italic">Peptide Groups : </h3>
 <ul>
-	<li><%= link("List Peptide Groups").href(urlFor(PepDBController.ShowAllPeptideGroupsAction.class)).clearClasses() %></li>
+	<li><%= simpleLink("List Peptide Groups", urlFor(PepDBController.ShowAllPeptideGroupsAction.class)) %></li>
     <%
         if(canUpdate){%>
-    <li><%= link("Insert a New Group").href(urlFor(PepDBController.InsertPeptideGroupAction.class)).clearClasses() %></li>
+    <li><%= simpleLink("Insert a New Group", urlFor(PepDBController.InsertPeptideGroupAction.class)) %></li>
     <%}else{%>
     <li>Insert a New Group</li>
     <%}%>
 </ul>
 <h3 style="color:blue;font:italic">Peptides : </h3>
 <ul>
-    <li><%= link("Search for Peptides by Criteria").href(urlFor(PepDBController.SearchForPeptidesAction.class)).clearClasses() %></li>
+    <li><%= simpleLink("Search for Peptides by Criteria", urlFor(PepDBController.SearchForPeptidesAction.class)) %></li>
     <%if(canUpdate){%>
-    <li><%= link("Import Peptides").href(urlFor(PepDBController.ImportPeptidesAction.class)).clearClasses() %></li>
+    <li><%= simpleLink("Import Peptides", urlFor(PepDBController.ImportPeptidesAction.class)) %></li>
     <%}else{%>
     <li>Import Peptides</li>
     <%}%>
-    <li><%= link("Peptides From Last Import").href(urlFor(PepDBController.DisplayResultAction.class)).clearClasses() %></li>
+    <li><%= simpleLink("Peptides From Last Import", urlFor(PepDBController.DisplayResultAction.class)) %></li>
 </ul>
 <labkey:errors/>
 <%
@@ -45,9 +45,9 @@ Lookup Peptide by Id: <input type="text" name="peptide_id" size="10" value="<%=h
 <h3 style="color:blue;font:italic">Peptide Pools :</h3>
 <ul>
     <%if(canUpdate){%>
-    <li><%= link("Import Peptide Pools").href(urlFor(PepDBController.ImportPeptidePoolsAction.class)).clearClasses() %></li>
+    <li><%= simpleLink("Import Peptide Pools", urlFor(PepDBController.ImportPeptidePoolsAction.class)) %></li>
     <%}else{%>
     <li>Import Peptide Pools</li>
     <%}%>
-    <li><%= link("List All Peptide Pools").href(urlFor(PepDBController.ShowAllPeptidePoolsAction.class)).clearClasses() %></li>
+    <li><%= simpleLink("List All Peptide Pools", urlFor(PepDBController.ShowAllPeptidePoolsAction.class)) %></li>
 </ul>

@@ -450,10 +450,9 @@ public class PepDBBaseController extends SpringActionController
                 Integer peptideId = (Integer) rowMap.get(c.getName());
                 try
                 {
-                    new LinkBuilder("P" + peptideId).clearClasses()
+                    LinkBuilder.simpleLink("P" + peptideId, new ActionURL(PepDBController.DisplayPeptideAction.class, getContainer())
+                            .addParameter(PepDBSchema.COLUMN_PEPTIDE_ID, peptideId))
                         .target("_self")
-                        .href(new ActionURL(PepDBController.DisplayPeptideAction.class, getContainer())
-                                .addParameter(PepDBSchema.COLUMN_PEPTIDE_ID, peptideId))
                         .build()
                         .appendTo(out);
                 }
@@ -526,10 +525,9 @@ public class PepDBBaseController extends SpringActionController
                 Integer peptidePoolId = (Integer) rowMap.get(c.getName());
                 try
                 {
-                    new LinkBuilder("PP" + peptidePoolId).clearClasses()
+                    LinkBuilder.simpleLink("PP" + peptidePoolId, new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
+                            .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, peptidePoolId))
                         .target("_self")
-                        .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
-                                .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, peptidePoolId))
                         .build()
                         .appendTo(out);
                 }
@@ -604,10 +602,9 @@ public class PepDBBaseController extends SpringActionController
                 {
                     if(parentPoolId != null)
                     {
-                        new LinkBuilder("PP" + parentPoolId).clearClasses()
+                        LinkBuilder.simpleLink("PP" + parentPoolId, new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
+                                .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, parentPoolId))
                             .target("_self")
-                            .href(new ActionURL(PepDBController.DisplayPeptidePoolInformationAction.class, getContainer())
-                                    .addParameter(PepDBSchema.COLUMN_PEPTIDE_POOL_ID, parentPoolId))
                             .build()
                             .appendTo(out);
                     }
