@@ -23,8 +23,8 @@
 
     <tr>
         <td>
-            <%= link(source.getPeptide_group_name()).href(urlFor(PepDBController.DisplayPeptideGroupInformationAction.class)
-                    .addParameter("peptide_group_id", source.getPeptide_group_id().toString())).clearClasses() %>
+            <%= simpleLink(source.getPeptide_group_name(), urlFor(PepDBController.DisplayPeptideGroupInformationAction.class)
+                    .addParameter("peptide_group_id", source.getPeptide_group_id().toString())) %>
             (PEPTIDE NUMBER =<%=h(source.getPeptide_id_in_group())%>)
             <%if(source.getFrequency_number() != null){%>
             - Frequency Number =
@@ -47,8 +47,8 @@
     {%>
     <tr>
         <td>
-            <%= link("PP"+pool.getPeptide_pool_id()).href(urlFor(PepDBController.DisplayPeptidePoolInformationAction.class)
-                    .addParameter("peptide_pool_id", pool.getPeptide_pool_id())).clearClasses() %> -
+            <%= simpleLink("PP"+pool.getPeptide_pool_id(), urlFor(PepDBController.DisplayPeptidePoolInformationAction.class)
+                    .addParameter("peptide_pool_id", pool.getPeptide_pool_id())) %> -
             <%=h(pool.getPeptide_pool_name())%>
             <%=h(pool.getPool_type_desc())%>
         </td>
