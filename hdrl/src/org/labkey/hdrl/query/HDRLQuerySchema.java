@@ -42,6 +42,7 @@ import org.labkey.api.query.SimpleUserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.AdminPermission;
 import org.labkey.api.security.permissions.UpdatePermission;
+import org.labkey.api.util.LinkBuilder;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewContext;
@@ -216,13 +217,13 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
-                                oldWriter.write(PageFlowUtil.link("Edit").href(actionUrl).toString());
+                                oldWriter.write(LinkBuilder.labkeyLink("Edit", actionUrl).toString());
                             }
                             else
                             {
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
                                 actionUrl.addParameter("requestId", (Integer) ctx.get("requestId"));
-                                oldWriter.write(PageFlowUtil.link("View").href(actionUrl).toString());
+                                oldWriter.write(LinkBuilder.labkeyLink("View", actionUrl).toString());
                             }
                         }
                     };
