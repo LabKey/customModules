@@ -54,6 +54,7 @@ import org.labkey.api.security.permissions.InsertPermission;
 import org.labkey.api.security.permissions.ReadPermission;
 import org.labkey.api.settings.AdminConsole;
 import org.labkey.api.util.HtmlString;
+import org.labkey.api.util.LinkBuilder;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.util.Path;
 import org.labkey.api.util.URLHelper;
@@ -104,7 +105,7 @@ public class HDRLController extends SpringActionController
         {
             VBox vbox = new VBox();
 
-            HtmlView submitView = new HtmlView("New Test Request", HtmlString.of(PageFlowUtil.link("Submit new test request").href(new ActionURL(EditRequestAction.class, getViewContext().getContainer()))));
+            HtmlView submitView = new HtmlView("New Test Request", HtmlString.of(LinkBuilder.labkeyLink("Submit new test request", new ActionURL(EditRequestAction.class, getViewContext().getContainer()))));
             vbox.addView(submitView);
 
             UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
