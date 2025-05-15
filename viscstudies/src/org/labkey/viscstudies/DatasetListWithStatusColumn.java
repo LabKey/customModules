@@ -27,19 +27,26 @@ import org.labkey.api.settings.AppProps;
 import org.labkey.api.study.Dataset;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
-import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.util.DOM;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.writer.HtmlWriter;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static org.labkey.api.util.DOM.Attribute.height;
+import static org.labkey.api.util.DOM.Attribute.src;
+import static org.labkey.api.util.DOM.Attribute.style;
+import static org.labkey.api.util.DOM.Attribute.width;
+import static org.labkey.api.util.DOM.IMG;
+import static org.labkey.api.util.DOM.TABLE;
+import static org.labkey.api.util.DOM.TD;
+import static org.labkey.api.util.DOM.TR;
+import static org.labkey.api.util.DOM.at;
+
 /**
  * Renders a table with all the study's datasets, one per row, including the dataset's status 
- * User: jeckels
- * Date: May 22, 2012
 */
 public class DatasetListWithStatusColumn extends DataColumn
 {
@@ -82,35 +89,48 @@ public class DatasetListWithStatusColumn extends DataColumn
     }
 
     @Override
-    public void renderGridCellContents(RenderContext ctx, Writer oldWriter, HtmlWriter out) throws IOException
+    public void renderGridCellContents(RenderContext ctx, HtmlWriter out)
     {
         // Show an icon for the dataset status (if set) and the dataset name, one per row, in a table
-        oldWriter.write("<table>");
-        for (Dataset dataset : getDatasets(ctx))
+        TABLE(
+            (DOM.Renderable) ret -> {
+                for (Dataset dataset : getDatasets(ctx))
+                {
+                    TR(
+                        TD(
+                            at(style, "width: 16px; border-style: none"),
+                            body(dataset)
+                        ),
+                        TD(
+                            at(style, "border-style: none"),
+                            dataset.getLabel()
+                        )
+                    ).appendTo(out);
+                }
+                return ret;
+            }
+        ).appendTo(out);
+    }
+
+    private Object body(Dataset dataset)
+    {
+        Object status = ReportPropsManager.get().getPropertyValue(dataset.getEntityId(), dataset.getContainer(), DataViewProvider.EditInfo.Property.status.toString());
+        if (status == null || "None".equalsIgnoreCase(status.toString()))
         {
-            Object status = ReportPropsManager.get().getPropertyValue(dataset.getEntityId(), dataset.getContainer(), DataViewProvider.EditInfo.Property.status.toString());
-            oldWriter.write("<tr><td style=\"width: 16px; border-style: none\">");
-            if (status == null || "None".equalsIgnoreCase(status.toString()))
+            return HtmlString.NBSP;
+        }
+        else
+        {
+            String iconPath = ICON_PATHS.get(status.toString());
+            if (iconPath != null)
             {
-                oldWriter.write("&nbsp;");
+                return IMG(at(src, iconPath).at(height, "16px").at(width, "16px"));
             }
             else
             {
-                String iconPath = ICON_PATHS.get(status.toString());
-                if (iconPath != null)
-                {
-                    oldWriter.write("<img src=\"" + PageFlowUtil.filter(iconPath) + "\" height=\"16px\" width=\"16px\" />");
-                }
-                else
-                {
-                    oldWriter.write(PageFlowUtil.filter(status));
-                }
+                return status;
             }
-            oldWriter.write("</td><td style=\"border-style: none\">");
-            oldWriter.write(PageFlowUtil.filter(dataset.getLabel()));
-            oldWriter.write("</td></tr>\n");
         }
-        oldWriter.write("</table>");
     }
 
     @Override
