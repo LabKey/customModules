@@ -17,6 +17,7 @@
 package org.labkey.hdrl.query;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerFilter;
@@ -53,8 +54,6 @@ import org.labkey.hdrl.HDRLModule;
 import org.labkey.hdrl.HDRLSchema;
 import org.springframework.validation.BindException;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -186,7 +185,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
     }
 
     @Override
-    public QueryView createView(ViewContext context, QuerySettings settings, BindException errors)
+    public @NotNull QueryView createView(ViewContext context, QuerySettings settings, BindException errors)
     {
         String queryName = settings.getQueryName();
         if (TABLE_INBOUND_REQUEST.equalsIgnoreCase(queryName))
@@ -196,11 +195,10 @@ public class HDRLQuerySchema extends SimpleUserSchema
                 @Override
                 protected void addDetailsAndUpdateColumns(List<DisplayColumn> ret, TableInfo table)
                 {
-
                     SimpleDisplayColumn actionColumn = new SimpleDisplayColumn()
                     {
                         @Override
-                        public void renderGridCellContents(RenderContext ctx, Writer oldWriter, HtmlWriter out) throws IOException
+                        public void renderGridCellContents(RenderContext ctx, HtmlWriter out)
                         {
                             Container c = ContainerManager.getForId(ctx.get(FieldKey.fromParts("container")).toString());
 
@@ -217,18 +215,17 @@ public class HDRLQuerySchema extends SimpleUserSchema
                             {
                                 FieldKey requestFieldKey = FieldKey.fromParts("RequestId");
                                 ActionURL actionUrl = new ActionURL(HDRLController.EditRequestAction.class, c).addParameter("requestId", (Integer)ctx.get(requestFieldKey));
-                                oldWriter.write(LinkBuilder.labkeyLink("Edit", actionUrl).toString());
+                                out.write(LinkBuilder.labkeyLink("Edit", actionUrl));
                             }
                             else
                             {
                                 ActionURL actionUrl = new ActionURL(HDRLController.RequestDetailsAction.class, c);
                                 actionUrl.addParameter("requestId", (Integer) ctx.get("requestId"));
-                                oldWriter.write(LinkBuilder.labkeyLink("View", actionUrl).toString());
+                                out.write(LinkBuilder.labkeyLink("View", actionUrl));
                             }
                         }
                     };
                     ret.add(actionColumn);
-
                 }
             };
         }
@@ -243,20 +240,19 @@ public class HDRLQuerySchema extends SimpleUserSchema
 
             QueryView queryView = new QueryView(this, settings, errors)
             {
-
                 @Override
                 protected void addDetailsAndUpdateColumns(List<DisplayColumn> ret, TableInfo table)
                 {
                     SimpleDisplayColumn downloadColumn = new SimpleDisplayColumn()
                     {
                         @Override
-                        public void renderGridCellContents(RenderContext ctx, Writer oldWriter, HtmlWriter out) throws IOException
+                        public void renderGridCellContents(RenderContext ctx, HtmlWriter out)
                         {
                             Integer specimenId = (Integer) ctx.get(FieldKey.fromParts("RowId"));
                             if (HDRLManager.get().hasClinicalReport(specimenId, getUser(), getContainer()))
                             {
                                 // download button displayed
-                                oldWriter.write(PageFlowUtil.button("Download").href(new ActionURL(HDRLController.DownloadClinicalReportAction.class, getContainer()).addParameter("specimenId", specimenId)).toString());
+                                out.write(PageFlowUtil.button("Download").href(new ActionURL(HDRLController.DownloadClinicalReportAction.class, getContainer()).addParameter("specimenId", specimenId)));
                             }
                         }
                     };
