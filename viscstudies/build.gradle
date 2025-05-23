@@ -1,3 +1,8 @@
+import org.labkey.gradle.util.BuildUtils
 plugins {
     id 'org.labkey.build.module'
+}
+
+dependencies {
+    BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: BuildUtils.getPlatformModuleProjectPath(project.gradle, "studydesign"), depProjectConfig: 'published', depExtension: 'module')
 }
