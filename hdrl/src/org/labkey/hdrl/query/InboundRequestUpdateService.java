@@ -107,16 +107,16 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
         // check that there are no duplicate barcodes
         List<String> duplicates = findDuplicates(requestId, "CustomerBarcode");
         StringBuilder message = new StringBuilder();
-        if (duplicates.size() > 0)
+        if (!duplicates.isEmpty())
         {
             message.append("Request has specimens with duplicate fields: Customer Barcode - ").append(StringUtils.join(duplicates, ", "));
         }
 
         // check that all existing DODId in the specimens in this request are unique
         duplicates = findDuplicates(requestId, "DoDId");
-        if (duplicates.size() > 0)
+        if (!duplicates.isEmpty())
         {
-            if (message.length() == 0)
+            if (message.isEmpty())
                 message.append("Request has specimens with duplicate fields: ");
             else
                 message.append("; ");
@@ -124,16 +124,16 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
         }
         // check that all the existing SSN + FMP pairs in this request are unique
         duplicates = findDuplicates(requestId, "SSN, FMPId");
-        if (duplicates.size() > 0)
+        if (!duplicates.isEmpty())
         {
-            if (message.length() == 0)
+            if (message.isEmpty())
                 message.append("Request has specimens with duplicate fields: ");
             else
                 message.append("; ");
             message.append("SSN + FMP - ").append(StringUtils.join(duplicates, ", "));
         }
 
-        if (message.length() > 0)
+        if (!message.isEmpty())
             throw new QueryUpdateServiceException(message.toString());
 
     }

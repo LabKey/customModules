@@ -66,8 +66,8 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     public static final Locator.XPathLocator enabledSave = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + SAVE_BUTTON_TEXT + "']");
     public static final Locator.XPathLocator enabledPrintPackingList = Locator.xpath("//a[not(contains(normalize-space(@class), 'x4-btn-disable'))]//span[text()='" + PRINT_PACKING_LIST_TEXT + "']");
 
-    private static int CARRIER_COLUMN_INDEX = 2;
-    private static int STATUS_COLUMN_INDEX = 13;
+    private static final int CARRIER_COLUMN_INDEX = 2;
+    private static final int STATUS_COLUMN_INDEX = 13;
 
     @Override
     protected String getProjectName()
@@ -78,7 +78,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     @BeforeClass
     public static void initProject()
     {
-        HDRLTest init = (HDRLTest)getCurrentTest();
+        HDRLTest init = getCurrentTest();
         init.setupFolder();
     }
 
@@ -150,7 +150,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton(SUBMIT_BUTTON_TEXT);
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRowIndex("ShippingNumber", "testRetrievalOfResults");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         String requestId = drt.getDataAsText(idx, "RequestId");
 
         Map<String, Object> result = new HashMap<>();
@@ -236,7 +236,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
         idx = drt.getRowIndex("RequestId", requestId);
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         log("view test results");
         assertEquals("VIEW", drt.getDataAsText(idx, 0));
         clickAndWait(drt.link(idx, 0));
@@ -395,7 +395,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRowIndex("ShippingCarrier", "FedEx");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         clickAndWait(drt.link(idx, 0));
         log("submitting an existing request");
         waitForElement(Locator.tagContainingText("div", "222-33-4444"));
@@ -404,7 +404,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         drt = new DataRegionTable("query", this);
         idx = drt.getRowIndex("ShippingCarrier", "FedEx");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted By").trim().isEmpty()); // "submitted by" field should be filled in
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted").trim().isEmpty()); // submitted date should be filled in
 
@@ -423,7 +423,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickAndWait(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
         idx = drt.getRowIndex("ShippingCarrier", "FedEx");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         log("ensure submitted requests are still editable by admins");
         assertEquals("VIEW", drt.getDataAsText(idx, 0));
         clickAndWait(drt.link(idx, 0));
@@ -454,7 +454,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("Edit the submitted request as admin");
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRowIndex("ShippingNumber", "testEditSubmittedRequest");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         String submittedDate = drt.getDataAsText(idx, 6).trim();
 
@@ -476,7 +476,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         log("Test that not saving request does not change anything");
         clickButton("Cancel", 0); // takes you back to the view test requests page
         idx = drt.getRowIndex("ShippingNumber", "testEditSubmittedRequest");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         assertNotEquals("DHL", drt.getDataAsText(idx, CARRIER_COLUMN_INDEX));
         assertEquals("EDIT", drt.getDataAsText(idx, 0));
@@ -491,7 +491,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("Test that saving request does not change the request status");
         idx = drt.getRowIndex("ShippingNumber", "testEditSubmittedRequest");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         assertEquals("Submitted", drt.getDataAsText(idx, STATUS_COLUMN_INDEX));
         assertEquals("DHL", drt.getDataAsText(idx, CARRIER_COLUMN_INDEX));
         // submitted date should still be the same
@@ -528,7 +528,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         click(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRowIndex("ShippingNumber", "testRetrievalOfResults");
-        assertNotEquals(idx, -1);
+        assertNotEquals(-1, idx);
         String requestId = drt.getDataAsText(idx, "RequestId");
         Assert.assertEquals("Archived", drt.getDataAsText(idx, "Status"));
         List<String> specimenIds = getSpecimenIds(requestId, "hdrl", "InboundSpecimen", "RowId");
@@ -600,7 +600,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         for (Map<String, String> expectedRow : expectedRows)
         {
             int idx = drt.getRowIndex(key, expectedRow.get(key));
-            assertNotEquals(String.format("Didn't find row with %s = %s", key, expectedRow.get(key)), idx, -1);
+            assertNotEquals(String.format("Didn't find row with %s = %s", key, expectedRow.get(key)), -1, idx);
 
             Map<String, String> actualRow = new HashMap<>();
             for (Map.Entry<String, String> field : expectedRow.entrySet())

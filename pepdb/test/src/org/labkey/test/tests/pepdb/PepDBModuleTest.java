@@ -83,7 +83,6 @@ public class PepDBModuleTest extends BaseWebDriverTest implements PostgresOnlyTe
     /**
      * Set which view in this folder should be the default
      *
-     * @param moduleName
      */
     void setDefaultModule(String moduleName)
     {

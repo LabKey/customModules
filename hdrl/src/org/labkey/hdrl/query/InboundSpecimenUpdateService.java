@@ -125,8 +125,8 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date today = calendar.getTime();
-        List<String> errors = new ArrayList<String>();
-        List<String> missingFields = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
+        List<String> missingFields = new ArrayList<>();
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
@@ -153,9 +153,9 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
         }
         if (row.get("BirthDate") != null)
         {
-            Date birthDate = null;
+            Date birthDate;
             if (row.get("BirthDate") instanceof Date)
-                birthDate = (Date) row.get("BirthDate");
+                row.get("BirthDate");
             else
             {
                 try

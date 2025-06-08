@@ -96,7 +96,7 @@ public class MS2ExtensionsController extends SpringActionController
     }
 
     @RequiresPermission(AdminOperationsPermission.class)
-    public class UpdatePeptideCountsAction extends SimpleViewAction<Object>
+    public static class UpdatePeptideCountsAction extends SimpleViewAction<Object>
     {
         @Override
         public ModelAndView getView(Object o, BindException errors)
@@ -105,7 +105,7 @@ public class MS2ExtensionsController extends SpringActionController
             {
                 List<DOM.Renderable> warnings = new ArrayList<>();
                 updatePeptideCounts(warnings, getContainer());
-                if (warnings.size() == 0)
+                if (warnings.isEmpty())
                 {
                     return new HtmlView(DOM.DIV("Success!"));
                 }
@@ -139,7 +139,7 @@ public class MS2ExtensionsController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class SetPreferencesAction extends MutatingApiAction<SimpleApiJsonForm>
+    public static class SetPreferencesAction extends MutatingApiAction<SimpleApiJsonForm>
     {
         @Override
         public ApiResponse execute(SimpleApiJsonForm simpleApiJsonForm, BindException errors)

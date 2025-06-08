@@ -132,7 +132,7 @@ public class HDRLController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class RequestDetailsAction extends SimpleViewAction
+    public static class RequestDetailsAction extends SimpleViewAction<Object>
     {
         @Override
         public ModelAndView getView(Object o, BindException errors)
@@ -141,7 +141,7 @@ public class HDRLController extends SpringActionController
             if (requestId != null)
             {
                 InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), Integer.parseInt(requestId));
-                JspView jsp = new JspView("/org/labkey/hdrl/view/requestDetails.jsp", bean);
+                JspView jsp = new JspView<>("/org/labkey/hdrl/view/requestDetails.jsp", bean);
                 jsp.setTitle("Test Request");
 
                 UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
@@ -166,7 +166,7 @@ public class HDRLController extends SpringActionController
     }
 
     @RequiresPermission(InsertPermission.class)
-    public class EditRequestAction extends SimpleViewAction<RequestForm>
+    public static class EditRequestAction extends SimpleViewAction<RequestForm>
     {
         private String _navLabel = "Create a new Test Request";
 
@@ -259,7 +259,7 @@ public class HDRLController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class VerifySpecimenAction extends ReadOnlyApiAction<VerifyForm>
+    public static class VerifySpecimenAction extends ReadOnlyApiAction<VerifyForm>
     {
         @Override
         public Object execute(VerifyForm form, BindException errors)
@@ -310,7 +310,7 @@ public class HDRLController extends SpringActionController
 
 
     @RequiresPermission(ReadPermission.class)
-    public class DownloadClinicalReportAction extends ExportAction<SpecimenForm>
+    public static class DownloadClinicalReportAction extends ExportAction<SpecimenForm>
     {
         @Override
         public void export(SpecimenForm form, HttpServletResponse response, BindException errors) throws Exception
@@ -361,7 +361,7 @@ public class HDRLController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class DownloadSpecimenTemplateAction extends ExportAction
+    public static class DownloadSpecimenTemplateAction extends ExportAction<Object>
     {
         @Override
         public void export(Object o, HttpServletResponse response, BindException errors)
@@ -385,7 +385,7 @@ public class HDRLController extends SpringActionController
     }
 
     @RequiresPermission(ReadPermission.class)
-    public class PrintPackingListAction extends SimpleViewAction<PackingListBean>
+    public static class PrintPackingListAction extends SimpleViewAction<PackingListBean>
     {
         @Override
         public ModelAndView getView(PackingListBean packingListBean, BindException errors)
@@ -483,7 +483,7 @@ public class HDRLController extends SpringActionController
 
     @AdminConsoleAction
     @RequiresPermission(AdminPermission.class)
-    public class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
+    public static class HDRLSensitiveDataAdminAction extends FormViewAction<SensitiveDataForm>
     {
         @Override
         public void validateCommand(SensitiveDataForm target, Errors errors)
@@ -537,7 +537,7 @@ public class HDRLController extends SpringActionController
 
     @RequiresPermission(AdminPermission.class)
     @Marshal(Marshaller.Jackson)
-    public class AddLabWareOutboundRequestAction extends MutatingApiAction<LabWareOutboundRequestForm>
+    public static class AddLabWareOutboundRequestAction extends MutatingApiAction<LabWareOutboundRequestForm>
     {
         @Override
         public Object execute(LabWareOutboundRequestForm form, BindException errors)
@@ -633,7 +633,7 @@ public class HDRLController extends SpringActionController
 
     @RequiresPermission(AdminPermission.class)
     @Marshal(Marshaller.Jackson)
-    public class AddLabWareOutboundSpecimenAction extends MutatingApiAction<LabWareOutboundSpecimenForm>
+    public static class AddLabWareOutboundSpecimenAction extends MutatingApiAction<LabWareOutboundSpecimenForm>
     {
         @Override
         public Object execute(LabWareOutboundSpecimenForm form, BindException errors) throws Exception

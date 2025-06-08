@@ -30,7 +30,6 @@ import org.labkey.api.security.User;
 import org.labkey.api.security.UserPrincipal;
 import org.labkey.api.security.permissions.Permission;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 /**
