@@ -151,28 +151,32 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
                 }
             }
         }
-        if (row.get("BirthDate") != null)
+        Object birthDateObj = row.get("BirthDate");
+        if (birthDateObj != null)
         {
-            Date birthDate;
-            if (row.get("BirthDate") instanceof Date)
-                row.get("BirthDate");
+            Date birthDate = null;
+            if (birthDateObj instanceof Date d)
+                birthDate = d;
             else
             {
                 try
                 {
                     birthDate = dateFormat.parse((String) row.get("BirthDate"));
-                    if (birthDate.after(today))
-                    {
-                        errors.add("Birth date cannot be in the future");
-                    }
-                    else if ((drawDate != null) && (drawDate.before(birthDate)))
-                    {
-                        errors.add("Draw date cannot be before birth date");
-                    }
                 }
                 catch (ParseException e)
                 {
                     errors.add("Invalid birth date format");
+                }
+            }
+            if (birthDate != null)
+            {
+                if (birthDate.after(today))
+                {
+                    errors.add("Birth date cannot be in the future");
+                }
+                else if ((drawDate != null) && (drawDate.before(birthDate)))
+                {
+                    errors.add("Draw date cannot be before birth date");
                 }
             }
         }
