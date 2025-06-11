@@ -261,7 +261,7 @@ public class SpecimenCustomizeTest extends SpecimenBaseTest
 
         public Boolean isEditable()
         {
-            return _tr.findElements(By.xpath(".//div[contains(@id,'name')]/input")).size() > 0;
+            return !_tr.findElements(By.xpath(".//div[contains(@id,'name')]/input")).isEmpty();
         }
 
         public void editName(String value)

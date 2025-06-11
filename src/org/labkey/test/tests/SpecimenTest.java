@@ -891,8 +891,8 @@ public class SpecimenTest extends SpecimenBaseTest
         SAL("Site Affiliated Lab", 8),
         ENDPOINT("Endpoint Lab", 8);
 
-        private String _type;
-        private int _count;
+        private final String _type;
+        private final int _count;
 
         StudyLocationType(String type, int count)
         {

@@ -158,7 +158,7 @@ public class SpecimenImportTest extends SpecimenBaseTest
 
         List<Map<String, String>> sampleTypeData = getSampleDataFromDB(folderPath, "Study Specimens", fields);
 
-        Assert.assertNotEquals("There are no rows in the \"Study Specimens\" sample type.", sampleTypeData.size(), 0);
+        Assert.assertNotEquals("There are no rows in the \"Study Specimens\" sample type.", 0, sampleTypeData.size());
 
         List<String> expectedNames = Arrays.asList("1", "2", "3", "4");
 

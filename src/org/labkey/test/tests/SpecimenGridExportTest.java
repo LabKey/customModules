@@ -47,7 +47,7 @@ public class SpecimenGridExportTest extends AbstractExportTest
     @BeforeClass
     public static void doSetup() throws Exception
     {
-        SpecimenGridExportTest initTest = (SpecimenGridExportTest) getCurrentTest();
+        SpecimenGridExportTest initTest = getCurrentTest();
 
         initTest._containerHelper.createProject(initTest.getProjectName(), "Study");
         initTest._containerHelper.enableModule("Specimen");
