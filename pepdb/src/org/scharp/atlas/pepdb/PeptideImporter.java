@@ -84,7 +84,7 @@ public class PeptideImporter
     {
         if(peptideIdList == null)
         {
-            peptideIdList = new ArrayList<Peptides>();
+            peptideIdList = new ArrayList<>();
             Peptides[] peptides = PepDBManager.getPeptides();
             for(Peptides p: peptides)
             {
@@ -114,12 +114,12 @@ public class PeptideImporter
             getOptimalElitopeListMap();
             HashMap<String,Peptides> peptideSequenceMap = PepDBManager.getPeptideSequenceMap();
             int lineNo =1;
-            ArrayList<Peptides> newpeptidesList =new ArrayList<Peptides>();
-            HashMap<String,String> lineMap = new HashMap<String,String>();
+            ArrayList<Peptides> newpeptidesList = new ArrayList<>();
+            HashMap<String,String> lineMap = new HashMap<>();
             while((line = br.readLine()) != null)
             {
                 lineNo++;
-                if(line.length()>0)
+                if(!line.isEmpty())
                 {
                     if(validateLine(line,errors,lineNo))
                     {
@@ -143,7 +143,7 @@ public class PeptideImporter
             {
                 if(peptideSequenceMap.containsKey(p.getPeptide_sequence()))
                 {
-                    if(p.getPeptide_id() == null || p.getPeptide_id().toString().length() == 0)
+                    if(p.getPeptide_id() == null || p.getPeptide_id().toString().isEmpty())
                         p.setPeptide_id(peptideSequenceMap.get(p.getPeptide_sequence()).getPeptide_id());
                     insertGroups(p,user);
                     resultPeptides.add(p);
@@ -175,7 +175,7 @@ public class PeptideImporter
                         parent.setPeptide_id(p.getPeptide_id());
                         Parent dbParent = PepDBManager.parentExists(parent);
                         if(dbParent == null)
-                            dbParent = PepDBManager.insertParent(user,parent);
+                            PepDBManager.insertParent(user, parent);
                         if(!par.isParent())
                         {
                             par.setParent(true);
@@ -210,10 +210,10 @@ public class PeptideImporter
         }
         if(fields.length < 8 )
             errors.reject(null,"Line number : "+lineNo+"must have 8-10 fields.The Peptides File has to be tab delimited and should have atleast 8 fields.");
-        else if((fields[0] == null || fields[0].length() == 0) || (fields[1] == null || fields[1].length() == 0)||
-                (fields[2] == null || fields[2].length() == 0) || (fields[3] == null || fields[3].length() == 0)||
-                (fields[4] == null || fields[4].length() == 0) || (fields[5] == null || fields[5].length() == 0)||
-                (fields[6] == null || fields[6].length() == 0) || (fields[7] == null || fields[7].length() == 0))
+        else if((fields[0] == null || fields[0].isEmpty()) || (fields[1] == null || fields[1].isEmpty())||
+                (fields[2] == null || fields[2].isEmpty()) || (fields[3] == null || fields[3].isEmpty())||
+                (fields[4] == null || fields[4].isEmpty()) || (fields[5] == null || fields[5].isEmpty())||
+                (fields[6] == null || fields[6].isEmpty()) || (fields[7] == null || fields[7].isEmpty()))
             errors.reject(null,"Line number : "+lineNo+" is missing one of the field values \n" +
                     "'PEPTIDE SEQUENCE','IS CHILD','PROTEIN CATEGORY','PEPTIDE GROUP','ID','SEQUENCE LENGTH',\n" +
                     "'AASTART','AAEND','IN A LIST' and 'HLA RESTRICTION'.");
@@ -255,12 +255,12 @@ public class PeptideImporter
                 if(!fields[3].trim().toUpperCase().equals("OPTIMAL EPITOPES"))
                     errors.reject(null,"Line number : "+lineNo+" If the peptide is a child then the Peptide Group: "+fields[2].trim().toUpperCase()+
                             " must be 'OPTIMAL EPITOPES'.");
-                if(fields[8] == null || fields[8].length() == 0 || !optimalElitopeListMap.containsKey(fields[8].trim().toUpperCase()))
+                if(fields[8] == null || fields[8].isEmpty() || !optimalElitopeListMap.containsKey(fields[8].trim().toUpperCase()))
                     errors.reject(null,"Line number : "+lineNo+" If the peptide is a child then the value for 'IN A LIST' is required and must pre exist in database.Contact SCHARP to add new Optimal Epitope List");
             }
             else
             {
-                if((fields[8] != null && fields[8].length() != 0) || (fields[9] != null && fields[9].length() != 0))
+                if((fields[8] != null && !fields[8].isEmpty()) || (fields[9] != null && !fields[9].isEmpty()))
                     errors.reject(null,"Line number : "+lineNo+" If the peptide is not a child then the values for 'IN A LIST' and 'HLA RESTRICTION' are not required.");
             }
         }
@@ -287,9 +287,9 @@ public class PeptideImporter
         peptide.setSequence_length(validateInteger(fields[5].trim()));
         peptide.setAmino_acid_start_pos(validateInteger(fields[6].trim()));
         peptide.setAmino_acid_end_pos(validateInteger(fields[7].trim()));
-        if(fields[8]!=null && fields[8].trim().length() !=0)
+        if(fields[8]!=null && !fields[8].trim().isEmpty())
             peptide.setOptimal_epitope_list_id(optimalElitopeListMap.get(fields[8].trim().toUpperCase()).getOptimal_epitope_list_id());
-        if(fields[9] !=null && fields[9].trim().length() !=0)
+        if(fields[9] !=null && !fields[9].trim().isEmpty())
         {
             String  hla = fields[9].trim();
             if(hla.charAt(0) == '"')
@@ -322,7 +322,7 @@ public class PeptideImporter
         else{
             for(int i = 0;i <10;i++)
             {
-                if(fields[i] ==null || fields[i].length() == 0)
+                if(fields[i] ==null || fields[i].isEmpty())
                     errors.reject(null,"Line number : 1 in the Peptides file has to be tab delimited and should have 10 fields.\n"+
                             "'PEPTIDE SEQUENCE','IS CHILD','PROTEIN CATEGORY','PEPTIDE GROUP','ID','SEQUENCE LENGTH',\n" +
                             "'AASTART','AAEND','IN A LIST' and 'HLA RESTRICTION'.\n"+

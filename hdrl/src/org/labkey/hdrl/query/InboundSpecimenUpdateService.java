@@ -125,8 +125,8 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date today = calendar.getTime();
-        List<String> errors = new ArrayList<String>();
-        List<String> missingFields = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
+        List<String> missingFields = new ArrayList<>();
         if (row.get("FMPId") == null)
             missingFields.add("FMP");
         if (row.get("DrawDate") == null)
@@ -151,28 +151,32 @@ public class InboundSpecimenUpdateService extends DefaultQueryUpdateService
                 }
             }
         }
-        if (row.get("BirthDate") != null)
+        Object birthDateObj = row.get("BirthDate");
+        if (birthDateObj != null)
         {
             Date birthDate = null;
-            if (row.get("BirthDate") instanceof Date)
-                birthDate = (Date) row.get("BirthDate");
+            if (birthDateObj instanceof Date d)
+                birthDate = d;
             else
             {
                 try
                 {
                     birthDate = dateFormat.parse((String) row.get("BirthDate"));
-                    if (birthDate.after(today))
-                    {
-                        errors.add("Birth date cannot be in the future");
-                    }
-                    else if ((drawDate != null) && (drawDate.before(birthDate)))
-                    {
-                        errors.add("Draw date cannot be before birth date");
-                    }
                 }
                 catch (ParseException e)
                 {
                     errors.add("Invalid birth date format");
+                }
+            }
+            if (birthDate != null)
+            {
+                if (birthDate.after(today))
+                {
+                    errors.add("Birth date cannot be in the future");
+                }
+                else if ((drawDate != null) && (drawDate.before(birthDate)))
+                {
+                    errors.add("Draw date cannot be before birth date");
                 }
             }
         }

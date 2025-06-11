@@ -22,7 +22,7 @@ public class PeptidePool extends Entity
     private Integer parent_pool_id;
     private String parent_pool_name;
     private String matrix_peptide_pool_id;
-    private static Logger log = LogManager.getLogger(PeptidePool.class);
+    private static final Logger log = LogManager.getLogger(PeptidePool.class);
 
     public PeptidePool()
     {

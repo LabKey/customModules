@@ -34,8 +34,8 @@ import java.util.HashMap;
 public class PepDBManager
 {
 
-    private static Logger log = LogManager.getLogger(PepDBManager.class);
-    private static PepDBSchema schema = PepDBSchema.getInstance();
+    private static final Logger log = LogManager.getLogger(PepDBManager.class);
+    private static final PepDBSchema schema = PepDBSchema.getInstance();
     /**
      * Static class
      */
@@ -78,7 +78,6 @@ public class PepDBManager
     }
 
     /**
-     * @param peptideGroup
      * @return the number of peptides in a given group
      */
     public static Integer getCount(Integer peptideGroup)
@@ -319,7 +318,7 @@ public class PepDBManager
 
     public static PeptideGroup getPeptideGroupByName(PeptideGroup pg)
     {
-        PeptideGroup [] groups = null;
+        PeptideGroup [] groups;
         TableInfo tInfo = schema.getTableInfoPeptideGroups();
         SQLFragment sql = new SQLFragment("SELECT * FROM "+tInfo+" WHERE UPPER(peptide_group_name) = ? ");
         sql.add(pg.getPeptide_group_name().trim().toUpperCase());

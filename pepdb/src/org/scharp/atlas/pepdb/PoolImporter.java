@@ -99,12 +99,12 @@ public class PoolImporter
                     return false;
                 getPeptidePoolMap();
                 getPoolTypeMap();
-                ArrayList<PeptidePool> newPPools = new ArrayList<PeptidePool>();
+                ArrayList<PeptidePool> newPPools = new ArrayList<>();
                 int lineNo =1;
                 while((line = br.readLine()) != null)
                 {
                     lineNo++;
-                    if(line.trim().length()>0)
+                    if(!line.trim().isEmpty())
                     {
                         if(validateLine(line,errors,lineNo))
                         {
@@ -124,7 +124,7 @@ public class PoolImporter
                     if(pPool.getPool_type_id() != poolTypeMap.get("POOL").getPool_type_id())
                     pPool.setParent_pool_id(peptidePoolMap.get(pPool.getParent_pool_name()).getPeptide_pool_id());
                     PeptidePool dbPeptidePool = null;
-                    if(peptidePoolMap.get(pPool.getPeptide_pool_name().trim().toUpperCase()).getPeptide_pool_id() == null || peptidePoolMap.get(pPool.getPeptide_pool_name().trim().toUpperCase()).getPeptide_pool_id().toString().length() == 0)
+                    if(peptidePoolMap.get(pPool.getPeptide_pool_name().trim().toUpperCase()).getPeptide_pool_id() == null || peptidePoolMap.get(pPool.getPeptide_pool_name().trim().toUpperCase()).getPeptide_pool_id().toString().isEmpty())
                         dbPeptidePool= PepDBManager.insertPeptidePool(user,pPool);
                     if(dbPeptidePool != null)
                         peptidePoolMap.put(dbPeptidePool.getPeptide_pool_name().trim().toUpperCase(),dbPeptidePool);
@@ -149,12 +149,12 @@ public class PoolImporter
                 getPeptidePoolMap();
                 getPeptideSequenceMap();
                 getPeptideGroupMap();
-                ArrayList<PeptidePoolAssignment> newpeptidesInPools = new ArrayList<PeptidePoolAssignment>();
-                HashMap<Integer, ArrayList<Integer>> newpoolPeptides = new HashMap<Integer,ArrayList<Integer>>();
+                ArrayList<PeptidePoolAssignment> newpeptidesInPools = new ArrayList<>();
+                HashMap<Integer, ArrayList<Integer>> newpoolPeptides = new HashMap<>();
                 while((line = br.readLine()) != null)
                 {
                     lineNo++;
-                    if(line.length()>0)
+                    if(!line.isEmpty())
                     {
                         if(validatePPLine(line,errors,lineNo,newpoolPeptides))
                         {
@@ -166,7 +166,7 @@ public class PoolImporter
                                      newpoolPeptides.get(poolAssign.getPeptide_pool_id()).add(poolAssign.getPeptide_id());
                                 else
                                 {
-                                  ArrayList<Integer> peps = new ArrayList<Integer>();
+                                  ArrayList<Integer> peps = new ArrayList<>();
                                   peps.add(poolAssign.getPeptide_id());
                                   newpoolPeptides.put(poolAssign.getPeptide_pool_id(),peps);
                                 }
@@ -219,7 +219,7 @@ public class PoolImporter
         PeptidePool pPool = new PeptidePool();
         pPool.setPeptide_pool_name(fields[0].trim());
         pPool.setPool_type_id(poolTypeMap.get(fields[1].trim().toUpperCase()).getPool_type_id());
-        if(fields[2] != null && fields[2].trim().toUpperCase() != null && fields[2].trim().toUpperCase().length() != 0)
+        if(fields[2] != null && fields[2].trim().toUpperCase() != null && !fields[2].trim().toUpperCase().isEmpty())
         pPool.setParent_pool_name(fields[2].trim().toUpperCase());
         if(fields[1].trim().toUpperCase().equalsIgnoreCase("MATRIX"))
         pPool.setMatrix_peptide_pool_id(fields[3].trim());
@@ -240,7 +240,7 @@ public class PoolImporter
             errors.reject(null,"Line number : "+lineNo+"must have 2 fields.The Pool Description File has to be tab delimited and must have the fields 'POOL NAME' and 'POOL TYPE'.");
         else
         {
-            if((fields[0] == null || fields[0].trim().length() == 0) || (fields[1] == null || fields[1].trim().length() == 0))
+            if((fields[0] == null || fields[0].trim().isEmpty()) || (fields[1] == null || fields[1].trim().isEmpty()))
                 errors.reject(null,"Line number : "+lineNo+" is missing one of the required field values \n" +
                         "'POOL NAME' and 'POOL TYPE'.");
             else   {
@@ -252,23 +252,23 @@ public class PoolImporter
                             " that does not exist in the database. Check the file and upload again or Contact SCHARP to add new Pool Type.");
                 else
                 {
-                    if (fields[1].trim().toUpperCase().equalsIgnoreCase("MATRIX") && (fields[3] == null || fields[3].trim().length() == 0))
+                    if (fields[1].trim().toUpperCase().equalsIgnoreCase("MATRIX") && (fields[3] == null || fields[3].trim().isEmpty()))
                      errors.reject(null,"Line number : "+lineNo+" is missing 'MATRIX POOL ID' " + fields[1] +
                             " for 'POOL TYPE' 'MATRIX'. Check the file and upload again or Contact SCHARP to add new Pool Type.");
 
-                    if (!fields[1].trim().toUpperCase().equalsIgnoreCase("MATRIX") && (fields[3] != null && fields[3].trim().length() != 0))
+                    if (!fields[1].trim().toUpperCase().equalsIgnoreCase("MATRIX") && (fields[3] != null && !fields[3].trim().isEmpty()))
                      errors.reject(null,"Line number : "+lineNo+" has 'MATRIX POOL ID' " + fields[1] +
                             " for 'POOL TYPE' other than 'MATRIX' which is not expected. Check the file and upload again or Contact SCHARP to add new Pool Type.");
 
-                    if (fields[1].trim().toUpperCase().equalsIgnoreCase("POOL") && (fields[2] != null && fields[2].trim().length() != 0))
+                    if (fields[1].trim().toUpperCase().equalsIgnoreCase("POOL") && (fields[2] != null && !fields[2].trim().isEmpty()))
                      errors.reject(null,"Line number : "+lineNo+" has 'PARENT POOL NAME' " + fields[1] +
                             " for 'POOL TYPE' 'POOL' which is not expected. Check the file and upload again or Contact SCHARP to add new Pool Type.");
 
-                    if ((!fields[1].trim().toUpperCase().equalsIgnoreCase("POOL") && !fields[1].trim().toUpperCase().equalsIgnoreCase("OTHER")) && (fields[2] == null || fields[2].trim().length() == 0))
+                    if ((!fields[1].trim().toUpperCase().equalsIgnoreCase("POOL") && !fields[1].trim().toUpperCase().equalsIgnoreCase("OTHER")) && (fields[2] == null || fields[2].trim().isEmpty()))
                      errors.reject(null,"Line number : "+lineNo+" is missing 'PARENT POOL NAME' " + fields[1] +
                             " for 'POOL TYPE' other than 'POOL' and 'OTHER'. Check the file and upload again or Contact SCHARP to add new Pool Type.");
 
-                    else if(fields[2] != null && fields[2].trim().length() != 0)
+                    else if(fields[2] != null && !fields[2].trim().isEmpty())
                     {
                     if(!peptidePoolMap.containsKey(fields[2].trim().toUpperCase()))
                       errors.reject(null,"Line number : "+lineNo+" contains the 'PARENT POOL NAME' = '" + fields[2] +
@@ -303,7 +303,7 @@ public class PoolImporter
             errors.reject(null,"Line number : "+lineNo+"must have 3 fields.The Peptides In Pool File has to be tab delimited and must have the fields 'POOL NAME', 'PEPTIDE SEQUENCE' and , 'PEPTIDE GROUP'.");
         else
         {
-            if((fields[0] == null || fields[0].trim().length() == 0) || (fields[1] == null || fields[1].trim().length() == 0) || (fields[2] == null || fields[2].trim().length() == 0))
+            if((fields[0] == null || fields[0].trim().isEmpty()) || (fields[1] == null || fields[1].trim().isEmpty()) || (fields[2] == null || fields[2].trim().isEmpty()))
                 errors.reject(null,"Line number : "+lineNo+" is missing one of the field values \n" +
                         "'POOL NAME', 'PEPTIDE SEQUENCE' and , 'PEPTIDE GROUP'.");
             else   {
@@ -330,8 +330,8 @@ public class PoolImporter
                         {
                             Integer[] peptidesInParent = PepDBManager.getPeptidesInPool(pp.getParent_pool_id());
 
-                            if( (peptidesInParent == null && (newPoolPeptides.size() == 0 || !newPoolPeptides.containsKey(pp.getParent_pool_id())))||(peptidesInParent != null && !Arrays.asList( peptidesInParent).contains(p.getPeptide_id())) ||
-                                    (newPoolPeptides.size() != 0 && newPoolPeptides.containsKey(pp.getParent_pool_id()) && !newPoolPeptides.get(pp.getParent_pool_id()).contains(p.getPeptide_id())))
+                            if( (peptidesInParent == null && (newPoolPeptides.isEmpty() || !newPoolPeptides.containsKey(pp.getParent_pool_id())))||(peptidesInParent != null && !Arrays.asList( peptidesInParent).contains(p.getPeptide_id())) ||
+                                    (!newPoolPeptides.isEmpty() && newPoolPeptides.containsKey(pp.getParent_pool_id()) && !newPoolPeptides.get(pp.getParent_pool_id()).contains(p.getPeptide_id())))
                                 errors.reject(null,"Line number : "+lineNo+" contains the 'PEPTIDE SEQUENCE' = '" + fields[1] +
                             "' which is not in parent pool in the database or prior to this row. Check the file and upload again.");
 
@@ -356,10 +356,10 @@ public class PoolImporter
                         "The header line does not match this format. Please check the file and try to upload again.");
             else
             {
-                if(fields[0] ==null || fields[0].trim().length() == 0
-                        || fields[1] ==null || fields[1].trim().length() == 0
-                        || fields[2] ==null || fields[2].trim().length() == 0
-                        || fields[3] ==null || fields[3].trim().length() == 0)
+                if(fields[0] ==null || fields[0].trim().isEmpty()
+                        || fields[1] ==null || fields[1].trim().isEmpty()
+                        || fields[2] ==null || fields[2].trim().isEmpty()
+                        || fields[3] ==null || fields[3].trim().isEmpty())
                     errors.reject(null,"Line number : 1 must be tab delimited with the fields 'Pool Name','Pool Type','Parent Pool Name' and 'Matrix Pool Id' in the Pool Descriptions file.\n"+
                             "One of the fields in header line is null or empty. Please check the file and try to upload again.");
                 else
@@ -385,7 +385,7 @@ public class PoolImporter
                         "The header line does not match this format. Please check the file and try to upload again.");
             else
             {
-                if(fields[0] ==null || fields[0].trim().length() == 0 ||fields[1] ==null || fields[1].trim().length() == 0 || fields[2] ==null || fields[2].trim().length() == 0)
+                if(fields[0] ==null || fields[0].trim().isEmpty() ||fields[1] ==null || fields[1].trim().isEmpty() || fields[2] ==null || fields[2].trim().isEmpty())
                     errors.reject(null,"Line number : 1 must be tab delimited with the fields 'POOL NAME','PEPTIDE SEQUENCE' and 'PEPTIDE GROUP'in the Peptides in Pool file.\n"+
                             "One of the fields in header line is null or empty. Please check the file and try to upload again.");
                 else

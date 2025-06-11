@@ -28,7 +28,6 @@ import org.labkey.api.data.SqlExecutor;
 import org.labkey.api.security.User;
 import org.labkey.api.util.ContainerUtil;
 import org.labkey.hdrl.query.LabWareQuerySchema;
-import org.labkey.remoteapi.assay.Data;
 
 import java.util.Collections;
 import java.util.Collection;

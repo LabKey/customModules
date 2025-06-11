@@ -15,7 +15,6 @@
  */
 package org.labkey.hdrl;
 
-import org.labkey.api.module.Module;
 import org.labkey.api.module.MultiPortalFolderType;
 import org.labkey.api.view.Portal;
 

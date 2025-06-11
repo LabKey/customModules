@@ -79,7 +79,7 @@ public class HDRLQuerySchema extends SimpleUserSchema
     public static final String TABLE_LABWARE_OUTBOUND_RESULTS = "LabwareOutboundRequests";
     public static final String TABLE_LABWARE_OUTBOUND_SPECIMENS = "LabwareOutboundSpecimens";
 
-    public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";;
+    public static final String COL_REQUEST_STATUS_ID = "RequestStatusId";
     public static final String COL_INBOUND_REQUEST_ID = "InboundRequestId";
     public static final String COL_ARCHIVED_REQUEST_COUNT = "ArchivedRequestCount";
 

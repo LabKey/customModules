@@ -215,7 +215,7 @@ public class PepDBBaseController extends SpringActionController
             {
                 if (StringUtils.trimToNull(qValue) == null)
                     errors.reject(null, "The Peptide Id range must be entered.");
-                if (qValue != null && qValue.length() > 0)
+                if (qValue != null && !qValue.isEmpty())
                 {
                     if (!(qValue.matches("\\d+-\\d+")))
                     {
@@ -423,7 +423,7 @@ public class PepDBBaseController extends SpringActionController
                     errors.reject(null, "File name must end with in .txt.\nFile should be tab delimited text file and the number of field vary depending on file type.");
                 }
             }
-            if (getActionType() == null || getActionType().length() == 0)
+            if (getActionType() == null || getActionType().isEmpty())
                 errors.reject(null, "File Type is required");
             if(errors.getErrorCount() > 0)
                 return false;
