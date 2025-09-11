@@ -21,12 +21,14 @@ import org.junit.experimental.categories.Category;
 import org.labkey.test.BaseWebDriverTest;
 import org.labkey.test.Locator;
 import org.labkey.test.TestTimeoutException;
+import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.util.AbstractDataRegionExportOrSignHelper.ColumnHeaderType;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Test exporting rows from a specimen grid (not folder/study specimen export.)
@@ -170,7 +172,7 @@ public class SpecimenGridExportTest extends AbstractExportTest
     @Override
     protected void goToDataRegionPage()
     {
-        beginAt("/" + getProjectName() + "/specimen-specimens.view?showVials=false");
+        beginAt(WebTestHelper.buildURL("specimens", getProjectName(), "specimens", Map.of("showVials", false)));
     }
 
     @Override
