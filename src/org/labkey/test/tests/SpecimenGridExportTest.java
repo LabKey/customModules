@@ -172,7 +172,7 @@ public class SpecimenGridExportTest extends AbstractExportTest
     @Override
     protected void goToDataRegionPage()
     {
-        beginAt(WebTestHelper.buildURL("specimens", getProjectName(), "specimens", Map.of("showVials", false)));
+        beginAt(WebTestHelper.buildURL("specimen", getProjectName(), "specimens", Map.of("showVials", false)));
     }
 
     @Override
