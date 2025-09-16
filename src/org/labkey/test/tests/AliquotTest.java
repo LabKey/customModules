@@ -24,6 +24,7 @@ import org.labkey.test.TestTimeoutException;
 import org.labkey.test.categories.Daily;
 import org.labkey.test.categories.Specimen;
 import org.labkey.test.components.html.BootstrapMenu;
+import org.labkey.test.components.html.OptionSelect;
 import org.labkey.test.pages.ImportDataPage;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
@@ -274,12 +275,12 @@ public class AliquotTest extends SpecimenBaseTest
 
         // verify insert new here
         DataRegionTable detail = new DataRegionTable("SpecimenDetail", this);
-        detail.clickInsertNewRow();
-        setFormElement(Locator.xpath("//input[@name='quf_GlobalUniqueId']"), "Global");
-        setFormElement(Locator.xpath("//input[@name='quf_VisitDescription']"), "NewVisit");
-        setFormElement(Locator.xpath("//input[@name='quf_SequenceNum']"), "001");
-        selectOptionByText(Locator.name("quf_ParticipantId"), "618005775");
-        clickButton("Submit");
+        detail.clickInsertNewRow()
+                .setField("GlobalUniqueId", "Global")
+                .setField("VisitDescription", "NewVisit")
+                .setField("SequenceNum", "001")
+                .setField("ParticipantId", OptionSelect.SelectOption.textOption("618005775"))
+                .submit();
         assertElementNotPresent(Locator.tagWithClass("*", "labkey-error").withText());
         detail.setFilter("VisitDescription", "Equals", "NewVisit");
         assertTextPresent("NewVisit");
