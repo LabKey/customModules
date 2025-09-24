@@ -48,6 +48,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 
 @Category({Git.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 8)
@@ -232,7 +233,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         // Verify download
         goToProjectHome();
-        impersonateRole("Reader");
+        impersonateRole(READER_ROLE);
         click(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
         idx = drt.getRowIndex("RequestId", requestId);
@@ -418,7 +419,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("verify submitted requests are readonly for non-admins");
 
-        impersonateRole("Reader");
+        impersonateRole(READER_ROLE);
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
@@ -432,7 +433,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         waitForElement(Locator.tagContainingText("td", "FedEx"));
         assertElementNotPresent(org.labkey.test.Locators.bodyTitle("Edit a Test Request"));
 
-        testPrintPackingList("Reader", "FedEx");
+        testPrintPackingList(READER_ROLE, "FedEx");
 
         stopImpersonating();
     }
