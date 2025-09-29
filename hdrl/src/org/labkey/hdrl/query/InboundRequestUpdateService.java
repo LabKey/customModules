@@ -148,7 +148,7 @@ public class InboundRequestUpdateService extends DefaultQueryUpdateService
     private static List<String> findDuplicates(Integer requestId, String fields)
     {
         SQLFragment sql = new SQLFragment("SELECT ")
-                .append(fields).append(" FROM hdrl.inboundspecimen WHERE inboundrequestid = ").append(requestId);
+                .append(fields).append(" FROM hdrl.inboundspecimen WHERE inboundrequestid = ?").add(requestId);
         for (String field : fields.split(", "))
         {
             sql.append(" AND ").append(field).append(" IS NOT NULL ");
