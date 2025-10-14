@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.test.tests;
+package org.labkey.test.tests.hdrl;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.Git;
+import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -50,7 +50,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 
-@Category({Git.class})
+@Category({CustomModules.class})
 @BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
