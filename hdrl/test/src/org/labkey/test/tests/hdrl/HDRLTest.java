@@ -29,7 +29,7 @@ import org.labkey.test.Locators;
 import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
-import org.labkey.test.categories.CustomModules;
+import org.labkey.test.categories.Git;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.LoggedParam;
@@ -50,7 +50,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 
-@Category({CustomModules.class})
+@Category({Git.class}) // Requires dataintegration module
 @BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
