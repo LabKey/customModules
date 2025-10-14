@@ -392,10 +392,10 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("edit an existing request");
         goToProjectHome();
-        click(Locator.linkContainingText("View test requests"));
+        clickAndWait(Locator.linkContainingText("View test requests"));
 
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRowIndex("ShippingCarrier", "FedEx");
+        int idx = drt.getRowIndex("ShippingCarrierId", "FedEx");
         assertNotEquals(-1, idx);
         clickAndWait(drt.link(idx, 0));
         log("submitting an existing request");
@@ -404,7 +404,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton(SUBMIT_BUTTON_TEXT);
 
         drt = new DataRegionTable("query", this);
-        idx = drt.getRowIndex("ShippingCarrier", "FedEx");
+        idx = drt.getRowIndex("ShippingCarrierId", "FedEx");
         assertNotEquals(-1, idx);
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted By").trim().isEmpty()); // "submitted by" field should be filled in
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted").trim().isEmpty()); // submitted date should be filled in
@@ -423,7 +423,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
-        idx = drt.getRowIndex("ShippingCarrier", "FedEx");
+        idx = drt.getRowIndex("ShippingCarrierId", "FedEx");
         assertNotEquals(-1, idx);
         log("ensure submitted requests are still editable by admins");
         assertEquals("VIEW", drt.getDataAsText(idx, 0));
@@ -526,7 +526,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         getDriver().close();
         switchToMainWindow();
         goToProjectHome();
-        click(Locator.linkWithText("View test requests"));
+        clickAndWait(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRowIndex("ShippingNumber", "testRetrievalOfResults");
         assertNotEquals(-1, idx);
@@ -641,9 +641,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     protected void setTimeWindow()
     {
         goToAdminConsole();
-        click(Locator.linkWithText("HDRL Sensitive Data"));
+        clickAndWait(Locator.linkWithText("HDRL Sensitive Data"));
         setFormElement(Locator.name("timeWindowInDays"), "0");
-        click(Locator.linkWithSpan("Save"));
+        clickAndWait(Locator.linkWithSpan("Save"));
     }
 
     @Override
