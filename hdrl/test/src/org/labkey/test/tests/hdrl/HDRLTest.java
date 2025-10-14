@@ -212,7 +212,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimen1.put("SampleIntegrity", "Hemolyzed");
         specimen1.put("TestResult", "HIV Negative");
         specimen1.put("CustomerCode", "5B");
-        specimen1.put("RequestStatus", "Completed");
+        specimen1.put("RequestStatusId", "Completed");
         specimen1.put("ModifiedResultFlag", "F");
 
         Map<String, String> specimen2 = new HashMap<>();
@@ -220,7 +220,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimen2.put("RequestId", requestId);
         specimen2.put("SpecimenId", specimenIds.get(1));
         specimen2.put("Received", "2015-06-01 00:00");
-        specimen2.put("RequestStatus", "Exception");
+        specimen2.put("RequestStatusId", "Exception");
         specimen2.put("ModifiedResultFlag", "F");
 
         List<Map<String, String>> specimens = new ArrayList<>();
