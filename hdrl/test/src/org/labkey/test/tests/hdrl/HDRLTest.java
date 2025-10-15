@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.labkey.test.tests;
+package org.labkey.test.tests.hdrl;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,7 +50,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
 
-@Category({Git.class})
+@Category({Git.class}) // Requires dataintegration module
 @BaseWebDriverTest.ClassTimeout(minutes = 8)
 public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 {
@@ -212,7 +212,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimen1.put("SampleIntegrity", "Hemolyzed");
         specimen1.put("TestResult", "HIV Negative");
         specimen1.put("CustomerCode", "5B");
-        specimen1.put("RequestStatus", "Completed");
+        specimen1.put("RequestStatusId", "Completed");
         specimen1.put("ModifiedResultFlag", "F");
 
         Map<String, String> specimen2 = new HashMap<>();
@@ -220,7 +220,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         specimen2.put("RequestId", requestId);
         specimen2.put("SpecimenId", specimenIds.get(1));
         specimen2.put("Received", "2015-06-01 00:00");
-        specimen2.put("RequestStatus", "Exception");
+        specimen2.put("RequestStatusId", "Exception");
         specimen2.put("ModifiedResultFlag", "F");
 
         List<Map<String, String>> specimens = new ArrayList<>();
@@ -392,10 +392,10 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         log("edit an existing request");
         goToProjectHome();
-        click(Locator.linkContainingText("View test requests"));
+        clickAndWait(Locator.linkContainingText("View test requests"));
 
         DataRegionTable drt = new DataRegionTable("query", this);
-        int idx = drt.getRowIndex("ShippingCarrier", "FedEx");
+        int idx = drt.getRowIndex("ShippingCarrierId", "FedEx");
         assertNotEquals(-1, idx);
         clickAndWait(drt.link(idx, 0));
         log("submitting an existing request");
@@ -404,7 +404,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         clickButton(SUBMIT_BUTTON_TEXT);
 
         drt = new DataRegionTable("query", this);
-        idx = drt.getRowIndex("ShippingCarrier", "FedEx");
+        idx = drt.getRowIndex("ShippingCarrierId", "FedEx");
         assertNotEquals(-1, idx);
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted By").trim().isEmpty()); // "submitted by" field should be filled in
         Assert.assertFalse(drt.getDataAsText(idx, "Submitted").trim().isEmpty()); // submitted date should be filled in
@@ -423,7 +423,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         goToProjectHome();
         clickAndWait(Locator.linkContainingText("View test requests"));
         drt = new DataRegionTable("query", this);
-        idx = drt.getRowIndex("ShippingCarrier", "FedEx");
+        idx = drt.getRowIndex("ShippingCarrierId", "FedEx");
         assertNotEquals(-1, idx);
         log("ensure submitted requests are still editable by admins");
         assertEquals("VIEW", drt.getDataAsText(idx, 0));
@@ -526,7 +526,7 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         getDriver().close();
         switchToMainWindow();
         goToProjectHome();
-        click(Locator.linkWithText("View test requests"));
+        clickAndWait(Locator.linkWithText("View test requests"));
         DataRegionTable drt = new DataRegionTable("query", this);
         int idx = drt.getRowIndex("ShippingNumber", "testRetrievalOfResults");
         assertNotEquals(-1, idx);
@@ -641,9 +641,9 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
     protected void setTimeWindow()
     {
         goToAdminConsole();
-        click(Locator.linkWithText("HDRL Sensitive Data"));
+        clickAndWait(Locator.linkWithText("HDRL Sensitive Data"));
         setFormElement(Locator.name("timeWindowInDays"), "0");
-        click(Locator.linkWithSpan("Save"));
+        clickAndWait(Locator.linkWithSpan("Save"));
     }
 
     @Override
