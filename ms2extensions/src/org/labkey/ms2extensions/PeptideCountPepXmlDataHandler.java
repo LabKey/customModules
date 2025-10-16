@@ -16,6 +16,7 @@
 package org.labkey.ms2extensions;
 
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.data.Container;
 import org.labkey.api.exp.ExperimentDataHandler;
@@ -28,7 +29,8 @@ import org.labkey.api.util.PepXMLFileType;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.ViewBackgroundInfo;
 
-import java.io.File;
+import org.labkey.vfs.FileLike;
+
 import java.io.OutputStream;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class PeptideCountPepXmlDataHandler implements ExperimentDataHandler
     }
 
     @Override
-    public void importFile(ExpData data, File dataFile, ViewBackgroundInfo info, Logger log, XarContext context) throws ExperimentException
+    public void importFile(@NotNull ExpData data, @NotNull FileLike dataFile, @NotNull ViewBackgroundInfo info, @NotNull Logger log, @NotNull XarContext context) throws ExperimentException
     {
         _realHandler.importFile(data, dataFile, info, log, context);
         PeptideCountUpdater updater = new PeptideCountUpdater();
@@ -60,7 +62,7 @@ public class PeptideCountPepXmlDataHandler implements ExperimentDataHandler
     }
 
     @Override
-    public void exportFile(ExpData data, File dataFile, User user, OutputStream out) throws ExperimentException
+    public void exportFile(ExpData data, FileLike dataFile, User user, OutputStream out) throws ExperimentException
     {
         _realHandler.exportFile(data, dataFile, user, out);
     }
@@ -84,7 +86,7 @@ public class PeptideCountPepXmlDataHandler implements ExperimentDataHandler
     }
 
     @Override
-    public boolean hasContentToExport(ExpData data, File file)
+    public boolean hasContentToExport(ExpData data, FileLike file)
     {
         return _realHandler.hasContentToExport(data, file);
     }
