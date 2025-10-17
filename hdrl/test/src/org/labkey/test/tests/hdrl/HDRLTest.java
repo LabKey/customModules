@@ -96,6 +96,12 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
         super.doCleanup(afterTest);
     }
 
+    @Override
+    protected boolean allowTimeZoneShifting()
+    {
+        return false; // Ext forms need to be updated to handle time zones properly
+    }
+
     private void addTestResultData(Map<String, Object> requestData, List<Map<String, Object>> specimenData)
     {
         addRequestResultData(requestData);
@@ -244,11 +250,11 @@ public class HDRLTest extends BaseWebDriverTest implements PostgresOnlyTest
 
         waitForElement(Locator.tagContainingText("td", specimenIds.get(0)));
         drt = new DataRegionTable("query", this);
-        idx = drt.getRowIndex("SpecimenId", specimenIds.get(0));
+        idx = drt.getRowIndex("RowId", specimenIds.get(0));
         assertEquals("Download", drt.getDataAsText(idx, 0));
         assertEquals( Arrays.asList("Completed","Exception"),drt.getColumnDataAsText("Status"));
-        assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText("ResultModified"));
-        assertEquals( Arrays.asList("7777","8888"),drt.getColumnDataAsText("CustomerBarcode"));
+        assertEquals( Arrays.asList("F","F"),drt.getColumnDataAsText("ModifiedResultFlag"));
+        assertEquals( Arrays.asList("7777","8888"),drt.getColumnDataAsText("CustomerBarCode"));
         assertEquals( Arrays.asList("Johnston","Johnston"),drt.getColumnDataAsText("LastName"));
         assertEquals( Arrays.asList("Jack","Fred"),drt.getColumnDataAsText("FirstName"));
         assertEquals( Arrays.asList("Sparrow"," "),drt.getColumnDataAsText("MiddleName"));
