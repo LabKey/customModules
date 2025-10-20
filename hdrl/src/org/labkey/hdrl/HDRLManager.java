@@ -33,6 +33,7 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
+import org.labkey.api.view.NotFoundException;
 import org.labkey.hdrl.query.HDRLQuerySchema;
 import org.labkey.hdrl.query.LabWareQuerySchema;
 import org.labkey.hdrl.view.InboundRequestBean;
@@ -67,6 +68,9 @@ public class HDRLManager
     public InboundRequestBean getInboundRequest(User user, Container container, Integer requestId)
     {
         UserSchema schema = QueryService.get().getUserSchema(user, container, HDRLQuerySchema.NAME);
+        if (schema == null)
+            throw new NotFoundException(HDRLModule.NAME + " module is not enabled in this container.");
+
         SQLFragment sql = new SQLFragment("SELECT r.RequestId, r.ShippingNumber, s.Name as RequestStatus, c.Name as ShippingCarrier, t.Name as TestType FROM ");
         sql.append("(SELECT * FROM hdrl.InboundRequest WHERE (Container = ?) AND (RequestId = ?)) r ");
         sql.add(container);
@@ -77,7 +81,10 @@ public class HDRLManager
 
 
         SqlSelector sqlSelector = new SqlSelector(schema.getDbSchema(), sql);
-        return sqlSelector.getObject(InboundRequestBean.class);
+        InboundRequestBean inboundRequestBean = sqlSelector.getObject(InboundRequestBean.class);
+        if (inboundRequestBean == null)
+            throw new NotFoundException("Request %s not found.".formatted(requestId));
+        return inboundRequestBean;
     }
 
     public List<InboundSpecimenBean> getInboundSpecimen(int requestId)

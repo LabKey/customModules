@@ -16,12 +16,14 @@
 
 package org.labkey.hdrl;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.labkey.api.action.ApiSimpleResponse;
+import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.action.ExportAction;
 import org.labkey.api.action.FormViewAction;
 import org.labkey.api.action.Marshal;
@@ -29,7 +31,6 @@ import org.labkey.api.action.Marshaller;
 import org.labkey.api.action.MutatingApiAction;
 import org.labkey.api.action.ReadOnlyApiAction;
 import org.labkey.api.action.SimpleApiJsonForm;
-import org.labkey.api.action.SimpleErrorView;
 import org.labkey.api.action.SimpleViewAction;
 import org.labkey.api.action.SpringActionController;
 import org.labkey.api.admin.AdminUrls;
@@ -74,13 +75,13 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class HDRLController extends SpringActionController
 {
@@ -137,11 +138,11 @@ public class HDRLController extends SpringActionController
         @Override
         public ModelAndView getView(Object o, BindException errors)
         {
-            String requestId = getViewContext().getRequest().getParameter("requestId");
-            if (requestId != null)
+            try
             {
-                InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), Integer.parseInt(requestId));
-                JspView jsp = new JspView<>("/org/labkey/hdrl/view/requestDetails.jsp", bean);
+                int requestId = Integer.parseInt(getViewContext().getRequest().getParameter("requestId"));
+                InboundRequestBean bean = HDRLManager.get().getInboundRequest(getUser(), getContainer(), requestId);
+                JspView<?> jsp = new JspView<>("/org/labkey/hdrl/view/requestDetails.jsp", bean);
                 jsp.setTitle("Test Request");
 
                 UserSchema schema = QueryService.get().getUserSchema(getUser(), getContainer(), HDRLQuerySchema.NAME);
@@ -151,10 +152,9 @@ public class HDRLController extends SpringActionController
                 jsp.setView("queryView", queryView);
                 return jsp;
             }
-            else
+            catch (NumberFormatException x)
             {
-                errors.reject("RequestId is required");
-                return new SimpleErrorView(errors);
+                throw new ApiUsageException("RequestId is required");
             }
         }
 
@@ -175,10 +175,18 @@ public class HDRLController extends SpringActionController
         {
             if (form.getRequestId() != -1)
             {
-                _navLabel = "Edit a Test Request";
-
                 TableSelector selector = new TableSelector(org.labkey.hdrl.HDRLSchema.getInstance().getTableInfoInboundRequest());
-                BeanUtils.copyProperties(form, selector.getObject(form.getRequestId(), RequestForm.class));
+                RequestForm object = selector.getObject(form.getRequestId(), RequestForm.class);
+                if (object != null)
+                {
+                    _navLabel = "Edit a Test Request";
+                    BeanUtils.copyProperties(form, object);
+                }
+                else
+                {
+                    form.setTestTypeId(1); // default to first test type
+                    errors.reject(ERROR_MSG, "Request with id " + form.getRequestId() + " not found.");
+                }
             }
             else
             {
@@ -265,7 +273,11 @@ public class HDRLController extends SpringActionController
         public Object execute(VerifyForm form, BindException errors)
         {
             ApiSimpleResponse response = new ApiSimpleResponse();
-            JSONArray rows = form.getJsonObject().getJSONArray("rows");
+            JSONArray rows = Objects.requireNonNullElseGet(form.getJsonObject(), JSONObject::new).optJSONArray("rows");
+            if (rows == null)
+            {
+                throw new ApiUsageException("rows not provided.");
+            }
             List<Map<String, Object>> rowsToValidate = new ArrayList<>();
 
             for (int idx = 0; idx < rows.length(); ++idx)
@@ -277,7 +289,7 @@ public class HDRLController extends SpringActionController
                 }
                 catch (JSONException x)
                 {
-                    throw new IllegalArgumentException("rows[" + idx + "] is not an object.");
+                    throw new ApiUsageException("rows[" + idx + "] is not an object.");
                 }
                 if (null != jsonObj)
                 {
