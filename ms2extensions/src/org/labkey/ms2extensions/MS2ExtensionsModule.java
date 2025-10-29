@@ -46,10 +46,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * User: jeckels
- * Date: 1/16/13
- */
 public class MS2ExtensionsModule extends DefaultModule
 {
     public static final String NAME = "MS2Extensions";
@@ -121,7 +117,7 @@ public class MS2ExtensionsModule extends DefaultModule
 
         AdminConsole.addLink(AdminConsole.SettingsLinkType.Premium, "update peptide counts", new ActionURL(MS2ExtensionsController.UpdatePeptideCountsAction.class, ContainerManager.getRoot()), AdminOperationsPermission.class);
 
-        ContainerManager.addContainerListener(new ContainerManager.AbstractContainerListener()
+        ContainerManager.addContainerListener(new ContainerManager.ContainerListener()
         {
             @Override
             public void containerDeleted(Container c, User user)
