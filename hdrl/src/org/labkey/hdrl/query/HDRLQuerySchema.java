@@ -19,6 +19,7 @@ package org.labkey.hdrl.query;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.labkey.api.action.ApiUsageException;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.ContainerFilter;
 import org.labkey.api.data.ContainerManager;
@@ -235,7 +236,14 @@ public class HDRLQuerySchema extends SimpleUserSchema
             SimpleFilter baseFilter = settings.getBaseFilter();
             if (StringUtils.isNotBlank(requestId))
             {
-                baseFilter.addAllClauses(new SimpleFilter(FieldKey.fromParts("inboundRequestId"), Integer.valueOf(requestId)));
+                try
+                {
+                    baseFilter.addAllClauses(new SimpleFilter(FieldKey.fromParts("inboundRequestId"), Integer.valueOf(requestId)));
+                }
+                catch (NumberFormatException e)
+                {
+                    throw new ApiUsageException("Invalid request id");
+                }
             }
 
             QueryView queryView = new QueryView(this, settings, errors)
