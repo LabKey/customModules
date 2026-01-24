@@ -73,6 +73,12 @@ public class HDRLModule extends DefaultModule
     }
 
     @Override
+    public boolean isAvailableOnlyWhenActive()
+    {
+        return true;
+    }
+
+    @Override
     public void doStartup(ModuleContext moduleContext)
     {
         // add a container listener so we'll know when our container is deleted:
