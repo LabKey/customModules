@@ -73,9 +73,9 @@ public class HDRLModule extends DefaultModule
     }
 
     @Override
-    public boolean isAvailableOnlyWhenActive()
+    public boolean isAvailable(Container container)
     {
-        return true;
+        return container.getActiveModules().contains(this);
     }
 
     @Override
