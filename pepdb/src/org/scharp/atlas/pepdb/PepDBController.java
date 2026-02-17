@@ -178,31 +178,16 @@ public class PepDBController extends PepDBBaseController
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession(true);
             session.setAttribute("QUERY_FORM", form);
-            GridView gridView = new GridView(new DataRegion(), (BindException) null);
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_GROUP_ID))
+            GridView gridView = switch (form.getQueryKey())
             {
-                gridView = getGridViewByGroup(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_POOL_ID))
-            {
-                gridView = getGridViewByPool(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PROTEIN_CAT_ID))
-            {
-                gridView = getGridViewByProtein(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_SEQUENCE))
-            {
-                gridView = getGridViewBySequence(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PARENT_SEQUENCE))
-            {
-                gridView = getGridViewByParent(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_CHILD_SEQUENCE))
-            {
-                gridView = getGridViewByChild(form, pv);
-            }
+                case PepDBSchema.COLUMN_PEPTIDE_GROUP_ID -> getGridViewByGroup(form, pv);
+                case PepDBSchema.COLUMN_PEPTIDE_POOL_ID -> getGridViewByPool(form, pv);
+                case PepDBSchema.COLUMN_PROTEIN_CAT_ID -> getGridViewByProtein(form, pv);
+                case PepDBSchema.COLUMN_PEPTIDE_SEQUENCE -> getGridViewBySequence(form, pv);
+                case PepDBSchema.COLUMN_PARENT_SEQUENCE -> getGridViewByParent(form, pv);
+                case PepDBSchema.COLUMN_CHILD_SEQUENCE -> getGridViewByChild(form, pv);
+                default -> null;
+            };
             if (gridView == null)
             {
                 HttpView.redirect(new ActionURL(SearchForPeptidesAction.class, getContainer()));
