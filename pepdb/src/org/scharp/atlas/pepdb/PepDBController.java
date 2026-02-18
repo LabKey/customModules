@@ -32,7 +32,6 @@ import org.labkey.api.security.permissions.UpdatePermission;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.DetailsView;
 import org.labkey.api.view.GridView;
-import org.labkey.api.view.HttpView;
 import org.labkey.api.view.InsertView;
 import org.labkey.api.view.JspView;
 import org.labkey.api.view.NavTree;
@@ -170,44 +169,29 @@ public class PepDBController extends PepDBBaseController
         @Override
         public ModelAndView getView(PeptideQueryForm form, BindException errors) throws Exception
         {
-            if (!form.validate(errors))
+            if (form.validate(errors))
             {
-                return new JspView<>(PAGE_PEPTIDE_GROUP_SELECT, form, errors);
+                PropertyValues pv = this.getPropertyValues();
+                GridView gridView = switch (form.getQueryKey())
+                {
+                    case PepDBSchema.COLUMN_PEPTIDE_GROUP_ID -> getGridViewByGroup(form, pv);
+                    case PepDBSchema.COLUMN_PEPTIDE_POOL_ID -> getGridViewByPool(form, pv);
+                    case PepDBSchema.COLUMN_PROTEIN_CAT_ID -> getGridViewByProtein(form, pv);
+                    case PepDBSchema.COLUMN_PEPTIDE_SEQUENCE -> getGridViewBySequence(form, pv);
+                    case PepDBSchema.COLUMN_PARENT_SEQUENCE -> getGridViewByParent(form, pv);
+                    case PepDBSchema.COLUMN_CHILD_SEQUENCE -> getGridViewByChild(form, pv);
+                    default -> null;
+                };
+                if (gridView != null)
+                {
+                    ViewContext ctx = getViewContext();
+                    HttpSession session = ctx.getRequest().getSession(true);
+                    session.setAttribute("QUERY_FORM", form);
+                    return gridView;
+                }
+                errors.reject(null, "Unrecognized queryKey: " + form.getQueryKey());
             }
-            PropertyValues pv = this.getPropertyValues();
-            ViewContext ctx = getViewContext();
-            HttpSession session = ctx.getRequest().getSession(true);
-            session.setAttribute("QUERY_FORM", form);
-            GridView gridView = new GridView(new DataRegion(), (BindException) null);
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_GROUP_ID))
-            {
-                gridView = getGridViewByGroup(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_POOL_ID))
-            {
-                gridView = getGridViewByPool(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PROTEIN_CAT_ID))
-            {
-                gridView = getGridViewByProtein(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_SEQUENCE))
-            {
-                gridView = getGridViewBySequence(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_PARENT_SEQUENCE))
-            {
-                gridView = getGridViewByParent(form, pv);
-            }
-            if (form.getQueryKey().equals(PepDBSchema.COLUMN_CHILD_SEQUENCE))
-            {
-                gridView = getGridViewByChild(form, pv);
-            }
-            if (gridView == null)
-            {
-                HttpView.redirect(new ActionURL(SearchForPeptidesAction.class, getContainer()));
-            }
-            return gridView;
+            return new JspView<>(PAGE_PEPTIDE_GROUP_SELECT, form, errors);
         }
 
         @Override

@@ -157,87 +157,85 @@ public class PepDBBaseController extends SpringActionController
             this.labId = labId;
         }
 
-        public boolean validate(Errors errors) throws SQLException
+        public boolean validate(Errors errors)
         {
             if(getQueryKey() == null || StringUtils.trimToNull(getQueryKey()) == null)
                 errors.reject(null, "The Search Criteria must be entered.");
             String qValue = getQueryValue();
-            if (getQueryKey() != null && getQueryKey().equals(PepDBSchema.COLUMN_PARENT_SEQUENCE))
+            if (getQueryKey() != null)
             {
-                if (StringUtils.trimToNull(qValue) == null)
-                    errors.reject(null, "The Parent Sequence must be entered.");
-            }
-            if (getQueryKey() != null && getQueryKey().equals(PepDBSchema.COLUMN_CHILD_SEQUENCE))
-            {
-                if (StringUtils.trimToNull(qValue) == null)
-                    errors.reject(null, "The Child Sequence must be entered.");
-            }
-            if (getQueryKey() != null && getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_GROUP_ID))
-            {
-                if (StringUtils.trimToNull(qValue) == null)
-                    errors.reject(null, "Peptide Group must be selected to get peptides in a group.");
-                /*
-                if(StringUtils.trimToNull(getLabId()) == null)
-                    errors.reject(null, "Peptide Number must be entered.");
-                    */
-            }
-            if (getQueryKey() != null && getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_POOL_ID))
-            {
-                if (StringUtils.trimToNull(qValue) == null)
-                    errors.reject(null, "Peptide Pool Name must be selected to get peptides in a pool.");
-            }
-            if (getQueryKey() != null && getQueryKey().equals(PepDBSchema.COLUMN_PROTEIN_CAT_ID))
-            {
-                if (StringUtils.trimToNull(qValue) == null)
-                    errors.reject(null, "Protein Category must be selected to get peptides in a protein category.");
-                else
+                switch (getQueryKey())
                 {
-                    ProteinCategory pc = PepDBManager.getProCatByID(Integer.parseInt(getQueryValue()));
-                    if(pc.getProtein_cat_desc().trim().contains("-"))
+                    case PepDBSchema.COLUMN_PARENT_SEQUENCE ->
                     {
-                        if(StringUtils.trimToNull(getAAStart()) != null || StringUtils.trimToNull(getAAEnd()) != null)
-                            errors.reject(null,"When you select a hyphanated Protein Category : "+pc.getProtein_cat_desc()+" AAStart & AAEnd values are not allowed.");
+                        if (StringUtils.trimToNull(qValue) == null)
+                            errors.reject(null, "The Parent Sequence must be entered.");
                     }
-                    else
+                    case PepDBSchema.COLUMN_CHILD_SEQUENCE ->
                     {
-                        if(StringUtils.trimToNull(getAAStart()) != null && validateInteger(getAAStart().trim()) == null)
-                            errors.reject(null, "AAStart must be an Integer.");
-                        if(StringUtils.trimToNull(getAAEnd()) != null && validateInteger(getAAEnd().trim()) == null)
-                            errors.reject(null, "AAEnd must be an Integer.");
-                        if(StringUtils.trimToNull(getAAStart()) != null && validateInteger(getAAStart().trim()) != null
-                                && StringUtils.trimToNull(getAAEnd()) != null && validateInteger(getAAEnd().trim()) != null
-                                && validateInteger(getAAStart().trim()) > validateInteger(getAAEnd().trim()))
-                            errors.reject(null, "AAStart must be less than or equal to AAEnd.");
+                        if (StringUtils.trimToNull(qValue) == null)
+                            errors.reject(null, "The Child Sequence must be entered.");
                     }
-                }
-            }
-            if (getQueryKey() != null && getQueryKey().equals(PepDBSchema.COLUMN_PEPTIDE_ID))
-            {
-                if (StringUtils.trimToNull(qValue) == null)
-                    errors.reject(null, "The Peptide Id range must be entered.");
-                if (qValue != null && !qValue.isEmpty())
-                {
-                    if (!(qValue.matches("\\d+-\\d+")))
+                    case PepDBSchema.COLUMN_PEPTIDE_GROUP_ID ->
                     {
-                        errors.reject(null, "To get the peptides in the range you should specify the Range of numbers.\n" +
-                                "The format for specify the range of peptide is <number>-<number> Example would be 30-100");
+                        if (StringUtils.trimToNull(qValue) == null)
+                            errors.reject(null, "Peptide Group must be selected to get peptides in a group.");
                     }
-                    else
+                    case PepDBSchema.COLUMN_PEPTIDE_POOL_ID ->
                     {
-                        String[] range = qValue.split("-");
-                        if (Integer.parseInt(range[0]) > Integer.parseInt(range[1]))
+                        if (StringUtils.trimToNull(qValue) == null)
+                            errors.reject(null, "Peptide Pool Name must be selected to get peptides in a pool.");
+                    }
+                    case PepDBSchema.COLUMN_PROTEIN_CAT_ID ->
+                    {
+                        if (StringUtils.trimToNull(qValue) == null)
+                            errors.reject(null, "Protein Category must be selected to get peptides in a protein category.");
+                        else
                         {
-                            errors.reject(null, "The minimum value which is before '-' should be less than the max value which is after '-'.\n");
-
+                            ProteinCategory pc = PepDBManager.getProCatByID(Integer.parseInt(getQueryValue()));
+                            if (pc.getProtein_cat_desc().trim().contains("-"))
+                            {
+                                if (StringUtils.trimToNull(getAAStart()) != null || StringUtils.trimToNull(getAAEnd()) != null)
+                                    errors.reject(null, "When you select a hyphanated Protein Category : " + pc.getProtein_cat_desc() + " AAStart & AAEnd values are not allowed.");
+                            }
+                            else
+                            {
+                                if (StringUtils.trimToNull(getAAStart()) != null && validateInteger(getAAStart().trim()) == null)
+                                    errors.reject(null, "AAStart must be an Integer.");
+                                if (StringUtils.trimToNull(getAAEnd()) != null && validateInteger(getAAEnd().trim()) == null)
+                                    errors.reject(null, "AAEnd must be an Integer.");
+                                if (StringUtils.trimToNull(getAAStart()) != null && validateInteger(getAAStart().trim()) != null
+                                        && StringUtils.trimToNull(getAAEnd()) != null && validateInteger(getAAEnd().trim()) != null
+                                        && validateInteger(getAAStart().trim()) > validateInteger(getAAEnd().trim()))
+                                    errors.reject(null, "AAStart must be less than or equal to AAEnd.");
+                            }
+                        }
+                    }
+                    case PepDBSchema.COLUMN_PEPTIDE_ID ->
+                    {
+                        if (StringUtils.trimToNull(qValue) == null)
+                            errors.reject(null, "The Peptide Id range must be entered.");
+                        if (qValue != null && !qValue.isEmpty())
+                        {
+                            if (!(qValue.matches("\\d+-\\d+")))
+                            {
+                                errors.reject(null, "To get the peptides in the range you should specify the Range of numbers.\n" +
+                                        "The format for specify the range of peptide is <number>-<number> Example would be 30-100");
+                            }
+                            else
+                            {
+                                String[] range = qValue.split("-");
+                                if (Integer.parseInt(range[0]) > Integer.parseInt(range[1]))
+                                {
+                                    errors.reject(null, "The minimum value which is before '-' should be less than the max value which is after '-'.\n");
+                                }
+                            }
                         }
                     }
                 }
             }
-            if(errors != null && errors.getErrorCount() >0)
-                return false;
-            return true;
+            return errors == null || !errors.hasErrors();
         }
-
     }
 
     public static class DisplayPeptideForm
