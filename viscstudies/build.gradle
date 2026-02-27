@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: BuildUtils.getPlatformModuleProjectPath(project.gradle, "studydesign"), depProjectConfig: 'published', depExtension: 'module')
+    BuildUtils.addLabKeyDependency(project: project, config: "modules", depProjectPath: ":server:modules:customModules:studydesign", depProjectConfig: 'published', depExtension: 'module')
 }
