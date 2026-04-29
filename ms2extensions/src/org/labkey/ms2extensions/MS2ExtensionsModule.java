@@ -64,7 +64,7 @@ public class MS2ExtensionsModule extends DefaultModule
     @Override
     public @Nullable Double getSchemaVersion()
     {
-        return 26.000;
+        return 26.001;
     }
 
     @Override
