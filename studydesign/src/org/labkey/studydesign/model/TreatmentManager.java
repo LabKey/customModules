@@ -458,7 +458,7 @@ public class TreatmentManager
                 throw errors.getLastRowError();
 
             if (updatedRows.size() == 1)
-                return asInteger(updatedRows.get(0).get(pkColName));
+                return asInteger(updatedRows.getFirst().get(pkColName));
         }
 
         return null;
@@ -717,11 +717,11 @@ public class TreatmentManager
         private void verifyCleanUpTreatmentData() throws Exception
         {
             // remove cohort and verify delete of TreatmentVisitMap
-            CohortService.get().deleteCohort(_cohorts.get(0));
+            CohortService.get().deleteCohort(_cohorts.getFirst());
             verifyTreatmentVisitMapRecords(4);
 
             // remove visit and verify delete of TreatmentVisitMap
-            VisitService.get().deleteVisit(_junitStudy, _user, _visits.get(0));
+            VisitService.get().deleteVisit(_junitStudy, _user, _visits.getFirst());
             verifyTreatmentVisitMapRecords(2);
 
             // we should still have all of our treatments and study products
@@ -738,7 +738,7 @@ public class TreatmentManager
             verifyTreatmentProductMapRecords(_treatments.get(1).getRowId(), 4);
 
             // remove product and verify delete of TreatmentProductMap and ProductAntigen
-            _manager.deleteStudyProduct(_container, _user, _products.get(0).getRowId());
+            _manager.deleteStudyProduct(_container, _user, _products.getFirst().getRowId());
             verifyTreatmentProductMapRecords(_treatments.get(1).getRowId(), 3);
             verifyStudyProductAntigens(_products.get(0).getRowId(), 0);
             verifyStudyProductAntigens(_products.get(1).getRowId(), 1);
@@ -1030,14 +1030,14 @@ public class TreatmentManager
 
         private void verifyCleanUpAssayConfigurations()
         {
-            StudyDesignService.get().deleteAssaySpecimenVisits(_container, _visits.get(0).getId());
+            StudyDesignService.get().deleteAssaySpecimenVisits(_container, _visits.getFirst().getId());
             verifyAssayScheduleRowCount(2);
-            assertEquals(1, TreatmentManager.getInstance().getAssaySpecimenVisitIds(_container, _assays.get(0)).size());
+            assertEquals(1, TreatmentManager.getInstance().getAssaySpecimenVisitIds(_container, _assays.getFirst()).size());
             assertEquals(1, TreatmentManager.getInstance().getVisitsForAssaySchedule(_container).size());
 
             StudyDesignService.get().deleteAssaySpecimenVisits(_container, _visits.get(1).getId());
             verifyAssayScheduleRowCount(0);
-            assertEquals(0, TreatmentManager.getInstance().getAssaySpecimenVisitIds(_container, _assays.get(0)).size());
+            assertEquals(0, TreatmentManager.getInstance().getAssaySpecimenVisitIds(_container, _assays.getFirst()).size());
             assertEquals(0, TreatmentManager.getInstance().getVisitsForAssaySchedule(_container).size());
         }
 

@@ -26,7 +26,6 @@ import org.scharp.atlas.pepdb.model.Peptides;
 import org.scharp.atlas.pepdb.model.ProteinCategory;
 import org.springframework.validation.Errors;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -376,7 +375,7 @@ public class PepDBBaseController extends SpringActionController
                 errors.reject(null, "Peptide Group Name is required.");
         }
 
-        public void validateName(Errors errors) throws SQLException
+        public void validateName(Errors errors)
         {
             PeptideGroup bean = getBean();
             PeptideGroup pg = PepDBManager.getPeptideGroupByName(bean);

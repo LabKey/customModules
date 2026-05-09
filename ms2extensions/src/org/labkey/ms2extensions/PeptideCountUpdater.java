@@ -106,14 +106,14 @@ public class PeptideCountUpdater
             }
 
             // Only allow one thread to update at a time
-            LOG.info("Starting to update peptide counts for " + runIds);
+            LOG.info("Starting to update peptide counts for {}", runIds);
             try (DbScope.Transaction transaction = MS2ExtensionsModule.getSchema().getScope().ensureTransaction(LOCK))
             {
                 // Execute the query, filtering to just the runs that need aggregates calculated
                 SimpleFilter filter = new SimpleFilter(new SimpleFilter.InClause(ms2RunColumn.getFieldKey(), runIds));
                 Collection<Map<String, Object>> results = new TableSelector(table, Arrays.asList(ms2RunColumn, totalPeptidesColumn, distinctPeptidesColumn), filter, null).getMapCollection();
 
-                LOG.info("Inserting peptide counts for " + runIds);
+                LOG.info("Inserting peptide counts for {}", runIds);
 
                 // Iterate through the results and insert them into the table so they're cached and fast to show
                 for (Map<String, Object> result : results)
@@ -123,7 +123,7 @@ public class PeptideCountUpdater
                     Table.insert(null, MS2ExtensionsModule.getSchema().getTable("Ms2RunAggregates"), toInsert);
                 }
                 transaction.commit();
-                LOG.info("Finished updating peptide counts for " + runIds);
+                LOG.info("Finished updating peptide counts for {}", runIds);
             }
         }
         return null;

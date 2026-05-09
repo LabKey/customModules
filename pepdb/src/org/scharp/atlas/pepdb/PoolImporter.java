@@ -13,7 +13,6 @@ import org.springframework.validation.Errors;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class PoolImporter
     private HashMap<String,PoolType> poolTypeMap;
     private HashMap<String,Peptides> peptideSequenceMap;
     private HashMap<String, PeptideGroup> peptideGroupMap;
-    public HashMap<String, PeptidePool> getPeptidePoolMap() throws SQLException
+    public HashMap<String, PeptidePool> getPeptidePoolMap()
     {
         if(peptidePoolMap == null)
             peptidePoolMap = PepDBManager.getPeptidePoolMap();
@@ -43,7 +42,7 @@ public class PoolImporter
         this.peptidePoolMap = peptidePoolMap;
     }
 
-    public HashMap<String, PoolType> getPoolTypeMap() throws SQLException
+    public HashMap<String, PoolType> getPoolTypeMap()
     {
         if(poolTypeMap == null)
             poolTypeMap = PepDBManager.getPoolTypeMap();
@@ -55,7 +54,7 @@ public class PoolImporter
         this.poolTypeMap = poolTypeMap;
     }
 
-    public HashMap<String, Peptides> getPeptideSequenceMap() throws SQLException
+    public HashMap<String, Peptides> getPeptideSequenceMap()
     {
         if(peptideSequenceMap == null)
             peptideSequenceMap = PepDBManager.getPeptideSequenceMap();
@@ -67,7 +66,7 @@ public class PoolImporter
         this.peptideSequenceMap = peptideSequenceMap;
     }
 
-    public HashMap<String, PeptideGroup> getPeptideGroupMap() throws SQLException
+    public HashMap<String, PeptideGroup> getPeptideGroupMap()
     {
         if(peptideGroupMap == null)
             peptideGroupMap = PepDBManager.getPeptideGroupMap();
@@ -79,7 +78,7 @@ public class PoolImporter
         this.peptideGroupMap = peptideGroupMap;
     }
 
-    public boolean process(User user, FileForm form, AttachmentFile poolFile,Errors errors) throws SQLException
+    public boolean process(User user, FileForm form, AttachmentFile poolFile,Errors errors)
     {
         String actionType = form.getActionType();
         PeptidePool [] peptidePools = PepDBManager.getPeptidePools();
@@ -195,7 +194,7 @@ public class PoolImporter
         return true;
     }
 
-    private PeptidePoolAssignment createPoolAssignment(String line) throws SQLException
+    private PeptidePoolAssignment createPoolAssignment(String line)
     {
         String [] fields = new String[3];
         for(int i =0;i<line.split("\t",3).length;i++)
@@ -292,7 +291,7 @@ public class PoolImporter
         return true;
     }
 
-    private boolean validatePPLine(String line,Errors errors,int lineNo,HashMap<Integer, ArrayList<Integer>> newPoolPeptides) throws SQLException
+    private boolean validatePPLine(String line,Errors errors,int lineNo,HashMap<Integer, ArrayList<Integer>> newPoolPeptides)
     {
         String [] fields = new String[3];
         for(int i =0;i<line.split("\t",3).length;i++)

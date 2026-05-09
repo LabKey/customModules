@@ -110,7 +110,7 @@ public class MS2ExtensionsController extends SpringActionController
                     return new HtmlView(DOM.DIV("Success!"));
                 }
 
-                warnings.add(0, DOM.DIV("Success, with warnings:"));
+                warnings.addFirst(DOM.DIV("Success, with warnings:"));
                 return new HtmlView(DOM.DIV(warnings.toArray(new Object[0])));
             }
             return new HtmlView(DOM.LK.FORM(
