@@ -69,12 +69,6 @@ public class SpecimenTest extends SpecimenBaseTest
     private final String[] SPECIMEN_IDS = {"AAA07XK5-01", "AAA07XK5-02"};
 
     @Override
-    public List<String> getAssociatedModules()
-    {
-        return Arrays.asList("study");
-    }
-
-    @Override
     protected String getProjectName()
     {
         return PROJECT_NAME;
@@ -310,7 +304,7 @@ public class SpecimenTest extends SpecimenBaseTest
             int allCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']").findElements(getDriver()).size();
             int checkedCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]").findElements(getDriver()).size();
             int disabledCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]").findElements(getDriver()).size();
-            assertTrue("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes == checkedCheckBoxes + disabledCheckBoxes);
+            assertEquals("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes, checkedCheckBoxes + disabledCheckBoxes);
             clickButton("Cancel");
         }
 
@@ -553,10 +547,10 @@ public class SpecimenTest extends SpecimenBaseTest
         for(WebElement message : messages){message.click();}
         List<EmailRecordTable.EmailMessage> emailMessages1 = mailTable.getMessagesByHeaderAndText("To", USER1);
         List<EmailRecordTable.EmailMessage> emailMessages2 = mailTable.getMessagesByHeaderAndText("To", USER2);
-        assertTrue(!emailMessages1.get(0).getBody().contains(_specimen_KCMC));
-        assertTrue(emailMessages1.get(0).getBody().contains(_specimen_McMichael));
+        assertFalse(emailMessages1.getFirst().getBody().contains(_specimen_KCMC));
+        assertTrue(emailMessages1.getFirst().getBody().contains(_specimen_McMichael));
         assertNotNull("No message found", emailMessages1);
-        String messageBody = emailMessages2.get(0).getBody().replaceFirst("-*=_Part_\\d{3}_\\d*.\\d*\\n","");
+        String messageBody = emailMessages2.getFirst().getBody().replaceFirst("-*=_Part_\\d{3}_\\d*.\\d*\\n","");
         messageBody = messageBody.replaceAll("Content-Type: text\\/html; charset=UTF-8\n","");
         messageBody = messageBody.replaceAll("Content-Transfer-Encoding: 7bit\n", "");
         assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + messageBody, messageBody.contains(notification));

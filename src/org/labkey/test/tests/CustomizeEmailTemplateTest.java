@@ -187,10 +187,4 @@ public class CustomizeEmailTemplateTest extends SpecimenBaseTest
         templateBuilder.append("\n</div>");
         return templateBuilder.toString();
     }
-
-    @Override
-    public List<String> getAssociatedModules()
-    {
-        return Arrays.asList("study");
-    }
 }
