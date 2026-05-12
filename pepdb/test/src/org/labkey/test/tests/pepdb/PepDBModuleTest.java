@@ -272,7 +272,7 @@ public class PepDBModuleTest extends BaseWebDriverTest implements PostgresOnlyTe
 
             if (selectResp.getRowCount().intValue() > 0)
             {
-                Row convertedRow = new RowMap(selectResp.getRows().get(0));
+                Row convertedRow = new RowMap(selectResp.getRows().getFirst());
                 peptideStartIndex = ((int) convertedRow.getValue("peptide_id")) - 1;
             }
         }

@@ -23,7 +23,6 @@ import org.scharp.atlas.pepdb.model.PoolType;
 import org.scharp.atlas.pepdb.model.ProteinCategory;
 import org.scharp.atlas.pepdb.model.Source;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -203,13 +202,13 @@ public class PepDBManager
         return pools;
     }
 
-    public static PeptideGroup insertGroup(Container c, User user, PeptideGroup pg) throws SQLException
+    public static PeptideGroup insertGroup(Container c, User user, PeptideGroup pg)
     {
         PeptideGroup resultGroup = Table.insert(user, PepDBSchema.getInstance().getTableInfoPeptideGroups(), pg);
         return resultGroup;
     }
 
-    public static PeptideGroup  updatePeptideGroup(User user,PeptideGroup pg) throws SQLException
+    public static PeptideGroup  updatePeptideGroup(User user,PeptideGroup pg)
     {
         return Table.update(user, PepDBSchema.getInstance().getTableInfoPeptideGroups(),pg,pg.getPeptide_group_id());
     }
@@ -284,7 +283,7 @@ public class PepDBManager
         return new TableSelector(tInfo, sFilter, null).getObject(Peptides.class);
     }
 
-    public static Peptides[] getParentPeptides(Peptides p) throws SQLException
+    public static Peptides[] getParentPeptides(Peptides p)
     {
         TableInfo tInfo = schema.getTableInfoPeptides();
         String sql = "select * from pepdb.peptides where peptides.protein_cat_id = ? and ? between peptides.amino_acid_start_pos-2 and peptides.amino_acid_end_pos\n" +
@@ -293,7 +292,7 @@ public class PepDBManager
         return peptides;
     }
 
-    public static Peptides[] getHyphanatedParents(Peptides p) throws SQLException
+    public static Peptides[] getHyphanatedParents(Peptides p)
     {
         String sql = "select * from "+schema.getTableInfoPeptides()+" where peptides.protein_cat_id = ? " +
                 " and peptides.peptide_sequence LIKE '%"+p.getPeptide_sequence()+"%' " +

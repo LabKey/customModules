@@ -324,8 +324,8 @@ public class StudyDesignController extends SpringActionController
                     List<ProductImpl> products = TreatmentManager.getInstance().getStudyProducts(getContainer(), getUser(), null, treatmentProduct.getProductId());
                     if (products.size() == 1)
                     {
-                        treatmentProductProperties.put("ProductId/Label", products.get(0).getLabel());
-                        treatmentProductProperties.put("ProductId/Role", products.get(0).getRole());
+                        treatmentProductProperties.put("ProductId/Label", products.getFirst().getLabel());
+                        treatmentProductProperties.put("ProductId/Role", products.getFirst().getRole());
                     }
 
                     treatmentProductList.add(treatmentProductProperties);

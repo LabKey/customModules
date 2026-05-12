@@ -49,7 +49,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -223,7 +222,7 @@ public class PepDBController extends PepDBBaseController
                 errors.reject(null, "Peptide Id not found in the database.");
                 return new JspView<>(PAGE_INDEX, form, errors);
             }
-            _log.debug("DisplayPeptideForm: " + form);
+            _log.debug("DisplayPeptideForm: {}", form);
             VBox box = new VBox();
             PeptideQueryForm queryform = new PeptideQueryForm();
             queryform.setQueryValue(pepId);
@@ -419,7 +418,7 @@ public class PepDBController extends PepDBBaseController
         @Override
         public ModelAndView getView(PeptideAndGroupForm form, BindException errors) throws Exception
         {
-            _log.debug("PeptideAndGroupForm: " + form.toString());
+            _log.debug("PeptideAndGroupForm: {}", form.toString());
             PeptideGroup pg = null;
             try
             {
@@ -503,7 +502,7 @@ public class PepDBController extends PepDBBaseController
         @Override
         public ModelAndView getView(PeptideAndPoolForm form, BindException errors) throws Exception
         {
-            _log.debug("PeptideAndPoolForm: " + form.toString());
+            _log.debug("PeptideAndPoolForm: {}", form.toString());
             PeptideQueryForm queryform = new PeptideQueryForm();
             TableInfo tableInfo = PepDBSchema.getInstance().getTableInfoPeptidePools();
             PropertyValues pv = this.getPropertyValues();
@@ -570,7 +569,7 @@ public class PepDBController extends PepDBBaseController
         }
 
         @Override
-        public boolean handlePost(PeptideGroupForm form, BindException errors) throws Exception
+        public boolean handlePost(PeptideGroupForm form, BindException errors)
         {
             PeptideGroup bean = form.getBean();
             PeptideGroup dbBean = PepDBManager.getPeptideGroupByID(bean.getPeptide_group_id());
@@ -583,15 +582,8 @@ public class PepDBController extends PepDBBaseController
         @Override
         public void validateCommand(PeptideGroupForm form, Errors errors)
         {
-            try
-            {
-                form.validate(errors);
-                form.validateName(errors);
-            }
-            catch (SQLException e)
-            {
-                errors.reject(null, "There's something wrong with database when trying to get all the existing groups.");
-            }
+            form.validate(errors);
+            form.validateName(errors);
         }
 
         @Override
@@ -632,7 +624,7 @@ public class PepDBController extends PepDBBaseController
         }
 
         @Override
-        public boolean handlePost(PeptideGroupForm form, BindException errors) throws Exception
+        public boolean handlePost(PeptideGroupForm form, BindException errors)
         {
             PeptideGroup group = form.getBean();
             group = PepDBManager.insertGroup(getContainer(), getUser(), group);
@@ -644,15 +636,8 @@ public class PepDBController extends PepDBBaseController
         @Override
         public void validateCommand(PeptideGroupForm form, Errors errors)
         {
-            try
-            {
-                form.validate(errors);
-                form.validateName(errors);
-            }
-            catch (SQLException e)
-            {
-                errors.reject(null, "There's something wrong with database when trying to get all the existing groups.");
-            }
+            form.validate(errors);
+            form.validateName(errors);
         }
 
         @Override
@@ -867,7 +852,7 @@ public class PepDBController extends PepDBBaseController
             ViewContext ctx = getViewContext();
             HttpSession session = ctx.getRequest().getSession();
             PeptideQueryForm form = (PeptideQueryForm) session.getAttribute("PEPTIDE_QUERY_FORM");
-            _log.info("Form " + form.getMessage() + " had filter : " + form.getFilter());
+            _log.info("Form {} had filter : {}", form.getMessage(), form.getFilter());
             printExcel(form);
         }
     }
@@ -963,7 +948,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewGroupPeptides();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for peptideGroup." + PepDBSchema.COLUMN_PEPTIDE_GROUP_ID + ": " + form);
+        _log.debug("Creating a Filter for peptideGroup." + PepDBSchema.COLUMN_PEPTIDE_GROUP_ID + ": {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PEPTIDE_GROUP_ID), Integer.parseInt(form.getQueryValue()));
         if (form.getLabId() != null)
             sFilter.addCondition(FieldKey.fromParts(PepDBSchema.COLUMN_PEPTIDE_ID_IN_GROUP), form.getLabId());
@@ -995,7 +980,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewPoolPeptides();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for peptidePool." + PepDBSchema.COLUMN_PEPTIDE_POOL_ID + ": " + form);
+        _log.debug("Creating a Filter for peptidePool." + PepDBSchema.COLUMN_PEPTIDE_POOL_ID + ": {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PEPTIDE_POOL_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_PEPTIDE_ID);
         form.setFilter(sFilter);
@@ -1020,7 +1005,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewPoolDetails();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for parent peptidePool." + PepDBSchema.COLUMN_PARENT_POOL_ID + ": " + form);
+        _log.debug("Creating a Filter for parent peptidePool." + PepDBSchema.COLUMN_PARENT_POOL_ID + ": {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PARENT_POOL_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_PEPTIDE_POOL_ID);
         form.setFilter(sFilter);
@@ -1042,7 +1027,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewGroupPeptides();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for peptideSequence." + PepDBSchema.COLUMN_PEPTIDE_SEQUENCE + ": " + form);
+        _log.debug("Creating a Filter for peptideSequence." + PepDBSchema.COLUMN_PEPTIDE_SEQUENCE + ": {}", form);
         SimpleFilter sFilter = new SimpleFilter();
 
         boolean sequenceIsEmpty = true;
@@ -1093,7 +1078,7 @@ public class PepDBController extends PepDBBaseController
                 .getTableInfoViewGroupPeptides();
         form.setTInfo(tableInfo);
         String title = "Peptides in Protein Category " + pc.getProtein_cat_desc();
-        _log.debug("Creating a Filter for proteinCategory." + PepDBSchema.COLUMN_PROTEIN_CAT_ID + ": " + form);
+        _log.debug("Creating a Filter for proteinCategory." + PepDBSchema.COLUMN_PROTEIN_CAT_ID + ": {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PROTEIN_CAT_ID), Integer.parseInt(form.getQueryValue()));
         if (form.getAAEnd() == null && form.getAAStart() != null)
         {
@@ -1131,7 +1116,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for parentID. : " + form);
+        _log.debug("Creating a Filter for parentID. : {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PARENT_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_CHILD_ID);
         form.setFilter(sFilter);
@@ -1154,7 +1139,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for parentSequence. : " + form);
+        _log.debug("Creating a Filter for parentSequence. : {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_PARENT_SEQUENCE), form.getQueryValue().trim().toUpperCase());
         Sort sort = new Sort(PepDBSchema.COLUMN_CHILD_ID);
         form.setFilter(sFilter);
@@ -1177,7 +1162,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for childID. : " + form);
+        _log.debug("Creating a Filter for childID. : {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_CHILD_ID), Integer.parseInt(form.getQueryValue()));
         Sort sort = new Sort(PepDBSchema.COLUMN_PARENT_ID);
         form.setFilter(sFilter);
@@ -1200,7 +1185,7 @@ public class PepDBController extends PepDBBaseController
         TableInfo tableInfo = PepDBSchema.getInstance()
                 .getTableInfoViewParentChildDetails();
         form.setTInfo(tableInfo);
-        _log.debug("Creating a Filter for childID. : " + form);
+        _log.debug("Creating a Filter for childID. : {}", form);
         SimpleFilter sFilter = new SimpleFilter(FieldKey.fromParts(PepDBSchema.COLUMN_CHILD_SEQUENCE), form.getQueryValue().trim().toUpperCase());
         Sort sort = new Sort(PepDBSchema.COLUMN_PARENT_ID);
         form.setFilter(sFilter);

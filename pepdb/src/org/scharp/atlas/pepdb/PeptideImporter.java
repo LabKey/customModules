@@ -12,7 +12,6 @@ import org.springframework.validation.Errors;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +31,7 @@ public class PeptideImporter
     private HashMap<String,OptimalEpitopeList> optimalElitopeListMap;
     ArrayList<Peptides> peptideIdList;
 
-    public HashMap<String, PeptideGroup> getPeptideGroupMap() throws SQLException
+    public HashMap<String, PeptideGroup> getPeptideGroupMap()
     {
         if(peptideGroupMap == null)
             peptideGroupMap = PepDBManager.getPeptideGroupMap();
@@ -44,7 +43,7 @@ public class PeptideImporter
         this.peptideGroupMap = peptideGroupMap;
     }
 
-    public HashMap<String, ProteinCategory> getProteinCategoryMap() throws SQLException
+    public HashMap<String, ProteinCategory> getProteinCategoryMap()
     {
         if(proteinCategoryMap == null)
             proteinCategoryMap = PepDBManager.getProteinCatMap();
@@ -56,7 +55,7 @@ public class PeptideImporter
         this.proteinCategoryMap = proteinCategoryMap;
     }
 
-    public HashMap<Integer, ProteinCategory> getProteinCatIDMap() throws SQLException
+    public HashMap<Integer, ProteinCategory> getProteinCatIDMap()
     {
         if(proteinCatIDMap == null)
             proteinCatIDMap = PepDBManager.getProteinCatIDMap();
@@ -68,7 +67,7 @@ public class PeptideImporter
         this.proteinCatIDMap = proteinCatIDMap;
     }
 
-    public HashMap<String, OptimalEpitopeList> getOptimalElitopeListMap() throws SQLException
+    public HashMap<String, OptimalEpitopeList> getOptimalElitopeListMap()
     {
         if(optimalElitopeListMap == null)
             optimalElitopeListMap = PepDBManager.getOptimalEpitopeListMap();
@@ -80,7 +79,7 @@ public class PeptideImporter
         this.optimalElitopeListMap = optimalElitopeListMap;
     }
 
-    public ArrayList<Peptides> getPeptideIdList() throws SQLException
+    public ArrayList<Peptides> getPeptideIdList()
     {
         if(peptideIdList == null)
         {
@@ -99,7 +98,7 @@ public class PeptideImporter
         this.peptideIdList = peptideIdList;
     }
 
-    public boolean process(User user, AttachmentFile peptideFile, Errors errors, List<Peptides> resultPeptides) throws SQLException
+    public boolean process(User user, AttachmentFile peptideFile, Errors errors, List<Peptides> resultPeptides)
     {
         try{
             String fileName = peptideFile.getFilename();
@@ -269,7 +268,7 @@ public class PeptideImporter
         return true;
     }
 
-    private Peptides createPeptide(String line,String fileName) throws SQLException
+    private Peptides createPeptide(String line,String fileName)
     {
         String [] fields = new String[10];
         for(int i =0;i<line.split("\t",10).length;i++)
