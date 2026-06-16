@@ -295,10 +295,12 @@ public class PepDBManager
 
     public static Peptides[] getHyphanatedParents(Peptides p) throws SQLException
     {
-        String sql = "select * from "+schema.getTableInfoPeptides()+" where peptides.protein_cat_id = ? " +
-                " and peptides.peptide_sequence LIKE '%"+p.getPeptide_sequence()+"%' " +
-                " and child = false";
-        Peptides[] peptides = new SqlSelector(schema.getSchema(), sql, new Object[]{p.getProtein_cat_id()}).getArray(Peptides.class);
+        // GitHub Kanban #1929: parameterize the LIKE clause for the stored peptide_sequence
+        SQLFragment sql = new SQLFragment("select * from "+schema.getTableInfoPeptides()+" where peptides.protein_cat_id = ? ", p.getProtein_cat_id());
+        sql.append(" and peptides.peptide_sequence LIKE ? ");
+        sql.add("%" + schema.getSchema().getSqlDialect().encodeLikeOpSearchString(p.getPeptide_sequence()) + "%");
+        sql.append(" and child = false");
+        Peptides[] peptides = new SqlSelector(schema.getSchema(), sql).getArray(Peptides.class);
         return peptides;
     }
 
