@@ -31,6 +31,7 @@ import org.labkey.test.TestFileUtils;
 import org.labkey.test.TestTimeoutException;
 import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
+import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
 import org.labkey.test.util.PostgresOnlyTest;
 
@@ -180,6 +181,15 @@ public class PepDBModuleTest extends BaseWebDriverTest implements PostgresOnlyTe
 
         clickAndWait(Locator.css("a.labkey-button > span"));
 
+        // Verify peptide group detail page
+        clickAndWait(Locator.linkWithText("List Peptide Groups"));
+        clickAndWait(Locator.linkWithText("gagptegprac"));
+        assertTextPresentInThisOrder(
+                "Group Information from peptide_group table for group : gagptegprac",
+                "There are (16) peptides in the 'gagptegprac' peptide group."
+        );
+        DataRegionTable pepTable = new DataRegionTable("group_peptides", getDriver());
+        assertEquals("Peptide table for group does not have expected number of rows", 16, pepTable.getDataRowCount());
 
         /*
          *

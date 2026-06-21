@@ -90,8 +90,9 @@ public class StudyDesignModule extends SpringModule
     public @NotNull Set<Class<?>> getIntegrationTests()
     {
         return Set.of(
-            TreatmentManager.TreatmentDataTestCase.class,
-            TreatmentManager.AssayScheduleTestCase.class
+                TreatmentManager.TreatmentDataTestCase.class,
+                TreatmentManager.AssayScheduleTestCase.class,
+                StudyDesignController.ContainerScopingTestCase.class
         );
     }
 }
