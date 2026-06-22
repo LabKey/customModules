@@ -426,7 +426,7 @@ public class PepDBController extends PepDBBaseController
                 pg = PepDBManager.getPeptideGroupByID(peptideGroupId);
             }
             catch (NumberFormatException ignored) {}
-            if (pg == null || !getContainer().getId().equalsIgnoreCase(pg.getContainerId()))
+            if (pg == null)
             {
                 throw new NotFoundException();
             }
