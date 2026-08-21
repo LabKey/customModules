@@ -33,7 +33,6 @@ import org.labkey.test.WebTestHelper;
 import org.labkey.test.categories.CustomModules;
 import org.labkey.test.util.DataRegionTable;
 import org.labkey.test.util.LogMethod;
-import org.labkey.test.util.PostgresOnlyTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +43,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @Category({CustomModules.class})
-public class PepDBModuleTest extends BaseWebDriverTest implements PostgresOnlyTest
+public class PepDBModuleTest extends BaseWebDriverTest
 {
 
     public static final String FOLDER_TYPE = "Custom";
