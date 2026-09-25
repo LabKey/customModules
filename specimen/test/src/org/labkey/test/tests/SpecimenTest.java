@@ -1,0 +1,1258 @@
+/*
+ * Copyright (c) 2008-2026 LabKey Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.labkey.test.tests;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.core5.http.HttpStatus;
+import org.json.JSONObject;
+import org.junit.Assert;
+import org.junit.experimental.categories.Category;
+import org.labkey.remoteapi.CommandException;
+import org.labkey.remoteapi.CommandResponse;
+import org.labkey.remoteapi.Connection;
+import org.labkey.remoteapi.SimplePostCommand;
+import org.labkey.test.BaseWebDriverTest;
+import org.labkey.test.Locator;
+import org.labkey.test.Locators;
+import org.labkey.test.TestTimeoutException;
+import org.labkey.test.WebTestHelper;
+import org.labkey.test.categories.Daily;
+import org.labkey.test.categories.Specimen;
+import org.labkey.test.components.CustomizeView;
+import org.labkey.test.components.dumbster.EmailRecordTable;
+import org.labkey.test.components.html.BootstrapMenu;
+import org.labkey.test.pages.ImportDataPage;
+import org.labkey.test.pages.study.specimen.ManageNotificationsPage;
+import org.labkey.test.util.ApiPermissionsHelper;
+import org.labkey.test.util.DataRegionTable;
+import org.labkey.test.util.LogMethod;
+import org.labkey.test.util.LoggedParam;
+import org.labkey.test.util.PasswordUtil;
+import org.labkey.test.util.PermissionsHelper;
+import org.labkey.test.util.PortalHelper;
+import org.labkey.test.util.StudyHelper;
+import org.labkey.test.util.TextSearcher;
+import org.labkey.test.util.ext4cmp.Ext4FieldRef;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.labkey.test.pages.study.specimen.ManageNotificationsPage.SpecimensAttachment;
+import static org.labkey.test.util.DataRegionTable.DataRegion;
+import static org.labkey.test.util.PermissionsHelper.READER_ROLE;
+
+@Category({Daily.class, Specimen.class})
+@BaseWebDriverTest.ClassTimeout(minutes = 20)
+public class SpecimenTest extends SpecimenBaseTest
+{
+    protected static final String PROJECT_NAME = "SpecimenVerifyProject";
+    private final File REQUEST_ATTACHMENT = StudyHelper.getSpecimenArchiveFile("labs.txt");
+    private final PortalHelper _portalHelper = new PortalHelper(this);
+    private final String[] SPECIMEN_IDS = {"AAA07XK5-01", "AAA07XK5-02"};
+
+    @Override
+    protected String getProjectName()
+    {
+        return PROJECT_NAME;
+    }
+
+    @Override
+    protected void doCleanup(boolean afterTest) throws TestTimeoutException
+    {
+        deleteUsersIfPresent(USER1, USER2);
+        super.doCleanup(afterTest);
+    }
+
+    @Override
+    protected BrowserType bestBrowser()
+    {
+        return BrowserType.CHROME;
+    }
+
+    @Override
+    @LogMethod
+    protected void doCreateSteps()
+    {
+        enableEmailRecorder();
+        initializeFolder();
+
+        clickButton("Create Study");
+        setFormElement(Locator.name("label"), getStudyLabel());
+        clickButton("Create Study");
+        _studyHelper.setupAdvancedRepositoryType();
+        setupRequestabilityRules();
+
+        setPipelineRoot(StudyHelper.getStudySubfolderPath());
+        startSpecimenImport(1);
+        waitForSpecimenImport();
+        checkSpecimenReport();
+        _studyHelper.createCustomParticipantGroup(getProjectName(), getFolderName(), "Category1", "Participant", null, false, PTIDS[0], PTIDS[1]);
+        checkTubeType();
+        setupRequestStatuses();
+        setupActorsAndGroups();
+        setupDefaultRequirements();
+        setupRequestForm();
+        setupActorNotification();
+        uploadSpecimensFromFile();
+    }
+
+    @Override
+    protected void setupRequestabilityRules()
+    {
+        super.setupRequestabilityRules();
+        clickButton("Save");
+    }
+
+    @Override
+    @LogMethod
+    protected void doVerifySteps() throws IOException, CommandException
+    {
+        verifyActorDetails();
+        verifySpecimenEventsRedirect();
+        createRequestWithApi();
+        createRequest();
+        verifyViews();
+        verifyAdditionalRequestFields();
+        verifyNotificationEmails();
+        verifyInactiveUsersInRequests();
+        verifyRequestCancel();
+        verifyReports();
+        exportSpecimenTest();
+        verifyRequestingLocationRestriction();
+        verifySpecimenTableAttachments();
+        searchTest();
+        verifySpecimenGroupings();
+        verifyRequestEnabled();
+        disableRequests();
+        verifyRequestsDisabled();
+        verifyDrawTimestamp();
+    }
+
+    private void checkSpecimenReport()
+    {
+        clickFolder ("My Study");
+        PortalHelper portalHelper = new PortalHelper(this);
+        portalHelper.addWebPart("Specimen Report");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Type Summary Report", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Type by Participant");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Type by Participant", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Type by Cohort");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Type by Cohort", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested Summary");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested Summary", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested by Requesting Location");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested by Requesting Location", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested by Enrollment Location");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested by Enrollment Location", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Requested by Participant");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Requested by Participant", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Participant Summary");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Participant Summary", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Participant by Specimen Type");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Participant by Specimen Type", "Customize");
+        selectOptionByText (Locator.name("reportType"), "Participant by Enrollment Location");
+        clickButton ("Submit");
+        portalHelper.clickWebpartMenuItem ("Specimen Report: Participant by Enrollment Location", "Customize");
+
+    }
+
+    private void disableRequests()
+    {
+        clickFolder(getFolderName());
+        assertTextPresent("Specimen Requests");
+        waitAndClick(Locator.linkWithText("Manage Study"));
+        waitAndClick(Locator.linkWithText("Change Repository Type"));
+        Locator disableRequestsRadio = Locator.radioButtonByNameAndValue("enableRequests", "false");
+        waitForElement(disableRequestsRadio);
+        checkRadioButton(disableRequestsRadio);
+        clickButton("Submit");
+    }
+
+    private static final String[] requestColumns = {"Locked In Request", "Requestable", "Available", "Availability Reason", "Locked In Request Count", "Available Count", "Expected Available Count"};
+
+    private void verifyRequestEnabled()
+    {
+        clickFolder(getFolderName());
+        waitForElement(Locator.linkWithText("By Individual Vial"));
+        assertTextPresent("Specimen Requests");
+        clickAndWait(Locator.linkWithText("By Individual Vial"));
+        assertElementPresent(Locator.lkButton("Request Options"));
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
+        List<String> columnHeaders = specimenTable.getColumnLabels();
+        for (String column : requestColumns)
+        {
+            assertTrue("Request column not found: " + column, columnHeaders.contains(column));
+        }
+        clickAndWait(Locator.linkWithText("Reports"));
+        assertTextPresent("Requested Vials by Type and Timepoint", "Requested Summary");
+        clickButton("View");
+        assertTextPresent("Availability status");
+    }
+
+    private void verifyRequestsDisabled()
+    {
+        clickFolder(getFolderName());
+        waitForElement(Locator.linkWithText("By Individual Vial"));
+        assertTextNotPresent("Specimen Requests");
+        clickAndWait(Locator.linkWithText("By Individual Vial"));
+        assertElementNotPresent(Locator.lkButton("Request Options"));
+        DataRegionTable specimenTable = new DataRegionTable("SpecimenDetail", this);
+        List<String> columnHeaders = specimenTable.getColumnLabels();
+        for (String column : requestColumns)
+        {
+            assertFalse("Request column found when requests are disabled: " + column, columnHeaders.contains(column));
+        }
+        clickAndWait(Locator.linkWithText("Reports"));
+        assertTextNotPresent("Requested Vials by Type and Timepoint", "Requested Summary");
+        clickButton("View");
+        assertTextNotPresent("Availability status");
+    }
+
+    @LogMethod
+    private void checkTubeType()
+    {
+        // Field check for Tube Type column (including conflict)
+        clickTab("Overview");
+        _portalHelper.addWebPart("Specimens");
+        waitAndClickAndWait(Locator.linkWithText("By Individual Vial"));
+        (new DataRegionTable(SPECIMEN_DETAIL, this)).setFilter("PrimaryType", "Is Blank");
+        // Verify that there's only one vial of unknown type:
+        assertElementPresent(Locator.linkWithText("[history]"), 1);
+        // There's a conflict in TubeType for this vial's events; verify that no TubeType is populated at the vial level
+        assertTextNotPresent("Cryovial");
+        clickAndWait(Locator.linkWithText("[history]"));
+        // This vial has three events, each of which list a different tube type:
+        assertTextPresent(
+                "15ml Cryovial", "20ml Cryovial",
+                "25ml Cryovial");
+        clickAndWait(Locator.linkWithText("Specimen Overview"));
+        waitAndClick(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitAndClickAndWait(Locator.linkWithText("Tear Flo Strips"));
+        // For these three vials, there should be no conflict in TubeType, so we should see the text once for each of three vials:
+        assertElementPresent(Locator.linkWithText("[history]"), 3);
+        assertTextPresent("15ml Cryovial", 3);
+    }
+
+    @LogMethod
+    private void uploadSpecimensFromFile()
+    {
+        log("Check Upload Specimen List from file");
+        goToSpecimenData();
+        click(Locator.tagWithAttribute("img", "alt", "[New Request Icon]"));
+        waitForElement(Locator.name("destinationLocation"));
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input2"), "Comments");
+        setFormElement(Locator.id("input1"), "Shipping");
+        setFormElement(Locator.id("input3"), "Last one");
+        clickButton("Create and View Details");
+
+        clickAndWait(Locator.linkWithText("Upload Specimen Ids"));
+
+        new ImportDataPage(getDriver())
+                .setText(SPECIMEN_IDS[0])
+                .submit();
+
+        waitAndClickAndWait(Locator.linkWithText("Upload Specimen Ids"));
+
+        ImportDataPage importDataPage = new ImportDataPage(getDriver());
+        importDataPage.setText(SPECIMEN_IDS[0]);
+        importDataPage.submitExpectingErrorContaining("Specimen " + SPECIMEN_IDS[0] + " is unavailable");
+
+        importDataPage.setText(SPECIMEN_IDS[1]);
+        importDataPage.submitExpectingErrorContaining( "Specimen " + SPECIMEN_IDS[1] + " is unavailable");
+
+        importDataPage.setText("AAA07XK5-04\nAAA07XK5-06\nAAA07XSF-03"); // add different ones
+        importDataPage.submit();
+    }
+
+    @LogMethod (quiet = true)
+    private void verifyActorDetails()
+    {
+        // Check each Actor's Details for "Default Actor Notification" feature;
+        // In Details, for each actor the ether Notify checkbox should be set or disabled, because we set Notifications to All
+        Locator detailsLink = Locator.xpath("//td[a='Details']/a");
+        int linkCount = detailsLink.findElements(getDriver()).size();
+        for (int i = 0; i < linkCount; i++)
+        {
+            clickAndWait(detailsLink.index(i));
+            int allCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs']").findElements(getDriver()).size();
+            int checkedCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @checked]").findElements(getDriver()).size();
+            int disabledCheckBoxes = Locator.xpath("//input[@type='checkbox' and @name='notificationIdPairs' and @disabled]").findElements(getDriver()).size();
+            assertEquals("Actor Notification: All actors should be notified if addresses configured.", allCheckBoxes, checkedCheckBoxes + disabledCheckBoxes);
+            clickButton("Cancel");
+        }
+
+        waitForElement(Locator.css("span.labkey-wp-title-text").withText("Associated Specimens"));
+        assertTextPresent(SPECIMEN_IDS[0], "AAA07XK5-04", "AAA07XK5-06", "AAA07XSF-03");
+
+        doAndWaitForPageToLoad(() ->
+        {
+            clickButton("Cancel Request", 0);
+            assertAlertIgnoreCaseAndSpaces("Canceling will permanently delete this pending request.  Continue?");
+        });
+        DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
+    }
+
+    // Simulate SpecimenForeignKey redirect behavior
+    @LogMethod
+    private void verifySpecimenEventsRedirect()
+    {
+        String targetStudyId = getContainerId();
+
+        // Create an empty second folder (doesn't need to be a study) with guest read. We'll attempt to invoke the
+        // redirect action from this folder.
+        String folderName = "Another Study";
+        _containerHelper.createSubfolder(getProjectName(), folderName, "Study");
+        new ApiPermissionsHelper(this).setSiteGroupPermissions("Guests", "Reader");
+
+        // Happy path - admin should redirect
+        String baseUrl = WebTestHelper.getBaseURL() + "/" + getProjectName() + "/" + folderName + "/specimen-specimenEventsRedirect.view?targetStudy=" + targetStudyId + "&id=";
+        String url = baseUrl + "AAA07XK5-01";
+        beginAt(url);
+        assertTextPresent("Vial History", "999320812", "350V0600294A");
+
+        // Guest has access in Another Study but not in the target study (My Study), so should not redirect
+        signOut();
+        beginAt(baseUrl + "abcdefg_123456"); // Bogus ID and user doesn't have read permission
+        assertTextPresent("Unable to resolve the Specimen ID and target Study");
+        beginAt(url); // Valid ID, but user doesn't have read permission to target study, so same error
+        assertTextPresent("Unable to resolve the Specimen ID and target Study");
+
+        // Sign in and back to the main study
+        signIn();
+        goToProjectHome();
+        clickFolder(getFolderName());
+    }
+
+    @LogMethod
+    private void createRequestWithApi() throws IOException, CommandException
+    {
+        // Create an empty specimen request as admin user
+        goToSpecimenData();
+        click(Locator.tag("img").withAttributeContaining("alt", "[New Request Icon]"));
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input1"), "Shipping");
+        setFormElement(Locator.id("input3"), "Comments");
+        clickButton("Create and View Details");
+        int requestId = Integer.parseInt(getUrlParam("id"));
+
+        // Create commands to add vials, remove vials, add specimens, and cancel the request
+        JSONObject vialParameters = new JSONObject(
+            Map.of(
+                "requestId", requestId,
+                "idType", "GlobalUniqueId",
+                "vialIds", new String[]{"ABH00LT8-01"}
+            )
+        );
+        SimplePostCommand addVialsCommand = new SimplePostCommand("specimen-api", "addVialsToRequest");
+        addVialsCommand.setJsonObject(vialParameters);
+        SimplePostCommand removeVialsCommand = new SimplePostCommand("specimen-api", "removeVialsFromRequest");
+        removeVialsCommand.setJsonObject(vialParameters);
+        SimplePostCommand addSpecimenCommand = new SimplePostCommand("specimen-api", "addSpecimensToRequest");
+        addSpecimenCommand.setJsonObject(new JSONObject(
+            Map.of(
+                "requestId", requestId,
+                "specimenHashes", new String[]{"FakeSpecimenHashThatDoesntMatter"}
+            )
+        ));
+        SimplePostCommand cancelRequestCommand = new SimplePostCommand("specimen-api", "cancelRequest");
+        cancelRequestCommand.setJsonObject(new JSONObject(
+            Map.of(
+                "requestId", requestId
+            )
+        ));
+
+        // Assign "Specimen Requester" role to USER1
+        String containerPath = getCurrentContainerPath();
+        log(containerPath);
+        ApiPermissionsHelper helper = new ApiPermissionsHelper(containerPath);
+        helper.uncheckInheritedPermissions(); // Uses UI to un-inherit and save...
+        clickButton("Cancel"); // ...so click button to return to specimen page
+        helper.addMemberToRole(USER1, READER_ROLE, PermissionsHelper.MemberType.user, containerPath);
+        helper.addMemberToRole(USER1, "Specimen Requester", PermissionsHelper.MemberType.user, containerPath);
+        Connection conn = createDefaultConnection();
+
+        // Impersonate USER1. Specimen Requester who doesn't own the request shouldn't be able to modify it.
+        impersonate(USER1);
+        Assert.assertThrows("Request " + requestId + " was not found or the current user does not have permissions to access it.",
+            CommandException.class,
+            () -> addVialsCommand.execute(conn, containerPath)
+        );
+        Assert.assertThrows("Request " + requestId + " was not found or the current user does not have permissions to access it.",
+            CommandException.class,
+            () -> addSpecimenCommand.execute(conn, containerPath)
+        );
+        Assert.assertThrows("Request " + requestId + " was not found or the current user does not have permissions to access it.",
+            CommandException.class,
+            () -> cancelRequestCommand.execute(conn, containerPath)
+        );
+        stopImpersonating(false);
+
+        // Let's have the "Specimen Requester" owner add a vial so USER1 has something to (attempt to) delete
+        impersonateRoles(READER_ROLE, "Specimen Requester");
+        CommandResponse response = addVialsCommand.execute(conn, containerPath);
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
+        //noinspection unchecked
+        assertEquals(1, ((List<String>)response.getParsedData().get("vials")).size());
+        stopImpersonating(false);
+
+        // Attempt to remove the just-added vial as "Specimen Requester" non-owner
+        impersonate(USER1);
+        Assert.assertThrows("Request " + requestId + " was not found or the current user does not have permissions to access it.",
+            CommandException.class,
+            () -> removeVialsCommand.execute(conn, containerPath)
+        );
+        stopImpersonating(false);
+
+        // "Specimen Requester" owner should be able to remove vials and add via specimen hash. This hash won't match
+        // any vials, but we're just checking permissions.
+        impersonateRoles(READER_ROLE, "Specimen Requester");
+        response = removeVialsCommand.execute(conn, containerPath);
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
+        //noinspection unchecked
+        assertEquals(0, ((List<String>)response.getParsedData().get("vials")).size());
+        response = addSpecimenCommand.execute(conn, containerPath);
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
+        stopImpersonating(false);
+
+        // Now give USER1 the (more powerful) "Specimen Coordinator" role and verify they can now modify the request
+        // that they don't own, including canceling it.
+        helper.addMemberToRole(USER1, "Specimen Coordinator", PermissionsHelper.MemberType.user, containerPath);
+        impersonate(USER1);
+        assertEquals(HttpStatus.SC_OK, addVialsCommand.execute(conn, containerPath).getStatusCode());
+        assertEquals(HttpStatus.SC_OK, removeVialsCommand.execute(conn, containerPath).getStatusCode());
+        assertEquals(HttpStatus.SC_OK, addSpecimenCommand.execute(conn, containerPath).getStatusCode());
+        assertEquals(HttpStatus.SC_OK, cancelRequestCommand.execute(conn, containerPath).getStatusCode());
+        stopImpersonating(false);
+
+        // Restore permissions back to inherit
+        helper.checkInheritedPermissions();
+    }
+
+    @LogMethod
+    private void createRequest()
+    {
+        goToSpecimenData();
+        click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitForElement(Locator.linkWithText("Plasma, Unknown Processing"));
+        clickAndWait(Locator.linkWithText("Plasma, Unknown Processing"));
+        // Verify unavailable sample
+        assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "' and @disabled]"));
+        assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../../td[contains(text(), 'This vial is unavailable because it was found in the set called \"" + REQUESTABILITY_QUERY + "\".')]"));
+// TODO ONMOUSEOVER        assertElementPresent(Locator.xpath("//input[@id='check_" + UNREQUESTABLE_SAMPLE + "']/../a[contains(@onmouseover, 'This vial is unavailable because it was found in the set called \\\"" + REQUESTABILITY_QUERY + "\\\".')]"));
+        new DataRegionTable.DataRegionFinder(getDriver()).find()
+                .checkAllOnPage();
+
+        clickAndWait(Locator.linkContainingText("history"));
+        assertTextPresent("Vial History");
+        goBack();
+
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input2"), "Comments");
+        setFormElement(Locator.id("input1"), "Shipping");
+        clickButton("Create and View Details");
+        assertTextPresent("Please provide all required input.");
+        setFormElement(Locator.id("input3"), "sample last one input");
+        clickButton("Create and View Details");
+        assertTextPresent("sample last one input", "IRB", "KCMC, Moshi, Tanzania", "Originating IRB Approval",
+                SOURCE_SITE, "Providing IRB Approval", DESTINATION_SITE, "Receiving IRB Approval", "SLG",
+                "SLG Approval", "BAA07XNP-01");
+        assertTextNotPresent(
+                UNREQUESTABLE_SAMPLE,
+                // verify that the swab specimen isn't present yet
+                "DAA07YGW-01", "Complete");
+
+        // add additional specimens
+        goToSpecimenData();
+        click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitAndClickAndWait(Locator.linkWithText("Swab"));
+        new DataRegionTable.DataRegionFinder(getDriver()).find()
+                .checkAllOnPage();
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "Add To Existing Request");
+        _extHelper.waitForExtDialog("Request Vial", WAIT_FOR_JAVASCRIPT);
+        waitForElement(Locator.css("#request-vial-details .x-grid3-row"));
+        clickButton("Add 8 Vials to Request", 0);
+        _extHelper.waitForExtDialog("Success", WAIT_FOR_JAVASCRIPT * 5);
+        clickButton("OK", 0);
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(false, "View Existing Requests");
+        clickButton("Details");
+        assertTextPresent("sample last one input", "IRB", "KCMC, Moshi, Tanzania", "Originating IRB Approval",
+                SOURCE_SITE, "Providing IRB Approval", DESTINATION_SITE, "Receiving IRB Approval", "SLG",
+                "SLG Approval", "BAA07XNP-01", "DAA07YGW-01");
+
+        // submit request
+        assertTextPresent("Not Yet Submitted");
+        assertTextNotPresent("New Request");
+        doAndWaitForPageToLoad(() ->
+        {
+            clickButton("Submit Request", 0);
+            assertAlertIgnoreCaseAndSpaces("Once a request is submitted, its specimen list may no longer be modified.  Continue?");
+        });
+        waitForText("New Request");
+        assertTextNotPresent("Not Yet Submitted");
+
+        // Add request attachment
+        click(Locator.linkWithText("Update Request"));
+        waitForElement(Locator.name("formFiles[0]"));
+        setFormElement(Locator.name("formFiles[0]"), REQUEST_ATTACHMENT);
+        clickButton("Save Changes and Send Notifications");
+        waitForElement(Locator.linkContainingText(REQUEST_ATTACHMENT.getName()));
+
+        // modify request
+        selectOptionByText(Locator.name("newActor"), "SLG");
+        setFormElement(Locator.name("newDescription"), "Other SLG Approval");
+        clickButton("Add Requirement");
+        clickAndWait(Locator.linkWithText("Details"));
+        checkCheckbox(Locator.checkboxByName("complete"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
+        clickButton("Save Changes and Send Notifications");
+        waitForElement(Locator.css(".labkey-message").withText("Complete"));
+    }
+
+    @LogMethod
+    private void verifyViews()
+    {
+        clickAndWait(Locator.linkWithText("View History"));
+        assertTextPresent("Request submitted for processing.", USER1, USER2);
+        assertTextPresent("Notification Sent", 2);
+        clickAndWait(Locator.linkWithText("View Request"));
+        clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
+        // Ordering of locations is nondeterministic
+        if (isPresentInThisOrder("The McMichael Lab, Oxford, UK", "KCMC, Moshi, Tanzania") == null)
+        {
+            checkCheckbox(Locator.checkboxByName("notify"));
+            _specimen_McMichael = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
+            checkCheckbox(Locator.checkboxByName("notify").index(4));
+            _specimen_KCMC = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
+        }
+        else
+        {
+            checkCheckbox(Locator.checkboxByName("notify").index(1));
+            _specimen_KCMC = getText(Locator.xpath("//tr[@class = 'labkey-alternate-row']/td[3]//td"));
+            checkCheckbox(Locator.checkboxByName("notify").index(3));
+            _specimen_McMichael = getText(Locator.xpath("//tr[@class = 'labkey-row']/td[3]//td"));
+        }
+        checkCheckbox(Locator.checkboxByName("sendXls"));
+        checkCheckbox(Locator.checkboxByName("sendTsv"));
+        clickButton("Send Email");
+        _requestId = Integer.parseInt(getUrlParam("id"));
+        clickAndWait(Locator.linkWithText("Providing Location Specimen Lists"));
+        assertTextPresent(SOURCE_SITE);
+        clickButton("Cancel");
+    }
+
+    @LogMethod
+    private void verifyAdditionalRequestFields()
+    {
+        log("verifying additional freezer fields from the exports");
+        clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
+
+        File txtFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
+        TextSearcher txtSearcher = new TextSearcher(txtFile);
+
+        // verify the additional columns
+        assertTextPresent(txtSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1", "Fr Level2");
+
+        // customize the locationSpecimenListTable then make sure changes are propagated to the exported lists
+        log("customizing the locationSpecimenList default view");
+        pushLocation();
+        {
+            goToSchemaBrowser();
+            viewQueryData("study", "LocationSpecimenList");
+
+            DataRegionTable region = new DataRegionTable("query", getDriver());
+            CustomizeView customizeView = region.getCustomizeView();
+            customizeView.openCustomizeViewPanel();
+            customizeView.removeColumn("Freezer");
+            customizeView.removeColumn("Fr_Container");
+            customizeView.removeColumn("Fr_Position");
+            customizeView.removeColumn("Fr_Level1");
+            customizeView.saveCustomView();
+        }
+        popLocation();
+
+        log("verifying column changes");
+        goToSpecimenData();
+        click(Locator.xpath("//span[text() = 'Specimen Requests']/../img")); // expand node in Specimens webpart
+        waitForElement(Locator.linkWithText("View Current Requests"));
+        clickAndWait(Locator.linkWithText("View Current Requests"));
+
+        clickButton("Details");
+        clickAndWait(Locator.linkWithText("Originating Location Specimen Lists"));
+
+        File formattedFile = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
+        TextSearcher fileSearcher = new TextSearcher(formattedFile);
+
+        // verify the additional columns
+        assertTextNotPresent(fileSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1");
+        assertTextPresent(fileSearcher, "Fr Level2");
+
+        clickButton("Cancel");
+        clickAndWait(Locator.linkWithText("Providing Location Specimen Lists"));
+
+        File locationSpecimens = doAndWaitForDownload(() -> click(Locator.linkContainingText("Export to text file")));
+        TextSearcher locationFileSearcher = new TextSearcher(locationSpecimens);
+
+        // verify the additional columns
+        assertTextNotPresent(locationFileSearcher, "Freezer", "Fr Container", "Fr Position", "Fr Level1");
+        assertTextPresent(locationFileSearcher, "Fr Level2");
+
+        clickButton("Cancel");
+    }
+
+    private String _specimen_McMichael;
+    private String _specimen_KCMC;
+    private final static String ATTACHMENT1 = "KCMC_Moshi_Ta_to_Aurum_Health_.tsv";
+    private final static String ATTACHMENT2 = "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls"; // Params: date(yyyy-MM-dd)
+    private final static String NOTIFICATION_TEMPLATE = // Params: Study Name, requestId, Study Name, requestId, Username, Date(yyyy-MM-dd)
+            "Specimen request #%s was updated in %s.\n" +
+            "Request Details\n" +
+            "Specimen Request %s\n" +
+            "Destination " + DESTINATION_SITE+"\n" +
+            "Status New Request\n" +
+            "Modified by %s\n" +
+            "Action Originating location notification of specimen shipment to "+DESTINATION_SITE+"\n" +
+            "Attachments KCMC_Moshi_Ta_to_Aurum_Health_.tsv\n" +
+            "KCMC_Moshi_Ta_to_Aurum_Health_KO_%s.xls\n" +
+            "Assay Plan:\n" +
+            "Assay Plan\n" +
+            "Shipping Information:\n" +
+            "Shipping\n" +
+            "Comments:\n" +
+            "Comments\n" +
+            "Last One:\n" +
+            "sample last one input\n" +
+            "Specimen List (Request Link)\n" +
+            "Participant Id Global Unique Id Visit Description Sequence Num Visit Volume Volume Units Primary Type Derivative Type Additive Type Derivative Type2 Sub Additive Derivative Draw Timestamp Draw Date Draw Time Clinic Processing Location First Processed By Initials Sal Receipt Date Class Id Protocol Number Primary Volume Primary Volume Units Total Cell Count Tube Type Comments Locked In Request Requestable Site Name Site Ldms Code At Repository Available Availability Reason Quality Control Flag Quality Control Comments Collection Cohort Vial Count Locked In Request Count At Repository Count Available Count Expected Available Count\n" +
+            "1 999320824 BAA07XNP-01 Vst 501 501.0000 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA   N/A 2005-12-23 10:05 2005-12-23 10:05:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-23 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   2 1 2 0 1\n" +
+            "2 999320087 CAA07XN8-01 Vst 301 301.0000 1.0 ML Vaginal Swab Swab None   N/A 2005-12-22 12:50 2005-12-22 12:50:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-22 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "3 999320706 DAA07YGW-01 Vst 301 301.0000 1.0 ML Vaginal Swab Swab None   N/A 2006-01-05 10:00 2006-01-05 10:00:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-05 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "4 999320898 FAA07XLJ-01 Vst 301 301.0000 1.0 ML Vaginal Swab Swab None   N/A 2005-12-20 12:05 2005-12-20 12:05:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2005-12-20 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "5 999320264 FAA07YSC-01 Vst 201 201.0000 1.0 ML Vaginal Swab Swab None   N/A 2006-01-13 12:10 2006-01-13 12:10:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-13 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "6 999320520 FAA07YXY-01 Vst 501 501.0000 1.0 ML Vaginal Swab Swab None   N/A 2005-12-15 10:30 2005-12-15 10:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "7 999320498 JAA07YJB-01 Vst 501 501.0000 1.0 ML Vaginal Swab Swab None   N/A 2006-01-05 09:30 2006-01-05 09:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "8 999320476 JAA07YSQ-01 Vst 301 301.0000 1.0 ML Vaginal Swab Swab None   N/A 2006-01-11 10:20 2006-01-11 10:20:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-11 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "9 999320980 KAA07YV1-01 Vst 301 301.0000 1.0 ML Vaginal Swab Swab None   N/A 2006-01-17 08:30 2006-01-17 08:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-17 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   1 1 1 0 0\n" +
+            "10 999320520 KAA07YY0-01 Vst 501 501.0000 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA   N/A 2005-12-15 10:30 2005-12-15 10:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   2 2 2 0 0\n" +
+            "11 999320520 KAA07YY0-02 Vst 501 501.0000 1.0 ML Blood (Whole) Plasma, Unknown Processing EDTA   N/A 2005-12-15 10:30 2005-12-15 10:30:00 KCMC, Moshi, Tanzania Contract Lab Services, Johannesburg, South Africa LK 2006-01-15 00:00 LABK 39 15ml Cryovial true Contract Lab Services, Johannesburg, South Africa 350 true false This vial is unavailable because it is locked in a specimen request. false   2 2 2 0 0";
+    @LogMethod
+    private void verifyNotificationEmails()
+    {
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String notification = String.format(NOTIFICATION_TEMPLATE, _requestId, getStudyLabel(), _requestId, PasswordUtil.getUsername(), date);
+
+        log("Check notification emails");
+        goToHome();
+        goToModule("Dumbster");
+        assertTextPresent("Specimen Request Notification", 8);
+        assertTextPresent(USER1, 4);
+        assertTextPresent(USER2, 4);
+
+        log("Check for correct data in notification emails");
+        EmailRecordTable mailTable = new EmailRecordTable(this);
+        List<WebElement> messages = getWrappedDriver().findElements(By.linkText("Study 001: Specimen Request Notification"));
+        for(WebElement message : messages){message.click();}
+        List<EmailRecordTable.EmailMessage> emailMessages1 = mailTable.getMessagesByHeaderAndText("To", USER1);
+        List<EmailRecordTable.EmailMessage> emailMessages2 = mailTable.getMessagesByHeaderAndText("To", USER2);
+        assertFalse(emailMessages1.getFirst().getBody().contains(_specimen_KCMC));
+        assertTrue(emailMessages1.getFirst().getBody().contains(_specimen_McMichael));
+        assertNotNull("No message found", emailMessages1);
+        String messageBody = emailMessages2.getFirst().getBody().replaceFirst("-*=_Part_\\d{3}_\\d*.\\d*\\n","");
+        messageBody = messageBody.replace("Content-Type: text/html; charset=UTF-8\n","");
+        messageBody = messageBody.replace("Content-Transfer-Encoding: 7bit\n", "");
+        assertTrue("Notification was not as expected.\nExpected:\n" + notification + "\n\nActual:\n" + messageBody, messageBody.contains(notification));
+
+        String attachment1 = getAttribute(Locator.linkWithText(ATTACHMENT1), "href");
+        String attachment2 = getAttribute(Locator.linkWithText(String.format(ATTACHMENT2, date)), "href");
+
+        assertEquals("Bad link to attachment: " + ATTACHMENT1, HttpStatus.SC_OK, WebTestHelper.getHttpResponse(attachment1).getResponseCode());
+        assertEquals("Bad link to attachment: " + String.format(ATTACHMENT2, date), HttpStatus.SC_OK, WebTestHelper.getHttpResponse(attachment2).getResponseCode());
+
+        clickAndWait(Locator.linkWithText("Request Link"));
+        assertTextPresent("Specimen Request " + _requestId);
+    }
+
+    @LogMethod
+    private void verifyRequestCancel()
+    {
+        goToProjectHome();
+        clickFolder(getFolderName());
+
+        waitForElement(Locator.linkWithText("By Individual Vial"));
+        waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
+        waitAndClick(Locator.linkWithText("View Current Requests"));
+
+        DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
+        clickButton("Details");
+
+        clickAndWait(Locator.linkWithText("Update Request"));
+        selectOptionByText(Locator.name("status"), "Not Yet Submitted");
+        clickButton("Save Changes and Send Notifications");
+        doAndWaitForPageToLoad(() ->
+        {
+            clickButton("Cancel Request", 0);
+            assertAlertIgnoreCaseAndSpaces("Canceling will permanently delete this pending request.  Continue?");
+        });
+        waitForText("No data to show.");
+        goToSpecimenData();
+        click(Locator.xpath("//span[text()='Vials by Derivative Type']/../img"));
+        waitForElement(Locator.linkWithText("Swab"));
+        clickAndWait(Locator.linkWithText("Swab"));
+        new DataRegionTable.DataRegionFinder(getDriver()).find()
+                .checkAllOnPage();
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
+        clickButton("Cancel");
+    }
+
+    @LogMethod
+    private void verifyReports()
+    {
+        log("check reports by participant group");
+        goToSpecimenData();
+        clickAndWait(Locator.linkWithText("Blood (Whole)"));
+        pushLocation();
+        clickAndWait(Locator.linkWithText("Reports"));
+        clickButton("View"); // Summary Report
+        //Verify by vial count
+        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
+        selectOptionByText(Locator.name("participantGroupFilter"), "Category1");
+        clickButton("Refresh");
+        assertElementNotPresent(Locator.xpath("//a[number(text()) > 6]"));
+        assertElementPresent(Locator.xpath("//a[number(text()) <= 6]"), 8);
+        selectOptionByText(Locator.name("participantGroupFilter"), "All Groups");
+        clickButton("Refresh");
+        assertElementPresent(Locator.xpath("//a[number(text()) > 0]"), 36);
+        //Verify by ptid list
+        checkCheckbox(Locator.checkboxByName("viewPtidList"));
+        uncheckCheckbox(Locator.checkboxByName("viewVialCount"));
+        clickButton("Refresh");
+        assertElementPresent(Locator.linkWithText(PTIDS[0]), 3);
+        assertElementPresent(Locator.linkWithText(PTIDS[1]), 5);
+        selectOptionByText(Locator.name("participantGroupFilter"), "Category1");
+        clickButton("Refresh");
+        assertElementPresent(Locator.linkWithText(PTIDS[0]), 3);
+        assertElementPresent(Locator.linkWithText(PTIDS[1]), 5);
+    }
+
+    @LogMethod
+    private void verifyRequestingLocationRestriction()
+    {
+        goToProjectHome();
+        clickFolder(getFolderName());
+
+        verifyRequestingLocationCounts(StudyLocationType.values()); // All locations should be enabled by default
+
+        enableAndVerifyRequestingLocationTypes();
+        enableAndVerifyRequestingLocationTypes(StudyLocationType.CLINIC);
+        enableAndVerifyRequestingLocationTypes(StudyLocationType.ENDPOINT);
+        enableAndVerifyRequestingLocationTypes(StudyLocationType.REPOSITORY);
+        enableAndVerifyRequestingLocationTypes(StudyLocationType.SAL);
+        enableAndVerifyRequestingLocationTypes(StudyLocationType.REPOSITORY, StudyLocationType.CLINIC);
+        enableAndVerifyRequestingLocationTypes(StudyLocationType.values());
+    }
+
+    @LogMethod
+    private void verifySpecimenTableAttachments()
+    {
+        enableEmailRecorder(); // Clear out previous notifications
+        goToProjectHome();
+        clickFolder(getFolderName());
+
+        log("Setup Excel specimen attachment");
+        waitAndClickAndWait(Locator.linkWithText("Manage"));
+        waitAndClickAndWait(Locator.linkWithText("Manage Notifications"));
+        ManageNotificationsPage manageNotificationsPage = new ManageNotificationsPage(getDriver());
+        manageNotificationsPage.setNotificationUsers(List.of(PasswordUtil.getUsername()));
+        manageNotificationsPage.setSpecimenAttachmentType(SpecimensAttachment.EXCEL);
+        manageNotificationsPage.clickSave();
+        // Temporary check while tracking down intermittent failure with attachment type
+        verifySpecimenAttachmentOptionChecked(SpecimensAttachment.EXCEL);
+
+        log("Create request with excel specimen attachment");
+        goToSpecimenData();
+        clickAndWait(Locator.linkWithText("Urine"));
+        new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(0);
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input1"), "Shipping");
+        setFormElement(Locator.id("input3"), "Comments");
+        clickButton("Create and View Details");
+        doAndWaitForPageToLoad(() -> {
+            clickButton("Submit Request", 0);
+            acceptAlert();
+        });
+        waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
+
+        log("Verify specimen xls attachment");
+        EmailRecordTable emailRecordTable = goToEmailRecord();
+
+        emailRecordTable.clickSubject("Study 001: Specimen Request Notification");
+        waitForElement(Locator.linkWithText("SpecimenDetail.xls"));
+
+        // Each notification should have only the specimen request details, no specimen list
+        assertElementPresent(Locator.css("#email_body_1 > table"), 1);
+
+        enableEmailRecorder(); // Clear out previous notifications
+        log("Setup text specimen attachment");
+        goToProjectHome();
+        clickFolder(getFolderName());
+        waitAndClickAndWait(Locator.linkWithText("Manage"));
+        waitAndClickAndWait(Locator.linkWithText("Manage Notifications"));
+        manageNotificationsPage = new ManageNotificationsPage(getDriver());
+        manageNotificationsPage.setSpecimenAttachmentType(SpecimensAttachment.TEXT);
+        manageNotificationsPage.clickSave();
+        // Temporary check while tracking down intermittent failure with attachment type
+        verifySpecimenAttachmentOptionChecked(SpecimensAttachment.TEXT);
+
+        log("Create request with text specimen attachment");
+        goToSpecimenData();
+        clickAndWait(Locator.linkWithText("Urine"));
+        new DataRegionTable("SpecimenDetail", getDriver()).checkCheckbox(1);
+        BootstrapMenu.find(getDriver(), "Request Options").clickSubMenu(true, "Create New Request");
+        selectOptionByText(Locator.name("destinationLocation"), DESTINATION_SITE);
+        setFormElement(Locator.id("input0"), "Assay Plan");
+        setFormElement(Locator.id("input1"), "Shipping");
+        setFormElement(Locator.id("input3"), "Comments");
+        clickButton("Create and View Details");
+        doAndWaitForPageToLoad(() -> {
+            clickButton("Submit Request", 0);
+            acceptAlert();
+        });
+        waitForElement(Locator.css("h3").withText("Your request has been successfully submitted."));
+
+        log("Verify specimen tsv attachment");
+        emailRecordTable = goToEmailRecord();
+
+        emailRecordTable.clickSubject("Study 001: Specimen Request Notification");
+        waitForElement(Locator.linkWithText("SpecimenDetail.tsv"));
+
+        // Each notification should have only the specimen request details, no specimen list
+        assertElementPresent(Locator.css("#email_body_1 > table"), 1);
+    }
+
+    private void verifySpecimenAttachmentOptionChecked(SpecimensAttachment option)
+    {
+        assertTitleContains("Manage Study: /" + getProjectName() + "/" + getFolderName());
+        waitAndClickAndWait(Locator.linkWithText("Manage Notifications"));
+        ManageNotificationsPage manageNotificationsPage = new ManageNotificationsPage(getDriver());
+        assertTrue(manageNotificationsPage.isSpecimenAttachmentTypeChecked(option));
+    }
+
+    @LogMethod
+    private void verifyInactiveUsersInRequests()
+    {
+        enableEmailRecorder(); // clear email recorder
+        goToSiteUsers();
+        DataRegionTable usersTable = new DataRegionTable("Users", this);
+        int row = usersTable.getRowIndex("Email", USER2);
+        usersTable.checkCheckbox(row);
+        clickButton("Deactivate");
+        clickButton("Deactivate");
+        assertTextNotPresent(USER2);
+
+        goToProjectHome();
+        clickFolder(getFolderName());
+
+        waitAndClick(Locator.xpath("//span[text() = 'Specimen Requests']/../../a"));
+        waitAndClick(Locator.linkWithText("View Current Requests"));
+
+        DataRegion(getDriver()).withName("SpecimenRequest").waitFor();
+        clickButton("Details");
+
+        waitAndClick(Locator.linkWithText("Update Request"));
+
+        waitForElement(Locators.bodyTitle().withText("Update Request"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
+        click(Locator.css(".labkey-help-pop-up"));
+        waitForElement(Locator.xpath("id('helpDivBody')").containing(USER1));
+
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
+        click(Locator.css(".labkey-help-pop-up").index(1));
+        waitForElement(Locator.xpath("id('helpDivBody')/del").withText(USER2));
+
+        setFormElement(Locator.name("requestDescription"), "Just one notification.");
+        pushLocation();
+        clickButton("Save Changes and Send Notifications");
+
+        popLocation();
+
+        waitForElement(Locators.bodyTitle().withText("Update Request"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs"));
+        checkCheckbox(Locator.checkboxByName("notificationIdPairs").index(1));
+        checkCheckbox(Locator.checkboxByName("emailInactiveUsers"));
+        setFormElement(Locator.name("requestDescription"), "Two notifications.");
+        clickButton("Save Changes and Send Notifications");
+
+        EmailRecordTable emailRecordTable = goToEmailRecord();
+        List<String> tos = emailRecordTable.getColumnDataAsText("To");
+        assertEquals("Active user should have received both notifications.", 2, tos.stream().filter(s -> s.equals(USER1)).count());
+        assertEquals("Inactive user should have received a notification when explicitly requested.", 1, tos.stream().filter(s -> s.equals(USER2)).count());
+    }
+
+    /**
+     * Allow all provided location types to make requests, disallow all others
+     * @param types List of location types to allow to be requesting locations
+     */
+    @LogMethod
+    private void enableAndVerifyRequestingLocationTypes(@LoggedParam StudyLocationType... types)
+    {
+        clickTab("Manage");
+        waitAndClick(Locator.linkWithText("Manage Location Types"));
+        waitForElement(Locators.bodyTitle().withText("Manage Location Types"));
+
+        for (StudyLocationType type : StudyLocationType.values())
+        {
+            if (Arrays.asList(types).contains(type))
+                _ext4Helper.checkCheckbox(type.toString());
+            else
+                _ext4Helper.uncheckCheckbox(type.toString());
+        }
+
+        clickButton("Save", 0);
+        waitForElement(Locators.bodyTitle().withText("Manage Study"));
+
+        verifyRequestingLocationCounts(types);
+    }
+
+    /**
+     * Verify that only permitted locations can submit specimen requests
+     * Location count algorithm is valid only for locations defined in sample_a.specimens
+     */
+    private void verifyRequestingLocationCounts(StudyLocationType... types)
+    {
+        goToSpecimenData();
+        click(Locator.tag("img").withAttributeContaining("alt", "[New Request Icon]"));
+        waitForElement(Locators.bodyTitle().withText("New Specimen Request"));
+        int expectedLocationCount = StudyLocationType.untypedSites();
+
+        int additionalLocations = (int) Math.round(Math.pow(2, StudyLocationType.values().length - 1));
+
+        for (StudyLocationType type : StudyLocationType.values())
+        {
+            if (Arrays.asList(types).contains(type))
+            {
+                assertElementPresent(Locator.xpath("id('destinationLocation')/option").containing(type.toString()), type.siteCount());
+                expectedLocationCount += additionalLocations;
+                additionalLocations = additionalLocations / 2; // Each additional Location type adds less unique locations
+            }
+        }
+
+        assertElementPresent(Locator.css("#destinationLocation option"), expectedLocationCount + 1); // +1 for blank select option
+
+        clickButton("Cancel", 0);
+        waitForElement(Locators.bodyTitle().withText("Specimen Requests"));
+    }
+
+    /**
+     * Verify changing the specimen groupings that appear on the specimen web part
+     */
+    @LogMethod
+    private void verifySpecimenGroupings()
+    {
+        goToProjectHome();
+        clickFolder(getFolderName());
+        clickTab("Manage");
+        waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
+        waitForElement(Locators.bodyTitle().withText("Configure Specimen Web Part"));
+        _ext4Helper.selectComboBoxItemById("combo11", "Processing Location");
+        _ext4Helper.selectComboBoxItemById("combo12", "Primary Type");
+        _ext4Helper.selectComboBoxItemById("combo13", "Site Name");
+        _ext4Helper.selectComboBoxItemById("combo21", "Additive Type");
+        _ext4Helper.selectComboBoxItemById("combo22", "Derivative Type");
+        _ext4Helper.selectComboBoxItemById("combo23", "Tube Type");
+        clickButton("Save");
+        waitForElement(Locators.bodyTitle().withText("Manage Study"));
+        goToSpecimenData();
+        assertTextPresent("Vials by Processing Location", "Vials by Additive Type", "The McMichael Lab");
+        assertTextPresent("NICD - Joberg", 2);
+        clickAndWait(Locator.linkContainingText("The McMichael Lab, Oxford"));
+        assertTextPresent("Vials", "ProcessingLocation.Label = 'The McMichael Lab, Oxford, UK'");
+
+        // Put groupings back for other tests
+        clickTab("Manage");
+        waitAndClick(Locator.linkWithText("Configure Specimen Groupings"));
+        waitForElement(Locators.bodyTitle().withText("Configure Specimen Web Part"));
+        _ext4Helper.selectComboBoxItemById("combo11", "Primary Type");
+        _ext4Helper.selectComboBoxItemById("combo12", "Derivative Type");
+        _ext4Helper.selectComboBoxItemById("combo13", "Additive Type");
+        _ext4Helper.selectComboBoxItemById("combo21", "Derivative Type");
+        _ext4Helper.selectComboBoxItemById("combo22", "Additive Type");
+
+        clickButton("Save");
+    }
+
+    /**
+     * Provides info about locations defined in sample_a.specimens
+     */
+    private enum StudyLocationType
+    {
+        REPOSITORY("Repository", 8),
+        CLINIC("Clinic", 8),
+        SAL("Site Affiliated Lab", 8),
+        ENDPOINT("Endpoint Lab", 8);
+
+        private final String _type;
+        private final int _count;
+
+        StudyLocationType(String type, int count)
+        {
+            _type=type;
+            _count=count;
+        }
+
+        public String toString()
+        {
+            return _type;
+        }
+
+        public int siteCount()
+        {
+            return _count;
+        }
+
+        public static int untypedSites()
+        {
+            return 9;
+        }
+    }
+
+    @LogMethod
+    private void searchTest()
+    {
+        goToProjectHome();
+        clickFolder(getFolderName());
+        goToSpecimenData();
+        Ext4FieldRef additiveType = Ext4FieldRef.getForLabel(this, "Additive Type");
+        additiveType.setValue("Heparin");
+        Ext4FieldRef.getForLabel(this, "Participant").setValue("999320812");
+        clickButtonContainingText("Search");
+        assertTextNotPresent("Serum Separator");
+        assertTextPresent("ParticipantId.ParticipantId = 999320812","AdditiveType.Description = Heparin" );
+
+        goToSpecimenData();
+        additiveType.setValue(new String[] {"Heparin", "Ammounium Heparin"});
+        clickButtonContainingText("Search");
+        assertTextPresent("ONE OF");
+
+        goToSpecimenData();
+        additiveType.setValue(new String[] {"Ammonium Heparin","Cell Preparation Tube Heparin","Cell Preparation Tube SCI","Citrate Phosphate Dextrose","EDTA","Fetal Fibronectin Buffer","Guanidine Isothiocyanate (GITC)","Heparin","Liquid Potassium EDTA","Liquid Sodium EDTA","Lithium Heparin","Lithium Heparin and Gel for Plasma","None","Normal Saline","Optimum Cutting Temperature Medium","Orasure Collection Container","Other","PAXgene Blood RNA tube","Phosphate Buffered Saline","Plasma Preparation Tube","PLP Fixative","Port-a-cul Transport Tube","Potassium EDTA","RNA Later","Serum Separator","Sodium Citrate","Sodium EDTA","Sodium Fluoride","Sodium Fluoride/Potassium Oxalate","Sodium Heparin","Sodium Polyanetholesulfonate","Spray Dried Potassium EDTA","Spray Dried Sodium EDTA","Thrombin","Tissue Freezing Medium","Unknown Additive","Viral Transport Media"});
+        clickButtonContainingText("Search");
+        assertTextPresent("IS NOT ANY OF ");
+    }
+
+    @LogMethod
+    private void exportSpecimenTest()
+    {
+        popLocation();
+        addUrlParameter("&exportType=excelWebQuery");
+        assertTextPresent("org.labkey.specimen.query.SpecimenRequestDisplayColumn");
+        goBack();
+
+        goToAdminConsole().clickAuditLog();
+        selectOptionByText(Locator.name("view"), "Query export events");
+
+        DataRegionTable auditTable =  new DataRegionTable("query", this);
+        String[][] columnAndValues = new String[][] {{"Created By", getDisplayName()},
+                {"Project", PROJECT_NAME}, {"Container", getFolderName()}, {"SchemaName", "study"},
+                {"QueryName", SPECIMEN_DETAIL}, {"Comment", "Exported to Excel Web Query data"}};
+        for(String[] columnAndValue : columnAndValues)
+        {
+            log("Checking column: "+ columnAndValue[0]);
+            assertEquals(columnAndValue[1], auditTable.getDataAsText(0, columnAndValue[0]));
+        }
+    }
+
+    private final Hashtable<String, String> _drawTimestampConflicts = new Hashtable<>();
+    private boolean _spotCheckNoConflict;
+
+    @LogMethod
+    private void verifyDrawTimestamp()
+    {
+        File SPECIMEN_ARCHIVE_DTS = StudyHelper.getSpecimenArchiveFile("dts.specimens");
+        startSpecimenImport(2, SPECIMEN_ARCHIVE_DTS);
+        waitForSpecimenImport();
+
+        // load our expected results
+        _drawTimestampConflicts.put("526455390.2504.346", "Conflicts found: DrawDate");
+        _drawTimestampConflicts.put("526515315.6304.370", "Conflicts found: DrawTime");
+        _drawTimestampConflicts.put("526515315.6304.375", "Conflicts found: DrawDate, DrawTime");
+        _drawTimestampConflicts.put("526515651.3704.363", "Conflicts found: DrawDate, DrawTime");
+        _spotCheckNoConflict = true;
+
+        goToSpecimenData();
+        clickAndWait(Locator.linkWithText("By Individual Vial"));
+
+        DataRegionTable table = new DataRegionTable("SpecimenDetail", getDriver());
+
+        int rowCount = 21;
+        assertEquals("Wrong number of vials in dts.specimens archive", rowCount, table.getDataRowCount());
+        assertEquals("Wrong number of conflicts in dts.specimens archive", _drawTimestampConflicts.size(), Locator.css(".labkey-error-row").findElements(table).size());
+        for (int i = 0; i < rowCount; i ++)
+        {
+            String drawTimestamp = table.getDataAsText(i, "Draw Timestamp");
+            String drawDate = table.getDataAsText(i, "Draw Date");
+            String drawTime = table.getDataAsText(i, "Draw Time");
+            String qcControlComments = table.getDataAsText(i, "Quality Control Comments");
+            String id = table.getDataAsText(i, "Global Unique Id");
+
+            log("Verify vial: " + id);
+
+            verifyDrawTimestampConflict(qcControlComments, drawTimestamp, drawDate, drawTime);
+            verifyDrawTimestampExpectedConflict(id, qcControlComments);
+
+            if (doSpecimenEventCheck(qcControlComments))
+            {
+                verifyHistory(i, qcControlComments);
+            }
+        }
+    }
+
+     // spot check the specimen events for all conflicts and only for one non-conflict
+    private boolean doSpecimenEventCheck(String qcControlComments)
+    {
+        if (StringUtils.isNotBlank(qcControlComments))
+            return true;
+
+        if (_spotCheckNoConflict)
+        {
+            _spotCheckNoConflict = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void verifyDrawTimestampExpectedConflict(String id, String qcControlComments)
+    {
+        if (!_drawTimestampConflicts.containsKey(id))
+        {
+            assertTrue(id + " should not have a QC conflict. Found: " + qcControlComments, StringUtils.isBlank(qcControlComments));
+        }
+        else
+        {
+            assertFalse(id + " should have a QC conflict: " + _drawTimestampConflicts.get(id), StringUtils.isBlank(qcControlComments));
+            String expectedComment = _drawTimestampConflicts.get(id);
+            Set<String> expectedConflicts = getConflictedColumnsFromQCComment(expectedComment);
+            Set<String> actualConflicts = getConflictedColumnsFromQCComment(qcControlComments);
+            assertEquals(id + " did not have the expected conflict(s)", expectedConflicts, actualConflicts);
+        }
+    }
+
+    private Set<String> getConflictedColumnsFromQCComment(String qcControlComment)
+    {
+        String columns = qcControlComment.split(": ")[1];
+        return new HashSet<>(Arrays.asList(columns.toLowerCase().split(", ")));
+    }
+
+    private void verifyDrawTimestampConflict(String qcControl, String timestamp, String date, String time)
+    {
+        if (StringUtils.isBlank(qcControl))
+        {
+            // no conflict, so all three fields should be valid
+            assertTrue(StringUtils.isNotBlank(timestamp));
+            assertTrue(StringUtils.isNotBlank(time));
+            assertTrue(StringUtils.isNotBlank(date));
+            assertTrue(timestamp.contains(date));
+
+            // timestamp does not contain seconds but the time field does
+            assertTrue(timestamp.contains(time.substring(0, time.lastIndexOf(":"))));
+        }
+        else
+        {
+            // All of the specimens in dts specimens table should only have Draw Timestamp related
+            // conflicts.  If there is a conflict, then the timestamp should be blank
+            assertTrue(StringUtils.isBlank(timestamp));
+
+            if (qcControl.contains("DrawDate"))
+                assertTrue(StringUtils.isBlank(date));
+            else
+                assertFalse(StringUtils.isBlank(date));
+
+            if(qcControl.contains("DrawTime"))
+                assertTrue(StringUtils.isBlank(time));
+            else
+                assertFalse(StringUtils.isBlank(time));
+        }
+    }
+
+    @LogMethod (quiet = true)
+    private void verifyHistory(int vialIndex, @LoggedParam String qcControl)
+    {
+        final WebElement historyLink = Locator.linkContainingText("[history]").index(vialIndex).findElement(getDriver());
+        scrollIntoView(historyLink);
+        clickAndWait(historyLink);
+
+        DataRegionTable table = new DataRegionTable("SpecimenEvent", getDriver());
+
+        String prevDrawTimestamp = null;
+        String drawTimestamp;
+        boolean foundConflict = false;
+
+        for (int i = 0; i < table.getDataRowCount(); i++)
+        {
+            drawTimestamp = table.getDataAsText(i, "Draw Timestamp");
+
+            if (null == prevDrawTimestamp)
+            {
+                prevDrawTimestamp = drawTimestamp;
+            }
+            else
+            if (!prevDrawTimestamp.equalsIgnoreCase(drawTimestamp))
+            {
+                foundConflict = true;
+                break;
+            }
+        }
+
+        if (foundConflict)
+            assertTrue(StringUtils.isNotBlank(qcControl));
+        else
+            assertTrue(StringUtils.isBlank(qcControl));
+
+        goBack();
+        DataRegion(getDriver()).withName("SpecimenDetail").waitFor();
+    }
+}
