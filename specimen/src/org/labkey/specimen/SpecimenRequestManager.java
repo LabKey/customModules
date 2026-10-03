@@ -29,6 +29,7 @@ import org.labkey.api.collections.IntHashMap;
 import org.labkey.api.collections.LongArrayList;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.Container;
+import org.labkey.api.data.ContainerManager;
 import org.labkey.api.data.DatabaseCache;
 import org.labkey.api.data.DbScope;
 import org.labkey.api.data.RuntimeSQLException;
@@ -905,7 +906,7 @@ public class SpecimenRequestManager
         }
     }
 
-    private final BlockingCache<Container, Map<String, Map<String, Object>>> GROUPED_VALUES_CACHE = DatabaseCache.get(SpecimenSchema.get().getScope(), 10, 8 * CacheManager.HOUR, "Specimen grouped values", new GroupedValuesCacheLoader());
+    private final BlockingCache<GUID, Map<String, Map<String, Object>>> GROUPED_VALUES_CACHE = DatabaseCache.get(SpecimenSchema.get().getScope(), 10, 8 * CacheManager.HOUR, "Specimen grouped values", new GroupedValuesCacheLoader());
 
     private static class GroupedResults
     {
@@ -918,24 +919,25 @@ public class SpecimenRequestManager
 
     public void clearGroupedValuesForColumn(Container container)
     {
-        GROUPED_VALUES_CACHE.remove(container);
+        GROUPED_VALUES_CACHE.remove(container.getEntityId());
     }
 
     @NotNull
     public Map<String, Map<String, Object>> getGroupedValuesForColumn(Container container, User user, ArrayList<String[]> groupings)
     {
-        return GROUPED_VALUES_CACHE.get(container, Pair.of(user, groupings));
+        return GROUPED_VALUES_CACHE.get(container.getEntityId(), Pair.of(user, groupings));
     }
 
-    private class GroupedValuesCacheLoader implements CacheLoader<Container, Map<String, Map<String, Object>>>
+    private class GroupedValuesCacheLoader implements CacheLoader<GUID, Map<String, Map<String, Object>>>
     {
         @Override
-        public Map<String, Map<String, Object>> load(@NotNull Container c, @Nullable Object argument)
+        public Map<String, Map<String, Object>> load(@NotNull GUID containerId, @Nullable Object argument)
         {
             Map<String, Map<String, Object>> groupedValues = new HashMap<>();
 
             // ColumnName and filter names are "QueryView" names; map them to actual table names before building query
-            Study study = StudyService.get().getStudy(c);
+            Container c = ContainerManager.getForId(containerId);
+            Study study = null != c ? StudyService.get().getStudy(c) : null;
             if (study != null)
             {
                 @SuppressWarnings("unchecked") Pair<User, List<String[]>> pair = (Pair<User, List<String[]>>)argument;
