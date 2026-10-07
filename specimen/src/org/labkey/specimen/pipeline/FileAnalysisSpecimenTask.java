@@ -20,6 +20,7 @@ import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
+import org.apache.tika.parser.ParseContext;
 import org.jetbrains.annotations.Nullable;
 import org.labkey.api.admin.ImportException;
 import org.labkey.api.admin.PipelineJobLoggerGetter;
@@ -97,7 +98,7 @@ public class FileAnalysisSpecimenTask extends AbstractSpecimenTask<FileAnalysisS
                 {
                     // determine the type of file being imported
                     DefaultDetector detector = new DefaultDetector();
-                    MediaType type = detector.detect(is, new Metadata());
+                    MediaType type = detector.detect(is, new Metadata(), new ParseContext());
 
                     if (MediaType.APPLICATION_ZIP.equals(type))
                     {
