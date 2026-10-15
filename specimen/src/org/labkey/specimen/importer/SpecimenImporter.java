@@ -1433,7 +1433,7 @@ public class SpecimenImporter extends SpecimenTableManager
 
     private void populateSpecimens(SpecimenLoadInfo info, boolean merge, boolean seenVisitValue) throws ValidationException
     {
-        String participantSequenceNumExpr = StudyUtils.getParticipantSequenceNumExpr(info._schema, "PTID", "VisitValue");
+        SQLFragment participantSequenceNumExpr = StudyUtils.getParticipantSequenceNumExpr(info._schema, "PTID", "VisitValue");
 
         SQLFragment insertSelectSql = new SQLFragment()
             .append("SELECT ")
