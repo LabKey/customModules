@@ -187,9 +187,8 @@ public class SpecimenWriter extends AbstractSpecimenWriter
         String conjunction = "WHERE ";
         if (ctx.getVisitIds() != null && !ctx.getVisitIds().isEmpty())
         {
-            sql.append(conjunction).append("\n ParticipantVisitLookup.VisitRowId IN (");
-            sql.append(convertListToString(new ArrayList<>(ctx.getVisitIds()), false));
-            sql.append(")");
+            sql.append(conjunction).append("\n ParticipantVisitLookup.VisitRowId");
+            sql.appendInClause(ctx.getVisitIds(), dialect);
             conjunction = " AND ";
         }
 
@@ -197,12 +196,11 @@ public class SpecimenWriter extends AbstractSpecimenWriter
         {
             sql.append(conjunction);
             if (ctx.isAlternateIds())
-                sql.append("\n ParticipantLookup.AlternateId IN (");
+                sql.append("\n ParticipantLookup.AlternateId");
             else
-                sql.append("\n se.Ptid IN (");
+                sql.append("\n se.Ptid");
 
-            sql.append(convertListToString(ctx.getParticipants(), true));
-            sql.append(")");
+            sql.appendInClause(ctx.getParticipants(), dialect);
         }
 
         sql.append("\nORDER BY se.ExternalId");
@@ -248,41 +246,8 @@ public class SpecimenWriter extends AbstractSpecimenWriter
         return false;
     }
 
-    private static String convertListToString(List list, boolean withQuotes)
-    {
-        StringBuilder sb = new StringBuilder();
-        String sep = "";
-        for (Object obj : list)
-        {
-            sb.append(sep);
-            if (withQuotes) sb.append("'");
-            sb.append(obj.toString());
-            if (withQuotes) sb.append("'");
-            sep = ",";
-        }
-        return sb.toString();
-    }
-
     public static class TestCase extends Assert
     {
-        @Test
-        public void testConvertListToString()
-        {
-            List<Integer> ints = new ArrayList<>();
-            ints.add(1);
-            ints.add(2);
-            ints.add(3);
-            assertEquals("1,2,3", convertListToString(ints, false));
-            assertEquals("'1','2','3'", convertListToString(ints, true));
-
-            List<String> ptids = new ArrayList<>();
-            ptids.add("Ptid1");
-            ptids.add("Ptid2");
-            ptids.add("Ptid3");
-            assertEquals("Ptid1,Ptid2,Ptid3", convertListToString(ptids, false));
-            assertEquals("'Ptid1','Ptid2','Ptid3'", convertListToString(ptids, true));
-        }
-
         @Test
         public void testShouldRemovePhi()
         {

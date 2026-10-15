@@ -608,22 +608,10 @@ public class SpecimenQueryView extends BaseSpecimenQueryView
     {
         if (vials != null && !vials.isEmpty())
         {
-            StringBuilder whereClause = new StringBuilder();
             if (viewType.isVialView())
-                whereClause.append("RowId IN (");
+                filter = filter.addInClause(FieldKey.fromParts("RowId"), vials.stream().map(Vial::getRowId).toList());
             else
-                whereClause.append("SpecimenHash IN (");
-            for (int i = 0; i < vials.size(); i++)
-            {
-                if (viewType.isVialView())
-                    whereClause.append(vials.get(i).getRowId());
-                else
-                    whereClause.append(vials.get(i).getSpecimenHash());
-                if (i < vials.size() - 1)
-                    whereClause.append(", ");
-            }
-            whereClause.append(")");
-            filter = filter.addWhereClause(whereClause.toString(), null);
+                filter = filter.addInClause(FieldKey.fromParts("SpecimenHash"), vials.stream().map(Vial::getSpecimenHash).toList());
         }
         return filter;
     }
