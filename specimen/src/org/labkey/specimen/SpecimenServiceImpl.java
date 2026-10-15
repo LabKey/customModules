@@ -431,7 +431,8 @@ public class SpecimenServiceImpl implements SpecimenService
                 // If not, do the quick version that just kills the samples themselves in the exp.Material table
                 SimpleFilter materialFilter = new SimpleFilter(containerFilter);
                 materialFilter.addCondition(FieldKey.fromParts("CpasType"), sampleType.getLSID());
-                Table.delete(tinfoMaterial, materialFilter);
+                if (Table.delete(tinfoMaterial, materialFilter) != 0)
+                    SampleTypeService.get().refreshSampleTypeMaterializedViewAfterDelete(sampleType, null);
             }
         }
 
