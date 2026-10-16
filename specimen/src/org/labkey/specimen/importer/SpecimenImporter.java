@@ -1339,6 +1339,8 @@ public class SpecimenImporter extends SpecimenTableManager
             affected = executeSQL(info.getSchema(), deleteFragment);
             if (affected >= 0)
                 info("exp.Material: " + affected + " rows removed.");
+            if (affected != 0 && sampleType != null)
+                SampleTypeService.get().refreshSampleTypeMaterializedViewAfterDelete(sampleType, null);
         }
 
         // NOTE: No need to update existing Materials when merging -- just insert any new materials not found.
@@ -3090,7 +3092,7 @@ public class SpecimenImporter extends SpecimenTableManager
 
     private int executeSQL(DbSchema schema, SQLFragment sql)
     {
-        debug(sql);
+        debug(sql.toString());
         return new SqlExecutor(schema).execute(sql);
     }
 }
