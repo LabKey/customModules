@@ -3092,7 +3092,7 @@ public class SpecimenImporter extends SpecimenTableManager
 
     private int executeSQL(DbSchema schema, SQLFragment sql)
     {
-        debug(sql);
+        debug(sql.toString());
         return new SqlExecutor(schema).execute(sql);
     }
 }
