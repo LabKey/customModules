@@ -798,15 +798,8 @@ public class RequestabilityManager
             updateSQL.add(null);
             if (vials != null && !vials.isEmpty())
             {
-                updateSQL.append("WHERE RowId IN (");
-                String sep = "";
-                for (Vial vial : vials)
-                {
-                    updateSQL.append(sep).append("?");
-                    sep = ", ";
-                    updateSQL.add(vial.getRowId());
-                }
-                updateSQL.append(")");
+                updateSQL.append("WHERE RowId");
+                updateSQL.appendInClause(vials.stream().map(Vial::getRowId).toList(), schema.getSqlDialect());
             }
             new SqlExecutor(schema).execute(updateSQL);
 
