@@ -764,15 +764,8 @@ public class SpecimenRequestManager
 
             updateSql.append("WHERE ")
                     .append(tableInfoVial.getColumn("SpecimenId").getValueSql(tableInfoVialSelectName))
-                    .append(" IN (");
-            String sep = "";
-            for (Long id : specimenIds)
-            {
-                updateSql.append(sep).append("?");
-                updateSql.add(id);
-                sep = ", ";
-            }
-            updateSql.append(")\n");
+                    .appendInClause(specimenIds, SpecimenSchema.get().getSqlDialect())
+                    .append("\n");
         }
 
         updateSql.append("\tGROUP BY SpecimenId\n) VialCounts\nWHERE ")
