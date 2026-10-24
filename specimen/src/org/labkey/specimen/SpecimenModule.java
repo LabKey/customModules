@@ -122,7 +122,7 @@ public class SpecimenModule extends SpringModule
         "vials", "Vials across all advanced specimen repositories",
         "specimens", "Specimens (vial groupings) across all advanced specimen repositories",
         "locations", "Specimen locations summed across all studies",
-        "locationsInUse", "Specimen locations marked in use, summed across all studies"
+        "locationsInUse", "Specimen locations flagged in use or referenced by specimen requests or other study data, summed across all studies"
     );
 
     @Override
@@ -351,15 +351,13 @@ public class SpecimenModule extends SpringModule
                             LOG.debug(specimenMultiSet.toString());
                         });
 
-                    SPECIMEN_COUNT_DESCRIPTIONS.forEach(metrics::describe);
-                    specimenMultiSet.uniqueSet().forEach(s -> {
-                        String description = SPECIMEN_COUNT_DESCRIPTIONS.get(s);
-                        assert description != null : "No usage metric description for specimen count " + s;
-                        metrics.put(s, specimenMultiSet.getCount(s), description);
+                    SPECIMEN_COUNT_DESCRIPTIONS.forEach((key, description) -> {
+                        int count = specimenMultiSet.getCount(key);
+                        metrics.reportedIf(count > 0).put(key, count, description);
                     });
                     Map<String, Object> requestsMap = new SqlSelector(SpecimenSchema.get().getSchema(), new SQLFragment("SELECT Label, COUNT(*) FROM study.SampleRequest INNER JOIN study.SampleRequestStatus srs ON StatusId = srs.RowId GROUP BY Label")).getValueMap(String.class);
-                    requestsMap.put("enabled", requestsEnabled);
-                    metrics.put("requests", requestsMap, "Specimen requests across the server by status label, plus enabled: studies with specimen requests enabled");
+                    metrics.group("requests", "Specimen requests across the server, by status label").putAll(requestsMap);
+                    metrics.put("requestsEnabled", requestsEnabled.intValue(), "Studies with specimen requests enabled");
                     metrics.put("hasLocations", hasLocations.intValue(), "Studies with at least one specimen location");
 
                     return metrics;
