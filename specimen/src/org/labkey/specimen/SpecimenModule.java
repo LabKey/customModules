@@ -356,8 +356,9 @@ public class SpecimenModule extends SpringModule
                         metrics.reportedIf(count > 0).put(key, count, description);
                     });
                     Map<String, Object> requestsMap = new SqlSelector(SpecimenSchema.get().getSchema(), new SQLFragment("SELECT Label, COUNT(*) FROM study.SampleRequest INNER JOIN study.SampleRequestStatus srs ON StatusId = srs.RowId GROUP BY Label")).getValueMap(String.class);
-                    metrics.group("requests", "Specimen requests across the server, by status label").putAll(requestsMap);
-                    metrics.put("requestsEnabled", requestsEnabled.intValue(), "Studies with specimen requests enabled");
+                    metrics.group("requests", "Specimen requests across the server, by status label")
+                        .putAll(requestsMap)
+                        .put("enabled", requestsEnabled.intValue(), "Studies with specimen requests enabled");
                     metrics.put("hasLocations", hasLocations.intValue(), "Studies with at least one specimen location");
 
                     return metrics;
