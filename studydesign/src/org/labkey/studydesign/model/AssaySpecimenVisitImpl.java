@@ -18,7 +18,7 @@ package org.labkey.studydesign.model;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.labkey.api.data.Container;
-import org.labkey.api.study.AssaySpecimenVisit;
+import org.labkey.studydesign.study.AssaySpecimenVisit;
 
 import java.util.HashMap;
 import java.util.Map;
