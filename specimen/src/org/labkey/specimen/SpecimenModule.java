@@ -107,12 +107,23 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SpecimenModule extends SpringModule
 {
     private static final Logger LOG = LogHelper.getLogger(SpecimenModule.class, "Specimen metrics");
     public static final String NAME = "Specimen";
+
+    // Counts are reported only when non-zero
+    private static final Map<String, String> SPECIMEN_COUNT_DESCRIPTIONS = Map.of(
+        "simple", "Studies using a simple specimen repository",
+        "simpleSpecimens", "Specimens across all simple specimen repositories",
+        "advanced", "Studies using an advanced specimen repository",
+        "events", "Specimen events across all advanced specimen repositories",
+        "vials", "Vials across all advanced specimen repositories",
+        "specimens", "Specimens (vial groupings) across all advanced specimen repositories",
+        "locations", "Specimen locations summed across all studies",
+        "locationsInUse", "Specimen locations flagged in use or referenced by specimen requests or other study data, summed across all studies"
+    );
 
     @Override
     public String getName()
@@ -299,7 +310,7 @@ public class SpecimenModule extends SpringModule
 
             if (null != ss)
             {
-                svc.registerUsageMetrics(NAME, () -> {
+                svc.registerUsageMetrics(NAME, metrics -> {
                     // Collect and add specimen repository statistics: simple vs. advanced study count, event/vial/specimen count, count of studies with requests enabled, request count by status
                     MultiSet<String> specimenMultiSet = new HashMultiSet<>();
                     MutableInt requestsEnabled = new MutableInt(0);
@@ -340,13 +351,17 @@ public class SpecimenModule extends SpringModule
                             LOG.debug(specimenMultiSet.toString());
                         });
 
-                    Map<String, Object> specimensMap = specimenMultiSet.uniqueSet().stream().collect(Collectors.toMap(s -> s, specimenMultiSet::getCount));
+                    SPECIMEN_COUNT_DESCRIPTIONS.forEach((key, description) -> {
+                        int count = specimenMultiSet.getCount(key);
+                        metrics.reportedIf(count > 0).put(key, count, description);
+                    });
                     Map<String, Object> requestsMap = new SqlSelector(SpecimenSchema.get().getSchema(), new SQLFragment("SELECT Label, COUNT(*) FROM study.SampleRequest INNER JOIN study.SampleRequestStatus srs ON StatusId = srs.RowId GROUP BY Label")).getValueMap(String.class);
-                    requestsMap.put("enabled", requestsEnabled);
-                    specimensMap.put("requests", requestsMap);
-                    specimensMap.put("hasLocations", hasLocations.intValue());
+                    metrics.group("requests", "Specimen requests across the server, by status label")
+                        .putAll(requestsMap)
+                        .put("enabled", requestsEnabled.intValue(), "Studies with specimen requests enabled");
+                    metrics.put("hasLocations", hasLocations.intValue(), "Studies with at least one specimen location");
 
-                    return specimensMap;
+                    return metrics;
                 });
             }
         }
