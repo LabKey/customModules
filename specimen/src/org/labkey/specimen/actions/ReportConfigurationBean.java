@@ -20,7 +20,7 @@ import org.labkey.api.query.QueryDefinition;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.SchemaKey;
 import org.labkey.api.query.UserSchema;
-import org.labkey.api.specimen.SpecimenQuerySchema;
+import org.labkey.specimen.SpecimenQuerySchema;
 import org.labkey.specimen.report.SpecimenVisitReportParameters;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;

@@ -46,7 +46,6 @@ import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.Permission;
 import org.labkey.api.security.roles.RoleManager;
 import org.labkey.api.specimen.SpecimenMigrationService;
-import org.labkey.api.specimen.SpecimenQuerySchema;
 import org.labkey.api.specimen.SpecimenSchema;
 import org.labkey.api.specimen.SpecimensPage;
 import org.labkey.api.specimen.model.SpecimenTablesProvider;
