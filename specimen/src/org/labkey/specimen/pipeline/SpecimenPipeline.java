@@ -41,7 +41,7 @@ public class SpecimenPipeline extends PipelineProvider
     {
         if (
             !context.getContainer().hasPermission(context.getUser(), InsertPermission.class) ||
-            context.getContainer().isDataspace() || // Cannot import specimens into Dataspace container
+            StudyService.get().isDataspace(context.getContainer()) || // Cannot import specimens into Dataspace container
             StudyService.get().getStudy(context.getContainer()) == null)
         {
             return;

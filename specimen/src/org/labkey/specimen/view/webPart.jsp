@@ -18,6 +18,7 @@
 <%@ page import="org.labkey.api.data.Container" %>
 <%@ page import="org.labkey.api.security.User" %>
 <%@ page import="org.labkey.api.security.permissions.AdminPermission" %>
+<%@ page import="org.labkey.api.study.StudyService" %>
 <%@ page import="org.labkey.api.study.StudyUrls" %>
 <%@ page import="org.labkey.api.util.HtmlString" %>
 <%@ page import="org.labkey.api.view.ActionURL" %>
@@ -98,7 +99,7 @@
         if (resp.groupings.length === 0 || !resp.groupings[0] || (resp.groupings[0].values && resp.groupings[0].values.length === 0))
         {
             var html = '<i>No specimens found.</i>';
-            <% if (isAdmin && !c.isDataspace()) {%>
+            <% if (isAdmin && !StudyService.get().isDataspace(c)) {%>
                 var importUrl = LABKEY.ActionURL.buildURL('specimen', 'showUploadSpecimens', LABKEY.ActionURL.getContainer());
                 html += '<p><a href="' + importUrl + '">Import Specimens</a></p>';
             <% } %>
@@ -326,7 +327,7 @@
                     </td>
                 </tr>
 <%
-        if (!c.isDataspace())
+        if (!StudyService.get().isDataspace(c))
         {
 %>
                 <tr style="display:none">

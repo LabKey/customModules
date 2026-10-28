@@ -48,7 +48,7 @@
     Study study = StudyService.get().getStudy(getContainer());
 
     // assay schedule is editable for the individual studies in a Dataspace project
-    boolean disableEdit = c.isProject() && c.isDataspace();
+    boolean disableEdit = c.isProject() && StudyService.get().isDataspace(c);
 
     String visitNoun = "Visit";
     if (study != null && study.getTimepointType() == TimepointType.DATE)
