@@ -16,6 +16,7 @@
 
 package org.labkey.specimen;
 
+import com.google.common.base.Suppliers;
 import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.multiset.HashMultiSet;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -106,6 +107,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class SpecimenModule extends SpringModule
 {
@@ -310,60 +312,65 @@ public class SpecimenModule extends SpringModule
             if (null != ss)
             {
                 svc.registerUsageMetrics(NAME, metrics -> {
-                    // Collect and add specimen repository statistics: simple vs. advanced study count, event/vial/specimen count, count of studies with requests enabled, request count by status
-                    MultiSet<String> specimenMultiSet = new HashMultiSet<>();
-                    MutableInt requestsEnabled = new MutableInt(0);
-                    MutableInt hasLocations = new MutableInt(0);
-
-                    ss.getAllStudies(ContainerManager.getRoot()).stream()
-                        .map(study -> SpecimenQuerySchema.get(study, User.getAdminServiceUser()))
-                        .forEach(schema -> {
-                            RepositorySettings settings = SettingsManager.get().getRepositorySettings(schema.getContainer());
-
-                            if (settings.isSimple())
-                            {
-                                specimenMultiSet.add("simple");
-                                TableInfo simpleSpecimens = schema.getTable(SpecimenTablesProvider.SIMPLE_SPECIMEN_TABLE_NAME);
-                                specimenMultiSet.add("simpleSpecimens", (int) new TableSelector(simpleSpecimens).getRowCount());
-                            }
-                            else
-                            {
-                                specimenMultiSet.add("advanced");
-                                TableInfo events = schema.getTable(SpecimenTablesProvider.SPECIMEN_EVENT_TABLE_NAME);
-                                TableInfo vials = schema.getTable(SpecimenTablesProvider.SPECIMEN_DETAIL_TABLE_NAME);
-                                TableInfo specimens = schema.getTable(SpecimenTablesProvider.SPECIMEN_SUMMARY_TABLE_NAME);
-                                specimenMultiSet.add("events", (int) new TableSelector(events).getRowCount());
-                                specimenMultiSet.add("vials", (int) new TableSelector(vials).getRowCount());
-                                specimenMultiSet.add("specimens", (int) new TableSelector(specimens).getRowCount());
-                            }
-
-                            if (settings.isEnableRequests())
-                                requestsEnabled.increment();
-
-                            TableInfo locations = schema.getTable(SpecimenQuerySchema.LOCATION_TABLE_NAME);
-                            long locationCount = new TableSelector(locations).getRowCount();
-                            specimenMultiSet.add("locations", (int) locationCount);
-                            specimenMultiSet.add("locationsInUse", (int) new TableSelector(locations, new SimpleFilter(FieldKey.fromParts("In Use"), true), null).getRowCount());
-                            if (locationCount > 0)
-                                hasLocations.increment();
-
-                            LOG.debug(specimenMultiSet.toString());
-                        });
-
-                    SPECIMEN_COUNT_DESCRIPTIONS.forEach((key, description) -> {
-                        int count = specimenMultiSet.getCount(key);
-                        metrics.reportedIf(count > 0).put(key, count, description);
-                    });
-                    Map<String, Object> requestsMap = new SqlSelector(SpecimenSchema.get().getSchema(), new SQLFragment("SELECT Label, COUNT(*) FROM study.SampleRequest INNER JOIN study.SampleRequestStatus srs ON StatusId = srs.RowId GROUP BY Label")).getValueMap(String.class);
+                    Supplier<SpecimenCounts> specimenCounts = Suppliers.memoize(() -> getSpecimenCounts(ss));
+                    SPECIMEN_COUNT_DESCRIPTIONS.forEach((key, description) ->
+                        metrics.reportedIf(() -> specimenCounts.get().counts().getCount(key) > 0).put(key, () -> specimenCounts.get().counts().getCount(key), description));
                     metrics.group("requests", "Specimen requests across the server, by status label")
-                        .putAll(requestsMap)
-                        .put("enabled", requestsEnabled.intValue(), "Studies with specimen requests enabled");
-                    metrics.put("hasLocations", hasLocations.intValue(), "Studies with at least one specimen location");
+                        .putAll(() -> new SqlSelector(SpecimenSchema.get().getSchema(), new SQLFragment("SELECT Label, COUNT(*) FROM study.SampleRequest INNER JOIN study.SampleRequestStatus srs ON StatusId = srs.RowId GROUP BY Label")).getValueMap(String.class))
+                        .put("enabled", () -> specimenCounts.get().requestsEnabled(), "Studies with specimen requests enabled");
+                    metrics.put("hasLocations", () -> specimenCounts.get().hasLocations(), "Studies with at least one specimen location");
 
                     return metrics;
                 });
             }
         }
+    }
+
+    private record SpecimenCounts(MultiSet<String> counts, int requestsEnabled, int hasLocations) {}
+
+    // Specimen repository statistics: simple vs. advanced study count, event/vial/specimen count, count of studies with requests enabled
+    private static SpecimenCounts getSpecimenCounts(StudyService ss)
+    {
+        MultiSet<String> specimenMultiSet = new HashMultiSet<>();
+        MutableInt requestsEnabled = new MutableInt(0);
+        MutableInt hasLocations = new MutableInt(0);
+
+        ss.getAllStudies(ContainerManager.getRoot()).stream()
+            .map(study -> SpecimenQuerySchema.get(study, User.getAdminServiceUser()))
+            .forEach(schema -> {
+                RepositorySettings settings = SettingsManager.get().getRepositorySettings(schema.getContainer());
+
+                if (settings.isSimple())
+                {
+                    specimenMultiSet.add("simple");
+                    TableInfo simpleSpecimens = schema.getTable(SpecimenTablesProvider.SIMPLE_SPECIMEN_TABLE_NAME);
+                    specimenMultiSet.add("simpleSpecimens", (int) new TableSelector(simpleSpecimens).getRowCount());
+                }
+                else
+                {
+                    specimenMultiSet.add("advanced");
+                    TableInfo events = schema.getTable(SpecimenTablesProvider.SPECIMEN_EVENT_TABLE_NAME);
+                    TableInfo vials = schema.getTable(SpecimenTablesProvider.SPECIMEN_DETAIL_TABLE_NAME);
+                    TableInfo specimens = schema.getTable(SpecimenTablesProvider.SPECIMEN_SUMMARY_TABLE_NAME);
+                    specimenMultiSet.add("events", (int) new TableSelector(events).getRowCount());
+                    specimenMultiSet.add("vials", (int) new TableSelector(vials).getRowCount());
+                    specimenMultiSet.add("specimens", (int) new TableSelector(specimens).getRowCount());
+                }
+
+                if (settings.isEnableRequests())
+                    requestsEnabled.increment();
+
+                TableInfo locations = schema.getTable(SpecimenQuerySchema.LOCATION_TABLE_NAME);
+                long locationCount = new TableSelector(locations).getRowCount();
+                specimenMultiSet.add("locations", (int) locationCount);
+                specimenMultiSet.add("locationsInUse", (int) new TableSelector(locations, new SimpleFilter(FieldKey.fromParts("In Use"), true), null).getRowCount());
+                if (locationCount > 0)
+                    hasLocations.increment();
+
+                LOG.debug(specimenMultiSet.toString());
+            });
+
+        return new SpecimenCounts(specimenMultiSet, requestsEnabled.intValue(), hasLocations.intValue());
     }
 
     @Override
