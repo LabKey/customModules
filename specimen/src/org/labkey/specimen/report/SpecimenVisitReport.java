@@ -24,7 +24,6 @@ import org.labkey.api.query.QueryDefinition;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
-import org.labkey.api.specimen.SpecimenQuerySchema;
 import org.labkey.api.study.CohortFilter;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
@@ -34,6 +33,7 @@ import org.labkey.api.study.model.ParticipantGroupService;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NotFoundException;
+import org.labkey.specimen.SpecimenQuerySchema;
 import org.labkey.specimen.query.SpecimenQueryView;
 
 import java.util.ArrayList;

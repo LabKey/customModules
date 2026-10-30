@@ -19,12 +19,12 @@ import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
-import org.labkey.api.specimen.SpecimenQuerySchema;
 import org.labkey.api.study.Study;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NotFoundException;
 import org.labkey.api.view.ViewContext;
+import org.labkey.specimen.SpecimenQuerySchema;
 import org.labkey.specimen.actions.SpecimenController.PtidVisit;
 import org.labkey.specimen.query.SpecimenQueryView;
 

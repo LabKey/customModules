@@ -30,12 +30,12 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QueryService;
 import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
-import org.labkey.api.specimen.SpecimenQuerySchema;
 import org.labkey.api.specimen.SpecimenSchema;
 import org.labkey.api.specimen.model.SpecimenTablesProvider;
 import org.labkey.api.study.CohortFilter;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.view.ActionURL;
+import org.labkey.specimen.SpecimenQuerySchema;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
