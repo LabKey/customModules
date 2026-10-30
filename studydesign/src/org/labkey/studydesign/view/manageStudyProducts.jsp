@@ -18,6 +18,7 @@
 <%@ page import="org.labkey.api.action.ReturnUrlForm" %>
 <%@ page import="org.labkey.api.data.Container" %>
 <%@ page import="org.labkey.api.portal.ProjectUrls" %>
+<%@ page import="org.labkey.api.study.StudyService" %>
 <%@ page import="org.labkey.api.studydesign.StudyDesignUrls" %>
 <%@ page import="org.labkey.api.view.ActionURL" %>
 <%@ page import="org.labkey.api.view.HttpView" %>
@@ -42,7 +43,7 @@
     Container c = getContainer();
 
     // study products are editable at the project level for Dataspace projects
-    boolean isDataspaceProject = c.getProject() != null && c.getProject().isDataspace() && !c.isDataspace();
+    boolean isDataspaceProject = c.getProject() != null && StudyService.get().isDataspace(c.getProject()) && !StudyService.get().isDataspace(c);
 
     String returnUrl = bean.getReturnUrl() != null ? bean.getReturnUrl() : urlProvider(ProjectUrls.class).getBeginURL(c).toString();
 %>

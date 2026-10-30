@@ -52,7 +52,7 @@
     boolean canManageStudy = c.hasPermission(user, ManageStudyPermission.class);
 
     // treatment schedule is editable for the individual studies in a Dataspace project
-    boolean isDataspaceProject = c.isProject() && c.isDataspace();
+    boolean isDataspaceProject = c.isProject() && StudyService.get().isDataspace(c);
 
     String visitNoun = "Visit";
     if (study != null && study.getTimepointType() == TimepointType.DATE)
