@@ -58,7 +58,6 @@ import org.labkey.api.dataiterator.DataIteratorBuilder;
 import org.labkey.api.dataiterator.DataIteratorContext;
 import org.labkey.api.dataiterator.DataIteratorUtil;
 import org.labkey.api.dataiterator.ImportProgress;
-import org.labkey.api.dataiterator.ListofMapsDataIterator;
 import org.labkey.api.dataiterator.LoggingDataIterator;
 import org.labkey.api.dataiterator.MapDataIterator;
 import org.labkey.api.dataiterator.Pump;
@@ -2868,7 +2867,7 @@ public class SpecimenImporter extends SpecimenTableManager
                 new ImportableColumn("i", "i", "INTEGER", false)
             );
 
-            ListofMapsDataIterator values = new ListofMapsDataIterator(
+            DataIteratorBuilder values = MapDataIterator.of(
                 new LinkedHashSet<>(List.of("s","i")),
                 List.of(
                     row("Bob", 100),
@@ -2928,7 +2927,7 @@ public class SpecimenImporter extends SpecimenTableManager
             }
 
             // Add one new row, update one existing row.
-            values = new ListofMapsDataIterator(
+            values = MapDataIterator.of(
                 new LinkedHashSet<>(List.of("s","i")),
                 List.of(
                     row("Bob", 105),
@@ -2985,7 +2984,7 @@ public class SpecimenImporter extends SpecimenTableManager
                 new ImportableColumn("i", "i", "INTEGER", true)
             );
 
-            values = new ListofMapsDataIterator(
+            values = MapDataIterator.of(
                 new LinkedHashSet<>(List.of("s","i")),
                 List.of(
                     row("John", 405)
