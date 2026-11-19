@@ -219,7 +219,7 @@ function setDefaults()
                 <%
                     }
                 %>
-                <%= unsafe(hasReturnURL ? button("Cancel").href(bean.getReturnUrl()).toString() : button("Cancel").href(new ActionURL(ViewRequestsAction.class, getContainer())).toString()) %>
+                <%= hasReturnURL ? button("Cancel").href(bean.getReturnUrl()) : button("Cancel").href(new ActionURL(ViewRequestsAction.class, getContainer())) %>
             </td>
         </tr>
 
