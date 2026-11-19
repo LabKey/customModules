@@ -17,6 +17,8 @@
 %>
 <%@ page import="org.labkey.api.specimen.Vial"%>
 <%@ page import="org.labkey.api.specimen.location.LocationImpl"%>
+<%@ page import="org.labkey.api.util.HtmlString" %>
+<%@ page import="org.labkey.api.util.HtmlStringBuilder" %>
 <%@ page import="org.labkey.api.view.ActionURL"%>
 <%@ page import="org.labkey.api.view.HttpView"%>
 <%@ page import="org.labkey.api.view.JspView"%>
@@ -122,7 +124,7 @@
                     </td>
                     <td valign="middle">
                         <%= unsafe(notifyLocation != null && notifyLocation.getRowId() == bean.getSpecimenRequest().getDestinationSiteId() ? "Requesting&nbsp;Location&nbsp;" : "") %>
-                        <%= unsafe(notifyLocation != null && notifyLocation.getRowId() == location.getRowId() ? bean.getType().getDisplay() + "&nbsp;Location" : "") %>
+                        <%= notifyLocation != null && notifyLocation.getRowId() == location.getRowId() ? HtmlStringBuilder.of(bean.getType().getDisplay()).append(HtmlString.NBSP).append("Location").getHtmlString() : HtmlString.EMPTY_STRING %>
                     </td>
                 </tr>
                 <%

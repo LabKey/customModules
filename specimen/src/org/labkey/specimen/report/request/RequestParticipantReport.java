@@ -17,6 +17,7 @@ package org.labkey.specimen.report.request;
 
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.study.Visit;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.view.ActionURL;
 import org.labkey.specimen.actions.SpecimenController;
 import org.labkey.specimen.query.SpecimenQueryView;
@@ -86,10 +87,10 @@ public class RequestParticipantReport extends SpecimenVisitReport<RequestSummary
     }
 
     @Override
-    protected String getCellHtml(Visit visit, RequestSummaryByVisitType summary)
+    protected HtmlString getCellHtml(Visit visit, RequestSummaryByVisitType summary)
     {
         if (summary == null || summary.getVialCount() == null)
-            return "&nbsp;";
+            return HtmlString.NBSP;
         ActionURL url = SpecimenController.getSpecimensURL(_container, true);
         url = updateURLFilterParameter(url, "SpecimenDetail.Visit/SequenceNumMin", visit.getSequenceNumMin());
         url = updateURLFilterParameter(url, "SpecimenDetail.PrimaryType/Description", summary.getPrimaryType());
@@ -98,10 +99,10 @@ public class RequestParticipantReport extends SpecimenVisitReport<RequestSummary
             url = updateURLFilterParameter(url, "SpecimenDetail.DerivativeType/Description", summary.getDerivative());
         if (level == SpecimenTypeLevel.Additive)
             url = updateURLFilterParameter(url, "SpecimenDetail.AdditiveType/Description", summary.getAdditive());
-        String linkHtml = url.getLocalURIString();
+        String linkHref = url.getLocalURIString();
         if (_filter != null)
-            linkHtml += "&" + getFilterQueryString(visit, summary);
-        return buildCellHtml(visit, summary, linkHtml);
+            linkHref += "&" + getFilterQueryString(visit, summary);
+        return buildCellHtml(visit, summary, linkHref);
     }
 
     @Override

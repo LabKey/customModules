@@ -152,7 +152,7 @@
         {
             String childStudyType = study.getStudySnapshotType().getTitle().toLowerCase();
         %>
-        <p><em>Note: specimen repository and request settings are not available for <%=unsafe(childStudyType)%> studies.</em></p>
+        <p><em>Note: specimen repository and request settings are not available for <%=h(childStudyType)%> studies.</em></p>
         <%
         }
     } // admin permission

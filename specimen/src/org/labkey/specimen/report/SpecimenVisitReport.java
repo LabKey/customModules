@@ -15,7 +15,9 @@
  */
 package org.labkey.specimen.report;
 
+import org.apache.commons.lang3.StringUtils;
 import org.labkey.api.collections.IntHashMap;
+import org.labkey.api.collections.LabKeyCollectors;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.query.CustomView;
@@ -30,6 +32,8 @@ import org.labkey.api.study.StudyService;
 import org.labkey.api.study.Visit;
 import org.labkey.api.study.model.ParticipantGroup;
 import org.labkey.api.study.model.ParticipantGroupService;
+import org.labkey.api.util.HtmlString;
+import org.labkey.api.util.HtmlStringBuilder;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NotFoundException;
@@ -37,6 +41,7 @@ import org.labkey.specimen.SpecimenQuerySchema;
 import org.labkey.specimen.query.SpecimenQueryView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +134,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             _nonEmptyColumns.put(visit, visit);
     }
 
-    protected abstract String getCellHtml(Visit visit, CELLDATA summary);
+    protected abstract HtmlString getCellHtml(Visit visit, CELLDATA summary);
 
     protected abstract String[] getCellExcelText(Visit visit, CELLDATA summary);
 
@@ -266,7 +271,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             _titleHierarchy = titleHierarchy;
         }
 
-        public String getCellHtml(Visit visit)
+        public HtmlString getCellHtml(Visit visit)
         {
             CELLDATA summary = _visitData.get(visit.getId());
             return SpecimenVisitReport.this.getCellHtml(visit, summary);
@@ -332,29 +337,26 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
         return false;
     }
 
-    protected String buildCellHtml(Visit visit, CELLDATA summary, String linkHtml)
+    protected HtmlString buildCellHtml(Visit visit, CELLDATA summary, String linkHref)
     {
         String[] summaryString = getCellExcelText(visit, summary);
-        StringBuilder cellHtml = new StringBuilder();
-        if (hasContent(summaryString))
-        {
-            if (linkHtml != null)
-                cellHtml.append("<a href=\"").append(linkHtml).append("\">");
-            boolean first = true;
-            for (String str : summaryString)
-            {
-                if (str != null && !str.isEmpty())
-                {
-                    if (!first)
-                        cellHtml.append("<br>");
-                    first = false;
-                    cellHtml.append(str);
-                }
-            }
-            if (linkHtml != null)
-                cellHtml.append("</a>");
-        }
-        return cellHtml.toString();
+        if (!hasContent(summaryString))
+            return HtmlString.EMPTY_STRING;
+
+        HtmlString text = Arrays.stream(summaryString)
+            .filter(StringUtils::isNotEmpty)
+            .map(HtmlString::of)
+            .collect(LabKeyCollectors.joining(HtmlString.BR));
+        return linkHref == null ? text : link(linkHref, text);
+    }
+
+    protected static HtmlString link(String href, HtmlString content)
+    {
+        return HtmlStringBuilder.of()
+            .unsafeAppend("<a href=\"").append(href).unsafeAppend("\">")
+            .append(content)
+            .unsafeAppend("</a>")
+            .getHtmlString();
     }
 
     protected Container getContainer()
