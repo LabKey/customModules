@@ -724,6 +724,8 @@ public class TreatmentManager
                 ContainerManager.delete(_containerB, user);
             if (null != _containerA)
                 ContainerManager.delete(_containerA, user);
+            _containerA = null;
+            _containerB = null;
         }
 
         @Test
