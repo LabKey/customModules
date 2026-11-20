@@ -17,7 +17,9 @@ package org.labkey.studydesign.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.labkey.api.data.ColumnInfo;
 import org.labkey.api.data.CompareType;
@@ -702,6 +704,28 @@ public class TreatmentManager
         List<Cohort> _cohorts = new ArrayList<>();
         List<Visit> _visits = new ArrayList<>();
 
+        // Shared by the container scoping tests, whose rows are keyed by the new products each one inserts
+        private static Container _containerA;
+        private static Container _containerB;
+
+        @BeforeClass
+        public static void setUp()
+        {
+            TestContext context = TestContext.get();
+            _containerA = createStudyContainer(context, GUID.makeHash());
+            _containerB = createStudyContainer(context, GUID.makeHash());
+        }
+
+        @AfterClass
+        public static void cleanUp()
+        {
+            User user = TestContext.get().getUser();
+            if (null != _containerB)
+                ContainerManager.delete(_containerB, user);
+            if (null != _containerA)
+                ContainerManager.delete(_containerA, user);
+        }
+
         @Test
         public void test() throws Throwable
         {
@@ -1008,106 +1032,80 @@ public class TreatmentManager
 
         // GitHub Kanban #1929: getStudyProductsDoseAndRoute / getDoseAndRoute / deleteStudyProduct container scoping checks
         @Test
-        public void testDoseAndRouteContainerScoping() throws Exception
+        public void testDoseAndRouteContainerScoping()
         {
-            TestContext context = TestContext.get();
-            User user = context.getUser();
-            Container containerA = null;
-            Container containerB = null;
-            try
-            {
-                containerA = createStudyContainer(context, GUID.makeHash());
-                containerB = createStudyContainer(context, GUID.makeHash());
+            User user = TestContext.get().getUser();
+            Container containerA = _containerA;
+            Container containerB = _containerB;
 
-                int productIdA = insertStudyProduct(containerA, user, "Immunogen A", "Immunogen");
-                int productIdB = insertStudyProduct(containerB, user, "Immunogen B", "Immunogen");
+            int productIdA = insertStudyProduct(containerA, user, "Immunogen A", "Immunogen");
+            int productIdB = insertStudyProduct(containerB, user, "Immunogen B", "Immunogen");
 
-                _manager.saveStudyProductDoseAndRoute(containerA, user, new DoseAndRoute("Dose A", "Route A", productIdA, containerA));
-                _manager.saveStudyProductDoseAndRoute(containerB, user, new DoseAndRoute("Dose B", "Route B", productIdB, containerB));
+            _manager.saveStudyProductDoseAndRoute(containerA, user, new DoseAndRoute("Dose A", "Route A", productIdA, containerA));
+            _manager.saveStudyProductDoseAndRoute(containerB, user, new DoseAndRoute("Dose B", "Route B", productIdB, containerB));
 
-                // getStudyProductsDoseAndRoute: scoped by container, not ProductId alone
-                assertEquals("Dose/route should be returned within its own container", 1,
-                        _manager.getStudyProductsDoseAndRoute(containerB, user, productIdB).size());
-                assertEquals("Dose/route must not be returned from another container", 0,
-                        _manager.getStudyProductsDoseAndRoute(containerA, user, productIdB).size());
+            // getStudyProductsDoseAndRoute: scoped by container, not ProductId alone
+            assertEquals("Dose/route should be returned within its own container", 1,
+                    _manager.getStudyProductsDoseAndRoute(containerB, user, productIdB).size());
+            assertEquals("Dose/route must not be returned from another container", 0,
+                    _manager.getStudyProductsDoseAndRoute(containerA, user, productIdB).size());
 
-                // getDoseAndRoute: same scoping
-                assertNotNull("getDoseAndRoute should find the row within its own container",
-                        _manager.getDoseAndRoute(containerB, "Dose B", "Route B", productIdB));
-                assertNull("getDoseAndRoute must not find the row from another container",
-                        _manager.getDoseAndRoute(containerA, "Dose B", "Route B", productIdB));
+            // getDoseAndRoute: same scoping
+            assertNotNull("getDoseAndRoute should find the row within its own container",
+                    _manager.getDoseAndRoute(containerB, "Dose B", "Route B", productIdB));
+            assertNull("getDoseAndRoute must not find the row from another container",
+                    _manager.getDoseAndRoute(containerA, "Dose B", "Route B", productIdB));
 
-                // deleteStudyProduct's dose/route delete is now container scoped; deleting the product in its own
-                // container removes its dose/route (the cross-container case is unreachable since ProductId is unique).
-                _manager.deleteStudyProduct(containerB, user, productIdB);
-                assertEquals("deleteStudyProduct should remove the dose/route within its own container", 0,
-                        _manager.getStudyProductsDoseAndRoute(containerB, user, productIdB).size());
-            }
-            finally
-            {
-                if (null != containerB)
-                    ContainerManager.delete(containerB, user);
-                if (null != containerA)
-                    ContainerManager.delete(containerA, user);
-            }
+            // deleteStudyProduct's dose/route delete is now container scoped; deleting the product in its own
+            // container removes its dose/route (the cross-container case is unreachable since ProductId is unique).
+            _manager.deleteStudyProduct(containerB, user, productIdB);
+            assertEquals("deleteStudyProduct should remove the dose/route within its own container", 0,
+                    _manager.getStudyProductsDoseAndRoute(containerB, user, productIdB).size());
         }
 
         // GitHub Kanban #1929: saveStudyProductDoseAndRoute rejects updating a dose/route row from another container
         @Test
         public void testCrossContainerDoseAndRouteUpdateDenied()
         {
-            TestContext context = TestContext.get();
-            User user = context.getUser();
-            Container containerA = null;
-            Container containerB = null;
+            User user = TestContext.get().getUser();
+            Container containerA = _containerA;
+            Container containerB = _containerB;
+
+            int productIdA = insertStudyProduct(containerA, user, "Immunogen A", "Immunogen");
+            int productIdB = insertStudyProduct(containerB, user, "Immunogen B", "Immunogen");
+
+            // a dose/route owned by container B
+            DoseAndRoute savedB = _manager.saveStudyProductDoseAndRoute(containerB, user, new DoseAndRoute("Dose B", "Route B", productIdB, containerB));
+            int rowIdB = savedB.getRowId();
+
+            // an editor in container A submits an update carrying container B's RowId
+            DoseAndRoute foreign = new DoseAndRoute("Rejected", "Rejected", productIdA, containerA);
+            foreign.setRowId(rowIdB);
             try
             {
-                containerA = createStudyContainer(context, GUID.makeHash());
-                containerB = createStudyContainer(context, GUID.makeHash());
-
-                int productIdA = insertStudyProduct(containerA, user, "Immunogen A", "Immunogen");
-                int productIdB = insertStudyProduct(containerB, user, "Immunogen B", "Immunogen");
-
-                // a dose/route owned by container B
-                DoseAndRoute savedB = _manager.saveStudyProductDoseAndRoute(containerB, user, new DoseAndRoute("Dose B", "Route B", productIdB, containerB));
-                int rowIdB = savedB.getRowId();
-
-                // an editor in container A submits an update carrying container B's RowId
-                DoseAndRoute foreign = new DoseAndRoute("Rejected", "Rejected", productIdA, containerA);
-                foreign.setRowId(rowIdB);
-                try
-                {
-                    _manager.saveStudyProductDoseAndRoute(containerA, user, foreign);
-                    fail("Expected NotFoundException updating a dose/route row from another container");
-                }
-                catch (NotFoundException expected)
-                {
-                    // expected
-                }
-
-                // container B's row must be untouched (neither overwritten nor repointed into container A)
-                assertNotNull("Cross-container update must not modify container B's dose/route",
-                        _manager.getDoseAndRoute(containerB, "Dose B", "Route B", productIdB));
-                assertNull("Cross-container update must not have repointed the row into container A",
-                        _manager.getDoseAndRoute(containerA, "Rejected", "Rejected", productIdA));
-
-                // positive control: updating the row from within its own container succeeds
-                DoseAndRoute updateB = new DoseAndRoute("Dose B2", "Route B2", productIdB, containerB);
-                updateB.setRowId(rowIdB);
-                _manager.saveStudyProductDoseAndRoute(containerB, user, updateB);
-                assertNotNull("In-container update should succeed",
-                        _manager.getDoseAndRoute(containerB, "Dose B2", "Route B2", productIdB));
+                _manager.saveStudyProductDoseAndRoute(containerA, user, foreign);
+                fail("Expected NotFoundException updating a dose/route row from another container");
             }
-            finally
+            catch (NotFoundException expected)
             {
-                if (null != containerB)
-                    ContainerManager.delete(containerB, user);
-                if (null != containerA)
-                    ContainerManager.delete(containerA, user);
+                // expected
             }
+
+            // container B's row must be untouched (neither overwritten nor repointed into container A)
+            assertNotNull("Cross-container update must not modify container B's dose/route",
+                    _manager.getDoseAndRoute(containerB, "Dose B", "Route B", productIdB));
+            assertNull("Cross-container update must not have repointed the row into container A",
+                    _manager.getDoseAndRoute(containerA, "Rejected", "Rejected", productIdA));
+
+            // positive control: updating the row from within its own container succeeds
+            DoseAndRoute updateB = new DoseAndRoute("Dose B2", "Route B2", productIdB, containerB);
+            updateB.setRowId(rowIdB);
+            _manager.saveStudyProductDoseAndRoute(containerB, user, updateB);
+            assertNotNull("In-container update should succeed",
+                    _manager.getDoseAndRoute(containerB, "Dose B2", "Route B2", productIdB));
         }
 
-        private Container createStudyContainer(TestContext context, String name)
+        private static Container createStudyContainer(TestContext context, String name)
         {
             Container junit = JunitUtil.getTestContainer();
             Container c = ContainerManager.createContainer(junit, name, context.getUser());
