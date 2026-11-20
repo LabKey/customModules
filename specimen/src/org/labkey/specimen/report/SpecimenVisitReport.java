@@ -33,7 +33,6 @@ import org.labkey.api.study.Visit;
 import org.labkey.api.study.model.ParticipantGroup;
 import org.labkey.api.study.model.ParticipantGroupService;
 import org.labkey.api.util.HtmlString;
-import org.labkey.api.util.HtmlStringBuilder;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NotFoundException;
@@ -45,6 +44,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import static org.labkey.api.util.LinkBuilder.simpleLink;
 
 /**
  * User: brittp
@@ -190,9 +191,10 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             _parameters.getCohortFilter().addURLParameters(study, url, null);
     }
 
-    protected String getFilterQueryString(Visit visit, CELLDATA summary)
+    protected void addFilterParameters(ActionURL url, Visit visit, CELLDATA summary)
     {
-        ActionURL url = new ActionURL();
+        geBaseViewFilter().applyToURL(url, "SpecimenDetail");
+
         if (_parameters.getBaseCustomViewName() != null && !_parameters.getBaseCustomViewName().isEmpty())
         {
             if (!SpecimenVisitReportParameters.DEFAULT_VIEW_ID.equals(_parameters.getBaseCustomViewName()))
@@ -221,7 +223,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             case REQUESTED_INPROCESS:
             case NOT_REQUESTED_INPROCESS:
                 // We don't need to add any special URL parameter here: these filters are just based on columns
-                // in SpecimenDetail, so the query string should be populated correctly due to  geBaseViewFilter().toQueryString().
+                // in SpecimenDetail, so the URL is populated correctly by geBaseViewFilter().applyToURL().
                 break;
             case NOT_REQUESTED_COMPLETE:
                 url.addParameter(SpecimenQueryView.PARAMS.showNotCompleteRequestedOnly, "true");
@@ -230,12 +232,6 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
                 url.addParameter(SpecimenQueryView.PARAMS.showCompleteRequestedOnly, "true");
                 break;
         }
-
-        String baseParams = geBaseViewFilter().toQueryString("SpecimenDetail");
-        if (baseParams != null && !baseParams.isEmpty())
-            return baseParams + "&" + url.getQueryString();
-        else
-            return url.getQueryString();
     }
 
     public int getLabelDepth()
@@ -317,7 +313,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
                     throw new UnsupportedOperationException("Only single filters are supported on column " + newKey);
                 filter.deleteConditions(oldFieldKey);
                 if (clause.getParamVals().length != 1)
-                    throw new UnsupportedOperationException("Reports that provide custom SQL filters must override getFilterQueryString.");
+                    throw new UnsupportedOperationException("Reports that provide custom SQL filters must override addFilterParameters.");
                 filter.addCondition(newKey, clause.getParamVals()[0]);
                 return filter;
             }
@@ -337,7 +333,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
         return false;
     }
 
-    protected HtmlString buildCellHtml(Visit visit, CELLDATA summary, String linkHref)
+    protected HtmlString buildCellHtml(Visit visit, CELLDATA summary, ActionURL url)
     {
         String[] summaryString = getCellExcelText(visit, summary);
         if (!hasContent(summaryString))
@@ -347,16 +343,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             .filter(StringUtils::isNotEmpty)
             .map(HtmlString::of)
             .collect(LabKeyCollectors.joining(HtmlString.BR));
-        return linkHref == null ? text : link(linkHref, text);
-    }
-
-    protected static HtmlString link(String href, HtmlString content)
-    {
-        return HtmlStringBuilder.of()
-            .unsafeAppend("<a href=\"").append(href).unsafeAppend("\">")
-            .append(content)
-            .unsafeAppend("</a>")
-            .getHtmlString();
+        return simpleLink(text, url).getHtmlString();
     }
 
     protected Container getContainer()

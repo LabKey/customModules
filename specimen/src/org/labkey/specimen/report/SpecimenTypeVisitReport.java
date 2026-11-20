@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static org.labkey.api.util.LinkBuilder.simpleLink;
+
 public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitType>
 {
     public SpecimenTypeVisitReport(String titlePrefix, Collection<? extends Visit> visits, SimpleFilter filter, SpecimenVisitReportParameters parameters)
@@ -119,13 +121,12 @@ public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitT
         if (level == SpecimenTypeLevel.Additive)
             link = updateURLFilterParameter(link, "SpecimenDetail.AdditiveType/Description", summary.getAdditive());
 
-        String linkHref = link.getLocalURIString();
         if (_filter != null)
-            linkHref += "&" + getFilterQueryString(visit, summary);
+            addFilterParameters(link, visit, summary);
         String summaryString = getCellSummaryText(summary);
         HtmlStringBuilder cellHtml = HtmlStringBuilder.of();
         if (!summaryString.isEmpty())
-            cellHtml.append(link(linkHref, HtmlString.of(summaryString)));
+            cellHtml.append(simpleLink(summaryString, link));
 
         if (isViewPtidList())
         {
@@ -148,7 +149,7 @@ public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitT
                     {
                         url.addParameter(SpecimenVisitReportParameters.PARAMS.baseCustomViewName, getBaseCustomViewName());
                     }
-                    cellHtml.append(link(url.getLocalURIString(), HtmlString.of(DemoMode.id(participantId, getContainer(), getUser()))));
+                    cellHtml.append(simpleLink(DemoMode.id(participantId, getContainer(), getUser()), url));
                     if (it.hasNext())
                         cellHtml.append(HtmlString.BR);
                 }

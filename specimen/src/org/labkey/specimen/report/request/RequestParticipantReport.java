@@ -99,17 +99,16 @@ public class RequestParticipantReport extends SpecimenVisitReport<RequestSummary
             url = updateURLFilterParameter(url, "SpecimenDetail.DerivativeType/Description", summary.getDerivative());
         if (level == SpecimenTypeLevel.Additive)
             url = updateURLFilterParameter(url, "SpecimenDetail.AdditiveType/Description", summary.getAdditive());
-        String linkHref = url.getLocalURIString();
         if (_filter != null)
-            linkHref += "&" + getFilterQueryString(visit, summary);
-        return buildCellHtml(visit, summary, linkHref);
+            addFilterParameters(url, visit, summary);
+        return buildCellHtml(visit, summary, url);
     }
 
     @Override
-    protected String getFilterQueryString(Visit visit, RequestSummaryByVisitType summary)
+    protected void addFilterParameters(ActionURL url, Visit visit, RequestSummaryByVisitType summary)
     {
-        return super.getFilterQueryString(visit, summary)  + "&" +
-                (_completeRequestsOnly ? SpecimenQueryView.PARAMS.showCompleteRequestedBySite : SpecimenQueryView.PARAMS.showRequestedBySite)
-                + "=" + summary.getDestinationSiteId();
+        super.addFilterParameters(url, visit, summary);
+        url.addParameter(_completeRequestsOnly ? SpecimenQueryView.PARAMS.showCompleteRequestedBySite : SpecimenQueryView.PARAMS.showRequestedBySite,
+                String.valueOf(summary.getDestinationSiteId()));
     }
 }
