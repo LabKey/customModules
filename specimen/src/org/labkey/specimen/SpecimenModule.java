@@ -33,6 +33,7 @@ import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
+import org.labkey.api.exp.property.PropertyService;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.SpringModule;
 import org.labkey.api.pipeline.PipelineJob;
@@ -42,7 +43,6 @@ import org.labkey.api.query.FieldKey;
 import org.labkey.api.query.QuerySettings;
 import org.labkey.api.query.QueryUpdateService;
 import org.labkey.api.query.QueryView;
-import org.labkey.api.query.UserSchema;
 import org.labkey.api.security.User;
 import org.labkey.api.security.permissions.Permission;
 import org.labkey.api.security.roles.RoleManager;
@@ -57,6 +57,7 @@ import org.labkey.api.study.StudyService;
 import org.labkey.api.study.StudyUrls;
 import org.labkey.api.study.importer.SimpleStudyImportContext;
 import org.labkey.api.study.importer.SimpleStudyImporterRegistry;
+import org.labkey.api.study.query.AbstractStudyQuerySchema;
 import org.labkey.api.study.writer.SimpleStudyWriterRegistry;
 import org.labkey.api.usageMetrics.UsageMetricsService;
 import org.labkey.api.util.LinkBuilder;
@@ -80,11 +81,17 @@ import org.labkey.specimen.importer.SpecimenSchemaImporter;
 import org.labkey.specimen.importer.SpecimenSettingsImporter;
 import org.labkey.specimen.model.SpecimenRequestEventType;
 import org.labkey.specimen.pipeline.SpecimenPipeline;
+import org.labkey.specimen.query.SpecimenCommentTable;
+import org.labkey.specimen.query.SpecimenEventTable;
 import org.labkey.specimen.query.SpecimenPivotByDerivativeType;
 import org.labkey.specimen.query.SpecimenPivotByPrimaryType;
 import org.labkey.specimen.query.SpecimenPivotByRequestingLocation;
 import org.labkey.specimen.query.SpecimenQueryView;
+import org.labkey.specimen.query.SpecimenRequestStatusTable;
+import org.labkey.specimen.query.SpecimenRequestTable;
 import org.labkey.specimen.query.SpecimenUpdateService;
+import org.labkey.specimen.query.SpecimenVialCountTable;
+import org.labkey.specimen.query.VialRequestTable;
 import org.labkey.specimen.requirements.SpecimenRequestRequirementProvider;
 import org.labkey.specimen.security.permissions.EditSpecimenDataPermission;
 import org.labkey.specimen.security.permissions.ManageRequestSettingsPermission;
@@ -108,6 +115,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import static org.labkey.api.specimen.model.SpecimenTablesProvider.SPECIMEN_COMMENTS_TABLE_NAME;
+import static org.labkey.api.specimen.model.SpecimenTablesProvider.SPECIMEN_EVENT_TABLE_NAME;
+import static org.labkey.api.specimen.model.SpecimenTablesProvider.SPECIMEN_REQUEST_STATUSES_TABLE_NAME;
+import static org.labkey.api.specimen.model.SpecimenTablesProvider.SPECIMEN_REQUEST_TABLE_NAME;
+import static org.labkey.api.specimen.model.SpecimenTablesProvider.SPECIMEN_VIAL_COUNT_TABLE_NAME;
+import static org.labkey.api.specimen.model.SpecimenTablesProvider.VIAL_REQUEST_TABLE_NAME;
 
 public class SpecimenModule extends SpringModule
 {
@@ -164,6 +178,7 @@ public class SpecimenModule extends SpringModule
         RoleManager.registerRole(new SpecimenRequesterRole());
 
         AttachmentService.get().registerAttachmentParentType(SpecimenRequestEventType.get());
+        PropertyService.get().registerDomainKind(new SpecimenSampleTypeDomainKind());
 
         addController("specimen", SpecimenController.class, "study-samples");
         addController("specimen-api", SpecimenApiController.class, "study-samples-api", "specimens-api");
@@ -230,29 +245,51 @@ public class SpecimenModule extends SpringModule
             }
 
             @Override
-            public void addSpecimenPivotTableNames(Set<String> names)
+            public void addSpecimenTableNames(Set<String> names)
             {
+                names.add(SPECIMEN_EVENT_TABLE_NAME);
+                names.add(SPECIMEN_VIAL_COUNT_TABLE_NAME);
+                names.add(SPECIMEN_REQUEST_TABLE_NAME);
+                names.add(SPECIMEN_REQUEST_STATUSES_TABLE_NAME);
+                names.add(VIAL_REQUEST_TABLE_NAME);
+                names.add(SPECIMEN_COMMENTS_TABLE_NAME);
                 names.add(SpecimenPivotByPrimaryType.PIVOT_BY_PRIMARY_TYPE);
                 names.add(SpecimenPivotByDerivativeType.PIVOT_BY_DERIVATIVE_TYPE);
                 names.add(SpecimenPivotByRequestingLocation.PIVOT_BY_REQUESTING_LOCATION);
             }
 
             @Override
-            public @Nullable TableInfo getSpecimenPivotTable(UserSchema schema, String name, Study study, ContainerFilter cf)
+            public @Nullable TableInfo getSpecimenTable(AbstractStudyQuerySchema schema, String name, ContainerFilter cf)
             {
+                if (SPECIMEN_EVENT_TABLE_NAME.equalsIgnoreCase(name))
+                    return schema.getContainer().isRoot() ? null : new SpecimenEventTable(schema, cf);
+                if (SPECIMEN_VIAL_COUNT_TABLE_NAME.equalsIgnoreCase(name))
+                    return new SpecimenVialCountTable(schema, cf);
+                if (SPECIMEN_REQUEST_TABLE_NAME.equalsIgnoreCase(name))
+                    return new SpecimenRequestTable(schema, cf);
+                if (SPECIMEN_REQUEST_STATUSES_TABLE_NAME.equalsIgnoreCase(name))
+                    return new SpecimenRequestStatusTable(schema, cf);
+                if (VIAL_REQUEST_TABLE_NAME.equalsIgnoreCase(name))
+                    return new VialRequestTable(schema, cf);
+                if (SPECIMEN_COMMENTS_TABLE_NAME.equalsIgnoreCase(name))
+                    return new SpecimenCommentTable(schema, cf);
+
+                Study study = schema.getStudy();
                 if (SpecimenPivotByPrimaryType.PIVOT_BY_PRIMARY_TYPE.equalsIgnoreCase(name))
-                {
                     return new SpecimenPivotByPrimaryType(schema, study, cf);
-                }
                 if (SpecimenPivotByDerivativeType.PIVOT_BY_DERIVATIVE_TYPE.equalsIgnoreCase(name))
-                {
                     return new SpecimenPivotByDerivativeType(schema, study, cf);
-                }
                 if (SpecimenPivotByRequestingLocation.PIVOT_BY_REQUESTING_LOCATION.equalsIgnoreCase(name))
-                {
                     return new SpecimenPivotByRequestingLocation(schema, study, cf);
-                }
                 return null;
+            }
+
+            @Override
+            public TableInfo createSpecimenCommentTable(AbstractStudyQuerySchema schema, ContainerFilter cf, boolean joinBackToSpecimens)
+            {
+                SpecimenCommentTable result = new SpecimenCommentTable(schema, cf, joinBackToSpecimens);
+                result.setContainerFilter(cf);
+                return result;
             }
 
             @Override
