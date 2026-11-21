@@ -15,6 +15,8 @@
  */
 package org.labkey.specimen.settings;
 
+import org.labkey.api.util.SafeToRenderEnum;
+
 import java.util.Map;
 /*
  * User: brittp
@@ -33,7 +35,7 @@ public class DisplaySettings
     private boolean _defaultToCommentsMode = false;
     private boolean _enableManualQCFlagging = true;
 
-    public enum DisplayOption
+    public enum DisplayOption implements SafeToRenderEnum
     {
         NONE,
         ALL_USERS,

@@ -20,6 +20,7 @@ import org.labkey.api.study.CohortFilter;
 import org.labkey.api.study.StudyService;
 import org.labkey.api.study.Visit;
 import org.labkey.api.util.DemoMode;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.view.ActionURL;
 import org.labkey.specimen.actions.SpecimenController;
 import org.labkey.specimen.report.SpecimenReportManager;
@@ -104,20 +105,15 @@ public class ParticipantVisitReport extends SpecimenVisitReport<SummaryByVisitPa
     }
 
     @Override
-    protected String getCellHtml(Visit visit, SummaryByVisitParticipant summary)
+    protected HtmlString getCellHtml(Visit visit, SummaryByVisitParticipant summary)
     {
         if (summary == null || summary.getVialCount() == null)
-            return "&nbsp;";
+            return HtmlString.NBSP;
         ActionURL link = SpecimenController.getSpecimensURL(_container, true);
         link = updateURLFilterParameter(link, "SpecimenDetail.Visit/SequenceNumMin", visit.getSequenceNumMin());
         link = updateURLFilterParameter(link, "SpecimenDetail." + StudyService.get().getSubjectColumnName(getContainer()), summary.getParticipantId());
-        String linkHtml = link.getLocalURIString();
         if (_filter != null)
-        {
-            String filterQueryString = getFilterQueryString(visit, summary);
-            if (filterQueryString != null && !filterQueryString.isEmpty())
-                linkHtml += "&" + filterQueryString;
-        }
-        return buildCellHtml(visit, summary, linkHtml);
+            addFilterParameters(link, visit, summary);
+        return buildCellHtml(visit, summary, link);
     }
 }

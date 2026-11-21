@@ -15,7 +15,9 @@
  */
 package org.labkey.specimen.report;
 
+import org.apache.commons.lang3.StringUtils;
 import org.labkey.api.collections.IntHashMap;
+import org.labkey.api.collections.LabKeyCollectors;
 import org.labkey.api.data.Container;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.query.CustomView;
@@ -30,6 +32,7 @@ import org.labkey.api.study.StudyService;
 import org.labkey.api.study.Visit;
 import org.labkey.api.study.model.ParticipantGroup;
 import org.labkey.api.study.model.ParticipantGroupService;
+import org.labkey.api.util.HtmlString;
 import org.labkey.api.util.PageFlowUtil;
 import org.labkey.api.view.ActionURL;
 import org.labkey.api.view.NotFoundException;
@@ -37,9 +40,12 @@ import org.labkey.specimen.SpecimenQuerySchema;
 import org.labkey.specimen.query.SpecimenQueryView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import static org.labkey.api.util.LinkBuilder.simpleLink;
 
 /**
  * User: brittp
@@ -129,7 +135,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             _nonEmptyColumns.put(visit, visit);
     }
 
-    protected abstract String getCellHtml(Visit visit, CELLDATA summary);
+    protected abstract HtmlString getCellHtml(Visit visit, CELLDATA summary);
 
     protected abstract String[] getCellExcelText(Visit visit, CELLDATA summary);
 
@@ -185,9 +191,10 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             _parameters.getCohortFilter().addURLParameters(study, url, null);
     }
 
-    protected String getFilterQueryString(Visit visit, CELLDATA summary)
+    protected void addFilterParameters(ActionURL url, Visit visit, CELLDATA summary)
     {
-        ActionURL url = new ActionURL();
+        geBaseViewFilter().applyToURL(url, "SpecimenDetail");
+
         if (_parameters.getBaseCustomViewName() != null && !_parameters.getBaseCustomViewName().isEmpty())
         {
             if (!SpecimenVisitReportParameters.DEFAULT_VIEW_ID.equals(_parameters.getBaseCustomViewName()))
@@ -216,7 +223,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             case REQUESTED_INPROCESS:
             case NOT_REQUESTED_INPROCESS:
                 // We don't need to add any special URL parameter here: these filters are just based on columns
-                // in SpecimenDetail, so the query string should be populated correctly due to  geBaseViewFilter().toQueryString().
+                // in SpecimenDetail, so the URL is populated correctly by geBaseViewFilter().applyToURL().
                 break;
             case NOT_REQUESTED_COMPLETE:
                 url.addParameter(SpecimenQueryView.PARAMS.showNotCompleteRequestedOnly, "true");
@@ -225,12 +232,6 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
                 url.addParameter(SpecimenQueryView.PARAMS.showCompleteRequestedOnly, "true");
                 break;
         }
-
-        String baseParams = geBaseViewFilter().toQueryString("SpecimenDetail");
-        if (baseParams != null && !baseParams.isEmpty())
-            return baseParams + "&" + url.getQueryString();
-        else
-            return url.getQueryString();
     }
 
     public int getLabelDepth()
@@ -266,7 +267,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
             _titleHierarchy = titleHierarchy;
         }
 
-        public String getCellHtml(Visit visit)
+        public HtmlString getCellHtml(Visit visit)
         {
             CELLDATA summary = _visitData.get(visit.getId());
             return SpecimenVisitReport.this.getCellHtml(visit, summary);
@@ -312,7 +313,7 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
                     throw new UnsupportedOperationException("Only single filters are supported on column " + newKey);
                 filter.deleteConditions(oldFieldKey);
                 if (clause.getParamVals().length != 1)
-                    throw new UnsupportedOperationException("Reports that provide custom SQL filters must override getFilterQueryString.");
+                    throw new UnsupportedOperationException("Reports that provide custom SQL filters must override addFilterParameters.");
                 filter.addCondition(newKey, clause.getParamVals()[0]);
                 return filter;
             }
@@ -332,29 +333,17 @@ public abstract class SpecimenVisitReport<CELLDATA extends SpecimenReportCellDat
         return false;
     }
 
-    protected String buildCellHtml(Visit visit, CELLDATA summary, String linkHtml)
+    protected HtmlString buildCellHtml(Visit visit, CELLDATA summary, ActionURL url)
     {
         String[] summaryString = getCellExcelText(visit, summary);
-        StringBuilder cellHtml = new StringBuilder();
-        if (hasContent(summaryString))
-        {
-            if (linkHtml != null)
-                cellHtml.append("<a href=\"").append(linkHtml).append("\">");
-            boolean first = true;
-            for (String str : summaryString)
-            {
-                if (str != null && !str.isEmpty())
-                {
-                    if (!first)
-                        cellHtml.append("<br>");
-                    first = false;
-                    cellHtml.append(str);
-                }
-            }
-            if (linkHtml != null)
-                cellHtml.append("</a>");
-        }
-        return cellHtml.toString();
+        if (!hasContent(summaryString))
+            return HtmlString.EMPTY_STRING;
+
+        HtmlString text = Arrays.stream(summaryString)
+            .filter(StringUtils::isNotEmpty)
+            .map(HtmlString::of)
+            .collect(LabKeyCollectors.joining(HtmlString.BR));
+        return simpleLink(text, url).getHtmlString();
     }
 
     protected Container getContainer()

@@ -19,7 +19,8 @@ import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.study.Visit;
 import org.labkey.api.util.DemoMode;
 import org.labkey.api.util.Formats;
-import org.labkey.api.util.PageFlowUtil;
+import org.labkey.api.util.HtmlString;
+import org.labkey.api.util.HtmlStringBuilder;
 import org.labkey.api.view.ActionURL;
 import org.labkey.specimen.actions.SpecimenController;
 import org.labkey.specimen.actions.SpecimenReportActions;
@@ -28,6 +29,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static org.labkey.api.util.LinkBuilder.simpleLink;
 
 public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitType>
 {
@@ -104,10 +107,10 @@ public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitT
     }
 
     @Override
-    protected String getCellHtml(Visit visit, SummaryByVisitType summary)
+    protected HtmlString getCellHtml(Visit visit, SummaryByVisitType summary)
     {
         if (summary == null || summary.getVialCount() == null)
-            return "&nbsp;";
+            return HtmlString.NBSP;
         ActionURL link = SpecimenController.getSpecimensURL(_container, true);
         link = updateURLFilterParameter(link, "SpecimenDetail.Visit/SequenceNumMin", visit.getSequenceNumMin());
 
@@ -118,21 +121,17 @@ public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitT
         if (level == SpecimenTypeLevel.Additive)
             link = updateURLFilterParameter(link, "SpecimenDetail.AdditiveType/Description", summary.getAdditive());
 
-        String linkHtml = link.getLocalURIString();
         if (_filter != null)
-            linkHtml += "&" + getFilterQueryString(visit, summary);
+            addFilterParameters(link, visit, summary);
         String summaryString = getCellSummaryText(summary);
-        StringBuilder cellHtml = new StringBuilder();
+        HtmlStringBuilder cellHtml = HtmlStringBuilder.of();
         if (!summaryString.isEmpty())
-        {
-            cellHtml.append("<a href=\"").append(linkHtml).append("\">");
-            cellHtml.append(summaryString).append("</a>");
-        }
+            cellHtml.append(simpleLink(summaryString, link));
 
         if (isViewPtidList())
         {
             if (!cellHtml.isEmpty())
-                cellHtml.append("<br>");
+                cellHtml.append(HtmlString.BR);
             if (summary.getParticipantIds() != null)
             {
                 for (Iterator<String> it = summary.getParticipantIds().iterator(); it.hasNext();)
@@ -150,14 +149,12 @@ public class SpecimenTypeVisitReport extends SpecimenVisitReport<SummaryByVisitT
                     {
                         url.addParameter(SpecimenVisitReportParameters.PARAMS.baseCustomViewName, getBaseCustomViewName());
                     }
-                    cellHtml.append("<a href=\"").append(url.getLocalURIString()).append("\">");
-                    cellHtml.append(PageFlowUtil.filter(DemoMode.id(participantId, getContainer(), getUser())));
-                    cellHtml.append("</a>");
+                    cellHtml.append(simpleLink(DemoMode.id(participantId, getContainer(), getUser()), url));
                     if (it.hasNext())
-                        cellHtml.append("<br>");
+                        cellHtml.append(HtmlString.BR);
                 }
             }
         }
-        return cellHtml.toString();
+        return cellHtml.getHtmlString();
     }
 }
