@@ -157,7 +157,7 @@
                             %>
                             <input type="checkbox"
                                    name="notificationIdPairs"
-                                   value="<%= unsafe(possibleNotification.getFormValue()) %>" <%=disabled(!hasEmailAddresses) %>
+                                   value="<%= h(possibleNotification.getFormValue()) %>" <%=disabled(!hasEmailAddresses) %>
                                    <%=checked(hasEmailAddresses && bean.isDefaultNotification(possibleNotification)) %>>
                             <%=possibleNotification.getHtmlDescriptionAndLink(hasEmailAddresses, getActionURL())%><br>
                             <%

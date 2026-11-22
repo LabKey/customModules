@@ -95,7 +95,7 @@
                 %>
                 <input type="checkbox"
                        name="notificationIdPairs"
-                       value="<%= unsafe(possibleNotification.getFormValue()) %>"<%=disabled(!hasEmailAddresses)%>>
+                       value="<%= h(possibleNotification.getFormValue()) %>"<%=disabled(!hasEmailAddresses)%>>
                 <%=possibleNotification.getHtmlDescriptionAndLink(hasEmailAddresses, getActionURL())%><br>
                 <%
                     }

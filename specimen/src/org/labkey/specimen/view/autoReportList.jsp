@@ -124,7 +124,7 @@ This folder does not contain a study.
         %>
         <div class="<%=rowClass%>">
             <div>
-                <span id="reportParameters<%= unsafe(showHideSuffix) %>" style="display:<%= unsafe(bean.isListView() ? "none" : "block") %>; padding: 10px 0;">
+                <span id="reportParameters<%=h(showHideSuffix)%>" style="display:<%= unsafe(bean.isListView() ? "none" : "block") %>; padding: 10px 0;">
                 <table>
                 <%
                     if (showCohorts && factory.allowsCohortFilter())

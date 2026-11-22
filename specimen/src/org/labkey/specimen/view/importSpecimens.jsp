@@ -100,10 +100,10 @@
             {
         %>
         <labkey:radio id="replace" name="replaceOrMerge" value="replace" currentValue="<%=replaceOrMerge%>"/>
-        <label for="merge"><b>Replace</b>: <%=unsafe(replaceText)%></label>
+        <label for="merge"><b>Replace</b>: <%=h(replaceText)%></label>
         <br>
         <labkey:radio id="merge" name="replaceOrMerge" value="merge" currentValue="<%=replaceOrMerge%>"/>
-        <label for="merge"><b>Merge</b>: <%=unsafe(mergeText)%></label>
+        <label for="merge"><b>Merge</b>: <%=h(mergeText)%></label>
         <%
             }
             else

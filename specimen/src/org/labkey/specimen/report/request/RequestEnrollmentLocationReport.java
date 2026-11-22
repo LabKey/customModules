@@ -18,6 +18,7 @@ package org.labkey.specimen.report.request;
 import org.labkey.api.data.SimpleFilter;
 import org.labkey.specimen.query.SpecimenQueryView;
 import org.labkey.api.study.Visit;
+import org.labkey.api.view.ActionURL;
 import org.labkey.specimen.report.SpecimenTypeVisitReport;
 import org.labkey.specimen.report.SpecimenVisitReportParameters;
 import org.labkey.specimen.report.SummaryByVisitType;
@@ -42,10 +43,10 @@ public class RequestEnrollmentLocationReport extends SpecimenTypeVisitReport
     }
 
     @Override
-    protected String getFilterQueryString(Visit visit, SummaryByVisitType summary)
+    protected void addFilterParameters(ActionURL url, Visit visit, SummaryByVisitType summary)
     {
-        return super.getFilterQueryString(visit, summary)  + "&" +
-                (_completedRequestsOnly ? SpecimenQueryView.PARAMS.showCompleteRequestedByEnrollmentSite :
-                                          SpecimenQueryView.PARAMS.showRequestedByEnrollmentSite) + "=" + _locationId;
+        super.addFilterParameters(url, visit, summary);
+        url.addParameter(_completedRequestsOnly ? SpecimenQueryView.PARAMS.showCompleteRequestedByEnrollmentSite :
+                                                  SpecimenQueryView.PARAMS.showRequestedByEnrollmentSite, _locationId);
     }
 }

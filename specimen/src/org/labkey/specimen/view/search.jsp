@@ -39,7 +39,7 @@
     int webPartId = me.getModelBean().getWebPartId();
     String renderTarget = "labkey-specimen-search-"+ webPartId;
 %>
-<div id="<%=unsafe(renderTarget)%>"></div>
+<div id="<%=h(renderTarget)%>"></div>
 <script type="text/javascript" nonce="<%=getScriptNonce()%>">
 Ext4.onReady(function(){
     var multi = new LABKEY.MultiRequest();
@@ -83,7 +83,7 @@ Ext4.onReady(function(){
         else
         {
             Ext4.create('LABKEY.ext.SampleSearchPanel', {
-                renderTo: '<%=unsafe(renderTarget)%>',
+                renderTo: <%=q(renderTarget)%>,
                 individualVials: <%=me.getModelBean().isDetailsView()%>
             });
         }
