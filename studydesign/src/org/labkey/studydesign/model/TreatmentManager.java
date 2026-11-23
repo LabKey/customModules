@@ -720,12 +720,24 @@ public class TreatmentManager
         public static void cleanUp()
         {
             User user = TestContext.get().getUser();
-            if (null != _containerB)
-                ContainerManager.delete(_containerB, user);
-            if (null != _containerA)
-                ContainerManager.delete(_containerA, user);
-            _containerA = null;
-            _containerB = null;
+            try
+            {
+                if (null != _containerB)
+                    ContainerManager.delete(_containerB, user);
+            }
+            finally
+            {
+                try
+                {
+                    if (null != _containerA)
+                        ContainerManager.delete(_containerA, user);
+                }
+                finally
+                {
+                    _containerA = null;
+                    _containerB = null;
+                }
+            }
         }
 
         @Test
@@ -1083,15 +1095,7 @@ public class TreatmentManager
             // an editor in container A submits an update carrying container B's RowId
             DoseAndRoute foreign = new DoseAndRoute("Rejected", "Rejected", productIdA, containerA);
             foreign.setRowId(rowIdB);
-            try
-            {
-                _manager.saveStudyProductDoseAndRoute(containerA, user, foreign);
-                fail("Expected NotFoundException updating a dose/route row from another container");
-            }
-            catch (NotFoundException expected)
-            {
-                // expected
-            }
+            assertThrows(NotFoundException.class, () -> _manager.saveStudyProductDoseAndRoute(containerA, user, foreign));
 
             // container B's row must be untouched (neither overwritten nor repointed into container A)
             assertNotNull("Cross-container update must not modify container B's dose/route",
