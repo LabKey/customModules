@@ -33,7 +33,6 @@ import org.labkey.api.data.SimpleFilter;
 import org.labkey.api.data.SqlSelector;
 import org.labkey.api.data.TableInfo;
 import org.labkey.api.data.TableSelector;
-import org.labkey.api.exp.property.PropertyService;
 import org.labkey.api.module.ModuleContext;
 import org.labkey.api.module.SpringModule;
 import org.labkey.api.pipeline.PipelineJob;
@@ -178,7 +177,6 @@ public class SpecimenModule extends SpringModule
         RoleManager.registerRole(new SpecimenRequesterRole());
 
         AttachmentService.get().registerAttachmentParentType(SpecimenRequestEventType.get());
-        PropertyService.get().registerDomainKind(new SpecimenSampleTypeDomainKind());
 
         addController("specimen", SpecimenController.class, "study-samples");
         addController("specimen-api", SpecimenApiController.class, "study-samples-api", "specimens-api");
