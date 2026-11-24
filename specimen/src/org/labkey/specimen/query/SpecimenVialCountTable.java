@@ -33,20 +33,6 @@ public class SpecimenVialCountTable extends AbstractStudyTable<AbstractStudyQuer
 {
     public SpecimenVialCountTable(AbstractStudyQuerySchema schema, ContainerFilter cf)
     {
-/*        super(schema, StudySchema.getInstance().getTableInfoSpecimenVialCount());
-
-        addWrapColumn(_rootTable.getColumn("Container")).setHidden(true);
-        addWrapColumn(_rootTable.getColumn("SpecimenHash")).setHidden(true);
-
-        addColumn(new AliasedColumn(this, "TotalCount", _rootTable.getColumn("VialCount")));
-
-        boolean enableSpecimenRequest = SampleManager.getInstance().getRepositorySettings(getContainer()).isEnableRequests();
-
-        addColumn(new AliasedColumn(this, "LockedInRequest", _rootTable.getColumn("LockedInRequestCount"))).setHidden(!enableSpecimenRequest);
-        addColumn(new AliasedColumn(this, "AtRepository", _rootTable.getColumn("AtRepositoryCount")));
-        addColumn(new AliasedColumn(this, "Available", _rootTable.getColumn("AvailableCount"))).setHidden(!enableSpecimenRequest);
-        addColumn(new AliasedColumn(this, "ExpectedAvailable", _rootTable.getColumn("ExpectedAvailableCount"))).setHidden(!enableSpecimenRequest);
-*/
         super(schema, SpecimenSchema.get().getTableInfoVial(schema.getContainer()), cf);
         setName(SPECIMEN_VIAL_COUNT_TABLE_NAME);
         setTitle("VialCounts");

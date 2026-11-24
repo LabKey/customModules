@@ -285,9 +285,7 @@ public class SpecimenModule extends SpringModule
             @Override
             public TableInfo createSpecimenCommentTable(AbstractStudyQuerySchema schema, ContainerFilter cf, boolean joinBackToSpecimens)
             {
-                SpecimenCommentTable result = new SpecimenCommentTable(schema, cf, joinBackToSpecimens);
-                result.setContainerFilter(cf);
-                return result;
+                return new SpecimenCommentTable(schema, cf, joinBackToSpecimens);
             }
 
             @Override
