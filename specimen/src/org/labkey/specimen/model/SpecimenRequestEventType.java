@@ -45,8 +45,8 @@ public class SpecimenRequestEventType implements AttachmentParentType
     {
         TableInfo table = SpecimenSchema.get().getTableInfoSampleRequestEvent();
         return SQLFragment.unsafe("SELECT EntityId, Container, ")
-            .append(table.getSqlDialect().concatenate("'RowId:'", "CAST(RowId AS VARCHAR)"))
-            .append(" AS Description FROM ")
+            .unsafeAppend(table.getSqlDialect().concatenate("'RowId:'", "CAST(RowId AS VARCHAR)"))
+            .unsafeAppend(" AS Description FROM ")
             .append(table, "sre");
     }
 }
