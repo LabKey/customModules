@@ -189,15 +189,19 @@ public class SpecimenArchiveWriter extends AbstractSpecimenWriter
             var ciRestrictedPhi = new BaseColumnInfo("test", JdbcType.OTHER);
             ciRestrictedPhi.setPHI(PHI.Restricted);
 
-            // should remove if it is at or above PHI export level
-            assertTrue(shouldRemovePhi(PHI.Restricted, ciRestrictedPhi));
+            // should remove if it is above PHI export level
             assertTrue(shouldRemovePhi(PHI.PHI, ciRestrictedPhi));
             assertTrue(shouldRemovePhi(PHI.Limited, ciRestrictedPhi));
-            assertTrue(shouldRemovePhi(PHI.PHI, ciPhi));
+            assertTrue(shouldRemovePhi(PHI.NotPHI, ciRestrictedPhi));
             assertTrue(shouldRemovePhi(PHI.Limited, ciPhi));
-            assertTrue(shouldRemovePhi(PHI.Limited, ciLimitedPhi));
+            assertTrue(shouldRemovePhi(PHI.NotPHI, ciPhi));
+            assertTrue(shouldRemovePhi(PHI.NotPHI, ciLimitedPhi));
 
-            // shouldn't remove if it is not at or above PHI export level
+            // shouldn't remove if it is at or below PHI export level
+            assertFalse(shouldRemovePhi(PHI.Restricted, ciRestrictedPhi));
+            assertFalse(shouldRemovePhi(PHI.PHI, ciPhi));
+            assertFalse(shouldRemovePhi(PHI.Limited, ciLimitedPhi));
+            assertFalse(shouldRemovePhi(PHI.NotPHI, ciNotPhi));
             assertFalse(shouldRemovePhi(PHI.Restricted, ciPhi));
             assertFalse(shouldRemovePhi(PHI.Restricted, ciLimitedPhi));
             assertFalse(shouldRemovePhi(PHI.PHI, ciLimitedPhi));

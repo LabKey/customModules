@@ -410,6 +410,7 @@ public class SpecimenModule extends SpringModule
     public @NotNull Set<Class<?>> getUnitTests()
     {
         return Set.of(
+            SpecimenArchiveWriter.TestCase.class,
             SpecimenWriter.TestCase.class
         );
     }
